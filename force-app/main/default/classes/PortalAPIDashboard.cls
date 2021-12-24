@@ -4,8 +4,7 @@ global without sharing class PortalAPIDashboard {
   //   public static Integer page;
   public static String portalUserId;
   public static Id contactid;
-  public static Id accountId;
-  public static PortalAPIUser.PortalUser user;
+
   public static Set<Id> dealIds;
 
   public static Integer paginationStart;
@@ -41,18 +40,12 @@ global without sharing class PortalAPIDashboard {
     List<String> params = Restcontext.request.requestURI.split('/');
     if (params[3] == 'loans') {
       portalUserId = params[4];
-      //contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
-      user = new PortalAPIUser.PortalUser(portalUserId);
-      contactId = user.contactId;
-      dealIds = AlchemyAPI.getDealIds(user);
-      system.debug(user);
-      system.debug(user.accountId);
-      // contactId = AlchemyAPI.getDealIdsContactId(contactId)
-      // dealIds = AlchemyAPI.getDealIdsContactId(contactId);
+      contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
+      dealIds = AlchemyAPI.getDealIdsContactId(contactId);
 
       if (String.isNotBlank(contactId)) {
         Contact contact = [
-          SELECT Id, Alchemy_Portal_Id__c, AccountId
+          SELECT Id, Alchemy_Portal_Id__c
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -81,15 +74,12 @@ global without sharing class PortalAPIDashboard {
       }
     } else if (params[3] == 'properties') {
       portalUserId = params[4];
-      // contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
-      // dealIds = AlchemyAPI.getDealIdsContactId(contactId);
-      user = new PortalAPIUser.PortalUser(portalUserId);
-      contactId = user.contactId;
-      dealIds = AlchemyAPI.getDealIds(user);
-      // dealIds.addAll(Alchem)
+      contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
+      dealIds = AlchemyAPI.getDealIdsContactId(contactId);
+
       if (String.isNotBlank(contactId)) {
         Contact contact = [
-          SELECT Id, Alchemy_Portal_Id__c, AccountId
+          SELECT Id, Alchemy_Portal_Id__c
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -116,18 +106,14 @@ global without sharing class PortalAPIDashboard {
       }
     } else {
       portalUserId = params[3];
+      contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
+      dealIds = AlchemyAPI.getDealIdsContactId(contactId);
 
-      // contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
-      // dealIds = AlchemyAPI.getDealIdsContactId(contactId);
-      user = new PortalAPIUser.PortalUser(portalUserId);
-      contactId = user.contactId;
-      dealIds = AlchemyAPI.getDealIds(user);
       if (String.isNotBlank(contactId)) {
         Contact contact = [
           SELECT
             Id,
             Alchemy_Portal_Id__c,
-            AccountId,
             OwnerId,
             Owner.Name,
             Owner.Phone,
@@ -336,7 +322,6 @@ global without sharing class PortalAPIDashboard {
     // Dashboard dashboard = new Dashboard(contact);
     List<Deal> deals = new List<Deal>();
     Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contact.Id);
-
     Map<String, Object> dashboard = new Map<String, Object>();
     dashboard.put('activeLoans', new List<Deal>());
     dashboard.put('newLoans', new List<Deal>());
@@ -510,8 +495,6 @@ global without sharing class PortalAPIDashboard {
         LOC_Loan_Type__c,
         LOC_Commitment__c,
         Term_Loan_Type_Months__c,
-        Contact__c,
-        Contact__r.Name,
         (
           SELECT Id, Name, State__c, City__c, ZipCode__c
           FROM Properties__r
@@ -534,13 +517,7 @@ global without sharing class PortalAPIDashboard {
       WHERE
         (Contact__c = :contactId
         OR Id IN :dealIds)
-        AND StageName NOT IN (
-          'Matured',
-          'Expired',
-          'Withdrawn',
-          'Rejected',
-          'Paid Off'
-        )
+        AND StageName NOT IN ('Matured', 'Expired', 'Withdrawn', 'Rejected', 'Paid Off')
         AND (StageName != 'Closed Won'
         OR (StageName = 'Closed Won'
         AND CloseDate >= :today7))
@@ -575,7 +552,6 @@ global without sharing class PortalAPIDashboard {
         RecordType.Name,
         LOC_Commitment__c,
         Term_Loan_Type_Months__c,
-        Contact__r.Name,
         (
           SELECT Id, Name, State__c, City__c, ZipCode__c
           FROM Properties__r
@@ -598,13 +574,7 @@ global without sharing class PortalAPIDashboard {
       WHERE
         (Contact__c = :contactId
         OR Id IN :dealIds)
-        AND StageName NOT IN (
-          'Matured',
-          'Expired',
-          'Withdrawn',
-          'Rejected',
-          'Paid Off'
-        )
+        AND StageName NOT IN ('Matured', 'Expired', 'Withdrawn', 'Rejected', 'Paid Off')
         AND StageName = 'Closed Won'
         AND CloseDate < :today7
       ORDER BY CloseDate DESC, Name ASC
@@ -636,8 +606,6 @@ global without sharing class PortalAPIDashboard {
         RecordType.Name,
         LOC_Commitment__c,
         Term_Loan_Type_Months__c,
-        Contact__r.Name,
-        Contact__c,
         (
           SELECT Id, Name, State__c, City__c, ZipCode__c
           FROM Properties__r
@@ -761,7 +729,7 @@ global without sharing class PortalAPIDashboard {
     'Initial Review' => 'Initial Review',
     'Data Tape Received' => 'Initial Review',
     'Issue Term Sheet/Order Appraisal' => 'Initial Review',
-    'Term Sheet Issued' => 'Term Sheet Issued',
+    'Term Sheet Issued' => 'Term Sheet Signed Deposit Collected',
     'Submitted to Underwriting' => 'Term Sheet Issued',
     'Loan Processing' => 'Underwriting',
     'Underwriting' => 'Underwriting',
@@ -878,14 +846,13 @@ global without sharing class PortalAPIDashboard {
 
     Integer totalMonths;
     Integer months;
-    String primaryContact;
 
     Loan(Opportunity deal) {
       currentStatus = new List<String>();
       dealTeam = new List<DealTeamMember>();
       this.id = deal.Id;
       //this.loanType = loanTypeMap.get(deal.LOC_Loan_Type__c); //deal.RecordType.Name;
-      this.primaryContact = deal.Contact__r.Name;
+
       if (deal.LOC_Loan_Type__c == 'Term Loan') {
         this.loanType = 'Rental Portfolio';
       }
@@ -897,7 +864,7 @@ global without sharing class PortalAPIDashboard {
       }
       if (
         deal.LOC_Loan_Type__c == 'Credit Line' &&
-        deal.Project_Strategy__c == 'Fix and Flip'
+        deal.Project_Strategy__c == 'Fix and Fliup'
       ) {
         this.loanType = 'Credit Line';
       }
@@ -1073,14 +1040,12 @@ global without sharing class PortalAPIDashboard {
     String termInYears;
     Decimal totalFunded;
     String id;
-    String primaryContact;
     Deal(Opportunity opp) {
       this.id = opp.Id;
       this.loanName = opp.Name;
       this.loanNumber = opp.Deal_Loan_Number__c;
       this.loanStage = dealStageMap.get(opp.StageName);
       this.type = opp.Type;
-      this.primaryContact = opp.COntact__r.Name;
       // if (
       //   opp.Final_Loan_Amount__c == null &&
       //   opp.Current_Loan_Amount__c == null &&

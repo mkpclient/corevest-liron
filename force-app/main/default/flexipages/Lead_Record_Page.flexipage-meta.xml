@@ -55,8 +55,12 @@
                     <name>hideUpdateButton</name>
                     <value>false</value>
                 </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>variant</name>
+                    <value>linear</value>
+                </componentInstanceProperties>
                 <componentName>runtime_sales_lead:pathAssistant</componentName>
-                <identifier>runtime_sales_lead_pathAssistant</identifier>
+                <identifier>runtime_sales_lead_pathAssistant1</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

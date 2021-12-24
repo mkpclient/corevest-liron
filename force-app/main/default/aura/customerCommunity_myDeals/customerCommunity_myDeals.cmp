@@ -4,20 +4,10 @@
 >
   <!-- <aura:attribute name="recordList" type="List" /> -->
   <aura:attribute name="title" type="String" default="My Loans" />
-  <aura:attribute
-    name="showServicerCommitmentId"
-    type="Boolean"
-    default="false"
-  />
+  <aura:attribute name="showServicerCommitmentId" type="Boolean" default="false" />
   <aura:attribute name="fieldList" type="String[]" />
   <aura:attribute name="whereClause" type="String" />
   <aura:attribute name="orderBy" type="String" />
-
-  <aura:attribute
-    name="userInit"
-    type="Boolean"
-    default="false"
-  ></aura:attribute>
 
   <aura:handler
     name="sortChangeEvent"
@@ -72,147 +62,78 @@
       <lightning:spinner class="" aura:id="spinner" variant="brand" />
     </aura:set>
 
-    <aura:if isTrue="{!v.userInit}">
-      <aura:if isTrue="{!v.user.userType == 'borrower'}">
-        <c:DataTable aura:id="dataTable" showCheckbox="false">
-          <aura:set attribute="columns">
-            <c:DataTableColumn
-              label="Loan Name"
-              name="Name"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-              linkToRecord="Id"
-              linkToURL="deal?id="
-            />
-            <!-- <aura:if isTrue="{!v.user == 'vendor'}"> -->
-            <c:DataTableColumn
-              label="Loan Number"
-              name="Deal_Loan_Number__c"
-              sortable="true"
-              isEditable="false"
-              columnWidth="10"
-              linkToRecord="Id"
-              linkToURL="deal?id="
-            />>
-            <c:DataTableColumn
-              label="Borrower Entity"
-              name="Borrower_Entity__r.Name"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Type"
-              name="RecordType__c"
-              sortable="true"
-              isEditable="false"
-              columnWidth="7"
-            />
-            <c:DataTableColumn
-              label="Stage"
-              name="StageName"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Loan Size"
-              name="Loan_Size__c"
-              sortable="true"
-              isEditable="false"
-              displayType="currencyNoDecimals"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Closing Date"
-              name="CloseDate"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-              displayType="date"
-            />
-          </aura:set>
-          <aura:set attribute="pageNumber" value="1" />
-          <aura:set attribute="pageSize" value="{!v.pageSize}" />
-          <aura:set attribute="sortColumnName" value="StageName" />
-          <aura:set attribute="sortDirection" value="asc" />
-        </c:DataTable>
-      </aura:if>
-      <aura:if isTrue="{!v.user.userType == 'vendor'}">
-        <c:DataTable aura:id="dataTable" showCheckbox="false">
-          <aura:set attribute="columns">
-            <c:DataTableColumn
-              label="Loan Name"
-              name="Name"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-              linkToRecord="Id"
-              linkToURL="deal?id="
-            />
-            <!-- <aura:if isTrue="{!v.user == 'vendor'}"> -->
-            <c:DataTableColumn
-              label="Loan Number"
-              name="Deal_Loan_Number__c"
-              sortable="true"
-              isEditable="false"
-              columnWidth="10"
-              linkToRecord="Id"
-              linkToURL="deal?id="
-            />
-            <c:DataTableColumn
-              label="Servicer Loan ID"
-              name="Servicer_Commitment_Id__c"
-              sortable="true"
-              isEditable="false"
-              columnWidth="10"
-            />
-            <c:DataTableColumn
-              label="Borrower Entity"
-              name="Borrower_Entity__r.Name"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Type"
-              name="RecordType__c"
-              sortable="true"
-              isEditable="false"
-              columnWidth="7"
-            />
-            <c:DataTableColumn
-              label="Stage"
-              name="StageName"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Loan Size"
-              name="Loan_Size__c"
-              sortable="true"
-              isEditable="false"
-              displayType="currencyNoDecimals"
-              columnWidth="11"
-            />
-            <c:DataTableColumn
-              label="Closing Date"
-              name="CloseDate"
-              sortable="true"
-              isEditable="false"
-              columnWidth="11"
-              displayType="date"
-            />
-          </aura:set>
-          <aura:set attribute="pageNumber" value="1" />
-          <aura:set attribute="pageSize" value="{!v.pageSize}" />
-          <aura:set attribute="sortColumnName" value="StageName" />
-          <aura:set attribute="sortDirection" value="asc" />
-        </c:DataTable>
-      </aura:if>
-    </aura:if>
+    <c:DataTable aura:id="dataTable" showCheckbox="false">
+      <aura:set attribute="columns">
+        <c:DataTableColumn
+          label="Loan Name"
+          name="Name"
+          sortable="true"
+          isEditable="false"
+          columnWidth="11"
+          linkToRecord="Id"
+          linkToURL="deal?id="
+        />
+        <c:DataTableColumn
+          label="Loan Number"
+          name="Deal_Loan_Number__c"
+          sortable="true"
+          isEditable="false"
+          columnWidth="10"
+          linkToRecord="Id"
+          linkToURL="deal?id="
+        />
+        <!-- <aura:if isTrue="{!v.showServicerCommitmentId}"> -->
+          <c:DataTableColumn
+            label="Servicer Loan ID"
+            name="Servicer_Commitment_Id__c"
+            sortable="true"
+            isEditable="false"
+            columnWidth="10"
+          />
+        <!-- </aura:if> -->
+        <c:DataTableColumn
+          label="Borrower Entity"
+          name="Borrower_Entity__r.Name"
+          sortable="true"
+          isEditable="false"
+          columnWidth="11"
+        />
+        <c:DataTableColumn
+          label="Type"
+          name="RecordType__c"
+          sortable="true"
+          isEditable="false"
+          columnWidth="7"
+        />
+        <c:DataTableColumn
+          label="Stage"
+          name="StageName"
+          sortable="true"
+          isEditable="false"
+          columnWidth="11"
+        />
+        <c:DataTableColumn
+          label="Loan Size"
+          name="Loan_Size__c"
+          sortable="true"
+          isEditable="false"
+          displayType="currencyNoDecimals"
+          columnWidth="11"
+        />
+        <c:DataTableColumn
+          label="Closing Date"
+          name="CloseDate"
+          sortable="true"
+          isEditable="false"
+          columnWidth="11"
+          displayType="date"
+        />
+      </aura:set>
+      <aura:set attribute="pageNumber" value="1" />
+      <aura:set attribute="pageSize" value="{!v.pageSize}" />
+      <aura:set attribute="sortColumnName" value="StageName" />
+      <aura:set attribute="sortDirection" value="asc" />
+    </c:DataTable>
 
     <aura:set attribute="footer">
       <div>

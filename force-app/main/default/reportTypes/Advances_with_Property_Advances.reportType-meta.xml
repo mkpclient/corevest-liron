@@ -600,16 +600,6 @@
             <field>Is_Closer__c</field>
             <table>Advance__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_When__c</field>
-            <table>Advance__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_By_Whom__c</field>
-            <table>Advance__c</table>
-        </columns>
         <masterLabel>Advances</masterLabel>
     </sections>
     <sections>

@@ -438,6 +438,21 @@ public with sharing class Test_Helper {
     return sec;
   }
 
+  public static Funding_Vehicle__c createFundingVehicle(Boolean isSecuritization, Securitization__c sec) {
+    Funding_Vehicle__c fv = new Funding_Vehicle__c();
+    fv.Name = 'Test';
+    fv.Funding_Vehicle_Type__c = isSecuritization ? 'Securitization' : 'Warehouse Line';
+    fv.Securitization__c = isSecuritization ? sec.Id : null;
+    String devName = isSecuritization ? 'Securitization' : 'Warehouse_Line';
+    fv.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Funding_Vehicle__c' AND DeveloperName = :devName
+    ].Id;
+    insert fv;
+    return fv;
+  }
+
   public static List<Integration_Mapping__c> createIntegrationMappings() {
     List<Integration_Mapping__c> ims = new List<Integration_Mapping__c>{
       new Integration_Mapping__c(

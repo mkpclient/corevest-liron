@@ -291,12 +291,8 @@ public class lead_Helper {
       sobj.last_Touch_checkbox__c = l.last_Touch_checkbox__c;
       sobj.True_source__c = l.True_source__c;
       sobj.lead_id__c = l.id;
-      sobj.utm_Campaign_Name__c  = l.utm_Campaign_Name__c;
-      sobj.utm_Campaign_Content__c  = l.utm_Campaign_Content__c;
-      sobj.utm_Campaign_Medium__c  = l.utm_Campaign_Medium__c;
-      sobj.utm_Campaign_Source__c  = l.utm_Campaign_Source__c;
-      sobj.utm_Campaign_Term__c  = l.utm_Campaign_Term__c;
-
+      sobj.Contact_Notes__c = l.Contact_Notes__c;
+      sobj.Existing_Contact__c = l.Existing_Contact__c;
       SourceList.add(sobj);
     }
 
@@ -394,6 +390,8 @@ public class lead_Helper {
           lead_id__c,
           Contact_Converted_Into__c,
           Deal_Converted_Into__c,
+          Contact_Notes__c,
+          Existing_Contact__c,
           Lead_Status__c,
           Loan_Product_s_c__c,
           Requested_Loan_Size__c,
@@ -452,6 +450,8 @@ public class lead_Helper {
               s.Requested_Loan_Size__c = lobj.Requested_Loan_Size__c;
               s.lead_id__c = lobj.id;
               s.Conference_Year__c = lobj.Conference_Year__c;
+              s.Contact_Notes__c = lobj.Contact_Notes__c;
+              s.Existing_Contact__c = lobj.Existing_Contact__c;
               //s.first_Touch_checkbox__c=lobj.first_Touch_checkbox__c;
               //s.last_Touch_checkbox__c=lobj.last_Touch_checkbox__c;
               s.True_source__c = lobj.True_source__c;
@@ -511,6 +511,8 @@ public class lead_Helper {
                             sobj.Requested_Loan_Size__c = lobj.Requested_Loan_Size__c;       
                             sobj.lead_id__c=lobj.id;
                             sobj.Conference_Year__c=lobj.Conference_Year__c;
+                            sobj.Contact_Notes__c=lobj.Contact_Notes__c;
+                            sobj.Existing_Contact__c=lobj.Existing_Contact__c;
                             sobj.first_Touch_checkbox__c=lobj.first_Touch_checkbox__c;
                             sobj.last_Touch_checkbox__c=lobj.last_Touch_checkbox__c;
                             sobj.True_source__c=lobj.True_source__c;  

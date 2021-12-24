@@ -395,7 +395,7 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_By_Whom__c</picklist>
         <values>
-            <fullName>CoreVest</fullName>
+            <fullName>Corevest</fullName>
             <default>false</default>
         </values>
         <values>
@@ -406,7 +406,7 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
-            <fullName>Each Initial Advance</fullName>
+            <fullName>Each Advance</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2357,6 +2357,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>IC_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>IO_Term__c</picklist>
         <values>
             <fullName>0 months</fullName>
@@ -3116,7 +3131,11 @@
     <picklistValues>
         <picklist>Rate_Lock_Picklist__c</picklist>
         <values>
-            <fullName>Early Rate Lock</fullName>
+            <fullName>Early Rate Locked</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rate Locked</fullName>
             <default>false</default>
         </values>
     </picklistValues>

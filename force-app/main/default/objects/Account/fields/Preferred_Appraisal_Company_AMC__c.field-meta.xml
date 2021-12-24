@@ -6,7 +6,7 @@
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <type>MultiselectPicklist</type>
+    <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -51,22 +51,6 @@
                 <default>false</default>
                 <label>Non-AMC</label>
             </value>
-            <value>
-                <fullName>Incenter</fullName>
-                <default>false</default>
-                <label>Incenter</label>
-            </value>
-            <value>
-                <fullName>FastApp</fullName>
-                <default>false</default>
-                <label>FastApp</label>
-            </value>
-            <value>
-                <fullName>ServiceLink</fullName>
-                <default>false</default>
-                <label>ServiceLink</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
-    <visibleLines>4</visibleLines>
 </CustomField>

@@ -1,0 +1,8 @@
+<template>
+  <template if:true={fileId}>
+      <iframe src={url} height={pdfHeight}></iframe>
+  </template>
+  <template if:false={fileId}>
+      <p class="slds-var-p-around_small">No valid document to render.</p>
+  </template>
+</template>

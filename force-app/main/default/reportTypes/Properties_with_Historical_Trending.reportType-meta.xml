@@ -1873,17 +1873,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Underwriter__c</field>
+            <field>Loan_Document_Status__c</field>
             <table>Property__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Exception__c</field>
-            <table>Property__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Exception_Reason__c</field>
+            <field>Title_Review_Status__c</field>
             <table>Property__c</table>
         </columns>
         <masterLabel>Properties</masterLabel>

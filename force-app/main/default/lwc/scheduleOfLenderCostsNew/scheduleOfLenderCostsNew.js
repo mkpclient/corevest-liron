@@ -242,14 +242,9 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
   totalSourcesCalc() {
     var TotalSources = null;
-    var Deposit_Amount = 0;
     if (this.deal.Current_Loan_Amount__c && this.deal.Deposit_Amount__c) {
       var Final_Loan_Amount = parseFloat(this.deal.Current_Loan_Amount__c);
-      if (this.deal.Deposit_Amount__c != null || this.deal.Deposit_Amount__c != 0) {
-        Deposit_Amount = parseFloat(this.deal.Deposit_Amount__c);
-      } else {
-        Deposit_Amount = 0;
-      }
+      var Deposit_Amount = parseFloat(this.deal.Deposit_Amount__c);
       TotalSources = parseFloat(Final_Loan_Amount + Deposit_Amount).toFixed(2);
     }
 

@@ -329,54 +329,6 @@
                 <identifier>TermPropertyDocumentList</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldName</name>
-                    <value>Property__r.Advance__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sobjectType</name>
-                    <value>Deal_Document__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Advance Documents</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Is_Deleted__c = false</value>
-                </componentInstanceProperties>
-                <componentName>TermPropertyDocumentList</componentName>
-                <identifier>c_TermPropertyDocumentList1</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldName</name>
-                    <value>Property__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sobjectType</name>
-                    <value>Deal_Document__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>New Component</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeName</name>
-                    <value>Property</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Is_Deleted__c = false</value>
-                </componentInstanceProperties>
-                <componentName>DocumentRelatedList</componentName>
-                <identifier>c_DocumentRelatedList1</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>facet-dd34fda3-acbb-4c61-8c24-ade893c01788</name>
         <type>Facet</type>
     </flexiPageRegions>

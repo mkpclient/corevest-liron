@@ -114,16 +114,6 @@
             <field>Deal__c.Id</field>
             <table>Checklist__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account__c</field>
-            <table>Checklist__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Milestone__c</field>
-            <table>Checklist__c</table>
-        </columns>
         <masterLabel>Checklists</masterLabel>
     </sections>
     <sections>
@@ -323,31 +313,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>User_Assigned__c</field>
-            <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Is_Property_Level__c</field>
-            <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Approver__c</field>
-            <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Uploader__c</field>
-            <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Reviewer__c</field>
-            <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Comments__c</field>
             <table>Checklist__c.Checklist_Sections__r.Checklist_Items__r</table>
         </columns>
         <masterLabel>Checklist Items</masterLabel>

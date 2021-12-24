@@ -2950,12 +2950,22 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>IC_Approval__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_When__c</field>
             <table>Opportunity</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_By_Whom__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lender_Loan_Tape__c</field>
             <table>Opportunity</table>
         </columns>
         <masterLabel>Deals</masterLabel>

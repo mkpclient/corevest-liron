@@ -193,6 +193,12 @@
         </itemInstances>
         <itemInstances>
             <componentInstance>
+                <componentName>icReviewsHomePageLwc</componentName>
+                <identifier>c_icReviewsHomePageLwc1</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
                 <componentName>Dashboard_Pricing</componentName>
                 <identifier>Dashboard_Pricing</identifier>
             </componentInstance>
@@ -207,13 +213,6 @@
             <componentInstance>
                 <componentName>runtime_approval_process:pendingApprovalCard</componentName>
                 <identifier>runtime_approval_process_pendingApprovalCard</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>CONTAINS</operator>
-                        <rightValue>Administrator</rightValue>
-                    </criteria>
-                </visibilityRule>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>

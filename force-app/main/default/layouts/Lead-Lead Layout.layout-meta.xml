@@ -650,6 +650,7 @@
         <fields>NAME</fields>
         <fields>first_Touch_checkbox__c</fields>
         <fields>last_touch_Checkbox__c</fields>
+        <fields>Source_Owner__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>CREATEDBY_USER</fields>
         <fields>Primary_Source__c</fields>

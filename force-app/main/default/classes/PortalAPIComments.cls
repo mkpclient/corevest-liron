@@ -10,8 +10,6 @@ global without sharing class PortalAPIComments {
 
   public static Set<Id> dealIds;
 
-  public static PortalAPIUser.PortalUser user;
-
   @HttpPost
   global static void doPost() {
     RestRequest req = RestContext.request;
@@ -103,30 +101,30 @@ global without sharing class PortalAPIComments {
       commentType == 'documentId' ||
       commentType == 'userId'
     ) {
-      if (commentType == 'loanId') {
-        Id dealId = params[4];
-        comments = getCommentsByDealId(dealId);
-      } else if (commentType == 'propertyId') {
-        Id propertyId = params[4];
-        comments = getCommentsByPropertyId(propertyId);
-      } else if (commentType == 'applicationId') {
-        Id applicationId = params[4];
-      } else if (commentType == 'documentId') {
-        Id documentId = params[4];
-        comments = getCommentsByDocumentId(documentId);
-      } else if (commentType == 'userId') {
-        String userId = params[4];
-        comments = getCommentsByUserId(userId);
-      }
+      // if (commentType == 'loanId') {
+      //   Id dealId = params[4];
+      //   comments = getCommentsByDealId(dealId);
+      // } else if (commentType == 'propertyId') {
+      //   Id propertyId = params[4];
+      //   comments = getCommentsByPropertyId(propertyId);
+      // } else if (commentType == 'applicationId') {
+      //   Id applicationId = params[4];
+      // } else if (commentType == 'documentId') {
+      //   Id documentId = params[4];
+      //   comments = getCommentsByDocumentId(documentId);
+      // } else if (commentType == 'userId') {
+      //   String userId = params[4];
+      //   comments = getCommentsByUserId(userId);
+      // }
 
-      List<Comment> commentsList = new List<Comment>();
+      // List<Comment> commentsList = new List<Comment>();
 
-      for (Comment__c comment : comments) {
-        commentsList.add(new Comment(comment));
-      }
+      // for (Comment__c comment : comments) {
+      //   commentsList.add(new Comment(comment));
+      // }
 
-      res.responseBody = Blob.valueOf(JSON.serialize(commentsList, true));
-      res.addHeader('Content-Type', 'application/json');
+      // res.responseBody = Blob.valueOf(JSON.serialize(commentsList, true));
+      // res.addHeader('Content-Type', 'application/json');
     } else {
       String idField = params[3];
 
@@ -138,17 +136,14 @@ global without sharing class PortalAPIComments {
         res.addHeader('Content-Type', 'application/json');
       } else {
         portalId = params[3];
-        //contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
-        //leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
-        user = new PortalAPIUser.PortalUser(portalId);
-        contactId = user.contactId;
-        leadId = user.leadId;
+        contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
+        leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
+
         if (contactId != null) {
-          dealIds = AlchemyAPI.getDealIds(user);
-          //dealIds = AlchemyAPI.getDealIdsContactId(contactId);
+          dealIds = AlchemyAPI.getDealIdsContactId(contactId);
         }
 
-        //system.debug(params[4]);
+        system.debug(params[4]);
 
         if (contactId != null || leadId != null) {
           if (params[4] == 'picklists') {
@@ -598,7 +593,7 @@ global without sharing class PortalAPIComments {
       this.documentId = comment.Deal_Document__c;
       this.commentDate = comment.CreatedDate;
       this.commentId = comment.Comment__c;
-
+      this.title = Comment.Subject__c;
       if (comment.Submitted_From_Portal__c) {
         this.submitterId = comment.Alchemy_Portal_Id__c;
 
@@ -616,17 +611,8 @@ global without sharing class PortalAPIComments {
           this.profileImg = comment.Owner_Image__c;
         }
       }
-
-      if (String.isNotBlank(this.body)) {
-        this.body = this.body.replaceAll('&amp;', '&');
-      }
-
       this.commentId = comment.Id;
       this.subject = comment.Subject__c;
-
-      if (String.isNotBlank(this.body)) {
-        this.body = this.body.replaceAll('&amp;', '&');
-      }
 
       this.applicationName = comment.Application__r.Name;
       this.loanName = comment.Deal__r.Name;

@@ -1,0 +1,61 @@
+<template>
+  <label class="slds-form-element__label">Selected Attachments</label>
+  <div class="possibleAttachments" if:true={possibilities}>
+    <table
+      role="grid"
+      class="
+        slds-table
+        slds-table_fixed-layout
+        slds-table_bordered
+        slds-table_resizable-cols
+        slds-no-row-hover
+        slds-scrollable_none
+      "
+    >
+      <tbody>
+        <template
+          for:each={localPossibilities}
+          for:item="attachment"
+          for:index="idx"
+        >
+          <tr class="slds-hint-parent" key={attachment.Id}>
+            <td
+              role="gridcell"
+              tabindex="0"
+              class="slds-text-align_right"
+              style="width: 3.75rem"
+            >
+                <lightning-input
+                  type="checkbox-button"
+                  id={attachment.inputId}
+                  tabindex="-1"
+                  value={attachment}
+                  onchange={selectAttachment}
+                  data-recordid={attachment.Id}
+                  data-type={attachment.Type}
+                  data-record={attachment.Name}
+                  data-description={attachment.Description}
+                  data-state="unselected"
+                ></lightning-input>
+                <label
+                  for={attachment.inputId}
+                >
+                  <span class="slds-assistive-text">Select item {idx}</span>
+                </label>
+            </td>
+            <th scope="row">
+              <div
+                class="slds-truncate"
+                title={attachment.Name}
+                data-description={attachment.Description}
+                data-recordid={attachment.Id}
+              >
+              <lightning-button variant="Base" label={attachment.Name} onclick={viewRecord} value={attachment.Id}></lightning-button>
+              </div>
+            </th>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</template>

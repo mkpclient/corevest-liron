@@ -8,11 +8,6 @@
     <columns>Type__c</columns>
     <columns>Document_Structure__c</columns>
     <columns>Responsible_Party__c</columns>
-    <columns>Uploader__c</columns>
-    <columns>Reviewer__c</columns>
-    <columns>Milestone__c</columns>
-    <columns>Checklist_Type__c</columns>
-    <columns>Approver__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RecordType__c</field>

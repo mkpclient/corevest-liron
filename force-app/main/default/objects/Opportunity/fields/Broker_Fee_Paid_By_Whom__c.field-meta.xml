@@ -9,6 +9,18 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetName>Broker_Fee_Paid_By_Whom</valueSetName>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Corevest</fullName>
+                <default>false</default>
+                <label>Corevest</label>
+            </value>
+            <value>
+                <fullName>Escrow</fullName>
+                <default>false</default>
+                <label>Escrow</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>

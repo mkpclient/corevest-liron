@@ -33,6 +33,12 @@
                 <identifier>PipelineClosedReport</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>icReviewsHomePageLwc</componentName>
+                <identifier>c_icReviewsHomePageLwc1</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>sidebar</name>
         <type>Region</type>
     </flexiPageRegions>

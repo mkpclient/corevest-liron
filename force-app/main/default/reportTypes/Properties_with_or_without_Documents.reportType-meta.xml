@@ -1923,17 +1923,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Underwriter__c</field>
+            <field>Loan_Document_Status__c</field>
             <table>Property__c</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Exception__c</field>
-            <table>Property__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Exception_Reason__c</field>
+            <field>Title_Review_Status__c</field>
             <table>Property__c</table>
         </columns>
         <masterLabel>Properties</masterLabel>
@@ -2271,12 +2266,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Status__c</field>
-            <table>Property__c.Deal_Documents__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Assignment_Document__c</field>
+            <field>Account__c</field>
             <table>Property__c.Deal_Documents__r</table>
         </columns>
         <masterLabel>Deal Documents</masterLabel>

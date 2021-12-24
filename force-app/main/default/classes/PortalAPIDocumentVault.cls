@@ -11,8 +11,6 @@ global without sharing class PortalAPIDocumentVault {
 
   static Map<Id, ContentVersion> contentVersionMap;
 
-  static Boolean isVault = false;
-
   @HttpGet
   global static void doGet() {
     RestRequest req = RestContext.request;
@@ -45,7 +43,6 @@ global without sharing class PortalAPIDocumentVault {
     system.debug(params);
     PortalAPIUser.PortalUser user = new PortalAPIUser.PortalUser(portalId);
     if (user.id != null) {
-      contactId = user.contactId;
       if (params[4] == 'uncategorized') {
         List<UncategorizedDocument> docs = getUncategorizedDocuments();
 
@@ -70,99 +67,22 @@ global without sharing class PortalAPIDocumentVault {
           res.addHeader('Content-Type', 'application/json');
           res.responseBody = Blob.valueOf(JSON.serialize(docsToSend, true));
         }
-      } else if (params[4] == 'vault') {
-        isVault = true;
-        recordId = params[5];
+      } else {
+        contactId = user.contactId;
+        recordId = params[4];
         DocumentVault vault = createVault();
+        system.debug(vault);
         res.addHeader('Content-Type', 'application/json');
-        res.responseBody = Blob.valueOf(JSON.serialize(vault, false));
-      } else if (params[4] == 'loans') {
-        List<Map<String, String>> picklists = getLoanPicklist();
-        res.addHeader('Content-Type', 'application/json');
-        res.responseBody = Blob.valueOf(JSON.serialize(picklists, true));
-      } else if (params[4] == 'documentTypes') {
-        recordId = params[5];
-        List<Map<String, String>> picklists = getDocumentTypes();
-        res.addHeader('Content-Type', 'application/json');
-        res.responseBody = Blob.valueOf(JSON.serialize(picklists, true));
-        // } else if (params[4] == 'properties') {
-        //   recordId = params[5];
-
-        //   List<PropertyFolder> propertyFolders = createPropertyFolders();
-        //   res.addHeader('Content-Type', 'application/json');
-        //   res.responseBody = Blob.valueOf(JSON.serialize(propertyFolders, true));
+        res.responseBody = Blob.valueOf(JSON.serialize(vault, true));
       }
+    } else {
+      Map<String, String> respBody = new Map<String, String>();
+      res.addHeader('Content-Type', 'application/json');
+      respBody.put('status', 'error');
+      respBody.put('message', 'User Id Not Found');
+      res.statusCode = 404;
+      res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
     }
-    // else {
-    //   // Map<String, String> respBody = new Map<String, String>();
-    //   // res.addHeader('Content-Type', 'application/json');
-    //   // respBody.put('status', 'error');
-    //   // respBody.put('message', 'User Id Not Found');
-    //   // res.statusCode = 404;
-    //   // res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
-    // }
-  }
-
-  public static List<Map<String, String>> getLoanPicklist() {
-    List<Map<String, String>> picklists = new List<Map<String, String>>();
-
-    if (contactId != null) {
-      Date today7 = system.today().addDays(7);
-      //system.debug(contactId);
-      Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contactId);
-
-      // system.debug(dealIds);
-
-      for (Opportunity opp : [
-        SELECT Id, Name
-        FROM Opportunity
-        WHERE
-          (Contact__c = :contactId
-          OR Id IN :dealIds)
-          AND StageName NOT IN (
-            'Matured',
-            'Expired',
-            'Withdrawn',
-            'Rejected',
-            'Paid Off'
-          )
-          AND (StageName != 'Closed Won'
-          OR (StageName = 'Closed Won'
-          AND CloseDate >= :today7))
-        ORDER BY CloseDate DESC, Name ASC
-      ]) {
-        Map<String, String> picklist = new Map<String, String>();
-        picklist.put('name', opp.Name);
-        picklist.put('id', opp.Id);
-
-        picklists.add(picklist);
-      }
-    }
-
-    return picklists;
-  }
-
-  public static List<Map<String, String>> getDocumentTypes() {
-    List<Map<String, String>> picklists = new List<Map<String, String>>();
-
-    for (Checklist_Item__c item : [
-      SELECT Id, Document_Type__c, Status__c
-      FROM Checklist_Item__c
-      WHERE
-        Status__c = 'Pending'
-        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
-        AND RecordType.DeveloperName = 'Document_Upload'
-        AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Sponsor')
-      ORDER BY Document_Type__c ASC
-    ]) {
-      Map<String, String> picklist = new Map<String, String>();
-      picklist.put('name', item.Document_Type__c);
-      picklist.put('itemId', item.Id);
-
-      picklists.add(picklist);
-    }
-    return picklists;
   }
 
   public static List<UncategorizedDocument> getUncategorizedDocuments() {
@@ -197,76 +117,11 @@ global without sharing class PortalAPIDocumentVault {
     }
   }
 
-  // public static List<PropertyFolder> createPropertyFolders() {
-  //   // List<PropertyFolder> folders = new List<PropertyFolder>();
-
-  //   //Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
-  //   PropertyVault vault = new PropertyVault();
-  //   //vault.id = deal.Id;
-  //   //vault.Name = deal.Name;
-
-  //   List<Checklist_Item__c> items = new List<Checklist_Item__c>();
-  //   contentVersionMap = new Map<Id, ContentVersion>();
-  //   for (Checklist_Item__c item : [
-  //     SELECT
-  //       Id,
-  //       Property__c,
-  //       Property__r.Name,
-  //       Deal__c,
-  //       Doc_Structure_Id__c,
-  //       Document_Type__c,
-  //       Folder_String__c,
-  //       Checklist_Section__r.Property__r.Deal__c,
-  //       Checklist_Section__r.Property__r.Name,
-  //       (
-  //         SELECT
-  //           Id,
-  //           Added_On__c,
-  //           Added_By__r.Name,
-  //           Document_Type__c,
-  //           Reviewed_By__r.Name,
-  //           Reviewed_On__c,
-  //           File_Name__c,
-  //           ContentVersion_Id__c
-  //         FROM Deal_Documents__r
-  //       )
-  //     FROM Checklist_Item__c
-  //     WHERE
-  //       Property__r.Deal__c = :recordId
-  //       AND RecordType.DeveloperName = 'Document_Upload'
-  //   ]) {
-  //     items.add(item);
-  //     for (Deal_Document__c doc : item.Deal_Documents__r) {
-  //       contentVersionMap.put(doc.ContentVersion_Id__c, null);
-  //     }
-  //     //vault.addItem(item);
-  //   }
-
-  //   for (ContentVersion cv : [
-  //     SELECT Id, FileExtension
-  //     FROM ContentVersion
-  //     WHERE Id IN :contentVersionMap.keySet()
-  //   ]) {
-  //     contentVersionMap.put(cv.Id, cv);
-  //   }
-
-  //   for (Checklist_Item__c item : items) {
-  //     vault.addItem(item);
-  //   }
-  //   vault.documentTypes.sort();
-  //   for (PropertyFolder docType : vault.documentTypes) {
-  //     docType.properties.sort();
-  //   }
-  //   //return vault;
-
-  //   return vault.documentTypes;
-  // }
-
   public static DocumentVault createVault() {
     String sobjectType = recordId.getSObjectType().getDescribe().getName();
     DocumentVault vault = new DocumentVault();
     if (sobjectType == 'Property__c') {
-      //vault = createPropertyVault();
+      vault = createPropertyVault();
     } else if (sobjectType == 'Opportunity') {
       vault = createLoanVault();
     }
@@ -290,7 +145,6 @@ global without sharing class PortalAPIDocumentVault {
         Doc_Structure_Id__c,
         Document_Type__c,
         Folder_String__c,
-        Status__c,
         (
           SELECT
             Id,
@@ -300,34 +154,22 @@ global without sharing class PortalAPIDocumentVault {
             Reviewed_By__r.Name,
             Reviewed_On__c,
             File_Name__c,
-            ContentVersion_Id__c,
-            Status__c,
-            Comments__c,
-            Reviewed__c
+            ContentVersion_Id__c
           FROM Deal_Documents__r
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = FALSE
-        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        Checklist_Section__r.Checklist__r.Deal__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
-        AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Sponsor')
+        AND ((Checklist_Section__r.Type__c = 'Opportunity'
+        AND Responsible_Party__c = 'Sponsor')
+        OR (Checklist_Section__r.Type__c = 'Sponsor'
+        AND Checklist_Section__r.Deal_Contact__r.Contact__c = :contactId))
     ]) {
-      if (isVault) {
-        if (item.Status__c == 'Pending') {
-          items.add(item);
-          for (Deal_Document__c doc : item.Deal_Documents__r) {
-            contentVersionMap.put(doc.ContentVersion_Id__c, null);
-          }
-        }
-      } else {
-        items.add(item);
-        for (Deal_Document__c doc : item.Deal_Documents__r) {
-          contentVersionMap.put(doc.ContentVersion_Id__c, null);
-        }
+      items.add(item);
+      for (Deal_Document__c doc : item.Deal_Documents__r) {
+        contentVersionMap.put(doc.ContentVersion_Id__c, null);
       }
-
       //vault.addItem(item);
     }
 
@@ -342,9 +184,23 @@ global without sharing class PortalAPIDocumentVault {
     for (Checklist_Item__c item : items) {
       vault.addItem(item);
     }
-    vault.loanLevelDocuments.sort();
+    vault.folders.sort();
+    for (DocumentFolder folder : vault.folders) {
+      folder.documents.sort();
+    }
+    return vault;
+  }
 
-    items = new List<Checklist_Item__c>();
+  public static DocumentVault createPropertyVault() {
+    Property__c property = [
+      SELECT Id, Deal__c, Name
+      FROM Property__c
+      WHERE Id = :recordId
+    ];
+    DocumentVault vault = new DocumentVault();
+    vault.id = property.Id;
+    vault.Name = property.Name;
+    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
     contentVersionMap = new Map<Id, ContentVersion>();
     for (Checklist_Item__c item : [
       SELECT
@@ -354,8 +210,6 @@ global without sharing class PortalAPIDocumentVault {
         Doc_Structure_Id__c,
         Document_Type__c,
         Folder_String__c,
-        Reviewed__c,
-        Status__c,
         (
           SELECT
             Id,
@@ -365,34 +219,20 @@ global without sharing class PortalAPIDocumentVault {
             Reviewed_By__r.Name,
             Reviewed_On__c,
             File_Name__c,
-            ContentVersion_Id__c,
-            Status__c,
-            Comments__c,
-            Reviewed__c
+            ContentVersion_Id__c
           FROM Deal_Documents__r
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = TRUE
-        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        Property__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
-        AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Applicant')
+        AND Responsible_Party__c = 'Sponsor'
     ]) {
-      if (isVault) {
-        if (item.Status__c == 'Pending') {
-          items.add(item);
-          for (Deal_Document__c doc : item.Deal_Documents__r) {
-            contentVersionMap.put(doc.ContentVersion_Id__c, null);
-          }
-        }
-      } else {
-        items.add(item);
-        for (Deal_Document__c doc : item.Deal_Documents__r) {
-          contentVersionMap.put(doc.ContentVersion_Id__c, null);
-        }
-      }
       //vault.addItem(item);
+      items.add(item);
+      for (Deal_Document__c doc : item.Deal_Documents__r) {
+        contentVersionMap.put(doc.ContentVersion_Id__c, null);
+      }
     }
 
     for (ContentVersion cv : [
@@ -404,100 +244,71 @@ global without sharing class PortalAPIDocumentVault {
     }
 
     for (Checklist_Item__c item : items) {
-      vault.addPropertyItem(item);
+      vault.addItem(item);
     }
-    vault.propertyLevelDocuments.sort();
+    vault.folders.sort();
 
-    // for (DocumentFolder folder : vault.loanLeve) {
-    //   folder.documents.sort();
-    // }
+    for (DocumentFolder folder : vault.folders) {
+      folder.documents.sort();
+    }
+
     return vault;
   }
 
-  // public static DocumentVault createPropertyVault() {
-  //   Property__c property = [
-  //     SELECT Id, Deal__c, Name
-  //     FROM Property__c
-  //     WHERE Id = :recordId
-  //   ];
-  //   DocumentVault vault = new DocumentVault();
-  //   vault.id = property.Id;
-  //   vault.Name = property.Name;
-  //   List<Checklist_Item__c> items = new List<Checklist_Item__c>();
-  //   contentVersionMap = new Map<Id, ContentVersion>();
-  //   for (Checklist_Item__c item : [
-  //     SELECT
-  //       Id,
-  //       Property__c,
-  //       Deal__c,
-  //       Doc_Structure_Id__c,
-  //       Document_Type__c,
-  //       Folder_String__c,
-  //       (
-  //         SELECT
-  //           Id,
-  //           Added_On__c,
-  //           Added_By__r.Name,
-  //           Document_Type__c,
-  //           Reviewed_By__r.Name,
-  //           Reviewed_On__c,
-  //           File_Name__c,
-  //           ContentVersion_Id__c
-  //         FROM Deal_Documents__r
-  //       )
-  //     FROM Checklist_Item__c
-  //     WHERE
-  //       Property__c = :recordId
-  //       AND RecordType.DeveloperName = 'Document_Upload'
-  //   ]) {
-  //     //vault.addItem(item);
-  //     items.add(item);
-  //     for (Deal_Document__c doc : item.Deal_Documents__r) {
-  //       contentVersionMap.put(doc.ContentVersion_Id__c, null);
-  //     }
-  //   }
-
-  //   for (ContentVersion cv : [
-  //     SELECT Id, FileExtension
-  //     FROM ContentVersion
-  //     WHERE Id IN :contentVersionMap.keySet()
-  //   ]) {
-  //     contentVersionMap.put(cv.Id, cv);
-  //   }
-
-  //   for (Checklist_Item__c item : items) {
-  //     vault.addItem(item);
-  //   }
-  //   vault.loanLevelDocuments.sort();
-
-  //   // for (DocumentFolder folder : vault.loanLevelDocuments) {
-  //   //   folder.documents.sort();
-  //   // }
-
-  //   return vault;
-  // }
-
   public class DocumentVault {
-    public List<ChecklistItem> loanLevelDocuments;
-    public List<ChecklistItem> propertyLevelDocuments;
+    public List<DocumentFolder> folders;
     public Id id;
     public string name;
 
-    //transient Map<String, ChecklistItem> folderMap;
-    //transient Map<String, ChecklistItem> propertyFolderMap;
+    transient Map<String, DocumentFolder> folderMap;
 
     DocumentVault() {
-      loanLevelDocuments = new List<ChecklistItem>();
-      propertyLevelDocuments = new List<ChecklistItem>();
-
-      //propertyLevelFolders = new List<ChecklistItem>();
-      //propertyFolderMap = new Map<String, ChecklistItem>();
+      folders = new List<DocumentFolder>();
+      folderMap = new Map<String, DocumentFolder>();
     }
 
     public void addItem(Checklist_Item__c item) {
-      // String folderString = item.Folder_String__c;
-      // List<String> folderStrings = folderString.split(';');
+      String folderString = item.Folder_String__c;
+      List<String> folderStrings = folderString.split(';');
 
+      if (folderStrings.size() > 1) {
+        String folderName = folderStrings[1];
+        if (!folderMap.containsKey(folderName)) {
+          folderMap.put(folderName, new DocumentFolder(folderName));
+          folders.add(folderMap.get(folderName));
+        }
+
+        folderMap.get(folderName).addItem(item);
+      } else {
+        if (!folderMap.containsKey(folderStrings[0])) {
+          folderMap.put(folderStrings[0], new DocumentFolder(folderStrings[0]));
+          folders.add(folderMap.get(folderStrings[0]));
+        }
+
+        folderMap.get(folderStrings[0]).addItem(item);
+      }
+    }
+  }
+
+  public class DocumentFolder implements Comparable {
+    String folderName;
+    public List<ChecklistItem> documents;
+    //public List<DocumentFolder> folders;
+
+    //transient Map<String, DocumentFolder> folderMap;
+    DocumentFolder(String folderName) {
+      this.folderName = folderName;
+      //folderMap = new Map<String, DocumentFolder>();
+      //folders = new List<DocumentFolder>();
+      documents = new List<ChecklistItem>();
+    }
+
+    public void addItem(Checklist_Item__c item) {
+      String folderString = item.Folder_String__c;
+      List<String> folderStrings = folderString.split(';');
+
+      ChecklistItem checklistItem = new ChecklistItem(item);
+      //system.debug(folderString);
       // if (folderStrings.size() > 1) {
       //   String folderName = folderStrings[1];
       //   if (!folderMap.containsKey(folderName)) {
@@ -505,167 +316,29 @@ global without sharing class PortalAPIDocumentVault {
       //     folders.add(folderMap.get(folderName));
       //   }
 
-      //   folderMap.get(folderName).addItem(item);
+      //   folderMap.get(folderName).documents.add(checklistItem);
+      //   //folderMap.get(folders[1]).addDocument(item);
       // } else {
-      //   if (!folderMap.containsKey(folderStrings[0])) {
-      //     folderMap.put(folderStrings[0], new DocumentFolder(folderStrings[0]));
-      //     folders.add(folderMap.get(folderStrings[0]));
-      //   }
-
-      //   folderMap.get(folderStrings[0]).addItem(item);
+      //   documents.add(checklistItem);
       // }
-
-      //String documentType = item.Document_Type__c;
-      loanLevelDocuments.add(new ChecklistItem(item));
-
-      // if (!folderMap.containsKey(documentType)) {
-      //   folderMap.put(documentType, new DocumentFolder(documentType));
-      //   //loanLevelFolders.add(folderMap.get(documentType));
-      // }
-
-      //folderMap.get(documentType).addItem(item);
+      documents.add(checklistItem);
     }
 
-    public void addPropertyItem(Checklist_Item__c item) {
-      propertyLevelDocuments.add(new ChecklistItem(item));
-      // String documentType = item.Document_Type__c;
-
-      // if (!propertyFolderMap.containsKey(documentType)) {
-      //   propertyFolderMap.put(documentType, new DocumentFolder(documentType));
-      //   propertyLevelFolders.add(propertyfolderMap.get(documentType));
-      // }
-
-      // propertyFolderMap.get(documentType).addItem(item);
+    public Integer compareTo(Object folder) {
+      DocumentFolder compareToFOlder = (DocumentFOlder) folder;
+      if (this.folderName > compareToFolder.folderName) {
+        return 1;
+      } else if (this.folderName < compareToFolder.folderName) {
+        return -1;
+      } else {
+        return 0;
+      }
     }
   }
 
-  // public class PropertyVault {
-  //   public List<PropertyFolder> documentTypes;
-  //   // public Id id;
-  //   // public string name;
-
-  //   transient Map<String, PropertyFolder> folderMap;
-
-  //   PropertyVault() {
-  //     documentTypes = new List<PropertyFolder>();
-  //     folderMap = new Map<String, PropertyFolder>();
-  //   }
-
-  //   public void addItem(Checklist_Item__c item) {
-  //     //String folderString = item.Folder_String__c;
-  //     //List<String> folderStrings = folderString.split(';');
-
-  //     String documentType = item.Document_Type__c;
-  //     if (!folderMap.containsKey(documentType)) {
-  //       folderMap.put(documentType, new PropertyFolder(documentType));
-  //       documentTypes.add(folderMap.get(documentType));
-  //     }
-
-  //     folderMap.get(documentType).addItem(item);
-
-  //     // if (folderStrings.size() > 1) {
-  //     //   String folderName = folderStrings[1];
-  //     //   if (!folderMap.containsKey(folderName)) {
-  //     //     folderMap.put(folderName, new DocumentFolder(folderName));
-  //     //     folders.add(folderMap.get(folderName));
-  //     //   }
-
-  //     //   folderMap.get(folderName).addItem(item);
-  //     // } else {
-  //     //   if (!folderMap.containsKey(folderStrings[0])) {
-  //     //     folderMap.put(folderStrings[0], new DocumentFolder(folderStrings[0]));
-  //     //     folders.add(folderMap.get(folderStrings[0]));
-  //     //   }
-
-  //     //   folderMap.get(folderStrings[0]).addItem(item);
-  //     // }
-  //   }
-  // }
-
-  // public class PropertyFolder implements Comparable {
-  //   String documentType;
-  //   public List<PropertyItem> properties;
-
-  //   PropertyFolder(String documentType) {
-  //     this.documentType = documentType;
-  //     properties = new List<PropertyItem>();
-  //   }
-
-  //   public void addItem(Checklist_Item__c item) {
-  //     // String folderString = item.Folder_String__c;
-  //     // List<String> folderStrings = folderString.split(';');
-  //     PropertyItem checklistItem = new PropertyItem(item);
-  //     properties.add(checklistItem);
-  //   }
-
-  //   public Integer compareTo(Object folder) {
-  //     PropertyFolder compareToFOlder = (PropertyFolder) folder;
-  //     if (this.documentType > compareToFolder.documentType) {
-  //       return 1;
-  //     } else if (this.documentType < compareToFolder.documentType) {
-  //       return -1;
-  //     } else {
-  //       return 0;
-  //     }
-  //   }
-  // }
-
-  // public class PropertyItem implements Comparable {
-  //   Id itemId;
-  //   List<Document> uploadedDocuments;
-  //   String propertyName;
-
-  //   PropertyItem(Checklist_Item__c item) {
-  //     itemId = item.id;
-  //     propertyName = item.Checklist_Section__r.Property__r.Name; //Document_Type__c;
-
-  //     uploadedDocuments = new List<Document>();
-  //     for (Deal_Document__c doc : item.Deal_Documents__r) {
-  //       uploadedDocuments.add(new Document(doc));
-  //     }
-  //   }
-
-  //   public Integer compareTo(Object item) {
-  //     PropertyItem itemToCompare = (PropertyItem) item;
-  //     if (this.propertyName > itemToCompare.propertyName) {
-  //       return 1;
-  //     } else if (this.propertyName < itemToCompare.propertyName) {
-  //       return -1;
-  //     } else {
-  //       return 0;
-  //     }
-  //   }
-  // }
-
-  // public class DocumentFolder implements Comparable {
-  //   String folderName;
-  //   public List<ChecklistItem> documents;
-  //   DocumentFolder(String folderName) {
-  //     this.folderName = folderName;
-  //     documents = new List<ChecklistItem>();
-  //   }
-
-  //   public void addItem(Checklist_Item__c item) {
-  //     String folderString = item.Folder_String__c;
-  //     List<String> folderStrings = folderString.split(';');
-  //     ChecklistItem checklistItem = new ChecklistItem(item);
-  //     documents.add(checklistItem);
-  //   }
-
-  //   public Integer compareTo(Object folder) {
-  //     DocumentFolder compareToFOlder = (DocumentFOlder) folder;
-  //     if (this.folderName > compareToFolder.folderName) {
-  //       return 1;
-  //     } else if (this.folderName < compareToFolder.folderName) {
-  //       return -1;
-  //     } else {
-  //       return 0;
-  //     }
-  //   }
-  // }
-
   public class ChecklistItem implements Comparable {
     Id itemId;
+    // List<Deal_Document__c> uploadedDocuments;
     List<Document> uploadedDocuments;
     String documentType;
 
@@ -674,6 +347,10 @@ global without sharing class PortalAPIDocumentVault {
       documentType = item.Document_Type__c;
 
       uploadedDocuments = new List<Document>();
+      // if (item.Deal_Documents__r.size() > 0) {
+      //   uploadedDocuments.add(new Document(doc));
+      //   // uploadedDocuments = item.Deal_Documents__r;
+      // }
       for (Deal_Document__c doc : item.Deal_Documents__r) {
         uploadedDocuments.add(new Document(doc));
       }
@@ -695,28 +372,9 @@ global without sharing class PortalAPIDocumentVault {
     public String fileName;
     public string fileExtension;
     public String id;
-    public String comments;
-    public Boolean reviewed;
-    public String reviewedBy;
-    public Date reviewedDate;
-    public String status;
     Document(Deal_Document__c doc) {
       fileName = doc.File_Name__c;
-      comments = doc.Comments__c;
-      status = doc.Status__c;
-      if (status == null) {
-        status = 'Pending';
-      }
 
-      reviewedBy = doc.Reviewed_By__c;
-      if (doc.Reviewed_On__c != null) {
-        reviewedDate = Date.newInstance(
-          doc.Reviewed_On__c.year(),
-          doc.Reviewed_On__c.month(),
-          doc.Reviewed_On__c.day()
-        );
-      }
-      reviewed = doc.Reviewed__c;
       ContentVersion cv = contentVersionMap.get(doc.ContentVersion_Id__c);
       if (cv != null) {
         this.fileExtension = cv.FileExtension;
@@ -733,106 +391,71 @@ global without sharing class PortalAPIDocumentVault {
     List<String> params = Restcontext.request.requestURI.split('/');
 
     if (params[3] == 'upload') {
-      if (params.size() > 4 && params[4] == 'base64') {
-        // ContentVersion cv =
-        Map<String, Object> body = (Map<String, Object>) System.JSON.deserializeUntyped(
-          req.requestBody.toString()
-        );
+      Map<String, Object> body = (Map<String, Object>) System.JSON.deserializeUntyped(
+        req.requestBody.toString()
+      );
 
-        ContentVersion cv = new ContentVersion();
-        cv.VersionData = EncodingUtil.base64Decode(
-          (String) body.get('base64String')
-        );
-        cv.Uploaded_From_Portal_Id__c = (String) body.get(
-          'Uploaded_From_Portal_Id__c'
-        );
-        if (body.containsKey('Application__c')) {
-          cv.Application__c = (String) body.get('Application__c');
-        }
+      Id id = (Id) body.get('id');
+      //   Id docStructureId = body.get('docStructureId');
+      Id itemId = (Id) body.get('itemId');
 
-        // if (body.containsKey('Deal__c')) {
-        //   cv.Deal__c = (String) body.get('Deal__c');
-        // }
-
-        if (body.containsKey('fileName')) {
-          cv.Title = (String) body.get('fileName');
-          cv.Title = cv.Title.substringBefore('.');
-          cv.pathOnClient = (String) body.get('fileName');
-        }
-
-        if (body.containsKey('Description')) {
-          cv.Description = (String) body.get('Description');
-        }
-
-        insert cv;
-
-        Map<String, Object> responseBody = new Map<String, Object>();
-        responseBody.put('success', true);
-        responseBody.put('id', cv.Id);
-        responseBody.put('errors', new List<String>());
-
-        res.addHeader('Content-Type', 'application/json');
-        res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
-      } else {
-        Map<String, Object> body = (Map<String, Object>) System.JSON.deserializeUntyped(
-          req.requestBody.toString()
-        );
-
-        Id id = (Id) body.get('id');
-        //   Id docStructureId = body.get('docStructureId');
-        Id itemId = (Id) body.get('itemId');
-
-        Checklist_Item__c item = [
-          SELECT
-            Id,
-            Doc_Structure_Id__c,
-            Property__c,
-            Deal__c,
-            Property__r.Deal__c
-          FROM Checklist_Item__c
-          WHERE Id = :itemId
-          LIMIT 1
-        ];
-        ContentVersion cv = [
-          SELECT Id, Title, ContentDocumentId
-          FROM ContentVersion
-          WHERE Id = :id
-          LIMIT 1
-        ];
-        Deal_Document__c dealDoc = new Deal_Document__c();
-        dealDoc.Document_Structure_Id__c = item.Doc_Structure_Id__c;
-        dealDoc.File_Name__c = cv.Title;
-        dealDoc.ContentVersion_Id__c = cv.Id;
-        dealDoc.Attachment_Id__c = cv.ContentDocumentId;
+      Checklist_Item__c item = [
+        SELECT
+          Id,
+          Doc_Structure_Id__c,
+          Property__c,
+          Deal__c,
+          Property__r.Deal__c,
+          Deal_Contact__c,
+          Deal_Contact__r.Deal__c
+        FROM Checklist_Item__c
+        WHERE Id = :itemId
+        LIMIT 1
+      ];
+      ContentVersion cv = [
+        SELECT Id, Title, ContentDocumentId
+        FROM ContentVersion
+        WHERE Id = :id
+        LIMIT 1
+      ];
+      Deal_Document__c dealDoc = new Deal_Document__c();
+      dealDoc.Document_Structure_Id__c = item.Doc_Structure_Id__c;
+      dealDoc.File_Name__c = cv.Title;
+      dealDoc.ContentVersion_Id__c = cv.Id;
+      dealDoc.Attachment_Id__c = cv.ContentDocumentId;
+      dealDoc.Deal__c = item.Deal__c;
+      if (String.isNotBlank(item.Property__c)) {
+        dealDoc.Property__c = item.Property__c;
         dealDoc.Deal__c = item.Deal__c;
-        if (String.isNotBlank(item.Property__c)) {
-          dealDoc.Property__c = item.Property__c;
-          dealDoc.Deal__c = item.Deal__c;
-        }
-
-        dealDoc.Checklist_Item__c = itemId;
-
-        dealDoc.Added_By__c = UserInfo.getUserId();
-        dealDoc.Added_On__c = system.now();
-
-        insert dealDoc;
-
-        cv.Linked_To_Record__c = true;
-        update cv;
-
-        ContentDocumentLink cdl = new ContentDocumentLink();
-        cdl.ContentDocumentId = cv.ContentDocumentId;
-        cdl.LinkedEntityId = dealDoc.Id;
-        cdl.ShareType = 'V';
-        cdl.Visibility = 'AllUsers';
-        insert cdl;
-
-        Map<String, String> responseBody = new Map<String, String>();
-        responseBody.put('status', 'success');
-        responseBody.put('message', 'Deal Document created successfully');
-        res.addHeader('Content-Type', 'application/json');
-        res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
       }
+
+      if (String.isNotBlank(item.Deal_Contact__c)) {
+        dealDoc.Deal_Contact__c = item.Deal_Contact__c;
+        dealDoc.Deal__C = item.Deal_Contact__r.Deal__c;
+      }
+
+      dealDoc.Checklist_Item__c = itemId;
+
+      dealDoc.Added_By__c = UserInfo.getUserId();
+      dealDoc.Added_On__c = system.now();
+
+      insert dealDoc;
+
+      cv.Linked_To_Record__c = true;
+      update cv;
+
+      ContentDocumentLink cdl = new ContentDocumentLink();
+      cdl.ContentDocumentId = cv.ContentDocumentId;
+      cdl.LinkedEntityId = dealDoc.Id;
+      cdl.ShareType = 'V';
+      cdl.Visibility = 'AllUsers';
+      insert cdl;
+
+      Map<String, String> responseBody = new Map<String, String>();
+      responseBody.put('status', 'success');
+      responseBody.put('message', 'Deal Document created successfully');
+      res.addHeader('Content-Type', 'application/json');
+      res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
     }
   }
 }

@@ -5,5 +5,5 @@
     <mayForecastManagerShare>false</mayForecastManagerShare>
     <name>Asset Management</name>
     <opportunityAccessLevel>Edit</opportunityAccessLevel>
-    <parentRole>Operations</parentRole>
+    <parentRole>Capital_Markets</parentRole>
 </Role>

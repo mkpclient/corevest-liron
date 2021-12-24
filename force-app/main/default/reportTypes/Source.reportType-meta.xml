@@ -198,6 +198,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Source_Owner__c</field>
+            <table>Source__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>True_source__c</field>
             <table>Source__c</table>
         </columns>

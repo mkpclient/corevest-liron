@@ -1388,36 +1388,6 @@
                 <identifier>BridgeDocumentList</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldName</name>
-                    <value>Deal__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActions</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sobjectType</name>
-                    <value>Deal_Document__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Title</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeName</name>
-                    <value>Standard</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Document_Type__c LIKE &apos;%Term Sheet%&apos; AND Is_Deleted__c = false</value>
-                </componentInstanceProperties>
-                <componentName>DocumentRelatedList</componentName>
-                <identifier>c_DocumentRelatedList1</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-98481db4-43a1-44dc-b650-29a514c7a259</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -2289,20 +2259,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>recordId</name>
-                    <value>0065b00000sY3YgAAK</value>
-                </componentInstanceProperties>
-                <componentName>checklist</componentName>
-                <identifier>c_checklist1</identifier>
-            </componentInstance>
-        </itemInstances>
-        <name>Facet-c4edcc82-02b7-4724-8fe4-41115995ea23</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>active</name>
                     <value>true</value>
                 </componentInstanceProperties>
@@ -2330,20 +2286,6 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tab</componentName>
                 <identifier>customTab35</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>body</name>
-                    <value>Facet-c4edcc82-02b7-4724-8fe4-41115995ea23</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Checklist</value>
-                </componentInstanceProperties>
-                <componentName>flexipage:tab</componentName>
-                <identifier>flexipage_tab1</identifier>
             </componentInstance>
         </itemInstances>
         <name>Facet-adc40417-7cde-4abe-abbe-ae68170f9b28</name>

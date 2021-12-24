@@ -191,25 +191,8 @@ public class deal_Document_Helper {
    **/
 
   public static void afterInsert(List<Deal_Document__c> newList) {
-    Set<Id> itemIds = new Set<Id>();
     for (Deal_Document__c doc : newList) {
-      if (doc.Checklist_Item__c != null) {
-        itemIds.add(doc.Checklist_Item__c);
-      }
-    }
-
-    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
-    if (itemIds.size() > 0) {
-      for (Checklist_Item__c item : [
-        SELECT Id, Status__c
-        FROM Checklist_Item__c
-        WHERE Id IN :itemIds
-      ]) {
-        item.Status__c = 'Pending';
-        items.add(item);
-      }
-
-      update items;
+      system.debug(newList);
     }
   }
 

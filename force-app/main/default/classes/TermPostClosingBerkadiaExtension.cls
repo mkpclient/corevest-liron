@@ -3,6 +3,7 @@ public with sharing class TermPostClosingBerkadiaExtension {
   public Opportunity Opportunity { get; set; }
   public static final string ONBOARDING = 'LoanOnboarding';
 
+
   public Loan_Version__c loanVersion {
     get {
       return recid != null

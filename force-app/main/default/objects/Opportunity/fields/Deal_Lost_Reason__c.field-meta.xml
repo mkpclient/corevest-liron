@@ -177,11 +177,6 @@
             <valueName>Other – See Deal Notes</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Rejected</controllingFieldValue>
-            <controllingFieldValue>Withdrawn</controllingFieldValue>
-            <valueName>Won through another broker</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Withdrawn</controllingFieldValue>
             <valueName>Borrower Requested</valueName>
         </valueSettings>

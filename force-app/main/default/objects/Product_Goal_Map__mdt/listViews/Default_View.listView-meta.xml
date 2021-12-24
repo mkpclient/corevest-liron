@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default_View</fullName>
+    <columns>Goal_Product__c</columns>
+    <columns>Opportunity_Product_Code__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Default View</label>
+</ListView>

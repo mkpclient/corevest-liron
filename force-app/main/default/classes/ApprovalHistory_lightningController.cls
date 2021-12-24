@@ -9,6 +9,14 @@ public without sharing class ApprovalHistory_lightningController {
     'Term'
   };
 
+  public static final List<String> IC_APPROVAL_NAMES = new List<String>{
+    'Term_IC_Approval',
+    'Bridge_IC_Approval',
+    'Term_Sub_IC',
+    'Bridge_Sub_IC'
+  };
+
+
   @AuraEnabled
   public static String recallApproval(Id processId) {
     Approval.ProcessWorkitemRequest pwr = new Approval.ProcessWorkitemRequest();
@@ -192,7 +200,8 @@ public without sharing class ApprovalHistory_lightningController {
         ProcessInstance.ElapsedTimeInDays,
         ProcessInstance.TargetObjectId,
         ProcessInstance.Status,
-        ProcessInstance.ProcessDefinition.DeveloperName
+        ProcessInstance.ProcessDefinition.DeveloperName,
+        ActorId
       FROM ProcessInstanceWorkItem
       WHERE Id IN :idMap.keySet()
     ]) {
@@ -325,6 +334,9 @@ public without sharing class ApprovalHistory_lightningController {
             }
           }
           roleName = 'Underwriter';
+        } 
+        if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
+          ah.Verified__c = true;
         }
       }
     }
@@ -570,6 +582,11 @@ public without sharing class ApprovalHistory_lightningController {
     system.debug(userRole);
     system.debug(approvalName);
     // system.debug(JSON.serialize(opp));
+    Opportunity updDeal = new Opportunity(
+      Id = oppId,
+      Final_Sponsor_Tier__c = 'Tier 1'
+    );
+
     ApprovalAttachments_lightningController.approveDeal(
       recordId,
       userRole,

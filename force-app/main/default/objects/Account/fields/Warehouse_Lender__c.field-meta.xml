@@ -6,7 +6,7 @@
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <type>MultiselectPicklist</type>
+    <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -26,22 +26,6 @@
                 <default>false</default>
                 <label>Axos Bank</label>
             </value>
-            <value>
-                <fullName>Churchill</fullName>
-                <default>false</default>
-                <label>Churchill</label>
-            </value>
-            <value>
-                <fullName>Western Alliance</fullName>
-                <default>false</default>
-                <label>Western Alliance</label>
-            </value>
-            <value>
-                <fullName>Cross River</fullName>
-                <default>false</default>
-                <label>Cross River</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
-    <visibleLines>4</visibleLines>
 </CustomField>

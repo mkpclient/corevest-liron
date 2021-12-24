@@ -2,6 +2,10 @@
 public class CTMtoLeadTests {
   @TestSetup
   static void setupData() {
+    List<Lead> sampleLeads = new List<Lead>();
+    List<Master_Source__c> sampleMasterSources = new List<Master_Source__c>();
+    List<Source__c> sampleSources = new List<Source__c>();
+
     Lead ld = new Lead();
     ld.LastName = 'Doe';
     ld.FirstName = 'John';
@@ -13,9 +17,16 @@ public class CTMtoLeadTests {
     ld.Introduction_Subsource__c = 'Pardot';
     ld.Street = '123 test st';
     ld.City = 'Irvine';
+    sampleLeads.add(ld);
 
-    insert ld;
-    System.debug(1);
+    Master_Source__c ms = new Master_Source__c();
+    ms.Name = 'Email Blast';
+    ms.Email__c = ld.Email;
+    ms.First_Name__c = ld.FirstName;
+    ms.Last_Name__c = ld.LastName;
+    ms.Mobile__c = ld.Phone;
+    sampleMasterSources.add(ms);
+
     Lead ld2 = new Lead();
     ld2.LastName = 'Doe2';
     ld2.FirstName = 'John2';
@@ -27,9 +38,16 @@ public class CTMtoLeadTests {
     ld2.Introduction_Subsource__c = 'Pardot';
     ld2.Street = '123 test st';
     ld2.City = 'Irvine';
+    sampleLeads.add(ld2);
 
-    insert ld2;
-    System.debug(2);
+    Master_Source__c ms2 = new Master_Source__c();
+    ms2.Name = 'Email Blast';
+    ms2.Email__c = ld2.Email;
+    ms2.First_Name__c = ld2.FirstName;
+    ms2.Last_Name__c = ld2.LastName;
+    ms2.Mobile__c = ld2.Phone;
+    sampleMasterSources.add(ms2);
+
     Lead ld3 = new Lead();
     ld3.LastName = 'Doe3';
     ld3.FirstName = 'John';
@@ -41,9 +59,16 @@ public class CTMtoLeadTests {
     ld3.Introduction_Subsource__c = 'Pardot';
     ld3.Street = '123 test st';
     ld3.City = 'Irvine';
+    sampleLeads.add(ld3);
 
-    insert ld3;
-    System.debug(3);
+    Master_Source__c ms3 = new Master_Source__c();
+    ms3.Name = 'Email Blast';
+    ms3.Email__c = ld3.Email;
+    ms3.First_Name__c = ld3.FirstName;
+    ms3.Last_Name__c = ld3.LastName;
+    ms3.Mobile__c = ld3.Phone;
+    sampleMasterSources.add(ms3);
+
     Lead ld4 = new Lead();
     ld4.LastName = 'Doe4';
     ld4.FirstName = 'John2';
@@ -55,9 +80,16 @@ public class CTMtoLeadTests {
     ld4.Introduction_Subsource__c = 'Pardot';
     ld3.Street = '123 test st';
     ld3.City = 'Irvine';
+    sampleLeads.add(ld4);
 
-    insert ld4;
-    System.debug(4);
+    Master_Source__c ms4 = new Master_Source__c();
+    ms4.Name = 'Email Blast';
+    ms4.Email__c = ld4.Email;
+    ms4.First_Name__c = ld4.FirstName;
+    ms4.Last_Name__c = ld4.LastName;
+    ms4.Mobile__c = ld4.Phone;
+    sampleMasterSources.add(ms4);
+
     Lead ld5 = new Lead();
     ld5.LastName = 'Doe5';
     ld5.FirstName = 'John';
@@ -69,9 +101,16 @@ public class CTMtoLeadTests {
     ld5.Introduction_Subsource__c = 'Pardot';
     ld5.Street = '123 test st';
     ld5.City = 'Irvine';
+    sampleLeads.add(ld5);
 
-    insert ld5;
-    System.debug(5);
+    Master_Source__c ms5 = new Master_Source__c();
+    ms5.Name = 'Email Blast';
+    ms5.Email__c = ld5.Email;
+    ms5.First_Name__c = ld5.FirstName;
+    ms5.Last_Name__c = ld5.LastName;
+    ms5.Mobile__c = ld5.Phone;
+    sampleMasterSources.add(ms5);
+
     Lead ld6 = new Lead();
     ld6.LastName = 'Doe6';
     ld6.FirstName = 'John2';
@@ -83,93 +122,71 @@ public class CTMtoLeadTests {
     ld6.Introduction_Subsource__c = 'Pardot';
     ld6.Street = '123 test st';
     ld6.City = 'Irvine';
+    sampleLeads.add(ld6);
 
-    // insert ld6;
-    // System.debug(6);
-    // Lead ld7 = new Lead();
-    // ld7.LastName = 'Doe7';
-    // ld7.FirstName = 'John';
-    // ld7.Company = 'Test';
-    // ld7.Status = 'Open';
-    // ld7.Phone = '2108405431';
-    // ld7.Email = '2108405431@gmail.com';
-    // ld7.Introduction_Source__c='Email Blast';
-    // ld7.Introduction_Subsource__c='Pardot';
-    // ld7.Street = '123 test st';
-    // ld7.City = 'Irvine';
+    Master_Source__c ms6 = new Master_Source__c();
+    ms6.Name = 'Email Blast';
+    ms6.Email__c = ld6.Email;
+    ms6.First_Name__c = ld6.FirstName;
+    ms6.Last_Name__c = ld6.LastName;
+    ms6.Mobile__c = ld6.Phone;
+    sampleMasterSources.add(ms6);
 
-    // insert ld7;
-    // System.debug(7);
-    // Lead ld8 = new Lead();
-    // ld8.LastName = 'Doe8';
-    // ld8.FirstName = 'John2';
-    // ld8.Company = 'Test';
-    // ld8.Status = 'Open';
-    // ld8.Phone = '2032248564';
-    // ld8.Email = '2032248564@gmail.com';
-    // ld8.Introduction_Source__c='Email Blast';
-    // ld8.Introduction_Subsource__c='Pardot';
-    // ld8.Street = '123 test st';
-    // ld8.City = 'Irvine';
+    List<Database.SaveResult> leadResults = Database.insert(sampleLeads, false);
+    List<Database.SaveResult> masterResults = Database.insert(
+      sampleMasterSources, false
+    );
 
-    // insert ld8;
-    // System.debug(8);
-    // Lead ld9 = new Lead();
-    // ld9.LastName = 'Doe9';
-    // ld9.FirstName = 'John';
-    // ld9.Company = 'n/a';
-    // ld9.Status = 'Open';
-    // ld9.Phone = '7144623682';
-    // ld9.Email = '7144623682@gmail.com';
-    // ld9.Introduction_Source__c='Email Blast';
-    // ld9.Introduction_Subsource__c='Pardot';
-    // ld9.Street = '123 test st';
-    // ld9.City = 'Irvine';
+    for (Integer i = 0; i < leadResults.size(); i++) {
+      if (leadResults[i].isSuccess() && masterResults[i].isSuccess()) {
+        Lead l = sampleLeads[i];
+        l.Id = leadResults[i].getId();
+        Master_Source__c m = sampleMasterSources[i];
+        m.Id = masterResults[i].getId();
 
-    // insert ld9;
-    // System.debug(9);
-    // Lead ld10 = new Lead();
-    // ld10.LastName = 'Doe10';
-    // ld10.FirstName = 'John2';
-    // ld10.Company = 'Test';
-    // ld10.Status = 'Open';
-    // ld10.Phone = '8602920107';
-    // ld10.Email = '8602920107@none.com';
-    // ld10.Introduction_Source__c='Email Blast';
-    // ld10.Introduction_Subsource__c='Pardot';
-    // ld10.Street = '123 test st';
-    // ld10.City = 'Irvine';
+        Source__c sc = new Source__c();
+        sc.Lead__c = l.Id;
+        sc.Master_Source__c = m.Id;
+        sc.Lead_Name__c = l.FirstName + ' ' + l.LastName;
+        sampleSources.add(sc);
+      } else {
+        throw new DmlException(
+          leadResults[i].getErrors()[0].getMessage() +
+          '\n' +
+          masterResults[i].getErrors()[0].getMessage()
+        );
+      }
+    }
 
-    // insert ld10;
-    // System.debug(10);
-    // Database.LeadConvert lc = new database.LeadConvert();
-    // lc.setLeadId(ld.id);
-    // lc.setDoNotCreateOpportunity(true);
-    // LeadStatus convertStatus = [
-    //   SELECT Id, MasterLabel
-    //   FROM LeadStatus
-    //   WHERE IsConverted = TRUE
-    //   LIMIT 1
-    // ];
-    // lc.setConvertedStatus(convertStatus.MasterLabel);
-    // Database.convertLead(lc);
-
-    // Lead ld11 = [
-    //   SELECT Id, Name, ConvertedContactId
-    //   FROM Lead
-    //   WHERE FirstName = 'John'
-    //   LIMIT 1
-    // ];
-    //System.debug(ld11);
+    List<Database.SaveResult> sourceResults = Database.insert(sampleSources);
   }
-
-  static testMethod void methodName() {
+  
+  @isTest
+  private static void testCTMtoLead() {
     test.startTest();
     test.setMock(HttpCalloutMock.class, new MockCTMtoLeadCallout());
     AllCTMtoLeadBatchable b = new AllCTMtoLeadBatchable();
     b.lastDate = System.today().addDays(-1);
     Database.executeBatch(b);
     test.stopTest();
+
+   
+
+    Lead ld = [
+      SELECT utm_Campaign_Content__c, Id
+      FROM Lead
+      WHERE utm_Campaign_Content__c != null
+      LIMIT 1
+    ];
+
+    Source__c sc = [
+      SELECT utm_Campaign_Content__c, Id
+      FROM Source__c
+      WHERE Lead__c = :ld.Id
+      LIMIT 1
+    ];
+
+    System.assertEquals(ld.utm_Campaign_Content__c, sc.utm_Campaign_Content__c, 'Campaign content should match');
   }
 
   public class MockCTMtoLeadCallout implements HttpCalloutMock {

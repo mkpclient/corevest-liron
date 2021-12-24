@@ -135,7 +135,6 @@ global without sharing class PortalAPIUser {
     public String userType;
     public String id;
     public String contactId;
-    public String accountId;
 
     public PortalUser(String portalId) {
       Id contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
@@ -166,8 +165,7 @@ global without sharing class PortalAPIUser {
             SponsorCity__c,
             SponsorZipCode__c,
             Home_Country__c,
-            SponsorState__c,
-            AccountId
+            SponsorState__c
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -194,7 +192,6 @@ global without sharing class PortalAPIUser {
         this.homeState = c.SponsorState__c;
         this.homeCountry = c.Home_Country__c;
         this.homeZip = c.SponsorZipCode__c;
-        this.accountId = c.AccountId;
       } else if (leadId != null) {
         Lead l = [
           SELECT

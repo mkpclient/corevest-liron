@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Volume_Other__c</fullName>
+    <description>Lender partnerships field. The estimated average monthly monetary volume of other units in their lending portfolio. Other = categorized outside of the defined Monthly Volume $ fields provided.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The estimated average monthly monetary volume of other units in their lending portfolio. Other = categorized outside of the defined Monthly Volume $ fields provided.</inlineHelpText>
+    <label>Monthly Volume $ (Other)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

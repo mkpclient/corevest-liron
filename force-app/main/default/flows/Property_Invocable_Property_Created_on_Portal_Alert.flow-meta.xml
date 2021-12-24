@@ -7,7 +7,6 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailSubject</name>
             <value>
@@ -17,13 +16,13 @@
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <stringValue>The Property_Invocable_Property_Created_on_Portal_Alert-2 invocable process failed to start because no records in your org match the record Id specified. In the entities that invoke Property_Invocable_Property_Created_on_Portal_Alert-2, such as other processes, check the value for this input: SObjectId.</stringValue>
+                <stringValue>The Property_Invocable_Property_Created_on_Portal_Alert-1 invocable process failed to start because no records in your org match the record Id specified. In the entities that invoke Property_Invocable_Property_Created_on_Portal_Alert-1, such as other processes, check the value for this input: SObjectId.</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <stringValue>bryon.harland@cvest.com</stringValue>
+                <stringValue>bryon@cvest.com</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
@@ -34,7 +33,6 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailSubject</name>
             <value>
@@ -44,7 +42,7 @@
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <stringValue>The Property_Invocable_Property_Created_on_Portal_Alert-2 invocable process failed to start because a valid value wasn&apos;t found. This can happen when entities that invoke Property_Invocable_Property_Created_on_Portal_Alert-2, such as other processes, don&apos;t have values for either the SObject or SObjectId. For example: 
+                <stringValue>The Property_Invocable_Property_Created_on_Portal_Alert-1 invocable process failed to start because a valid value wasn&apos;t found. This can happen when entities that invoke Property_Invocable_Property_Created_on_Portal_Alert-1, such as other processes, don&apos;t have values for either the SObject or SObjectId. For example: 
 -An SObject or SObject ID wasn&apos;t specified.
 -A value might have been included, but it was null at runtime. </stringValue>
             </value>
@@ -52,7 +50,7 @@
         <inputParameters>
             <name>emailAddresses</name>
             <value>
-                <stringValue>bryon.harland@cvest.com</stringValue>
+                <stringValue>bryon@cvest.com</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
@@ -69,7 +67,6 @@
         <locationY>200</locationY>
         <actionName>Property__c.Property_created_through_the_Portal</actionName>
         <actionType>emailAlert</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>SObjectRowId</name>
             <value>
@@ -77,7 +74,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>53.0</apiVersion>
+    <apiVersion>49.0</apiVersion>
     <decisions>
         <name>invocableContextCheckDecision</name>
         <label>Context Check Decision</label>
@@ -180,37 +177,6 @@
                     <stringValue>Broker Portal User</stringValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <processMetadataValues>
-                    <name>inputDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>leftHandSideType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>operatorDataType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <processMetadataValues>
-                    <name>rightHandSideType</name>
-                    <value>
-                        <stringValue>String</stringValue>
-                    </value>
-                </processMetadataValues>
-                <leftValueReference>SObject.CreatedBy.FirstName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Integrations</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>myRule_1_A1</targetReference>
             </connector>
@@ -258,7 +224,7 @@
         </rules>
     </decisions>
     <description>This will trigger the alert to notify users that a Property was created on the Portal</description>
-    <interviewLabel>Property_Invocable_Property_Created_on_Portal_Alert-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Property_Invocable_Property_Created_on_Portal_Alert-1_InterviewLabel</interviewLabel>
     <label>Property Invocable - Property Created on Portal Alert</label>
     <processMetadataValues>
         <name>ObjectType</name>

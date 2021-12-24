@@ -373,7 +373,6 @@ Equity Pledge:
                         <br/>
                     </apex:outputText>
                     Insurance/Flood Certificate Fee: $23.00
-                    <br/> Tax Review Fee: $50.00
                     <br/> Wire Fee: $30.00
                 </td>
             </tr>

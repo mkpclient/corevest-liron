@@ -2185,6 +2185,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Source_Owner__c</field>
+            <table>Contact.Source__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>True_source__c</field>
             <table>Contact.Source__r</table>
         </columns>

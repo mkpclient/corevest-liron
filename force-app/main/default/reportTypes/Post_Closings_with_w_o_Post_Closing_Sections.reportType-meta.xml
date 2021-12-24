@@ -542,12 +542,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Status__c</field>
-            <table>Post_Closing__c.Post_Closing_Sections__r.Post_Closing_Items__r.Deal_Documents__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Assignment_Document__c</field>
+            <field>Account__c</field>
             <table>Post_Closing__c.Post_Closing_Sections__r.Post_Closing_Items__r.Deal_Documents__r</table>
         </columns>
         <masterLabel>Deal Documents</masterLabel>

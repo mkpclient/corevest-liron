@@ -21,7 +21,7 @@ public with sharing class AdvanceDealTriggerHelper {
     return [
       SELECT
         Id,
-        Contact__c,
+        // Contact__c,
         (
           SELECT
             Id,
@@ -73,8 +73,8 @@ public with sharing class AdvanceDealTriggerHelper {
     dealEmail.setTemplateId(templateId);
     dealEmail.setWhatId(opp.Id);
     dealEmail.setSaveAsActivity(false);
-    dealEmail.setTargetObjectId(opp.Contact__c);
-    dealEmail.setTreatTargetObjectAsRecipient(false);
+    // dealEmail.setTargetObjectId(opp.Contact__c);
+    // dealEmail.setTreatTargetObjectAsRecipient(false);
     bccEmails.add('bryon.harland@cvest.com');
 
     for (User user : [
@@ -191,8 +191,7 @@ public with sharing class AdvanceDealTriggerHelper {
           Maturity_Date_Calculation_Type__c,
           Stated_Maturity_Date__c,
           Advance_Period__c,
-          LOC_Term__c,
-          CloseDate
+          LOC_Term__c
         FROM Opportunity
         WHERE
           Id = :triggerNew.Deal__c
@@ -208,16 +207,16 @@ public with sharing class AdvanceDealTriggerHelper {
         System.debug('deal from trigger : ' + updatedDeal);
 
         if (updatedDeal.Advance_Period__c != null) {
-          updatedDeal.Modified_Expiration_Date__c = updatedDeal.CloseDate
+          updatedDeal.Modified_Expiration_Date__c = Date.today()
             .addDays(Integer.valueOf(updatedDeal.Advance_Period__c));
         }
 
         if (!string.isBlank(updatedDeal.LOC_Term__c)) {
           List<String> locTerm = updatedDeal.LOC_Term__c.split(' ');
           Integer locTermNumber = Integer.valueOf(locTerm[0]);
-          updatedDeal.Stated_Maturity_Date__c = updatedDeal.CloseDate
+          updatedDeal.Stated_Maturity_Date__c = Date.today()
             .addDays(locTermNumber);
-          updatedDeal.Updated_Loan_Maturity_Date__c = updatedDeal.CloseDate
+          updatedDeal.Updated_Loan_Maturity_Date__c = Date.today()
             .addDays(locTermNumber);
         }
 

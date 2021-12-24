@@ -220,6 +220,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Loan_Document_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revisions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Occupancy_Status__c</picklist>
         <values>
             <fullName>Owner Occupied</fullName>

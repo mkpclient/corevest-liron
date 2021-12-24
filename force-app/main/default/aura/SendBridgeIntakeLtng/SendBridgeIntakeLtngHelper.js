@@ -857,6 +857,7 @@
           })
         );
     } else {
+      const record = JSON.parse(JSON.stringify(component.get("v.record")));
       component
         .find("generator")
         .generateDocx(component.get("v.record"), docName);

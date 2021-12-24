@@ -1342,11 +1342,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Underwriter__c</field>
-            <table>Property__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Unique_Active_Id__c</field>
             <table>Property__c</table>
         </columns>
@@ -1475,6 +1470,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Advance__c.Funding_Conditions_Email_Date__c</field>
+            <table>Property__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Loan_Document_Status__c</field>
+            <table>Property__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Title_Review_Status__c</field>
             <table>Property__c</table>
         </columns>
         <masterLabel>Properties</masterLabel>

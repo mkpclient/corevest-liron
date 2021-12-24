@@ -35,7 +35,7 @@
         <dataType>Boolean</dataType>
         <expression>true</expression>
     </formulas>
-    <interviewLabel>Contact_Creation_Set_Record_Type-6_InterviewLabel</interviewLabel>
+    <interviewLabel>Contact_Creation_Set_Record_Type-5_InterviewLabel</interviewLabel>
     <label>Contact Creation - Set Record Type</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -1002,7 +1002,7 @@
             </processMetadataValues>
             <field>RecordTypeId</field>
             <value>
-                <stringValue>0128B0000008UiTQAU</stringValue>
+                <stringValue>0120a0000019jeuAAA</stringValue>
             </value>
         </inputAssignments>
         <object>Contact</object>

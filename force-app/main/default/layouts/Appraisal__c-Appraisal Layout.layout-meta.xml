@@ -246,10 +246,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Product_Type_Addons__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Order_Received_Date__c</field>
             </layoutItems>
             <layoutItems>

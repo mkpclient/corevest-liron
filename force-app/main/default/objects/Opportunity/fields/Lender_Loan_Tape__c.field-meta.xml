@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lender_Loan_Tape__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Lender provided tape that this Loan/Deal belongs to</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Lender provided tape that this Loan/Deal belongs to</inlineHelpText>
+    <label>Lender Loan Tape</label>
+    <referenceTo>Lender_Loan_Tape__c</referenceTo>
+    <relationshipLabel>Loans</relationshipLabel>
+    <relationshipName>Deals</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

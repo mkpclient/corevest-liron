@@ -9,6 +9,18 @@
     <type>Picklist</type>
     <valueSet>
         <restricted>true</restricted>
-        <valueSetName>Broker_Fee_Paid_When</valueSetName>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Origination</fullName>
+                <default>false</default>
+                <label>Origination</label>
+            </value>
+            <value>
+                <fullName>Each Advance</fullName>
+                <default>false</default>
+                <label>Each Advance</label>
+            </value>
+        </valueSetDefinition>
     </valueSet>
 </CustomField>

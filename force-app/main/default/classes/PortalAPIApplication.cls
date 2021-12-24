@@ -4,8 +4,6 @@ global without sharing class PortalAPIApplication {
   public static Id applicationId;
   public static Id contactId;
   public static Id leadId;
-  public static String brokerId;
-  public static Id brokerContactId;
 
   @HttpPost
   global static void doPost() {
@@ -21,17 +19,12 @@ global without sharing class PortalAPIApplication {
       Application.class
     );
     portalId = app.user_id;
-    brokerId = app.broker_id;
-    if (portalId != null) {
-      contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
-      leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
-    }
 
-    if (brokerId != null) {
-      brokerContactId = AlchemyAPI.getContactIdByAlchemyId(brokerId);
-    }
+    // portalId = (String) applicationBody.get('user_id');
+    contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
+    leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
 
-    if (leadId != null || contactId != null || brokerContactId != null) {
+    if (leadId != null || contactId != null) {
       // Application__c application = new Application__c();
       // application.Lead__c = leadId;
       // application.Contact__c = contactId;
@@ -46,6 +39,8 @@ global without sharing class PortalAPIApplication {
       Map<String, Object> fieldsToValue = application.getPopulatedFieldsAsMap();
       application = new Application__c();
       for (String fieldName : fieldsToValue.keySet()) {
+        system.debug(fieldName);
+        system.debug(fieldsTOValue.get(fieldName));
         if (fieldsToValue.get(fieldName) != null) {
           application.put(fieldName, fieldsToValue.get(fieldName));
         }
@@ -59,11 +54,11 @@ global without sharing class PortalAPIApplication {
       //   Application__c.class
       // );
 
-      //system.debug(application);
+      system.debug(application);
 
       application.Lead__c = leadId;
       application.Contact__c = contactId;
-      application.Broker__c = brokerContactId;
+
       insert application;
 
       //Application appToSend = new Application(application);
@@ -163,26 +158,6 @@ global without sharing class PortalAPIApplication {
 
       res.addHeader('Content-Type', 'application/json');
       res.responseBody = Blob.valueOf(JSON.serialize(applications, true));
-    } else if (params[3] == 'dealId') {
-      Id dealId = params[4];
-
-      List<ApplicationSmall> applications = new List<ApplicationSmall>();
-      for (Application__c application : queryApplications(dealId)) {
-        // Application applicationWhole = new Application(application);
-
-        // Application applicationSubset = new Application();
-        // applicationSubset.dealId = applicationWhole.dealId;
-        // applicationSubset.broker_id = applicationWhole.broker_id;
-        // applicationSubset.id = applicationWhole.id;
-        // applicationSubset.user_id = applicationWhole.user_id;
-        // applicationSubset.status = applicationWhole.status;
-
-        // applications.add(applicationSubset);
-        applications.add(new ApplicationSmall(application));
-      }
-
-      res.addHeader('Content-Type', 'application/json');
-      res.responseBody = Blob.valueOf(JSON.serialize(applications, true));
     } else {
       Id applicationId = params[3];
       Application__c app = queryApplication(applicationId);
@@ -228,7 +203,7 @@ global without sharing class PortalAPIApplication {
     String queryString = 'SELECT ';
     queryString += String.join(new List<String>(fieldNames), ',');
     queryString += ' FROM Application__c';
-    queryString += ' WHERE Alchemy_User_Id__c =: portalId OR Broker_Alchemy_User_Id__c =: portalId OR Deal__c =: portalId';
+    queryString += ' WHERE Alchemy_User_Id__c =: portalId ';
     queryString += ' ORDER BY CreatedDate desc';
     List<Application__c> applications = (List<Application__c>) database.query(
       queryString
@@ -237,39 +212,12 @@ global without sharing class PortalAPIApplication {
     return applications;
   }
 
-  public class ApplicationSmall {
-    public Id id;
-    public String broker_id;
-    public String user_id;
-    public String status;
-    public String dealId;
-    public DateTime createdDate;
-    public String loanType;
-    public String leadId;
-
-    public ApplicationSmall(Application__c application) {
-      Application applicationFull = new Application(application);
-      this.id = applicationFull.id;
-      this.broker_id = applicationFull.broker_id;
-      this.user_id = applicationFull.user_id;
-      this.status = applicationFull.status;
-      this.dealId = applicationFull.dealId;
-      this.loanType = applicationFull.loanType;
-      this.createdDate = application.createdDate;
-      this.leadId = application.Lead__c;
-
-      
-    }
-  }
-
   public virtual class Application {
     public Id id; //id
     public String status;
     public String loanType; // Loan_Type__cloanType
     public Decimal loanId; //Loan_Id__c
     public String user_id; //Alchemy_User_Id__c
-    public String broker_id;
-    public String dealId;
 
     public Boolean formCompleted;
     public String firstName; //First_Name__c
@@ -383,45 +331,12 @@ global without sharing class PortalAPIApplication {
     public Boolean lostMoneyOrFixAndFlip; //Lost_Money_Or_Fix_and_Flip__c boolean,
     public String reasonForLosses; //Reason_For_Losses__c string(more than 255 characters),
 
-    public Boolean representedByAttorney;
-    public String felonyComments;
-    public String onFinancialSanctionsListComments;
-    public String delinquentOrDefaultOnAnyDebtComments;
-    public String pendingLitigationsComments;
-    public String propertyViolationsInvestigations5yrComments;
-    public String isLawsuitDefendantComments;
-    public String outstandingJudgementsComments;
-    public String portfolioProperiesLitigationsComments;
-    public String isUsCitizenComments;
-    public String isPermanentResidentAlienComments;
-    public String isForeignNationalComments;
-    public Boolean optForCorevestInsuranceAgent;
-
-    Application() {
-    }
-
     Application(Application__c application) {
-      this.representedByAttorney = application.Represented_by_an_Attorney__c;
-      this.felonyComments = application.Felony_Comments__c;
-      this.delinquentOrDefaultOnAnyDebtComments = application.Deliquent_Or_Default_On_Any_Debt_Comment__c;
-      this.onFinancialSanctionsListComments = application.On_Financial_Sanction_List_Comments__c;
-      this.pendingLitigationsComments = application.Pending_Litigations_Comments__c;
-      this.propertyViolationsInvestigations5yrComments = application.Violations_Investigations_Comments__c;
-      this.isLawsuitDefendantComments = application.Is_Lawsuit_Defendant_Comments__c;
-      this.outstandingJudgementsComments = application.Outstanding_Judgements_Comments__c;
-      this.portfolioProperiesLitigationsComments = application.Portfolio_Properties_Litigations_Comment__c;
-      this.isUsCitizenComments = application.Is_US_Citizen_Comments__c;
-      this.isPermanentResidentAlienComments = application.Is_Permanent_Resident_Alien_Comments__c;
-      this.isForeignNationalComments = application.Is_Foreign_National_Comments__c;
-
       this.status = application.Status__c;
       this.id = application.Id;
-      this.dealId = application.Deal__c;
       this.loanType = application.Loan_Type__c;
       this.loanId = application.Loan_Id__c;
-
       this.user_id = application.Alchemy_User_Id__c;
-      this.broker_id = application.Broker_Alchemy_User_Id__c;
       this.formCompleted = application.Form_Completed__c;
       this.firstName = application.First_Name__c;
       this.lastName = application.Last_Name__c;
@@ -585,15 +500,9 @@ global without sharing class PortalAPIApplication {
       this.planToPurchaseRefinancingProperties = application.Plan_To_Purchase_Refinacing_Properties__c;
       this.lostMoneyOrFixAndFlip = application.Lost_Money_Or_Fix_and_Flip__c;
       this.reasonForLosses = application.Reason_For_Losses__c;
-
-      this.optForCorevestInsuranceAgent = application.Opt_for_CoreVest_Insurance_Agent__c;
     }
 
     public Application__c getRecord() {
-      this.representedByAttorney = this.representedByAttorney != null
-        ? this.representedByAttorney
-        : false;
-
       this.formCompleted = this.formCompleted != null
         ? this.formCompleted
         : false;
@@ -641,34 +550,12 @@ global without sharing class PortalAPIApplication {
         ? this.formCompleted
         : false;
 
-      this.optForCorevestInsuranceAgent = this.optForCorevestInsuranceAgent !=
-        null
-        ? this.optForCorevestInsuranceAgent
-        : false;
-
       Application__c application = new Application__c();
-
-      application.Represented_by_an_Attorney__c = this.representedByAttorney;
-      application.Opt_For_Corevest_Insurance_Agent__c = this.optForCorevestInsuranceAgent;
-      application.Felony_Comments__c = this.felonyComments;
-      application.Deliquent_Or_Default_On_Any_Debt_Comment__c = this.delinquentOrDefaultOnAnyDebtComments;
-      application.On_Financial_Sanction_List_Comments__c = this.onFinancialSanctionsListComments;
-      application.Pending_Litigations_Comments__c = this.pendingLitigationsComments;
-      application.Violations_Investigations_Comments__c = this.propertyViolationsInvestigations5yrComments;
-      application.Is_Lawsuit_Defendant_Comments__c = this.isLawsuitDefendantComments;
-      application.Outstanding_Judgements_Comments__c = this.outstandingJudgementsComments;
-      application.Portfolio_Properties_Litigations_Comment__c = this.portfolioProperiesLitigationsComments;
-      application.Is_US_Citizen_Comments__c = this.isUsCitizenComments;
-      application.Is_Permanent_Resident_Alien_Comments__c = this.isPermanentResidentAlienComments;
-      application.Is_Foreign_National_Comments__c = this.isForeignNationalComments;
-
       application.Status__c = this.status;
       application.Id = this.id;
-      application.Deal__c = this.dealId;
       application.Loan_Type__c = this.loanType;
       application.Loan_Id__c = this.loanId;
       application.Alchemy_User_Id__c = this.user_id;
-      application.Broker_Alchemy_User_Id__c = this.broker_id;
       application.Form_Completed__c = this.formCompleted;
       application.First_Name__c = this.firstName;
       application.Last_Name__c = this.lastName;

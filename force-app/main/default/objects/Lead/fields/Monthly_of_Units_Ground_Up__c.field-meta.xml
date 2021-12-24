@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_of_Units_Ground_Up__c</fullName>
+    <description>Lender partnerships field. The estimated average monthly count of ground up units in their lending portfolio.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The estimated average monthly count of ground up units in their lending portfolio.</inlineHelpText>
+    <label>Monthly # of Units (Ground Up)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -481,9 +481,9 @@ public without sharing class property_Helper {
       SELECT Id, State__c, State_Full__c, MSA__c, County__c, Deal__c
       FROM Property__c
       WHERE
-        Deal__c IN :dealMap.keySet()
-        AND Status__c IN ('Active', 'Paid Off')
+        Status__c IN ('Active', 'Paid Off')
         AND Is_Sub_Unit__c = FALSE
+        AND Deal__c IN :dealMap.keySet()
     ]) {
       if (!propertyMap.containsKey(p.Deal__c)) {
         propertyMap.put(p.Deal__c, new List<Property__c>());
@@ -1352,8 +1352,22 @@ public without sharing class property_Helper {
 
     // Set<Id> smartyStreetIds = new Set<Id>();
     // Set<String> recordTypeIds = new Set<String>();
+
+    Set<Id> sendToYardiCSV = new Set<Id>();
+
     for (Integer i = 0; i < newList.size(); i++) {
       bothIds.add(newList[i].Deal__c);
+
+      if (
+        ((newList[i].Status__c != oldList[i].Status__c &&
+        newList[i].Status__c == 'Closing' &&
+        newList[i].Title_Company__c != null) ||
+        (newList[i].Title_Company__c != oldList[i].Title_Company__c &&
+        newList[i].Title_Company__c != null &&
+        newList[i].Status__c == 'Closing')) && newList[i].Yardi_Id__c != null
+      ) {
+        sendToYardiCSV.add(newList[i].Id);
+      }
 
       // for (String s : smartyStreetFields) {
       //   if (newList[i].get(s) != oldList[i].get(s)) {
@@ -1513,6 +1527,12 @@ public without sharing class property_Helper {
       }
     }
 
+    if (sendToYardiCSV.size() > 0) {
+      system.enqueueJob(
+        new YardiQueueable('propertyCSV', new List<Id>(sendToYardiCSV))
+      );
+    }
+
     // if (smartyStreetIds.size() > 0) {
     //   System.enqueueJob(
     //     new SmartyStreetsQueueable(new List<Id>(smartyStreetIds))
@@ -1557,7 +1577,6 @@ public without sharing class property_Helper {
     //Set<Id> ids = (new Map<Id, Property__c>(oldList)).keySet();
 
     //delete [SELECT Id FROM Deal_Document__c WHERE Property__c IN : ids];
-    delete [SELECT Id FROM Checklist_Section__c WHERE Property__c IN :oldList];
   }
 
   /**
@@ -1897,20 +1916,30 @@ public without sharing class property_Helper {
     for (String name : vendorMap.keySet()) {
       if (vendorMap.get(name).size() > 0) {
         String vendorName = '';
+        Account vendorAccount = new Account(
+          Account_Status__c = 'Active CoreVest Vendor',
+          RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
+        );
         if (vendorType == 'Escrow') {
           vendorName = vendorMap.get(name)[0].Escrow_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Title and Escrow';
         } else if (vendorType == 'Title') {
           vendorName = vendorMap.get(name)[0].Title_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Title and Escrow';
         } else if (vendorType == 'Insurance') {
           vendorName = vendorMap.get(name)[0].Insurance_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Insurance Agent';
         }
 
-        accountInsert.add(
-          new Account(
-            Name = vendorName,
-            RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
-          )
-        );
+        vendorAccount.Name = vendorName;
+        accountINsert.add(vendorAccount);
+
+        // accountInsert.add(
+        //   new Account(
+        //     Name = vendorName,
+        //     RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
+        //   )
+        // );
       }
     }
 

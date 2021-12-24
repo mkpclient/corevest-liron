@@ -110,16 +110,6 @@
             <field>Total_Sponsor_Documents__c</field>
             <table>Checklist__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account__c</field>
-            <table>Checklist__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Milestone__c</field>
-            <table>Checklist__c</table>
-        </columns>
         <masterLabel>Checklists</masterLabel>
     </sections>
     <sections>

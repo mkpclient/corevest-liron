@@ -8,7 +8,7 @@
         <developerName>Deal_Email_Handler</developerName>
         <isActive>true</isActive>
         <localPart>dealhandler</localPart>
-        <runAsUser>mkpartners@colonyamericanfinance.com.full</runAsUser>
+        <runAsUser>mkpartners@colonyamericanfinance.com.qa</runAsUser>
     </emailServicesAddresses>
     <functionInactiveAction>Discard</functionInactiveAction>
     <functionName>Deal Email Handler</functionName>

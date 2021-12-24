@@ -622,182 +622,87 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Submitted_Application_Date__c</field>
+            <field>Originated_Product_Type__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>MLPA_Executed_Date_Rental__c</field>
+            <field>Principals__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>MLPA_Sent_Date_Rental__c</field>
+            <field>Initial_Contact_Date__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>MLPA_Executed_Date_Bridge__c</field>
+            <field>Years_of_Experience__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>MLPA_Sent_Date_Bridge__c</field>
+            <field>Monthly_of_Units_Fix_Flip__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Bridge_Guidelines_Received_Date__c</field>
+            <field>Monthly_Volume_Fix_Flip__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Bridge_Guidelines_Approved_Date__c</field>
+            <field>Monthly_of_Units_DSCR__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Rental_Guidelines_Received_Date__c</field>
+            <field>Monthly_of_Units_Ground_Up__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Rental_Guidelines_Approved_Date__c</field>
+            <field>Monthly_of_Units_MFR__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Trailing_12_Months_of_Loans__c</field>
+            <field>Monthly_of_Units_Consumer__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Trailing_12_Months_Value_of_Loans__c</field>
+            <field>Monthly_of_Units_Other__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Projected_Next_12_Months_Number_of_Loans__c</field>
+            <field>Monthly_Volume_DSCR__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Projected_Next_12_Months_Value_of_Loans__c</field>
+            <field>Monthly_Volume_Ground_Up__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Lending_Geography__c</field>
+            <field>Monthly_Volume_MFR__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Loan_Docs_Received_Date__c</field>
+            <field>Monthly_Volume_Consumer__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Loan_Docs_Approved_Date__c</field>
+            <field>Monthly_Volume_Other__c</field>
             <table>Lead</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Loan_Docs_Submitted_For_Approval__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Warehouse_Lender__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Loan_Servicing_Sub_Servicer__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Loan_Origination_System_LOS__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Preferred_Appraisal_Company__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Preferred_Construction_Management_Co__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Custodian__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Total_Monthly_Units__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Total_Monthly_Volume__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Bridge_Monthly_of_Units__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Bridge_Monthly_of_Volume__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Rental_Monthly_of_Units__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Rental_Monthly_of_Volume__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>MFR_Monthly_of_Units__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>MFR_Monthly_of_Volume__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Other_Monthly_of_Units__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Other_Monthly_of_Volume__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Net_Worth__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Liquidity__c</field>
-            <table>Lead</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Other_Trading_Partners__c</field>
+            <field>Last_Contact_Date__c</field>
             <table>Lead</table>
         </columns>
         <masterLabel>Leads</masterLabel>

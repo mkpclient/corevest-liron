@@ -353,7 +353,6 @@
         <lookupPhoneDialogsAdditionalFields>API_2_Mobile_Phone__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>API_3_Mobile_Phone__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Mobile_Phone_SBAC__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>rcsfl__SMS_Number__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>SponsorMobilePhone__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>SponsorPhoneNumber__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>API_1_Work_Phone__c</lookupPhoneDialogsAdditionalFields>

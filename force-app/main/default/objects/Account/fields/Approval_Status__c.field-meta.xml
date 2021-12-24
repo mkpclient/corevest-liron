@@ -31,11 +31,6 @@
                 <default>false</default>
                 <label>Terminated</label>
             </value>
-            <value>
-                <fullName>Declined</fullName>
-                <default>false</default>
-                <label>Declined</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

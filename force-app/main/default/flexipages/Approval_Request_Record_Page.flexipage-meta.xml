@@ -93,15 +93,18 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>bridgeWhereClause</name>
-                    <value>Type__c = &apos;Approval Uploads&apos;</value>
+                    <value>Type__c = &apos;Approval Uploads&apos; || Document_Type__c = &apos;Committee Memo&apos;</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>termWhereClause</name>
-                    <value>Document_Type__c = &apos;Approval Documents&apos;</value>
+                    <value>Document_Type__c IN (&apos;Approval Documents&apos;, &apos;Draft IC Memo&apos;)</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
                     <value>Attachments</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>whereClause</name>
                 </componentInstanceProperties>
                 <componentName>ApprovalAttachments</componentName>
                 <identifier>ApprovalAttachments4</identifier>

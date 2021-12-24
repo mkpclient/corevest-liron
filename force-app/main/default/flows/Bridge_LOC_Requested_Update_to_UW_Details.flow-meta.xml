@@ -7,7 +7,6 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailSubject</name>
             <value>
@@ -17,7 +16,7 @@
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <stringValue>The Bridge_LOC_Requested_Update_to_UW_Details-25 invocable process failed to start because no records in your org match the record Id specified. In the entities that invoke Bridge_LOC_Requested_Update_to_UW_Details-25, such as other processes, check the value for this input: SObjectId.</stringValue>
+                <stringValue>The Bridge_LOC_Requested_Update_to_UW_Details-24 invocable process failed to start because no records in your org match the record Id specified. In the entities that invoke Bridge_LOC_Requested_Update_to_UW_Details-24, such as other processes, check the value for this input: SObjectId.</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -34,7 +33,6 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailSubject</name>
             <value>
@@ -44,7 +42,7 @@
         <inputParameters>
             <name>emailBody</name>
             <value>
-                <stringValue>The Bridge_LOC_Requested_Update_to_UW_Details-25 invocable process failed to start because a valid value wasn&apos;t found. This can happen when entities that invoke Bridge_LOC_Requested_Update_to_UW_Details-25, such as other processes, don&apos;t have values for either the SObject or SObjectId. For example: 
+                <stringValue>The Bridge_LOC_Requested_Update_to_UW_Details-24 invocable process failed to start because a valid value wasn&apos;t found. This can happen when entities that invoke Bridge_LOC_Requested_Update_to_UW_Details-24, such as other processes, don&apos;t have values for either the SObject or SObjectId. For example: 
 -An SObject or SObject ID wasn&apos;t specified.
 -A value might have been included, but it was null at runtime. </stringValue>
             </value>
@@ -56,7 +54,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>53.0</apiVersion>
+    <apiVersion>50.0</apiVersion>
     <decisions>
         <name>invocableContextCheckDecision</name>
         <label>Context Check Decision</label>
@@ -167,7 +165,7 @@
 0)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_2_myRule_1_A1_9136179100</name>
+        <name>formula_2_myRule_1_A1_0747356369</name>
         <dataType>Number</dataType>
         <expression>CASE( {!SObject.Draw_Period__c} , 
 &quot;6 Months&quot;,180,
@@ -195,7 +193,7 @@
 &apos;N/A&apos;)</stringValue>
             </value>
         </processMetadataValues>
-        <name>formula_3_myRule_1_A1_9888916716</name>
+        <name>formula_3_myRule_1_A1_0090154038</name>
         <dataType>String</dataType>
         <expression>CASE( {!SObject.Repayment_Period__c}, 
 &apos;6 Months&apos;,&apos;180 day&apos;,
@@ -211,7 +209,7 @@
         <dataType>Boolean</dataType>
         <expression>true</expression>
     </formulas>
-    <interviewLabel>Bridge_LOC_Requested_Update_to_UW_Details-25_InterviewLabel</interviewLabel>
+    <interviewLabel>Bridge_LOC_Requested_Update_to_UW_Details-24_InterviewLabel</interviewLabel>
     <label>Bridge LOC Requested Update to UW Details</label>
     <processMetadataValues>
         <name>ObjectType</name>
@@ -335,7 +333,7 @@
             </processMetadataValues>
             <field>Advance_Period__c</field>
             <value>
-                <elementReference>formula_2_myRule_1_A1_9136179100</elementReference>
+                <elementReference>formula_2_myRule_1_A1_0747356369</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -371,7 +369,7 @@
             </processMetadataValues>
             <field>Asset_Maturity__c</field>
             <value>
-                <elementReference>formula_3_myRule_1_A1_9888916716</elementReference>
+                <elementReference>formula_3_myRule_1_A1_0090154038</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -989,7 +987,7 @@
         <object>Opportunity</object>
     </recordUpdates>
     <startElementReference>sobjectInputCheckDecision</startElementReference>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>SObject</name>
         <dataType>SObject</dataType>

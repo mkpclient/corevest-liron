@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Monthly_Volume_Fix_Flip__c</fullName>
+    <description>Lender partnerships field. The estimated average monthly monetary volume of fix and flip units in their lending portfolio.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The estimated average monthly monetary volume of fix and flip units in their lending portfolio.</inlineHelpText>
+    <label>Monthly Volume $ (Fix &amp; Flip)</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

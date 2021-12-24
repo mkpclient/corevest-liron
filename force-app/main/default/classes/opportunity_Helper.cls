@@ -2,6 +2,18 @@ public class opportunity_Helper {
   public static boolean isRecursive = false;
   public static boolean hasBeforeUpdateRun = false;
   public static boolean hasAfterUpdateRun = false;
+
+  public static final List<String> IC_REVERSE_TEMPLATES = new List<String>{
+    'IC_Metrics_For_Term',
+    'IC_Metrics_For_Bridge'
+  };
+
+  public static final String DEAL_EMAIL_HANDLER_DEVNAME = 'Deal_Email_Handler';
+
+  public static List<String> IC_DOC_TYPES = new List<String>{
+    'Draft IC Memo',
+    'Committee Memo'
+  };
   // static final Id TERM_LOAN_RECORDTYPEID = Schema.SObjectType.Opportunity.getRecordTypeInfosByName().get('Term Loan').getRecordTypeId();
 
   // Mapping from Salesforce Record Type to PRES Loan ID Prefix
@@ -52,6 +64,14 @@ public class opportunity_Helper {
       ) {
         o.RecordTypeId = RECORDTYPE_MAP.get('Single_Asset_Bridge_Loan').Id;
         o.Type = 'SAB Loan';
+      } else if (
+        o.LOC_Loan_Type__c == 'Term Loan' &&
+        o.Product_Sub_Type__c == 'Floating Rate Term Loan'
+      ) {
+        o.RecordTypeId = RECORDTYPE_MAP.get(
+            'Floating_Rate_Term_Loan_Originations'
+          )
+          .Id;
       }
 
       if (
@@ -101,9 +121,11 @@ public class opportunity_Helper {
           o.Min_DSCR__c = '1.20x';
         }
 
-        if (o.Term_Loan_Type__c == '5 Year') {
+        if (o.Term_Loan_Type__c == '3 Year') {
+          o.Term_Loan_Type_Months__c = '36 months';
+        } else if (o.Term_Loan_Type__c == '5 Year') {
           o.Term_Loan_Type_Months__c = '60 months';
-          o.Floor__c = .75;
+          o.Floor__c = 1.05;
         } else if (o.Term_Loan_Type__c == '7 Year') {
           o.Term_Loan_Type_Months__c = '84 months';
           o.Floor__c = 1.05;
@@ -157,7 +179,18 @@ public class opportunity_Helper {
     List<OpportunityContactRole> contactRoleMembers = new List<OpportunityContactRole>();
     // VENDOR_MAP = compileVendorMap();
 
+    List<Opportunity> nonSecWarehouseLines = new List<Opportunity>();
+    List<Opportunity> dealsWithSec = new List<Opportunity>();
+
     for (Opportunity o : newMap.values()) {
+      if (String.isNotEmpty(o.Warehouse_Line__c)) {
+        nonSecWarehouseLines.add(o);
+      }
+
+      if (o.Securitization__c != null) {
+        dealsWithSec.add(o);
+      }
+
       system.debug(o.Record_Type_Name__c);
 
       // query the record acc type from Opp
@@ -333,7 +366,7 @@ public class opportunity_Helper {
         OpportunityLineItem oli = new OpportunityLineItem(
           OpportunityId = o.id,
           // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
-          PricebookEntryId = '01u5b00000L8lMhAAJ',
+          PricebookEntryId = '01u78000000LkkZAAS',
           Quantity = 1,
           ServiceDate = o.CloseDate,
           UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
@@ -454,6 +487,15 @@ public class opportunity_Helper {
       insert contactRoleMembers;
     }
 
+    Map<String, List<Opportunity>> dealTypeForFundingVehicleMap = new Map<String, List<Opportunity>>{
+      'Non_Securitisation' => nonSecWarehouseLines,
+      'Securitisation' => dealsWithSec
+    };
+
+    if (nonSecWarehouseLines.size() > 0 || dealsWithSec.size() > 0) {
+      upsertFundingVehicleConnections(dealTypeForFundingVehicleMap);
+    }
+
     //if(termRecordIds.size() > 0){
     //createDealDocuments(termRecordIds, 'Term Loan');
     //}
@@ -490,6 +532,37 @@ public class opportunity_Helper {
         prevOpp.Loss_Mitigation_Associate__c
       ) {
         oppsHaveTeamToDelete.put(currOpp.Id, currOpp);
+      }
+
+      if (
+        prevOpp.StageName != currOpp.StageName &&
+        currOpp.StageName == 'Closed Won' &&
+        currOpp.IC_Approval__c != 'Approved' &&
+        !test.isRunningTest()
+      ) {
+        currOpp.addError(
+          'Unable to change stage to Closed Won. This deal\'s related IC Approval has not yet been approved.'
+        );
+      }
+
+      if (
+        prevOpp.IC_Approval__c != 'Approved' &&
+        currOpp.IC_Approval__c == 'Approved'
+      ) {
+        currOpp.IC_Approval_Date__c = System.today();
+      }
+
+      if (
+        (currOpp.Record_Type_Name__c == 'LOC_Loan' &&
+        (currOpp.LTV__c > prevOpp.LTV__c ||
+        currOpp.LOC_Commitment__c > prevOpp.LOC_Commitment__c)) ||
+        (currOpp.Record_Type_Name__c == 'Term_Loan' &&
+        (currOpp.Current_Loan_Amount__c > prevOpp.Current_Loan_Amount__c ||
+        currOpp.LTV__c > prevOpp.LTV__c))
+      ) {
+        currOpp.IC_Approval__c = null;
+        currOpp.IC_Approval_Date__c = null;
+        currOpp.StageName = 'Underwriting';
       }
     }
 
@@ -678,6 +751,17 @@ public class opportunity_Helper {
           // if (o.Type == 'SAB Loan' || o.Type == 'Bridge Loan') {
           //   o.CloseDate = System.today() + 60;
           // }
+        } else if (o.StageName == 'Underwriting') {
+          if (o.Type == 'Term Loan') {
+            if (
+              o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Originations'
+            ) {
+              o.RecordTypeId = RECORDTYPE_MAP.get(
+                  'Floating_Rate_Term_Loan_Underwriting'
+                )
+                .Id;
+            }
+          }
         } else if (o.StageName == 'UW Hold') {
           o.Date_Stage_Changed_To_UW_Hold__c = System.today();
           //} else if (o.StageName == 'Approved by Committee') {
@@ -691,6 +775,14 @@ public class opportunity_Helper {
             o.Loan_Effective_Date__c = System.today();
             if (o.Servicer_Commitment_Id__c == null) {
               oppsNeedLoanIds.add(o);
+            }
+            if (
+              o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Underwriting'
+            ) {
+              o.RecordTypeId = RECORDTYPE_MAP.get(
+                  'Floating_Rate_Term_Loan_Active'
+                )
+                .Id;
             }
           } else if (o.Type == 'SAB Loan') {
             closedWonMap.put(o.Id, o);
@@ -706,8 +798,16 @@ public class opportunity_Helper {
           oldMap.get(o.Id).StageName != o.StageName
         ) {
           if (o.Type == 'Term Loan') {
-            o.RecordTypeId = RECORDTYPE_MAP.get('Term_Loan_Closed_Lost').Id;
-            o.CloseDate = System.today();
+            if (o.Record_Type_Name__c.contains('Floating')) {
+              o.RecordTypeId = RECORDTYPE_MAP.get(
+                  'Floating_Rate_Term_Loan_Closed_Lost'
+                )
+                .Id;
+              o.CloseDate = System.today();
+            } else {
+              o.RecordTypeId = RECORDTYPE_MAP.get('Term_Loan_Closed_Lost').Id;
+              o.CloseDate = System.today();
+            }
           } else if (o.Type == 'Bridge Loan') {
             o.RecordTypeId = RECORDTYPE_MAP.get('Bridge_Loan_Closed_Lost').Id;
             o.CloseDate = System.today();
@@ -736,7 +836,10 @@ public class opportunity_Helper {
         }
       }
 
-      if (o.LOC_Loan_Type__c != oldMap.get(o.Id).LOC_Loan_Type__c) {
+      if (
+        o.LOC_Loan_Type__c != oldMap.get(o.Id).LOC_Loan_Type__c ||
+        o.Product_Sub_Type__c != oldMap.get(o.Id).Product_Sub_Type__c
+      ) {
         if (
           o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
           o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
@@ -752,6 +855,15 @@ public class opportunity_Helper {
         ) {
           o.RecordTypeId = RECORDTYPE_MAP.get('LOC_Loan').Id;
           o.Type = 'Bridge Loan';
+        } else if (o.LOC_Loan_Type__c == 'Term Loan') {
+          if (o.Product_Sub_Type__c == 'Fixed Rate Term Loan') {
+            o.RecordTypeId = RECORDTYPE_MAP.get('Term_Loan').Id;
+          } else {
+            o.RecordTypeId = RECORDTYPE_MAP.get(
+                'Floating_Rate_Term_Loan_Originations'
+              )
+              .Id;
+          }
         }
       }
 
@@ -759,7 +871,6 @@ public class opportunity_Helper {
         if (o.RecordTypeId == RECORDTYPE_MAP.get('Term_Loan').Id) {
           o.Type = 'Term Loan';
           o.LOC_Loan_Type__c = 'Term Loan';
-          o.Product_Sub_Type__c = null;
         } else if (o.RecordTypeId == RECORDTYPE_MAP.get('LOC_Loan').Id) {
           o.Type = 'Bridge Loan';
           o.Term_Loan_Type__c = null;
@@ -1067,14 +1178,15 @@ public class opportunity_Helper {
           // o.Delinquent_60_Days__c = null;
           // o.Delinquent_90_Days__c = null;
           // o.Delinquent_120_Days__c = null;
-        }
 
-        if (
-          oldMap.get(o.Id).Current_UPB__c != newMap.get(o.Id).Current_UPB__c &&
-          newMap.get(o.Id).Current_UPB__c == 0
-        ) {
-          o.Servicer_Status__c = 'Paidoff';
-          o.StageName = 'Paid Off';
+          if (
+            oldMap.get(o.Id).Current_UPB__c !=
+            newMap.get(o.Id).Current_UPB__c &&
+            newMap.get(o.Id).Current_UPB__c == 0
+          ) {
+            o.Servicer_Status__c = 'Paidoff';
+            o.StageName = 'Paid Off';
+          }
         }
       } else if (o.RecordType__c == 'Bridge') {
         if (oldMap.get(o.Id).Loan_Size__c != newMap.get(o.Id).Loan_Size__c) {
@@ -1148,8 +1260,7 @@ public class opportunity_Helper {
             o.Updated_Loan_Maturity_Date__c = null;
           } else if (
             o.Maturity_Date_Calculation_Type__c == 'Fixed at Closing' &&
-            o.LOC_Term__c != null &&
-            o.Loan_Effective_Date__c != null
+            o.LOC_Term__c != null
           ) {
             List<String> locTerm = o.LOC_Term__c.split(' ');
             Integer locTermNumber = Integer.valueOf(locTerm[0]);
@@ -1168,7 +1279,7 @@ public class opportunity_Helper {
       ServicerLoanNumberHelper.assignLoanNumbers(oppsNeedLoanIds);
     }
 
-    // Do closed won verification here
+    //Do closed won verification here
     if (closedWonMap.keySet().size() > 0) {
       //List<ClearToCloseWrapper> closedWrappers = );
 
@@ -1200,6 +1311,8 @@ public class opportunity_Helper {
   ) {
     Map<Id, Opportunity> closedWonIds = new Map<Id, Opportunity>();
     Map<Id, Contact> contacts = new Map<Id, Contact>();
+    Map<Id, Opportunity> approvedIcDeals = new Map<Id, Opportunity>();
+    Map<Id, Opportunity> reveresedIcDeals = new Map<Id, Opportunity>();
 
     //Set<Id> populateUnique = new Set<Id>();
     //Set<Id> removeUnique = new Set<Id>();
@@ -1212,6 +1325,18 @@ public class opportunity_Helper {
     List<OpportunityContactRole> updateContactRoleMembers = new List<OpportunityContactRole>();
     List<Opportunity> oppsWithRolestoUpdate = new List<Opportunity>();
     List<Deal_Contact__c> applicantToCreate = new List<Deal_Contact__c>();
+    Set<Id> sendToYardiCSV = new Set<Id>();
+
+    List<Opportunity> nonSecWarehouseLines = new List<Opportunity>();
+    List<Opportunity> dealsWithSec = new List<Opportunity>();
+    Map<Id, String> updatedWarehouseLines = new Map<Id, String>();
+
+    Map<String, Map<Id, Opportunity>> oppsLineItemUnitPriceMap = new Map<String, Map<Id, Opportunity>>{
+      'Loan_Size__c' => new Map<Id, Opportunity>(),
+      'Current_Loan_Amount__c' => new Map<Id, Opportunity>(),
+      'Final_Loan_Amount__c' => new Map<Id, Opportunity>()
+    };
+    Map<Id, Opportunity> oppsServiceDate = new Map<Id, Opportunity>();
 
     Map<Id, Decimal> dealMemberSize = new Map<Id, Decimal>();
     for (AggregateResult ar : [
@@ -1229,6 +1354,30 @@ public class opportunity_Helper {
     for (Opportunity o : newMap.values()) {
       system.debug('o.StageName::::' + o);
       system.debug('oldMap::::' + oldMap);
+
+      if (
+        oldMap.get(o.Id).Warehouse_Line__c != o.Warehouse_Line__c &&
+        o.Warehouse_Line__c != 'Securitization'
+      ) {
+        if (String.isNotEmpty(o.Warehouse_Line__c)) {
+          nonSecWarehouseLines.add(o);
+        }
+        if (String.isNotEmpty(oldMap.get(o.Id).Warehouse_Line__c)) {
+          updatedWarehouseLines.put(o.Id, oldMap.get(o.Id).Warehouse_Line__c);
+        }
+      }
+
+      if (
+        o.Securitization__c != null &&
+        oldMap.get(o.Id).Securitization__c == null
+      ) {
+        dealsWithSec.add(o);
+
+        if (String.isNotEmpty(oldMap.get(o.Id).Warehouse_Line__c)) {
+          updatedWarehouseLines.put(o.Id, oldMap.get(o.Id).Warehouse_Line__c);
+        }
+      }
+
       if (
         o.StageName != oldMap.get(o.Id).StageName &&
         o.StageName == 'Closed Won'
@@ -1237,9 +1386,67 @@ public class opportunity_Helper {
         attachDealContactIFClosedWON(newMap);
       }
 
+      if (
+        (o.StageName == 'Approved by Committee' ||
+        o.StageName == 'Underwriting') &&
+        o.Type == 'Term Loan' &&
+        (o.Third_Party_Title__c != oldMap.get(o.Id).Third_Party_Title__c ||
+        o.Title__c != oldMap.get(o.Id).Title__c)
+      ) {
+        sendToYardiCSV.add(o.Id);
+      }
+
+      if (
+        o.IC_Approval__c == 'Approved' &&
+        oldMap.get(o.Id).IC_Approval__c != 'Approved'
+      ) {
+        approvedIcDeals.put(o.Id, o);
+      }
+
+      if (
+        o.IC_Approval_Date__c == null &&
+        oldMap.get(o.Id).IC_Approval_Date__c != null
+      ) {
+        reveresedIcDeals.put(o.Id, o);
+      }
+
       // if((o.Record_Type_Name__c == 'LOC_Loan' || o.Record_Type_Name__c.contains('Bridge')) && o.Parent_Deal__c != null){
       //     locParentIds.add(o.Parent_Deal__c);
       // }
+
+      if (o.RecordType__c == 'Term' || o.RecordType__c == 'Investor DSCR') {
+        Map<Id, Opportunity> lineItemOppMap = new Map<Id, Opportunity>();
+        if (
+          o.Loan_Size__c != oldMap.get(o.Id).Loan_Size__c &&
+          o.Current_Loan_Amount__c == null &&
+          o.Final_Loan_Amount__c == null
+        ) {
+          lineItemOppMap = oppsLineItemUnitPriceMap.get('Loan_Size__c');
+          lineItemOppMap.put(o.Id, o);
+          oppsLineItemUnitPriceMap.put('Loan_Size__c', lineItemOppMap);
+        } else if (
+          o.Current_Loan_Amount__c != oldMap.get(o.Id).Current_Loan_Amount__c
+        ) {
+          lineItemOppMap = oppsLineItemUnitPriceMap.get(
+            'Current_Loan_Amount__c'
+          );
+          lineItemOppMap.put(o.Id, o);
+          oppsLineItemUnitPriceMap.put(
+            'Current_Loan_Amount__c',
+            lineItemOppMap
+          );
+        } else if (
+          o.Final_Loan_Amount__c != oldMap.get(o.Id).Final_Loan_Amount__c
+        ) {
+          lineItemOppMap = oppsLineItemUnitPriceMap.get('Final_Loan_Amount__c');
+          lineItemOppMap.put(o.Id, o);
+          oppsLineItemUnitPriceMap.put('Final_Loan_Amount__c', lineItemOppMap);
+        }
+
+        if (o.CloseDate != oldMap.get(o.Id).CloseDate) {
+          oppsServiceDate.put(o.Id, o);
+        }
+      }
 
       if (
         o.Underwriter__c != oldMap.get(o.Id).Underwriter__c ||
@@ -1537,6 +1744,39 @@ public class opportunity_Helper {
       }
     }
 
+    for (String key : oppsLineItemUnitPriceMap.keySet()) {
+      if (oppsLineItemUnitPriceMap.get(key).size() > 0) {
+        updateOppLineItems(oppsLineItemUnitPriceMap.get(key), 'UnitPrice', key);
+      }
+    }
+
+    if (oppsServiceDate.size() > 0) {
+      updateOppLineItems(oppsServiceDate, 'ServiceDate', 'CloseDate');
+    }
+
+    if (reveresedIcDeals.size() > 0) {
+      emailReversedIcApprovalAlert(reveresedIcDeals);
+    }
+
+    if (approvedIcDeals.size() > 0) {
+      processIcApproval(approvedIcDeals);
+    }
+
+    Map<String, List<Opportunity>> dealTypeForFundingVehicleMap = new Map<String, List<Opportunity>>{
+      'Non_Securitisation' => nonSecWarehouseLines,
+      'Securitisation' => dealsWithSec
+    };
+
+    System.debug(JSON.serializePretty(dealTypeForFundingVehicleMap));
+
+    if (nonSecWarehouseLines.size() > 0 || dealsWithSec.size() > 0) {
+      upsertFundingVehicleConnections(dealTypeForFundingVehicleMap);
+    }
+
+    if (updatedWarehouseLines.size() > 0) {
+      updateDealFundingVehicleEndDate(updatedWarehouseLines);
+    }
+
     // if(locParentIds.size() > 0){
     //     rollupLoanMods(locParentIds);
     // }
@@ -1613,6 +1853,11 @@ public class opportunity_Helper {
         system.debug('applicantToCreate' + applicantToCreate.size());
         insert applicantToCreate;
       }
+    }
+    if (sendToYardiCSV.size() > 0) {
+      system.enqueueJob(
+        new YardiQueueable('termCSV', new List<Id>(sendToYardiCSV))
+      );
     }
   }
 
@@ -1769,26 +2014,24 @@ public class opportunity_Helper {
     }
 
     if (idVSDealContactMap.size() > 0) {
-      List<Account> accs = [
+      List<Account> acc = [
         SELECT id, name
         FROM Account
         WHERE Name = 'Alston & Bird'
         LIMIT 1
       ];
-
-      if(accs.size() > 0) {
-        Account acc = accs[0];
+      if (acc.size() > 0) {
         for (id dec : idVSDealContactMap.keySet()) {
           Deal_Contact__c dealcon = new Deal_Contact__c();
-          dealcon.Account__c = acc.id;
+          dealcon.Account__c = acc[0].id;
           dealcon.Deal__c = dec;
           dealcon.Deal_Contact_Type__c = 'Vendor';
           dealcon.Entity_Type__c = 'Vendor';
           dealcon.Vendor_Type__c = 'Securitization Legal Counsel';
           dealContactList.add(dealcon);
         }
-        insert dealContactList;
       }
+      insert dealContactList;
     }
   }
 
@@ -2009,30 +2252,28 @@ public class opportunity_Helper {
     }
 
     //if()
-    if(!Test.isRunningTest()) {
-      for (Document_Information__c docInfo : [
-        SELECT
-          Id,
-          Exclude_From_CTC__c,
-          Internal_COmments__c,
-          External_Comments__c,
-          Doc_String__c,
-          Deal__c,
-          Required_For_Clear_to_Close__c
-        FROM Document_Information__c
-        WHERE
-          Deal__c IN :opportunityIds
-          AND (Doc_String__c IN :docStringMap.get('Term_Loan').keyset()
-          OR Doc_String__c IN :docStringMap.get('LOC_Loan').keyset()
-          OR Doc_String__c IN :docStringMap.get('Single_Asset_Bridge_Loan')
-            .keySet())
-      ]) {
-        //   system.debug('--Document_Information__c--');
-        //   system.debug(docInfo);
-        c2cMap.get(docInfo.Deal__c).setDocumentInfo(docInfo);
-      }
+
+    for (Document_Information__c docInfo : [
+      SELECT
+        Id,
+        Exclude_From_CTC__c,
+        Internal_COmments__c,
+        External_Comments__c,
+        Doc_String__c,
+        Deal__c,
+        Required_For_Clear_to_Close__c
+      FROM Document_Information__c
+      WHERE
+        Deal__c IN :opportunityIds
+        AND (Doc_String__c IN :docStringMap.get('Term_Loan').keyset()
+        OR Doc_String__c IN :docStringMap.get('LOC_Loan').keyset()
+        OR Doc_String__c IN :docStringMap.get('Single_Asset_Bridge_Loan')
+          .keySet())
+    ]) {
+      //   system.debug('--Document_Information__c--');
+      //   system.debug(docInfo);
+      c2cMap.get(docInfo.Deal__c).setDocumentInfo(docInfo);
     }
-    
 
     List<Document_Information__c> infosToAdd = new List<Document_Information__c>();
     for (String dealId : c2cMap.keySet()) {
@@ -2311,15 +2552,16 @@ public class opportunity_Helper {
 
   //attach berkadia
   public static void attachVendors(Map<Id, Opportunity> oppMap) {
-    List<Account> berkadiaAccs = [
+    List<Account> queriedAccs = [
       SELECT Id
       FROM Account
       WHERE Name = 'Berkadia Commercial Mortgage'
       LIMIT 1
     ];
+    if (queriedAccs.size() > 0) {
+      Account berkadiaAcc = queriedAccs[0];
+      System.debug(berkadiaAcc);
 
-    if (berkadiaAccs.size() > 0) {
-      Id berkadiaAccId = berkadiaAccs[0].Id;
       List<Opportunity> oppsToUpdate = [
         SELECT Id
         FROM Opportunity
@@ -2329,7 +2571,7 @@ public class opportunity_Helper {
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
-            WHERE Account__c = :berkadiaAccId
+            WHERE Account__c = :berkadiaAcc.Id
           )
       ];
 
@@ -2342,7 +2584,7 @@ public class opportunity_Helper {
         newDC.Vendor_Type__c = 'Servicer';
         newDC.Deal__c = o.Id;
         newDC.Deal_Contact_Type__c = 'Vendor';
-        newDC.Account__c = berkadiaAccId;
+        newDC.Account__c = berkadiaAcc.Id;
         newDC.Entity_Type__c = 'Vendor';
         newDealContacts.add(newDC);
       }
@@ -2351,6 +2593,322 @@ public class opportunity_Helper {
       if (newDealContacts.size() > 0) {
         Database.insert(newDealContacts, false);
       }
+    }
+  }
+
+  public static void processIcApproval(Map<Id, Opportunity> dealMap) {
+    Set<Id> dealIds = dealMap.keySet();
+    List<Deal_Document__c> dealDocs = [
+      SELECT ContentVersion_Id__c, Deal__c, File_Name__c, Type__c
+      FROM Deal_Document__c
+      WHERE Deal__c IN :dealIds AND Document_Type__c IN :IC_DOC_TYPES
+      ORDER BY CreatedDate DESC
+    ];
+
+    Map<Id, Opportunity> updDeals = new Map<Id, Opportunity>();
+    List<Deal_Document__c> updatedDocs = new List<Deal_Document__c>();
+    for (Deal_Document__c dd : dealDocs) {
+      if (updDeals.containsKey(dd.Deal__c)) {
+        continue;
+      }
+      Opportunity newOpp = new Opportunity();
+      newOpp.Id = dd.Deal__c;
+      updDeals.put(newOpp.Id, newOpp);
+      if (dealMap.get(dd.Deal__c).Record_Type_Name__c == 'Term_Loan') {
+        Deal_Document__c newDd = dd.clone(false, true, false, false);
+        System.debug('DEAL DOC');
+        System.debug(JSON.serializePretty(dd));
+        String fileName =
+          dd.File_Name__c.SubStringBefore('.pdf') +
+          'vFinal' +
+          '.pdf';
+        newDd.File_Name__c = fileName;
+        newDd.Document_Type__c = 'Final IC Memo';
+        updatedDocs.add(newDd);
+      }
+    }
+
+    if (updDeals.size() > 0) {
+      update updDeals.values();
+    }
+    if (updatedDocs.size() > 0) {
+      insert updatedDocs;
+    }
+  }
+
+  public static void emailReversedIcApprovalAlert(
+    Map<Id, Opportunity> dealMap
+  ) {
+    List<EmailServicesAddress> esas = [
+      SELECT Id, LocalPart, EmailDomainName, DeveloperName
+      FROM EmailServicesAddress
+      WHERE DeveloperName = :DEAL_EMAIL_HANDLER_DEVNAME
+    ];
+
+    Map<Id, Set<Id>> termDealIdsByRecipients = new Map<Id, Set<Id>>();
+    Map<Id, Set<Id>> bridgeDealIdsByRecipients = new Map<Id, Set<Id>>();
+
+    List<String> ccNames = new List<String>{
+      'Libby Burgeson',
+      'Micaela Lumpkin'
+    };
+
+    Map<Id, Opportunity> dealMembersMap = new Map<Id, Opportunity>(
+      [
+        SELECT
+          Id,
+          (
+            SELECT Id, OpportunityId, UserId
+            FROM OpportunityTeamMembers
+            WHERE UserId != NULL
+          )
+        FROM Opportunity
+        WHERE Id IN :dealMap.keySet()
+      ]
+    );
+
+    Set<Id> recipientIds = new Set<Id>();
+
+    Group gp = [
+      SELECT DeveloperName, (SELECT UserOrGroupId FROM GroupMembers)
+      FROM Group
+      WHERE DeveloperName = 'Term_IC_Approval'
+    ];
+
+    Map<Id, User> ccusers = new Map<Id, User>(
+      [SELECT Id, Name FROM User WHERE Id IN :ccNames]
+    );
+
+    recipientIds.addAll(ccusers.keySet());
+
+    for (GroupMember gm : gp.GroupMembers) {
+      recipientIds.add(gm.UserOrGroupId);
+    }
+
+    for (Opportunity o : dealMembersMap.values()) {
+      Set<Id> addlRecipIds = new Set<Id>();
+
+      addlRecipIds.addAll(recipientIds);
+
+      Opportunity deal = dealMap.get(o.Id);
+      if (o.OpportunityTeamMembers != null) {
+        for (OpportunityTeamMember otm : o.OpportunityTeamMembers) {
+          addlRecipIds.add(otm.UserId);
+        }
+      }
+
+      addlRecipIds.add(deal.OwnerId);
+      addlRecipIds.add(deal.Underwriter__c);
+
+      if (deal.Record_Type_Name__c == 'Term_Loan') {
+        termDealIdsByRecipients.put(deal.Id, addlRecipIds);
+      } else if (deal.Record_Type_Name__c == 'LOC_Loan') {
+        bridgeDealIdsByRecipients.put(deal.Id, addlRecipIds);
+      }
+    }
+
+    Map<String, Id> templateMap = new Map<String, Id>();
+
+    for (EmailTemplate et : [
+      SELECT Id, DeveloperName
+      FROM EmailTemplate
+      WHERE DeveloperName IN :IC_REVERSE_TEMPLATES
+    ]) {
+      templateMap.put(et.DeveloperName, et.Id);
+    }
+
+    String handlerAddress = '';
+
+    if (esas.size() > 0) {
+      handlerAddress =
+        esas.get(0).LocalPart +
+        '@' +
+        esas.get(0).EmailDomainName;
+    }
+
+    List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+
+    if (termDealIdsByRecipients.size() > 0) {
+      for (Id tOpptId : termDealIdsByRecipients.keySet()) {
+        List<Id> recpIds = new List<Id>();
+        recpIds.addAll(termDealIdsByRecipients.get(tOpptId));
+        Messaging.SingleEmailMessage termEmail = new Messaging.SingleEmailMessage();
+        termEmail.setTemplateId(templateMap.get('IC_Metrics_For_Term'));
+        termEmail.setTargetObjectId(dealMap.get(tOpptId).Contact__c);
+        termEmail.setTreatTargetObjectAsRecipient(false);
+        termEmail.setToAddresses(recpIds);
+        termEmail.setWhatId(tOpptId);
+        termEmail.setReplyTo('caf-apps@cvest.com');
+        if (handlerAddress != '') {
+          termEmail.setCcAddresses(new List<String>{ handlerAddress });
+        }
+        termEmail.setSaveAsActivity(false);
+        messages.add(termEmail);
+      }
+    }
+
+    if (bridgeDealIdsByRecipients.size() > 0) {
+      for (Id bOpptId : bridgeDealIdsByRecipients.keySet()) {
+        List<Id> recpIds = new List<Id>();
+        recpIds.addAll(bridgeDealIdsByRecipients.get(bOpptId));
+        Messaging.SingleEmailMessage bridgeEmail = new Messaging.SingleEmailMessage();
+        bridgeEmail.setTemplateId(templateMap.get('IC_Metrics_For_Bridge'));
+        bridgeEmail.setTargetObjectId(dealMap.get(bOpptId).Contact__c);
+        bridgeEmail.setTreatTargetObjectAsRecipient(false);
+        bridgeEmail.setToAddresses(recpIds);
+        bridgeEmail.setWhatId(bOpptId);
+        bridgeEmail.setReplyTo('caf-apps@cvest.com');
+        if (handlerAddress != '') {
+          bridgeEmail.setCcAddresses(new List<String>{ handlerAddress });
+        }
+        bridgeEmail.setSaveAsActivity(false);
+        messages.add(bridgeEmail);
+      }
+    }
+
+    if (messages.size() > 0) {
+      List<Messaging.SendEmailResult> results = Messaging.sendEmail(messages);
+
+      if (results[0].success) {
+        System.debug('The email was sent successfully.');
+      } else {
+        System.debug(
+          'The email failed to send: ' + results[0].errors[0].message
+        );
+      }
+    }
+  }
+
+  public static void updateOppLineItems(
+    Map<Id, Opportunity> oppMap,
+    String fieldToUpdate,
+    String fieldFrom
+  ) {
+    String soql =
+      'SELECT Id, OpportunityId, ' +
+      fieldToUpdate +
+      ' FROM OpportunityLineItem WHERE OpportunityId IN (\'' +
+      String.join(new List<Id>(oppMap.keySet()), '\',') +
+      '\')';
+    List<OpportunityLineItem> oppLineItems = Database.query(soql);
+
+    for (OpportunityLineItem oli : oppLineItems) {
+      Opportunity currOpp = oppMap.get(oli.OpportunityId);
+      oli.put(fieldToUpdate, currOpp.get(fieldFrom));
+    }
+
+    update oppLineItems;
+  }
+
+  public static void updateDealFundingVehicleEndDate(Map<Id, String> dealMap) {
+    List<Deal_x_Funding_Vehicle__c> dfvs = [
+      SELECT
+        Id,
+        Deal__c,
+        Funding_Vehicle__c,
+        Funding_Vehicle__r.Name,
+        End_Date__c
+      FROM Deal_x_Funding_Vehicle__c
+      WHERE Deal__c IN :dealMap.keySet() AND End_Date__c = NULL
+    ];
+
+    for (Deal_x_Funding_Vehicle__c d : dfvs) {
+      if (dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name) {
+        d.End_Date__c = (Date) system.today();
+      }
+    }
+
+    update dfvs;
+  }
+
+  public static void upsertFundingVehicleConnections(
+    Map<String, List<Opportunity>> dealTypeMap
+  ) {
+    List<Deal_x_Funding_Vehicle__c> newFundingVehicleConnections = new List<Deal_x_Funding_Vehicle__c>();
+    System.debug(JSON.serializePretty(dealTypeMap));
+    List<Opportunity> nonSecOpps = dealTypeMap.get('Non_Securitisation');
+    List<Opportunity> secOpps = dealTypeMap.get('Securitisation');
+
+    if (nonSecOpps.size() > 0) {
+      Map<Id, String> dealWarehouseMap = new Map<Id, String>();
+      for (Opportunity nso : nonSecOpps) {
+        dealWarehouseMap.put(nso.Id, nso.Warehouse_Line__c);
+      }
+
+      Map<String, Id> fundingVehicleMap = generateFundingVehicleMap(
+        dealWarehouseMap
+      );
+
+      if (fundingVehicleMap.size() > 0) {
+        for (Opportunity nso : nonSecOpps) {
+          if (fundingVehicleMap.containsKey(nso.Warehouse_Line__c)) {
+            Deal_x_Funding_Vehicle__c newDxfv = new Deal_x_Funding_Vehicle__c();
+            newDxfv.Deal__c = nso.Id;
+            newDxfv.Funding_Vehicle__c = fundingVehicleMap.get(
+              nso.Warehouse_Line__c
+            );
+            newDxfv.Start_Date__c = (Date) System.today();
+            newFundingVehicleConnections.add(newDxfv);
+          }
+        }
+      }
+    }
+
+    if (secOpps.size() > 0) {
+      System.debug('SECURITISATION');
+      System.debug(secOpps);
+      Map<Id, Funding_Vehicle__c> secFvMap = new Map<Id, Funding_Vehicle__c>();
+      for (Opportunity op : secOpps) {
+        secFvMap.put(op.Securitization__c, new Funding_Vehicle__c());
+      }
+
+      for (Funding_Vehicle__c fv : [
+        SELECT Id, Securitization__c, Securitization__r.Close_Date__c
+        FROM Funding_Vehicle__c
+        WHERE Securitization__c IN :secFvMap.keySet()
+      ]) {
+        secFvMap.put(fv.Securitization__c, fv);
+      }
+
+      for (Opportunity op : secOpps) {
+        if (
+          secFvMap.containsKey(op.Securitization__c) &&
+          secFvMap.get(op.Securitization__c).Id != null
+        ) {
+          Deal_x_Funding_Vehicle__c newDxfv = new Deal_x_Funding_Vehicle__c();
+          newDxfv.Deal__c = op.Id;
+          newDxfv.Funding_Vehicle__c = secFvMap.get(op.Securitization__c).Id;
+          newDxfv.Start_Date__c = secFvMap.get(op.Securitization__c)
+            .Securitization__r.Close_Date__c;
+          newFundingVehicleConnections.add(newDxfv);
+        }
+      }
+    }
+
+    if (newFundingVehicleConnections.size() > 0) {
+      upsert newFundingVehicleConnections;
+    }
+  }
+
+  public static Map<String, Id> generateFundingVehicleMap(
+    Map<Id, String> dealWarehouseMap
+  ) {
+    List<Funding_Vehicle__c> fundingVehicles = [
+      SELECT Id, Name
+      FROM Funding_Vehicle__c
+      WHERE Name IN :dealWarehouseMap.values()
+    ];
+
+    if (fundingVehicles.size() > 0) {
+      Map<String, Id> fundingVehicleMap = new Map<String, Id>();
+
+      for (Funding_Vehicle__c fv : fundingVehicles) {
+        fundingVehicleMap.put(fv.Name, fv.Id);
+      }
+
+      return fundingVehicleMap;
+    } else {
+      return new Map<String, Id>();
     }
   }
 }

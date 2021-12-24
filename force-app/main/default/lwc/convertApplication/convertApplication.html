@@ -16,15 +16,6 @@
           label="Deal Name"
           name="Name"
         ></lightning-input>
-        <template if:true={showRecordTypeSelection}>
-          <lightning-checkbox-group
-            label="Select Record Type"
-            options={options}
-            required
-            value={value}
-            name="recordtype"
-          ></lightning-checkbox-group>
-        </template>
       </div>
 
       <div slot="footer">

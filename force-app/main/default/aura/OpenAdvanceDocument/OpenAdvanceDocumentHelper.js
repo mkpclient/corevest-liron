@@ -2,16 +2,11 @@
   fields: [
     "Id",
     "Name",
-    "Approved_Advance_Amount_Total__c",
-    "Approved_Advance_Amount_Max_Total__c",
-    "Wire_Date__c",
-    "(SELECT Id, Approved_Advance_Amount__c, Initial_Disbursement__c, Renovation_Reserve__c, Property__r.Name, Property__r.APN__c, Property__r.County__c, Property__r.Escrow_Company_text__c, Property__r.Escrow_Agent__r.Name, Property__r.Escrow_Agent__r.BillingStreet, Property__r.Escrow_Agent__r.BillingCity, Property__r.Escrow_Agent__r.BillingState, Property__r.Escrow_Agent__r.BillingPostalCode, Property__r.Escrow_Contact_Name__c, Property__r.Title_Company__r.Name, Property__r.Title_Company__r.BillingStreet, Property__r.Title_Company__r.BillingCity, Property__r.Title_Company__r.BillingState, Property__r.Title_Company__r.BillingPostalCode, Property__r.Title_Company__r.Phone, Property__r.Title_Contact_Name__c, Net_Funding__c, Property__r.Requested_Funding_Date__c, Property__r.Acquisition_Price__c, Property__r.City__c, Property__r.State__c, Property__r.ZipCode__c, Property__r.Asset_Maturity_Date__c, Property__r.Renovation_Type_formula__c FROM Property_Advances__r)",
+    "Approved_Advance_Amount_Total__c","Approved_Advance_Amount_Max_Total__c", 
+    "(SELECT Id, Approved_Advance_Amount__c, Initial_Disbursement__c, Renovation_Reserve__c, Approved_Renovation_Holdback__c, Approved_Advance_Amount_Max__c, Property__r.Name, Property__r.APN__c, Property__r.County__c, Property__r.Escrow_Company_text__c, Property__r.Escrow_Agent__r.Name, Property__r.Escrow_Agent__r.BillingStreet, Property__r.Escrow_Agent__r.BillingCity, Property__r.Escrow_Agent__r.BillingState, Property__r.Escrow_Agent__r.BillingPostalCode, Property__r.Escrow_Contact_Name__c, Property__r.Title_Company__r.Name, Property__r.Title_Company__r.BillingStreet, Property__r.Title_Company__r.BillingCity, Property__r.Title_Company__r.BillingState, Property__r.Title_Company__r.BillingPostalCode, Property__r.Title_Company__r.Phone, Property__r.Title_Contact_Name__c, Net_Funding__c, Property__r.Requested_Funding_Date__c, Property__r.Acquisition_Price__c, Property__r.City__c, Property__r.State__c, Property__r.ZipCode__c, Property__r.Asset_Maturity_Date__c, Property__r.Renovation_Type_formula__c FROM Property_Advances__r)",
     "Deal__r.Name",
     "Deal__r.Loan_Effective_Date__c",
-    "Deal__r.Modified_Expiration_Date__c",
-    "Deal__r.Stated_Maturity_Date__c",
     "Deal__r.Deal_Loan_Number__c",
-    "Deal__r.Product_Sub_Type__c",
     "Deal__r.LOC_Commitment__c",
     "Deal__r.Aggregate_Funding__c",
     "Deal__r.Account.Name",
@@ -30,7 +25,6 @@
     "Id",
     "Name",
     "Loan_Effective_Date__c",
-    "Modified_Expiration_Date__c",
     "Deal_Loan_Number__c",
     "LOC_Commitment__c",
     "Aggregate_Funding__c",
@@ -68,7 +62,6 @@
     "Requested_Advance_Date__c",
     "Owner.Name",
     "LOC_Loan_Type__c",
-    "Product_Sub_Type__c",
     //  "Contact__r.FirstName",
     // "Loan_Processor__r.Name",
     "Underwriter__r.Name",
@@ -117,6 +110,7 @@
   propertyFields: [
     "Approved_Advance_Amount__c",
     "Approved_Renovation_Holdback__c",
+    "Approved_Advance_Amount_Max__c",
     "Initial_Disbursement_Remaining__c",
     "Initial_Disbursement__c",
     "Reno_Advance_Amount__c",
@@ -349,7 +343,7 @@
         ) {
           dealContactEscrowAgent.push(dealContact);
         } else if (
-          /**    else if(dealContact["Deal_Contacts__r"]["Entity_Type__c"]=='vendar'){
+        /**    else if(dealContact["Deal_Contacts__r"]["Entity_Type__c"]=='vendar'){
 		  dealContactvandor.push(dealContact);
       }*/
           dealContact["Deal_Contacts__r"]["Entity_Type__c"] == "TitleCompany"
@@ -373,14 +367,10 @@
     advance["Deal_Contacts__r"] = dealContactObject;
     console.log("dealContactObject---> " + dealContactObject);
 
-    if(deal.Properties__r && deal.Properties__r.length > 0){
+    deal.Properties__r &&
       deal.Properties__r.forEach((property) => {
         console.log("property ==>" + property);
-        let propAdvance = { 
-          Property__r: {
-            
-          }
-        };
+        let propAdvance = { Property__r: {} };
 
         propAdvance["Approved_Advance_Amount__c"] =
           property["Approved_Advance_Amount__c"];
@@ -439,7 +429,6 @@
     } else {
       advance["Property_Record_Type"] = false;
     }
-  }
 
     /*
 	//add related list for Advance object records
@@ -574,94 +563,8 @@
   setStaticResourceName: function (component, val) {
     if (val == "State Level Security Instruments") {
       component.set("v.staticResourceName", "BridgeStateDocuments");
-    } else if (val == "Churchill Assignments") {
-      component.set("v.staticResourceName", "DocGenAssignments");
     } else {
       component.set("v.staticResourceName", "AdvanceDocuments");
     }
-  },
-
-  generateChurchillStateOptions: function (component) {
-    const states = [
-      "Alabama",
-      "Alaska",
-      "Arizona",
-      "Arkansas",
-      "California",
-      "Colorado",
-      "Connecticut",
-      "Delaware",
-      "District of Columbia",
-      "Florida",
-      "Georgia",
-      "Hawaii",
-      "Idaho",
-      "Illinois",
-      "Indiana",
-      "Iowa",
-      "Kansas",
-      "Kentucky",
-      "Louisiana",
-      "Maine",
-      "Maryland",
-      "Massachusetts",
-      "Michigan",
-      "Minnesota",
-      "Mississippi",
-      "Missouri",
-      "Montana",
-      "North Carolina",
-      "North Dakota",
-      "Nebraska",
-      "Nevada",
-      "New Hampshire",
-      "New Jersey",
-      "New Mexico",
-      "New York",
-      "Ohio",
-      "Oklahoma",
-      "Oregon",
-      "Pennsylvania",
-      "Rhode Island",
-      "South Carolina",
-      "South Dakota",
-      "Tennessee",
-      "Texas",
-      "Utah",
-      "Vermont",
-      "Virginia",
-      "Washington",
-      "West Virginia",
-      "Wisconsin",
-      "Wyoming"
-    ];
-
-    const specialStates = ["Georgia", "Louisiana", "Connecticut", "New York", "South Carolina", "Indiana"];
-
-    const fileNames = [
-      "CH_Bridge_template_ASSIGNMENT_SET_Deed_of_Trust_except_GA_LA_CT_SC_IN.docx",
-      "CH_Bridge_template_ASSIGNMENT_SET_Connecticut_ONLY.docx",
-      "CH Bridge template - ASSIGNMENT SET - South Carolina ONLY.docx",
-      "CH Bridge template - ASSIGNMENT SET - New York ONLY.docx",
-      "CH Bridge template - ASSIGNMENT SET - Lousiana ONLY.docx",
-      "CH Bridge template - ASSIGNMENT SET - Indiana ONLY.docx",
-      "CH Bridge template - ASSIGNMENT SET - Georgia ONLY.docx"
-    ]
-
-    const churchillOptions = states.map(v => {
-      if(specialStates.includes(v)){
-        return {
-          label: v,
-          value: fileNames.find(f => f.includes(v))
-        }
-      } else {
-        return {
-          label: v,
-          value: fileNames[0]
-        }
-      }
-    })
-
-    component.set("v.churchillStateOptions", churchillOptions);
   }
 });

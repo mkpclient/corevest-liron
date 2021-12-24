@@ -403,12 +403,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Status__c</field>
-            <table>Deal_Document__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Assignment_Document__c</field>
+            <field>Account__c</field>
             <table>Deal_Document__c</table>
         </columns>
         <masterLabel>Deal Documents</masterLabel>

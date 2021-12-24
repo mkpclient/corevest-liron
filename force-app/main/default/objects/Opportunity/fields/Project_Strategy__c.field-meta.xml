@@ -15,24 +15,29 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Build to Rent</fullName>
-                <default>false</default>
-                <label>Build to Rent</label>
-            </value>
-            <value>
-                <fullName>Conversion to Multifamily</fullName>
-                <default>false</default>
-                <label>Conversion to Multifamily</label>
-            </value>
-            <value>
                 <fullName>Fix and Flip</fullName>
                 <default>false</default>
                 <label>Fix and Flip</label>
             </value>
             <value>
-                <fullName>Multifamily GUC</fullName>
+                <fullName>Renovate and Rent</fullName>
                 <default>false</default>
-                <label>Multifamily GUC</label>
+                <label>Renovate and Rent</label>
+            </value>
+            <value>
+                <fullName>Portfolio Acquisition</fullName>
+                <default>false</default>
+                <label>Portfolio Acquisition</label>
+            </value>
+            <value>
+                <fullName>Build to Rent</fullName>
+                <default>false</default>
+                <label>Build to Rent</label>
+            </value>
+            <value>
+                <fullName>Multifamily Light Lift</fullName>
+                <default>false</default>
+                <label>Multifamily Light Lift</label>
             </value>
             <value>
                 <fullName>Multifamily Heavy Lift</fullName>
@@ -45,19 +50,14 @@
                 <label>Multifamily Lease-Up/No Rehab</label>
             </value>
             <value>
-                <fullName>Multifamily Light Lift</fullName>
+                <fullName>Conversion to Multifamily</fullName>
                 <default>false</default>
-                <label>Multifamily Light Lift</label>
+                <label>Conversion to Multifamily</label>
             </value>
             <value>
-                <fullName>Portfolio Acquisition</fullName>
+                <fullName>Multifamily GUC</fullName>
                 <default>false</default>
-                <label>Portfolio Acquisition</label>
-            </value>
-            <value>
-                <fullName>Renovate and Rent</fullName>
-                <default>false</default>
-                <label>Renovate and Rent</label>
+                <label>Multifamily GUC</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -68,9 +68,9 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
-            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Multifamily Light Lift</valueName>
+            <valueName>Renovate and Rent</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
@@ -78,17 +78,9 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
-            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
-            <valueName>Renovate and Rent</valueName>
-        </valueSettings>
-        <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Conversion to Multifamily</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Multifamily GUC</valueName>
+            <valueName>Multifamily Light Lift</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
@@ -97,6 +89,14 @@
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <valueName>Multifamily Lease-Up/No Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Conversion to Multifamily</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily GUC</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Build to Rent</controllingFieldValue>

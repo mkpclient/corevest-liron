@@ -4559,17 +4559,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Underwriter__c</field>
+            <field>Loan_Document_Status__c</field>
             <table>Opportunity.Properties__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Exception__c</field>
-            <table>Opportunity.Properties__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Exception_Reason__c</field>
+            <field>Title_Review_Status__c</field>
             <table>Opportunity.Properties__r</table>
         </columns>
         <masterLabel>Properties</masterLabel>
@@ -4680,12 +4675,22 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>IC_Approval__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_When__c</field>
             <table>Opportunity</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_By_Whom__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lender_Loan_Tape__c</field>
             <table>Opportunity</table>
         </columns>
         <masterLabel>Deals</masterLabel>

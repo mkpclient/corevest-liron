@@ -61,6 +61,16 @@
             <field>Quarter_and_Year__c</field>
             <table>Product_Goal__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Goal_Month_Year__c</field>
+            <table>Product_Goal__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Month_End_Date__c</field>
+            <table>Product_Goal__c</table>
+        </columns>
         <masterLabel>Product Goals</masterLabel>
     </sections>
 </ReportType>

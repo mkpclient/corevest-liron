@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>integrations@cvest.com</contactEmail>
+    <label>CoreVest Prepod Website</label>
+    <oauthConfig>
+        <callbackUrl>https://corevestprepod.wpengine.com/?callback=gravityformssalesforce</callbackUrl>
+        <consumerKey>3MVG9qEXqmIutu_QNttBhrw05Q0z2yKQb2GqcV.bKakH7r90XPCnFl1xVQh3_g3D45eTxvPXIXpkNeMdTPgAy</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Full</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

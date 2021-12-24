@@ -1,7 +1,14 @@
 public without sharing class AppraisalParser implements Queueable {
   List<Deal_Document__c> documents;
+  APILoggerQueueable apiLogger;
+
   public AppraisalParser(List<Deal_Document__c> documents) {
     this.documents = documents;
+  }
+
+  public AppraisalParser(List<Deal_Document__c> documents, APILoggerQueueable logger) {
+    this.documents = documents;
+    this.apiLogger = logger;
   }
 
   public void execute(QueueableContext context) {
@@ -12,6 +19,11 @@ public without sharing class AppraisalParser implements Queueable {
     if (documents.size() > 0) {
       system.enqueueJob(new AppraisalParser(documents));
     }
+
+    if(apiLogger != null) {
+      system.enqueueJob(apiLogger);
+    }
+
   }
 
   public static void parseXML(Deal_Document__c dealDocument) {

@@ -226,16 +226,6 @@
             <field>Advance_Fee_Percent__c</field>
             <table>Approval_History__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Amortization_Status__c</field>
-            <table>Approval_History__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Amortization_Status_Comment__c</field>
-            <table>Approval_History__c</table>
-        </columns>
         <masterLabel>Approval Histories</masterLabel>
     </sections>
 </ReportType>

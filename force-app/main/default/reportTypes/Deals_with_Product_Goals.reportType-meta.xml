@@ -377,7 +377,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Broker_Fee_Paid_By_Whom__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_Date__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Broker_Fee_Paid_When__c</field>
             <table>Opportunity</table>
         </columns>
         <columns>
@@ -1048,6 +1058,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Hold_Reason__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IC_Approval__c</field>
             <table>Opportunity</table>
         </columns>
         <columns>
@@ -2725,12 +2740,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PricebookEntry.Product2.ProductCode</field>
-            <table>Opportunity.OpportunityLineItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>PricebookEntry.Product2.Id</field>
+            <field>PricebookEntry.Product2</field>
             <table>Opportunity.OpportunityLineItems</table>
         </columns>
         <columns>
@@ -2740,7 +2750,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PricebookEntry.Product2</field>
+            <field>PricebookEntry.Product2.ProductCode</field>
+            <table>Opportunity.OpportunityLineItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PricebookEntry.Product2.Id</field>
             <table>Opportunity.OpportunityLineItems</table>
         </columns>
         <masterLabel>Products</masterLabel>
@@ -2753,12 +2768,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Product_Goal__c.Month_Start_Date__c</field>
+            <field>Product_Goal__c.Product__c</field>
             <table>Opportunity.OpportunityLineItems</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Product_Goal__c.Product__c</field>
+            <field>Product_Goal__c.Name</field>
             <table>Opportunity.OpportunityLineItems</table>
         </columns>
         <columns>
@@ -2768,7 +2783,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Product_Goal__c.Name</field>
+            <field>Product_Goal__c.Month_Start_Date__c</field>
             <table>Opportunity.OpportunityLineItems</table>
         </columns>
         <columns>
@@ -2781,14 +2796,17 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_When__c</field>
-            <table>Opportunity</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_By_Whom__c</field>
+            <field>Lender_Loan_Tape__c</field>
             <table>Opportunity</table>
         </columns>
         <masterLabel>Deals</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Funding_Month_Year__c</field>
+            <table>Opportunity.OpportunityLineItems</table>
+        </columns>
+        <masterLabel>Opportunity Product</masterLabel>
     </sections>
 </ReportType>

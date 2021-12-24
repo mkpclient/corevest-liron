@@ -1004,7 +1004,7 @@
                         <apex:outputText value="{!property.Property__r.ZipCode__c}" />
                     </td>
                     <td style="overflow-wrap: break-word;word-break: break-all;">
-                        <apex:outputText value="{!property.Escrow_Agent__r.Name}" />
+                        <apex:outputText value="{!property.Property__r.Title_Company__r.Name}" />
                     </td>
                     <td>
                         <apex:outputText value="{0, number, Currency}">

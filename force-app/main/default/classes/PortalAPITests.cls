@@ -575,23 +575,14 @@ private class PortalAPITests {
     prop.ZipCode__c = 'test';
     insert prop;
     RestRequest request = new RestRequest();
-    request.requestUri =
-      'apexrest/portal/documentvault/af-sdba/vault/' + topp1.Id;
+    request.requestUri = 'apexrest/portal/documentvault/af-sdba/' + topp1.Id;
     request.httpMethod = 'GET';
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doGet();
 
     request = new RestRequest();
-    request.requestUri = 'apexrest/portal/documentvault/af-sdba/loans';
-    request.httpMethod = 'GET';
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIDocumentVault.doGet();
-
-    request = new RestRequest();
-    request.requestUri =
-      'apexrest/portal/documentvault/af-sdba/documentTypes/' + topp1.Id;
+    request.requestUri = 'apexrest/portal/documentvault/af-sdba/' + prop.Id;
     request.httpMethod = 'GET';
     RestContext.request = request;
     RestContext.response = new RestResponse();
@@ -640,13 +631,6 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIDocument.doGet();
 
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/documents/af-sdbsa/' + topp1.Id;
-    request.httpMethod = 'GET';
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIDocument.doGet();
-
     Deal_Document__c doc = [
       SELECT
         Id,
@@ -665,19 +649,6 @@ private class PortalAPITests {
 
     new PortalAPIDocument.Document(doc);
     new PortalAPIDocument.DOcument(doc.Id);
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/documentvault/upload/base64';
-    request.httpMethod = 'POST';
-    body.put('base64String', EncodingUtil.base64Encode(Blob.valueOf('test')));
-    body.put('Uploaded_From_Portal_Id__c', 'af-sdba');
-    body.put('fileName', 'test.txt');
-    body.put('Description', 'test');
-    request.requestBody = Blob.valueOf(JSON.serialize(body));
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIDocumentVault.doPost();
   }
 
   static testMethod void apiTests() {
@@ -706,65 +677,5 @@ private class PortalAPITests {
     AlchemyAPI.createUser(l.Id, 'Lead');
 
     Test.stopTest();
-  }
-
-  static testMethod void apiTests2() {
-    Contact cont = [SELECT Id, AccountId FROM Contact LIMIT 1];
-
-    Opportunity topp1 = new Opportunity();
-    topp1.Name = 'test';
-    topp1.CloseDate = System.today();
-    topp1.StageName = 'Initial Review';
-    topp1.Loan_Size__c = 2000000;
-    topp1.AccountId = cont.AccountId;
-    topp1.Contact__c = cont.Id;
-    topp1.Final_Loan_Amount__c = 100;
-    topp1.Deal_Intro_Source__c = 'Hotline';
-    topp1.Deal_Intro_Sub_Source__c = 'Main';
-    topp1.Apex_Context__c = true;
-    topp1.Term_Loan_Type__c = '5 Year';
-    topp1.YM_Prepayment_Penalty__c = '48 Months';
-    topp1.RecordTypeId = [
-      SELECT Id
-      FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
-    ]
-    .Id;
-    insert topp1;
-
-    RestRequest request = new RestRequest();
-    request.requestUri = 'apexrest/portal/checklist/milestones/' + topp1.Id;
-    request.httpMethod = 'GET';
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIChecklist.doGet();
-
-    Opportunity topp2 = new Opportunity();
-    topp2.Name = 'test';
-    topp2.CloseDate = System.today();
-    topp2.StageName = 'Initial Review';
-    topp2.Loan_Size__c = 2000000;
-    topp2.AccountId = cont.AccountId;
-    topp2.Contact__c = cont.Id;
-    topp2.Final_Loan_Amount__c = 100;
-    topp2.Deal_Intro_Source__c = 'Hotline';
-    topp2.Deal_Intro_Sub_Source__c = 'Main';
-    topp2.Apex_Context__c = true;
-    topp2.Term_Loan_Type__c = '5 Year';
-    topp2.YM_Prepayment_Penalty__c = '48 Months';
-    topp2.RecordTypeId = [
-      SELECT Id
-      FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'LOC_Loan'
-    ]
-    .Id;
-    insert topp2;
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/checklist/milestones/' + topp2.Id;
-    request.httpMethod = 'GET';
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIChecklist.doGet();
   }
 }

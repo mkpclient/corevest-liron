@@ -2731,16 +2731,6 @@
             <field>Total_Sponsor_Documents__c</field>
             <table>Opportunity.Checklists__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Account__c</field>
-            <table>Opportunity.Checklists__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Milestone__c</field>
-            <table>Opportunity.Checklists__r</table>
-        </columns>
         <masterLabel>Checklists</masterLabel>
     </sections>
     <sections>
@@ -2942,34 +2932,14 @@
             <field>User_Assigned__c</field>
             <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Is_Property_Level__c</field>
-            <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Approver__c</field>
-            <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Uploader__c</field>
-            <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Reviewer__c</field>
-            <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Comments__c</field>
-            <table>Opportunity.Checklists__r.Checklist_Sections__r.Checklist_Items__r</table>
-        </columns>
         <masterLabel>Checklist Items</masterLabel>
     </sections>
     <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IC_Approval__c</field>
+            <table>Opportunity</table>
+        </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_When__c</field>
@@ -2978,6 +2948,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Broker_Fee_Paid_By_Whom__c</field>
+            <table>Opportunity</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Lender_Loan_Tape__c</field>
             <table>Opportunity</table>
         </columns>
         <masterLabel>Deals</masterLabel>

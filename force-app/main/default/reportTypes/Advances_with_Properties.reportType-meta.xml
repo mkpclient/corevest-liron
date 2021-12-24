@@ -142,16 +142,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_By_Whom__c</field>
-            <table>Advance__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Broker_Fee_Paid_When__c</field>
-            <table>Advance__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Broker_Advance_Fee_Subtotal__c</field>
             <table>Advance__c</table>
         </columns>
@@ -1766,6 +1756,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Is_Closer__c</field>
+            <table>Advance__c.Properties__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Loan_Document_Status__c</field>
+            <table>Advance__c.Properties__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Title_Review_Status__c</field>
             <table>Advance__c.Properties__r</table>
         </columns>
         <masterLabel>Properties</masterLabel>

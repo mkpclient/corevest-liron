@@ -38,8 +38,7 @@ public without sharing class ChecklistHelper {
         Document_Structure__c,
         Label,
         Document_Structure__r.Folder_Structure_String__c,
-        Document_Structure__r.Document_Type__c,
-        Is_Property_Level__c
+        Document_Structure__r.Document_Type__c
       FROM Checklist_Item_Config__mdt
       WHERE
         RecordType__c IN :oppRecordTypeMap.values()
@@ -103,11 +102,6 @@ public without sharing class ChecklistHelper {
           item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
           item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
           item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
-          item.Approver__c = itemConfig.Approver__c;
-          item.Uploader__c = itemConfig.Approver__c;
-          item.Reviewer__c = itemConfig.Reviewer__c;
-          item.Is_Property_Level__c = itemConfig.Is_Property_Level__c;
-
           if (itemConfig.Type__c == 'Upload') {
             item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
           } else if (itemConfig.Type__c == 'Action') {
@@ -175,10 +169,7 @@ public without sharing class ChecklistHelper {
         Document_Structure__c,
         Document_Structure__r.Folder_Structure_String__c,
         Label,
-        Document_Structure__r.Document_Type__c,
-        Approver__c,
-        Uploader__c,
-        Reviewer__c
+        Document_Structure__r.Document_Type__c
       FROM Checklist_Item_Config__mdt
       WHERE
         RecordType__c IN :oppRecordTypeMap.values()
@@ -218,7 +209,7 @@ public without sharing class ChecklistHelper {
     }
 
     insert propertySectionMap.values();
-    // system.debug(recordTypeConfigMap);
+    system.debug(recordTypeConfigMap);
     List<Checklist_Item__c> checklistItems = new List<Checklist_Item__c>();
     for (Id oppId : oppRecordTypeMap.keySet()) {
       String recordTypeName = oppRecordTypeMap.get(oppId);
@@ -242,9 +233,7 @@ public without sharing class ChecklistHelper {
               item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
               item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
               item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
-              item.Approver__c = itemConfig.Approver__c;
-              item.Uploader__c = itemConfig.Uploader__c;
-              item.Reviewer__c = itemConfig.Reviewer__c;
+
               if (itemConfig.Type__c == 'Upload') {
                 item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
               } else if (itemConfig.Type__c == 'Action') {
@@ -261,7 +250,7 @@ public without sharing class ChecklistHelper {
     insert checklistItems;
   }
 
-  public static void createChecklistSectionApplicant(Set<Id> dealContactIds) {
+  public static void createChecklistSectionSponsor(Set<Id> dealContactIds) {
     Map<String, Id> recordTypeMap = new Map<String, Id>();
 
     for (RecordType rt : [
@@ -276,13 +265,7 @@ public without sharing class ChecklistHelper {
     Map<Id, List<Deal_Contact__c>> dealContactMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Deal_Contact__c dealContact : [
-      SELECT
-        Id,
-        Name,
-        Contact__c,
-        Deal__c,
-        Deal__r.RecordType.DeveloperName,
-        Contact__r.Name
+      SELECT Id, Name, Contact__c, Deal__c, Deal__r.RecordType.DeveloperName
       FROM Deal_Contact__c
       WHERE Id IN :dealContactIds
     ]) {
@@ -315,15 +298,11 @@ public without sharing class ChecklistHelper {
         Use_Historical_Uploads__c,
         Document_Structure__r.Folder_Structure_String__c,
         Label,
-        Document_Structure__r.Document_Type__c,
-        Approver__c,
-        Uploader__c,
-        Reviewer__c
+        Document_Structure__r.Document_Type__c
       FROM Checklist_Item_Config__mdt
       WHERE
         RecordType__c IN :oppRecordTypeMap.values()
-        AND (sObject__c = 'Sponsor'
-        OR sObject__c = 'Applicant')
+        AND sObject__c = 'Sponsor'
         AND Type__c != NULL
     ]) {
       if (!recordTypeConfigMap.containsKey(checklistConfig.RecordType__c)) {
@@ -353,8 +332,8 @@ public without sharing class ChecklistHelper {
           Checklist_Section__c section = new Checklist_Section__c();
           section.Checklist__c = checklist.Id;
           section.Deal_Contact__c = dealContact.Id;
-          section.Name = dealContact.Contact__r.Name;
-          section.Type__c = 'Applicant';
+          section.Name = dealContact.Name;
+          section.Type__c = 'Sponsor';
           dealContactSectionMap.put(dealContact.Id, section);
         }
       }
@@ -387,9 +366,6 @@ public without sharing class ChecklistHelper {
               item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
               item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
               item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
-              item.Approver__c = itemConfig.Approver__c;
-              item.Uploader__c = itemConfig.Approver__c;
-              item.Reviewer__c = itemConfig.Reviewer__c;
               if (itemConfig.Type__c == 'Upload') {
                 item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
               } else if (itemConfig.Type__c == 'Action') {

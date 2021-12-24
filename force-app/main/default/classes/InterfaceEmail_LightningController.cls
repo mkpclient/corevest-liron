@@ -287,7 +287,6 @@ public without sharing class InterfaceEmail_LightningController {
         AND ContentVersion_Id__c != NULL
         AND Document_Loaded__c = TRUE
         AND Is_Deleted__c = FALSE
-        AND Include_for_Term_Sheet_Approval__c = TRUE
       // Type__c = 'Term Sheet'
     ];
 

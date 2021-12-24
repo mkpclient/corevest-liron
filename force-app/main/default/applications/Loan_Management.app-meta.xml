@@ -14,1716 +14,258 @@
     <navType>Standard</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Accounting</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Accounting</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Asset Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Asset Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Bridge Closing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Bridge Closing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Bridge Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Bridge Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Capital Markets</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Capital Markets</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Construction Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Construction Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Custom Read Only</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Custom Read Only</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Executive</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Executive</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Integration</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Integration</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Loan Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Loan Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Marketing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Marketing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>MarketingProfile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>MarketingProfile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Origination Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Origination Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Post Closing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
         <profile>Post Closing</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Post Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Post Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Non_Renovation_Initial</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Business Intelligence</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Internal Support Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>CoreVest Core Domain Profile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Post Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Post Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Construction_Advance</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Accounting</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Closing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Capital Markets</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Construction Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Custom Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Integration</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Loan Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Marketing</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Lender_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Lender</recordType>
-        <type>Flexipage</type>
-        <profile>Origination Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Lender_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
@@ -1796,75 +338,57 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Accounting</profile>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Accounting</profile>
+        <profile>Admin</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Analytics Cloud Integration User</profile>
+        <profile>Term Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Analytics Cloud Integration User</profile>
+        <profile>Term Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Analytics Cloud Security User</profile>
+        <profile>Read Only</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
+        <content>Lender_Page</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Lender</recordType>
         <type>Flexipage</type>
-        <profile>Analytics Cloud Security User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Asset Management</profile>
+        <profile>Read Only</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1955,6 +479,240 @@
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
         <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales and Eblast</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Sales and Eblast</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Single Asset Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Single Asset Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>SolutionManager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>SolutionManager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>StandardAul</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>StandardAul</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Standard</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Standard</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Closer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Closer</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Loan Coordinator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Loan Coordinator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2395,7 +1153,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
+        <profile>Accounting</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2404,7 +1162,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
+        <profile>Accounting</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2413,7 +1171,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Read Only</profile>
+        <profile>Analytics Cloud Integration User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2422,7 +1180,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Read Only</profile>
+        <profile>Analytics Cloud Integration User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2431,7 +1189,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+        <profile>Analytics Cloud Security User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2440,7 +1198,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+        <profile>Analytics Cloud Security User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2449,7 +1207,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
+        <profile>Asset Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -2458,169 +1216,7 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Sales Analyst Term Operations Hybrid</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Sales and Eblast</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Sales and Eblast</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Single Asset Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Single Asset Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>SolutionManager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>SolutionManager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>StandardAul</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>StandardAul</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Standard</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Operations</profile>
+        <profile>Asset Management</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -3125,6 +1721,1410 @@
         <recordType>Opportunity.Acquired_Bridge_Loan_Active</recordType>
         <type>Flexipage</type>
         <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Data Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Delegated Administrator</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Executive</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Integration</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Loan Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Marketing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Post Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Bridge Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Sales Analyst Term Operations Hybrid</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Non_Renovation_Initial</recordType>
+        <type>Flexipage</type>
+        <profile>Term Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Accounting</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Asset Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Closing</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Business Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Business Intelligence</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Capital Markets</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Construction Management</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>Custom Read Only</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Internal Support Profile</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Construction_Advance</recordType>
+        <type>Flexipage</type>
+        <profile>CoreVest Core Domain Profile</profile>
     </profileActionOverrides>
     <tabs>standard-home</tabs>
     <tabs>standard-Task</tabs>
@@ -3145,6 +3145,10 @@
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Securitization_Bond_Class__c</tabs>
     <tabs>Loan_Version__c</tabs>
+    <tabs>API_Log__c</tabs>
+    <tabs>Product_Goal__c</tabs>
+    <tabs>Lost_Deal_Analysis__c</tabs>
+    <tabs>Lender_Loan_Tape__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Operations_UtilityBar</utilityBar>
 </CustomApplication>

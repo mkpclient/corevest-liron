@@ -9,14 +9,6 @@ public without sharing class ClearCapitalAPI {
   static String BRIDGE_PASSWORD = apiSettings.Bridge_Password__c;
   static String BRIDGE_ACCOUNTID = apiSettings.Bridge_Account_Id__c;
 
-
-  public static final Map<String, String> CLEARVAL_ADDON_MAP = new Map<String,String>{
-    'Estimated Monthly Rent Addendum' => '302',
-    'Comparable Sales History' => '303',
-    'As-Repaired Value Addendum' => '304',
-    'Budget Analysis w/ As-Repaired Value Addendum' => '308'
-   };
-
   //String baseEndpoint = 'https://integration.clearcapital.com/xml/orders/order_generation_manager_cc.cfc?method=createOrder';
   static String baseEndpoint =
     BASE_URL + '/xml/orders/order_generation_manager_cc.cfc?method=createOrder'; //'https://integrationdev01.npe.clearcapital.net';
@@ -58,7 +50,8 @@ public without sharing class ClearCapitalAPI {
     Map<String, String> results = ClearCapitalAPI.retrieveOrder(
       appraisal.Appraisal_Firm_Transaction_ID__c,
       fileType,
-      appraisal.Deal__r.RecordType.DeveloperName
+      appraisal.Deal__r.RecordType.DeveloperName,
+      appraisalId
     );
 
     system.debug(results);
@@ -138,7 +131,8 @@ public without sharing class ClearCapitalAPI {
   public static Map<String, String> retrieveOrder(
     String orderId,
     String fileType,
-    String recordType
+    String recordType,
+    Id appraisalId
   ) {
     if (recordType == 'LOC_Loan' || recordType == 'Single_Asset_Bridge_Loan') {
       USERNAME = BRIDGE_USERNAME;
@@ -146,67 +140,69 @@ public without sharing class ClearCapitalAPI {
     }
 
     Map<String, String> results = new Map<String, String>();
+    HttpRequest req;
+    HttpResponse resp;
+    try {
+      req = new HttpRequest();
+      req.setEndpoint(retrieveEndpoint);
+      req.setMethod('POST');
 
-    HttpRequest req = new HttpRequest();
-    req.setEndpoint(retrieveEndpoint);
-    req.setMethod('POST');
+      req.setHeader(
+        'Authorization',
+        'Basic ' +
+        EncodingUtil.base64Encode(Blob.valueOf(USERNAME + ':' + PASSWORD))
+      );
+      req.setHeader(
+        'Content-Type',
+        'multipart/form-data; boundary=------7MA4YWxkTrZu0gW'
+      );
 
-    req.setHeader(
-      'Authorization',
-      'Basic ' +
-      EncodingUtil.base64Encode(Blob.valueOf(USERNAME + ':' + PASSWORD))
-    );
-    req.setHeader(
-      'Content-Type',
-      'multipart/form-data; boundary=------7MA4YWxkTrZu0gW'
-    );
+      String body = '';
+      body += '--------7MA4YWxkTrZu0gW\r\n';
+      body += 'Content-Disposition: form-data; name="transactionId"\r\n\r\n';
+      body += orderId + '\r\n';
+      body += '--------7MA4YWxkTrZu0gW--\r\n';
+      body += 'Content-Disposition: form-data; name="productFileType"\r\n\r\n';
+      body += fileType + '\r\n';
+      body += '--------7MA4YWxkTrZu0gW--';
 
-    String body = '';
-    body += '--------7MA4YWxkTrZu0gW\r\n';
-    body += 'Content-Disposition: form-data; name="transactionId"\r\n\r\n';
-    body += orderId + '\r\n';
-    body += '--------7MA4YWxkTrZu0gW--\r\n';
-    body += 'Content-Disposition: form-data; name="productFileType"\r\n\r\n';
-    body += fileType + '\r\n';
-    body += '--------7MA4YWxkTrZu0gW--';
+      req.setTimeout(120000);
+      req.setBodyAsBlob(Blob.valueOf(body)); //(body);
+      req.setHeader(
+        'Content-Length',
+        String.ValueOf(req.getBodyAsBlob().size())
+      );
 
-    // req.setBody(body);
-    // req.setHeader('Content-Length', String.valueOf(body.length()));
-    req.setTimeout(120000);
-    req.setBodyAsBlob(Blob.valueOf(body)); //(body);
-    req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
-    //system.debug(body);
+      Integer statusCode = 200;
+      String respBody =
+        '<?xml version="1.0" encoding="UTF-8"?><clearcapital schema_type="document" schema_version="1.0"><product name="Appraisal Form-1075" scope="Exterior"><transaction><transaction_order_id>6271437</transaction_order_id><transaction_id>26971226</transaction_id><client_reference_id>20191115</client_reference_id></transaction><document encoding="base64" extension="' +
+        fileType +
+        '">dGVzdA==</document></product></clearcapital>';
 
-    Integer statusCode = 200;
-    String respBody =
-      '<?xml version="1.0" encoding="UTF-8"?><clearcapital schema_type="document" schema_version="1.0"><product name="Appraisal Form-1075" scope="Exterior"><transaction><transaction_order_id>6271437</transaction_order_id><transaction_id>26971226</transaction_id><client_reference_id>20191115</client_reference_id></transaction><document encoding="base64" extension="' +
-      fileType +
-      '">dGVzdA==</document></product></clearcapital>';
+      if (!Test.isRunningTest()) {
+        resp = new Http().send(req);
 
-    // if(Test.isRunningTest()){
-    //   StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalXMLTest' LIMIT 1];
-    //   // respBody.replace('dGVzdA==', EncodingUtil.base64Encode(xml.Body));
-    //   respBody += EncodingUtil.base64Encode(xml.Body);
-    // }
+        statusCode = resp.getStatusCode();
 
-    // respBody += '</document></product></clearcapital>';
+        respBody = resp.getBody();
 
-    if (!Test.isRunningTest()) {
-      HttpResponse resp = new Http().send(req);
+        System.enqueueJob(
+          new APILoggerQueueable(req, resp, appraisalId, false)
+        );
+      }
 
-      statusCode = resp.getStatusCode();
+      system.debug(JSON.serialize(respBody));
 
-      respBody = resp.getBody();
-    }
-
-    system.debug(JSON.serialize(respBody));
-
-    //system.debug(statusCode);
-
-    //system.debug(respBody);
-    if (statusCode == 200 || statusCode == 201) {
-      results = parseOrderRetrieval(respBody, fileType);
-    } else {
+      if (statusCode == 200 || statusCode == 201) {
+        results = parseOrderRetrieval(respBody, fileType);
+      } else {
+        CalloutException e = new CalloutException();
+        e.setMessage('Error retrieving order: ' + statusCode + ' ' + respBody);
+        throw e;
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, e));
+      throw e;
     }
 
     return results;
@@ -331,7 +327,8 @@ public without sharing class ClearCapitalAPI {
 
   public static Map<String, Object> checkStatus(
     String orderId,
-    String recordType
+    String recordType,
+    Id appraisalId
   ) {
     if (recordType == 'LOC_Loan' || recordType == 'Single_Asset_Bridge_Loan') {
       USERNAME = BRIDGE_USERNAME;
@@ -340,47 +337,70 @@ public without sharing class ClearCapitalAPI {
 
     Map<String, Object> results = new Map<String, Object>();
 
-    HttpRequest req = new HttpRequest();
-    req.setEndpoint(statusEndpoint);
-    req.setMethod('POST');
-    system.debug(statusEndpoint);
-    system.debug(USERNAME);
-    system.debug(PASSWORD);
-    req.setHeader(
-      'Authorization',
-      'Basic ' +
-      EncodingUtil.base64Encode(Blob.valueOf(USERNAME + ':' + PASSWORD))
-    );
-    req.setHeader(
-      'Content-Type',
-      'multipart/form-data; boundary=------7MA4YWxkTrZu0gW'
-    );
+    HttpRequest req;
+    HttpResponse resp;
 
-    String body = '';
-    body += '--------7MA4YWxkTrZu0gW\r\n';
-    body += 'Content-Disposition: form-data; name="transactionId"\r\n\r\n'; //';// filename="'+attachments[0].Name+'"\n';
-    body += orderId + '\r\n';
-    body += '--------7MA4YWxkTrZu0gW--';
+    try {
+      req = new HttpRequest();
+      req.setEndpoint(statusEndpoint);
+      req.setMethod('POST');
+      system.debug(statusEndpoint);
+      system.debug(USERNAME);
+      system.debug(PASSWORD);
+      req.setHeader(
+        'Authorization',
+        'Basic ' +
+        EncodingUtil.base64Encode(Blob.valueOf(USERNAME + ':' + PASSWORD))
+      );
+      req.setHeader(
+        'Content-Type',
+        'multipart/form-data; boundary=------7MA4YWxkTrZu0gW'
+      );
 
-    req.setTimeout(120000);
-    req.setBodyAsBlob(Blob.valueOf(body)); //(body);
-    req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
-    // system.debug(body);
+      String body = '';
+      body += '--------7MA4YWxkTrZu0gW\r\n';
+      body += 'Content-Disposition: form-data; name="transactionId"\r\n\r\n'; //';// filename="'+attachments[0].Name+'"\n';
+      body += orderId + '\r\n';
+      body += '--------7MA4YWxkTrZu0gW--';
 
-    Integer statusCode = 200;
-    String respBody = '<?xml version="1.0" encoding="UTF-8"?><clearcapital schema_type="status" schema_version="1.0"><product name="Appraisal Form-1004" scope="Interior"> <transaction><transaction_order_id>5730630</transaction_order_id> <transaction_id>23920111</transaction_id> <client_reference_id>214806</client_reference_id> <request_date>2019-05-05T00:00:00-07:00</request_date> <est_completed_date> 2019-05-05T00:00:00-07:00</est_completed_date> <inspection_date>2019-05-05T00:00:00-07:00</inspection_date> <inspection_complete>No</inspection_complete> <completed_date>2019-05-05T00:00:00-07:00</completed_date> <as_is_value>10000</as_is_value><fee>450</fee><status><name>ON HOLD</name><description>Contact Number(s) Needed - New numbers needed. The provided number is no longer in service.</description><cancelled><date /></cancelled><on_hold><date>2019-05-05T00:00:00-07:00</date> </on_hold></status></transaction><property><address><street>123 CHERRYTREE LN</street> <city>DECATUR</city> <state>GA</state><zip>30032</zip></address> <loan_number>ABC123</loan_number> <comments><comment><date>2019-05-05T00:00:00-07:00</date><body>Re: Inspection Scheduled Hello,We wanted to provide you with an update and letyou knowhave confirmed the inspection has occurred.Should you have any questions, please do not hesitate to contact us.Have a great day! Thanks.</body></comment><comment><date>2019-05-05T00:00:00-07:00</date><body>Re: Appraisal Assigned Hello,Thank you for your order!We wanted to let you know that this report has been assigned to one of our appraisers.We will provide you with another update once the inspection date has been set.Please do not hesitate to contact us if you have any questions.Have a great day! Thanks.</body>that the inspection date has been set for 02/03/2018. We will be sure to update you once we</comment></comments></property></product></clearcapital>';
+      req.setTimeout(120000);
+      req.setBodyAsBlob(Blob.valueOf(body)); //(body);
+      req.setHeader(
+        'Content-Length',
+        String.ValueOf(req.getBodyAsBlob().size())
+      );
+      // system.debug(body);
 
-    if (!Test.isRunningTest()) {
-      HttpResponse resp = new Http().send(req);
-      statusCode = resp.getStatusCode();
-      respBody = resp.getBody();
-    }
+      Integer statusCode = 200;
+      String respBody = '<?xml version="1.0" encoding="UTF-8"?><clearcapital schema_type="status" schema_version="1.0"><product name="Appraisal Form-1004" scope="Interior"> <transaction><transaction_order_id>5730630</transaction_order_id> <transaction_id>23920111</transaction_id> <client_reference_id>214806</client_reference_id> <request_date>2019-05-05T00:00:00-07:00</request_date> <est_completed_date> 2019-05-05T00:00:00-07:00</est_completed_date> <inspection_date>2019-05-05T00:00:00-07:00</inspection_date> <inspection_complete>No</inspection_complete> <completed_date>2019-05-05T00:00:00-07:00</completed_date> <as_is_value>10000</as_is_value><fee>450</fee><status><name>ON HOLD</name><description>Contact Number(s) Needed - New numbers needed. The provided number is no longer in service.</description><cancelled><date /></cancelled><on_hold><date>2019-05-05T00:00:00-07:00</date> </on_hold></status></transaction><property><address><street>123 CHERRYTREE LN</street> <city>DECATUR</city> <state>GA</state><zip>30032</zip></address> <loan_number>ABC123</loan_number> <comments><comment><date>2019-05-05T00:00:00-07:00</date><body>Re: Inspection Scheduled Hello,We wanted to provide you with an update and letyou knowhave confirmed the inspection has occurred.Should you have any questions, please do not hesitate to contact us.Have a great day! Thanks.</body></comment><comment><date>2019-05-05T00:00:00-07:00</date><body>Re: Appraisal Assigned Hello,Thank you for your order!We wanted to let you know that this report has been assigned to one of our appraisers.We will provide you with another update once the inspection date has been set.Please do not hesitate to contact us if you have any questions.Have a great day! Thanks.</body>that the inspection date has been set for 02/03/2018. We will be sure to update you once we</comment></comments></property></product></clearcapital>';
 
-    system.debug(statusCode);
-    system.debug(respBody);
-    if (statusCode == 200 || statusCode == 201) {
-      results = parseTransactionStatus(respBody);
-    } else {
+      if (!Test.isRunningTest()) {
+        resp = new Http().send(req);
+        statusCode = resp.getStatusCode();
+        respBody = resp.getBody();
+        System.enqueueJob(
+          new APILoggerQueueable(req, resp, appraisalId, false)
+        );
+      }
+
+      system.debug(statusCode);
+      system.debug(respBody);
+      if (statusCode == 200 || statusCode == 201) {
+        results = parseTransactionStatus(respBody);
+      } else {
+        CalloutException e = new CalloutException();
+        e.setMessage(
+          statusCode +
+          ' Error getting status for order in appraisal ' +
+          appraisalId +
+          ': ' +
+          respBody
+        );
+        throw e;
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, e));
+      throw e;
     }
 
     return results;
@@ -390,7 +410,7 @@ public without sharing class ClearCapitalAPI {
     Property__c property,
     String productType,
     String turnTime,
-    List<Object> addOns,
+    // String addOns,
     String vendorComments
   ) {
     String reportType = getReportType(productType, property.Property_Type__c);
@@ -438,7 +458,7 @@ public without sharing class ClearCapitalAPI {
     body +=
       '<order_submit batch_id="' +
       property.Deal__r.Deal_Loan_Number__c +
-      '"  order_tracking_id="' +
+      '" order_tracking_id="' +
       dealName +
       ' ' +
       property.Deal__r.Deal_Loan_Number__c +
@@ -457,16 +477,6 @@ public without sharing class ClearCapitalAPI {
     // }
 
     body += 'version="' + versionNumber + '">';
-    if(addOns.size() > 0) {
-      body += '<addons>';
-
-      for(Object a : addons) {
-        body += '<addon>' + CLEARVAL_ADDON_MAP.get(String.valueof(a)) + '</addon>';
-      } 
-
-
-      body += '</addons>';    
-    }
     // body += '<addons>';
     // body += '<addon>';
     // body += addons;
@@ -547,13 +557,13 @@ public without sharing class ClearCapitalAPI {
     body += '</clearcapital>';
 
     system.debug('---submit body---');
-    system.debug(body);
+    system.debug(JSON.serialize(body));
 
     // String responseBody = ''
 
-    String responseBody = doCallout(body);
+    String responseBody = doCallout(body, property.Id);
 
-    system.debug(responseBody);
+    system.debug(JSON.serialize(responseBody));
 
     Appraisal__c appraisal;
     if (responseBody.contains('order_submit_confirmation errors="Yes"')) {
@@ -563,8 +573,6 @@ public without sharing class ClearCapitalAPI {
     } else {
       appraisal = new Appraisal__c();
 
-      System.debug('--це респонсь боді--');
-      System.debug(responseBody);
       String received_date = responseBody.substringBetween(
         '<received_date>',
         '</received_date>'
@@ -648,32 +656,35 @@ public without sharing class ClearCapitalAPI {
     return appraisal;
   }
 
-  public static String doCallout(String body) {
+  public static String doCallout(String body, Id parentId) {
     //body = '<?xml version="1.0" encoding="UTF-8"?><clearcapital><authenticate><username>ws_user_4330556</username><password>"h_R4rPZ+b</password><account_id>189060</account_id><account_key></account_key></authenticate><order_submit batch_id="" notify_on_receive="" order_tracking_id="test02112019" purpose="0" report_type="27" turn_time="120" version="1.0"><notes>testNotes</notes><properties><property apn="" appraised_date="" appraised_value="" borrower="John Doe" city="BRONX" current_loan_balance="" interior_access_name="Judy Smith" interior_access_phone="1112223344" loan_num="1000002167" notes="" property_type="" square_feet=""  state="NY" street_address="1268 CROES AVE" tracking_1="test02112019" tracking_2="" tracking_3="" zip4="" zip5="10472"/></properties></order_submit></clearcapital>';
-    HttpRequest req = new HttpRequest();
-    req.setEndpoint(baseEndpoint);
-    req.setMethod('POST');
-    // req.setBody(JSON.serialize(wrappers, true));
-    req.setHeader('Content-Type', 'application/xml;charset=UTF-8');
-    req.setHeader('type', 'formfield');
-    req.setHeader('name', 'newXmlOrder');
-    // req.setHeader('value', body);
-    req.setHeader('Content-Length', String.valueOf(body.length()));
-    req.setTimeout(120000);
-    req.setBody(body);
-    //req.setHeader('Host', 'us-street.api.smartystreets.com');
+    HttpRequest req;
+    HttpResponse resp;
+    String respBody;
+    try {
+      req = new HttpRequest();
+      req.setEndpoint(baseEndpoint);
+      req.setMethod('POST');
+      // req.setBody(JSON.serialize(wrappers, true));
+      req.setHeader('Content-Type', 'application/xml;charset=UTF-8');
+      req.setHeader('type', 'formfield');
+      req.setHeader('name', 'newXmlOrder');
+      // req.setHeader('value', body);
+      req.setHeader('Content-Length', String.valueOf(body.length()));
+      req.setTimeout(120000);
+      req.setBody(body);
+      //req.setHeader('Host', 'us-street.api.smartystreets.com');
 
-    String respBody = '<?xml version="1.0" encoding="UTF-8"?><clearcapital><order_submit_confirmation errors="No" version="1.0"><received_date>12/11/2019</received_date><received_time>10:13AM</received_time><due_date>12/20/2019</due_date><due_time>10:00AM</due_time><property_bill_rate>415</property_bill_rate><order_tracking_id>20191211</order_tracking_id><order_id>6273237</order_id><property_count>1</property_count><support_name>Tera Coupe</support_name><support_email>dev@clearcapital.com</support_email><support_phone>(530) 550-2130</support_phone><properties><property LOAN_NUM="480884" PROPERTY_ID="26984254"/></properties><error_message/></order_submit_confirmation> </clearcapital>';
-    if (!Test.isRunningTest()) {
-      HttpResponse resp = new Http().send(req);
-      respBody = resp.getBody();
+      respBody = '<?xml version="1.0" encoding="UTF-8"?><clearcapital><order_submit_confirmation errors="No" version="1.0"><received_date>12/11/2019</received_date><received_time>10:13AM</received_time><due_date>12/20/2019</due_date><due_time>10:00AM</due_time><property_bill_rate>415</property_bill_rate><order_tracking_id>20191211</order_tracking_id><order_id>6273237</order_id><property_count>1</property_count><support_name>Tera Coupe</support_name><support_email>dev@clearcapital.com</support_email><support_phone>(530) 550-2130</support_phone><properties><property LOAN_NUM="480884" PROPERTY_ID="26984254"/></properties><error_message/></order_submit_confirmation> </clearcapital>';
+      
+      if (!Test.isRunningTest()) {
+        resp = new Http().send(req);
+        respBody = resp.getBody();
+        System.enqueueJob(new APILoggerQueueable(req, resp, parentId, false));
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, resp, parentId, e));
     }
-
-    //system.debug(resp.getStatus());
-    //system.debug(resp.getStatusCode());
-    //system.debug(resp.getBody());
-    // system.debug(JSON.serialize(body));
-    //system.debug(JSON.deserializeStrict(resp.getBody(), List<SmartyStreetsAPI.ResponseResource>.class));
 
     return respBody;
   }
@@ -691,9 +702,8 @@ public without sharing class ClearCapitalAPI {
   public static String createAuthenticationXML() {
     String manipulatedPassword = '';
     if (String.isNotBlank(PASSWORD)) {
-      manipulatedPassword = PASSWORD.replaceAll('<', '&lt;');
+      manipulatedPassword = Password.replaceAll('<', '&lt;');
     }
-
     String xmlSection = '<authenticate>';
     xmlSection += '<username>' + USERNAME + '</username>';
     xmlSection += '<password>' + manipulatedPassword + '</password>';

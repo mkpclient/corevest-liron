@@ -3,8 +3,6 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Alchemy_User_Id__c</columns>
-    <columns>Lead__c</columns>
-    <columns>Contact__c</columns>
     <columns>Name__c</columns>
     <columns>Loan_Id__c</columns>
     <columns>Loan_Type__c</columns>

@@ -139,36 +139,6 @@
                 <identifier>BridgeDocumentList</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
-                    <name>parentFieldName</name>
-                    <value>Advance__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>showActions</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sobjectType</name>
-                    <value>Deal_Document__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Title</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>typeName</name>
-                    <value>Standard</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Is_Deleted__c = false</value>
-                </componentInstanceProperties>
-                <componentName>DocumentRelatedList</componentName>
-                <identifier>c_DocumentRelatedList1</identifier>
-            </componentInstance>
-        </itemInstances>
         <name>Facet-e47a3f6f-81db-44af-aba7-6571d653923e</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -333,6 +303,12 @@
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Advance__c.Generate_Yardi_CSV</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Advance__c.Generate_Yardi_XML</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Advance__c.Add_Properties</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>
@@ -359,7 +335,7 @@
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
-                            <value>CustomButton.Advance__c.Print_Admin</value>
+                            <value>CustomButton.Advance__c.Print</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>

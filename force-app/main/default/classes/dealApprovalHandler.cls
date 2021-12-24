@@ -1025,16 +1025,13 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
 
     System.debug('these are the headers');
     System.debug(em.headers);
-    Date emailDate;
+    DateTime emailDate;
     if (em.headers != null) {
       for (Messaging.InboundEmail.Header ieh : em.headers) {
         if (ieh.name == 'Date') {
           System.debug('check the date');
           System.debug(ieh.value);
-          Integer day = Integer.valueOf(ieh.value.substring(5, 7).trim());
-          Integer month = dateMap.get(ieh.value.substring(7, 11).trim());
-          Integer year = Integer.valueOf(ieh.value.substring(11, 16).trim());
-          emailDate = Date.newInstance(year, month, day);
+          emailDate = system.now();
         }
       }
     }

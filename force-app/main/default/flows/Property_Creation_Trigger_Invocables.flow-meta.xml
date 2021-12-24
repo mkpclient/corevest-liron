@@ -19,7 +19,6 @@
         <locationY>200</locationY>
         <actionName>Property_Invocable_Property_Created_on_Portal_Alert</actionName>
         <actionType>flow</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <processMetadataValues>
                 <name>dataType</name>
@@ -63,7 +62,7 @@
             </value>
         </inputParameters>
     </actionCalls>
-    <apiVersion>53.0</apiVersion>
+    <apiVersion>49.0</apiVersion>
     <decisions>
         <processMetadataValues>
             <name>index</name>
@@ -179,7 +178,7 @@
         </rules>
     </decisions>
     <description>This will trigger invocable action on Property creation</description>
-    <interviewLabel>Property_Creation_Trigger_Invocables-2_InterviewLabel</interviewLabel>
+    <interviewLabel>Property_Creation_Trigger_Invocables-1_InterviewLabel</interviewLabel>
     <label>Property Creation - Trigger Invocables</label>
     <processMetadataValues>
         <name>ObjectType</name>

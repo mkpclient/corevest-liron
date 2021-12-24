@@ -130,7 +130,7 @@
         component.set(
           "v.respMessage",
           "There has been an error. " +
-            response.getError() +
+            response.getError()[0].message +
             " Please contact your administrator with this error message."
         );
       }

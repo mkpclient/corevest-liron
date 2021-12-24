@@ -27,9 +27,9 @@ global class DealBatchable implements Database.Batchable<sObject> {
       Opportunity updDeal = new Opportunity();
       Integer locTerm = Integer.valueOf(deal.LOC_Term__c.split(' ')[0]);
       updDeal.Id = deal.Id;
-      updDeal.Stated_Maturity_Date__c = deal.CloseDate.addDays(locTerm);
-      updDeal.Updated_Loan_Maturity_Date__c = deal.CloseDate.addDays(locTerm);
-      updDeal.Modified_Expiration_Date__c = deal.CloseDate
+      updDeal.Stated_Maturity_Date__c = Date.today().addDays(locTerm);
+      updDeal.Updated_Loan_Maturity_Date__c = Date.today().addDays(locTerm);
+      updDeal.Modified_Expiration_Date__c = Date.today()
         .addDays(Integer.valueOf(deal.Advance_Period__c));
       dealIds.add(deal.Id);
       updatedDeals.add(updDeal);

@@ -231,7 +231,7 @@ public class deal_Contact_Helper {
     Set<Id> sponsorIds = new Set<Id>();
 
     for (Deal_Contact__c dc : dealContacts) {
-      if (dc.Entity_Type__c == 'Applicant') {
+      if (dc.Entity_Type__c == 'Sponsor') {
         sponsorIds.add(dc.Id);
       }
 
@@ -299,7 +299,7 @@ public class deal_Contact_Helper {
     }
 
     if (sponsorIds.size() > 0) {
-      ChecklistHelper.createChecklistSectionApplicant(sponsorIds);
+      ChecklistHelper.createChecklistSectionSponsor(sponsorIds);
     }
   }
 
@@ -441,6 +441,7 @@ public class deal_Contact_Helper {
       update contactsUpdate;
 
       Map<Id, Contact> contactMapExtra = new Map<Id, Contact>(contactsUpdate);
+      // Map<Id, List<
       // for(Contact : )
 
       List<Deal_Contact__c> dcToUpdate = new List<Deal_Contact__c>();
@@ -625,12 +626,6 @@ public class deal_Contact_Helper {
     if (ops.values().size() > 0) {
       update ops.values();
     }
-
-    delete [
-      SELECT Id
-      FROM Checklist_Section__c
-      WHERE Deal_Contact__c IN :oldList
-    ];
   }
 
   public static void updateLoanFeeRecord(

@@ -42,11 +42,6 @@ public with sharing class AppraisalMergeController {
   public static Map<String, Schema.SObjectField> APPRAISAL_FIELD_MAP = Schema.SObjectType.Appraisal__c.fields.getMap();
   public static Map<String, Schema.SObjectField> PROPERTY_FIELD_MAP = Schema.SObjectType.Property__c.fields.getMap();
 
-  public static Map<String, List<Sobject>> BATCH_VAL = new Map<String, List<SObject>>{
-    'Appraisals' => new List<SObject>(),
-    'Comments' => new List<SObject>()
-  };
-
   @AuraEnabled
   public static List<List<MergeWrapper>> initMergeScreen(String recordId) {
     String queryString = compileQueryString(recordId);
@@ -169,13 +164,13 @@ public with sharing class AppraisalMergeController {
     String productType = (String) arguments.get('productType');
     if (appraisalFirm == 'Clear Capital') {
       String turnTime = (String) arguments.get('turnTime');
-      List<Object> addOns = (List<Object>) arguments.get('addOns');
+      List<String> addOns = (List<String>) arguments.get('addOns');
       String vendorComments = (String) arguments.get('vendorComments');
       submitOrderClearCapital(
         propertyId,
         productType,
         turnTime,
-        addOns,
+        // addOns,
         vendorComments
       );
     } else if (appraisalFirm == 'Appraisal Nation') {
@@ -262,7 +257,7 @@ public with sharing class AppraisalMergeController {
     Id propertyId,
     String productType,
     String turnTime,
-    List<Object> addOns,
+    // String addOns,
     String vendorComments
   ) {
     Property__c p = [
@@ -293,20 +288,9 @@ public with sharing class AppraisalMergeController {
       p,
       productType,
       turnTime,
-      addOns,
+      // addOns,
       vendorComments
     );
-
-    if(addOns.size() > 0) {
-      String addonAsString = '';
-
-      for(Object a : addOns) {
-        addonAsString += String.valueOf(a) + ';';
-      }
-
-      addonAsString = addonAsString.substringBeforeLast(';');
-      appraisal.Product_Type_Addons__c = addonAsString;
-    }
 
     appraisal.Deal__c = p.Deal__c;
     appraisal.Property__c = p.Id;
@@ -582,12 +566,10 @@ public with sharing class AppraisalMergeController {
   }
 
   // @future (callout=true)
-  public static Map<String, List<Sobject>> refreshBatch(List<Id> ids) {
-    for(Id id : ids) {
-      checkStatus(id);
-    }
-    refreshAppraisalStatus(ids);
-    return BATCH_VAL;
+  public static void refreshBatch(Id id) {
+    checkStatus(id);
+    List<Id> idList = new List<Id>{ id };
+    refreshAppraisalStatus(idList);
   }
 
   @AuraEnabled
@@ -631,7 +613,8 @@ public with sharing class AppraisalMergeController {
 
     Map<String, Object> resp = ClearCapitalAPI.checkStatus(
       appraisal.Appraisal_Firm_Transaction_ID__c,
-      appraisal.Deal__r.RecordType.DeveloperName
+      appraisal.Deal__r.RecordType.DeveloperName,
+      appraisalId
     );
 
     if (String.ValueOf(resp.get('cancelledDate')) != null) {
@@ -690,7 +673,7 @@ public with sharing class AppraisalMergeController {
     appraisal.State__c = String.valueOf(resp.get('state'));
     appraisal.Zip__c = String.valueOf(resp.get('zip'));
 
-    if (String.isNotEmpty(appraisal.Status__c) && appraisal.Status__c.toLowerCase() == 'complete-delivered') {
+    if (appraisal.Status__c.toLowerCase() == 'complete-delivered') {
       //retrieveOrder(appraisalId);
       retrieveOrderClearCapital(appraisalId);
     }
@@ -765,7 +748,8 @@ public with sharing class AppraisalMergeController {
     for (Appraisal__c appraisal : queriedApps) {
       Map<String, Object> resp = AppraisalNationAPI.getAppraisalDetail(
         appraisal.Appraisal_Firm_Transaction_ID__c,
-        appraisal.property__r.deal__r.recordtype.developername
+        appraisal.property__r.deal__r.recordtype.developername,
+        appraisal.id
       );
 
       if (resp == null || resp.isEmpty()) {
@@ -810,13 +794,8 @@ public with sharing class AppraisalMergeController {
       System.debug(appraisal);
       appraisals.add(appraisal);
     }
-    
-    if(System.isBatch()) {
-      appraisals.addAll((List<Appraisal__c>)BATCH_VAL.get('Appraisals'));
-      BATCH_VAL.put('Appraisals', appraisals);
-    } else {
-      database.update(appraisals, false);
-    }
+
+    database.update(appraisals, false);
   }
 
   public static void checkStatusAppraisalNation(Id appraisalId) {
@@ -837,9 +816,11 @@ public with sharing class AppraisalMergeController {
       return;
     }
 
+
     Map<String, Object> resp = AppraisalNationAPI.checkOrder(
       appraisal.Appraisal_Firm_Transaction_ID__c,
-      appraisal.property__r.deal__r.recordtype.developername
+      appraisal.property__r.deal__r.recordtype.developername,
+      appraisal.id
     );
 
     // system.debug('--resp--');
@@ -859,13 +840,8 @@ public with sharing class AppraisalMergeController {
         appraisal.Status__c = 'Complete-Undelivered';
       }
     }
-    if(System.isBatch()) {
-      List<Sobject> appVal = BATCH_VAL.get('Appraisals');
-      appVal.add((SObject) appraisal);
-      BATCH_VAL.put('Appraisals', appVal);
-    } else {
-      update appraisal;
-    }
+
+    update appraisal;
 
     List<Appraisal_Order_Comment__c> comments = new List<Appraisal_Order_Comment__c>();
     system.debug(resp.get('comments'));
@@ -890,11 +866,8 @@ public with sharing class AppraisalMergeController {
     if (appraisal.Status__c == 'Complete-Delivered') {
     }
 
-    if (comments.size() > 0 && !System.isBatch()) {
+    if (comments.size() > 0) {
       Database.upsert(comments, Appraisal_Order_Comment__c.Fields.Key__c);
-    } else {
-      comments.addAll((List<Appraisal_Order_Comment__c>) BATCH_VAL.get('Comments'));
-      BATCH_VAL.put('Comments', comments);
     }
   }
 
@@ -918,7 +891,8 @@ public with sharing class AppraisalMergeController {
 
     Map<String, Object> resp = ValuationServicesAPI.checkOrder(
       appraisal.Appraisal_Firm_Transaction_ID__c,
-      appraisal.property__r.deal__r.recordtype.developername
+      appraisal.property__r.deal__r.recordtype.developername,
+      appraisalId
     );
 
     // system.debug('--resp--');
@@ -973,13 +947,7 @@ public with sharing class AppraisalMergeController {
       }
     }
 
-    if(System.isBatch()) {
-      List<Sobject> appVal = BATCH_VAL.get('Appraisals');
-      appVal.add((SObject) appraisal);
-      BATCH_VAL.put('Appraisals', appVal);
-    } else {
-      update appraisal;
-    }
+    update appraisal;
 
     List<Appraisal_Order_Comment__c> comments = new List<Appraisal_Order_Comment__c>();
     system.debug(resp.get('comments'));
@@ -1004,11 +972,8 @@ public with sharing class AppraisalMergeController {
     if (appraisal.Status__c == 'Complete-Delivered') {
     }
 
-    if (comments.size() > 0 && !System.isBatch()) {
+    if (comments.size() > 0) {
       Database.upsert(comments, Appraisal_Order_Comment__c.Fields.Key__c);
-    } else {
-      comments.addAll((List<Appraisal_Order_Comment__c>) BATCH_VAL.get('Comments'));
-      BATCH_VAL.put('Comments', comments);
     }
   }
 
@@ -1032,7 +997,8 @@ public with sharing class AppraisalMergeController {
 
     Map<String, Object> resp = ClarocityAPI.checkOrder(
       appraisal.Appraisal_Firm_Transaction_ID__c,
-      appraisal.Deal__r.RecordType.DeveloperName
+      appraisal.Deal__r.RecordType.DeveloperName,
+      appraisalId
     );
 
     appraisal.Status__c = (String) resp.get('description');
@@ -1053,13 +1019,14 @@ public with sharing class AppraisalMergeController {
       appraisal.Status__c = statusMap.get(appraisal.Status__c);
     }
 
+    update appraisal;
+
     if (appraisal.Status__c == 'Complete-Delivered') {
       ClarocityAPI.retrieveOrderFuture(
         appraisalId,
         appraisal.Deal__r.RecordType.DeveloperName
       );
     }
-    update appraisal;
   }
   /*
  @AuraEnabled
@@ -1229,7 +1196,7 @@ public with sharing class AppraisalMergeController {
     List<String> bccAddresses = new List<String>{ 'bryon.harland@cvest.com' };
 
     String htmlBody = '<html><body>';
-    htmlBody += 'Appraisal API failed retrieving the following url ';
+    htmlBody += 'Due to size limitations, the PDF and/or the XMl was not received through the API. ';
     htmlBody += fileURL;
     htmlBody += '<br/><br/>';
     htmlBody += 'Upload the XML to the following appraisal record ';
@@ -1240,7 +1207,7 @@ public with sharing class AppraisalMergeController {
       '/view';
 
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-    email.setSubject('Appraisal API Failed to Retrieve');
+    email.setSubject('Appraisal API Unable to Retrieve Files due to size limitation');
     email.setHtmlBody(htmlBody);
     email.setToAddresses(toAddresses);
     email.setBccAddresses(bccAddresses);
@@ -1288,7 +1255,7 @@ public with sharing class AppraisalMergeController {
     List<String> bccAddresses = new List<String>{ 'bryon.harland@cvest.com' };
 
     String htmlBody = '<html><body>';
-    htmlBody += 'Appraisal API failed retrieving the following Appraisal documents ';
+    htmlBody += 'Due to size limitations, the PDF and/or the XMl was not received through the API.  ';
     htmlBody +=
       '<p>Deal: ' +
       appraisal.Deal__r.Name +
@@ -1334,7 +1301,7 @@ public with sharing class AppraisalMergeController {
 
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
     email.setSubject(
-      appraisal.Vendor_Ordered_From__c + ' API Failed to Retrieve XML/PDF'
+      appraisal.Vendor_Ordered_From__c + ' Appraisal API Unable to Retrieve Files due to size limitation'
     );
     email.setHtmlBody(htmlBody);
     email.setToAddresses(toAddresses);

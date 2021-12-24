@@ -1,224 +1,302 @@
-<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
-    <aura:attribute name="recordId" type="String" />
-    <aura:attribute name="sobjectType" type="String" default="Advance__c" />
-    
-    <aura:attribute name="parentFieldName" type="String" default="Deal__c"/>
-    <aura:attribute name="fieldList" type="String[]" />
-    <!-- <aura:attribute name="s"
- -->	<aura:attribute name="whereClause" type="String" />
-    <aura:attribute name="orderBy" type="String" default=""/>
-    <!-- <aura:attribute name="recordList" type="String" /> -->
-    
-    <aura:attribute name="title" type="String" default="Advances" />
-    <aura:attribute name="footer" type="String" />
-    <aura:attribute name="recordCount" type="Integer" default="0" />
-    
-    <!-- <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/> -->
-    <aura:handler name="sortChangeEvent" event="c:DataTableSortChangeEvent" action="{!c.handleSortChangeEvent}" phase="capture"/>
-    <aura:handler event="force:refreshView" action="{!c.refresh}" />
-    
-    <aura:attribute name="records" type="Object[]" />
-    <aura:attribute name="pageSize" type="Integer" default="25" />
-    <aura:attribute name="currentPage" type="Integer" default="1" />
-    <aura:attribute name="maxPage" type="Integer" default="1" />
-    
-    <aura:handler Name="init" value="{!this}" action="{!c.init}" />
-	
-	<aura:attribute type="map" name="totalCalculationMap"/> <!-- Trivikram - Created for total -->
-    
-    
-    <lightning:card >
-        <aura:set attribute="title" >
-            <lightning:icon iconName="standard:home" size="medium" />
-            <span class="slds-m-left--medium">
-                {!v.title} ({!v.records.length})
-            </span>
-        </aura:set>
-        
-        <aura:set attribute="actions">
-            <lightning:layout horizontalAlign="end">
-                <!-- <lightning:button label="Create Advance" onclick="{!c.createAdvance}" /> -->
-            </lightning:layout>
-            
-            <lightning:layout horizontalAlign="end">
-                <lightning:layoutItem >
-                    <lightning:button variant="base" onclick="{!c.refresh}" >
-                        <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
-                    </lightning:button>
-                </lightning:layoutItem>
-            </lightning:layout>
-            <lightning:spinner class="" aura:id="spinner" variant="brand" />
-        </aura:set>
-        
-        <ui:scrollerWrapper >
-            <c:DataTable aura:id="dataTable" tableClass="slds-table slds-table--bordered">
-                <aura:set attribute="columns">
-                    
-                    
-                    
-                    <c:DataTableColumn label="Advance #"
-                                       name="Advance_Number__c"
-                                       linkToRecord="Id"
-                                       sortable="true"
-                                       isEditable="false"/>
-                    
-                    <c:DataTableColumn label="Wire Date"
-                                       name="Wire_Date__c"
-                                       sortable="true"
-                                       isEditable="false" />
-                    <!-- s --> 
-                    <c:DataTableColumn label="Prop Record Type"
-                                       name="RecordType_Name__c"
-                                       sortable="true"
-                                       isEditable="false" />       
-                    
-                    <!-- <c:DataTableColumn label="Parent Property"
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Advance__c" />
+
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <!-- <aura:attribute name="s"
+ -->
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" default="Advance_Num__c ASC" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+
+  <aura:attribute name="title" type="String" default="Advances" />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="recordCount" type="Integer" default="0" />
+
+  <!-- <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/> -->
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+  <aura:handler event="force:refreshView" action="{!c.refresh}" />
+
+  <aura:attribute name="records" type="Object[]" />
+  <aura:attribute name="pageSize" type="Integer" default="25" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+
+  <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:attribute type="map" name="totalCalculationMap" />
+  <!-- Trivikram - Created for total -->
+
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon iconName="standard:home" size="medium" />
+      <span class="slds-m-left--medium">
+        {!v.title} ({!v.records.length})
+      </span>
+    </aura:set>
+
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="end">
+        <!-- <lightning:button label="Create Advance" onclick="{!c.createAdvance}" /> -->
+      </lightning:layout>
+
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem>
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+      </lightning:layout>
+      <lightning:spinner class="" aura:id="spinner" variant="brand" />
+    </aura:set>
+
+    <ui:scrollerWrapper>
+      <c:DataTable
+        aura:id="dataTable"
+        tableClass="slds-table slds-table--bordered"
+      >
+        <aura:set attribute="columns">
+          <c:DataTableColumn
+            label="Advance #"
+            name="Name"
+            linkToRecord="Id"
+            sortable="true"
+            isEditable="false"
+          />
+
+          <c:DataTableColumn
+            label="Wire Date"
+            name="Wire_Date__c"
+            sortable="true"
+            isEditable="false"
+          />
+          <!-- s -->
+          <c:DataTableColumn
+            label="Prop Record Type"
+            name="RecordType_Name__c"
+            sortable="true"
+            isEditable="false"
+          />
+
+          <!-- <c:DataTableColumn label="Parent Property"
                                     name="Parent_Property__r.Name"
                                     hidden="true"
                                     displayType="hidden"
                                     sortable="false"/> -->
-                    
-                    <c:DataTableColumn label="Status"
-                                       name="Status__c"
-                                       sortable="true"
-                                       displayType="text"
-                                       
-                                       />
-                    <c:DataTableColumn label="Property Count"
-                                       name="Property_Count__c"
-                                       sortable="true"
-                                       displayType="number"
-                                       />
-                    
-                    <c:DataTableColumn label="Purchase Price"
-                                       name="Purchase_Price_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="BPO Appraisal Value"
-                                       name="BPO_Appraisal_Value_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="Max LTC"
-                                       name="Max_LTC_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <!-- <c:DataTableColumn label="Status"
+
+          <c:DataTableColumn
+            label="Status"
+            name="Status__c"
+            sortable="true"
+            displayType="text"
+          />
+          <c:DataTableColumn
+            label="Property Count"
+            name="Property_Count__c"
+            sortable="true"
+            displayType="number"
+          />
+
+          <c:DataTableColumn
+            label="Purchase Price"
+            name="Purchase_Price_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="BPO Appraisal Value"
+            name="BPO_Appraisal_Value_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="Max LTC"
+            name="Max_LTC_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <!-- <c:DataTableColumn label="Status"
                    name="Status__c"
                    sortable="false"
                    displayType="text"
                     /> -->
-                    <c:DataTableColumn label="Max LTV"
-                                       name="Max_LTV_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    <!-- @ added by Trivikram -->
-                    <c:DataTableColumn label="Initial Disbursement"
-                                       name="Initial_Disbursement_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    <c:DataTableColumn label="Renovation Advance"
-                                       name="Renovation_Reserve_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       /> <!-- @ End --> 
-                    <c:DataTableColumn label="Approved Advance Amount"
-                                       name="Approved_Advance_Amount_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="Advance Fee"
-                                       name="Advance_Fee_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="BPO Appraisal Fee"
-                                       name="BPO_Appraisal_Fee_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="Doc Prep Fee"
-                                       name="Doc_Prep_Fee_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <c:DataTableColumn label="Net Funding"
-                                       name="Net_Funding_Total__c"
-                                       sortable="true"
-                                       displayType="currency"
-                                       />
-                    
-                    <!-- <c:DataTableColumn label="Advance"
+          <c:DataTableColumn
+            label="Max LTV"
+            name="Max_LTV_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+          <!-- @ added by Trivikram -->
+          <c:DataTableColumn
+            label="Initial Disbursement"
+            name="Initial_Disbursement_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+          <c:DataTableColumn
+            label="Renovation Advance"
+            name="Renovation_Reserve_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+          <!-- @ End -->
+          <c:DataTableColumn
+            label="Approved Advance Amount"
+            name="Approved_Advance_Amount_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="Advance Fee"
+            name="Advance_Fee_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="BPO Appraisal Fee"
+            name="BPO_Appraisal_Fee_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="Doc Prep Fee"
+            name="Doc_Prep_Fee_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <c:DataTableColumn
+            label="Net Funding"
+            name="Net_Funding_Total__c"
+            sortable="true"
+            displayType="currency"
+          />
+
+          <!-- <c:DataTableColumn label="Advance"
                    name="Ad"
                    sortable="false"
                    displayType="text"
                     /> -->
-                    
-                    
-                    
-                </aura:set>
-                
-                <!-- optional -->
-                
-                <aura:set attribute="pageNumber" value="1"/>
-                <aura:set attribute="pageSize" value="{!v.pageSize}"/>
-                <aura:set attribute="sortColumnName" value="Advance_Number__c"/>
-                <aura:set attribute="sortDirection" value="asc"/>
-                
-                
-            </c:DataTable>
-        </ui:scrollerWrapper>
-		<aura:set attribute="footer">
-            <div>
-                <span>
-                    <span class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}">First</span>
-                    <a disabled="true" href="javascript:void(0);" class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.firstPage}">First</a>
-                </span>
-                &nbsp;
-                <span>
-                    <span class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}">Previous</span>
-                    <a href="javascript:void(0);" class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.prevPage}">Previous</a>
-                </span>
-                &nbsp;
-                <span>
-                    <span class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Next</span>
-                    <a href="javascript:void(0);" class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.nextPage}">Next</a>
-                </span>
-                &nbsp;
-                <span>
-                    <span class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Last</span>
-                    <a href="javascript:void(0);" class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.lastPage}">Last</a>
-                </span>
-            </div>
-            <div>{!(v.currentPage - 1)*v.pageSize + 1 + ' - ' + ((v.currentPage)*v.pageSize lt v.records.length ? (v.currentPage)*v.pageSize : v.records.length) + ' of ' + v.records.length} </div>
-            
         </aura:set>
-        <!-- @ Trivikram Start for Displaying Totals-->
-		<div class="slds-align_absolute-center">
-			<lightning:layout >
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="Initial Disbursement Total">Initial Disbursement Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.disbursementTotal}"/></p>
-					</div> 
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="Renovation Funding Total">Renovation Funding Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.renovationRes}"/></p>
-					</div>
-			<!--	</lightning:layoutItem>
+
+        <!-- optional -->
+
+        <aura:set attribute="pageNumber" value="1" />
+        <aura:set attribute="pageSize" value="{!v.pageSize}" />
+        <aura:set attribute="sortColumnName" value="Advance_Number__c" />
+        <aura:set attribute="sortDirection" value="asc" />
+      </c:DataTable>
+    </ui:scrollerWrapper>
+    <aura:set attribute="footer">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.records.length ?
+        (v.currentPage)*v.pageSize : v.records.length) + ' of ' +
+        v.records.length}
+      </div>
+    </aura:set>
+    <!-- @ Trivikram Start for Displaying Totals-->
+    <div class="slds-align_absolute-center">
+      <lightning:layout>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="Initial Disbursement Total">
+              Initial Disbursement Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.disbursementTotal}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="Renovation Funding Total">
+              Renovation Funding Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.renovationRes}"
+              />
+            </p>
+          </div>
+          <!--	</lightning:layoutItem>
 				<lightning:layoutItem padding="around-small">
 					<div class="header-column">
 						<p class="field-title" title="Total Max LTC">Total Max LTC</p>
@@ -230,40 +308,72 @@
 						<p class="field-title" title="Total Max LTV">Total Max LTV</p>
 						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.maxLTV}"/></p>
 					</div> -->
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="Funded Total">Funded Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.approvedAdv}"/></p>
-					</div>
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="Advance Fee Total">Advance Fee Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.advanceFee}"/></p>
-					</div>
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="BPO Appraisal Fee Total">BPO Appraisal Fee Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.BPOAppraisal}"/></p>
-					</div>
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="DOC Prep Fee Total">DOC Prep Fee Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.docPrep}"/></p>
-					</div>
-				</lightning:layoutItem>
-				<lightning:layoutItem padding="around-small">
-					<div class="header-column">
-						<p class="field-title" title="Net Funding Total">Net Funding Total</p>
-						<p class="mapValue"><ui:outputCurrency aura:id="curr" value="{!v.totalCalculationMap.netFunding}"/></p>
-					</div>
-				</lightning:layoutItem>
-			</lightning:layout>
-		</div>
-        <!-- @Trivikram End-->
-    </lightning:card> 
-    
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="Funded Total">Funded Total</p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.approvedAdv}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="Advance Fee Total">
+              Advance Fee Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.advanceFee}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="BPO Appraisal Fee Total">
+              BPO Appraisal Fee Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.BPOAppraisal}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="DOC Prep Fee Total">
+              DOC Prep Fee Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.docPrep}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small">
+          <div class="header-column">
+            <p class="field-title" title="Net Funding Total">
+              Net Funding Total
+            </p>
+            <p class="mapValue">
+              <ui:outputCurrency
+                aura:id="curr"
+                value="{!v.totalCalculationMap.netFunding}"
+              />
+            </p>
+          </div>
+        </lightning:layoutItem>
+      </lightning:layout>
+    </div>
+    <!-- @Trivikram End-->
+  </lightning:card>
 </aura:component>

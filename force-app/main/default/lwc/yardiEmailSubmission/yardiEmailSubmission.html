@@ -1,0 +1,74 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <lightning-quick-action-panel header="Submit to Yardi" if:true={recordId}>
+    <template if:true={isRendered}>
+      <template if:true={errorMessage}>
+        <lightning-formatted-text
+          value={errorMessage}
+        ></lightning-formatted-text>
+      </template>
+      <template if:false={errorMessage}>
+        <lightning-input
+          type="email"
+          label="Sender"
+          value={data.user.Email}
+          data-name="user"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input
+          type="text"
+          label="Recipient"
+          value={data.recipients}
+          data-name="recipients"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input
+          type="text"
+          label="CC"
+          value={data.cc}
+          data-name="cc"
+          onchange={handleChange}
+        ></lightning-input>
+        <template if:true={possibleAttachments}>
+          <c-email-attachments-lwc
+            possibilities={possibleAttachments}
+            onselect={handleSelect}
+          ></c-email-attachments-lwc>
+        </template>
+        <lightning-input
+          type="text"
+          label="Subject"
+          placeholder="Subject"
+          value={data.subject}
+          data-name="subject"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input-rich-text
+          label="Message"
+          label-visible="true"
+          placeholder="Write message here..."
+          formats={formats}
+          value={data.emailBody}
+          onchange={handleChange}
+          data-name="emailBody"
+        ></lightning-input-rich-text>
+      </template>
+      <div slot="footer">
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          class="slds-m-left_x-small"
+          onclick={closeModal}
+        ></lightning-button>
+        <template if:false={errorMessage}>
+          <lightning-button
+            variant="brand"
+            label="Send Email"
+            class="slds-m-left_x-small"
+            onclick={sendEmail}
+          ></lightning-button>
+        </template>
+      </div>
+    </template>
+  </lightning-quick-action-panel>
+</template>

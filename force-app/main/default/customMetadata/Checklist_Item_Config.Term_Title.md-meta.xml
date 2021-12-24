@@ -12,15 +12,11 @@
     </values>
     <values>
         <field>Checklist_Type__c</field>
-        <value xsi:type="xsd:string">Deal</value>
+        <value xsi:type="xsd:string">Property</value>
     </values>
     <values>
         <field>Document_Structure__c</field>
         <value xsi:type="xsd:string">Title_Final_Policies</value>
-    </values>
-    <values>
-        <field>Is_Property_Level__c</field>
-        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Milestone__c</field>
@@ -52,6 +48,6 @@
     </values>
     <values>
         <field>sObject__c</field>
-        <value xsi:type="xsd:string">Opportunity</value>
+        <value xsi:type="xsd:string">Property__c</value>
     </values>
 </CustomMetadata>

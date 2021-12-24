@@ -132,7 +132,7 @@ In addition, please do not discuss the investigation with this contact should he
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Source__r</value>
+                    <value>Source1__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>
@@ -418,7 +418,7 @@ In addition, please do not discuss the investigation with this contact should he
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListApiName</name>
-                    <value>Source__r</value>
+                    <value>Source1__r</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>relatedListComponentOverride</name>

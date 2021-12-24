@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Account</entityName>
+    <fieldName>Account_Status__c</fieldName>
+    <masterLabel>Lender Account Status</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Originated_Product_Type__c</fieldNames>
+        <info>&lt;p&gt;At this Stage, we are collecting various documents&lt;/p&gt;</info>
+        <picklistValueName>Diligence</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;Working through some stuff&lt;/p&gt;</info>
+        <picklistValueName>Negotiation</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;At this Stage the Lender has been onboarded&lt;/p&gt;</info>
+        <picklistValueName>Onboarded</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Lender</recordTypeName>
+</PathAssistant>

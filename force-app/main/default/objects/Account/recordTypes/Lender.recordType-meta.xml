@@ -69,65 +69,15 @@
     <picklistValues>
         <picklist>Account_Status__c</picklist>
         <values>
-            <fullName>Active</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Diligence</fullName>
             <default>true</default>
-        </values>
-        <values>
-            <fullName>Diligence Review</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal Review</fullName>
-            <default>false</default>
         </values>
         <values>
             <fullName>Negotiation</fullName>
             <default>false</default>
         </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Any_changes_that_can_impact_renewal__c</picklist>
         <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Approval_Status__c</picklist>
-        <values>
-            <fullName>Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Declined</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Suspended</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Terminated</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Watch List</fullName>
+            <fullName>Onboarded</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -142,46 +92,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Contacted</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Engaged</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not Interested</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not Qualified</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Termsheet Sent</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Termsheet Signed</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Under Review</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Underwriting</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Broker_Approved__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -237,28 +148,6 @@
         </values>
         <values>
             <fullName>Withdrawn</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Clear_OFAC__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Clear_background_checks__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -713,19 +602,11 @@
     <picklistValues>
         <picklist>Custodian__c</picklist>
         <values>
-            <fullName>Deutsche Bank</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>US Bank</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Wells Fargo</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wilmington Trust</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -741,17 +622,6 @@
         </values>
         <values>
             <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Fidelity_Bond_and_E_O_Coverage__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -883,21 +753,6 @@
         </values>
         <values>
             <fullName>Utilities</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Interest_Calculation_Method__c</picklist>
-        <values>
-            <fullName>30%2F365</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Actual%2F360</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Actual%2F365</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1061,10 +916,6 @@
         </values>
         <values>
             <fullName>Facebook Lead Form</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fit Small Business</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1312,10 +1163,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Scotsman Guide</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Sergio Bugarin Sourced</fullName>
             <default>false</default>
         </values>
@@ -1357,10 +1204,6 @@
         </values>
         <values>
             <fullName>Twitter</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unknown</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1431,21 +1274,6 @@
         </values>
         <values>
             <fullName>Very Small</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Legal_Structure__c</picklist>
-        <values>
-            <fullName>Corporation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Limited Liability Corporation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Limited Partnership</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1671,19 +1499,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Compass</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>LendingWise</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Liquid Logics</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mortgage Automator</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1706,10 +1522,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Single Asset</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Term Loan</fullName>
             <default>false</default>
         </values>
@@ -1725,19 +1537,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Cohen Financial</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Del Toro</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>FCI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Faye Servicing</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1754,33 +1558,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Minimum_net_worth_of_50_000__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Minimum_two_years_in_business__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Non_Borrower_Account_Type__c</picklist>
-        <values>
-            <fullName>Attorney</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Auction Company</fullName>
             <default>false</default>
@@ -1790,15 +1568,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Borrower</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Broker Plus</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cash Management</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1814,35 +1584,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Credit and Background Search</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Diligence Review</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Engineering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Entity Search</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Flood Check</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Government</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insurance Agent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Insurance Review</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1858,19 +1600,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Lease%2FPurchase Review</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Legal Counsel</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Lender</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Mortgage Broker</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1890,47 +1620,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Real Estate Broker</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Realtor</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Rent Deposit Bank</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Servicer</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Tax Verification</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Title Company</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Title Review</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Title and Escrow</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Unknown</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Valuation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Vendor</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2006,23 +1700,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>FastApp</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Incenter</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Nationwide</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Non-AMC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ServiceLink</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2045,14 +1727,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>CSFI Loan Management</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Hasz Fund Control</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>In-House</fullName>
             <default>false</default>
         </values>
@@ -2062,43 +1736,6 @@
         </values>
         <values>
             <fullName>Trinity</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Product__c</picklist>
-        <values>
-            <fullName>Bridge Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Asset Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Term Lending</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Profitable__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Properly_licensed__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2114,36 +1751,6 @@
         </values>
         <values>
             <fullName>Warm</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Reason_for_Denial__c</picklist>
-        <values>
-            <fullName>Background Check</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Credit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Experience</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Resumes_of_any_new_owner_s_key_personnel__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2263,50 +1870,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Updated_background_checks__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Updated_financials__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Updated_insurance__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Updated_licenses_approvals__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Warehouse_Lender__c</picklist>
         <values>
             <fullName>Axos Bank</fullName>
@@ -2317,19 +1880,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Churchill</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cross River</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Wells Fargo</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Western Alliance</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -510,12 +510,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Status__c</field>
-            <table>Post_Closing_Item__c.Deal_Documents__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Assignment_Document__c</field>
+            <field>Account__c</field>
             <table>Post_Closing_Item__c.Deal_Documents__r</table>
         </columns>
         <masterLabel>Deal Documents</masterLabel>

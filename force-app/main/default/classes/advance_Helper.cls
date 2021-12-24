@@ -180,12 +180,11 @@ public class advance_Helper {
           oli.ServiceDate = system.today();
           olisToInsert.add(oli);
         } else if (
-          newList[i].Deal_RecordType__c == 'Acquired_Bridge_Loan_Active' ||
-          newList[i].Deal_RecordType__c == 'Acquired_Bridge_Loan'
+          newList[i].Deal_RecordType__c == 'Acquired_SAB_Loan_Active'
         ) {
           oli.OpportunityId = newList[i].Deal__c;
           oli.Advance__c = newList[i].Id;
-          oli.PricebookEntryId = '01u5b00000L8lMiAAJ';
+          oli.PricebookEntryId = '01u0a00000K75EFAAZ';
           // oli.Product2Id = '01t0a000005zHegAAE';
           oli.Quantity = 1;
           oli.UnitPrice = util.fixNull(
@@ -193,6 +192,17 @@ public class advance_Helper {
           );
           oli.ServiceDate = system.today();
           olisToInsert.add(oli);
+        } else if (newList[i].Deal_RecordType__c == 'Acquired_Bridge_Loan') {
+          oli.OpportunityId = newList[i].Deal__c;
+          oli.Advance__c = newList[i].Id;
+          oli.PricebookEntryId = '01u78000000LkkUAAS';
+          // oli.Product2Id = '01t0a000005zHebAAE';
+          oli.Quantity = 1;
+          oli.UnitPrice = newList[i].Approved_Advance_Amount_Total__c;
+          oli.ServiceDate = system.today();
+          olisToInsert.add(oli);
+
+          
         }
       }
     }
@@ -403,6 +413,7 @@ public class advance_Helper {
     Set<Id> completedAdvanceIds = new Set<Id>();
     Set<Id> uncompletedAdvanceIds = new Set<Id>();
     Set<Id> updateRollups = new Set<Id>();
+    Set<Id> updateBridgeProduct = new Set<Id>();
 
     Set<Id> opIds = new Set<Id>();
     Set<Id> advanceWireIds = new Set<Id>();
@@ -425,6 +436,14 @@ public class advance_Helper {
           ) {
             myAdvanceList.add(newList[i].id);
           }
+        }
+
+        if(oldList[i].Wire_Date__c != newList[i].Wire_Date__c && newList[i].Wire_Date__c != null) {
+          updateBridgeProduct.add(newList[i].Id);
+        }
+
+        if(oldList[i].Approved_Advance_Amount_Total__c != newList[i].Approved_Advance_Amount_Total__c) {
+          updateBridgeProduct.add(newList[i].Id);
         }
 
         if (
@@ -489,6 +508,8 @@ public class advance_Helper {
       //   myAdvanceList.add(newList[i].id);
       // }
     }
+
+
 
     List<Wire__c> wires = new List<Wire__c>();
     for (Advance__c adv : [
@@ -560,6 +581,10 @@ public class advance_Helper {
       }
     }
 
+    if(updateBridgeProduct.size() > 0) {
+      updateOppLineItems(updateBridgeProduct);
+    }
+
     List<Property__c> properties = new List<Property__c>();
     Map<Id, Property_Advance__c> propertyMap = new Map<Id, Property_Advance__c>();
     Map<Id, Id> propertyMap2 = new Map<Id, Id>();
@@ -592,12 +617,13 @@ public class advance_Helper {
         //     property.Status__c = 'In Process';
         // }
         property.Status__c = 'Active';
-        property.Advance__c = pAdv.Advance__c;
+        // property.Advance__c = pAdv.Advance__c;
         if (pAdv.Property__r.First_Funding_Date__c != null) {
           property.Funding_Date__c = pAdv.Advance__r.Wire_Date__c;
         } else {
           property.First_Funding_Date__c = pAdv.Advance__r.Wire_Date__c;
           property.Funding_Date__c = pAdv.Advance__r.Wire_Date__c;
+          property.Advance__c = pAdv.Advance__c;
         }
       } else if (uncompletedAdvanceIds.contains(pAdv.Advance__c)) {
         property.Status__c = 'Pending';
@@ -1228,6 +1254,24 @@ public class advance_Helper {
     }
 
     return verifiedAdvs;
+  }
+
+  public static void updateOppLineItems(Set<Id> updatedLineIds) {
+    List<OpportunityLineItem> oliList = [
+      SELECT Id, Advance__r.Wire_Date__c, Advance__r.Approved_Advance_Amount_Total__c
+      FROM OpportunityLineItem
+      WHERE Advance__c IN :updatedLineIds
+      // AND ProductCode LIKE 'bridge%'
+    ];
+    
+    for(OpportunityLineItem oli : oliList) {
+      if(oli.Advance__r.Wire_Date__c != null) {
+        oli.ServiceDate = oli.Advance__r.Wire_Date__c;
+      }
+      oli.UnitPrice = oli.Advance__r.Approved_Advance_Amount_Total__c != null ? oli.Advance__r.Approved_Advance_Amount_Total__c : 0;
+    }
+
+    update oliList;
   }
 
   // public static void validateCompletion(Advance__c advance) {

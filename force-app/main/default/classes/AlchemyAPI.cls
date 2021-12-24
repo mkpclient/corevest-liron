@@ -104,7 +104,7 @@ public without sharing class AlchemyAPI {
     requestBody.put('lead_id', l.Id);
     requestBody.put('entry_id', l.Entry_Id__c);
     //system.debug(requestBody);
-    String url = base_url + create_user_endpoint;
+    String url = getBaseURL() + create_user_endpoint;
 
     HttpRequest req = new HttpRequest();
     req.setBody(JSON.serialize(requestBody, true));
@@ -112,17 +112,24 @@ public without sharing class AlchemyAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setTimeout(120000);
     //system.debug(req.getBody());
     // req.setHeader('C')
 
-    HttpResponse res = new Http().send(req);
-    system.debug(res.getBody());
-    system.debug(res.getStatus());
-    system.debug(res.getStatusCode());
+    Integer statusCode = 200;
+    String body = '{"userId": "test-123"}';
 
-    if (res.getStatusCode() != 400 && res.getStatusCode() != 422) {
+    if (!Test.isRunningTest()) {
+      HttpResponse res = new Http().send(req);
+      system.debug(res.getBody());
+      system.debug(res.getStatus());
+      system.debug(res.getStatusCode());
+      body = res.getBody();
+    }
+
+    if (statusCode != 400 && statusCode != 422) {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        res.getBody(),
+        body,
         Map<String, String>.class
       );
 
@@ -132,7 +139,7 @@ public without sharing class AlchemyAPI {
       // system.debug(respParse.get('userId'));
     } else {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        res.getBody(),
+        body,
         Map<String, String>.class
       );
 
@@ -143,35 +150,14 @@ public without sharing class AlchemyAPI {
   @AuraEnabled
   public static void createUserFromContact(Id contactId) {
     Contact c = [
-      SELECT
-        Id,
-        FirstName,
-        LastName,
-        email,
-        Account.RecordType.DeveloperName,
-        Non_Borrower_Account_Type__c,
-        RecordType.DeveloperName
+      SELECT Id, FirstName, LastName, email
       FROM Contact
       WHERE Id = :contactId
     ];
 
     Map<String, String> requestBody = new Map<String, String>();
 
-    String role = 'borrower';
-    String nonBorrowerAccType = '';
-    if (c.Account.RecordType.DeveloperName == 'Vendor') {
-      role = 'vendor';
-      nonBorrowerAccType = c.Non_Borrower_Account_Type__c;
-    }
-    if (c.RecordType.DeveloperName == 'Broker') {
-      role = 'broker';
-    }
-
-    if (String.isNotBlank(nonBorrowerAccType)) {
-      requestBody.put('nonBorrowerAccType', nonBorrowerAccType);
-    }
     //requestBody.put('name', c.firstname + ' ' + c.lastname);
-    requestBody.put('role', role);
     requestBody.put('firstName', c.firstName);
     requestBody.put('lastName', c.lastName);
     requestBody.put('email', c.Email);
@@ -185,17 +171,27 @@ public without sharing class AlchemyAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setTimeout(120000);
+
     system.debug(req.getBody());
     // req.setHeader('C')
 
-    HttpResponse res = new Http().send(req);
-    system.debug(res.getBody());
-    system.debug(res.getStatus());
-    system.debug(res.getStatusCode());
+    //String body
 
-    if (res.getStatusCode() != 400 && res.getStatusCode() != 422) {
+    Integer statusCode = 200;
+    String body = '{"userId": "test-124"}';
+
+    if (!Test.isRunningTest()) {
+      HttpResponse res = new Http().send(req);
+      system.debug(res.getBody());
+      system.debug(res.getStatus());
+      system.debug(res.getStatusCode());
+      body = res.getBody();
+    }
+
+    if (statusCode != 400 && statusCode != 422) {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        res.getBody(),
+        body,
         Map<String, String>.class
       );
 
@@ -205,7 +201,7 @@ public without sharing class AlchemyAPI {
       // system.debug(respParse.get('userId'));
     } else {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        res.getBody(),
+        body,
         Map<String, String>.class
       );
 
@@ -220,8 +216,7 @@ public without sharing class AlchemyAPI {
         Id,
         Application__c,
         Contact__r.Alchemy_Portal_Id__c,
-        Application__r.Loan_Id__c,
-        Name
+        Application__r.Loan_Id__c
       FROM Opportunity
       WHERE Id = :dealId
     ];
@@ -256,17 +251,16 @@ public without sharing class AlchemyAPI {
         'base64String',
         EncodingUtil.base64Encode(cv.VersionData)
       );
-      requestBody.put('dealName', deal.Name);
-      requestBody.put('fileName', dealDoc.File_Name__c);
-      system.debug(JSON.serialize(requestBody));
-      HttpRequest req = new HttpRequest();
 
+      requestBody.put('fileName', dealDoc.File_Name__c);
+
+      // system.debug(JSON.serialize(requestBody));
+      HttpRequest req = new HttpRequest();
       req.setHeader('from', 'sf');
       req.setHeader(
         'x-auth',
         '8a85dd6f4ab293c9c7aaad0156487d5ae3aba26cbfbc5b9c3c1661212336565f'
       );
-
       String url = getBaseURL() + TERMSHEET_NOTIF_ENDPOINT;
       if (dealDocs.size() > 0) {
         req.setMethod('PATCH');
@@ -299,12 +293,8 @@ public without sharing class AlchemyAPI {
         statusCode = res.getStatusCode();
       }
 
-      system.debug(statusCode);
-      system.debug(body);
-
       if (statusCode == 200 || statusCode == 201) {
         dealDoc.Termsheet_Sent_To_Portal__c = true;
-        dealDoc.Portal_Error_Message__c = '';
         update dealDoc;
       } else {
         dealDoc.Portal_Error_Message__c = body;
@@ -322,50 +312,13 @@ public without sharing class AlchemyAPI {
     for (Deal_Contact__c c : [
       SELECT Id, Deal__c
       FROM Deal_Contact__c
-      WHERE
-        Contact__c = :contactId
-        AND (Entity_Type__c = 'Portal Access'
-        OR Entity_Type__c = 'Broker')
+      WHERE Contact__c = :contactId AND Entity_Type__c = 'Portal Access'
     ]) {
       oppIds.add(c.Deal__c);
     }
 
     return oppIds;
   }
-
-  public static Set<Id> getDealIds(PortalAPIUser.PortalUser user) {
-    Set<Id> oppIds = new Set<Id>();
-
-    if (user != null && user.contactId != null && user.accountId != null) {
-      for (Deal_Contact__c c : [
-        SELECT Id, Deal__c
-        FROM Deal_Contact__c
-        WHERE
-          (Contact__c = :user.contactId
-          AND (Entity_Type__c = 'Portal Access'
-          OR Entity_Type__c = 'Broker'))
-          OR Account__c = :user.accountId
-      ]) {
-        oppIds.add(c.Deal__c);
-      }
-    }
-
-    return oppIds;
-  }
-
-  // public static Set<Id> getDealIdsVendorId(Id accountId) {
-  //   Set<Id> oppIds = new Set<Id>();
-  //   for (Deal_Contact__c c : [
-  //     SELECT Id, Deal__c
-  //     FROM Deal_Contact__c
-  //     WHERE Account__c = :accountId
-  //   ]) {
-  //     oppIds.add(c.Deal__c);
-  //   }
-
-  //   return oppIds;
-  // }
-
   public static Id getLeadIdByAlchemyId(String alchemyId) {
     Id leadId;
     List<lead> leads = [
