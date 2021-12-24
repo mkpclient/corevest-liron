@@ -28,9 +28,8 @@ public with sharing class SecuritizationHelper {
       Securitization__c oldSec = oldMap.get(sec.Id);
       if (
         (oldSec.Status__c != sec.Status__c && sec.Status__c == 'Redeemed') ||
-        (sec.Status__c == 'Pending' &&
-        oldSec.Close_Date__c != sec.Close_Date__c
-        && sec.Close_Date__c != null)
+        (oldSec.Close_Date__c != sec.Close_Date__c &&
+        sec.Close_Date__c != null)
       ) {
         secMap.put(sec.Id, sec);
       }
@@ -46,24 +45,60 @@ public with sharing class SecuritizationHelper {
   ) {
     Set<Id> dealsToUpdate = new Set<Id>();
     List<Deal_x_Funding_Vehicle__c> dfvs = [
-      SELECT Id, End_Date__c, Deal__c, Funding_Vehicle__r.Securitization__c
+      SELECT Id, End_Date__c, Deal__c, Deal__r.Warehouse_Line__c, Funding_Vehicle__r.Securitization__c
       FROM Deal_x_Funding_Vehicle__c
       WHERE Funding_Vehicle__r.Securitization__c IN :secMap.keySet()
     ];
 
-    for (Deal_x_Funding_Vehicle__c d : dfvs) {
-      Securitization__c sec = secMap.get(d.Funding_Vehicle__r.Securitization__c);
+    Map<Id, String> warehouseMap = new Map<Id, String>();
 
-      if (sec.Status__c == 'Pending') {
+    for (Deal_x_Funding_Vehicle__c d : dfvs) {
+      Securitization__c sec = secMap.get(
+        d.Funding_Vehicle__r.Securitization__c
+      );
+
+      if (sec.Close_Date__c != null) {
         d.Start_Date__c = sec.Close_Date__c;
-      } else if (sec.Status__c == 'Redeemed') {
+        warehouseMap.put(d.Deal__c, d.Deal__r.Warehouse_Line__c);
+      }
+      if (sec.Status__c == 'Redeemed') {
         d.End_Date__c = (Date) System.today();
         dealsToUpdate.add(d.Deal__c);
       }
     }
 
-    update dfvs;
-    updateDeals(dealsToUpdate);
+
+    if(warehouseMap.size() > 0) {
+      List<Deal_x_Funding_Vehicle__c> warehouseDfcxs = [
+      SELECT Id, Deal__c, End_Date__c, Deal__r.Securitization__c, Deal__r.Warehouse_Line__c, Funding_Vehicle__r.Name
+      FROM Deal_x_Funding_Vehicle__c
+      WHERE Deal__c IN :warehouseMap.keySet()
+      AND Funding_Vehicle__r.Name IN :warehouseMap.values()
+    ];
+
+    System.debug(JSON.serializePretty(warehouseDfcxs));
+      
+        for (Deal_x_Funding_Vehicle__c d : warehouseDfcxs) {
+          Securitization__c sec = secMap.get(
+            d.Deal__r.Securitization__c
+          );
+          if(sec != null) {
+            d.End_Date__c = sec.Close_Date__c;
+            dfvs.add(d);
+  
+          }
+        }
+
+    }
+
+    try {
+      update dfvs;
+      updateDeals(dealsToUpdate);
+    } catch (DmlException e) {
+      System.debug(
+        'Error updating Deal_x_Funding_Vehicle__c records: ' + e.getMessage()
+      );
+    }
   }
 
   public static void updateDeals(Set<Id> dealIds) {
@@ -73,7 +108,6 @@ public with sharing class SecuritizationHelper {
       updDeals.add(
         new Opportunity(
           Id = id,
-          Securitization__c = null,
           Securitized__c = false
         )
       );

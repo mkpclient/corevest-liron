@@ -18,9 +18,14 @@
                 <label>Pending</label>
             </value>
             <value>
-                <fullName>Complete</fullName>
+                <fullName>Audited</fullName>
                 <default>false</default>
-                <label>Complete</label>
+                <label>Audited</label>
+            </value>
+            <value>
+                <fullName>Closed</fullName>
+                <default>false</default>
+                <label>Closed</label>
             </value>
             <value>
                 <fullName>Redeemed</fullName>
