@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Warehouse_Line_Debt__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The outstanding debt on the warehouse repurchase facility. The debt is defined as the product of the facility’s advance rate and the outstanding balance.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The outstanding debt on the warehouse repurchase facility. The debt is defined as the product of the facility’s advance rate and the outstanding balance.</inlineHelpText>
+    <label>Warehouse Line Debt</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

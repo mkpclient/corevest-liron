@@ -1,0 +1,1234 @@
+<template>
+  <lightning-card>
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="" scope="col">
+            <div class="" title=""></div>
+          </th>
+          <th class="" scope="col">
+            <div class="" title="Uploaded">Uploaded</div>
+          </th>
+          <th class="" scope="col">
+            <div class="" title="Reviewed">Reviewed</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Reviewed Date">Reviewed Date</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Reviewed By">Reviewed By</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="File">File</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Comments">Comments</div>
+          </th>
+          <th class="" scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <template if:true={fundCheckList}>
+          <tr>
+            <th colspan="8" class="slds-theme_shade">Title Information</th>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="slds-truncate" title="">Pro Forma or MUC</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template if:true={fundCheckList.Pro_Forma_MUC.uploaded}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template if:false={fundCheckList.Pro_Forma_MUC.uploaded}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="slds-truncate" title="">
+                <template if:true={fundCheckList.Pro_Forma_MUC.reviewed}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template if:false={fundCheckList.Pro_Forma_MUC.reviewed}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Pro_Forma_MUC.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Pro_Forma_MUC.reviewedBy}
+                  title={fundCheckList.Pro_Forma_MUC.reviewedBy}
+                  value={fundCheckList.Pro_Forma_MUC.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate" title="">
+                <template if:true={fundCheckList.Pro_Forma_MUC.uploaded}>
+                  <a onclick={openFilesModal} title="Pro_Forma_MUC">
+                    Files ({fundCheckList.Pro_Forma_MUC.filesLength})
+                  </a>
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="slds-truncate" title="">
+                {fundCheckList.Pro_Forma_MUC.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Pro_Forma_MUC"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th colspan="8"><span class="slds-hidden">spacer</span></th>
+          </tr>
+          <tr>
+            <th colspan="8" class="slds-theme_shade">Insurance Information</th>
+          </tr>
+
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Evidence of Insurance</div>
+            </th>
+            <td data-label="Uploaded"></td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <div class="" title="">
+                  <template if:true={fundCheckList.evidenceOfInsurance.checklist}>
+                    <lightning-icon
+                      icon-name="action:approval"
+                      size="small"
+                    ></lightning-icon>
+                  </template>
+                  <template if:false={fundCheckList.evidenceOfInsurance.checklist}>
+                    <lightning-icon
+                      size="small"
+                      icon-name="action:close"
+                    ></lightning-icon>
+                  </template>
+                </div>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.evidenceOfInsurance.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.evidenceOfInsurance.reviewedBy}
+                  title={fundCheckList.evidenceOfInsurance.reviewedBy}
+                  value={fundCheckList.evidenceOfInsurance.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="" title="">{fundCheckList.evidenceOfInsurance.comments}</div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="modal_evidenceOfInsurance"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Flood Certificate</div>
+            </th>
+            <td data-label="Uploaded"></td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <div class="" title="">
+                  <template if:true={fundCheckList.floodCertificate.checklist}>
+                    <lightning-icon
+                      icon-name="action:approval"
+                      size="small"
+                    ></lightning-icon>
+                  </template>
+                  <template if:false={fundCheckList.floodCertificate.checklist}>
+                    <lightning-icon
+                      size="small"
+                      icon-name="action:close"
+                    ></lightning-icon>
+                  </template>
+                </div>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.floodCertificate.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.floodCertificate.reviewedBy}
+                  title={fundCheckList.floodCertificate.reviewedBy}
+                  value={fundCheckList.floodCertificate.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="" title="">{fundCheckList.floodCertificate.comments}</div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="modal_floodCertificate"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="slds-truncate" title="">
+                Flood Insurance (if applicable)
+              </div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Flood_Insurance_if_applicable.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template
+                  if:false={fundCheckList.Flood_Insurance_if_applicable.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="slds-truncate" title="">
+                <template
+                  if:true={fundCheckList.Flood_Insurance_if_applicable.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template
+                  if:false={fundCheckList.Flood_Insurance_if_applicable.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Flood_Insurance_if_applicable.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Flood_Insurance_if_applicable.reviewedBy}
+                  title={fundCheckList.Flood_Insurance_if_applicable.reviewedBy}
+                  value={fundCheckList.Flood_Insurance_if_applicable.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Flood_Insurance_if_applicable.uploaded}
+                >
+                  <a
+                    onclick={openFilesModal}
+                    title="Flood_Insurance_if_applicable"
+                    >Files
+                    ({fundCheckList.Flood_Insurance_if_applicable.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Flood_Insurance_if_applicable.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Flood_Insurance_if_applicable"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="slds-truncate" title="">
+                HOA Policy (if applicable)
+              </div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.HOA_Policy_if_applicable.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template
+                  if:false={fundCheckList.HOA_Policy_if_applicable.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="slds-truncate" title="">
+                <template
+                  if:true={fundCheckList.HOA_Policy_if_applicable.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template
+                  if:false={fundCheckList.HOA_Policy_if_applicable.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.HOA_Policy_if_applicable.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.HOA_Policy_if_applicable.reviewedBy}
+                  title={fundCheckList.HOA_Policy_if_applicable.reviewedBy}
+                  value={fundCheckList.HOA_Policy_if_applicable.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.HOA_Policy_if_applicable.uploaded}
+                >
+                  <a onclick={openFilesModal} title="HOA_Policy_if_applicable"
+                    >Files
+                    ({fundCheckList.HOA_Policy_if_applicable.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.HOA_Policy_if_applicable.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="HOA_Policy_if_applicable"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="slds-truncate" title="">
+                Renovation Certificate (if applicable)
+              </div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template if:true={fundCheckList.LOC_Renovation_Cert.uploaded}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template if:false={fundCheckList.LOC_Renovation_Cert.uploaded}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="slds-truncate" title="">
+                <template if:true={fundCheckList.LOC_Renovation_Cert.reviewed}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <!-- <template if:false={fundCheckList.LOC_Renovation_Cert.reviewed}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template> -->
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.LOC_Renovation_Cert.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.LOC_Renovation_Cert.reviewedBy}
+                  title={fundCheckList.LOC_Renovation_Cert.reviewedBy}
+                  value={fundCheckList.LOC_Renovation_Cert.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template if:true={fundCheckList.LOC_Renovation_Cert.uploaded}>
+                  <a onclick={openFilesModal} title="LOC_Renovation_Cert"
+                    >Files ({fundCheckList.LOC_Renovation_Cert.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.LOC_Renovation_Cert.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="LOC_Renovation_Cert"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <th colspan="8"><span class="slds-hidden">spacer</span></th>
+          <tr>
+            <th colspan="8" class="slds-theme_shade">
+              Executed Closing Documents / Requirements
+            </th>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Request for Advance</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Request_for_Advance.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Request_for_Advance.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Request_for_Advance.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Request_for_Advance.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Advance_Funding_Request_for_Advance.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Advance_Funding_Request_for_Advance.reviewedBy}
+                  title={fundCheckList.Advance_Funding_Request_for_Advance.reviewedBy}
+                  value={fundCheckList.Advance_Funding_Request_for_Advance.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Request_for_Advance.uploaded}
+                >
+                  <a
+                    onclick={openFilesModal}
+                    title="Advance_Funding_Request_for_Advance"
+                    >Files
+                    ({fundCheckList.Advance_Funding_Request_for_Advance.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Advance_Funding_Request_for_Advance.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Advance_Funding_Request_for_Advance"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Closing Instructions</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.LOC_Closing_Instructions.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.LOC_Closing_Instructions.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.LOC_Closing_Instructions.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.LOC_Closing_Instructions.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.LOC_Closing_Instructions.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.LOC_Closing_Instructions.reviewedBy}
+                  title={fundCheckList.LOC_Closing_Instructions.reviewedBy}
+                  value={fundCheckList.LOC_Closing_Instructions.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.LOC_Closing_Instructions.uploaded}
+                >
+                  <a onclick={openFilesModal} title="LOC_Closing_Instructions"
+                    >Files
+                    ({fundCheckList.LOC_Closing_Instructions.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.LOC_Closing_Instructions.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="LOC_Closing_Instructions"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Security Instrument</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Security_Instrument.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Security_Instrument.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Security_Instrument.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Security_Instrument.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Advance_Funding_Security_Instrument.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Advance_Funding_Security_Instrument.reviewedBy}
+                  title={fundCheckList.Advance_Funding_Security_Instrument.reviewedBy}
+                  value={fundCheckList.Advance_Funding_Security_Instrument.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Security_Instrument.uploaded}
+                >
+                  <a
+                    onclick={openFilesModal}
+                    title="Advance_Funding_Security_Instrument"
+                    >Files
+                    ({fundCheckList.Advance_Funding_Security_Instrument.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Advance_Funding_Security_Instrument.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Advance_Funding_Security_Instrument"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Executed Vesting Deed</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template if:true={fundCheckList.Vesting_Deed.uploaded}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template if:false={fundCheckList.Vesting_Deed.uploaded}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template if:true={fundCheckList.Vesting_Deed.reviewed}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template if:false={fundCheckList.Vesting_Deed.reviewed}>
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Vesting_Deed.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Vesting_Deed.reviewedBy}
+                  title={fundCheckList.Vesting_Deed.reviewedBy}
+                  value={fundCheckList.Vesting_Deed.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template if:true={fundCheckList.Vesting_Deed.uploaded}>
+                  <a onclick={openFilesModal} title="Vesting_Deed"
+                    >Files ({fundCheckList.Vesting_Deed.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Vesting_Deed.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Vesting_Deed"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+
+          <th colspan="8"><span class="slds-hidden">spacer</span></th>
+          <tr>
+            <th colspan="8" class="slds-theme_shade">Funding Requirements</th>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Closing Funds</div>
+            </th>
+            <td data-label="Uploaded"></td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <div class="" title="">
+                  <template if:true={fundCheckList.advance.checklist}>
+                    <lightning-icon
+                      icon-name="action:approval"
+                      size="small"
+                    ></lightning-icon>
+                  </template>
+                  <template if:false={fundCheckList.advance.checklist}>
+                    <lightning-icon
+                      size="small"
+                      icon-name="action:close"
+                    ></lightning-icon>
+                  </template>
+                </div>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.advance.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.advance.reviewedBy}
+                  title={fundCheckList.advance.reviewedBy}
+                  value={fundCheckList.advance.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="" title="">{fundCheckList.advance.comments}</div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="modal_advance"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">Settlement Statement</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template if:true={fundCheckList.Settlement_Statement.uploaded}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Settlement_Statement.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template if:true={fundCheckList.Settlement_Statement.reviewed}>
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Settlement_Statement.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Settlement_Statement.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Settlement_Statement.reviewedBy}
+                  title={fundCheckList.Settlement_Statement.reviewedBy}
+                  value={fundCheckList.Settlement_Statement.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template if:true={fundCheckList.Settlement_Statement.uploaded}>
+                  <a onclick={openFilesModal} title="Settlement_Statement"
+                    >Files ({fundCheckList.Settlement_Statement.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Settlement_Statement.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Settlement_Statement"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent">
+            <th class="border_right" scope="row">
+              <div class="" title="">CoreVest Funding Package</div>
+            </th>
+            <td data-label="Uploaded">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Funding_Approval_Package.uploaded}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Funding_Approval_Package.uploaded}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Funding_Approval_Package.reviewed}
+                >
+                  <lightning-icon
+                    icon-name="action:approval"
+                    size="small"
+                  ></lightning-icon>
+                </template>
+                <template
+                  if:false={fundCheckList.Advance_Funding_Funding_Approval_Package.reviewed}
+                >
+                  <lightning-icon
+                    size="small"
+                    icon-name="action:close"
+                  ></lightning-icon>
+                </template>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.Advance_Funding_Funding_Approval_Package.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.Advance_Funding_Funding_Approval_Package.reviewedBy}
+                  title={fundCheckList.Advance_Funding_Funding_Approval_Package.reviewedBy}
+                  value={fundCheckList.Advance_Funding_Funding_Approval_Package.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td>
+              <div class="" title="">
+                <template
+                  if:true={fundCheckList.Advance_Funding_Funding_Approval_Package.uploaded}
+                >
+                  <a
+                    onclick={openFilesModal}
+                    title="Advance_Funding_Funding_Approval_Package"
+                    >Files
+                    ({fundCheckList.Advance_Funding_Funding_Approval_Package.filesLength})</a
+                  >
+                </template>
+              </div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                {fundCheckList.Advance_Funding_Funding_Approval_Package.documentInformation.Internal_Comments__c}
+              </div>
+            </td>
+            <td>
+              <div>
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="Advance_Funding_Funding_Approval_Package"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+          <tr class="slds-hint-parent slds-theme_shade">
+            <th class="border_right" scope="row">
+              <div class="slds-text-title_bold" title="">Manager Approval</div>
+            </th>
+            <td data-label="Uploaded"></td>
+            <td data-label="Reviewed">
+              <div class="" title="">
+                <div class="" title="">
+                  <template if:true={fundCheckList.manager.checklist}>
+                    <lightning-icon
+                      icon-name="action:approval"
+                      size="small"
+                    ></lightning-icon>
+                  </template>
+                  <template if:false={fundCheckList.manager.checklist}>
+                    <lightning-icon
+                      size="small"
+                      icon-name="action:close"
+                    ></lightning-icon>
+                  </template>
+                </div>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="" title="">
+                <lightning-formatted-date-time
+                  value={fundCheckList.manager.lastReviewed}
+                ></lightning-formatted-date-time>
+              </div>
+            </td>
+            <td data-label="">
+              <div class="slds-truncate" title="">
+                <lightning-button
+                  variant="base"
+                  label={fundCheckList.manager.reviewedBy}
+                  title={fundCheckList.manager.reviewedBy}
+                  value={fundCheckList.manager.reviewedById}
+                  onclick={handleGoToUser}
+                  class="slds-var-m-left_x-small"
+                >
+                </lightning-button>
+              </div>
+            </td>
+            <td></td>
+            <td>
+              <div class="" title="">{fundCheckList.manager.comments}</div>
+            </td>
+            <td data-label="Amount">
+              <div class="" title="">
+                <lightning-button-menu onselect={handleSelect}
+                  ><lightning-menu-item
+                    value="modal_manager"
+                    label="Edit"
+                  ></lightning-menu-item
+                ></lightning-button-menu>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </lightning-card>
+
+  <c-advance-clear-to-fund-documents
+    onupdate={connectedCallback}
+  ></c-advance-clear-to-fund-documents>
+
+  <c-modal title="Edit">
+    <template if:true={selectedDocumentInfoId}>
+      <div slot="body">
+        <lightning-record-edit-form
+          record-id={selectedDocumentInfoId}
+          object-api-name="Document_Information__c"
+          onsuccess={handleSuccess}
+        >
+          <lightning-input-field
+            field-name="Internal_Comments__c"
+          ></lightning-input-field>
+        </lightning-record-edit-form>
+      </div>
+    </template>
+    <template if:true={advanceId}>
+      <template if:true={selectedFieldNames}>
+        <div slot="body">
+          <lightning-record-edit-form
+            record-id={advanceId}
+            object-api-name="Advance__c"
+            onsuccess={handleSuccess}
+          >
+            <lightning-input-field
+              field-name={selectedFieldNames.approval}
+            ></lightning-input-field>
+            <lightning-input-field
+              field-name={selectedFieldNames.comments}
+            ></lightning-input-field>
+          </lightning-record-edit-form>
+        </div>
+      </template>
+    </template>
+    <div slot="footer">
+      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+      <lightning-button
+        label="Save"
+        onclick={save}
+        variant="brand"
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

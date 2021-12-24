@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investor_Type__c</fullName>
+    <description>Investor Type (Updated Monthly with 3rd Party Data)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Investor Type (Updated Monthly with 3rd Party Data)</inlineHelpText>
+    <label>Investor Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Large</fullName>
+                <default>false</default>
+                <label>Large</label>
+            </value>
+            <value>
+                <fullName>Middle</fullName>
+                <default>false</default>
+                <label>Middle</label>
+            </value>
+            <value>
+                <fullName>Small</fullName>
+                <default>false</default>
+                <label>Small</label>
+            </value>
+            <value>
+                <fullName>Very Small</fullName>
+                <default>false</default>
+                <label>Very Small</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,32 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction">
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="files" type="Object[]" default="[]" />
+  <aura:attribute name="picklistMap" type="Object" />
+  <aura:attribute name="sections" type="Object[]" />
+
+  <aura:attribute name="section" type="String" />
+  <aura:attribute name="documentType" type="String" />
+  <aura:attribute name="documentTypes" type="Object[]" default="[]" />
+  <aura:attribute name="propertyOptions" type="Object[]" default="[]" />
+
+  <aura:attribute name="sobjectType" type="String" default="Opportunity" />
+  <aura:attribute name="recordType" type="String" default="" />
+
+  <aura:attribute name="userType" type="String" default="standard" />
+  <aura:attribute name="accountId" type="String" default="" />
+  <aura:attribute name="documentId" type="String" default="" />
+  <aura:attribute name="accountType" type="String" default="" />
+  <!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+  <aura:attribute name="uploaderType" type="String" default="internal" />
+  <aura:attribute name="message" type="String" default="" />
+
+  <!-- <aura:if isTrue="{!!empty(v.recordType)}"> -->
+  <c:DocumentUploader
+    recordId="{!v.recordId}"
+    sobjectType="Advance__c"
+    recordType="LOC_Loan"
+  />
+  <!-- </aura:if> -->
+
+  <!-- <c:util aura:id="util" /> -->
+</aura:component>

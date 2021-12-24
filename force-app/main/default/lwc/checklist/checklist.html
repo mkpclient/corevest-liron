@@ -1,0 +1,164 @@
+<template>
+  <template if:true={checklist}>
+    <lightning-progress-indicator
+      current-step={currentMilestone}
+      type="path"
+      class="slds-m-bottom_medium"
+    >
+      <template for:each={milestones} for:item="milestone">
+        <lightning-progress-step
+          label={milestone}
+          value={milestone}
+          key={milestone}
+          onclick={handleMilestoneClick}
+          data-milestone={milestone}
+        ></lightning-progress-step>
+      </template>
+    </lightning-progress-indicator>
+
+    <lightning-tabset variant="scoped">
+      <template for:each={sectionTypes} for:item="type">
+        <lightning-tab label={type.name} value={type.name} key={type.name}>
+          <lightning-tabset variant="scoped">
+            <template for:each={type.sections} for:item="section">
+              <lightning-tab
+                label={section.name}
+                key={section.id}
+                value={section.id}
+              >
+                <lightning-accordion
+                  allow-multiple-sections-open
+                  active-section-name={activeSection}
+                >
+                  <template if:true={section.showUploads}>
+                    <lightning-accordion-section label="Uploads" name="uploads">
+                      <table
+                        class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        aria-label="Example default base table of Opportunities"
+                      >
+                        <thead>
+                          <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                              <div
+                                class="slds-truncate"
+                                title="Opportunity Name"
+                              >
+                                Name
+                              </div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Account Name">
+                                Status
+                              </div>
+                            </th>
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Close Date">
+                                Documents
+                              </div>
+                            </th>
+                            <th class="" scope="">
+                              <div
+                                class="slds-truncate"
+                                title="Responsible Party"
+                              >
+                                Responsible Party
+                              </div>
+                            </th>
+                            <!-- <th class="" scope="col">
+                              <div class="slds-truncate" title="Close Date">
+                                Comments
+                              </div>
+                            </th> -->
+                            <th class="" scope="col">
+                              <div class="slds-truncate" title="Stage"></div>
+                            </th>
+                            <!-- <th scope="col" style="width: 3.25rem">
+                              <div
+                                class="slds-truncate slds-assistive-text"
+                                title="Actions"
+                              >
+                                Actions
+                              </div>
+                            </th> -->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <template
+                            for:each={section.uploadItems}
+                            for:item="item"
+                          >
+                            <tr class="slds-hint-parent" key={section.id}>
+                              <th scope="row">
+                                <lightning-formatted-text
+                                  value={item.name}
+                                ></lightning-formatted-text>
+                              </th>
+                              <td role="gridcell">
+                                <lightning-formatted-text
+                                  value={item.status}
+                                ></lightning-formatted-text>
+                              </td>
+                              <td role="gridcell">
+                                <template if:true={item.showDocuments}>
+                                  <a
+                                    data-id={item.id}
+                                    onclick={openDocumentModal}
+                                    >View</a
+                                  >
+                                </template>
+                              </td>
+                              <!-- <td role="gridcell"></td> -->
+                              <td role="gridcell">
+                                <lightning-formatted-text
+                                  value={item.responsibleParty}
+                                ></lightning-formatted-text>
+                              </td>
+                              <td role="gridcell">
+                                <lightning-file-upload
+                                  label="Upload"
+                                  record-id={item.id}
+                                  data-id={item.id}
+                                  onuploadfinished={handleUploadFinished}
+                                  name="upload"
+                                ></lightning-file-upload>
+                              </td>
+
+                              <!-- <td role="gridcell"> -->
+                              <!-- <lightning-button-menu
+                                  alternative-text="Show menu"
+                                  menu-alignment="auto"
+                                >
+                                  <lightning-menu-item
+                                    value="edit"
+                                    label="Edit"
+                                  ></lightning-menu-item>
+                                </lightning-button-menu> -->
+                              <!-- </td> -->
+                            </tr>
+                          </template>
+                        </tbody>
+                      </table>
+                    </lightning-accordion-section>
+                  </template>
+                  <template if:true={section.showTasks}>
+                    <lightning-accordion-section
+                      label="Tasks"
+                      name="tasks"
+                    ></lightning-accordion-section>
+                  </template>
+                </lightning-accordion>
+              </lightning-tab>
+            </template>
+          </lightning-tabset>
+        </lightning-tab>
+      </template>
+    </lightning-tabset>
+
+    <!-- <c-modal title="Documents">
+      <div slot="footer">
+        
+      </div>
+    </c-modal> -->
+    <c-checklist-documents></c-checklist-documents>
+  </template>
+</template>

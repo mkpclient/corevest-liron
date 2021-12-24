@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_Cash_Management_My_Deals</fullName>
+    <columns>Deal__c</columns>
+    <columns>Close_Date__c</columns>
+    <columns>Order_Date__c</columns>
+    <columns>Completed_Date__c</columns>
+    <columns>Account__c</columns>
+    <columns>Recourse__c</columns>
+    <columns>Cash_Management__c</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Closer__c</columns>
+    <columns>Loan_Coordinator__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal_Contact_Type__c</field>
+        <operation>equals</operation>
+        <value>Vendor</value>
+    </filters>
+    <filters>
+        <field>Stage__c</field>
+        <operation>equals</operation>
+        <value>Underwriting,Approved by Committee</value>
+    </filters>
+    <filters>
+        <field>Deal_Type__c</field>
+        <operation>contains</operation>
+        <value>Term Loan</value>
+    </filters>
+    <filters>
+        <field>Vendor_Type__c</field>
+        <operation>equals</operation>
+        <value>Cash Management</value>
+    </filters>
+    <filters>
+        <field>Is_User__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>Vendor - Cash Management My Deals</label>
+    <sharedTo>
+        <role>Term</role>
+    </sharedTo>
+</ListView>

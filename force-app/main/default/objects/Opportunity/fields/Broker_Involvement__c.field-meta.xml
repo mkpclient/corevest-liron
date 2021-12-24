@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Broker_Involvement__c</fullName>
+    <businessOwnerGroup>Originations</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the Broker on the Deal should be included in all Email correspondences with the Sponsor(s)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if the Broker on the Deal should be included in all Email correspondences with the Sponsor(s)</inlineHelpText>
+    <label>Include Broker in Email Correspondence?</label>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

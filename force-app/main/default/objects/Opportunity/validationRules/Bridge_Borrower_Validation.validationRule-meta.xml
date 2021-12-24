@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bridge_Borrower_Validation</fullName>
+    <active>true</active>
+    <description>Prevent user from selecting &quot;No&quot; on the Bridge Borrower field when the Account has funded active properties</description>
+    <errorConditionFormula>AND(
+OR(
+ISCHANGED(Bridge_Borrower__c),
+ISCHANGED(AccountId)),
+ISPICKVAL(Bridge_Borrower__c, &apos;No&apos;),
+Account.Total_Bridge_AUM__c  &gt; 0)</errorConditionFormula>
+    <errorDisplayField>Bridge_Borrower__c</errorDisplayField>
+    <errorMessage>Incorrect!  This Account has funded Active Properties which makes them a Bridge Borrower.  Please confirm if these Assets will be coming off of a Bridge Line.</errorMessage>
+</ValidationRule>

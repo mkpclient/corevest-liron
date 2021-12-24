@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>How_do_you_intend_to_pay_off_this_loan__c</fullName>
+    <description>Loan Details section. Information delivered from DocuSign</description>
+    <externalId>false</externalId>
+    <label>How do you intend to pay off this loan?</label>
+    <length>15</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

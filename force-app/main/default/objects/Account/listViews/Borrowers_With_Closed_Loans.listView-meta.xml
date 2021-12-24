@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrowers_With_Closed_Loans</fullName>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>ACCOUNT.ADDRESS1_STATE_CODE</columns>
+    <columns>ACCOUNT.PHONE1</columns>
+    <columns>CORE.USERS.FIRST_NAME</columns>
+    <columns>Deals_Won__c</columns>
+    <columns>Borrowed_on_Term_Loans__c</columns>
+    <columns>Borrowed_on_Bridge_Loans__c</columns>
+    <columns>Total_Bridge_AUM__c</columns>
+    <columns>Total_Borrowed__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>ACCOUNT.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Account.Borrower</value>
+    </filters>
+    <filters>
+        <field>Deals_Won__c</field>
+        <operation>greaterOrEqual</operation>
+        <value>1</value>
+    </filters>
+    <label>Borrowers With Closed Loans</label>
+</ListView>

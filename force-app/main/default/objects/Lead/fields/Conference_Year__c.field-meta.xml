@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conference_Year__c</fullName>
+    <description>Conference year</description>
+    <externalId>false</externalId>
+    <label>Conference Year</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Introduction_Subsource__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2015</fullName>
+                <default>false</default>
+                <label>2015</label>
+            </value>
+            <value>
+                <fullName>2016</fullName>
+                <default>false</default>
+                <label>2016</label>
+            </value>
+            <value>
+                <fullName>2017</fullName>
+                <default>false</default>
+                <label>2017</label>
+            </value>
+            <value>
+                <fullName>2018</fullName>
+                <default>false</default>
+                <label>2018</label>
+            </value>
+            <value>
+                <fullName>2019</fullName>
+                <default>false</default>
+                <label>2019</label>
+            </value>
+            <value>
+                <fullName>2020</fullName>
+                <default>false</default>
+                <label>2020</label>
+            </value>
+            <value>
+                <fullName>2021</fullName>
+                <default>false</default>
+                <label>2021</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2015</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2016</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2017</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2018</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2019</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2020</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2021</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

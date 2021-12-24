@@ -1,0 +1,54 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="CommunityController">
+    <aura:attribute name="contact" type="Map" default="{}" />
+    <aura:attribute name="loanAmount" type="Decimal" />
+    <aura:attribute name="comments" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-is-relative">
+        <lightning:spinner variant="brand" class="slds-hide" aura:id="spinner" />
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="First Name" name="firstName" value="{!v.contact.FirstName}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="Last Name" name="lastName" value="{!v.contact.LastName}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" type="tel" label="Phone" name="phone" value="{!v.contact.Phone}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" type="email" label="Email" name="email" value="{!v.contact.Email}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="Company Name" name="companyName" value="{!v.contact.Company_Name__c}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="Address" name="lastName" value="{!v.contact.MailingStreet}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="City" name="lastName" value="{!v.contact.MailingCity}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="State" name="lastName" value="{!v.contact.MailingState}" />
+            </lightning:layoutItem>
+            <lightning:layoutItem size="4" padding="around-small">
+                <lightning:input aura:id="requiredField" required="true" label="Zip Code" name="lastName" value="{!v.contact.MailingPostalCode}" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="6" padding="around-small">
+                <lightning:input type="number" required="true" aura:id="requiredField" formatter="currency" label="Loan Amount"
+                    value="{!v.loanAmount}" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:textarea required="true" aura:id="requiredField" label="Message" value="{!v.comments}" />
+            </lightning:layoutItem>
+
+
+            <lightning:layoutItem size="12" padding="around-small">
+                <lightning:button label="Submit" class="requestButton" name="submit" onclick="{!c.createRequest}" />
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+
+</aura:component>

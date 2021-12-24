@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_Ordered__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>SAB Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Appraisal has been ordered and paid for by the Borrower</inlineHelpText>
+    <label>Appraisal Ordered</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

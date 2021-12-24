@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Advance_Created__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Not used</description>
+    <externalId>false</externalId>
+    <label>Property_Advance_Created</label>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

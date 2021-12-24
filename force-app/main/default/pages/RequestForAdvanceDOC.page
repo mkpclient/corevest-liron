@@ -1,0 +1,346 @@
+<apex:page applyBodyTag="false" standardController="Advance__c" extensions="advancePrint_Extension" renderAs="" contentType="application/msword#CoreVest Form Request for Advance (Borrower Owned Property) Institutional & Entrepreneurial.doc" cache="true">
+    <head>
+        <style>
+            @page {
+            size: A4 portrait;
+            }
+            
+            body {
+            font-family: 'Salesforce Sans',Arial,sans-serif;
+            font-size: 10px;
+            }
+            
+            h4 {
+            font-weight: normal;
+            text-align: center;
+            font-size: 18px;
+            }
+            
+            h3 {
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            }
+            
+            .text-center {
+            text-align: center;
+            }
+            
+            .text-blue {
+            color: rgb(61,148,243);
+            }
+            
+            .subheading {
+            color: rgb(126, 126, 126);
+            display: block;
+            margin-top: -16px;
+            font-size: 13px;
+            }
+            
+            .margin-top {
+            margin-top: 30px;
+            }
+            
+            .margin-bottom {
+            margin-bottom: 20px;
+            }
+            
+            .inline-block {
+            display: inline-block;
+            }
+            
+            .full-width {
+            width: 100%;
+            }
+            
+            .paragraph1 {
+            text-indent: 50px;
+            }
+            
+            .paragraph2 {
+            text-indent: 100px;
+            }
+            
+            .paragraph3 {
+            text-indent: 150px;
+            }
+            
+        </style>
+        
+    </head>
+    
+    <html>
+        <body style ="font-size: 14px;">
+            
+            <p style ="font-weight: bold;text-align: center;font-size: 18px;">
+                <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" /><br />
+            </p>
+            <p style ="font-weight: bold;text-align: center;font-size: 18px;">REQUEST FOR ADVANCE<br />
+                (Borrower Owned Property Advance)</p>
+            <div>
+                <div style="text-align:center;">
+                    Dated:
+                    <apex:outputText value="{0, date, MMMM d, YYYY}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </div>
+                <p>
+                    CoreVest American Finance Lender LLC<br />
+                    1920 Main St., Suite 850<br />
+                    Irvine, CA 92614<br />
+                    Attention:  Gina Lambis<br />
+                </p>
+                
+                <table style="table-layout:fixed;width:95vw;border:0px solid white;">
+                    <colgroup>
+                        <col class="short" />
+                        <col class="long" />
+                    </colgroup>
+                    <tr>
+                        <td style="padding:12px 6px;vertical-align:top;width:10%;font-weight:bold;border:0px solid white;">
+                            Re:
+                        </td>
+                        <td style="padding:12px 6px;vertical-align:top;width:80%;border:0px solid white;">
+                            Loan No. <apex:outputText value="{!Advance__c.Deal__r.Deal_Loan_Number__c}" /> in the maximum amount of <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.LOC_Commitment__c}" /></apex:outputText> (<strong>"Loan Amount"</strong>) from 
+                            <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" /> (<strong>"Lender"</strong>) to <apex:outputText value="{!Advance__c.Deal__r.Account_Name__c}" />
+                            (<strong>"Borrower"</strong>) <br />
+                            <strong>Property Address(es):</strong> See <strong>Exhibit A</strong> attached <br />
+                            <strong>"Aggregate Advance Amount": </strong><apex:outputText value="{0, number, Currency}"><apex:param value="{!Advance__c.Aggregate_Funding__c}" /></apex:outputText><br />
+                            <strong>Advance Amount by Property:</strong> See <strong>Exhibit A</strong> attached<br />
+                            <strong>"Lender's Title Agent":</strong> VANTAGE POINT TITLE<br />
+                            <strong>Title Company:</strong> <apex:outputText value=" {!properties[0].Property__r.Title_Company__r.Name}" /><br />
+                        </td>
+                    </tr>                
+                </table> 
+                <div style="text-indent: 50px;">
+                    Lender and Borrower are parties to that certain Loan Agreement dated as of 
+                    <apex:outputText value="{0,date, MMMM d ', ' yyyy}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                    (as the same may have been or may hereafter from time to time be amended, modified or amended and restated, 
+                    the <strong>"Loan Agreement"</strong>).  Unless otherwise defined herein, terms used herein with initial capital letters 
+                    shall have the same meaning assigned to such terms in the Loan Agreement.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    In order to induce Lender to make the Advance requested herein, Borrower hereby represents, warrants and covenants the following to 
+                    Lender as of the date hereof and as of the date the Advance requested hereunder is disbursed by Lender by to or for the benefit of 
+                    Borrower (the <strong>"Advance Date"</strong>):                
+                </div><br />
+                <div style = "text-indent: 50px;">
+                    1.  For each Property that is the subject of this Request for Advance, Borrower has previously delivered to Lender and Lender's Title 
+                    Agent a true and complete fully executed copy of the purchase and sale agreement (including any and all amendments thereto) 
+                    pursuant to which Borrower acquired the Property (each a <strong>"Purchase Agreement"</strong>).  The total purchase price 
+                    (<strong>"Purchase Price"</strong>) paid by Borrower for each such Property is set forth on Exhibit A hereto.  As of the date hereof 
+                    and the Advance Date, Borrower owns good, indefeasible, marketable and insurable fee simple title to each Property, free and clear of 
+                    all liens and encumbrances except for Taxes and other Impositions not yet due or delinquent.
+                </div><br />
+                <div style = "text-indent: 50px;">
+                    2.  Borrower hereby requests an Advance under the Loan Agreement in the Aggregate Advance Amount and in the Advance Amount per 
+                    Property set forth on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> hereto opposite each such 
+                    Property.  Each Property is an Eligible Property.
+                </div><br />
+                <div style = "text-indent: 50px;">
+                    3.  The Aggregate Advance Amount and the Advance Amount per Property as set forth 
+                    on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> hereto does not exceed the Advance 
+                    Amount permitted under the Loan Agreement, and the total of all previous Advances made by Lender, together with the Advance 
+                    requested herein and any other outstanding Request for Advance submitted by Borrower to Lender, does not exceed the Loan Amount.
+                </div><br />
+                <div style = "text-indent: 50px;">
+                    4.  Borrower has concurrently herewith delivered to Lender and Lender's Title Agent the following documents 
+                    <span style = "text-decoration: underline;font-weight: bold;">for each Property</span> that 
+                    is the subject of this Request for Advance:
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    (a) A true, correct and complete recorded copy of the deed (<strong>"Deed"</strong>) conveying fee title to the Property to Borrower 
+                    (showing all recording information and evidence that any and all mortgage taxes and/or documentary transfer and other similar taxes 
+                    have been paid in full);
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (b) A copy of the settlement statement prepared by Title Company for the funding and closing of the Advance requested hereby, 
+                    which shall include Lender's net funding amount and all costs and fees to be paid by Borrower, duly executed by Borrower and 
+                    approved by Lender in writing (which may be by reply email confirmation) (<strong>"Approved Closing Statement"</strong>);                
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (c) An original Security Instrument in favor of Lender duly executed by Borrower (with Borrower's signature notarized and 
+                    otherwise in recordable form), creating a first lien against the Property in favor of Lender and otherwise in form and substance 
+                    acceptable to Lender; and
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (d) Closing Instructions from Lender to Title Company, duly executed by Borrower (<strong>"Closing Instructions"</strong>).  
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (e) A true, correct and complete fully executed copy of the Purchase Agreement and a copy of the final settlement statement 
+                    from the closing of the acquisition of the Property by Borrower.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (f) If a correction deed is required to correct the vesting of fee title to the Property exactly in the name of Borrower 
+                    as it appears in the Security Instrument, an original executed grant deed or other form of warranty deed used in the 
+                    applicable State where the Property is located as approved by Lender and Lender's Title Agent (with the grantor's 
+                    signature notarized and otherwise in recordable form, to be recorded prior to the Security Instrument <strong>"Correction Deed"</strong>).
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (g) The original of this Request for Advance, duly executed by Borrower.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (h)  If Approved Renovation Costs are listed on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span>
+                    hereto, the original of the Renovation Certificate(s) approved by Lender, duly executed by Borrower.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    (i) <span style="background-color: yellow;">[INSERT FOR SOUTH CAROLINA ONLY:</span> The following documents required for each Property 
+                    located in South Carolina:
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (i) Appraisal Waiver Notice (SC) <strong>(which must be signed by the Borrower and Guarantor and delivered to Lender at least one day 
+                    before the Mortgage is executed).</strong>
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (ii)    South Carolina Waiver of Appraisal Rights (to be signed by the Borrower and Guarantor); and
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (iii)   South Carolina UPL Certificate (to be signed by Borrower's SC counsel and/or the in house attorney for the title company
+                    , as applicable).]
+                </div><br />
+                <div style="text-indent: 50px;">
+                    5.  Borrower acknowledges that the Advance Fee, the Appraisal Costs and all other fees and costs of Lender, Title Company and 
+                    Lender's Title Agent in the amounts set forth on the Approved Closing Statement will be paid by Borrower at the closing of the 
+                    Advance from the Advance Amount.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    6.  No Event of Default or Default has occurred under the Loan Documents, and no Event of Default or Default will occur under 
+                    the Loan Documents as a result of the Advance requested herein.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    7.  All of Borrower's representations and warranties set forth in the Loan Documents and in any other document, certificate 
+                    or statement executed or delivered to Lender in connection with the Loan are true and correct as of the date hereof with the 
+                    same effect as if made on the date hereof.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    8.  There has been no material adverse change in (or newly discovered information which could adversely impact, 
+                    the operation, performance or condition (financial, physical or otherwise) of any of the Properties securing the Loan 
+                    including the Properties which are the subject of this Request for Advance, Borrower, any Guarantor, any Interest Owner(s) 
+                    or any key principal or owner of any such party, between the date of the Loan Agreement and the date of this Request for Advance.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    9.  Borrower has no defenses to or offsets against the payment of any amounts due to Lender under or in connection with the Loan, 
+                    or defenses against the performance of any of Borrower's obligations under the Loan Documents and any of the other documents 
+                    and instruments referenced therein.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    10. The undersigned <span style="text-indent: 100px;background-color: yellow;">[has/have]</span> full power and 
+                    authority, acting alone, <span style="text-indent: 100px;background-color: yellow;">[or together,]</span> to execute and 
+                    deliver on behalf of Borrower this Request for Advance, the Closing Instructions, each Security Instrument (as defined in the 
+                    Closing Instructions, each Purchase Agreement and all other documents executed and delivered by Borrower in connection 
+                    with the Advance requested hereunder and the acquisition of each Property listed 
+                    on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> hereto and to otherwise 
+                    bind Borrower with respect to all matters pertaining to the Loan and the Loan Documents.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    11. All proceeds of the Advance will be used solely for investment purposes only, and not for personal, family or 
+                    household purposes.  Each Property that is the subject of this Request for Advance was acquired and is owned by Borrower for 
+                    investment purposes only and will at no time be occupied by Borrower, any Loan Party or any Interest Owner, or by any of their 
+                    respective affiliates or by any Person related to any Loan Party or any Interest Owner that is a natural person.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    12. Borrower acknowledges and agrees that any waiver by Lender of any of the conditions precedent set forth in the Loan 
+                    Agreement with regard to this Advance or any other prior Advance made by Lender shall not constitute or be deemed to be a 
+                    waiver by Lender of any of the conditions precedent for any subsequent Advance.                
+                </div><br />
+                <div style="text-indent: 50px;">
+                    13. Borrower acknowledges and agrees that funds representing the proceeds of an Advance which are disbursed by Lender by 
+                    wire transfer to or for the benefit of Borrower, for all purposes, shall be deemed outstanding and to have been received by 
+                    Borrower as of the date of such wire transfer notwithstanding the fact that such funds may not at any time have been 
+                    remitted from escrow or otherwise to Borrower or for its benefit.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    14. The information and documentation set forth herein or required to be provided to Lender in connection with this Advance 
+                    is true, correct and complete as of the date hereof and as of the Advance Date.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    15. This Request for Advance may be executed in any number of counterparts, each of which when so executed and delivered 
+                    shall be an original, but all of which shall together constitute one and the same instrument.  Copies of originals, 
+                    including copies delivered by facsimile, pdf or other electronic means, shall have the same import and effect as original 
+                    counterparts and shall be valid, enforceable and binding for the purposes of this Request for Advance.
+                </div><br />
+                
+                <table style="table-layout:fixed;width:95vw;border:0px solid white;">
+                    <tr>
+                        <td style="padding:12px 6px;vertical-align:top;width:40%;border:0px solid white;">
+                        </td>
+                        <td style="padding:12px 6px;vertical-align:top;width:60%;border:0px solid white;">
+                            <p>
+                                <strong>"Borrower":</strong>
+                            </p>
+                            <p>
+                                <apex:outputText value="{!Advance__c.Deal__r.Name}" />
+                            </p>
+                            <p>
+                                By:______________________________________________________<br />
+                                <span style = "text-indent: 50px;">Name:______________________________________________________</span><br />
+                                <span style = "text-indent: 50px;">Title:______________________________________________________</span><br />
+                            </p>            
+                            
+                        </td>
+                    </tr>
+                </table>
+                
+                <br clear="all" style="page-break-before:always" />
+                
+                <p style="text-align:center;text-decoration:underline;">
+                    EXHIBIT A<br />
+                    PROPERTY ADDRESSES, ADVANCE AMOUNTS, PURCHASE PRICE<br />
+                    AND APPROVED RENOVATION COST
+                </p>
+                <table>
+                    <tr>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                PROPERTY ADDRESS
+                            </div>
+                        </th>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                ADVANCE AMOUNT
+                            </div>
+                        </th>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                PURCHASE PRICE
+                            </div>
+                        </th>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                APPROVED RENOVATION COSTS
+                            </div>
+                        </th>
+                    </tr>
+                    <apex:repeat value="{!properties}" var="property">
+                        <tr>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                <apex:outputText value="{!property.Property__r.Name}" /><br />
+                                <apex:outputText value="{!property.Property__r.City__c}" />,<apex:outputText value=" {!property.Property__r.State__c}" /><apex:outputText value=" {!property.Property__r.ZipCode__c}" />
+                            </td>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                <apex:outputText value="{0, number, Currency}">
+                                    <apex:param value="{!property.Approved_Advance_Amount__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                <apex:outputText value="{0, number, Currency}">
+                                    <apex:param value="{!property.Purchase_Price__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                <apex:outputText value="{0, number, Currency}">
+                                    <apex:param value="{!property.Property__r.Rehab_Budget__c}" />
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                
+            </div>
+            
+        </body>
+    </html>
+</apex:page>

@@ -1,0 +1,20 @@
+.THIS .slds-truncate {
+    white-space: pre-wrap;
+}
+
+.THIS .slds-th__action {
+    height: 3rem;
+}
+
+.THIS .spiinercls {  
+    top: 10%;
+    bottom: 10%;
+}
+
+.THIS .leftPaddingClass {
+    padding-left: 2rem;
+}
+ 
+.THIS .pillSize{
+ width:100%;
+}

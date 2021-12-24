@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lease_Turnover__c</fullName>
+    <defaultValue>IF($RecordType.Name == &apos;Term Loan&apos;, 1.25, NULL )</defaultValue>
+    <description>A place to put the lease turnover assumption from the Data Model</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Maintenance Turnover Cost (Mo Rent / Term)</inlineHelpText>
+    <label>Lease Turnover</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

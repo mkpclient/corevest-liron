@@ -1,0 +1,13 @@
+.THIS .validatedAddressColor {
+  background-color: #e3e5ed;
+}
+
+.THIS .scroller {
+  max-height: 600px;
+  overflow-y: scroll;
+}
+
+/* .THIS .fixed {
+  position: absolute;
+  z-index: 10000;
+} */

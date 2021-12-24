@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Advance_Amount_Max__c</fullName>
+    <description>Bridge Use
+Previous formula:
+IF(Override_Advance_Amount__c = 0, 
+        Initial_Disbursement__c + Reno_Advance_Amount__c,
+    Override_Advance_Amount__c
+)</description>
+    <externalId>false</externalId>
+    <formula>Initial_Disbursement__c + Approved_Renovation_Holdback__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Max that can be funded for the Initial Disbursement and the Renovation Advances</inlineHelpText>
+    <label>Approved Advance Amount Max</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

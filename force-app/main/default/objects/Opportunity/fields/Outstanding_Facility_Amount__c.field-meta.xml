@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Outstanding_Facility_Amount__c</fullName>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL(Revolving1__c, &quot;No&quot;), LOC_Commitment__c - Aggregate_Funding__c, 
+LOC_Commitment__c - Aggregate_Funding__c + Aggregate_Payoffs__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Remaining Commitment Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

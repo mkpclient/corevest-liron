@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SAB_Invalid_Stage</fullName>
+    <active>true</active>
+    <description>This will prevent a Production user from selecting an invalid Stage</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL( Type , &apos;SAB Loan&apos;),
+ ISCHANGED(StageName),
+OR(
+$Profile.Name = &apos;Relationship Manager&apos;,
+$Profile.Name = &apos;Sales Analyst&apos;),
+OR(
+ISPICKVAL( StageName , &apos;Underwriting&apos;),
+ISPICKVAL( StageName , &apos;Approved by Committee&apos;),
+ISPICKVAL( StageName , &apos;Closed Won&apos;)))</errorConditionFormula>
+    <errorMessage>You have selected an invalid Stage</errorMessage>
+</ValidationRule>

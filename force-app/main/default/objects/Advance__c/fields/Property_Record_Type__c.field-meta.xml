@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Record_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Property Record Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Renovation</fullName>
+                <default>false</default>
+                <label>Renovation</label>
+            </value>
+            <value>
+                <fullName>Single Asset w/ Renovation</fullName>
+                <default>false</default>
+                <label>Single Asset w/ Renovation</label>
+            </value>
+            <value>
+                <fullName>Non-Renovation</fullName>
+                <default>false</default>
+                <label>Non-Renovation</label>
+            </value>
+            <value>
+                <fullName>Ground Up Construction</fullName>
+                <default>false</default>
+                <label>Ground Up Construction</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

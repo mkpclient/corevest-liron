@@ -1,0 +1,95 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="CommunityFundingController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="properties" type="List" />
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="12" padding="horizontal-small">
+            <div class="slds-page-header">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate" title="Rohde Corp - 80,000 Widgets">New
+                                                Funding Request</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-page-header__col-actions">
+                        <div class="slds-page-header__controls">
+                            <div class="slds-page-header__control">
+                                <ul class="slds-button-group-list">
+                                    <li>
+
+                                        <button class="slds-button slds-button_neutral" onclick="{!c.back}">Back</button>
+                                    </li>
+                                    <li>
+                                        <lightning:button label="Submit" variant="brand" aura:id="submitBtn" onclick="{!c.submit}" />
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </lightning:layoutItem>
+
+        <lightning:layoutItem class="slds-is-relative" size="12">
+            <lightning:spinner class="slds-hide" aura:id="spinner" variant="brand" />
+            <lightning:layout>
+                <lightning:layoutItem size="7" padding="around-small">
+                    <lightning:card title="Single New Funding Request">
+                        <div class="slds-m-around_medium">
+                            <c:CommunityPropertyInput formType="horizontal" aura:id="singleProperty" />
+                        </div>
+                    </lightning:card>
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="5" padding="around-small">
+                    <lightning:card title="Bulk Funding Request">
+                        <aura:set attribute="actions">
+                            <lightning:button label="Download Template" name="download" onclick="{!c.downloadTemplate}" />
+                            <lightning:button label="Clear" name="clear" onclick="{!c.clearProperties}" class="{!!empty(v.properties) ? '' : 'slds-hide'}" />
+                        </aura:set>
+
+                        <lightning:layout horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <c:CommunityFundingImporter properties="{!v.properties}" />
+                            </lightning:layoutItem>
+                        </lightning:layout>
+
+                        <lightning:accordion allowMultipleSectionsOpen="true">
+                            <aura:iteration items="{!v.properties}" var="property" indexVar="index">
+
+                                <lightning:accordionSection class="{!!property.valid ? 'invalid' : ''}" name="{!index}"
+                                    label="{!'New Funding Request ' + (index+1)}">
+                                    <aura:set attribute="actions">
+                                        <lightning:buttonMenu aura:id="menu" alternativeText="Show menu" menuAlignment="right"
+                                            iconSize="x-small">
+                                            <lightning:menuItem value="Remove" label="Remove" />
+
+                                        </lightning:buttonMenu>
+                                    </aura:set>
+                                    <aura:set attribute="body">
+
+                                        <c:CommunityPropertyInput property="{!property.record}" valid="{!property.valid}"
+                                            aura:id="bulkProperties" />
+                                    </aura:set>
+                                </lightning:accordionSection>
+                            </aura:iteration>
+                        </lightning:accordion>
+
+                    </lightning:card>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+</aura:component>

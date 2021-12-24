@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Type__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please use the &quot;Update Folder&quot; button to make changes to the Folder and Document Type.</inlineHelpText>
+    <label>Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Asset Diligence</fullName>
+                <default>false</default>
+                <label>Asset Diligence</label>
+            </value>
+            <value>
+                <fullName>Background and Credit Information</fullName>
+                <default>false</default>
+                <label>Background and Credit Information</label>
+            </value>
+            <value>
+                <fullName>Borrower Entity Information</fullName>
+                <default>false</default>
+                <label>Borrower Entity Information</label>
+            </value>
+            <value>
+                <fullName>Corporate Entity Documents</fullName>
+                <default>false</default>
+                <label>Corporate Entity Documents</label>
+            </value>
+            <value>
+                <fullName>Diligence Documents</fullName>
+                <default>false</default>
+                <label>Diligence Documents</label>
+            </value>
+            <value>
+                <fullName>DS Funding Package</fullName>
+                <default>false</default>
+                <label>DS Funding Package</label>
+            </value>
+            <value>
+                <fullName>IC Memo</fullName>
+                <default>false</default>
+                <label>IC Memo</label>
+            </value>
+            <value>
+                <fullName>Insurance Information</fullName>
+                <default>false</default>
+                <label>Insurance Information</label>
+            </value>
+            <value>
+                <fullName>Invoices</fullName>
+                <default>false</default>
+                <label>Invoices</label>
+            </value>
+            <value>
+                <fullName>Loan Document</fullName>
+                <default>false</default>
+                <label>Loan Document</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Model</fullName>
+                <default>false</default>
+                <label>Model</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Title Information</fullName>
+                <default>false</default>
+                <label>Title Information</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

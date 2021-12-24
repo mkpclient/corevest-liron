@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Set_to_Defaults__c</fullName>
+    <businessOwnerGroup>System_Admins</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>This will set the Document Information settings to the default controlled by the Custom Meta Data Doc Structure</description>
+    <externalId>false</externalId>
+    <label>Set to Defaults</label>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

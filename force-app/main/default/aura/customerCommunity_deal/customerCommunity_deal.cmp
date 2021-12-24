@@ -1,0 +1,108 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="community_Controller">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="user" type="Object" />
+	<aura:attribute name="pageBlockSections" type="Object" />
+    <aura:attribute name="sobjectType" type="String" default="Opportunity" />
+    <aura:attribute name="fieldTypeMap" type="Object" />
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	
+	<!-- <aura:iteration items="{!v.pageBlockSections}" var="pageBlockSection" >
+        <aura:iteration items="{!pageBlockSection.layoutRows}" var="layoutRow" >
+            <aura:iteration items="{!layoutRow.layoutItems}" var="layoutItem" >
+                <aura:iteration items="{!layoutItem.layoutComponents}" var="layoutComponent" >
+                    
+                </aura:iteration>
+            </aura:iteration>
+        </aura:iteration>
+    </aura:iteration> -->
+
+    <aura:iteration items="{!v.pageBlockSections}" var="pageBlockSection">
+            
+
+            {!pageBlockSection.header}
+            <lightning:layout horizontalAlign="spread" multipleRows="true">
+                <aura:iteration items="{!pageBlockSection.fields}" var="field">
+                    
+            
+                        <lightning:layoutItem size="6">
+                            <ul class="slds-has-dividers--bottom-space">
+                                <li class="slds-item">
+                                    <aura:if isTrue="{!!empty(field.label)}">
+                                        <p class="slds-text-heading--label slds-truncate">{!field.label}</p>
+
+                                        <aura:set attribute="else">
+                                            <!-- <p></p> -->
+                                            <p class="slds-text-heading--label slds-truncate slds-hidden">  - </p>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+
+                                    <aura:if isTrue="{!!empty(field.value)}">
+                                            <aura:if isTrue="{!field.type == 'DATE'}">
+                                                <ui:outputDate value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!or(field.type == 'TEXTAREA', field.type == 'STRING')}">
+                                                <ui:outputText value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!field.type == 'REFERENCE'}">
+                                                <!-- <p class="slds-text-body- -regular slds-truncate slds-hidden"> - </p> -->
+                                                <ui:outputText value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!or(field.type == 'PICKLIST', field.type == 'MULTIPICKLIST')}">
+                                                <ui:outputText value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!field.type == 'DOUBLE'}">
+                                                <ui:outputNumber value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!field.type == 'PERCENT'}">
+                                                <ui:outputNumber value="{!field.value}" />%
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!field.type == 'CURRENCY'}">
+                                                <ui:outputCurrency value="{!field.value}" />
+                                            </aura:if>
+
+                                            <aura:if isTrue="{!field.type == 'BOOLEAN'}" >
+                                                <ui:outputCheckbox value="{!field.value}" />
+                                            </aura:if>
+
+                                            <!-- <p class="slds-text-body- -regular slds-truncate">{!field.value}</p> -->
+
+                                        <aura:set attribute="else">
+                                            <p class="slds-text-body--regular slds-truncate slds-hidden"> - </p>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                    
+                                </li>
+                            </ul>
+                        </lightning:layoutItem>
+                </aura:iteration>
+            </lightning:layout>
+
+
+    </aura:iteration>
+
+
+    <lightning:layout horizontalAlign="spread" multipleRows="true">
+
+        <lightning:layoutItem size="6">
+            <ul class="slds-has-dividers--bottom-space">
+                <li class="slds-item">
+                    
+                </li>
+            </ul>
+        </lightning:layoutItem>
+
+    </lightning:layout>
+
+
+
+
+
+</aura:component>

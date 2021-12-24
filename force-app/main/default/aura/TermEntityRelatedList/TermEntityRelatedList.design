@@ -1,0 +1,8 @@
+<design:component >
+    <design:attribute name="title" label="Title" />
+    <design:attribute name="sobjectType" label="sObject API Name" />
+    <design:attribute name="parentFieldName" label="Parent API Field Name" />
+    <design:attribute name="whereClause" label="Where Clause" />
+    <design:attribute name="showClearBackgroundButton" label= "Show Clear Background Button" default="true" />
+    <design:attribute name="showCreditSoftPullButton" label= "Show Credit Soft Pull Button" default="true" />
+</design:component>

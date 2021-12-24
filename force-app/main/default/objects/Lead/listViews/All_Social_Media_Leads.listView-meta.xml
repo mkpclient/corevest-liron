@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Social_Media_Leads</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.PHONE</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Loan_Product_s__c</columns>
+    <columns>Introduction_Subsource__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Introduction_Source__c</field>
+        <operation>equals</operation>
+        <value>Social Media</value>
+    </filters>
+    <label>All Social Media Leads</label>
+</ListView>

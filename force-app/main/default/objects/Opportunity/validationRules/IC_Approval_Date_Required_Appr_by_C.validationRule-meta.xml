@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IC_Approval_Date_Required_Appr_by_C</fullName>
+    <active>true</active>
+    <description>To move a deal to Approved by Committee stage, the IC Approval Date field must be complete.</description>
+    <errorConditionFormula>AND(
+
+(RecordType.Name = &quot;Single Asset Bridge Loan&quot;) || (RecordType.Name = &quot;Bridge Loan&quot;),
+
+ ISCHANGED( StageName ),
+
+ ISPICKVAL(StageName, &quot;Approved by Committee&quot;),
+
+  ISBLANK(IC_Approval_Date__c)
+)</errorConditionFormula>
+    <errorDisplayField>IC_Approval_Date__c</errorDisplayField>
+    <errorMessage>IC Approval Date field must be complete before moving deal to Approved by Committee stage.</errorMessage>
+</ValidationRule>

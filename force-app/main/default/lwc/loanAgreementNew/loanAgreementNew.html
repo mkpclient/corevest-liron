@@ -1,0 +1,259 @@
+<template>
+  <lightning-layout multiple-rows="false">
+    <lightning-layout-item size="6">
+      <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" padding="around-medium">
+          <lightning-input
+            label="Borrower"
+            onchange={updateValue}
+            data-name="Borrower__c"
+            value={deal.Borrower__c}
+            read-only
+          ></lightning-input>
+        </lightning-layout-item>
+        <!-- <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Sponsor"
+            value={deal.Sponsor__c}
+            name="Sponsor__c"
+            onchange={updateValue}
+            data-name="Sponsor__c"
+          ></lightning-input
+        ></lightning-layout-item> -->
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Final Loan Amount"
+            value={deal.Current_Loan_Amount__c}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            onchange={updateValue}
+            data-name="Current_Loan_Amount__c"
+          ></lightning-input
+        ></lightning-layout-item>
+
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Maturity Date"
+            value={maturityDate}
+            type="date"
+            read-only
+            data-name="Maturity_Date__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <!-- <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Debt Service"
+            value={monthlyPayment}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            read-only
+            data-name="Monthly_Payment__c"
+          ></lightning-input
+        ></lightning-layout-item> -->
+        <template if:true={showDebtService}>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-input
+              label="Debt Service"
+              value={debtreserve}
+              formatter="currency"
+              step="0.01"
+              type="number"
+              read-only
+              data-name="Holdback_Reserve__c"
+            ></lightning-input
+          ></lightning-layout-item>
+        </template>
+
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Initial Monthly Tax Reserve Deposit"
+            value={initialMonthlyTaxReserveDeposit}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            read-only
+            data-name="Initial_Monthly_Tax_Reserve_Deposit__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Initial Monthly Insurance Reserve Deposit"
+            value={initialMonthlyInsuranceReserveDeposit}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            read-only
+            data-name="InitialMonthlyInsuranceReserveDeposit__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Required DSCR (Non-Recourse Only)"
+            value={requiredDSCR}
+            read-only
+            data-name="Required_DSCR_Non_Recourse_Only__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Holdback Deposit Amount"
+            formatter="currency"
+            step="0.01"
+            type="number"
+            read-only
+            value={holdback}
+            data-name="Required_Holdback_Reserve__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <!-- <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Name and Date of Property Management Agreement"
+            onchange={updateValue}
+            value={deal.NameDatePropertyManagementAgreemeement__c}
+            data-name="NameDatePropertyManagementAgreemeement__c"
+          ></lightning-input
+        ></lightning-layout-item> -->
+      </lightning-layout>
+    </lightning-layout-item>
+    <lightning-layout-item size="6">
+      <lightning-layout multiple-rows="true">
+        <!-- <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Pledgor"
+            value={deal.Pledgor__c}
+            name="Pledgor__c"
+            onchange={updateValue}
+            data-name="Pledgor__c"
+          ></lightning-input
+        ></lightning-layout-item> -->
+        <lightning-layout-item size="12" padding="around-medium">
+          <lightning-input
+            label="Loan Type (Recourse/Non-Recourse)"
+            value={deal.Recourse__c}
+            name="Recourse__c"
+            onchange={updateValue}
+            data-name="Recourse__c"
+            read-only
+          ></lightning-input>
+
+          <!-- <lightning-combobox
+            name="loanVersions"
+            label="Loan Type (Recourse/Non-Recourse)"
+            options={loanTypeOptions}
+            value={deal.Recourse__c}
+            onchange={updateValue}
+            data-name="Recourse__c"
+            read-only
+          ></lightning-combobox> -->
+        </lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium">
+          <lightning-combobox
+            name="cashManagement"
+            label="Cash Management"
+            options={cashManagementOptions}
+            value={deal.Cash_Management__c}
+            onchange={updateValue}
+            data-name="Cash_Management__c"
+          ></lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Closing Fee"
+            value={deal.Calculated_Origination_Fee__c}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            onchange={updateValue}
+            data-name="Calculated_Origination_Fee__c"
+          ></lightning-input
+        ></lightning-layout-item>
+
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Interest Rate"
+            value={deal.Final_Interest_Rate_Calc__c}
+            formatter="percent-fixed"
+            step=".01"
+            type="number"
+            read-only
+            onchange={updateValue}
+            data-name="Final_Interest_Rate_Calc__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Closing Date Tax Reserve Deposit"
+            value={closingDateTaxReserveDeposit}
+            formatter="currency"
+            step="0.01"
+            type="number"
+            read-only
+            data-name="Closing_Date_Tax_Reserve_Deposit__c"
+          ></lightning-input
+        ></lightning-layout-item>
+
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Closing Date Insurance Reserve Deposit"
+            value={closingInsuranceReserve}
+            formatter="currency"
+            step=".01"
+            type="number"
+            read-only
+            data-name="Deposit_Insurance_Review__c"
+          ></lightning-input
+        ></lightning-layout-item>
+
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Underwritten Vacancy and Credit Loss Percentage"
+            value={underwrittenVacancy}
+            formatter="percent-fixed"
+            type="number"
+            read-only
+            data-name="Underwriter_Vacancy_and_Credit_Loss_Perc__c"
+          ></lightning-input>
+        </lightning-layout-item>
+        <!-- <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Required Rent to Debt Service Ratio"
+            value={requiredRentDebtServiceRatio}
+            read-only
+            data-name="Required_Rent_to_Debt_Service_Ratio__c"
+          ></lightning-input
+        ></lightning-layout-item> -->
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Maximum Management Fee Percentage"
+            value={deal.Property_Management_Adjustment__c}
+            formatter="percent-fixed"
+            step="0.01"
+            type="number"
+            onchange={updateValue}
+            data-name="Property_Management_Adjustment__c"
+          ></lightning-input
+        ></lightning-layout-item>
+        <lightning-layout-item size="12" padding="around-medium"
+          ><lightning-input
+            label="Interest Only"
+            value={interestOnly}
+            data-name="Interest_Only__c"
+            read-only
+          ></lightning-input
+        ></lightning-layout-item>
+        <template if:true={showYMPrepaymentDescription}>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-input
+              label="YM / Prepayment Penalty Description"
+              value={deal.YM_Prepayment_Penalty_Description__c}
+              data-name="YM_Prepayment_Penalty_Description__c"
+              read-only
+            ></lightning-input
+          ></lightning-layout-item>
+        </template>
+      </lightning-layout>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

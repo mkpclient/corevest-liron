@@ -1,0 +1,18 @@
+<!-- to display a warning message when the Foreign National is checked -->
+<!-- @author : Trivikram --> 
+<aura:component implements="force:appHostable,force:hasSObjectName,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="ObjRec" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="recordId" type="Id" />
+    <lightning:outputField fieldName="Id" /> 
+    <force:recordData aura:id="recordHandler"
+                      recordId="{!v.recordId}"
+                      targetRecord="{!v.record}"
+                      fields="Foreign_National__c"
+                      targetFields="{!v.ObjRec}"
+                      layoutType = "FULL"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}"
+                      />
+</aura:component>

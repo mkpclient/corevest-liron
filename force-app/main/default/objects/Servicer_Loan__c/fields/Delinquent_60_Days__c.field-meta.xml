@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delinquent_60_Days__c</fullName>
+    <description>Number times payment received on 60th thru 89th day past due date life-to-date</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number times payment received on 60th thru 89th day past due date life-to-date</inlineHelpText>
+    <label>Delinquent 60 Days +</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

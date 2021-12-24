@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Est_FixFlip_Volume_per_Year__c</fullName>
+    <description>Estimated Fix/Flip Volume per Year (Updated Monthly with 3rd Party Data)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Estimated Fix/Flip Volume per Year (Updated Monthly with 3rd Party Data)</inlineHelpText>
+    <label>Est. Fix/Flip Volume per Year</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

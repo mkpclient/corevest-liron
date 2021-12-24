@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Most_Recent_Opportunity_Date__c</fullName>
+    <description>This field is used to generate the most recent create date for a deal, which is tied to the account.</description>
+    <externalId>false</externalId>
+    <label>Most Recent Opportunity Date</label>
+    <summarizedField>Opportunity.CreatedDate</summarizedField>
+    <summaryForeignKey>Opportunity.AccountId</summaryForeignKey>
+    <summaryOperation>max</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

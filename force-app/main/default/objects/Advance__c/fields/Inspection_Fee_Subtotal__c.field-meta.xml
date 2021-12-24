@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inspection_Fee_Subtotal__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <label>Inspection Fee Subtotal</label>
+    <securityClassification>Internal</securityClassification>
+    <summarizedField>Property_Advance__c.Inspection_Fee__c</summarizedField>
+    <summaryForeignKey>Property_Advance__c.Advance__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

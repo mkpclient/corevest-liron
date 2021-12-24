@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>false</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Name</field>
+        <field>Owner</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>false</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>CAF_Analyst__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>Second_Production_Analyst__c</name>
+                <type>relatedUserField</type>
+            </approver>
+            <approver>
+                <name>Owner</name>
+                <type>relatedUserField</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Underwriter and Originator Approval</label>
+        <name>Underwriter_and_Originator_Approval</name>
+    </approvalStep>
+    <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
+    <finalApprovalActions>
+        <action>
+            <name>Current_Approval_Process_Underwriting</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>false</finalApprovalRecordLock>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Current_Approval_Process_CoT</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Term_Confirmation_of_Terms</name>
+            <type>Alert</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Term-Confirmation of Terms-Originations</label>
+    <processOrder>7</processOrder>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>false</showApprovalHistory>
+</ApprovalProcess>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Reno_Cost_Reimbursement1__c</fullName>
+    <businessOwnerGroup>Bridge_Ops</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Reno Use</description>
+    <externalId>false</externalId>
+    <formula>Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Renovation Budget * Max Reno Cost Reimbursement</inlineHelpText>
+    <label>Max Reno Cost Reimbursement</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

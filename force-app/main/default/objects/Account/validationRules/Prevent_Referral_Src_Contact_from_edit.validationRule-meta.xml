@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Referral_Src_Contact_from_edit</fullName>
+    <active>true</active>
+    <description>Prevents the Referral Source Contact from being edited</description>
+    <errorConditionFormula>AND( 
+ISCHANGED( Referral_Source_Contact__c ) , 
+NOT ( ISBLANK( PRIORVALUE( Referral_Source_Contact__c ) )),
+NOT ( $Profile.Name= &quot;System Administrator&quot;) )</errorConditionFormula>
+    <errorDisplayField>Referral_Source__c</errorDisplayField>
+    <errorMessage>The Referral Source cannot be changed</errorMessage>
+</ValidationRule>

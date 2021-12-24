@@ -1,0 +1,174 @@
+<aura:component
+  controller="community_Controller"
+  implements="forceCommunity:availableForAllPageTypes"
+>
+  <!-- <aura:attribute name="recordList" type="List" /> -->
+
+  <aura:attribute name="fieldList" type="String[]" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" />
+
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+
+  <aura:attribute name="records" type="Object[]" />
+  <aura:attribute name="pageSize" type="Integer" default="25" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="showOnlyOpen" type="Boolean" default="false" />
+  <aura:attribute name="showOnlyTerm" type="Boolean" default="false" />
+  <aura:attribute name="showOnlyBridge" type="Boolean" default="false" />
+  <aura:attribute name="user" type="Object" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <lightning:card>
+    <aura:set attribute="title"> Properties </aura:set>
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="">
+        <!--<lightning:layoutItem>
+                    <lightning:input type="checkbox" label="Show Open" name="showOpen" checked="{!v.showOnlyOpen}"
+                        onchange="{!c.doInit}" />
+                </lightning:layoutItem>-->
+        <lightning:layoutItem>
+          <lightning:input
+            type="checkbox"
+            label="Only Term"
+            name="onlyTerm"
+            checked="{!v.showOnlyTerm}"
+            onchange="{!c.doInit}"
+          />
+        </lightning:layoutItem>
+        <lightning:layoutItem>
+          <lightning:input
+            type="checkbox"
+            label="Only Bridge"
+            name="onlyBridge"
+            checked="{!v.showOnlyBridge}"
+            onchange="{!c.doInit}"
+          />
+        </lightning:layoutItem>
+      </lightning:layout>
+      <lightning:spinner class="" aura:id="spinner" variant="brand" />
+    </aura:set>
+
+    <c:DataTable aura:id="dataTable" showCheckbox="false">
+      <aura:set attribute="columns">
+        <c:DataTableColumn
+          label="Address"
+          name="Name"
+          linkToRecord="Id"
+          linkToURL="property?id="
+          sortable="false"
+          isEditable="false"
+        />
+
+        <c:DataTableColumn
+          label="City"
+          name="City__c"
+          sortable="false"
+          displayType="text"
+        />
+        <c:DataTableColumn
+          label="State"
+          name="State__c"
+          sortable="false"
+          displayType="text"
+        />
+        <c:DataTableColumn
+          label="Loan Name"
+          name="Deal__r.Name"
+          linkToRecord="Deal__c"
+          linkToURL="deal?id="
+          sortable="false"
+          isEditable="false"
+        />
+
+        <c:DataTableColumn
+          label="Type"
+          name="RecordType.Name"
+          sortable="false"
+          isEditable="false"
+        />
+
+        <c:DataTableColumn
+          label="Active"
+          name="Active__c"
+          sortable="false"
+          displayType="Boolean"
+        />
+      </aura:set>
+      <aura:set attribute="pageNumber" value="1" />
+      <aura:set attribute="pageSize" value="{!v.pageSize}" />
+      <aura:set attribute="sortColumnName" value="StageName" />
+      <aura:set attribute="sortDirection" value="asc" />
+    </c:DataTable>
+
+    <aura:set attribute="footer">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.records.length ?
+        (v.currentPage)*v.pageSize : v.records.length) + ' of ' +
+        v.records.length}
+      </div>
+    </aura:set>
+  </lightning:card>
+</aura:component>

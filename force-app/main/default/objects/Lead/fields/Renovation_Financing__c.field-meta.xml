@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renovation_Financing__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Is the Borrower requesting Renovation Financing?</inlineHelpText>
+    <label>Renovation Financing?</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Loan_Product_s__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Needed</fullName>
+                <default>false</default>
+                <label>Needed</label>
+            </value>
+            <value>
+                <fullName>Not Needed</fullName>
+                <default>false</default>
+                <label>Not Needed</label>
+            </value>
+            <value>
+                <fullName>None/Light</fullName>
+                <default>false</default>
+                <label>None/Light</label>
+            </value>
+            <value>
+                <fullName>Moderate</fullName>
+                <default>false</default>
+                <label>Moderate</label>
+            </value>
+            <value>
+                <fullName>Heavy</fullName>
+                <default>false</default>
+                <label>Heavy</label>
+            </value>
+            <value>
+                <fullName>New Build</fullName>
+                <default>false</default>
+                <label>New Build</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Property Rental Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Ground Up Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multiple</controllingFieldValue>
+            <controllingFieldValue>Freddie Mac Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>Needed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Property Rental Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Ground Up Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multiple</controllingFieldValue>
+            <controllingFieldValue>Freddie Mac Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>Not Needed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>None/Light</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Moderate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Heavy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>New Build</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

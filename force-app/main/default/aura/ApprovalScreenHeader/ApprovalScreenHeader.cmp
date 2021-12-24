@@ -1,0 +1,354 @@
+<aura:component
+  controller="ApprovalAttachments_lightningController"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="dateSubmitted" type="Date" />
+  <aura:attribute name="submitter" type="String" />
+  <aura:attribute name="status" type="String" />
+  <aura:attribute name="userRole" type="String" />
+  <aura:attribute name="oppId" type="Id" />
+  <aura:attribute name="modalTitle" type="String" />
+  <aura:attribute name="comments" type="String" />
+  <aura:attribute name="response" type="String" />
+  <aura:attribute name="approvalName" type="String" />
+
+  <aura:attribute name="glcModalOpen" type="Boolean" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <div class="slds-page-header">
+    <div class="slds-media">
+      <div class="slds-media__figure">
+        <span
+          class="slds-icon_container slds-icon-standard-approval"
+          title="Description of icon when needed"
+        >
+          <lightning:icon
+            iconName="standard:approval"
+            size="medium"
+            alternativeText="Indicates approval"
+            class="slds-icon slds-page-header__icon"
+          />
+        </span>
+      </div>
+      <div class="slds-media__body">
+        <p class="slds-text-title_caps">Approval Request</p>
+        <!-- <p class="slds-text-body_small slds-line-height_reset">Mark Jaeckal • Unlimited Customer • 11/13/15</p>             -->
+        <h1 class="slds-page-header__title slds-truncate slds-align-middle"
+          >Deal Approval
+          <span
+            class="processStatus status-pending runtime_approval_processOutputStatus"
+          >
+            {!v.status}
+          </span>
+        </h1>
+        <!-- test1 -->
+      </div>
+
+      <div aura:id="approval-buttons" class="slds-hide">
+        <div class="slds-button-group" role="group">
+          <!-- <aura:if
+            isTrue="{!or(v.approvalName == 'Bridge_LOC_Pricing_Review', v.approvalName == 'Term_Pricing_Review', v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review')}"
+          > -->
+            <lightning:button
+              label="Require GLC Approval"
+              onclick="{!c.toggleGLC}"
+            />
+          <!-- </aura:if> -->
+          <button
+            class="slds-button slds-button_neutral"
+            onclick="{!c.openApproval}"
+            >Approve</button
+          >
+          <button
+            class="slds-button slds-button_neutral"
+            onclick="{!c.openRejection}"
+            >Reject</button
+          >
+          <!-- <button class="slds-button slds-button_neutral">Save</button> -->
+        </div>
+      </div>
+    </div>
+    <!-- test3 -->
+  </div>
+  <div style="margin-bottom:20px;width:99%;">
+    <ul
+      class="slds-grid slds-page-header__detail-row"
+      style="opacity: 1;border-bottom:1px solid rgb(216,221,230);margin-top:3px;margin-left:0px;"
+    >
+      <li
+        class="slds-page-header__detail-block"
+        role="listitem"
+        style="max-width: 125.203px;"
+      >
+        <p
+          class="slds-text-heading--label-normal slds-m-bottom--xx-small slds-truncate"
+          title="Submitter"
+        >
+          Submitter
+        </p>
+        <p class="slds-text-body--regular  slds-truncate">
+          <span class="uiOutputText" data-aura-class="uiOutputText">
+            {!v.submitter}
+          </span>
+        </p>
+      </li>
+      <li class="slds-page-header__detail-block" style="max-width: 151.844px;">
+        <p
+          class="slds-text-heading--label-normal slds-m-bottom--xx-small slds-truncate"
+          title="Date Submitted"
+        >
+          Date Submitted
+        </p>
+        <p
+          class="slds-text-body--regular  slds-truncate"
+          data-aura-rendered-by="38:451;a"
+        >
+          <span class="uiOutputDate" data-aura-class="uiOutputDate">
+            <ui:outputDate value="{!v.dateSubmitted}" />
+          </span>
+        </p>
+      </li>
+      <!-- <li class="slds-page-header__detail-block" role="listitem" style="max-width: 153.703px;">
+                <p class="slds-text-heading__label-normal slds-m-bottom__xx-small slds-truncate" title="Actual Approver">
+                    Actual Approver
+                </p>
+                <p class="slds-text-body__regular  slds-truncate">
+                    <span class="uiOutputText" data-aura-class="uiOutputText">
+                        Winnie Luk
+                    </span>
+                </p>
+            </li>
+            <li class="slds-page-header__detail-block" role="listitem" style="max-width: 99.3125px;">
+                <p class="slds-text-heading__label-normal slds-m-bottom__xx-small slds-truncate" title="Assigned To">
+                    Assigned To
+                </p>
+                <p class="slds-text-body__regular  slds-truncate">
+                    <span class="uiOutputText" data-aura-class="uiOutputText">
+                        Winnie Luk
+                    </span>
+                </p>
+            </li> -->
+    </ul>
+  </div>
+
+  <div>
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal"
+    >
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick="{!c.closeModal}"
+          >
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2
+            id="modal-heading-01"
+            class="slds-text-heading_medium slds-hyphenate"
+          >
+            {!v.modalTitle}
+          </h2>
+        </header>
+        <div
+          aura:id="inputText"
+          class="slds-modal__content slds-p-around_medium"
+          id="modal-content-id-1"
+        >
+          <lightning:recordEditForm
+            aura:id="recordFields"
+            recordId="{!v.oppId}"
+            objectApiName="Opportunity"
+            class="slds-hide"
+          >
+            <aura:if
+              isTrue="{!v.approvalName == 'Submit_Bridge_Deal_to_UW_Approval'}"
+            >
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Underwriter__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Loan_Coordinator__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Closer__c"
+              ></lightning:inputField>
+            </aura:if>
+
+            <aura:if
+              isTrue="{!v.approvalName == 'Submit_Term_Deal_to_UW_Approval'}"
+            >
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Underwriter__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Loan_Coordinator__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Closer__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Approved_With_Exception__c"
+              ></lightning:inputField>
+            </aura:if>
+
+            <aura:if
+              isTrue="{!and(or(v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review'), v.userRole != 'Capital Markets')}"
+            >
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Underwriter__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Loan_Coordinator__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Closer__c"
+              ></lightning:inputField>
+            </aura:if>
+          </lightning:recordEditForm>
+
+          <div class="slds-form-element">
+            <!-- <label class="slds-form-element__label" for="textarea-id-01">Comments</label>
+                  <div class="slds-form-element__control"> -->
+            <!-- <textarea id="textarea-id-01" class="slds-textarea" placeholder="Enter comments here">
+                    </textarea> -->
+            <ui:inputTextArea
+              rows="10"
+              value="{!v.comments}"
+              label="Comments"
+              placeholder="Enter comments here"
+            />
+            <!-- </div> -->
+          </div>
+        </div>
+        <div
+          aura:id="responseMessage"
+          class="slds-modal__content slds-p-around_medium slds-hide"
+          id="modal-content-id-1"
+        >
+          <div class="slds-form-element" style="text-align:center;">
+            {!v.response}
+          </div>
+        </div>
+        <footer class="slds-modal__footer">
+          <div aura:id="approveButton" class="slds-hide">
+            <button class="slds-button slds-button_brand" onclick="{!c.approve}"
+              >Approve</button
+            >
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeModal}"
+              >Cancel</button
+            >
+          </div>
+          <div aura:id="rejectButton" class="slds-hide">
+            <button
+              class="slds-button slds-button_destructive"
+              onclick="{!c.reject}"
+              >Reject</button
+            >
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeModal}"
+              >Cancel</button
+            >
+          </div>
+          <div aura:id="okButton" class="slds-hide">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.redirect}"
+              >OK</button
+            >
+          </div>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop"></div>
+  </div>
+
+  <aura:if isTrue="{!v.glcModalOpen}">
+    <div style="height:640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container ">
+          <header class="slds-modal__header">
+            <!-- <button
+              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+              title="Close"
+            >
+              <svg
+                class="slds-button__icon slds-button__icon_large"
+                aria-hidden="true"
+              >
+                <use
+                  xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+                ></use>
+              </svg>
+              <span class="slds-assistive-text">Close</span>
+            </button> -->
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+              >Submit for GLC Approval</h2
+            >
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium slds-is-relative"
+            id="modal-content-id-1"
+          >
+            <lightning:spinner
+              variant="brand"
+              aura:id="glcSpinner"
+              class="slds-hide"
+            ></lightning:spinner>
+            <p>
+              <lightning:textarea
+                label="Comments"
+                name="glcComments"
+                aura:id="glcComments"
+              ></lightning:textarea>
+            </p>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.toggleGLC}"
+              >Cancel</button
+            >
+            <lightning:button
+              label="Submit"
+              variant="brand"
+              onclick="{!c.glcApproval}"
+              aura:id="glcApprovalButton"
+            ></lightning:button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+</aura:component>

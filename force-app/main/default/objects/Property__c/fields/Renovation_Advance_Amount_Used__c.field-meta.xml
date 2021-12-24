@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renovation_Advance_Amount_Used__c</fullName>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount of the Renovation Advance that has been funded</inlineHelpText>
+    <label>Renovation Advance Amount Funded</label>
+    <summarizedField>Property_Advance__c.Renovation_Reserve__c</summarizedField>
+    <summaryFilterItems>
+        <field>Property_Advance__c.Advance_Status_text__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property_Advance__c.Property__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

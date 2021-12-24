@@ -1,0 +1,224 @@
+<template>
+
+        <!-- <template if:true={showSingle}>
+            <div style="height: 600px;"></div>
+            <template if:true={properties}>
+                <lightning-combobox label="Property" name="propertyId" options={propertyList} value={propertyId}
+                    onchange={handleChange} disabled={propertyListDisabled}>
+                </lightning-combobox>
+            </template>
+            
+            <template if:true={folderStructures}>
+            
+            
+            
+                <lightning-combobox class="slds-form-element_horizontal" label="Folder" name="folder" options={folders}
+                    value={folder} disabled={foldersDisabled} onchange={handleChange}>
+                </lightning-combobox>
+            
+                <lightning-combobox class="slds-form-element_horizontal" label="Sub Folder" name="subfolder" options={subFolders}
+                    disabled={subfolderDisabled} value={subfolder} onchange={handleChange}>
+                </lightning-combobox>
+            
+                <lightning-combobox class="slds-form-element_horizontal" label="Document Type" name="doctype"
+                    options={documentTypes} disabled={documentTypesDisabled} value={doctype} onchange={handleChange}>
+                </lightning-combobox>
+            
+            </template>
+            </div>
+        </template> -->
+        
+        <!-- <template if:true={showBulk}>
+                    <li role="presentation" class="slds-listbox__item slds-m-bottom_small">
+                        <div aria-selected="true" id="option1"
+                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                            role="option" tabindex="0"
+                            style="    background-color: initial;">
+                            <span class="slds-media__figure slds-listbox__option-icon">
+                                <lightning-icon icon-name="doctype:attachment" size="medium" ></lightning-icon>
+                            </span>
+                            <span class="slds-media__body">
+                                <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-text-heading_small">
+                                    {fileName}
+                                </span>
+                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">
+
+                                    <lightning-layout horizontal-align="space">
+                                        <lightning-layout-item padding="horizontal-small">
+                                            <template if:true={properties} >
+                                                <lightning-combobox label="Property" name="propertyId" options={propertyList} value={propertyId}
+                                                    onchange={handleChange} disabled={propertyListDisabled} variant="label-hidden">
+                                                </lightning-combobox>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <template if:true={folderStructures}>
+                                            <lightning-layout-item padding="horizontal-small">
+                                                <lightning-combobox class="slds-form-element_horizontal" label="Folder" name="folder" options={folders} value={folder}
+                                                disabled={foldersDisabled} onchange={handleChange} variant="label-hidden">
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="horizontal-small">
+                                                <lightning-combobox class="slds-form-element_horizontal" label="Sub Folder" name="subfolder" options={subFolders}
+                                                disabled={subfolderDisabled} value={subfolder} onchange={handleChange} variant="label-hidden">
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item padding="horizontal-small">
+                                                <lightning-combobox class="slds-form-element_horizontal" label="Document Type" name="doctype" options={documentTypes}
+                                                disabled={documentTypesDisabled} value={doctype} onchange={handleChange} variant="label-hidden">
+                                                </lightning-combobox>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </lightning-layout>
+                                    
+
+                                </span>
+                            </span>
+                        </div>
+                    </li>
+           
+        </template> -->
+
+        <div style="height: 650px">
+
+        
+        <template if:true={showBulk}>
+            <lightning-layout horizontal-align="space">
+                <template if:true={folderStructures}>
+                    <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                        <lightning-combobox  label="Document Folder" name="folder" options={folders}
+                            value={folder} disabled={foldersDisabled} onchange={handleChange} >
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                        <lightning-combobox  label="Sub Folder" name="subfolder"
+                            options={subFolders} disabled={subfolderDisabled} value={subfolder} onchange={handleChange}
+                            >
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                        <lightning-combobox  label="Document Type" name="doctype"
+                            options={documentTypes} disabled={documentTypesDisabled} value={doctype} onchange={handleChange}
+                            >
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </template>
+
+        <template if:true={showSingle}>
+                <ul class="slds-has-dividers--bottom-space">
+                        <template if:true={documents}>
+                            <template for:each={documentsList} for:item="document" for:index="index">
+                                 <li class="slds-item" key={document.Id}>
+                                    <div class="slds-tile slds-media">
+                                     <div class="slds-media__figure">
+                                        <lightning-icon icon-name="doctype:attachment" ></lightning-icon>
+                                      </div>
+                                      <div class="slds-media__body">
+                                        <h3 class="slds-truncate"
+                                          ><a href="javascript:void(0);">{document.File_Name__c}</a></h3
+                                        >
+                          
+                                        <div class="slds-tile__detail slds-text-body--small">
+                                          <!-- <ul class="slds-list--horizontal slds-has-dividers--right">
+                                            <li class="slds-item"
+                                            > -->
+                                              <!-- property selector -->
+                                            <lightning-layout horizontal-align="space" >
+                                                  <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                                                        <lightning-combobox data-index={index} variant="label-hidden" label="Property" name="Type__c" options={document.folders} value={document.Type__c}
+                                                        onchange={handleChangeRow} disabled={foldersDisabled}>
+                                                    </lightning-combobox>
+                                                  </lightning-layout-item >
+                                                  <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                                                        <lightning-combobox data-index={index} variant="label-hidden" label="Property" name="Section__c" options={document.subfolders} value={document.Section__c}
+                                                        onchange={handleChangeRow} disabled={document.subfoldersDisabled}>
+                                                    </lightning-combobox>
+                                                  </lightning-layout-item>
+                                                  <lightning-layout-item padding="horizontal-small" flexibility="grow">
+                                                        <lightning-combobox data-index={index} variant="label-hidden" label="Property" name="Document_Type__c" options={document.doctypes} value={document.Document_Type__c}
+                                                    onchange={handleChangeRow} disabled={document.doctypesDisabled}>
+                                                </lightning-combobox>
+                                                  </lightning-layout-item>
+                                              </lightning-layout>
+                                                
+                                            <!-- </li>
+
+                                            <li class="slds-item"
+                                            > -->
+                                              <!-- property selector -->
+                                                
+                                            <!-- </li>
+
+                                            <li class="slds-item"
+                                            > -->
+                                              <!-- property selector -->
+                                                
+                                            <!-- </li>
+                                          </ul> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li> 
+                            </template>
+                        </template>
+                    </ul>
+        </template>
+
+        <template if:true={showBulkOpportunity}>
+            <ul class="slds-has-dividers--bottom-space">
+                <template if:true={documents}>
+                    <template for:each={documents} for:item="document">
+                         <li class="slds-item" key={document.Id}>
+                            <div class="slds-tile slds-media">
+                             <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:attachment" ></lightning-icon>
+                              </div>
+                              <div class="slds-media__body">
+                                <h3 class="slds-truncate"
+                                  ><a href="javascript:void(0);">{document.File_Name__c}</a></h3
+                                >
+                              </div>
+                            </div>
+                          </li> 
+                    </template>
+                </template>
+            </ul>
+        </template>
+
+        <template if:true={showBulkProperty}>
+            <ul class="slds-has-dividers--bottom-space">
+                <template if:true={documents}>
+                    <template for:each={documents} for:item="document" for:index="index">
+                         <li class="slds-item" key={document.Id}>
+                            <div class="slds-tile slds-media">
+                             <div class="slds-media__figure">
+                                <lightning-icon icon-name="doctype:attachment" ></lightning-icon>
+                              </div>
+                              <div class="slds-media__body">
+                                <h3 class="slds-truncate"
+                                  ><a href="javascript:void(0);">{document.File_Name__c}</a></h3
+                                >
+                  
+                                <div class="slds-tile__detail slds-text-body--small">
+                                  <!-- <ul class="slds-list--horizontal slds-has-dividers--right">
+                                    <li class="slds-item"
+                                    > -->
+                                      <!-- property selector -->
+                                      <template if:true={properties}>
+                                        <lightning-combobox data-index={index} variant="label-hidden" label="Property" name="Property__c" options={propertyList} value={document.Property__c}
+                                            onchange={handleChangeRow} disabled={propeartyListDisabled}>
+                                        </lightning-combobox>
+                                    </template>
+                                    <!-- </li>
+                                  </ul> -->
+                                </div>
+                              </div>
+                            </div>
+                          </li> 
+                    </template>
+                </template>
+            </ul>
+        </template>
+    </div>
+</template>

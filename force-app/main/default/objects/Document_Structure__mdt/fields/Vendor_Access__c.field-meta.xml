@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_Access__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Provides Vendors access to this Doc Type.  Also need to select the vendor or vendor type for the Vendor Type Access</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Provides Vendors access to this Doc Type.  Also need to select the vendor or vendor type for the Vendor Type Access</inlineHelpText>
+    <label>Vendor Access</label>
+    <securityClassification>Internal</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

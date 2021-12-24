@@ -1,0 +1,147 @@
+<apex:page standardController="Opportunity" extensions="InsuranceReserveCalcExtension" showHeader="false" sidebar="false" renderAs="pdf">
+    <br />
+    <br />
+    <br />
+    <br />
+        <apex:form >
+            <div style="border: 1px solid #000; width: 70%;">
+                <table style="border-collapse: collapse; font-family: sans-serif; font-size: 8pt;width: 100%;">
+                    <colgroup>
+                        <col width="35%"/>
+                        <col width="18%"/>
+                        <col width="37%"/>
+                        <col width="10%"/>
+                    </colgroup>
+                    <tr><th colspan="4">&nbsp;</th></tr>
+                    <tr>
+                        <th colspan="4" style="font-size: 14pt;">{!Opportunity.Name}</th>
+                    </tr>
+                    <tr><th colspan="4">&nbsp;</th></tr>
+                    <tr><th colspan="4">&nbsp;</th></tr>
+                    <tr>
+                        <th>1st Payment Due Date</th>
+                        <th style="border: 1px solid #000; background: #fffd9b; color: #002663; text-align: right;">
+                            <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                <apex:param value="{!Opportunity.First_Payment_Due_Date__c}" />
+                            </apex:outputText>
+                        </th>
+                    </tr>
+                    <tr><th colspan="4">&nbsp;</th></tr>
+                    <!-- <tr>
+                        <th>Ins. Renewal Date</th>
+                        <th style="border: 1px solid #000; background: #fffd9b; color: #002663; text-align: right;">
+                            <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                <apex:param value="{!Opportunity.Ins_Renewal_Date__c}" />
+                            </apex:outputText>
+                        </th>
+                    </tr> -->
+                    <!-- <tr>
+                        <th colspan="2" style="border-right: none; border-bottom: none;"></th>
+                        <th>Total Deficient</th>
+                        <th style="text-align: right;">
+                            {!Opportunity.Total_Deficient__c}
+                        </th>
+                    </tr> -->
+                    <!-- <tr>
+                        <th colspan="2" style="border-right: none; border-bottom: none;"></th>
+                        <th style="border-top: 1px dashed #000; color: red; background:#d8d8d8;">
+                            Total Reserve Required
+                        </th>
+                        <th style="border-top: 1px dashed #000; color: red; background:#d8d8d8; text-align: right;">
+                            {!Opportunity.Total_Reserve_Required__c}
+                        </th>
+                    </tr> -->
+                    <!-- <tr><th colspan="4">&nbsp;</th></tr> -->
+                    <tr>
+                        <td colspan="4" style="background: #d8d8d8; font-size: 7pt; text-align: center;">
+                            <em>
+                                Round UP for months collected at Closing
+                            </em>
+                        </td>
+                    </tr>
+                    <tr><th colspan="4">&nbsp;</th></tr>
+                </table>
+            </div>
+
+            <br />
+            <table style="border-collapse: collapse; font-family: sans-serif; font-size: 8pt; width: 100%;">
+                <colgroup>
+                    <col width="22%"/>
+                    <col width="15%"/>
+                    <col width="18%"/>
+                    <col width="15%"/>
+                    <col width="15%"/>
+                    <col width="15%"/>
+                </colgroup>
+                <tr>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Property
+                    </th>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Premium
+                    </th>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Renewal Date
+                    </th>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Total Monthly Reserve Required
+                    </th>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Monthly Premium
+                    </th>
+                    <th style="border: 1px solid #000; text-align: center; background: #d8d8d8; vertical-align: middle;">
+                        Reserve On Closing Statement
+                    </th>
+                </tr>
+                <apex:repeat value="{!properties}" var="property">
+                    <tr>
+                        <td style="border: 1px solid #000; text-align: center;">{!property.Name}</td>
+                        <td style="border: 1px solid #000; text-align: center;">
+                            $<apex:outputText value="{0, number, ###,##0.00}">
+                                <apex:param value="{!if(property.Premium_Amount__c != null, property.Premium_Amount__c, 0.00)}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border: 1px solid #000; text-align: center;">
+                            <apex:outputText value="{0, date, MM/dd/yyyy}">
+                                <apex:param value="{!property.Renewal_Date__c}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border: 1px solid #000; text-align: right;">
+                            <apex:outputText value="{!property.Total_Monthly_Reserve_Required__c}" />
+                        </td>
+                        <td style="border: 1px solid #000;">
+                            <span style="float: left;">$</span>
+                            <apex:outputText style="float: right;" value="{0, number, ###,##0.00}">
+                                <apex:param value="{!property.Monthly_Premium__c}" />
+                            </apex:outputText>
+                        </td>
+                        <td style="border: 1px solid #000;">
+                            <span style="float: left;">$</span>
+                            <apex:outputText style="float: right;" value="{0, number, ###,##0.00}">
+                                <apex:param value="{!property.Reserve_on_Closing_Statement__c}" />
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </apex:repeat>
+                <tr>
+                    <th></th>
+                    <th style="text-align: center; border: 1px solid #000;">
+                        $<apex:outputText value="{0, number, ###,##0.00}" >
+                            <apex:param value="{!premiumRollup}" />
+                        </apex:outputText>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th style="background: yellow; border: 1px solid #000;">
+                        <span style="float: left;">$</span>
+                        <apex:outputText style="float: right;" value="{0, number, ###,##0.00}">
+                            <apex:param value="{!reserveOnClosingRollup}" />
+                        </apex:outputText>
+                    </th>
+                </tr>
+            </table>
+
+        </apex:form>
+
+</apex:page>

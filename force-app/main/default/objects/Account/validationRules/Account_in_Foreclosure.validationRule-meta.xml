@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_in_Foreclosure</fullName>
+    <active>false</active>
+    <description>Account is in foreclosure, cannot make edits.</description>
+    <errorConditionFormula>AND( 
+
+( In_Foreclosure__c  = TRUE), 
+($Profile.Name != &quot;Integration&quot;) ,
+($Profile.Name != &quot;Asset Management&quot;),
+($Profile.Name != &quot;System Administrator&quot;) 
+
+)</errorConditionFormula>
+    <errorMessage>This Account is in Foreclosure, please refer to Asset Management</errorMessage>
+</ValidationRule>

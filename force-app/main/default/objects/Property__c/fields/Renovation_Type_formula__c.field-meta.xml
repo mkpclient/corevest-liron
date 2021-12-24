@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renovation_Type_formula__c</fullName>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <formula>IF(AND(
+ ISPICKVAL(Deal__r.Reno_Funding_Type__c, &quot;Advances&quot;),
+RecordType.Name = &quot;Bridge Renovation&quot;),&quot;Renovation Advances&quot;,
+IF(AND(
+ ISPICKVAL(Deal__r.Reno_Funding_Type__c, &quot;Reserves&quot;),
+RecordType.Name = &quot;Bridge Renovation&quot;),&quot;Renovation Reserves&quot;,
+If(RecordType.Name = &quot;Ground Up Construction&quot;,&quot;Ground Up Construction&quot;,
+If(RecordType.Name = &quot;Bridge No Renovation&quot;,&quot;No Renovation&quot;,
+&quot;&quot;))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Bridge Renovation Type</inlineHelpText>
+    <label>Renovation Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

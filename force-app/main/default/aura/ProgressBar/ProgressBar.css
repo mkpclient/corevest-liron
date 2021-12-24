@@ -1,0 +1,10 @@
+.THIS .blue {
+  background-color: #1393d1;
+}
+
+.THIS .orange {
+  background-color: rgb(255, 103, 27);
+}
+.THIS.slds-progress-bar {
+  height: 3rem;
+}

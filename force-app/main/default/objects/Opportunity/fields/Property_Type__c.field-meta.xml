@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Property Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2-4 Unit</fullName>
+                <default>false</default>
+                <label>2-4 Unit</label>
+            </value>
+            <value>
+                <fullName>Commercial</fullName>
+                <default>false</default>
+                <label>Commercial</label>
+            </value>
+            <value>
+                <fullName>Condo</fullName>
+                <default>false</default>
+                <label>Condo</label>
+            </value>
+            <value>
+                <fullName>Land/Lot</fullName>
+                <default>false</default>
+                <label>Land/Lot</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Multi-unit (5+)</fullName>
+                <default>false</default>
+                <label>Multi-unit (5+)</label>
+            </value>
+            <value>
+                <fullName>SFR</fullName>
+                <default>true</default>
+                <label>SFR</label>
+            </value>
+            <value>
+                <fullName>Townhome</fullName>
+                <default>false</default>
+                <label>Townhome</label>
+            </value>
+            <value>
+                <fullName>Attached</fullName>
+                <default>false</default>
+                <label>Attached</label>
+            </value>
+            <value>
+                <fullName>Condo - Detached</fullName>
+                <default>false</default>
+                <label>Condo - Detached</label>
+            </value>
+            <value>
+                <fullName>Condo - High Rise</fullName>
+                <default>false</default>
+                <label>Condo - High Rise</label>
+            </value>
+            <value>
+                <fullName>Condo - Low Rise</fullName>
+                <default>false</default>
+                <label>Condo - Low Rise</label>
+            </value>
+            <value>
+                <fullName>Condo - Mid Rise</fullName>
+                <default>false</default>
+                <label>Condo - Mid Rise</label>
+            </value>
+            <value>
+                <fullName>Condo - NonWarrantable</fullName>
+                <default>false</default>
+                <label>Condo - NonWarrantable</label>
+            </value>
+            <value>
+                <fullName>Detached</fullName>
+                <default>false</default>
+                <label>Detached</label>
+            </value>
+            <value>
+                <fullName>Manufactured Housing</fullName>
+                <default>false</default>
+                <label>Manufactured Housing</label>
+            </value>
+            <value>
+                <fullName>Modular</fullName>
+                <default>false</default>
+                <label>Modular</label>
+            </value>
+            <value>
+                <fullName>PUD</fullName>
+                <default>false</default>
+                <label>PUD</label>
+            </value>
+            <value>
+                <fullName>Rural</fullName>
+                <default>false</default>
+                <label>Rural</label>
+            </value>
+            <value>
+                <fullName>Multi-unit (1-4)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-unit (1-4)</label>
+            </value>
+            <value>
+                <fullName>Student Housing</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Student Housing</label>
+            </value>
+            <value>
+                <fullName>Vacation Rental</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Vacation Rental</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

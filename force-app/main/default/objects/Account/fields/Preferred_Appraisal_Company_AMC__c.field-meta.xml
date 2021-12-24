@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Preferred_Appraisal_Company_AMC__c</fullName>
+    <externalId>false</externalId>
+    <label>Preferred Appraisal Company (AMC)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Clear Capital</fullName>
+                <default>false</default>
+                <label>Clear Capital</label>
+            </value>
+            <value>
+                <fullName>Valuation Services AMC</fullName>
+                <default>false</default>
+                <label>Valuation Services AMC</label>
+            </value>
+            <value>
+                <fullName>Appraisal Nation</fullName>
+                <default>false</default>
+                <label>Appraisal Nation</label>
+            </value>
+            <value>
+                <fullName>Accurate Group</fullName>
+                <default>false</default>
+                <label>Accurate Group</label>
+            </value>
+            <value>
+                <fullName>Nationwide</fullName>
+                <default>false</default>
+                <label>Nationwide</label>
+            </value>
+            <value>
+                <fullName>Universal Appraisal</fullName>
+                <default>false</default>
+                <label>Universal Appraisal</label>
+            </value>
+            <value>
+                <fullName>TriServ</fullName>
+                <default>false</default>
+                <label>TriServ</label>
+            </value>
+            <value>
+                <fullName>Non-AMC</fullName>
+                <default>false</default>
+                <label>Non-AMC</label>
+            </value>
+            <value>
+                <fullName>Incenter</fullName>
+                <default>false</default>
+                <label>Incenter</label>
+            </value>
+            <value>
+                <fullName>FastApp</fullName>
+                <default>false</default>
+                <label>FastApp</label>
+            </value>
+            <value>
+                <fullName>ServiceLink</fullName>
+                <default>false</default>
+                <label>ServiceLink</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

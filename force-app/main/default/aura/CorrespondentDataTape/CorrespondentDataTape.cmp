@@ -1,0 +1,213 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" controller="lightning_Controller">
+	<aura:attribute name="sobjectType" type="String" />
+	<aura:attribute name="recordId" type="String" />
+
+	<aura:attribute name="correspondent" type="Map" />
+	<aura:attribute name="trade" type="Object" />
+	<aura:attribute name="deals" type="List" />
+	<aura:attribute name="tradeDate" type="String" />
+	<aura:attribute name="settlementDate" type="String" />
+	<aura:attribute name="newTrade" type="Boolean" />
+	<aura:attribute name="isCommunity" type="Boolean" default="true" />
+
+	<aura:attribute name="interestCalculation" type="String" />
+	<aura:attribute name="pricePercentage" type="Decimal" />
+	<aura:attribute name="couponFloor" type="Decimal" />
+	<aura:attribute name="correspondentInterestStrip" type="Decimal" />
+
+	<aura:attribute name="dataTapeNeedToUpload" type="String" />
+
+
+	<aura:attribute name="templateId" type="String" />
+	<!-- <ltng:require scripts="{!$Resource.sheetJS + '/dist/xlsx.core.min.js'}" /> -->
+
+	<ltng:require scripts="{!join(',', $Resource.handsontable + '/handsontable/handsontable.full.min.js',
+							$Resource.sheetJS + '/dist/xlsx.core.min.js',
+							$Resource.xlsx_populate)}"
+				  styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+				  afterScriptsLoaded="{!c.init}"
+				 />
+
+	<!-- <aura:attribute name="importModalOpen" -->
+
+	<!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+	{!v.isCommunity}
+
+	<div class="slds-page-header">
+	  <div class="slds-media">
+	    <div class="slds-media__figure">
+	      <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+	      </span>
+	    </div>
+	    <div class="slds-media__body">
+	      <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Data Tape">{!v.correspondent.Name}</h1>
+	      <aura:if isTrue="{! !empty(v.trade.Name)}">
+		      <p class="slds-text-heading_small slds-line-height_reset">
+		      	Trade #{!v.trade.Name}
+		      </p>
+	  		</aura:if>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Trade Date: <ui:outputDate value="{!v.tradeDate}" format="MM/DD/YYYY" />
+	      </p>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Settlement Date: <ui:outputDate value="{!v.settlementDate}" format="MM/DD/YYYY" />
+	      </p>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Interest Calculation: <ui:outputText value="{!v.interestCalculation}" />
+	      </p>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Price Percentage: 
+	      	<aura:if isTrue="{!!empty(v.pricePercentage)}">
+	      		<lightning:formattedNumber value="{!v.pricePercentage/100}" style="percent" />
+	      	</aura:if>
+	      </p>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Coupon Floor:
+	      	<aura:if isTrue="{!!empty(v.couponFloor)}">
+	      		<lightning:formattedNumber value="{!v.couponFloor/100}" style="percent" maximumFractionDigits="2" />
+	      	</aura:if>
+	      </p>
+	      <p class="slds-text-body_small slds-line-height_reset">
+	      	Correspondent Interest Strip: 
+	      	<aura:if isTrue="{!!empty(v.correspondentInterestStrip)}">
+	      		<lightning:formattedNumber value="{!v.correspondentInterestStrip/100}" style="percent" />
+	      	</aura:if>
+	      </p>
+	    </div>
+	    <div>
+	    	<lightning:buttonGroup >
+	    		<lightning:button label="{!v.sobjectType == 'Account' ? 'Return to Correspondent' : 'Return to Trade'}" onclick="{!c.return}" />
+	    		<lightning:button label="Import" onclick="{!c.toggleModal}" />
+	    		<aura:if isTrue="{!v.sobjectType == 'Trade__c'}">
+	    			<lightning:button label="Export" onclick="{!c.export}" />
+	    		</aura:if>
+	    		<lightning:button label="Save" onclick="{!c.save}" />
+	    	</lightning:buttonGroup>
+	    </div>
+	  </div>
+	</div>
+
+	<div style="{!v.isCommunity ? 'height: 500px' : 'height: 85%'}">
+		<ui:scrollerWrapper class="scrollerSize">
+			<c:hotTable data="{!v.deals}" aura:id="hot-table" fixedColumnsLeft="0">
+				 	<aura:set attribute="columns">
+
+				 		
+
+				 		<c:hotColumn data="Id" type="text" title="Id" />
+				 		<c:hotColumn data="Anticipated_Trade_Date__c" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" title="Anticipated Trade Date" />
+				 		<c:hotColumn data="Cutoff_Date__c" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" title="Cutoff Date" />
+				 		<c:hotColumn data="Loan_ID__c" title="Loan Id" />
+				 		<c:hotColumn data="Borrower_Name__c" title="Borrower" />
+						<c:hotColumn data="Address__c" title="Address" />
+				 		<c:hotColumn data="City__c" title="City" type="text" />
+				 		<c:hotColumn data="State__c" title="State" type="text" />
+				 		<c:hotColumn data="Zip__c" title="Zip" type="text" />
+
+				 		<c:hotColumn data="Property_Type__c" title="Property Type" />
+				 		<c:hotColumn data="Number_of_Beds__c" title="# Bedrooms" type="numeric" />
+				 		<c:hotColumn data="Number_of_Bath__c" title="# Bathrooms" type="numeric" />
+				 		<c:hotColumn data="Square_Feet__c" title="Square Footage" type="numeric" />
+				 		<c:hotColumn data="Year_Built__c" title="Year Built"  />
+				 		<c:hotColumn data="Occupancy__c" title="Occupancy" />
+				 		<c:hotColumn data="Purchase_Price__c" title="Property Purchase Price" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Acquired_Date__c" title="Acquired Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<!-- <c:hotColumn data="Closed_Date_Acquired_Date__c" title="Closed Date - Acquired Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" /> -->
+				 		<c:hotColumn data="As_Is_Value__c" title="As-Is Value" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="As_Repaired_Value__c" title="As Repaired Value" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Total_Rehab_Budget__c" title="Total Rehab Budget" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Valuation_Type__c" title="Valuation Type" />
+				 		<c:hotColumn data="BPO_Date__c" title="BPO Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="BPO_Value__c" title="BPO Value" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Full_Appraisal_Value__c" title="Full Appraisal Value" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Submitted_Date__c" title="Submitted Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Docs_Date__c" title="Docs Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Actual_Funding_Date__c" title="Actual Funding" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Closing_Date__c" title="Closing Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Maturity_Date__c" title="Maturity Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Loan_Purpose__c" title="Loan Purpose" />
+				 		<c:hotColumn data="Original_Interest_Rate__c" title="Original Interest Rate" type="numeric" isPercent="true" />
+				 		<c:hotColumn data="Original_Term__c" title="Original Term" />
+				 		<c:hotColumn data="First_Payment__c" title="First Payment" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Paid_Through_Date__c" title="Paid Through Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Next_Payment_Date__c" title="Next Payment Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true" />
+				 		<c:hotColumn data="Total_Loan__c" format="$0,0.00" title="Total Loan" type="numeric" />
+				 		<c:hotColumn data="Initial_Draw__c" title="Initial Draw" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Rehab_Holdback_Amount__c" title="Rehab Holdback Amount" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Total_Drawn__c" title="Total Drawn" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Cancelled_Draw_Amount__c" title="Cancelled Draw Amount" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Draw_Cancelled_Date__c" title="Draw Cancelled Date" type="date" dateFormat="MM/DD/YYYY" correctFormat="true"  />
+				 		<c:hotColumn data="Assignment_Fees__c" title="Assignment Fees" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Seller_Concessions__c" title="Seller Concessions" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Undrawn__c" title="Undrawn" type="numeric" format="$0,0.00" />
+				 		<c:hotColumn data="Guarantor__c" title="Guarantor (Y/N)"  />
+				 		<c:hotColumn data="Repeat_Borrower__c" title="Repeat Borrower (Y/N)" />
+				 		<c:hotColumn data="FICO__c" title="FICO" type="numeric" />
+				 		<c:hotColumn data="Price__c" title="Price Percent" type="numeric" isPercent="true" />
+
+				 		<c:hotColumn data="Total_Cost__c" title="Total Cost" type="numeric" format="$0,0.00" isFormula="true" />
+
+				 		<c:hotColumn data="Rehab_Holdback_as_of_Loan__c" title="Rehab Holdback as % of Loan" type="numeric" isFormula="true" isPercent="true" />
+
+				 		<c:hotColumn data="Closed_Date_Acquired_Date__c" title="Closed Date - Acquired Date" type="numeric" isFormula="true" />
+
+				 		<c:hotColumn data="Repair_of_Acquisition__c" title="Repair % of Acquisition" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="Initial_LTC__c" title="Initial LTC" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="Total_LTC__c" title="Total LTC" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="As_Is_Initial_LTV__c" title="As/Is Initial LTV" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="ARV_LTV__c" title="ARV LTV" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="LTV__c" title="LTV" type="numeric" isPercent="true" />
+				 		<c:hotColumn data="Days_From_Paid_Through_Date__c" title="Days From Paid Through Date" type="numeric" isFormula="true" />
+				 		<c:hotColumn data="Monthly_Payment__c" title="Monthly Pmt" type="numeric" format="$0,0.00" isFormula="true" />
+
+
+
+				 		
+				 		<c:hotColumn data="Accrual_Days__c" title="Accrual Days" type="numeric" format="$0,0.00" isFormula="true" />
+
+				 		<c:hotColumn data="Interest_Calc__c" title="Interest Calc" type="numeric" isFormula="true" />
+				 		<c:hotColumn data="Strip_Percentage__c" title="Strip Percentage" type="numeric" isFormula="true" isPercent="true" />
+				 		<c:hotColumn data="Strip_Interest__c" title="Strip Interest" type="numeric" isFormula="true" isPercent="true" />
+
+				 		<c:hotColumn data="Per_Diem__c" title="Per Diem" type="numeric" format="$0,0.00" isFormula="true" />
+				 		<c:hotColumn data="Accrued_Interest__c" title="Accrued Interest" type="numeric" format="$0,0.00" isFormula="true" />
+				 		<c:hotColumn data="Effective_Loan_Amount__c" title="Effective Loan Amount" type="numeric" format="$0,0.00"  />
+				 		<c:hotColumn data="Net_Proceeds__c" title="Net Proceeds" type="numeric" format="$0,0.00" />
+
+				 	</aura:set>
+			</c:hotTable>
+		</ui:scrollerWrapper>
+	</div>
+
+
+	  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal" aura:id="importModal">
+	    <div class="slds-modal__container">
+	      <header class="slds-modal__header">
+	        <lightning:buttonIcon size="large" iconName="utility:close" variant="bare-inverse" onclick="{!c.toggleModal}" alternativeText="Close window." class="slds-modal__close" />     
+	        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Import Data Tape</h2>
+	        <p class="slds-m-top_x-small">
+	        	<aura:if isTrue="{!v.isCommunity}">
+	        		<a href="{!'/correspondent/sfc/servlet.shepherd/version/download/' + v.templateId}">Download Template</a>
+
+	        		<aura:set attribute="else">
+	        			<a href="{!'/sfc/servlet.shepherd/version/download/' + v.templateId}">Download Template</a>
+	        		</aura:set>
+	        	</aura:if>
+	        </p>
+	      </header>
+	      <div class="slds-modal__content slds-p-around_medium slds-is-relative" id="import_modal">
+	      	<lightning:spinner aura:id="spinner" variant="brand" class="slds-hide" />
+	      	<lightning:input aura:id="fileUpload" type="file" variant="label-hidden" label="Upload file" name="file" multiple="false" accept=".xlsx" onchange="{!c.handleImport}"/>
+	      </div>
+	      <footer class="slds-modal__footer">
+	        <lightning:button label="Cancel" onclick="{!c.toggleModal}" />
+	      </footer>
+	    </div>
+	  </section>
+	  <div class="slds-backdrop" aura:id="importBackdrop"></div>
+
+
+
+	<c:util aura:id="util" />
+
+</aura:component>

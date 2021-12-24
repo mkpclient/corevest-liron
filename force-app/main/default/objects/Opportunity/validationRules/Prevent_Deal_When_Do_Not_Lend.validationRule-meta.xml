@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Deal_When_Do_Not_Lend</fullName>
+    <active>true</active>
+    <description>Prevents a Deal from being created when the Primary Contact or Account is flagged as &quot;Do Not Lend&quot;</description>
+    <errorConditionFormula>AND
+(
+ISNEW(),
+OR(
+Account.Do_Not_Lend__c  = true,
+Contact__r.Do_Not_Lend__c  = true
+))</errorConditionFormula>
+    <errorMessage>A Deal cannot be created as the Account or Primary Contacts have been flagged as &quot;Do Not Lend&quot;.  Please refer to the Account or Primary Contact for further details.</errorMessage>
+</ValidationRule>

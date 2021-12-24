@@ -1,0 +1,112 @@
+<aura:component
+  controller="PricingReviewRequest_LightningController"
+  implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="recordName" type="String" />
+  <aura:attribute name="recordType" type="String" />
+  <aura:attribute name="comments" type="String" />
+  <aura:attribute name="resolution" type="String" />
+  <aura:attribute name="errorMessage" type="List" />
+  <aura:attribute name="isDisplayGLC" type="Boolean" default="false" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:html tag="style">
+    .cuf-content { padding: 0 0rem !important; } .slds-p-around--medium {
+    padding: 0rem !important; } .slds-modal__content{
+    <!-- overflow-y:hidden !important; -->
+    height:unset !important; max-height:unset !important; }
+    .slds-modal__container{ width: 70% !important; max-width: 90% !important;
+    <!--  -->
+    }
+    .slds-button.slds-modal__close.closeIcon.slds-button_icon-bare.slds-button_icon-inverse{
+    display: none; } .slds-modal:focus{ outline-style:none !important; }
+
+    <!-- box-shadow: mno; -->
+  </aura:html>
+
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+          >Pricing Review Request</h2
+        >
+      </header>
+      <div
+        class="slds-is-relative slds-modal__content slds-p-around_medium"
+        id="modal-content-id-1"
+      >
+        <div aura:id="errorMessage" class="errorMessage">
+          <span id="missing-fields">
+            <!-- {!v.errorMessage} -->
+            <aura:iteration items="{!v.errorMessage}" var="errorMsg">
+              <div>
+                {!errorMsg}
+              </div>
+            </aura:iteration>
+          </span>
+        </div>
+
+        <div aura:id="successMessage" class="slds-hide">
+          <div style="margin:12px 0;">
+            <ui:inputTextArea
+              label="Comments for pricing review:"
+              value="{!v.comments}"
+              rows="3"
+            />
+          </div>
+          <aura:if isTrue="{!v.isDisplayGLC}">
+            <div style="margin:12px 0;">
+              <ui:inputTextArea
+                label="Resolution for GLC Approval:"
+                value="{!v.resolution}"
+                rows="3"
+              />
+            </div>
+          </aura:if>
+
+          <!-- <div style="float:right;"> -->
+          <!-- </div> -->
+        </div>
+
+        <div aura:id="result" class="slds-hide">
+          <div style="text-align:center;">
+            <span id="result-message"></span>
+          </div>
+          <div style="text-align:center;margin-top:20px;"> </div>
+        </div>
+      </div>
+      <footer class="slds-modal__footer">
+        <div>
+          <button
+            aura:id="cancelButton"
+            class="slds-button slds-button_neutral"
+            onclick="{!c.closeWindow}"
+            >Cancel</button
+          >
+          <ui:button
+            aura:id="submitButton"
+            class="slds-hide"
+            label="Submit"
+            press="{!c.submitApproval}"
+          />
+        </div>
+        <ui:button
+          aura:id="okButton"
+          class="slds-hide"
+          label="OK"
+          press="{!c.closeModal}"
+        />
+      </footer>
+    </div>
+  </section>
+</aura:component>

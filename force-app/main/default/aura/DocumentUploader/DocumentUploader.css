@@ -1,0 +1,10 @@
+.THIS .error{
+    border: solid 2px;
+    border-color:red;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.THIS .slds-has-dividers--right > .slds-list__item:after, .THIS .slds-has-dividers--right > .slds-item:after{
+    visibility: hidden;
+}

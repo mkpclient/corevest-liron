@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X5aSFID__c</fullName>
+    <description>This is the Salesforce ID from the 5arch Org</description>
+    <externalId>true</externalId>
+    <inlineHelpText>This is the Salesforce ID from the 5arch Org</inlineHelpText>
+    <label>5aSFID</label>
+    <length>100</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

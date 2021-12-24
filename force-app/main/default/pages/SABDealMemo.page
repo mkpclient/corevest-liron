@@ -1,0 +1,1009 @@
+<apex:page standardController="Opportunity" extensions="SABDealMemoExtension" renderAs="pdf" applyBodyTag="false" applyHtmlTag="false"
+    showHeader="false">
+
+    <head>
+        <style>
+            @page {
+                /*fits in landscape too */
+                size: A4 landscape;
+                margin: .2in .2in .2in .2in;
+            }
+        </style>
+    </head>
+    <apex:image url="{!$Resource.corevestLogo}" width="210" height="38" style="margin-top: 8px; margin-left: 4px;" />
+    <div style="font-family:sans-serif; font-size:10pt; font-weight:bold; border-bottom:2px solid #000; width:96%;">Bridge Loan Project Worksheet: {!property.Name}
+        <span style="float:right;font-size: 9pt;margin-right:40px;">{!MONTH(TODAY())}/{!DAY(TODAY())}/{!YEAR(TODAY())}</span>
+    </div>
+    <br />
+    <!--Loan / Property info -->
+    <table border="0" cellspacing="0" cellpadding="0" style="width:95%; font-family:sans-serif; font-size:9pt; margin-right: 40px;">
+        <tbody>
+            <tr>
+                <td style="border:2px solid #000; width:45%;">
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <tbody>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Loan/Property Information
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:9%; background-color:#ddeeff;">Loan ID</td>
+                                <td style="padding:2px 0 2px 4px; width:9%;"></td>
+                                <td rowspan="1" style="padding:2px 4px 2px 4px; width:20%; text-align:right; color:#4684db;">
+                                    <apex:outputField value="{!Opportunity.Deal_Loan_Number__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:13%; background-color:#ddeeff;">Borrower</td>
+                                <td style="padding:2px 0 2px 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 2px 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!Opportunity.Primary_Contact__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:13%; background-color:#ddeeff;">Guarantor</td>
+                                <td style="padding:2px 0 2px 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 2px 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!sponsor.Contact__r.Name}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Company Name</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!Opportunity.Account_Name__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:13%; background-color:#ddeeff;">Property Address</td>
+                                <td style="padding:2px 0 2px 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 2px 0px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Name}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:13%; background-color:#ddeeff;">City</td>
+                                <td style="padding:2px 0 2px 4px; width:8%;"></td>
+                                <td style="padding:0px 4px 2px 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.City__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">State</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.State__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Broker</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!Opportunity.Referral_Source_Contact__r.Name}" />
+                                </td>
+                            </tr>
+                            <!--<tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Broker Fee</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.Broker_Fees__c}" />
+</apex:outputText>
+                                    <apex:outputField value="{!Opportunity.Broker_Fees__c}" />
+                                </td>
+                            </tr>-->
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Sponsor Details
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; width:13%; background-color:#ddeeff;">Credit Score</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!sponsor.Contact__r.Middle_Credit_Score__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Experience (Number of Deals)</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!sponsor.Contact__r.Experience__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Current Liquidity</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!sponsor.Contact__r.Liquidity__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Credit Tier</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!sponsor.Contact__r.Sponsor_Tier__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Prior Loans With CoreVest</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!Opportunity.Account.Deals_Won__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Delinquency History</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputText value="{!sponsor.Contact__r.Deliquency_History__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Key Project Details
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Property Type</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Property_Type__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Purchase/Refinance</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Refinance_Acquisition__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Renovation Funding Type</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputText value="Renovation (Tiers 1 and 2)" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Current Market Value</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Appraised_Value_Amount__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Acquisition Cost</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Acquisition_Price__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">Renovation Budget</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <apex:outputField value="{!property.Rehab_Budget__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">After Renovated Value (ARV)</td>
+                                <td style="padding:2px 0 0 4px; width:8%;"></td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!property.After_Repair_Value__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!property.After_Repair_Value__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Loan Constraints
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Max Initial LTV
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0.0000}%">
+<apex:param value="{!Opportunity.LTV__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.LTV__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- <apex:param value="{!(Opportunity.LTV__c * property.Appraised_Value_Amount__c)}" />  -->
+
+                                    <apex:outputText value="${0,number,###,###}" rendered="{!Opportunity.LTV__c != null && property.Appraised_Value_Amount__c!= null}">
+                                        <apex:param value="{!(Opportunity.LTV__c * property.Appraised_Value_Amount__c/100)}" />
+                                    </apex:outputText>
+                                    <!-- <apex:outputField value="{!property.DeaLL" -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Max Initial LTC
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0}%">
+<apex:param value="{!Opportunity.LTC__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.LTC__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}" rendered="{!Opportunity.LTC__c != null && property.Acquisition_Price__c != null}">
+                                        <apex:param value="{!Opportunity.LTC__c * property.Acquisition_Price__c/100}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Total Loan LTC
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0}%">
+<apex:param value="{!Opportunity.Total_Loan_LTC__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Total_Loan_LTC__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!Opportunity.Total_Loan_LTC__c * property.Total_Cost_Basis__c/100}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Total ARV LTV
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0}%">
+<apex:param value="{!Opportunity.Total_ARV_LTV__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Total_ARV_LTV__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!Opportunity.Total_ARV_LTV__c * property.After_Repair_Value__c/100}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Max Reno Cost Reimb
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0}%">
+<apex:param value="{!property.Max_Reno_Cost_Reimbursement__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Max_Reno_Cost_Reimbursement__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!Opportunity.Max_Reno_Cost_Reimbursement__c * property.Rehab_Budget__c/100}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Reno Limit (% Acq Cost)
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#000; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0}%">
+<apex:param value="{!property.Renovation_Limit__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Renovation_Limit__c}" />
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!Opportunity.Renovation_Limit__c * property.Acquisition_Price__c/100}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Funding Timeline
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Underwriting Approval Date
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- {!MONTH(Opportunity.Approved_by_Underwriter_Date__c)}/{!DAY(Opportunity.Approved_by_Underwriter_Date__c)}/{!YEAR(Opportunity.Approved_by_Underwriter_Date__c)} -->
+                                    <apex:outputField value="{!Opportunity.Approved_by_Underwriter_Date__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    CoreVest Approval Date
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputField value="{!Opportunity.Term_Sheet_Approval_Date__c}" />
+                                    <!--<apex:outputField value="{!MONTH(Opportunity.Term_Sheet_Approval_Date__c)}" /><apex:outputField value="/{!DAY(Opportunity.Term_Sheet_Approval_Date__c)}" /><apex:outputField value="/{!YEAR(Opportunity.Term_Sheet_Approval_Date__c)}" />-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Documents Issued/Signed
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- {!MONTH(Opportunity.Approved_by_Underwriter_Date__c)}/{!DAY(Opportunity.Approved_by_Underwriter_Date__c)}/{!YEAR(Opportunity.Approved_by_Underwriter_Date__c)} -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Closing Date
+                                </td>
+                                <td style="padding:2px 0 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- {!MONTH(Opportunity.CloseDate)}/{!DAY(Opportunity.CloseDate)}/{!YEAR(Opportunity.CloseDate)} -->
+                                    <apex:outputField value="{!Opportunity.CloseDate}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="width:4%;"></td>
+                <td style="border:2px solid #000; width:100%; margin:0;display:block;">
+                    <table border="0" cellspacing="0" cellpadding="0" style="margin:0;">
+                        <tbody>
+                            <tr>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Key Economic Terms
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Interest Rate
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0.0000}%">
+<apex:param value="{!Opportunity.Rate__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Rate__c}" />
+                                </td>
+                            </tr>
+                            <apex:outputText rendered="{! If( Opportunity.Fee__c != 0 || Opportunity.Fee__c != NULL, false, true) }">
+                                <tr>
+                                    <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                        Advance Fee
+                                    </td>
+                                    <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                    <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                        <!-- <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.Fee__c}" />
+</apex:outputText> -->
+                                        <apex:outputField value="{!Opportunity.Fee__c}" />
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If( Opportunity.CAF_Upfront_Fee__c == 0 || Opportunity.CAF_Upfront_Fee__c == NULL, false, true) }">
+                                <tr>
+                                    <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                        Total Origination Fee
+                                    </td>
+                                    <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                    <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                        <!-- <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.Fee__c}" />
+</apex:outputText> -->
+                                        <apex:outputField value="{!Opportunity.CAF_Upfront_Fee__c}" />
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Broker Fee
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.Fee__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.Broker_Fees__c}" />
+                                </td>
+                            </tr>
+                            <apex:outputText rendered="{! If( Opportunity.Fee__c == 0 || Opportunity.Fee__c == NULL, false, true) }">
+                                <tr>
+                                    <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                        Advance Fee to CoreVest
+                                    </td>
+                                    <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                    <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                        <apex:outputText value="{0,number,0.000}%">
+                                            <apex:param value="{!(Opportunity.Fee__c-Opportunity.Broker_Fees__c)}" />
+                                        </apex:outputText>
+                                        <!--<apex:outputField value="{!Opportunity.Fee__c}" />-->
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If( Opportunity.CAF_Upfront_Fee__c == 0 || Opportunity.CAF_Upfront_Fee__c == NULL, false, true) }">
+                                <tr>
+                                    <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                        Origination Fee to CoreVest
+                                    </td>
+                                    <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                    <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                        <apex:outputText value="{0,number,0.000}%">
+                                            <!--<apex:param value="{!Opportunity.Fee__c != null ? Opportunity.Fee__c-Opportunity.Broker_Fees__c}" />-->
+                                            <apex:param value="{!Opportunity.CAF_Upfront_Fee__c-Opportunity.Broker_Fees__c}" />
+                                        </apex:outputText>
+                                        <!--<apex:outputField value="{!Opportunity.Fee__c - Opportunity.Broker_Fees__c}" />-->
+                                    </td>
+                                </tr>
+                            </apex:outputText>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Other Fee
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.Fee__c}" />
+</apex:outputText> -->
+                                    <!-- <apex:outputField value="{!Opportunity.Fee__" -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Term (Months)
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;"></td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#4684db; text-align:right;">
+                                    <!-- <apex:outputText value="{0,number,0.00}%">
+<apex:param value="{!Opportunity.LOC_Term__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!Opportunity.LOC_Term__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Loan Sizing
+                                </td>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Initial Loan Advance
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                    <apex:outputPanel rendered="{!property.Approved_Advance_Amount__c != 0 && property.Approved_Advance_Amount__c != null}">
+                                        <apex:outputText value="{0,number,0.00}%">
+                                            <apex:param value="{!property.Initial_Disbursement__c/property.Approved_Advance_Amount__c*100}" />
+                                        </apex:outputText>
+                                    </apex:outputPanel>
+                                    <!-- <apex:outputField value="{!property.Approved_Advance_Amount__c}" /> -->
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- <apex:outputText value="${0,number,###,###}">
+<apex:param value="{!property.Initial_Disbursement__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!property.Initial_Disbursement__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;border-bottom:1px solid #000;">
+                                    Renovation Advance
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;border-bottom:1px solid #000;">
+                                    <apex:outputPanel rendered="{!property.Approved_Advance_Amount__c != 0 && property.Approved_Advance_Amount__c != null}">
+                                        <apex:outputText value="{0,number,0.00}%">
+                                            <apex:param value="{!property.Approved_Renovation_Holdback__c/property.Approved_Advance_Amount__c*100}" />
+                                        </apex:outputText>
+                                    </apex:outputPanel>
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;border-bottom:1px solid #000;">
+                                    <!-- <apex:outputText value="${0,number,###,###}">
+<apex:param value="{!property.Approved_Renovation_Holdback__c}" />
+</apex:outputText> -->
+                                    <apex:outputField value="{!property.Approved_Renovation_Holdback__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Total Loan Amount
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <!-- <apex:outputText value="${0,number,###,###}">
+<apex:param value="{!property.Approved_Advance_Amount__c}" />
+</apex:outputText> -->
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!property.Initial_Disbursement__c+property.Approved_Renovation_Holdback__c}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Summary Deal Metrics
+                                </td>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                                <td style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    As-Is LTV
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputField value="{!property.Calculated_Initial_LTV__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    As-Is LTC
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputField value="{!property.Calculated_Initial_LTC__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Total Loan ARV LTV
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputField value="{!property.Calculated_ARV_LTV__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Total Loan LTC
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputField value="{!property.Total_Loan_LTC__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Borrower Equity
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!property.Borrower_Equity__c}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:2px 0 0 4px; width:13%; background-color:#ddeeff;">
+                                    Inputed Gross COC Profit
+                                </td>
+                                <td style="padding:2px 4px 0 4px; width:8%; color:#000; text-align:right;">
+                                    <apex:outputText value="{0,number,0.00}%">
+                                        <apex:param value="{!((property.After_Repair_Value__c-(property.Acquisition_Price__c+property.Rehab_Budget__c))/property.Borrower_Equity__c)*100}"
+                                        />
+                                    </apex:outputText>
+                                </td>
+                                <td style="padding:2px 2px 0 4px; width:20%; color:#000; text-align:right;">
+                                    <apex:outputText value="${0,number,###,###}">
+                                        <apex:param value="{!(property.After_Repair_Value__c-(property.Acquisition_Price__c+property.Rehab_Budget__c))}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Exception(s) Requested
+                                </td>
+                            </tr>
+
+                            <!-- <tr>
+<td colspan="3" style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+Exception(s) Requested
+</td>
+</tr> -->
+                            <tr>
+                                <td colspan="3" style="padding:2px 0 0 4px; height:40px;">
+                                    <apex:outputText value="{!If(Opportunity.Exception__c == false, 'None', Opportunity.Exception_Reason__c)}" />
+                                </td>
+                            </tr>
+                            <tr>
+
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Compensating Factors
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding:2px 0 0 4px; height:40px;">
+                                    <apex:outputText value="{!If(Opportunity.Exception__c == false, 'None', Opportunity.Compensating_Factors__c)}" />
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Sponsor Details
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding:2px 0 0 4px; height:40px;">
+                                    <apex:outputField value="{!Opportunity.Sponsor_Details__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="border-collapse: separate; padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391;">
+                                    Sponsor Strategy
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="padding:2px 0 0 4px; height:40px;">
+                                    <apex:outputField value="{!Opportunity.Sponsor_Strategy__c}" />
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Page 2 Initial Loan Advance Calculator -->
+    <!--<table style="page-break-before:always; width:75%; font-family:sans-serif; font-size:7pt; border:2px solid #000;" cellspacing="0"
+cellpadding="0">
+<tbody>
+<tr>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; width:33%;">
+Initial Loan Advance Calculator
+</td>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:center; width:30%;">
+Value
+</td>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:center; width:20%;">
+Advance(%)
+</td>
+<td style="padding:2px 4px 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:right;">
+Total Advance
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+As-Is Value
+</td>
+<td style="padding:2px 0 2px 4px;text-align:center;">
+
+<apex:outputField value="{!property.BPO_Appraisal_Value__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:center; ">
+
+<apex:outputField value="{!Opportunity.LTV__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; ">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!property.BPO_Appraisal_Value__c*Opportunity.LTV__c/100}" />
+</apex:outputText>
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Purchase Price
+</td>
+<td style="padding:2px 0 2px 4px;text-align:center;">
+
+<apex:outputField value="{!property.Acquisition_Price__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:center;">
+
+<apex:outputField value="{!Opportunity.LTV__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!property.Acquisition_Price__c*Opportunity.LTV__c/100}" />
+</apex:outputText>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="font-weight:bold; padding:2px 0 2px 4px;border-top:1px solid #000;">
+Max Initial Loan Amount
+</td>
+<td style="font-weight:bold; padding:2px 4px 2px 4px; text-align:right; border-top:1px solid #000;">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!MIN(property.Acquisition_Price__c*Opportunity.LTV__c/100, property.BPO_Appraisal_Value__c*Opportunity.LTV__c/100)}"
+/>
+</apex:outputText>
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+
+<table style="width:75%; font-family:sans-serif; font-size:7pt; border:2px solid #000;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; width:33%;">
+Total Loan Advance Calculator
+</td>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:center; width:30%;">
+Value
+</td>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:center; width:20%;">
+Advance(%)
+</td>
+<td style="padding:2px 4px 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:right;">
+Total Advance
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Total Cost Bases
+</td>
+<td style="padding:2px 0 2px 4px;text-align:center;">
+
+<apex:outputField value="{!property.After_Repair_Value__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:center; ">
+
+<apex:outputField value="{!Opportunity.Total_ARV_LTV__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; ">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!property.After_Repair_Value__c*Opportunity.Total_ARV_LTV__c/100}" />
+</apex:outputText>
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Purchase Price
+</td>
+<td style="padding:2px 0 2px 4px;text-align:center;">
+
+<apex:outputField value="{!property.Acquisition_Price__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:center;">
+
+<apex:outputField value="{!Opportunity.Total_Loan_LTC__c}" />
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!Opportunity.Total_Loan_LTC__c*Opportunity.LTV__c/100}" />
+</apex:outputText>
+</td>
+</tr>
+<tr>
+<td colspan="3" style="font-weight:bold; padding:2px 0 2px 4px;border-top:1px solid #000;">
+Max Total Loan Amount
+</td>
+<td style="font-weight:bold; padding:2px 4px 2px 4px; text-align:right; border-top:1px solid #000;">
+<apex:outputText value="${0, number, ###,###}">
+<apex:param value="{!MIN(property.After_Repair_Value__c*Opportunity.Total_ARV_LTV__c/100, Opportunity.Total_Loan_LTC__c*Opportunity.LTV__c/100)}"
+/>
+</apex:outputText>
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+
+<table style="width:45%; font-family:sans-serif; font-size:7pt; border:2px solid #000;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; width:55%;">
+Renovation Advance Calculator
+</td>
+<td style="padding:2px 4px 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:right;">
+Total Advance
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Max Total Loan less Max Initial Loan
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; ">
+<apex:outputText value="#VALUE!" />
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Max Renovation Cost Reimbursement
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+<apex:utputText value="#VALUE!" />
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Renovation Limit
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Borrower Rehab Budget
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+<apex:outputField value="{!property.Rehab_Budget__c}" />
+</td>
+</tr>
+<tr>
+<td style="font-weight:bold; padding:2px 0 2px 4px;border-top:1px solid #000;">
+Approved Renovation Advance Amount
+</td>
+<td style="font-weight:bold; padding:2px 4px 2px 4px; text-align:right; border-top:1px solid #000;">
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+<br />
+
+<table style="width:45%; font-family:sans-serif; font-size:7pt; border:2px solid #000;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; width:55%;">
+Liquidity Test
+</td>
+<td style="padding:2px 4px 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Acquisition Equity
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; ">
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Renovation Equity
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+2 Months Interest
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="font-weight:bold; padding:2px 0 2px 4px;border-top:1px solid #000;">
+Minimum Liquidity Needed
+</td>
+<td style="font-weight:bold; padding:2px 4px 2px 4px; text-align:right; border-top:1px solid #000;">
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+<br />
+
+<table style="width:45%; font-family:sans-serif; font-size:7pt; border:2px solid #000;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td style="padding:2px 0 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; width:55%;">
+Wire Breakdown
+</td>
+<td style="padding:2px 4px 2px 4px; color:#fff; font-weight:bold; background-color:#2d5391; text-align:right;">
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Combined / Total Loan Amount:
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; ">
+
+<apex:outputField value="{!property.Approved_Advance_Amount__c}" />
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Renovation Holdback / Reserve
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+
+<apex:outputField value="{!property.Approved_Renovation_Holdback__c}" />
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Base "Funding" Amount:
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+
+<apex:outputField value="{!property.Initial_Disbursement__c}" />
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Origination Netted Out:
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+#VALUE!
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Other Fees Netted Out:
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+#VALUE!
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Adjusted "Funding" Amount
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right;">
+#VALUE!
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Prepaid Interest Collected
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; color:#4684db;">
+$250
+</td>
+</tr>
+<tr>
+<td style="padding:2px 0 2px 4px; background-color:#ddeeff;">
+Other Adjustments (describe below)
+</td>
+<td style="padding:2px 4px 2px 4px; text-align:right; color:#4684db;">
+$0
+</td>
+</tr>
+<tr>
+<td style="font-weight:bold; padding:2px 0 2px 4px;border-top:1px solid #000;">
+NET WIRE AMOUNT:
+</td>
+<td style="font-weight:bold; padding:2px 4px 2px 4px; text-align:right; border-top:1px solid #000;">
+</td>
+</tr>
+</tbody>
+</table>
+<br />
+<br /> -->
+
+
+</apex:page>

@@ -1,0 +1,249 @@
+<apex:page renderAs="" showHeader="false" applyBodyTag="false" applyHtmlTag="false" sidebar="false" standardController="Advance__c" extensions="advancePrint_Extension" contentType="application/msword#Assignment of SI from Lender to CF CoreVest Purchaser.doc" cache="true">
+    <head>
+        <style>
+            @page {
+            size: A4 portrait;
+            }
+            
+            body {
+            font-family: 'Salesforce Sans',Arial,sans-serif;
+            font-size: 12px;
+            }
+            
+            h4 {
+            font-weight: normal;
+            text-align: center;
+            font-size: 18px;
+            }
+            
+            .text-center {
+            text-align: center;
+            }
+            
+            .subheading {
+            color: rgb(126, 126, 126);
+            display: block;
+            margin-top: -16px;
+            font-size: 13px;
+            }
+            
+            .strong {
+            font-weight: bold;
+            }
+            
+            div.grayscale {
+            background-color: rgb(239, 239, 239);
+            }
+            
+            div.thin-line {
+            border-bottom: 1px solid rgb(176, 176, 176);
+            }
+            
+            .margin-top {
+            margin-top: 30px;
+            }
+            
+            .margin-bottom {
+            margin-bottom: 20px;
+            }
+            
+            .full-width {
+            width: 100%;
+            }
+            
+            
+        </style>
+    </head>
+    
+    <html>
+        <body style ="font-size: 14px;">
+            <p>
+                PREPARED BY:<br />
+                CoreVest American Finance Lender LLC<br />
+                1920 Main Street, Suite 850<br />
+                Irvine, California, 92614<br />
+                Attn: Loan Administration <br />
+                <br />
+                AFTER RECORDING RETURN TO:<br />
+                Wells Fargo Bank, N.A.<br />
+                Mortgage Document Custody (CMBS)<br />
+                1055 10th Ave SE<br />
+                Minneapolis, MN 55414<br />
+                ATTN:  CMBS - MS<br />
+                <br /><br />
+            </p>
+            <div style = "border-bottom: 2px solid black;">
+                
+            </div>
+            <p style = "text-align:right;">
+                THIS SPACE ABOVE FOR RECORDER'S USE<br /><br />
+            </p>
+            <p style = "text-align:center;">
+                <strong>ASSIGNMENT OF SECURITY INSTRUMENT</strong><br />
+            </p>
+            <p style="text-indent: 50px;">
+                FOR VALUE RECEIVED, [COREVEST AMERICAN FINANCE LENDER LLC, a Delaware limited liability company][COREVEST AMERICAN FINANCE LENDER LLC, a Delaware limited liability 
+                company, formerly known as Colony American Finance Lender, LLC, a Delaware limited liability company][CAF LENDING, LLC, a Delaware limited liability company] 
+                (<strong>"Assignor"</strong>), does hereby transfer, assign, grant and convey to CF COREVEST PURCHASER LLC, a Delaware limited liability company (together with its successors 
+                and assigns, <strong>"Assignee"</strong>), having an address at c/o CoreVest Finance 1920 Main Street, Suite 850, Irvine, CA 92614, all of Assignor's right, title and interest 
+                in, to and under that certain [Deed of Trust] [Deed to Secure Debt] [Mortgage], Assignment of Leases and Rents, Security Agreement and Fixture Filing executed 
+                by <apex:outputText value="' '{!Advance__c.Deal__r.Name}" />, as [grantor] [trustor] [mortgagor], [to and ]for the benefit of [CoreVest American Finance Lender LLC, a Delaware limited liability 
+                company] [Colony American Finance Lender, LLC, a Delaware limited liability company, now known as CoreVest American Finance Lender LLC, a Delaware limited 
+                liability company] [CAF Lending, LLC, a Delaware limited liability company], as [beneficiary], [grantee] [mortgagee], and recorded on ________, in [Book  ______, 
+                Page ____] [Instrument No. ___], in the County of <apex:outputText value=" {!properties[0].Property__r.County__c}" /> Recorder’s Office, State of <apex:outputText value=" {!properties[0].Property__r.State__c}" /> (the <strong>"Security Instrument"</strong>), encumbering, among other 
+                things, the Real Property as defined in and legally described on Exhibit A to the Security Instrument, and commonly known by the property address(es) set forth 
+                on <strong>Schedule 1</strong> hereto, and Assignor does hereby grant and delegate to Assignee any and all of the duties and obligations of Assignor thereunder from and after 
+                the date hereof. <br />
+            </p>
+            
+            <p style="text-indent: 50px;">
+                TOGETHER WITH:  (i) the note(s) described or referred to in the Security Instrument, the money due or to become due thereon with interest, and all rights accrued 
+                or to accrue thereunder; and (ii) all other "Loan Documents" (as defined in the Security Instrument).<br />
+            </p>
+            
+            <p style="text-indent: 50px;">
+                This Assignment of Security Instrument (this <strong>"Assignment"</strong>) is an absolute assignment.  This Assignment is made without recourse, 
+                representation or warranty, express or implied, by Assignor.
+            </p>
+            <br clear="all" style="page-break-before:always" />
+            <p style = "text-align:center;">
+                [Signature Page Follows]<br />
+            </p>
+            <br clear="all" style="page-break-before:always" />
+            <div style="text-indent: 50px;">
+                IN WITNESS WHEREOF, the undersigned has executed this Assignment of Security Instrument as of 
+                <apex:outputText value="{0, date, MMMM d, YYYY}">
+                    <apex:param value="{!TODAY()}" />
+                </apex:outputText>
+            </div>
+            <table style = "fixed;width:95%;border:0px solid white;">
+                <tr style = "border:0px solid white;">
+                    <th style = "text-align:left;width:40%;border:0px solid white;padding: 15px;">
+                    </th>
+                    <th style = "text-align:left;width:60%;border:0px solid white;padding: 15px;font-weight:normal;">
+                        <p>
+                            <strong>Assignor</strong>
+                        </p>
+                        <p>
+                            COREVEST AMERICAN FINANCE LENDER LLC, a Delaware limited liability company
+                            <br /><br /><br />
+                            By:  ____________________________<br />
+                            <span style="left-margin: 30px;">J. Christopher Hoeffel<br />
+                                Its:  Authorized Signatory<br /></span>
+                        </p>
+                    </th>
+                </tr>
+                <tr style = "border:0px solid white;">
+                    <td style = "text-align:left;width:40%;border:0px solid white;padding: 15px;">
+                    </td>
+                    <td style = "text-align:left;width:60%;border:0px solid white;padding: 15px;">
+                        <p>
+                            COREVEST AMERICAN FINANCE LENDER LLC, a Delaware limited liability company, formerly known as Colony American Finance Lender, LLC
+                            <br /><br /><br />
+                            By:  ____________________________<br />
+                            <span style="left-margin: 30px;">J. Christopher Hoeffel<br />
+                                Its:  Authorized Signatory<br /></span>
+                        </p>
+                    </td>
+                </tr>
+                <tr style = "border:0px solid white;">
+                    <td style = "text-align:left;width:40%;border:0px solid white;padding: 15px;">
+                    </td>
+                    <td style = "text-align:left;width:60%;border:0px solid white;padding: 15px;">
+                        <p>
+                            CAF LENDING, LLC, a Delaware limited liability company
+                            <br /><br /><br />
+                            By:  ____________________________<br />
+                            <span style="left-margin: 30px;">J. Christopher Hoeffel<br />
+                                Its:  Authorized Signatory<br /></span>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <br clear="all" style="page-break-before:always" />  
+            <p style = "text-align:center;">
+                <strong>UNIFORM FORM CERTIFICATE OF ACKNOWLEDGMENT</strong><br />
+                (Within New York State)<br />
+            </p>
+            <p>
+                State of New York   )<br />
+                <span style="text-indent: 200px;">
+                    :ss.:<br />
+                </span>
+                County of New York   )
+            </p>
+            <div style="text-indent: 50px;">
+                On the 
+                <!--ST  01 && 21 && 31 -->
+                <apex:outputpanel rendered="{!IF(Day(TODAY()) = 1 || Day(TODAY()) = 21 || Day(TODAY()) = 31 , TRUE, FALSE) }">
+                    <apex:outputText value=" {0,date,dd}<sup>st</sup> 'day of '{0,date,MMMM}', in the year of '{0,date,YYYY}" escape="false">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </apex:outputpanel>
+                <!--ND 02 && 22 -->
+                <apex:outputpanel rendered="{!IF(Day(TODAY()) = 2 || Day(TODAY()) = 22  , TRUE, FALSE) }">
+                    <apex:outputText value=" {0,date,dd}<sup>nd</sup> 'day of '{0,date,MMMM}', in the year of '{0,date,YYYY}" escape="false">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </apex:outputpanel>
+                <!-- RD 3 && 23 -->
+                <apex:outputpanel rendered="{!IF(Day(TODAY()) = 3 || Day(TODAY()) = 23  , TRUE, FALSE) }">
+                    <apex:outputText value=" {0,date,dd}<sup>rd</sup> 'day of '{0,date,MMMM}', in the year of '{0,date,YYYY}" escape="false">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </apex:outputpanel>
+                <!-- TH 4 && 5- 20 && 24 -30 -->
+                <apex:outputpanel rendered="{!IF(Day(TODAY()) != 1 && Day(TODAY()) != 21 && Day(TODAY()) != 21 && Day(TODAY()) != 31 && Day(TODAY()) != 2 && Day(TODAY()) != 22 && Day(TODAY()) != 3 && Day(TODAY()) != 23, TRUE, FALSE) }">
+                    <apex:outputText value=" {0,date,dd}<sup>th</sup> 'day of '{0,date,MMMM}', in the year of '{0,date,YYYY}" escape="false">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </apex:outputpanel>
+                , before me, the undersigned, personally appeared J. Christopher Hoeffel, personally known to me or proved to me on the basis of satisfactory evidence to be 
+                the individual(s) whose name(s) is (are) subscribed to the within instrument and acknowledged to me that he/she/they executed the same in his/her/their capacity(ies)
+                , and that by his/her/their signature(s) on the instrument, the individual(s), or the person upon behalf of which the individual(s) acted, executed the instrument.
+            </div>
+            <table style = "border:0px solid white;">
+                <tr style = "border:0px solid white;">
+                    <th style = "width:50%;border:0px solid white;">
+                        
+                    </th>
+                    <th style = "text-align:left;width:50%;border:0px solid white;">
+                        ____________________________<br />
+                        (Signature and Office of individual taking acknowledgment)
+                    </th>
+                </tr>
+            </table>
+            <br clear="all" style="page-break-before:always" />
+            <p style = "text-align:center;font-weight:bold;">
+                Schedule 1<br />
+                Schedule of Property Addresses
+            </p>
+            <table style = "fixed;width:95%;border: 1px solid black;">
+                <tr style = "border:0px solid white;">
+                    <th style="width:50%;border: 1px solid black;">
+                        <div class="table-header grayscale">
+                            Property Address
+                        </div>
+                    </th>
+                    <th style="width:50%;border: 1px solid black;">
+                        <div class="table-header grayscale">
+                            Legal Description
+                        </div>
+                    </th>
+                </tr>
+                <apex:repeat value="{!properties}" var="property">
+                    <tr style = "border:0px solid white;">
+                        <td style = "width:50%;">
+                            <apex:outputText value="{!property.Property__r.Name}" /><br />
+                            <apex:outputText value="{!property.Property__r.City__c}" />,<apex:outputText value=" {!property.Property__r.State__c} " /><apex:outputText value="{!property.Property__r.ZipCode__c}" />
+                        </td>
+                        <td style = "text-align:center; width:50%;">
+                            #######
+                        </td>
+                    </tr>
+                </apex:repeat>
+            </table>
+        </body>
+    </html>
+    
+</apex:page>

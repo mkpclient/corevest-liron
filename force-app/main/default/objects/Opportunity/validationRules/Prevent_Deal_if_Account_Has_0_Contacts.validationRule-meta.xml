@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Deal_if_Account_Has_0_Contacts</fullName>
+    <active>true</active>
+    <description>Prevents deal creation if an account has 0 contacts.</description>
+    <errorConditionFormula>AND(
+ISNEW(),
+ Account.Number_of_Contacts__c = 0,
+   RecordType.Name &lt;&gt; &quot;Investor DSCR - Active&quot;,
+   RecordType.Name &lt;&gt; &quot;Investor DSCR Closed Won&quot;,
+   RecordType.Name &lt;&gt; &quot;Acquired Bridge Loan&quot;,
+   RecordType.Name &lt;&gt; &quot;Acquired Bridge Loan - Active&quot;
+)</errorConditionFormula>
+    <errorMessage>A deal cannot be created with an account that has 0 contacts. Please add a contact to the account before creating the deal.</errorMessage>
+</ValidationRule>

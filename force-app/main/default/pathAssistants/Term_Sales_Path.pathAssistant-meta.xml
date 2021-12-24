@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>Term Sales Path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Final_Swap__c</fieldNames>
+        <fieldNames>Final_Spread__c</fieldNames>
+        <fieldNames>Final_Loan_Amount__c</fieldNames>
+        <picklistValueName>Approved by Committee</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>StageName</fieldNames>
+        <fieldNames>Deal_Lost_Reason__c</fieldNames>
+        <picklistValueName>Closed Won</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>StageName</fieldNames>
+        <fieldNames>Deal_Lost_Reason__c</fieldNames>
+        <info>&lt;p&gt;Update the Stage to Rejected and select a Deal Lost Reason&lt;/p&gt;</info>
+        <picklistValueName>Rejected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <picklistValueName>Term Sheet Issued</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>CloseDate</fieldNames>
+        <info>&lt;ul&gt;&lt;li&gt;Enter the date that the Borrower would like to close this Loan&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Term Sheet Signed/Deposit Collected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Anticipated_Closing_Date__c</fieldNames>
+        <fieldNames>Kickoff_Date__c</fieldNames>
+        <fieldNames>Current_Loan_Amount__c</fieldNames>
+        <picklistValueName>Underwriting</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Term_Loan</recordTypeName>
+</PathAssistant>

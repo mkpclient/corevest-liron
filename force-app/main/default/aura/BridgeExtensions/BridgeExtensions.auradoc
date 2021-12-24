@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		This Component is added to the Deal page and list out all related Property Extensions
+	</aura:example>
+</aura:documentation>

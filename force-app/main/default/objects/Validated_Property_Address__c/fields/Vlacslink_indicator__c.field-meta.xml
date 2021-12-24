@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vlacslink_indicator__c</fullName>
+    <description>Indicates whether there is an address match in the LACSLink database.
+
+Y — LACS record match; a new address could be furnished because the input record matched a record in the master file.
+S — LACS record - secondary number dropped; the record is a ZIP+4 street level or high-rise match. The input record matched a master file record, but the input address had a secondary number and the master file record did not.
+N — No match; a new address could not be furnished; the input record could not be matched to a record in the master file.
+F — False positive; a false positive record was detected.
+[blank] — No LACSLink lookup attempted.</description>
+    <externalId>false</externalId>
+    <label>Verified lacslink indicator</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

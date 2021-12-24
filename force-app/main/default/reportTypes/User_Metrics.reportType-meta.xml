@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>UserMetrics</baseObject>
+    <category>admin</category>
+    <deployed>false</deployed>
+    <description>User Metrics</description>
+    <label>User Metrics</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>User</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Posts</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Comments</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Likes</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ViewsOnPosts</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CommentsOnPosts</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LikesOnPosts</field>
+            <table>UserMetrics</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Rank</field>
+            <table>UserMetrics</table>
+        </columns>
+        <masterLabel>User Metrics</masterLabel>
+    </sections>
+</ReportType>

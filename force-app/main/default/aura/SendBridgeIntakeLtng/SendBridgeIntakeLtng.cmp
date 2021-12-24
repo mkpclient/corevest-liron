@@ -1,0 +1,1381 @@
+<aura:component
+  implements="force:hasRecordId,force:lightningQuickActionWithoutHeader,force:hasSObjectName"
+  controller="AdvanceDocumentGeneratorController"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute
+    name="staticResourceName"
+    type="String"
+    default="AdvanceDocuments"
+  />
+  <aura:attribute name="record" type="Map" />
+  <aura:attribute name="documentType" type="String" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="propertyIds" type="String" />
+  <aura:attribute name="filterFields" type="Map" />
+  <aura:attribute name="isSendEmail" type="Boolean" />
+  <aura:attribute name="hasBorrowerEntity" type="Boolean" />
+  <aura:attribute
+    name="displayRadioOptions"
+    type="List"
+    default="[{'label': 'Show', 'value': 'Show'},{'label': 'Hide', 'value': 'Hide'}]"
+  />
+  <aura:attribute
+    name="booleanRadioOptions"
+    type="List"
+    default="[{'label': 'Yes', 'value': 'Yes'},{'label': 'No', 'value': 'No'}]"
+  />
+  <aura:attribute
+    name="MarritalStatusRadioOptions"
+    type="List"
+    default="[{'label': 'Single', 'value': 'Single'},{'label': 'Married', 'value': 'Married'}]"
+  />
+
+  <!-- Document Fields -->
+  <aura:attribute name="User" type="User" default="{ 'sobjectType': 'User'}" />
+  <aura:attribute
+    name="deal"
+    type="Opportunity"
+    default="{ 'sobjectType': 'Opportunity'}"
+  />
+  <aura:attribute name="dealEdit" type="Object" />
+  <aura:attribute
+    name="showAskEmailAddressModal"
+    type="Boolean"
+    default="false"
+  />
+  <aura:attribute name="showNullFieldsModal" type="Boolean" default="false" />
+  <aura:attribute name="emailAddress" type="String" />
+  <aura:attribute name="ccAddress" type="String" />
+  <aura:attribute name="bccAddress" type="String" />
+  <aura:attribute name="fileIds" type="List" default="[]" />
+  <aura:attribute name="emailBody" type="String" />
+  <aura:attribute name="subject" type="String" />
+  <aura:attribute name="loanAmount" type="String" />
+
+  <!-- !PLEASE CHANGE ON PRODUCTION Should be false for Prod  -->
+  <aura:attribute name="isSandbox" type="Boolean" default="false" />
+
+  <aura:handler
+    name="cmpEvent"
+    event="c:GenericNotifyEvent"
+    action="{!c.closeSendEmailModal}"
+  />
+
+  <aura:html tag="style">
+    .cuf-content { padding: 0 0rem !important; } .slds-p-around--medium {
+    padding: 0rem !important; } .slds-modal__content{ height:unset !important;
+    max-height:unset !important; } .slds-modal__container{ width: 90%
+    !important; max-width: 90% !important; }
+    .slds-button.slds-modal__close.closeIcon.slds-button_icon-bare.slds-button_icon-inverse{
+    display: none; }
+  </aura:html>
+
+  <aura:if isTrue="{! not(v.showNullFieldsModal)}">
+    <aura:if isTrue="{! not(v.showAskEmailAddressModal)}">
+      <aura:if isTrue="{!v.record}">
+        <section
+          role="dialog"
+          tabindex="-1"
+          aria-labelledby="modal-heading-01"
+          aria-modal="true"
+          aria-describedby="modal-content-id-1"
+          class="slds-modal slds-fade-in-open slds-modal_large"
+        >
+          <div class="slds-modal__container">
+            <header class="slds-modal__header">
+              <h2
+                id="modal-heading-01"
+                class="slds-text-heading_medium slds-hyphenate"
+              >
+                Send Bridge Intake
+              </h2>
+            </header>
+            <div
+              class="slds-modal__content slds-var-p-around_medium"
+              id="modal-content-id-1"
+            >
+              <lightning:layout
+                multipleRows="true"
+                class="
+                  slds-var-p-around_small
+                  slds-border_top
+                  slds-border_bottom
+                  slds-border_left
+                  slds-border_right
+                "
+              >
+                <aura:if isTrue="{! not(v.hasBorrowerEntity)}">
+                  <lightning:layoutItem
+                    size="12"
+                    padding="around-small"
+                    class="slds-text-align_center"
+                  >
+                    Please select a Borrower Entity for this record first!
+                  </lightning:layoutItem>
+                </aura:if>
+                <aura:if isTrue="{!v.hasBorrowerEntity}">
+                  <lightning:layoutItem
+                    size="12"
+                    padding="around-small"
+                    class="slds-text-align_center"
+                  >
+                    <div>COREVEST AMERICAN FINANCE LENDER LLC</div>
+                    <div>
+                      ({!v.record.Deal__r.LOC_Loan_Type__c}/{!v.record.Deal__r.Product_Sub_Type__c})
+                    </div>
+                    <div class="slds-var-m-top_small">INTAKE FORM</div>
+                    <div class="slds-var-m-top_small">
+                      INITIAL LOAN CLOSING DOCUMENTATION
+                    </div>
+                    <div class="slds-var-m-top_medium">
+                      Loan No. {!v.record.Deal__r.Deal_Loan_Number__c}
+                    </div>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem
+                    size="6"
+                    padding="around-small"
+                    class="slds-text-align_left"
+                  >
+                    Borrower Name (including type of entity and exactly as shown
+                    on filed copy of articles/certificate of formation):
+                  </lightning:layoutItem>
+                  <lightning:layoutItem
+                    size="6"
+                    padding="around-small"
+                    class="slds-text-align_left"
+                  >
+                    <!-- <lightning:input aura:id="dealName" value="{!v.record.Deal__r.Borrower_Entity__r.Name}"
+                                variant="label-hidden" readonly="true"/> -->
+                    {!v.record.Deal__r.Borrower_Entity__r.Name}, a
+                    {!v.record.Deal__r.Borrower_Entity__r.Company_Jurisdiction__c}&nbsp;{!v.record.Deal__r.Borrower_Entity__r.Entity_Type__c}
+                  </lightning:layoutItem>
+
+                  <ul class="slds-list_dotted">
+                    <aura:if isTrue="{!v.dealEdit.propertAddressDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Subject Property Address: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="propertAddress"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="propertAddress"
+                          value="{!v.dealEdit.propertAddress}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <li class="slds-var-p-around_small">
+                      Loan Amount: {!v.loanAmount}
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Revolving: {!v.record.Deal__r.Revolving1__c}
+                    </li>
+                    
+                    <aura:if isTrue="{!v.dealEdit.initialAdvanceDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Initial Advance: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="initialAdvance"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="initialAdvance"
+                          value="{!v.dealEdit.initialAdvance}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.renovationAdvanceDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Renovation Advance Amount: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="renovationAdvance"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="renovationAdvance"
+                          value="{!v.dealEdit.renovationAdvance}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <li class="slds-var-p-around_small">
+                      Interest Rate Type:
+                      <lightning:input
+                        aura:id="interestRateType"
+                        value="{!v.record.Deal__r.Interest_Rate_Type__c}"
+                        variant="label-hidden"
+                        onchange="{!c.handleChangeInterestRateType}"
+                      />
+                    </li>
+
+                    <aura:if
+                      isTrue="{!v.record.Deal__r.Interest_Rate_Type__c=='Fixed'}"
+                    >
+                      <li class="slds-var-p-around_small">
+                        Interest Rate:
+                        <lightning:input
+                          aura:id="interestRate"
+                          value="{!v.record.Deal__r.Rate__c}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+                    <aura:if
+                      isTrue="{!v.record.Deal__r.Interest_Rate_Type__c=='Floating'}"
+                    >
+                      <li class="slds-var-p-around_small">
+                        Index:
+                        <lightning:input
+                          aura:id="index"
+                          value="{!v.record.Deal__r.Index__c}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Index Margin:
+                        <lightning:input
+                          aura:id="indexMargin"
+                          value="{!v.record.Deal__r.Index_Margin__c}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Index Floor:
+                        <lightning:input
+                          aura:id="indexFloor"
+                          value="{!v.record.Deal__r.Index_Floor__c}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <li class="slds-var-p-around_small">
+                      Loan term: {!v.record.Deal__r.LOC_Term__c}
+                      <aura:if isTrue="{!v.dealEdit.extenionOptionDisplay}">
+                        <ol>
+                          <li>
+                            a. Extension option: &nbsp;&nbsp;<a
+                              style="font-size: 10px"
+                              id="extenionOption"
+                              onclick="{!c.handleDeleteItem}"
+                              >Delete</a
+                            >
+                            <lightning:input
+                              aura:id="extenionOption"
+                              value="{!v.dealEdit.extenionOption}"
+                              variant="label-hidden"
+                            />
+                          </li>
+                        </ol>
+                      </aura:if>
+                    </li>
+
+                    <aura:if isTrue="{!v.dealEdit.outsideAdvanceDateDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Outside Advance Date: 12 months from date of Loan Docs /
+                        Other: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="outsideAdvanceDate"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="outsideAdvanceDate"
+                          value="{!v.dealEdit.outsideAdvanceDate}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <li class="slds-var-p-around_small">
+                      Outside Advance Period:
+                      {!v.record.Deal__r.Advance_Period_Days_In_Months__c}
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Maturity Date Calculation Type:
+                      {!v.record.Deal__r.Maturity_Date_Calculation_Type__c}
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Advance Repayment Period: {!v.record.Deal__r.Asset_Maturity__c}
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Advance Fee: {!v.record.Deal__r.Fee__c} %
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Origination Fee: {!v.record.Deal__r.CAF_Upfront_Fee__c} %
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Exit Fee: {!v.record.Deal__r.Exit_Fee__c} %
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Approved Property States:
+                      {!v.record.Deal__r.Active_States__c}
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Advance Rate (Initial Advance Rate for Renovation Loans): 
+                      <ul class="slds-list_dotted">
+                        <li class="slds-var-p-around_small">
+                          Loan-to-Value:
+                          {!v.record.Deal__r.LTV__c}%
+                        </li>
+                        <li class="slds-var-p-around_small">
+                          Loan-to-Cost:
+                          {!v.record.Deal__r.LTC__c}%
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Maximum Total Renovation Property Advance Amount:  
+                      <ul class="slds-list_dotted">
+                        <li class="slds-var-p-around_small">
+                          Loan-to-ARV:
+                          {!v.record.Deal__r.Total_ARV_LTV__c}%    
+                        </li>
+                        <li class="slds-var-p-around_small">
+                          Loan-to-Cost:
+                          {!v.record.Deal__r.Total_Loan_LTC__c}%    
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="slds-var-p-around_small">
+                      Maximum Aggregate Renovation Advance Amount Limit:                      
+                      {!v.record.Deal__r.Renovation_Limit__c}% of the Third Party Purchase Price
+                    </li>
+
+                    <aura:if isTrue="{!v.dealEdit.renovationPropertiesDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Renovation Properties: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="renovationProperties"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:radioGroup
+                          name="renovationProperties"
+                          variant="label-hidden"
+                          options="{!v.booleanRadioOptions}"
+                          value="{!v.dealEdit.renovationProperties}"
+                          type="button"
+                          onchange="{!c.updateRenovationFundingType}"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.renovationFundingDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Renovation Funding: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="renovationFunding"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >{!v.dealEdit.renovationFunding}
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.equityPledgeDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Equity Pledge: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="equityPledge"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:radioGroup
+                          name="equityPledge"
+                          variant="label-hidden"
+                          options="{!v.booleanRadioOptions}"
+                          value="{!v.dealEdit.equityPledge}"
+                          type="button"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.MailingAddressDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Borrower Mailing Address: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="MailingAddress"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="MailingAddress"
+                          value="{!v.dealEdit.MailingAddress}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.principlebusinessDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Borrower's Principal Place of Business, if different
+                        from Mailing Address: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="principlebusiness"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="principlebusiness"
+                          value="{!v.dealEdit.principlebusiness}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+                    
+                    <li class="slds-var-p-around_small">
+                      Recourse:
+                      {!v.record.Deal__r.Recourse__c}
+                    </li>
+
+                    <aura:if isTrue="{!v.dealEdit.Guarantor1Display}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          Guarantor #1 &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="Guarantor1"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          Name:
+                          <lightning:input
+                            aura:id="Name"
+                            value="{!v.dealEdit.Guarantor1Name}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Address:
+                          <lightning:input
+                            aura:id="Address"
+                            value="{!v.dealEdit.Guarantor1Address}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Marital Status:
+                          <lightning:radioGroup
+                            name="guarantor1MarritalStatus"
+                            variant="label-hidden"
+                            options="{!v.MarritalStatusRadioOptions}"
+                            value="{!v.dealEdit.guarantor1MarritalStatus}"
+                            type="button"
+                          />
+                        </div>
+                        <div>
+                          Guarantor's State of Residence:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor1Residence}"
+                            variant="label-hidden"
+                          />
+                          Spouse's State of Residence if different than
+                          Guarantor:
+                          <lightning:input
+                            aura:id="spouseResidence"
+                            value="{!v.dealEdit.Guarantor1SpouseResidence}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Spousal Consent: If Guarantor is married and residence
+                          of Guarantor or Guarantor's Spouse is AK, AZ, ID, LA,
+                          NV, NM, WA or WI: Spouse's Name :
+                          <lightning:input
+                            aura:id="SpouseName"
+                            value="{!v.dealEdit.Guarantor1SpouseName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.Guarantor2Display}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          Guarantor #2 &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="Guarantor2"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          Name:
+                          <lightning:input
+                            aura:id="Name"
+                            value="{!v.dealEdit.Guarantor2Name}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Address:
+                          <lightning:input
+                            aura:id="Address"
+                            value="{!v.dealEdit.Guarantor2Address}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Marital Status:
+                          <lightning:radioGroup
+                            name="guarantor2MarritalStatus"
+                            variant="label-hidden"
+                            options="{!v.MarritalStatusRadioOptions}"
+                            value="{!v.dealEdit.guarantor2MarritalStatus}"
+                            type="button"
+                          />
+                        </div>
+                        <div>
+                          Guarantor's State of Residence:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor2Residence}"
+                            variant="label-hidden"
+                          />
+                          Spouse's State of Residence if different than
+                          Guarantor:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor2SpouseResidence}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Spousal Consent: If Guarantor is married and residence
+                          of Guarantor or Guarantor's Spouse is AK, AZ, ID, LA,
+                          NV, NM, WA or WI: Spouse's Name :
+                          <lightning:input
+                            aura:id="SpouseName"
+                            value="{!v.dealEdit.Guarantor2SpouseName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.Guarantor3Display}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          Guarantor #3 &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="Guarantor3"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          Name:
+                          <lightning:input
+                            aura:id="Name"
+                            value="{!v.dealEdit.Guarantor3Name}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Address:
+                          <lightning:input
+                            aura:id="Address"
+                            value="{!v.dealEdit.Guarantor3Address}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Marital Status:
+                          <lightning:radioGroup
+                            name="guarantor3MarritalStatus"
+                            variant="label-hidden"
+                            options="{!v.MarritalStatusRadioOptions}"
+                            value="{!v.dealEdit.guarantor3MarritalStatus}"
+                            type="button"
+                          />
+                        </div>
+                        <div>
+                          Guarantor's State of Residence:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor3Residence}"
+                            variant="label-hidden"
+                          />
+                          Spouse's State of Residence if different than
+                          Guarantor:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor3SpouseResidence}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Spousal Consent: If Guarantor is married and residence
+                          of Guarantor or Guarantor's Spouse is AK, AZ, ID, LA,
+                          NV, NM, WA or WI: Spouse's Name :
+                          <lightning:input
+                            aura:id="SpouseName"
+                            value="{!v.dealEdit.Guarantor3SpouseName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.Guarantor4Display}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          Guarantor #4 &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="Guarantor4"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          Name:
+                          <lightning:input
+                            aura:id="Name"
+                            value="{!v.dealEdit.Guarantor4Name}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Address:
+                          <lightning:input
+                            aura:id="Address"
+                            value="{!v.dealEdit.Guarantor4Address}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Marital Status:
+                          <lightning:radioGroup
+                            name="guarantor4MarritalStatus"
+                            variant="label-hidden"
+                            options="{!v.MarritalStatusRadioOptions}"
+                            value="{!v.dealEdit.guarantor4MarritalStatus}"
+                            type="button"
+                          />
+                        </div>
+                        <div>
+                          Guarantor's State of Residence:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor4Residence}"
+                            variant="label-hidden"
+                          />
+                          Spouse's State of Residence if different than
+                          Guarantor:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor4SpouseResidence}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Spousal Consent: If Guarantor is married and residence
+                          of Guarantor or Guarantor's Spouse is AK, AZ, ID, LA,
+                          NV, NM, WA or WI: Spouse's Name :
+                          <lightning:input
+                            aura:id="SpouseName"
+                            value="{!v.dealEdit.Guarantor4SpouseName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.Guarantor5Display}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          Guarantor #5 &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="Guarantor5"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          Name:
+                          <lightning:input
+                            aura:id="Name"
+                            value="{!v.dealEdit.Guarantor5Name}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Address:
+                          <lightning:input
+                            aura:id="Address"
+                            value="{!v.dealEdit.Guarantor5Address}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Marital Status:
+                          <lightning:radioGroup
+                            name="guarantor5MarritalStatus"
+                            variant="label-hidden"
+                            options="{!v.MarritalStatusRadioOptions}"
+                            value="{!v.dealEdit.guarantor5MarritalStatus}"
+                            type="button"
+                          />
+                        </div>
+                        <div>
+                          Guarantor's State of Residence:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor5Residence}"
+                            variant="label-hidden"
+                          />
+                          Spouse's State of Residence if different than
+                          Guarantor:
+                          <lightning:input
+                            aura:id="Residence"
+                            value="{!v.dealEdit.Guarantor5SpouseResidence}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Spousal Consent: If Guarantor is married and residence
+                          of Guarantor or Guarantor's Spouse is AK, AZ, ID, LA,
+                          NV, NM, WA or WI: Spouse's Name :
+                          <lightning:input
+                            aura:id="SpouseName"
+                            value="{!v.dealEdit.Guarantor5SpouseName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!v.dealEdit.BorrowerIsCorporationDisplay}"
+                    >
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          If Borrower is a Corporation, Names of: &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="BorrowerIsCorporation"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          President:
+                          <lightning:input
+                            aura:id="PresidentName"
+                            value="{!v.dealEdit.PresidentName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Secretary:
+                          <lightning:input
+                            aura:id="SecretaryName"
+                            value="{!v.dealEdit.SecretaryName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Chief Financial Officer:
+                          <lightning:input
+                            aura:id="CFOName"
+                            value="{!v.dealEdit.CFOName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Any Vice President:
+                          <lightning:input
+                            aura:id="VPName"
+                            value="{!v.dealEdit.VPName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          All Members of the Board of Directors:
+                          <lightning:input
+                            aura:id="Directors"
+                            value="{!v.dealEdit.Directors}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.dealEdit.BorrowerIsLLCDisplay}">
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          If Borrower is a LLC, Names of: &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="BorrowerIsLLC"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          All Members:
+                          <lightning:input
+                            aura:id="MembersName"
+                            value="{!v.dealEdit.MembersName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          All Managers:
+                          <lightning:input
+                            aura:id="ManagersName"
+                            value="{!v.dealEdit.ManagersName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          Managing Member, if any:
+                          <lightning:input
+                            aura:id="ManagingMemberName"
+                            value="{!v.dealEdit.ManagingMemberName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!v.dealEdit.BorrowerIsPartnershipDisplay}"
+                    >
+                      <li class="slds-var-p-around_small">
+                        <div>
+                          If Borrower is a Partnership, Names of: &nbsp;&nbsp;<a
+                            style="font-size: 10px"
+                            id="BorrowerIsPartnership"
+                            onclick="{!c.handleDeleteItem}"
+                            >Delete</a
+                          >
+                        </div>
+                        <div>
+                          All General Partners:
+                          <lightning:input
+                            aura:id="GeneralPartnerName"
+                            value="{!v.dealEdit.GeneralPartnerName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                        <div>
+                          All Limited Partners:
+                          <lightning:input
+                            aura:id="LimitedPartnerName"
+                            value="{!v.dealEdit.LimitedPartnerName}"
+                            variant="label-hidden"
+                          />
+                        </div>
+                      </li>
+                    </aura:if>
+
+                    <li class="slds-var-p-around_small">
+                      <div>Person(s) Signing Loan Documents:</div>
+                    </li>
+                    <aura:if isTrue="{!v.dealEdit.Name1LoanDocumentsDisplay}">
+                      <div>
+                        Name: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Name1LoanDocuments"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Name1LoanDocuments"
+                          value="{!v.dealEdit.Name1LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                      <div>
+                        Title:
+                        <lightning:input
+                          aura:id="title1LoanDocuments"
+                          value="{!v.dealEdit.title1LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.Name2LoanDocumentsDisplay}">
+                      <div>
+                        Name: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Name2LoanDocuments"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Name2LoanDocuments"
+                          value="{!v.dealEdit.Name2LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                      <div>
+                        Title:
+                        <lightning:input
+                          aura:id="title2LoanDocuments"
+                          value="{!v.dealEdit.title2LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.Name3LoanDocumentsDisplay}">
+                      <div>
+                        Name: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Name3LoanDocuments"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Name3LoanDocuments"
+                          value="{!v.dealEdit.Name3LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                      <div>
+                        Title:
+                        <lightning:input
+                          aura:id="title3LoanDocuments"
+                          value="{!v.dealEdit.title3LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.Name4LoanDocumentsDisplay}">
+                      <div>
+                        Name: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Name4LoanDocuments"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Name4LoanDocuments"
+                          value="{!v.dealEdit.Name4LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                      <div>
+                        Title:
+                        <lightning:input
+                          aura:id="title4LoanDocuments"
+                          value="{!v.dealEdit.title4LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.Name5LoanDocumentsDisplay}">
+                      <div>
+                        Name: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Name5LoanDocuments"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Name5LoanDocuments"
+                          value="{!v.dealEdit.Name5LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                      <div>
+                        Title:
+                        <lightning:input
+                          aura:id="title5LoanDocuments"
+                          value="{!v.dealEdit.title5LoanDocuments}"
+                          variant="label-hidden"
+                        />
+                      </div>
+                    </aura:if>
+
+                    <!-- <li class="slds-var-p-around_small">
+                      Advance Parameters Advance Repayment Date: See Signed Term
+                      Sheet
+                    </li> -->
+
+                    <aura:if isTrue="{!v.dealEdit.LoantermDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Describe any Variances to Signed Term Sheet or Standard
+                        Loan Terms: &nbsp;&nbsp;<a
+                          style="font-size: 10px"
+                          id="Loanterm"
+                          onclick="{!c.handleDeleteItem}"
+                          >Delete</a
+                        >
+                        <lightning:input
+                          aura:id="Loanterm"
+                          value="{!v.dealEdit.Loanterm}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
+                  </ul>
+                </aura:if>
+              </lightning:layout>
+            </div>
+            <footer class="slds-modal__footer">
+              <lightning:button
+                label="Cancel"
+                name="cancel"
+                onclick="{!c.cancel}"
+              />
+
+              <aura:if isTrue="{!v.record.Deal__r.Borrower_Entity__c}">
+                <lightning:button
+                  label="Preview"
+                  name="Preview"
+                  onclick="{!c.handleClickPreview}"
+                  variant="brand"
+                />
+                <lightning:button
+                  label="Send Email"
+                  name="sendEmail"
+                  onclick="{!c.sendEmail}"
+                  variant="brand"
+                />
+              </aura:if>
+            </footer>
+          </div>
+        </section>
+      </aura:if>
+    </aura:if>
+  </aura:if>
+
+  <aura:if isTrue="{!v.showNullFieldsModal}">
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-02"
+      aria-modal="true"
+      aria-describedby="modal-content-id-2"
+      class="slds-modal slds-fade-in-open slds-modal_large"
+    >
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <lightning:buttonIcon
+            iconName="utility:close"
+            onclick="{! c.hideNullValuesModal }"
+            alternativeText="close"
+            variant="bare-inverse"
+            class="slds-modal__close"
+          />
+          <h2
+            id="modal-heading-02"
+            class="slds-text-heading_medium slds-hyphenate"
+          >
+            <aura:if isTrue="{!v.record.Deal__r.Borrower_Entity__c}">
+              Please fill in these empty fields for
+              <a onclick="{!c.goToBorrowerEntity}"
+                >{!v.record.Deal__r.Borrower_Entity__r.Name}</a
+              >
+            </aura:if>
+          </h2>
+        </header>
+        <aura:if isTrue="{!v.record.Deal__r.Borrower_Entity__c}">
+          <lightning:recordEditForm
+            recordId="{!v.record.Deal__r.Borrower_Entity__c}"
+            objectApiName="Business_Entity__c"
+            onsuccess="{!c.handleSuccessBorrowerEntityEdit}"
+          >
+            <div
+              class="slds-modal__content slds-var-p-around_medium"
+              id="modal-content-id-2"
+            >
+              <lightning:messages />
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Name)}"
+              >
+                <lightning:inputField fieldName="Name" required="true" />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Company_Jurisdiction__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Company_Jurisdiction__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Date_of_Cert_of_Good_Standing__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Date_of_Cert_of_Good_Standing__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Entity_Filing_Date__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Entity_Filing_Date__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Operating_Agreement_Date__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Operating_Agreement_Date__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Business_Tax_ID_EIN__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Business_Tax_ID_EIN__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Entity_Type__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Entity_Type__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Entity_Number__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Entity_Number__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Address_1__c)}"
+              >
+                <lightning:inputField
+                  fieldName="Address_1__c"
+                  required="true"
+                />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.City__c)}"
+              >
+                <lightning:inputField fieldName="City__c" required="true" />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.State__c)}"
+              >
+                <lightning:inputField fieldName="State__c" required="true" />
+              </aura:if>
+              <aura:if
+                isTrue="{! not(v.record.Deal__r.Borrower_Entity__r.Zip__c)}"
+              >
+                <lightning:inputField fieldName="Zip__c" required="true" />
+              </aura:if>
+            </div>
+            <footer class="slds-modal__footer">
+              <lightning:button
+                variant="neutral"
+                label="Cancel"
+                title="Cancel"
+                onclick="{! c.hideNullValuesModal }"
+              />
+              <lightning:button
+                variant="brand"
+                label="Update Business Entity"
+                title="Update Business Entity"
+                type="submit"
+              />
+            </footer>
+          </lightning:recordEditForm>
+        </aura:if>
+        <aura:if isTrue="{! not(v.record.Deal__r.Borrower_Entity__c)}">
+          <footer class="slds-modal__footer">
+            <lightning:button
+              variant="neutral"
+              label="Cancel"
+              title="Cancel"
+              onclick="{!c.cancel}"
+            />
+          </footer>
+        </aura:if>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
+
+  <aura:if isTrue="{!v.showAskEmailAddressModal}">
+    <aura:if isTrue="{! not(v.showNullFieldsModal)}">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-02"
+        aria-modal="true"
+        aria-describedby="modal-content-id-2"
+        class="slds-modal slds-fade-in-open slds-modal_large"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning:buttonIcon
+              iconName="utility:close"
+              onclick="{! c.hideAskEmailAddressModal }"
+              alternativeText="close"
+              variant="bare-inverse"
+              class="slds-modal__close"
+            />
+            <h2
+              id="modal-heading-02"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              Send Email
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-var-p-around_medium"
+            id="modal-content-id-2"
+          >
+            <lightning:layout multipleRows="true">
+              <lightning:layoutItem size="1" padding="around-small">
+                To
+              </lightning:layoutItem>
+              <lightning:layoutItem size="11" padding="around-small">
+                <lightning:input
+                  aura:id="emailAddressId"
+                  value="{!v.emailAddress}"
+                  variant="label-hidden"
+                  onblur="{!c.validateEmail}"
+                  messageWhenValueMissing="Please enter a valid Email."
+                  required="true"
+                />
+              </lightning:layoutItem>
+
+              <lightning:layoutItem size="1" padding="around-small">
+                Cc
+              </lightning:layoutItem>
+              <lightning:layoutItem size="11" padding="around-small">
+                <lightning:input
+                  aura:id="ccAddressId"
+                  value="{!v.ccAddress}"
+                  variant="label-hidden"
+                  onblur="{!c.validateEmail}"
+                />
+              </lightning:layoutItem>
+              <lightning:layoutItem size="1" padding="around-small">
+                Bcc
+              </lightning:layoutItem>
+              <lightning:layoutItem size="11" padding="around-small">
+                <lightning:input
+                  aura:id="bccAddressId"
+                  value="{!v.bccAddress}"
+                  variant="label-hidden"
+                  onblur="{!c.validateEmail}"
+                />
+              </lightning:layoutItem>
+
+              <lightning:layoutItem size="1" padding="around-small">
+                Subject
+              </lightning:layoutItem>
+              <lightning:layoutItem size="11" padding="around-small">
+                <lightning:input
+                  aura:id="subject"
+                  value="{!v.subject}"
+                  variant="label-hidden"
+                />
+              </lightning:layoutItem>
+
+              <lightning:layoutItem size="12" padding="around-small">
+                <lightning:inputRichText
+                  aura:id="body"
+                  value="{!v.emailBody}"
+                />
+              </lightning:layoutItem>
+
+              <lightning:layoutItem size="6" padding="around-small">
+                <lightning:fileUpload
+                  label="Attach Files:"
+                  name="fileUploader"
+                  multiple="true"
+                  recordId="{!v.recordId}"
+                  onuploadfinished="{!c.handleUploadFinished}"
+                />
+              </lightning:layoutItem>
+
+              <lightning:layoutItem size="6" padding="around-small">
+                <lightning:layout multipleRows="true">
+                  <span class="slds-var-m-top_small"
+                    ><b>Uploaded Files : {!v.fileIds.length}</b></span
+                  >
+                  <aura:iteration
+                    items="{!v.fileIds}"
+                    var="file"
+                    indexVar="index"
+                  >
+                    <lightning:layoutItem size="10" padding="around-small">
+                      {!index+1}. {!file.name}
+                    </lightning:layoutItem>
+                    <lightning:layoutItem size="2" padding="around-small">
+                      <lightning:button
+                        variant="destructive"
+                        label="Delete"
+                        title="Delete"
+                        name="{!index}"
+                        onclick="{! c.deleteSelectedFile }"
+                        class="slds-text-align_left"
+                      />
+                    </lightning:layoutItem>
+                  </aura:iteration>
+                </lightning:layout>
+              </lightning:layoutItem>
+            </lightning:layout>
+          </div>
+          <footer class="slds-modal__footer">
+            <lightning:button
+              variant="neutral"
+              label="Cancel"
+              title="Cancel"
+              onclick="{! c.hideAskEmailAddressModal }"
+            />
+            <lightning:button
+              variant="brand"
+              label="Send Email"
+              title="Send Email"
+              onclick="{! c.sendEmailWithAttach }"
+            />
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+  </aura:if>
+
+  <c:util aura:id="util" />
+  <c:AdvanceDocumentGenerator
+    aura:id="generator"
+    StaticResourceName="AdvanceDocuments"
+    isSendEmail="{!v.isSendEmail}"
+    emailAddress="{!v.emailAddress}"
+    ccAddress="{!v.ccAddress}"
+    bccAddress="{!v.bccAddress}"
+    subject="{!v.subject}"
+    emailBody="{!v.emailBody}"
+    fileIds="{!v.fileIds}"
+    recordId="{!v.recordId}"
+  />
+</aura:component>

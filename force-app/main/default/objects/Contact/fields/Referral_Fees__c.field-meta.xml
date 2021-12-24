@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Referral_Fees__c</fullName>
+    <externalId>false</externalId>
+    <label>Referral Fees</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>false</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>Fixed Amount</fullName>
+                <default>false</default>
+                <label>Fixed Amount</label>
+            </value>
+            <value>
+                <fullName>Fixed BPS</fullName>
+                <default>false</default>
+                <label>Fixed BPS</label>
+            </value>
+            <value>
+                <fullName>Percentage</fullName>
+                <default>false</default>
+                <label>Percentage</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

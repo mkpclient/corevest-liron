@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="title" label="Title" />
+	<design:attribute name="showServicerCommitmentId" label= "Show Servicer Commitment ID" default="false" />
+</design:component>

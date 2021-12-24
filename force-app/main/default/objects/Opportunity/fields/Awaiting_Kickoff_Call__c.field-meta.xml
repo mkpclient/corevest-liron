@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Awaiting_Kickoff_Call__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This is used when Deal is moved into Underwriting and need to schedule a kick off.</description>
+    <externalId>false</externalId>
+    <label>Awaiting Kickoff Call</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

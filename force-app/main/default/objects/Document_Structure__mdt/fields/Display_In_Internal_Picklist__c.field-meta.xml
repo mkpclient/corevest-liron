@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Display_In_Internal_Picklist__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This will control if this Document Type appears in the Picklist for Internal Users in Salesforce</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <inlineHelpText>This will control if this Document Type appears in the Picklist for Internal Users in Salesforce</inlineHelpText>
+    <label>Display In Internal Picklist</label>
+    <type>Checkbox</type>
+</CustomField>

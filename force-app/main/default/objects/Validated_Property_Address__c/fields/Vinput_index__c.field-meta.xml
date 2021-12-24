@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vinput_index__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The order in which this address was submitted with the others
+(0 if alone)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The order in which this address was submitted with the others
+(0 if alone)</inlineHelpText>
+    <label>Verified Input Index</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

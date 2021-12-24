@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Loan_Size_Greater_Than_10K</fullName>
+    <active>true</active>
+    <description>This will prevent a user from entering a Requested Loan Size less than $10,000</description>
+    <errorConditionFormula>AND(Loan_Size__c &lt; 10000,
+OR(
+ $Profile.Name= &quot;Relationship Manager&quot;,
+ $Profile.Name= &quot;Sales Analyst&quot;))</errorConditionFormula>
+    <errorDisplayField>Loan_Size__c</errorDisplayField>
+    <errorMessage>The Requested Loan Size must be greater than $10,000</errorMessage>
+</ValidationRule>

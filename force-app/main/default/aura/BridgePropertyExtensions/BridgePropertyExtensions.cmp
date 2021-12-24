@@ -1,0 +1,99 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="property" type="Object" default="{}" />
+	<aura:attribute name="extensions" type="Object[]" default="[]"/>
+
+	<!-- <aura:attribute name="parentDealId" type="String" /> -->
+	<!-- <aura:attribute name="summaryData" type="Object" /> -->
+
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:handler event="force:refreshView" action="{!c.init}" />
+
+
+	<ui:scrollerWrapper class="scrollerSize">
+		<table class="slds-table slds-table_bordered slds-table_col-bordered">
+		  <thead>
+		    <tr class="slds-text-title_caps">
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">#</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="#">Extension Id</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Extension Date">Extension Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Loan Mod Type">Requested By</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Status">Current Line Maturity Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Requested Loan Amount">Orig Asset Maturity Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Final Loan Amount">New Asset Maturity Date</div>
+		      </th>
+					<th scope="col">
+		        <div class="slds-truncate" title="Final Loan Amount">Orig Interest Rate</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Current Closing Date">New Interest Rate</div>
+		      </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<aura:iteration items="{!v.extensions}" var="item" indexVar="index" >
+		    	<tr>
+		    	<td scope="col" data-label="Opportunity Name">
+		    	  <div class="slds-truncate" title="{!item.Extension__c}">{!item.Extension__c}</div>
+		    	</td>
+			      <td scope="col" data-label="Extension Name">
+			        <div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.Id + '/view'}" onclick="{!c.handleClick}" id="{!item.Id}">{!item.Name}</a></div>
+			      </td>
+			      
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.Extension_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.CreatedById + '/view'}" onclick="{!c.handleClick}" id="{!item.Id}">{!item.CreatedBy.Name}</a></div>
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.Current_Line_Maturity_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.Original_Asset_Maturity_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.New_Asset_Maturity_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{! empty(item.Original_Interest_Rate__c) ? null : item.Original_Interest_Rate__c/100}" minimumSignificantDigits="4" style="percent" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{! empty(item.New_Asset_Interest_Rate__c) ? null : item.New_Asset_Interest_Rate__c/100}" minimumSignificantDigits="4" style="percent" />
+			        </div>
+			      </td>
+			    </tr>
+		    </aura:iteration>
+		  </tbody>
+		</table> 
+	</ui:scrollerWrapper>
+
+	<c:util aura:id="util" />
+</aura:component>

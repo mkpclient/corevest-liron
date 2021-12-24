@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Sets_Forbearance_start_date_to_today</fullName>
+        <description>Sets Forbearance start date to today</description>
+        <field>Forbearance_Start_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>Sets Forbearance start date to today</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>UpdateForbearanceCompletedDate</fullName>
+        <description>Sets forbearance completed date</description>
+        <field>Forbearance_Completed_Date__c</field>
+        <formula>TODAY()</formula>
+        <name>UpdateForbearanceCompletedDate</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Forbearance Completed Date</fullName>
+        <actions>
+            <name>UpdateForbearanceCompletedDate</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Forbearance__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Complete - Paid,Complete - Bill to Loan</value>
+        </criteriaItems>
+        <description>Set Forbearance completed date based on status.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Forbearance Start Date</fullName>
+        <actions>
+            <name>Sets_Forbearance_start_date_to_today</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Forbearance__c.CreatedDate</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Sets Forbearance start date to today</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

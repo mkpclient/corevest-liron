@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>5m_LA Closing Date</label>
+    <protected>false</protected>
+    <values>
+        <field>Check_Only__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Document_Structure__c</field>
+        <value xsi:type="xsd:string">Red_Line_Loan_Agreement</value>
+    </values>
+    <values>
+        <field>Field_Label__c</field>
+        <value xsi:type="xsd:string">Closing Date</value>
+    </values>
+    <values>
+        <field>Field_Name__c</field>
+        <value xsi:type="xsd:string">Closing_Date__c</value>
+    </values>
+    <values>
+        <field>Filters__c</field>
+        <value xsi:type="xsd:string">{Final_Loan_Amount__c}&gt;=5000000</value>
+    </values>
+    <values>
+        <field>Section_Header_Label__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Sort__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>sObjectName__c</field>
+        <value xsi:type="xsd:string">Loan_Version__c</value>
+    </values>
+</CustomMetadata>

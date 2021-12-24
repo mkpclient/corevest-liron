@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Final_Credit_Tier_Change</fullName>
+    <active>false</active>
+    <description>This will prevent a user from changing the Final Credit Tier once a Deal is closed</description>
+    <errorConditionFormula>AND(
+IsClosed,
+ISCHANGED( Final_Sponsor_Tier__c ),
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+NOT ( $Profile.Name= &quot;Origination Manager&quot;)
+)</errorConditionFormula>
+    <errorMessage>The Final Credit Tier cannot be altered</errorMessage>
+</ValidationRule>

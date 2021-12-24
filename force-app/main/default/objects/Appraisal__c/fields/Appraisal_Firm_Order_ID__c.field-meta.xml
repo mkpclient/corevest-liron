@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_Firm_Order_ID__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Order ID from the Appraisal Firm</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Order ID from the Appraisal Firm</inlineHelpText>
+    <label>Appraisal Firm Order ID</label>
+    <length>50</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

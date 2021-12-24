@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Upload</fullName>
+    <active>true</active>
+    <label>Document Upload</label>
+    <picklistValues>
+        <picklist>Document_Category__c</picklist>
+        <values>
+            <fullName>Borrower</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Deal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsor</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

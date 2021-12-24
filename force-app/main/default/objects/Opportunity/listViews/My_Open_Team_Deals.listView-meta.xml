@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Open_Team_Deals</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>OPPORTUNITY.TYPE</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Product_Sub_Type__c</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
+    <columns>OPPORTUNITY.LAST_ACTIVITY</columns>
+    <filterScope>SalesTeam</filterScope>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Initial Review,Data Tape Received,Term Sheet Issued,Term Sheet Signed/Deposit Collected,Submitted to Underwriting,Loan Processing,Underwriting,Approved by Committee,UW Hold</value>
+    </filters>
+    <label>My Open Team Deals</label>
+</ListView>

@@ -1,0 +1,71 @@
+<aura:component
+  controller="ApprovalHistory_lightningController"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="histories" type="Object[]" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:if isTrue="{!!empty(v.histories)}">
+    <article class="slds-card">
+      <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__figure"></div>
+          <div class="slds-media__body">
+            <h2>
+              <span class="slds-text-heading_small">Approval History</span>
+            </h2>
+          </div>
+        </header>
+        <div class="slds-no-flex">
+          <!-- right -->
+          <!-- <button class="slds-button slds-button_neutral">New</button> -->
+        </div>
+      </div>
+      <div class="slds-card__body slds-card__body_inner">
+        <aura:iteration items="{!v.histories}" var="histories" indexVar="count">
+          <div
+            style="margin-bottom: 10px"
+            class="{!count != v.histories.length-1 ? 'slds-border_bottom' : ''}"
+          >
+            <aura:iteration items="{!histories}" var="hist">
+              <div style="margin-bottom: 10px; margin-left: 20px">
+                <div>
+                  <aura:if isTrue="{!hist.Approver__c == 'Approver'}">
+                    <strong>Approver:</strong>&nbsp; TBD
+                    <aura:set attribute="else">
+                      <aura:if
+                        isTrue="{!hist.Status__c == 'Submitted' || hist.Status__c == 'Re-submitted'}"
+                      >
+                        <strong>Submitter:</strong>&nbsp;
+                        <aura:set attribute="else">
+                          <strong>Approver:</strong>&nbsp;
+                        </aura:set>
+                      </aura:if>
+                      {!hist.Approver__c}
+                    </aura:set>
+                  </aura:if>
+                </div>
+                <div><strong>Status:</strong>&nbsp;{!hist.Status_Text__c}</div>
+                <div>
+                  <strong>Approval Type:</strong>&nbsp;{!hist.Approval_Type__c}
+                </div>
+                <div>
+                  <strong>Date Acted:</strong>&nbsp;<lightning:formattedDateTime
+                    value="{!hist.Date_Acted__c}"
+                  ></lightning:formattedDateTime>
+                </div>
+                <aura:if isTrue="{!!empty(hist.Comments__c)}">
+                  <div><strong>Comments:</strong>&nbsp;{!hist.Comments__c}</div>
+                </aura:if>
+              </div>
+            </aura:iteration>
+          </div>
+          <!-- {!count} &nbsp; {!(v.histories.length -1)} -->
+          <!-- <aura:if isTrue="{!count != v.histories.length-1}"> divider </aura:if> -->
+        </aura:iteration>
+      </div>
+      <!-- <footer class="slds-card__footer">Card Footer</footer> -->
+    </article>
+  </aura:if>
+</aura:component>

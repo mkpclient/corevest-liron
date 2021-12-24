@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Created_This_Week1</fullName>
+    <booleanFilter>1 AND (2 or 3 or 4)</booleanFilter>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>Introduction_Source__c</columns>
+    <columns>Introduction_Subsource__c</columns>
+    <columns>Loan_Product_s__c</columns>
+    <columns>LEAD.UNREAD</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Existing_Lead__c</columns>
+    <columns>Existing_Contact__c</columns>
+    <columns>LEAD.PHONE</columns>
+    <columns>LEAD.STATE_CODE</columns>
+    <columns>Applicant_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>LEAD.CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>THIS_WEEK</value>
+    </filters>
+    <filters>
+        <field>Introduction_Source__c</field>
+        <operation>equals</operation>
+        <value>CAF Website,CAF Website New Apply Form,Website Application</value>
+    </filters>
+    <filters>
+        <field>Introduction_Source__c</field>
+        <operation>equals</operation>
+        <value>Website Single Asset Rental,Website Correspondent,Website Wholesale</value>
+    </filters>
+    <filters>
+        <field>Introduction_Source__c</field>
+        <operation>equals</operation>
+        <value>Hotline,Social Media,Website,Website Contact Form</value>
+    </filters>
+    <label>Created This Week</label>
+</ListView>

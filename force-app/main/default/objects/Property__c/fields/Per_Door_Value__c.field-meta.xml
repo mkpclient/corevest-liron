@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Per_Door_Value__c</fullName>
+    <description>Was
+IF(  Is_Parent__c,
+Number_of_Units__c / 
+IF( ISBLANK(Appraised_Value_Amount__c),
+Borrower_Opinion_of_Current_Value__c, Appraised_Value_Amount__c),
+
+Parent_Property__r.Number_of_Units__c / Parent_Property__r.Borrower_Opinion_of_Current_Value__c)</description>
+    <externalId>false</externalId>
+    <formula>IF( ISBLANK( Parent_Property__c) ,
+  IF( ISBLANK(Appraised_Value_Amount__c),
+  Borrower_Opinion_of_Current_Value__c, Appraised_Value_Amount__c) / Number_of_Units__c,
+
+Parent_Property__r.Borrower_Opinion_of_Current_Value__c / Parent_Property__r.Number_of_Units__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Per Door Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

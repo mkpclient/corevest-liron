@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Maturity_Date__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Sooner of the Line Maturity Date or the calculation of First Funding Date + Number of Days &quot;Asset Maturity Days&quot; field on the Deal</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ ISBLANK(Asset_Maturity_Date_Override__c), 
+
+  IF( ISPICKVAL( Deal__r.Asset_Maturity__c , &quot;N/A&quot;),
+   Deal__r.Current_Line_Maturity_Date__c,
+   IF(
+    (VALUE(Left(TEXT(Deal__r.Asset_Maturity__c),3)) + First_Funding_Date__c) &lt; Deal__r.Current_Line_Maturity_Date__c ,
+    VALUE(Left(TEXT(Deal__r.Asset_Maturity__c),3)) + First_Funding_Date__c, 
+    Deal__r.Current_Line_Maturity_Date__c)
+   ),
+
+ Asset_Maturity_Date_Override__c
+)</formula>
+    <inlineHelpText>Sooner of the Line Maturity Date or the calculation of First Funding Date + Number of Days &quot;Asset Maturity Days&quot; field on the Deal</inlineHelpText>
+    <label>Original Asset Maturity Date</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

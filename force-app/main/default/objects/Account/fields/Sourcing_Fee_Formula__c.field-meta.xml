@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sourcing_Fee_Formula__c</fullName>
+    <description>delete or repurpose</description>
+    <externalId>false</externalId>
+    <formula>TEXT ( Referral_Source__r.Sourcing_Fee__c )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The Sourcing Fee from the Referring Source</inlineHelpText>
+    <label>Referral Source Sourcing Fee</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

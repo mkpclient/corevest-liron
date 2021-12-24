@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comment_Date__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Date that the Comment was made</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date that the Comment was made</inlineHelpText>
+    <label>Comment Date</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

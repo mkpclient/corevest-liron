@@ -1,0 +1,196 @@
+<aura:component
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="records" type="List" />
+  <aura:attribute name="record" type="Map" />
+  <aura:attribute name="propertyStatus" type="String" />
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <lightning:navigation aura:id="navService" />
+  <lightning:overlayLibrary aura:id="overlayLib" />
+
+  <lightning:card
+    title="{!'Advances (' + v.records.length + ')'}"
+    class="slds-card_boundary"
+    iconName="custom:custom17"
+  >
+    <aura:set attribute="actions">
+      <aura:if
+        isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isCreateable : 'false'}"
+      >
+        <lightning:button
+          name="New Advance"
+          aura:id="newAdvance"
+          label="New Advance"
+          onclick="{!c.createAdvance}"
+        />
+      </aura:if>
+      <lightning:spinner
+        aura:id="spinner"
+        class="slds-hide"
+        variant="brand"
+        size="medium"
+        alternativeText="Loading"
+      />
+    </aura:set>
+
+    <table
+      class="slds-table slds-table_bordered slds-table_cell-buffer"
+      style="table-layout: fixed"
+    >
+      <thead>
+        <tr class="slds-text-title_caps">
+          <th scope="col">
+            <div
+              class="slds-truncate"
+              style="white-space: pre-wrap"
+              title="Advance #"
+            >
+              Advance #
+            </div>
+          </th>
+          <th scope="col">
+            <div
+              class="slds-truncate"
+              style="white-space: pre-wrap"
+              title="Status"
+            >
+              Status
+            </div>
+          </th>
+          <th scope="col">
+            <div
+              class="slds-truncate"
+              style="white-space: pre-wrap"
+              title="Initial Disbursement"
+            >
+              Initial Disbursement
+            </div>
+          </th>
+          <th scope="col">
+            <div
+              class="slds-truncate"
+              style="white-space: pre-wrap"
+              title="Renovation Loan Amount"
+            >
+              Renovation Loan Amount
+            </div>
+          </th>
+          <th scope="col">
+            <div
+              class="slds-truncate"
+              style="white-space: pre-wrap"
+              title="Funding Date"
+            >
+              Funding Date
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <aura:iteration items="{!v.records}" var="record">
+          <tr>
+            <th scope="row" data-label="Advance #">
+              <div class="slds-truncate" title="{!record.Name}">
+                <a
+                  href="{!'/lightning/r/Advance__c/' + record.Advance__c + '/view'}"
+                  onclick="{!c.handleClick}"
+                  title="{!record.Advance__c}"
+                  >{!record.Advance__r.Name}</a
+                >
+              </div>
+            </th>
+            <td data-label="Status">
+              <div class="slds-truncate" title="{!record.Advance__r.Status__c}">
+                {!record.Advance__r.Status__c}
+              </div>
+            </td>
+            <td data-label="Initial Disbursement">
+              <div
+                class="slds-truncate"
+                title="{!record.Initial_Disbursement__c}"
+              >
+                <lightning:formattedNumber
+                  value="{!record.Initial_Disbursement__c}"
+                  style="currency"
+                  maximumFractionDigits="0"
+                />
+              </div>
+            </td>
+            <td data-label="Renovation Loan Amount">
+              <div
+                class="slds-truncate"
+                title="{!record.Renovation_Reserve__c}"
+              >
+                <lightning:formattedNumber
+                  value="{!record.Renovation_Reserve__c}"
+                  style="currency"
+                  maximumFractionDigits="0"
+                />
+              </div>
+            </td>
+            <td data-label="Funding Date">
+              <div
+                class="slds-truncate"
+                title="{!record.Advance__r.Wire_Date__c}"
+              >
+                <lightning:formattedDateTime
+                  value="{!record.Advance__r.Wire_Date__c}"
+                  year="numeric"
+                  month="numeric"
+                  day="numeric"
+                  timeZone="UTC"
+                />
+              </div>
+            </td>
+          </tr>
+        </aura:iteration>
+      </tbody>
+    </table>
+  </lightning:card>
+
+  <div
+    role="dialog"
+    aura:id="modal"
+    tabindex="-1"
+    aria-labelledby="header43"
+    class="slds-modal slds-close"
+  >
+    <div class="slds-modal__container">
+      <div class="slds-modal__header">
+        <button
+          class="slds-button slds-modal__close slds-button--icon-inverse"
+          title="Close"
+        >
+          <span class="slds-assistive-text">Close</span>
+        </button>
+      </div>
+      <div class="slds-modal__content slds-p-around--medium">
+        <p>
+          This advance will exceed the Max Advance Fee. The remaining available
+          Advance fee is
+          <ui:outputCurrency
+            value="{!v.record.Deal__r.Advance_Fee_Remaining__c}"
+          />. An adjustment has been added to this Advance.
+        </p>
+      </div>
+      <div class="slds-modal__footer">
+        <button class="slds-button slds-button--neutral" onclick="{!c.close}">
+          Cancel
+        </button>
+        <button
+          class="slds-button slds-button--brand"
+          onclick="{!c.continueAdvance}"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="slds-backdrop" aura:id="modal-backdrop"></div>
+
+  <c:util aura:id="util" />
+</aura:component>

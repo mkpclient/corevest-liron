@@ -1,0 +1,432 @@
+<aura:component
+  controller="opportunity_Helper"
+  implements="force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="selectedDocIdList" type="String" />
+  <aura:attribute name="documentList" type="List" />
+  <!-- <aura:attribute name="settings" type="Object[]" /> -->
+  <aura:attribute name="clearToClose" type="Boolean" />
+  <aura:attribute name="sections" type="List" />
+  <aura:attribute name="selectedDocId" type="String" />
+  <aura:handler event="force:showToast" action="{!c.init}" />
+
+  <aura:handler
+    name="onSaveSuccess"
+    event="force:recordSaveSuccess"
+    action="{!c.handleSaveSuccess}"
+  />
+  <!-- <aura:attribute name="docInfo" type="Map" /> -->
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <table class="slds-table  ">
+    <thead>
+      <tr class="slds-text-title_caps">
+        <th scope="col" class="slds-has-button-menu" style="width:30%">
+          <div class="slds-truncate" title="Document">Document</div>
+        </th>
+
+        <th scope="col" class="slds-has-button-menu" style="width:10%;">
+          <div class="slds-truncate" title="Document">Uploaded</div>
+        </th>
+        <th scope="col" class="slds-has-button-menu" style="width:10%;">
+          <div class="slds-truncate" title="Document">Reviewed</div>
+        </th>
+        <th
+          scope="col"
+          class="slds-has-button-menu"
+          style="width:23%; text-align:center"
+        >
+          <div class="slds-truncate" title="Document">File</div>
+        </th>
+        <th scope="col" class="slds-has-button-menu" style="width:30%;">
+          <div class="slds-truncate" title="Document">Comments</div>
+        </th>
+        <th
+          scope="col"
+          class="slds-has-button-menu"
+          style="width:2%; text-align:right"
+        >
+          <lightning:buttonIcon
+            iconName="utility:refresh"
+            onclick="{!c.init}"
+            variant="bare"
+          />
+        </th>
+      </tr>
+    </thead>
+  </table>
+
+  <aura:iteration items="{!v.sections}" var="section" indexVar="sectionIndex">
+    <div
+      class="slds-section slds-is-open"
+      style="padding-top:0px; margin-top: 0px; margin-bottom:0px; border-bottom: 0px;"
+    >
+      <h3
+        class="slds-section__title slds-text-heading_medium "
+        style="color:#1B5297; font-weight: bold"
+      >
+        <button class="slds-button slds-section__title-action" style="">
+          <span class="slds-truncate" title="{!section.headerName}"
+            >{!section.headerName}</span
+          >
+        </button>
+      </h3>
+    </div>
+    <aura:iteration items="{!section.settings}" var="setting" indexVar="index">
+      <div
+        class="slds-section slds-is-open"
+        aura:id="sections"
+        data-name="{!setting.Label}"
+        style="padding-top:0px; margin-top: 0px; margin-bottom:0px;"
+        onclick="{!c.toggleSection}"
+      >
+        <h3
+          class="slds-section__title"
+          onclick="{!c.toggleSection}"
+          data-name="{!setting.Label}"
+        >
+          <button
+            class="slds-button slds-section__title-action"
+            data-id="{!index}"
+            data-name="{!setting.Label}"
+            onclick="{!c.toggleSection}"
+            style="border-top: 0px;"
+          >
+            <lightning:icon
+              iconName="utility:switch"
+              aura:id="sections-icon"
+              title="{!setting.Label}"
+              class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+              size="x-small"
+            />
+            <span
+              class="slds-truncate"
+              title="{!setting.Label}"
+              data-name="{!setting.Label}"
+              data-id="{!index}"
+              >{!setting.Label}</span
+            >
+          </button>
+        </h3>
+
+        <div class="slds-section__content" style="padding-top:0px">
+          <table class="slds-table slds-table_bordered">
+            <thead>
+              <tr class="slds-text-title_caps hideme">
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:30%"
+                >
+                  <div class="slds-truncate offscreen" title="Document"
+                    >Document</div
+                  >
+                </th>
+
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:10%; text-align:center"
+                >
+                  <div class="slds-truncate offscreen" title="Document"
+                    >Uploaded</div
+                  >
+                </th>
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:10%; text-align:center"
+                >
+                  <div class="slds-truncate offscreen" title="Document"
+                    >Reviewed</div
+                  >
+                </th>
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:23%; text-align:center"
+                >
+                  <div class="slds-truncate offscreen" title="Document"
+                    >File</div
+                  >
+                </th>
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:30%; text-align:center"
+                >
+                  <div class="slds-truncate offscreen" title="Document"
+                    >Comments</div
+                  >
+                </th>
+                <th
+                  scope="col"
+                  class="slds-has-button-menu noborder"
+                  style="width:2%; text-align:right"
+                >
+                  <span class="offscreen">
+                    <lightning:buttonIcon
+                      iconName="utility:refresh"
+                      onclick="{!c.init}"
+                      variant="bare"
+                    />
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <aura:iteration
+                items="{!setting.Document_Structures__r}"
+                var="document"
+              >
+                <tr>
+                  <td data-label="Document" style="width:30%">
+                    <div class="slds-truncate" title="" style="font-size: 14px; white-space:normal;">
+                      {!document.Document_Type__c}<abbr
+                        class="{!document.required ? 'slds-required' : 'slds-hide'}"
+                        title="required"
+                        >*</abbr
+                      >
+                    </div>
+                  </td>
+
+                  <td
+                    data-label="Document"
+                    style="width:10%; text-align:center"
+                  >
+                    <aura:if isTrue="{!document.loaded}">
+                      <lightning:icon iconName="action:approval" size="small" />
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!and(!document.loaded, document.required)}"
+                    >
+                      <lightning:icon iconName="action:close" size="small" />
+                    </aura:if>
+
+                    <!-- <div class="slds-truncate" title="">
+									</div> -->
+                  </td>
+                  <td
+                    data-label="Document"
+                    style="width:10%; text-align:center"
+                  >
+                    <aura:if isTrue="{!document.reviewed}">
+                      <lightning:icon iconName="action:approval" size="small" />
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!and(!document.reviewed, document.required)}"
+                    >
+                      <lightning:icon iconName="action:close" size="small" />
+                    </aura:if>
+                  </td>
+                  <td data-label="Document" style="width:20%;text-align:center">
+                    <aura:if isTrue="{!document.loaded}">
+                      <!-- <a
+                        href="{!'/lightning/r/sObjectName/'+ document.docId + '/view'}"
+                        target="_blank"
+                        id="{!document.docId}"
+                        >View ({!document.documentCount})</a
+                      > -->
+                      <a
+                        href="javascript:void()"
+                        id="{!document.docInfoId}"
+                        onclick="{!c.viewFiles}"
+                        >View ({!document.documentCount})</a
+                      >
+                    </aura:if>
+                  </td>
+                  <td style="width:20%;">
+                    {!document.comments}
+                  </td>
+                  <td style="width:2%;">
+                    <lightning:buttonMenu
+                      aura:id="menu"
+                      onselect="{!c.openEditModal}"
+                    >
+                      <lightning:menuItem
+                        value="{!document.docInfoId}"
+                        label="Edit"
+                      >
+                      </lightning:menuItem>
+                    </lightning:buttonMenu>
+                  </td>
+                </tr>
+              </aura:iteration>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </aura:iteration>
+  </aura:iteration>
+
+  <div>
+    <div class="slds-text-heading_large">
+      Clear To Close: &nbsp;&nbsp;
+      <lightning:icon
+        iconName="{!v.clearToClose ? 'action:approval' : 'action:close'}"
+        size="small"
+      />
+    </div>
+  </div>
+  <aura:if isTrue="{! !empty(v.selectedDocId)}">
+    <div class="demo-only" style="height: 640px;">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+              >Edit Document</h2
+            >
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            <div class="slds-section slds-is-open">
+              <force:recordEdit aura:id="edit" recordId="{!v.selectedDocId}" />
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModal}"
+              >Cancel</button
+            >
+            <button class="slds-button slds-button_brand" onclick="{!c.save}"
+              >Save</button
+            >
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.selectedDocIdList)}">
+    <div class="demo-only" style="height: 640px;">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+              >Document List</h2
+            >
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium slds-is-relative"
+            id="modal-content-id-1"
+            style="    min-height: 100px;"
+          >
+            <div class="slds-section slds-is-open">
+              <lightning:spinner
+                aura:id="listSpinner"
+                variant="brand"
+              ></lightning:spinner>
+
+              <table
+                class="slds-table slds-table_cell-buffer slds-table_bordered"
+              >
+                <thead>
+                  <tr class="slds-line-height_reset">
+                    <th
+                      class="slds-text-align_right"
+                      scope="col"
+                      style="width:3.25rem"
+                    >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="File Name"
+                        >File Name</div
+                      >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Reviewed On"
+                        >Reviewed On</div
+                      >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Reviewed By"
+                        >Reviewed By</div
+                      >
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <aura:iteration items="{!v.documentList}" var="doc">
+                    <tr class="slds-hint-parent">
+                      <td>
+                        <lightning:input
+                          type="checkbox"
+                          label="hidden"
+                          variant="label-hidden"
+                          checked="{!doc.checked}"
+                        >
+                        </lightning:input>
+                      </td>
+                      <td title="{!doc.Attachment_Id__c}" scope="row">
+                        <div class="" title="{!doc.Attachment_Id__c}">
+                          <a
+                            href="javascript:void(0);"
+                            onclick="{!c.viewFile}"
+                            title="{!doc.Attachment_Id__c}"
+                            >{!doc.File_Name__c}</a
+                          >
+                        </div>
+                      </td>
+
+                      <td>
+                        <ui:outputDate value="{!doc.Reviewed_On__c}" />
+                      </td>
+                      <td>
+                        <div class="" title="{!doc.Reviewed_By__c}"
+                          >{!doc.Reviewed_By__r.Name}</div
+                        >
+                      </td>
+                    </tr>
+                  </aura:iteration>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModalList}"
+              >Close</button
+            >
+            <lightning:button
+              variant="brand"
+              label="Review"
+              onclick="{!c.review}"
+              aura:id="reviewBtn"
+            ></lightning:button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <c:util aura:id="util" />
+</aura:component>

@@ -1,0 +1,155 @@
+<aura:component controller="lightning_Controller" implements="flexipage:availableForAllPageTypes" access="public">
+
+    <!-- public attributes -->
+    <aura:attribute name="checked" type="Boolean" />
+
+    <aura:attribute name="columns"
+                    type="Aura.Component[]"
+                    required="true"
+                    description="Array of one or more DataTableColumnCmp components."/>
+
+    <aura:attribute name="rows"
+                    type="Object[]"
+                    description="The data of the rows to display. Should have JSON property for each column name value."/>
+
+    <!-- pagination attributes -->
+
+    <aura:attribute name="pageNumber"
+                    type="Integer"
+                    default="1"
+                    description="For pagination, which page of records to display."/>
+
+    <aura:attribute name="pageSize"
+                    type="Integer"
+                    default="25"
+                    description="For pagination, how many records per page to display."/>
+
+    <aura:attribute name="sortColumnName"
+                    type="String"
+                    description="For sorting, last known requested sort preference. A value that matches the name attribute of a DataTableColumnCmp."/>
+
+    <aura:attribute name="sortDirection"
+                    type="String"
+                    description="For sorting, last known requested sort preference. Value must be 'asc' or 'desc'."/>
+
+    <aura:attribute name="editMode"
+    				type="Boolean"
+    				default="false" />
+
+    <!-- style attributes -->
+
+    <aura:attribute name="tableClass"
+                    type="String"
+                    default="slds-table slds-table--bordered slds-table--fixed-layout"
+                    description="CSS classes to apply to table tag."/>
+
+    <aura:attribute name="tableHeaderRowClass"
+                    type="String"
+                    default="slds-text-title--caps"
+                    description="CSS classes to apply to table TR tags in THEAD section."/>
+
+    <aura:attribute name="tableBodyRowClass"
+                    type="String"
+                    default="slds-hint-parent slds-truncate"
+                    description="CSS classes to apply to table TR tags in TBODY section."/>
+
+    <!-- private attributes -->
+
+    <aura:attribute name="scrollCheckIntervalId"
+                    type="String"
+                    description="In the renderer.js, the interval id for periodically checking scroll position. Used when unrendering component to cancel interval check."
+                    access="private"/>
+
+
+    <!-- events -->
+
+    <aura:registerEvent name="pageChangeEvent" type="c:DataTablePageChangeEvent"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <aura:method name="getChecked" action="{!c.getChecked}" >
+    	<aura:attribute name="callback" type="Object" /> 
+    </aura:method>
+
+    <aura:method name="toggleEdit" action="{!c.toggleEdit}" >
+    	<aura:attribute name="callback" type="Object" />
+    </aura:method>
+
+    <aura:method name="saveRows" action="{!c.saveRows}" >
+
+    </aura:method> 
+
+    <aura:method name="addRow" action="{!c.addRow}">
+        <aura:attribute name="row" type="Object" />
+    </aura:method>
+
+    <aura:method name="toggleSpinner" action="{!c.toggleSpinner}" >
+
+    </aura:method>
+
+    <aura:method name="addSpinner" action="{!c.addSpinner}" />
+
+    <aura:method name="removeSpinner" action="{!c.removeSpinner}" />
+
+    <aura:attribute name="showCheckbox" type="Boolean" default="true" /> 
+    
+    <!-- markup -->
+
+    <!-- <div class="slds-is-relative"> -->
+        <lightning:spinner aura:id="spinner" variant="brand" class="slds-hide" alternativeText="loading" />
+    <!-- </div> -->
+
+    <table class="{!v.tableClass}" role="grid">
+        <thead>
+            <tr class="{!v.tableHeaderRowClass}">
+            	<th class="{!v.showCheckbox ? '': 'slds-hide'}" style="width: 40px">
+                    <lightning:input aura:id="checkbox" type="checkbox" name="checkbox" label=" " checked="{!v.checked}" onchange="{!c.selectAll}" />
+                </th>
+                <aura:iteration items="{!v.columns}" var="column">
+                    <!-- <aura:if isTrue="{! column.hidden}"> -->
+                        {!column}
+                    <!-- </aura:if> -->
+                </aura:iteration>
+            </tr>
+        </thead>
+
+        <tbody>
+            <aura:iteration items="{!v.rows}" var="row" indexVar="rowIdx">
+                <tr class="{!v.tableBodyRowClass}" id="test" style="{!row.Possible_Duplicate__c ? 'background-color:#F0F8FF;' :''}">
+                    
+                    <!-- <span class="{!empty(row.Parent_Property__c) ? 'slds-hide' : ''}">
+                        <td style="width: 40px"></td>
+                    </span> -->
+                	<td class="{!v.showCheckbox ? '': 'slds-hide'}" style="{!empty(row.Parent_Property__c) ? 'width: 40px' : 'width: 60px'}" ><lightning:input aura:id="checkboxes" type="checkbox" value="{!rowIdx}" label=" " /></td>
+                    <aura:iteration items="{!v.columns}" var="column" indexVar="colIdx">
+                        <!-- <td role="gridcell" class="slds-cell-edit" data-label="{!column.label}"> -->
+                            <c:DataTableCell aura:id="columns" row="{!row}"
+                                                rowIdx="{!rowIdx}"
+                                                column="{!column}"
+                                                colIdx="{!colIdx}"
+                                               	editMode="{!v.editMode}" 
+                                                
+                                              	 />       
+                        <!-- </td> -->
+                    </aura:iteration>
+                </tr>
+
+               <!--  <c:DataTableRow aura:id="rows"
+                				rowClass="{!v.tableBodyRowClass}"
+                				row="{!row}"
+                				rowIdx="{!rowIdx}"
+                				columns="{#v.columns}"
+                				editMode="{!v.editMode}"
+               					/> -->
+
+            </aura:iteration>
+        </tbody>
+    </table>
+
+    <!-- <div class="slds-docked-form-footer">
+	  <button type="button" class="slds-button slds-button- -neutral">Cancel</button>
+	  <button type="button" class="slds-button slds-button- -brand">Save</button>
+	</div> -->
+
+</aura:component>

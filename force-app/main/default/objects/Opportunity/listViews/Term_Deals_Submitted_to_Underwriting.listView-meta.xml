@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Deals_Submitted_to_Underwriting</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>Submission_Date__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Anticipated_Closing_Date__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Contact__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Submitted to Underwriting</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.TYPE</field>
+        <operation>equals</operation>
+        <value>Term Loan</value>
+    </filters>
+    <label>Term Deals - Submitted to Underwriting</label>
+</ListView>

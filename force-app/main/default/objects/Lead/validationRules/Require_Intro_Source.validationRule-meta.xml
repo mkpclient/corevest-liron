@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Intro_Source</fullName>
+    <active>true</active>
+    <description>Requires that the Lead has an Intro Source before it can be converted.</description>
+    <errorConditionFormula>AND(
+IsConverted,
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ConvertedDate = TODAY(),
+ISBLANK(TEXT( Introduction_Source__c )))</errorConditionFormula>
+    <errorDisplayField>Introduction_Source__c</errorDisplayField>
+    <errorMessage>Introduction Source is required before converting a Lead</errorMessage>
+</ValidationRule>

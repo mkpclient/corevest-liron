@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delinquent_120_Days__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Number times payment received 120 days or more past due
+date life-to-date&quot;</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number times payment received 120 days or more past due
+date life-to-date&quot;</inlineHelpText>
+    <label>Delinquent 120 Days +</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

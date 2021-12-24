@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Origination_Macros</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>This will share Macros owned by an Origination manager with the role of Origination</description>
+        <label>Origination Macros</label>
+        <sharedTo>
+            <role>Origination</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Origination_Manager</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Term_Macros</fullName>
+        <accessLevel>Read</accessLevel>
+        <description>This will share Macros owned by a Term Manager with the role of Term</description>
+        <label>Term Macros</label>
+        <sharedTo>
+            <role>Term</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Manager</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

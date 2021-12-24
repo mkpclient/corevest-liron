@@ -1,0 +1,3 @@
+<design:component >
+	<design:attribute name="isCommunity" label="Is Community" />
+</design:component>

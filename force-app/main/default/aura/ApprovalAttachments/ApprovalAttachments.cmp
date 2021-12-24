@@ -1,0 +1,62 @@
+<aura:component controller="ApprovalAttachments_lightningController" implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable">
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="files" type="Object[]" />
+    <aura:attribute name="properties" type="Object[]" />
+
+    <aura:attribute name="whereClause" type="String" />
+    <aura:attribute name="bridgeWhereClause" type="String" />
+    <aura:attribute name="termWhereClause" type="String" />
+
+    <aura:attribute name="title" type="String" default="Attachments" />
+
+    <aura:handler event="force:refreshView" action="{!c.init}" />
+
+    <article class="slds-card">
+      <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__body">
+            <h2>
+                <span class="slds-text-heading_small"></span>
+            </h2>
+          </div>
+        </header>
+      </div>
+      <!-- <aura:iteration items="{!v.attachments}" var="attachment">
+          <div class="slds-card__body slds-card__body_inner">
+              <span style="display:inline-block;padding-right:8px;">
+                  <lightning:icon iconName="doctype:attachment" />
+              </span>
+              <a href="{!'#/sObject/' + attachment.Id + '/view'}">{!attachment.Name}</a>
+          </div>
+      </aura:iteration> -->
+
+      <lightning:layout horizontalAlign="spread" multipleRows="true" class="slds-m-around_medium">
+        <aura:iteration items="{!v.files}" var="file"  >
+          <lightning:layoutItem size="12">
+            <div class="slds-tile slds-media slds-m-bottom--medium">
+              <div class="slds-media__figure">
+                <lightning:icon iconName="doctype:attachment" />
+              </div>
+              <div class="slds-media__body">
+                <h3 class="slds-truncate" title="{!file.title}"><a href="javascript:void(0);" data-title="{!file.Attachment_Id__c}" title="{!file.File_Name__c}" onclick="{!c.openDoc}">{!file.File_Name__c}</a></h3>
+                <div class="slds-tile__detail slds-text-body--small">
+                  <ul class="slds-list--horizontal slds-has-dividers--right">
+                    <li class="slds-item"><ui:outputDate value="{!file.Added_On__c}" /></li>
+                    <!-- <li class="slds-item"><ui:outputNumber value="{!file.size/1000000}" />&nbsp;Mb</li>
+                    <li class="slds-item">{!file.ext}</li> -->
+                    <li class="slds-item">{!file.Added_By__r.Name}</li>
+                  </ul>
+                </div> 
+              </div>
+            </div>
+          </lightning:layoutItem>
+        </aura:iteration>
+      </lightning:layout>
+
+    </article>
+
+
+    <c:util aura:id="util" />
+
+</aura:component>

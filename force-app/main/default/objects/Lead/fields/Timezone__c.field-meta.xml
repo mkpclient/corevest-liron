@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Timezone__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( 
+CONTAINS( 
+&quot;204:205:210:214:217:218:219:224:225:228:254:256:262:270:281:309:312:314:316:318:319:320:334:337:361:402:405:409:414:417:469:501:504:507:512:515:573:580:601:608:612:615:618:630:636:641:651:660:662:682:708:712:713:715:763:773:806:815:816:817:830:832:847:870:901:903:913:918:920:936:940:952:956:972:979&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;CST&quot;, 
+IF( 
+CONTAINS( 
+&quot;242:246:264:268:284:340:441:473:506:664:758:767:784:809:868:869:902&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;Atlantic (one hour later than Eastern)&quot;, 
+IF( 
+CONTAINS( 
+&quot;423:606:807:812:850:906:931:306:308:605&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;CST,EST&quot;, 
+IF( 
+CONTAINS( 
+&quot;306:308:605&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;CST,MST&quot;, 
+IF( 
+CONTAINS( 
+&quot;201:202:203:207:212:215:216:229:231:234:240:248:252:267:301:302:304:305:313:315:317:321:330:336:345:347:352:401:404:407:410:412:413:416:418:419:440:443:450:475:478:484:502:508:513:514:516:517:518:519:540:561:570:571:586:603:607:609:610:613:614:616:617:631:646:647:649:678:703:704:705:706:716:717:718:724:727:732:734:740:757:765:770:781:786:802:803:804:810:813:814:819:828:843:845:856:859:860:863:864:865:876:878:904:905:908:910:912:914:917:919:937:941:954:959:973:978:980:989&quot;,
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;EST&quot;, 
+IF( 
+CONTAINS( 
+&quot;787&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;EST,Atlantic (one hour later than Eastern)&quot;, 
+IF( 
+CONTAINS( 
+&quot;808&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;Hawaii (2 or 3 hours earlier than PST)&quot;, 
+IF( 
+CONTAINS( 
+&quot;303:307:403:406:435:505:719:720:780:801:970&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;MST&quot;, 
+IF( 
+CONTAINS( 
+&quot;701:785:915&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;MST,CST&quot;, 
+IF( 
+CONTAINS( 
+&quot;208:250:480:520:541:602:623&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;MST,PST&quot;, 
+IF( 
+CONTAINS( 
+&quot;206:209:213:253:310:323:360:408:415:425:503:509:510:530:559:562:604:619:626:650:661:702:707:714:760:775:805:818:831:858:909:916:925:949:971&quot;, 
+(LEFT(TRIM(SUBSTITUTE(SUBSTITUTE(Phone,&quot;(&quot;,&quot;&quot;),&quot;)&quot;,&quot;&quot;)),3)) 
+), 
+&quot;PST&quot;, 
+&quot;OTHER&quot; 
+) 
+) 
+) 
+) 
+) 
+) 
+) 
+) 
+) 
+) 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Timezone</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

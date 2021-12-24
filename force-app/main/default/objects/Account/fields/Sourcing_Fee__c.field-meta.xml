@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sourcing_Fee__c</fullName>
+    <description>Delete or repurpose</description>
+    <externalId>false</externalId>
+    <label>Sourcing Fee</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>100 bps</fullName>
+                <default>false</default>
+                <label>100 bps</label>
+            </value>
+            <value>
+                <fullName>50 bps</fullName>
+                <default>false</default>
+                <label>50 bps</label>
+            </value>
+            <value>
+                <fullName>25 bps</fullName>
+                <default>false</default>
+                <label>25 bps</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

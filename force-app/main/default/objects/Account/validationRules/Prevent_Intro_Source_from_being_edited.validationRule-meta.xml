@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Intro_Source_from_being_edited</fullName>
+    <active>true</active>
+    <description>This will only allow users to edit the Introduction Source if the previous value is NULL</description>
+    <errorConditionFormula>AND( 
+OR( 
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Email&quot;), 
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Event&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Hotline&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Imported Leads&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Prior Relationship&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Prospecting&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Referral&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Social Media&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Hotline Answering Service&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introductions_Source__c), &quot;Website&quot;) 
+),
+ISCHANGED( Introductions_Source__c), 
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+NOT ( $Profile.Name= &quot;Origination Manager&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Introductions_Source__c</errorDisplayField>
+    <errorMessage>The Introduction Source cannot be changed</errorMessage>
+</ValidationRule>

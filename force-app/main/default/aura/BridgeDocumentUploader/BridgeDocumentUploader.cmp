@@ -1,0 +1,86 @@
+<aura:component controller="documentUploader_Controller" implements="force:lightningQuickAction">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="files" type="Object[]" />
+    <aura:attribute name="picklistMap" type="Object" />
+    <aura:attribute name="sections" type="Object[]" />
+    <aura:attribute name="sobjectType" type="String" default="Opportunity" />
+    <aura:attribute name="recordType" type="String" default="LOC Loan" />
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:attribute name="message" type="String" default="" />
+
+
+          <!-- <ui:outputText value="{!v.message}" class="{!empty(v.message) ? 'slds-hide' : ''}" /> -->
+
+          <lightning:layout horizontalAlign="spread">
+                  <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <c:fileUpload parentId="{#v.recordId}" files="{!v.files}"/>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem flexibility="auto" padding="around-small">
+                     <lightning:button label="Save Documents" variant="brand" onclick="{!c.saveFiles}" />
+                  </lightning:layoutItem>
+          </lightning:layout>
+          
+          <ul class="slds-has-dividers--bottom-space">
+              <aura:iteration items="{!v.files}" var="f" indexVar="rowIndex">
+                  <li class="slds-item">
+                      <div class="slds-tile slds-media">
+                        <div class="slds-media__figure">
+                          <lightning:icon iconName="doctype:attachment" />
+              
+                        </div>
+
+                        <div class="slds-media__body">
+                          <h3 class="slds-truncate" title="{!f.name}"><a href="javascript:void(0);">{!f.name}</a></h3>
+
+                          <div class="slds-tile__detail slds-text-body--small">
+                            <ul class="slds-list--horizontal slds-has-dividers--right">
+                              <li class="slds-item"><ui:outputNumber value="{!f.size/1000000}" />&nbsp;Mb</li>
+                              <!-- <aura:if isTrue="{!v.sobjectType != 'Property__c'}"> -->
+
+                              <li class="{!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                <p>
+                                  Upload failed: File too big
+                                </p>
+                              </li>
+
+
+
+                                <li class="{!!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                    <ui:inputSelect class="{!'row-'+rowIndex}" aura:id="sections" value="{!f.section}" >
+                                        <aura:iteration items="{#v.sections}" var="item">
+                                          <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                        </aura:iteration>
+                                    </ui:inputSelect>
+                                </li>
+                              <!-- </aura:if> -->
+                              <li class="{!!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                  <!-- <ui:inputSelect aura:id="doc-types" value="{!f.documentType}" >
+                                    <aura:iteration items="{!f.typeOptions}" var="item">
+                                      <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                    </aura:iteration>
+                                  </ui:inputSelect> -->
+                                  <ui:inputText aura:id="docType" value="{!f.documentType}" />
+
+                              </li>
+                              <li>
+                                <lightning:buttonIcon iconName="utility:delete" class="{!and(empty(f.status), !empty(f.attachmentId)) ? '' : 'slds-hide'}" value="{!rowIndex}" variant="bare" onclick="{!c.deleteAttachment}" />
+                                <img src="/img/loading.gif" class="{!f.status == 'uploading' ? '' : 'slds-hide'}" />
+                                <lightning:icon iconName="action:approval" size="xx-small" class="{!f.uploaded ? '' : 'slds-hide'}"/>
+                                <lightning:icon iconName="action:close" size="xx-small" class="{!f.status == 'failed' ? '' : 'slds-hide'}" />
+                              </li>
+                            </ul>
+
+                          </div>
+
+                        </div>
+                        
+                      </div>
+                    </li>
+                    
+              </aura:iteration>
+          </ul>
+    
+</aura:component>

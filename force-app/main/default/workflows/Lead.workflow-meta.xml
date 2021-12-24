@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Janati_RR__Round_Robin_Lead_Assignment</fullName>
+        <description>Round Robin Lead Assignment</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Janati_RR__Round_Robin_Assignment/Janati_RR__Lead_Assignment_Notification</template>
+    </alerts>
+    <alerts>
+        <fullName>Lead_Alert_for_Tom_Basmajian</fullName>
+        <ccEmails>tom@blksq.com</ccEmails>
+        <description>Lead Alert for Tom Basmajian</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>brad.chmura@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Process_Builder_Emails/Lead_Alert_for_Tom_Basmajian</template>
+    </alerts>
+    <alerts>
+        <fullName>Lead_Still_Open_Status</fullName>
+        <description>Lead Still Open Status</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>brad.chmura@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Process_Builder_Emails/Lead_Received_and_Still_Open</template>
+    </alerts>
+    <alerts>
+        <fullName>New_Chatbot_Conversation</fullName>
+        <description>New Chatbot Conversation</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/New_Conversation_In_Drift</template>
+    </alerts>
+    <alerts>
+        <fullName>Send_Email_Notification</fullName>
+        <ccEmails>caf-apps@cvest.com</ccEmails>
+        <description>Send Email Notification</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Email</field>
+            <type>email</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Round_Robin_HTML</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Lead_owner</fullName>
+        <field>OwnerId</field>
+        <lookupValue>timothy.leber@cvest.com</lookupValue>
+        <lookupValueType>User</lookupValueType>
+        <name>Lead owner</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>LookupValue</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Reassign_Lead_Check_Again</fullName>
+        <field>Reassign_Lead__c</field>
+        <literalValue>1</literalValue>
+        <name>Reassign Lead Check Again</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Reassign_Lead_Checkbox</fullName>
+        <field>Reassign_Lead__c</field>
+        <literalValue>1</literalValue>
+        <name>Reassign Lead Checkbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>UpdateDateTimeOrigination</fullName>
+        <field>DateTime_Originator_Assigned__c</field>
+        <formula>now()</formula>
+        <name>UpdateDateTimeOrigination</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Picklist</fullName>
+        <field>Originator_Reassignment__c</field>
+        <literalValue>Originator 2</literalValue>
+        <name>Update Picklist</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_reassign_originator_3_picklist</fullName>
+        <field>Originator_Reassignment__c</field>
+        <literalValue>Originator 3</literalValue>
+        <name>Update reassign originator 3 picklist</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Janati_RR__Round Robin Assignment</fullName>
+        <actions>
+            <name>Janati_RR__Round_Robin_Lead_Assignment</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Lead.Janati_RR__Round_Robin_Assignee__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <description>Evaluates when a round robin assignee is assigned in order to send an email to the lead owner.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Janati_RR__Round Robin Assignment Changed</fullName>
+        <actions>
+            <name>Janati_RR__Round_Robin_Lead_Assignment</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Rule used to evaluate if the Round Robin Assignee changes in order to send an email alert to the new owner.</description>
+        <formula>ISCHANGED( Janati_RR__Round_Robin_Assignee__c )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>New Chatbot Lead</fullName>
+        <actions>
+            <name>New_Chatbot_Conversation</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Lead.LeadSource</field>
+            <operation>equals</operation>
+            <value>Drift</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.Status</field>
+            <operation>equals</operation>
+            <value>Open</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.Introduction_Source__c</field>
+            <operation>equals</operation>
+            <value>Website Drift Chatbot</value>
+        </criteriaItems>
+        <description>Notifies Lead Owner of New Chatbot Conversation in Drift.</description>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>NewOriginatorAssignedDateTime</fullName>
+        <actions>
+            <name>UpdateDateTimeOrigination</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Records Originator Assigned DateTime based on assigned When a record is created.</description>
+        <formula>NOT(ISBLANK(OwnerId ))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>RRV1 Send Notification to Lead</fullName>
+        <actions>
+            <name>Send_Email_Notification</name>
+            <type>Alert</type>
+        </actions>
+        <active>false</active>
+        <description>Send notification to lead with round robin lead assignment criteria.</description>
+        <formula>Owner:User.Id &lt;&gt; &apos;005j000000GgFS1AAN&apos; &amp;&amp; NOT(ISNULL(Round_Robin_Value__c))</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Reassign Lead - originator 2</fullName>
+        <active>false</active>
+        <description>If Lead record has no contact activity or lead status change in 24 hours from first originator, check the checkbox.</description>
+        <formula>ISPICKVAL( Status , &quot;Open&quot;) &amp;&amp;   NOT( ISBLANK(Round_Robin_Value__c) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Reassign_Lead_Checkbox</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <actions>
+                <name>Update_Picklist</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Lead.CreatedDate</offsetFromField>
+            <timeLength>24</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Reassign Lead - originator 3</fullName>
+        <active>false</active>
+        <description>Reassign the lead from originator 2 to originator 3 if the lead was not contacted for 48 hours.</description>
+        <formula>ISPICKVAL( Status , &quot;Open&quot;) &amp;&amp; NOT( ISBLANK(Round_Robin_Value__c) )</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Reassign_Lead_Check_Again</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <actions>
+                <name>Update_reassign_originator_3_picklist</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Lead.CreatedDate</offsetFromField>
+            <timeLength>48</timeLength>
+            <workflowTimeTriggerUnit>Hours</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Send Tasks to Originator 1</fullName>
+        <actions>
+            <name>Please_Call_the_Lead</name>
+            <type>Task</type>
+        </actions>
+        <active>false</active>
+        <criteriaItems>
+            <field>Lead.Status</field>
+            <operation>equals</operation>
+            <value>Open,Contacted</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Lead.Round_Robin_Value__c</field>
+            <operation>notEqual</operation>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Send Tasks to Reassigned Originators</fullName>
+        <actions>
+            <name>LR_Please_Call_the_Lead</name>
+            <type>Task</type>
+        </actions>
+        <active>false</active>
+        <formula>(ISPICKVAL( Status, &quot;Open&quot; )  || ISPICKVAL( Status,&quot;Contacted&quot;)) &amp;&amp;     NOT(ISBLANK(Round_Robin_Value__c) ) &amp;&amp;   NOT(ISBLANK( TEXT(Originator_Reassignment__c )) ) &amp;&amp;  ISCHANGED(OwnerId)</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>UpdateOriginatorAssignedDateTime</fullName>
+        <actions>
+            <name>UpdateDateTimeOrigination</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>Updates Originator Assigned DateTime based on Originator assigned</description>
+        <formula>ISCHANGED(OwnerId )</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <tasks>
+        <fullName>LR_Please_Call_the_Lead</fullName>
+        <assignedToType>owner</assignedToType>
+        <dueDateOffset>1</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Open</status>
+        <subject>Please Call the Lead</subject>
+    </tasks>
+    <tasks>
+        <fullName>Please_Call_the_Lead</fullName>
+        <assignedToType>owner</assignedToType>
+        <dueDateOffset>1</dueDateOffset>
+        <notifyAssignee>false</notifyAssignee>
+        <offsetFromField>Lead.CreatedDate</offsetFromField>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Open</status>
+        <subject>Please Call the Lead</subject>
+    </tasks>
+</Workflow>

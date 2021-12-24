@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VUrbanization__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Primarily for Puerto Rican addresses; a very important component which contains area, sector, or development within a geographic area; should be included after the name of the recipient.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Primarily for Puerto Rican addresses; a very important component which contains area, sector, or development within a geographic area; should be included after the name of the recipient</inlineHelpText>
+    <label>Urbanization</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

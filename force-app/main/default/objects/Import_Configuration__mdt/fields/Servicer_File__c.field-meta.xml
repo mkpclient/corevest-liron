@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Servicer_File__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Servicer File</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Cohen</fullName>
+                <default>true</default>
+                <label>Cohen</label>
+            </value>
+            <value>
+                <fullName>Midland</fullName>
+                <default>false</default>
+                <label>Midland</label>
+            </value>
+            <value>
+                <fullName>Wells Fargo</fullName>
+                <default>false</default>
+                <label>Wells Fargo</label>
+            </value>
+            <value>
+                <fullName>SLS</fullName>
+                <default>false</default>
+                <label>SLS</label>
+            </value>
+            <value>
+                <fullName>Lending Homes</fullName>
+                <default>false</default>
+                <label>Lending Homes</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

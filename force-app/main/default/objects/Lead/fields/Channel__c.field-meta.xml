@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Channel__c</fullName>
+    <externalId>false</externalId>
+    <label>Channel</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wholesale</fullName>
+                <default>false</default>
+                <label>Wholesale</label>
+            </value>
+            <value>
+                <fullName>Correspondent</fullName>
+                <default>false</default>
+                <label>Correspondent</label>
+            </value>
+            <value>
+                <fullName>Broker Referral</fullName>
+                <default>false</default>
+                <label>Broker Referral</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

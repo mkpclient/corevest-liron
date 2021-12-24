@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Product__c</fullName>
+    <externalId>false</externalId>
+    <label>Loan Product</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Term 5 yr</fullName>
+                <default>false</default>
+                <label>Term 5 yr</label>
+            </value>
+            <value>
+                <fullName>Term 10 yr</fullName>
+                <default>false</default>
+                <label>Term 10 yr</label>
+            </value>
+            <value>
+                <fullName>Multiple</fullName>
+                <default>false</default>
+                <label>Multiple</label>
+            </value>
+            <value>
+                <fullName>LOC - Institutional</fullName>
+                <default>false</default>
+                <label>LOC - Institutional</label>
+            </value>
+            <value>
+                <fullName>LOC - Entrepreneurial</fullName>
+                <default>false</default>
+                <label>LOC - Entrepreneurial</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

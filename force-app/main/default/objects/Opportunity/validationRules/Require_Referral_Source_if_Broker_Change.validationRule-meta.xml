@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Referral_Source_if_Broker_Change</fullName>
+    <active>true</active>
+    <description>This will require that a Referral Source Contact be of type Broker when Deal Intro Source is set or changed to Broker.</description>
+    <errorConditionFormula>AND(
+OR(ISCHANGED( Deal_Intro_Sub_Source__c),ISCHANGED( Referral_Source_Contact__c)), ISPICKVAL( Deal_Intro_Sub_Source__c , &quot;Broker&quot;),
+NOT(
+OR($Profile.Name = &quot;Integration&quot;,$Profile.Name = &quot;System Administrator&quot;) 
+)
+, 
+Referral_Source_Contact__r.Contact_Record_Type__c!= &quot;Broker&quot; 
+ 
+)</errorConditionFormula>
+    <errorDisplayField>Referral_Source_Contact__c</errorDisplayField>
+    <errorMessage>Contact is not a Broker Record Type.  Referral Source Contact requires Broker since Deal Intro Sub Source is Broker</errorMessage>
+</ValidationRule>

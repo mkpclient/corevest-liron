@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Status_In_Process_to_Pending</fullName>
+    <active>false</active>
+    <description>This will prevent the user from changing the Status of a Property from &quot;In Process&quot; to &quot;Pending&quot;</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL(PRIORVALUE(Status__c), &quot;In Process&quot;),
+ ISPICKVAL(Status__c, &quot;Pending&quot;),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;))</errorConditionFormula>
+    <errorMessage>The Status cannot be moved from &quot;In Process&quot; to &quot;Pending&quot;</errorMessage>
+</ValidationRule>

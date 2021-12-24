@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Warehouse_Lender__c</fullName>
+    <description>Lender partnership field</description>
+    <externalId>false</externalId>
+    <label>Warehouse Lender</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Wells Fargo</fullName>
+                <default>false</default>
+                <label>Wells Fargo</label>
+            </value>
+            <value>
+                <fullName>Bank of California</fullName>
+                <default>false</default>
+                <label>Bank of California</label>
+            </value>
+            <value>
+                <fullName>Axos Bank</fullName>
+                <default>false</default>
+                <label>Axos Bank</label>
+            </value>
+            <value>
+                <fullName>Churchill</fullName>
+                <default>false</default>
+                <label>Churchill</label>
+            </value>
+            <value>
+                <fullName>Western Alliance</fullName>
+                <default>false</default>
+                <label>Western Alliance</label>
+            </value>
+            <value>
+                <fullName>Cross River</fullName>
+                <default>false</default>
+                <label>Cross River</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

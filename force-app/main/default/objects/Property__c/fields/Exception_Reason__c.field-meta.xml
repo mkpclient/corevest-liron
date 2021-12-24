@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exception_Reason__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Provide the reason property is an exception, i.e. AM Best Rating Grade &amp; Financial Class.</inlineHelpText>
+    <label>Exception Reason</label>
+    <length>500</length>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

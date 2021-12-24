@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>5 Year</fullName>
+        <default>false</default>
+        <label>5 Year</label>
+    </customValue>
+    <customValue>
+        <fullName>7 Year</fullName>
+        <default>false</default>
+        <label>7 Year</label>
+    </customValue>
+    <customValue>
+        <fullName>10 Year</fullName>
+        <default>false</default>
+        <label>10 Year</label>
+    </customValue>
+    <customValue>
+        <fullName>30 Year</fullName>
+        <default>false</default>
+        <label>30 Year</label>
+    </customValue>
+    <description>Term length of the Loan</description>
+    <masterLabel>Term</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

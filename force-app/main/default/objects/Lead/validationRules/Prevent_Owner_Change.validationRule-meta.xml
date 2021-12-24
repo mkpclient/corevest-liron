@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Owner_Change</fullName>
+    <active>true</active>
+    <description>Prevents a User from updating the Owner of a Lead</description>
+    <errorConditionFormula>AND( 
+ NOT( $Permission.Can_Change_Lead_Owner ),
+ $Profile.Name &lt;&gt; &apos;Integration&apos;,
+ $Profile.Name &lt;&gt; &apos;System Administrator&apos;,
+ ISCHANGED( OwnerId ) ,
+ PRIORVALUE( OwnerId )  &lt;&gt;  $User.Id,
+ PRIORVALUE( OwnerId ) &lt;&gt; &apos;0050a00000LMH2U&apos;
+ 
+)</errorConditionFormula>
+    <errorMessage>Only a Manager or the current record owner can transfer this Lead</errorMessage>
+</ValidationRule>

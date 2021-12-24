@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Initial_LTV_LTC__c</fullName>
+    <description>Bridge Reno Use
+Retired Field</description>
+    <externalId>false</externalId>
+    <label>Reno Max Initial LTV/LTC (retired)</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

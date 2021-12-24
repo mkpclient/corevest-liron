@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_MOD</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Loan MOD</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <url>{!REQUIRESCRIPT(&quot;/soap/ajax/23.0/connection.js&quot;)} 
+{!REQUIRESCRIPT(&quot;/soap/ajax/23.0/apex.js&quot;)} 
+if( &apos;{!Opportunity.StageName}&apos; != &apos;Closed Won&apos; &amp;&amp; &apos;{!Opportunity.StageName}&apos; != &apos;Expired&apos; ){
+  alert(&apos;Stage must be Closed Won or Expired&apos;);
+} else if ( &apos;{!Opportunity.Record_Type_Name__c}&apos; != &apos;LOC Loan&apos; ) {
+  alert(&apos;Record Type must be LOC Loan&apos;);
+} else if ( {!Opportunity.Is_Loan_Mod__c} ) {
+  alert(&apos;Cannot create Loan MOD on a MOD Loan.&apos;);
+} else {
+  window.location.href = &apos;/006/e?retURL=%2F006%2Fo&amp;RecordType=012j0000000WA10&amp;ent=Opportunity&amp;opp3={!Opportunity.Name}&amp;opp4_lkid={!Opportunity.AccountId}&amp;opp4_lkold={!Opportunity.Account}&amp;CF00Nj0000009dFTl_lkid={!Opportunity.ContactId__c}&amp;CF00Nj0000009dFTl={!Opportunity.Contact__c}&amp;00Nj00000042C4Y={!Opportunity.LOC_Loan_Type__c}&amp;CF00Nj000000AcyTL_lkid={!Opportunity.Id}&amp;CF00Nj000000AcyTL={!Opportunity.Name}&amp;00Nm0000000MRBK=1&apos;
+}</url>
+</WebLink>

@@ -1,0 +1,118 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction" controller="lightning_Controller" >
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="sessionId" type="String" />
+	<aura:attribute name="userId" type="String" />
+	<aura:attribute name="communityId" type="String" />
+	<aura:attribute name="sfInstanceUrl" type="String" />
+
+	<aura:attribute name="uploadType" type="String" default="single" />
+	<aura:attribute name="sobjectType" type="String" />
+	<aura:attribute name="propertyOptions" type="String" />
+
+	<aura:attribute name="folder" type="String" />
+	<aura:attribute name="documentType" type="String" />
+
+	<aura:attribute name="folders" type="String" />
+	<aura:attribute name="documentTypes" type="String" />
+	<aura:attribute name="picklistMap" type="Map" />
+
+	<aura:attribute name="files" type="List" />
+	<!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+
+	<ltng:require scripts="{!join(',', 
+							$Resource.forcetk,
+							$Resource.jquery)
+						}"
+						afterScriptsLoaded="{!c.init}"
+				   />
+
+	<c:util aura:id="util" />
+
+	<aura:if isTrue="{!v.uploadType == 'bulk'}">
+	    <lightning:layout >
+	        <lightning:layoutItem >
+	            <lightning:select label="Document Folder" name="docFolder" class="bulk" aura:id="folder" value="{!v.folder}" onchange="{!c.picklistChange}" >
+	                <aura:iteration items="{!v.folders}" var="item">
+	                  <option text="{!item}" value="{!item}"/>
+	                </aura:iteration>
+	            </lightning:select>
+	        </lightning:layoutItem>
+	            
+	        <lightning:layoutItem class="slds-m-left_medium">
+	            <lightning:select label="Document Type" name="docType" value="{!v.documentType}" onchange="{!c.documentTypeChange}">
+	                <aura:iteration items="{!v.documentTypes}" var="item">
+	                    <option text="{!item}" value="{!item}"/>
+	                </aura:iteration>
+	            </lightning:select>
+	        </lightning:layoutItem>
+	    </lightning:layout>
+	</aura:if>
+
+	<lightning:layout horizontalAlign="spread">
+              <lightning:layoutItem flexibility="auto" padding="around-small">
+                	<lightning:input aura:id="uploader" type="file" variant="label-hidden" label="upload" multiple="true" onchange="{!c.handleFiles}" />
+              </lightning:layoutItem>
+              <lightning:layoutItem flexibility="auto" padding="around-small">
+                 <lightning:button label="Save Documents"  onclick="{!c.saveFiles}" />
+              </lightning:layoutItem>
+      </lightning:layout>
+
+
+      <aura:if isTrue="{!v.uploadType == 'single'}">
+      	<ul class="slds-has-dividers--bottom-space">
+          <aura:iteration items="{!v.files}" var="f" indexVar="rowIndex">
+          	gysihwoe;rer
+              <li class="slds-item">
+                  <div class="slds-tile slds-media">
+                    <div class="slds-media__figure">
+                      <lightning:icon iconName="doctype:attachment" />
+          
+                    </div>
+
+                    <div class="slds-media__body">
+                      <h3 class="slds-truncate" title="{!f.Title}"><a href="javascript:void(0);">{!f.Title}</a></h3>
+
+                      <div class="slds-tile__detail slds-text-body--small">
+                        <ul class="slds-list--horizontal slds-has-dividers--right">
+                          <li class="slds-item"><ui:outputNumber value="{!f.ContentSize/1000000}" />&nbsp;Mb</li>
+                          <!-- <li class="{!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                            <p>
+                              Upload failed: File too big
+                            </p>
+                          </li> -->
+                            <li class="slds-item">
+                                <ui:inputSelect class="{!'row-'+rowIndex}" aura:id="sections" value="{!f.Folder__c}" change="{!c.picklistChange}" >
+                                    <aura:iteration items="{#v.folders}" var="item">
+                                      <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </li>
+                          <li class="slds-item}">
+                              <ui:inputSelect aura:id="doc-types" value="{!f.Type__c}" >
+                                <aura:iteration items="{!f.typeOptions}" var="item">
+                                  <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                </aura:iteration>
+                              </ui:inputSelect>
+                          </li>
+                          <li class="{!empty(f.attachmentId) ? 'slds-hide' : ''}">
+                            <lightning:buttonIcon iconName="utility:delete" class="{!empty(f.status) ? '' : 'slds-hide'}" value="{!rowIndex}" variant="bare" onclick="{!c.deleteAttachment}" />
+                            <!-- <img src="/img/loading.gif" class="{!f.status == 'uploading' ? '' : 'slds-hide'}" /> -->
+                            <!-- <lightning:icon iconName="action:approval" size="xx-small" class="{!f.uploaded ? '' : 'slds-hide'}"/> -->
+                            <!-- <lightning:icon iconName="action:close" size="xx-small" class="{!f.status == 'failed' ? '' : 'slds-hide'}" /> -->
+                          </li>
+                        </ul>
+
+                      </div>
+
+                    </div>
+                    
+                  </div>
+                </li>
+                
+          </aura:iteration>
+      	</ul>
+    </aura:if>
+
+
+
+</aura:component>

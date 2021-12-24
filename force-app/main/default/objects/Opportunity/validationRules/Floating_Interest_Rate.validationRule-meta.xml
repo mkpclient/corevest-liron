@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Floating_Interest_Rate</fullName>
+    <active>false</active>
+    <description>Floating Interest Rate requires to have LIBOR Index, Margin, and Index Floor filled out.</description>
+    <errorConditionFormula>AND ( 
+
+Apex_Context__c == false,
+
+ISPICKVAL(Requested_Interest_Type__c, &quot;Floating&quot;), 
+
+(OR ( 
+ISPICKVAL( Requested_Index__c, &quot;&quot;), 
+ISNULL( Requested_Index_Margin__c ), 
+ISPICKVAL( Requested_Index_Floor__c, &quot;&quot;) 
+)) 
+)</errorConditionFormula>
+    <errorDisplayField>Requested_Index__c</errorDisplayField>
+    <errorMessage>A Floating Interest Rate Type requires to have Requested Index, Index Margin, and Index Floor populated.</errorMessage>
+</ValidationRule>

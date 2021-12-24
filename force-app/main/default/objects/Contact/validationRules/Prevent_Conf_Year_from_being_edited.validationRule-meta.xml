@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Conf_Year_from_being_edited</fullName>
+    <active>true</active>
+    <description>Prevents users from editing the Conference Year unless the field is NULL</description>
+    <errorConditionFormula>AND(
+ ISCHANGED( Conference_Year__c ) ,
+NOT ( ISBLANK(TEXT( PRIORVALUE( Conference_Year__c ) ))),
+NOT ( $Profile.Name= &quot;System Administrator&quot;) )</errorConditionFormula>
+    <errorDisplayField>Conference_Year__c</errorDisplayField>
+    <errorMessage>The Conference Year cannot be changed</errorMessage>
+</ValidationRule>

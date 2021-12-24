@@ -1,0 +1,290 @@
+<aura:component >
+    <aura:attribute name="record" type="Object" />
+    
+    <div class="slds-grid" style="height: auto">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Sponsor Details
+            </dt>
+            <dd class="slds-item_detail">
+                <ui:outputText value="{!v.record.Sponsor_Details__c}" />
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak">
+                Sponsor Strategy
+            </dt>
+            <dd class="slds-item_detail">
+                <ui:outputText value="{!v.record.Sponsor_Strategy__c}" />
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid" style="height: auto">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Foreign National
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                    Yes
+                </aura:if>
+                <aura:if isTrue="{!v.record.Foreign_National__c != true}">
+                    No
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Foreign National Country
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                    {!v.record.Country__c}
+                </aura:if>
+                <aura:if isTrue="{!v.record.Foreign_National__c != true}">
+                    N/A
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Name
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <ui:outputURL value="{!'/lightning/r/Opportunity/' + v.record.Id + '/view'}" label="{!v.record.Name}" target="_blank" />
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Loan Number
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Deal_Loan_Number__c}
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Account Introduction Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Account_Introduction_Source__c}
+            </dd>
+        </div>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                <!-- LOC Commitment -->
+                Requested Loan Size
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <!-- {!v.record.LOC_Commitment__c} -->
+                <aura:if isTrue="{!!empty(v.record.Loan_Size__c)}">
+                    <ui:outputCurrency value="{!v.record.Loan_Size__c}" />
+                </aura:if>
+            </dd>
+        </div>
+        <!-- <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Borrower Name
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Account_Name__c}
+            </dd>
+        </div> -->
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <aura:if isTrue="{!v.record.Type == 'Bridge Loan'}">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Property Location(s)
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Active_States__c}
+                </dd>
+            </div>
+        </aura:if>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                <!-- Requested Loan Size -->
+                Deal Intro Source and Sub-Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <!-- {!v.record.Loan_Size__c} -->
+                {!v.record.Deal_Intro_Source__c} | {!v.record.Deal_Intro_Sub_Source__c}
+            </dd>
+        </div>
+    </div>
+    <!-- new row -->
+    <aura:if isTrue="{!v.record.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' || v.record.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)' || v.record.LOC_Loan_Type__c == 'Multifamily/CRE'}">
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Property Address
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <ui:outputURL value="{!'http://maps.google.com/maps?q=' + v.record.Property_Street__c + '%20' + v.record.Property_City__c + '%20' + v.record.Property_State__c + '%20' + v.record.Property_Zip__c}" label="{!v.record.Property_Street__c + ' ' + v.record.Property_City__c + ' ' + v.record.Property_State__c + ', ' + v.record.Property_Zip__c}" target="_blank" />
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Property Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Property_Type__c}
+                </dd>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- start here -->
+    <!-- <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Term - Draw Period
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Draw_Period__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Term - Repayment Period (subject to...):
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Repayment_Period__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Term - Line Expiration:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Line_Expiration__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                LTV Max:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_LTV_Max__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                LTC Max:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_LTC_Max__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Fee - Origination
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Origination_Fee__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Fee - Draw:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Draw_Fee__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Fee - Exit
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Exit_Fee__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Rate - Type:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Interest_Rate_Type__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Rate - Months 1-9 (margin if 1ML +):
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Rate_1_9_Months__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Rate - Months 10+ (margin if 1ML +):
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Rate_10_Months__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Revolving:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Revolving__c}
+          </dd>
+        </div>
+    </div>
+
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Draw Fee Cap:
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Requested_Draw_Fee_Cap__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around__small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+          </dd>
+        </div>
+    </div> -->
+    
+</aura:component>

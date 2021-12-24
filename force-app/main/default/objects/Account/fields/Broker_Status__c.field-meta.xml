@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Broker_Status__c</fullName>
+    <description>- Prospect (Initial lead)
+- In Discussion (expressed interest, in communication)
+- Application Out (app out pending counterparty)
+- Pending Docs (we are waiting for action from counter party)
+- Pending Review (action needed by CoreVest)
+- Approved (application has been approved, waiting for onboarding)
+- Active (counterparty has been onboarded and is active)
+- Inactive (previously active counterparty but is currently not delivering loans into program)
+- Hold (counterparty was in process but we have decided to put on hold)
+- Declined (decline for lack of references, low net worth, Broker may reapply in future)
+- Withdrawn (counter party decided not pursue application with us)
+- Terminated (indicates terminate for lack of references, low net worth, Broker may reapply in future
+- Watch List (Exception on approval.  Did not meet all criteria, however had compensating factors.  Review every 6 months for performance and updated qualifications)</description>
+    <externalId>false</externalId>
+    <label>Broker Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Prospect</fullName>
+                <default>false</default>
+                <label>Prospect</label>
+            </value>
+            <value>
+                <fullName>In Discussion</fullName>
+                <default>false</default>
+                <label>In Discussion</label>
+            </value>
+            <value>
+                <fullName>Application Out</fullName>
+                <default>false</default>
+                <label>Application Out</label>
+            </value>
+            <value>
+                <fullName>Pending Docs</fullName>
+                <default>false</default>
+                <label>Pending Docs</label>
+            </value>
+            <value>
+                <fullName>Pending Review</fullName>
+                <default>false</default>
+                <label>Pending Review</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Inactive</fullName>
+                <default>false</default>
+                <label>Inactive</label>
+            </value>
+            <value>
+                <fullName>Hold</fullName>
+                <default>false</default>
+                <label>Hold</label>
+            </value>
+            <value>
+                <fullName>Declined</fullName>
+                <default>false</default>
+                <label>Declined</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+            <value>
+                <fullName>Terminated</fullName>
+                <default>false</default>
+                <label>Terminated</label>
+            </value>
+            <value>
+                <fullName>Watch List</fullName>
+                <default>false</default>
+                <label>Watch List</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

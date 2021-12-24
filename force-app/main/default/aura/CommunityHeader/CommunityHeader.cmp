@@ -1,0 +1,17 @@
+<aura:component controller="CommunityController" implements="forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="user" type="Map" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:if isTrue="{!!empty(v.user)}">
+        <lightning:layout>
+            <lightning:layoutItem size="12">
+                <div class="slds-text-heading_medium">
+                    {!v.user.firstname}, welcome to your custom loan portal!
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </aura:if>
+
+
+</aura:component>

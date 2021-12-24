@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advance_Period_Days_In_Months__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Advance_Period__c = 365, &apos;12 months&apos;, IF ( !ISBLANK(Advance_Period__c),
+
+IF(
+Advance_Period__c / 30 &gt;= 1,
+TEXT(FLOOR(Advance_Period__c / 30)) &amp; IF(Advance_Period__c / 30 &gt;= 2, &apos; months&apos;, &apos; month&apos;), 
+&apos;0 months&apos;
+)
+
+&amp; 
+IF(
+MOD(Advance_Period__c,30) &gt; 0,
+&apos;, &apos; &amp; TEXT(MOD(Advance_Period__c,30)) &amp; &apos; days&apos;,
+&apos;&apos;
+)
+,
+
+&apos;&apos;
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Advance Period Days In Months</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

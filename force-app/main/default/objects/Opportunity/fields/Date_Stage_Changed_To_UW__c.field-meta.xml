@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Date_Stage_Changed_To_UW__c</fullName>
+    <description>This is the date that the Deal stage was updated to Underwriting or Loan Processing</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the date that the Deal stage was updated to Underwriting or Loan Processing</inlineHelpText>
+    <label>Date Approved into UW/LP</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

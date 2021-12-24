@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_From_Creation_to_UW_Submission__c</fullName>
+    <externalId>false</externalId>
+    <formula>Submission_Date__c - DATEVALUE(CreatedDate)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount of days between Create Date and Submission into Underwriting</inlineHelpText>
+    <label>Days From Creation to UW Submission</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

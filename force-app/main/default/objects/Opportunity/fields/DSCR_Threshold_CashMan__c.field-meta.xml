@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DSCR_Threshold_CashMan__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Debt Service Coverage Ratio Threshold for Enhanced Cash Management</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Debt Service Coverage Ratio Threshold for Enhanced Cash Management.  Reflected in the Term Sheet and Loan Agreement</inlineHelpText>
+    <label>DSCR Threshold for Enhanced Cash Mgmt</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Cash_Management__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1.05x</fullName>
+                <default>false</default>
+                <label>1.05x</label>
+            </value>
+            <value>
+                <fullName>1.07x</fullName>
+                <default>false</default>
+                <label>1.07x</label>
+            </value>
+            <value>
+                <fullName>1.10x</fullName>
+                <default>false</default>
+                <label>1.10x</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Soft</controllingFieldValue>
+            <controllingFieldValue>Hard</controllingFieldValue>
+            <valueName>1.05x</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Soft</controllingFieldValue>
+            <controllingFieldValue>Hard</controllingFieldValue>
+            <valueName>1.07x</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Soft</controllingFieldValue>
+            <controllingFieldValue>Hard</controllingFieldValue>
+            <valueName>1.10x</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>None</controllingFieldValue>
+            <valueName>N/A</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

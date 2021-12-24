@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Final_Spread__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <label>Final Spread</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Percent</type>
+</CustomField>

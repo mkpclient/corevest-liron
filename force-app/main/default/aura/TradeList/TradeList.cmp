@@ -1,0 +1,97 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="account" type="Object" default="{}" />
+	<aura:attribute name="trades" type="Object[]" default="[]"/>
+	<aura:attribute name="open" type="Boolean" default="true" />
+	<aura:attribute name="isCommunity" type="Boolean" default="false" />
+	<aura:attribute name="checked" type="Boolean" default="false" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<lightning:card >
+		<aura:set attribute="title">
+			Trades
+		</aura:set>
+
+		<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+		  <thead>
+		    <tr class="slds-text-title_caps">
+		      <th scope="col">
+		      	<lightning:input type="checkbox" name="check" variant="label-hidden" label="check"  />
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Opportunity Name">Trade Name</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Close Date">Status</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Stage">Deals</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Confidence">Total Loan Amount</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Amount">Total Draw Amount</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Contact">Exception</div>
+		      </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<aura:iteration items="{!v.trades}" var="trade">
+			    <tr>
+			      <th scope="row">
+			      	<lightning:input type="checkbox" name="check" variant="label-hidden" label="check"  />
+			      </th>
+			      <th scope="row" data-label="Name">
+			        <div class="slds-truncate" title="{!trade.Name}">
+			        	<aura:if isTrue="{!!v.isCommunity}">
+			        		<a href="{!'#/sObject/'+ trade.Id + '/view'}">
+				        		{!trade.Name}
+				        	</a>
+
+				        	<aura:set attribute="else">
+        		        		<a href="{!'/correspondent/s/trade-deal/'+ trade.Id}">
+        			        		{!trade.Name}
+        			        	</a>
+				        	</aura:set>
+
+			        	</aura:if>
+			        	
+			        </div>
+			      </th>
+			      <td data-label="Status">
+			        <div class="slds-truncate" title="">{!trade.Status__c}</div>
+			      </td>
+			      <td data-label="Deals">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputNumber value="{!trade.Deals__c}" />
+			        </div>
+			      </td>
+			      <td data-label="Total Loan Amount">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputCurrency value="{!trade.Total_Loan_Amount__c}" />
+			        </div>
+			      </td>
+			      <td data-label="Total Drawn">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputCurrency value="{!trade.Total_Drawn__c}" />
+			        </div>
+			      </td>
+			      <td data-label="Exception">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputNumber value="{!trade.Number_of_Exception__c}" />
+			        </div>
+			      </td>
+			    </tr>
+			</aura:iteration>
+		  </tbody>
+		</table>
+
+	</lightning:card>
+
+	<c:util aura:id="util" />
+
+</aura:component>

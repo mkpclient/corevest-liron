@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <inlineHelpText>Status of this Contact</inlineHelpText>
+    <label>Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active Prospect</fullName>
+                <default>false</default>
+                <label>Active Prospect</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Bankruptcy</fullName>
+                <default>false</default>
+                <label>Future Prospect - Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Experience</fullName>
+                <default>false</default>
+                <label>Future Prospect - Experience</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - FICO</fullName>
+                <default>false</default>
+                <label>Future Prospect - FICO</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Income</fullName>
+                <default>false</default>
+                <label>Future Prospect - Income</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Liquidity</fullName>
+                <default>false</default>
+                <label>Future Prospect - Liquidity</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Product Type</fullName>
+                <default>false</default>
+                <label>Future Prospect - Product Type</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Short Term Rental</fullName>
+                <default>false</default>
+                <label>Future Prospect - Short Term Rental</label>
+            </value>
+            <value>
+                <fullName>Deceased/ Not Reachable</fullName>
+                <default>false</default>
+                <label>Deceased/ Not Reachable</label>
+            </value>
+            <value>
+                <fullName>Moved/Changed Contact Info</fullName>
+                <default>false</default>
+                <label>Moved/Changed Contact Info</label>
+            </value>
+            <value>
+                <fullName>Retired/Not Active</fullName>
+                <default>false</default>
+                <label>Retired/Not Active</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

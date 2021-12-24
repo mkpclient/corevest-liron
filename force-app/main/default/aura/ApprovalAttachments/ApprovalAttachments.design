@@ -1,0 +1,6 @@
+<design:component >
+    <design:attribute name="whereClause" label="Where Clause" />
+    <design:attribute name="termWhereClause" label="Term Where Clause" />
+    <design:attribute name="bridgeWhereClause" label="Bridge Where Clause" />
+    <design:attribute name="title" label="Title" />
+</design:component>

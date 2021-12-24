@@ -1,0 +1,108 @@
+<aura:component controller="CommunityFundingController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="properties" type="List" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <ui:scrollerWrapper>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Opportunity Name">Deal</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Opportunity Name">Property</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Opportunity Name">Total Loan Commitment</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Account Name">Initial LTV%</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Close Date">Initial LTC%</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Stage">ARV%</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Confidence">Total LTC%</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Confidence">Date Closed</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Confidence">Outside Advance Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Confidence">Release Premium</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.properties}" var="property" indexVar="index">
+                    <tr class="slds-hint-parent">
+                        <th data-label="Opportunity Name" scope="row">
+                            <div class="slds-truncate" title="Cloudhub">
+                                <a href="{!'/portal/s/deal#!' + property.Deal__c}" tabindex="-1">
+                                    {!property.Deal__r.Name}
+                                </a>
+                            </div>
+                        </th>
+                        <td data-label="Account Name">
+                            <div class="slds-truncate" title="Cloudhub">
+                                <a href="{!'/portal/s/property#!' + property.Id}" tabindex="-1">
+                                    {!property.Name}
+                                </a>
+                            </div>
+                        </td>
+                        <td data-label="Close Date">
+                            <div class="slds-truncate" title="4/14/2015">
+                                <lightning:formattedNumber value="{!property.Deal__r.LOC_Commitment__c}" style="currency" />
+                            </div>
+                        </td>
+                        <td data-label="">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Deal__r.Requested_LTV_Max__c/100}" style="percent" />
+                                <!-- <lightning:formattedNumber value="{!property.Deal__r.LOC_Commitment__c}" /> -->
+                            </div>
+                        </td>
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Deal__r.Requested_LTC_Max__c/100}" style="percent" />
+                            </div>
+                        </td>
+                        <td data-label="Account Name">
+                            <div class="slds-truncate" title="Cloudhub">
+                                <lightning:formattedNumber value="{!property.Deal__r.Requested_ARV_LTV__c/100}" style="percent" />
+                            </div>
+                        </td>
+                        <td data-label="Close Date">
+                            <div class="slds-truncate" title="4/14/2015">
+
+                                <lightning:formattedNumber value="{!property.Deal__r.Requested_Total_Loan_LTC__c/100}"
+                                    style="percent" />
+                            </div>
+                        </td>
+                        <td data-label="">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Deal__r.CloseDate}" />
+                            </div>
+                        </td>
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.LOC_Outside_Advance_Days__c}" />
+                            </div>
+                        </td>
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.Max_Advance_Fee_formula__c}" />
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </ui:scrollerWrapper>
+
+</aura:component>

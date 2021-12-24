@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100%;
+  background-color: #005487;
+  display: block;
+}
+
+.footer-menu {
+  justify-content: center;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: row;
+}
+
+a:first-child {
+  margin-left: 0 !important;
+}
+
+.footer-menu a {
+  margin-left: 25px;
+  padding: 8px;
+  text-decoration: none;
+  color: #fff;
+  font-family: 'arial', helvetica, sans-serif;
+}
+
+.footer-menu a:hover {
+  background-color: #0098ce;
+  
+}

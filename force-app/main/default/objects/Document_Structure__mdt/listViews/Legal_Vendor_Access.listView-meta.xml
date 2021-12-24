@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Legal_Vendor_Access</fullName>
+    <columns>Folder_Structure_String__c</columns>
+    <columns>Sort__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>RecordType__c</columns>
+    <columns>sObject__c</columns>
+    <columns>Vendor_Access__c</columns>
+    <columns>Vendor_Type_Access__c</columns>
+    <columns>Borrower_Access__c</columns>
+    <columns>Clear_To_Close_Setting__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>Term_Loan</value>
+    </filters>
+    <filters>
+        <field>sObject__c</field>
+        <operation>equals</operation>
+        <value>Opportunity</value>
+    </filters>
+    <filters>
+        <field>Vendor_Type_Access__c</field>
+        <operation>contains</operation>
+        <value>Legal Counsel</value>
+    </filters>
+    <label>Legal Vendor Access</label>
+</ListView>

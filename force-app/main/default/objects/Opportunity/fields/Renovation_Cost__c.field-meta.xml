@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renovation_Cost__c</fullName>
+    <externalId>false</externalId>
+    <label>Renovation Cost</label>
+    <summarizedField>Property__c.Rehab_Costs__c</summarizedField>
+    <summaryFilterItems>
+        <field>Property__c.Active__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property__c.Deal__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

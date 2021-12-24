@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Final_Interest_Rate__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <externalId>false</externalId>
+    <label>Final Interest rate</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

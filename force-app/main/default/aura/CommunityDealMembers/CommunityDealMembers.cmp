@@ -1,0 +1,35 @@
+<aura:component controller="CommunityController">
+    <aura:attribute name="dealMembers" type="List" />
+    <aura:attribute name="recordId" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <lightning:card title="My Deal Team" class="slds-m-top_x-small">
+        <ul class="slds-has-dividers_bottom-space slds-p-left_small slds-p-right_small">
+            
+        <aura:iteration items="{!v.dealMembers}" var="member">
+            <li class="slds-item">
+            <div class="slds-tile slds-media">
+                <div class="slds-media__figure">
+                  <span class="slds-avatar slds-avatar_circle slds-avatar_large">
+                    <img alt="" src="{!member.photoURL}" title="{!member.name}" />
+                  </span>
+                </div>
+                <div class="slds-media__body">
+                  <div class="slds-tile__detail">
+                      <div class="slds-truncate" title="{!member.name + ' | ' + member.teamMemberRole}">
+                        {!member.name} | {!member.teamMemberRole}
+                      </div>
+                      <div class="slds-truncate" title="{!member.email}">
+                        {!member.email}
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </li>
+        </aura:iteration>
+        </ul>
+    </lightning:card>
+
+
+</aura:component>

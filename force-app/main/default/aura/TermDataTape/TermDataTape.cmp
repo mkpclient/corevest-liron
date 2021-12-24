@@ -1,0 +1,534 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickAction"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Property__c" />
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="stageName" type="String" default="" />
+  <aura:attribute name="propertyList" type="Object[]" />
+
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="allowDelete" type="Boolean" default="false" />
+  <aura:attribute name="dateCols" type="String[]" />
+  <aura:attribute name="errorMessages" type="List" />
+  <aura:attribute name="errorTitle" type="String" />
+
+  <aura:attribute name="dupeList" type="List" />
+  <aura:attribute
+    name="sentDupeEmail"
+    type="Boolean"
+    default="false"
+  ></aura:attribute>
+
+  <aura:handler
+    name="importer"
+    event="c:DataTapeImportEvent"
+    action="{!c.handleImport}"
+  />
+
+  <ltng:require
+    scripts="{!join(',',
+							$Resource.handsontable + '/handsontable/handsontable.full.min.js',
+							$Resource.xlsx_populate)
+						}"
+    styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <div class="row">
+    <div>
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span
+              class="slds-icon_container slds-icon-standard-opportunity"
+              title="Description of icon when needed"
+            >
+            </span>
+          </div>
+          <div class="slds-media__body"></div>
+          <div>
+            <lightning:buttonGroup>
+              <!-- <lightning:button
+                label="Debug"
+                variant="destructive"
+                onclick="{!c.debug}"
+              /> -->
+              <lightning:button
+                label="Return to Deal"
+                onclick="{!c.navigateToRecord}"
+              />
+              <lightning:button
+                disabled="{!v.readOnly}"
+                label="Import Data Tape"
+                onclick="{!c.showModal}"
+              />
+              <lightning:button label="Export" onclick="{!c.openExportModal}" />
+              <lightning:button
+                label="Save"
+                variant="brand"
+                onclick="{!c.saveRows}"
+              />
+            </lightning:buttonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <aura:if isTrue="{!!empty(v.errorMessages)}">
+        <div>
+          <ui:message title="{!v.errorTitle}" severity="error" closable="false">
+            <aura:iteration items="{!v.errorMessages}" var="msg">
+              <p>{!msg}</p>
+            </aura:iteration>
+          </ui:message>
+        </div>
+      </aura:if>
+      <aura:if isTrue="{!!empty(v.dupeList)}">
+        <ui:message
+          title="Duplicate Term Properties Found"
+          severity="error"
+          closable="false"
+        >
+          <p>
+            <a onclick="{!c.openDupeModal}">Click here to view duplicates</a>
+          </p>
+        </ui:message>
+      </aura:if>
+    </div>
+    <div class="flex">
+      <div style="height: 100%">
+        <lightning:spinner
+          variant="brand"
+          alternativeText="Loading"
+          aura:id="spinner"
+          class="slds-hide"
+        />
+        <div style="height: 100%">
+          <ui:scrollerWrapper class="scrollerSize">
+            <c:hotTable
+              data="{!v.propertyList}"
+              aura:id="hot-table"
+              readOnly="{!v.readOnly}"
+              allowDelete="{!v.allowDelete}"
+              fixedColumnsLeft="3"
+            >
+              <aura:set attribute="columns">
+                <c:hotColumn
+                  data="Asset_ID__c"
+                  title="Asset Id"
+                  readOnly="true"
+                />
+                <c:hotColumn data="_" title="" readOnly="true" />
+                <c:hotColumn
+                  data="Property_Name__c"
+                  title="Property Name (Parent Property)"
+                  allowEmpty="false"
+                />
+                <c:hotColumn data="APN__c" title="APN" />
+                <c:hotColumn
+                  data="Property_Type__c"
+                  title="Property Type"
+                  type="dropdown"
+                  source="['2-4 Unit','Condo','Mixed Use','Multifamily','SFR','Townhome']"
+                  allowEmpty="false"
+                />
+                <c:hotColumn data="Name" title="Address" allowEmpty="false" />
+                <c:hotColumn data="City__c" title="City" allowEmpty="false" />
+                <c:hotColumn
+                  data="State__c"
+                  title="State"
+                  allowEmpty="false"
+                  type="dropdown"
+                  source="['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','ND','NE','NH','NJ','NM','NV','NY','NC','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']"
+                />
+                <c:hotColumn data="ZipCode__c" title="ZIP" />
+                <c:hotColumn data="County__c" title="County" />
+                <c:hotColumn
+                  data="Number_of_Units__c"
+                  title="# of Units"
+                  type="numeric"
+                  allowEmpty="false"
+                  notRequiredForChildren="true"
+                />
+                <c:hotColumn
+                  data="Number_of_Beds__c"
+                  title="BD"
+                  type="numeric"
+                />
+                <c:hotColumn
+                  data="Number_of_Bath__c"
+                  title="BA"
+                  type="numeric"
+                  format="0.0"
+                />
+                <c:hotColumn data="Square_Feet__c" title="SF" type="text" />
+                <c:hotColumn
+                  data="Year_Built__c"
+                  title="Year Built"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Air_Conditioning__c"
+                  title="A/C"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                />
+                <c:hotColumn
+                  data="Pool__c"
+                  title="Pool"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                />
+                <c:hotColumn
+                  data="Section_8__c"
+                  title="Section 8"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="Condition__c"
+                  title="Condition"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Zoning_Compliance__c"
+                  title="Legally Conforming"
+                  type="text"
+                />
+
+                <c:hotColumn data="_" title=" " />
+
+                <c:hotColumn
+                  data="Acquisition_Date__c"
+                  title="Acquisition Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                  allowEmpty="false"
+                  notRequiredForChildren="true"
+                />
+                <c:hotColumn
+                  data="Acquisition_Price__c"
+                  title="Acquisition Price"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Acquisition_Type__c"
+                  title="Acquisition Type"
+                  type="dropdown"
+                  source="['Build to Rent','Bulk Sale','Deed In Lieu','Foreclosure','Inherited','Land Contract','MLS','Off Market/Direct Sale','Sheriff Sale/Auction','Short Sale','Tax Lien Foreclosure','Wholesaler']"
+                />
+                <c:hotColumn
+                  data="Transaction_Costs__c"
+                  title="Transaction Costs"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Rehab_Costs__c"
+                  title="Rehab Costs"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="Rehab_Completion_Date__c"
+                  title="Rehab Completion Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Total_Basis__c"
+                  title="Total Basis"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Borrower_Opinion_of_Current_Value__c"
+                  title="Borrower Opinion of Current Market Value"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="false"
+                  notRequiredForChildren="true"
+                />
+                <c:hotColumn
+                  data="Calc_AveValue__c"
+                  title="Red Bell Calc AveValue"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="true"
+                />
+                <c:hotColumn
+                  data="Appraisal_Form__c"
+                  title="Appraisal Form"
+                  type="text"
+                  allowEmpty="true"
+                />
+                <c:hotColumn
+                  data="BPO_Appraisal_Date__c"
+                  title="Effective Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                  allowEmpty="true"
+                />
+                <c:hotColumn
+                  data="Appraised_Value_Amount__c"
+                  title="Appraisal Value"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="true"
+                />
+
+                <c:hotColumn data="_" title=" " />
+
+                <c:hotColumn
+                  data="Currently_Leased__c"
+                  title="Currently Leased? (Y/N)"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="Lease_Ready__c"
+                  title="Lease Ready"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="Lease_Start_Date__c"
+                  title="Lease Start Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Lease_End_Date__c"
+                  title="Lease End Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn data="Lease_Term__c" title="Lease Term" />
+
+                <c:hotColumn data="_" title=" " />
+
+                <c:hotColumn
+                  data="Monthly_Rent__c"
+                  title="Monthly Rent"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="Security_Deposit__c"
+                  title="Security Deposit"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Other_Income__c"
+                  title="Other Income"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+
+                <c:hotColumn data="_" title=" " />
+
+                <c:hotColumn
+                  data="Annual_HOA_Fee__c"
+                  title="HOA"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="false"
+                  notRequiredForChildren="true"
+                />
+                <c:hotColumn
+                  data="Special_Assesments_CFD_Mello_Roos_etc__c"
+                  title="Special Assessments"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Annual_Taxes__c"
+                  title="Taxes"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="false"
+                  notRequiredForChildren="true"
+                />
+                <c:hotColumn
+                  data="Annual_Insurance__c"
+                  title="Insurance"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Annual_Managment_Fee__c"
+                  title="Property Management"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Maintenance_Repairs__c"
+                  title="Maintenance/ Repairs"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Owner_Paid_Utilities__c"
+                  title="Owner Paid Utilities"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Annual_Landscaping_Expense__c"
+                  title="Landscaping Expense"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Other_Expenses__c"
+                  title="Other Expenses"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+
+                <c:hotColumn data="_" title="" />
+
+                <c:hotColumn
+                  data="Lease_Up_Marketing__c"
+                  title="Lease Up/Marketing"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Vacancy_Repairs__c"
+                  title="Vacancy Repairs/Maintenance"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Credit_Loss__c"
+                  title="Credit Loss"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+
+                <c:hotColumn data="_" title="" />
+                <c:hotColumn
+                  title="Total Expenses"
+                  data="Annual_Total_Expenses__c"
+                  type="numeric"
+                  format="$0,0.00"
+                  correctFormat="true"
+                  readOnly="true"
+                />
+                <c:hotColumn data="_" title="" />
+
+                <c:hotColumn
+                  data="Cap_Ex_Reserves__c"
+                  title="CapEx Reserves"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Other_Reserves__c"
+                  title="Other Reserves"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn data="_" title="" />
+                <c:hotColumn
+                  data="Annual_NOI__c"
+                  title="NOI"
+                  type="numeric"
+                  format="$0,0.00"
+                  readOnly="true"
+                />
+                <c:hotColumn data="_" title="" />
+                <c:hotColumn
+                  data="Property_Manager__c"
+                  title="Assigned PM Company (By property)"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC__c"
+                  title="Interior Access POC"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC_Phone__c"
+                  title="Interior Access POC Phone"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC_Email__c"
+                  title="Interior Access POC Email"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Existing_Debt__c"
+                  title="Existing Debt"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Asset_Maturity_Date_Override__c"
+                  title="Date of Maturity"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Current_Interest_Rate__c"
+                  title="Interest Rate"
+                  type="numeric"
+                  format="0.000"
+                />
+                <c:hotColumn
+                  data="Are_Payments_Current__c"
+                  title="Are payments current"
+                  type="dropdown"
+                  source="['Y', 'N']"
+                />
+                <c:hotColumn
+                  data="Refinance_Acquisition__c"
+                  title="Refinance / Acquisition"
+                  type="dropdown"
+                  source="['Refinance', 'Acquisition']"
+                  allowEmpty="false"
+                />
+                <c:hotColumn
+                  data="ALA__c"
+                  title="ALA"
+                  type="numeric"
+                  format="$0,0.00"
+                  readOnly="true"
+                />
+              </aura:set>
+            </c:hotTable>
+          </ui:scrollerWrapper>
+        </div>
+      </div>
+    </div>
+  </div>
+  <c:DataTapeImporter aura:id="importer" />
+  <c:TermPropertyExport
+    aura:id="export"
+    recordId="{!v.recordId}"
+    exportAction="{!c.export}"
+  />
+  <c:dupeListModal
+    aura:id="dupeModal"
+    record-id="{!v.recordId}"
+    show-return-to-deal-button="true"
+    showReturnToDealButton="true"
+  ></c:dupeListModal>
+</aura:component>

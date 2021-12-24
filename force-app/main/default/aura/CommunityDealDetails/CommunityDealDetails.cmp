@@ -1,0 +1,12 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+    <lightning:layout>
+        <lightning:layoutItem size="8">
+            <c:CommunityRecordDetails />
+        </lightning:layoutItem>
+        <lightning:layoutItem size="4">
+            <div class="slds-m-left_small">
+                <c:CommunityDealMembers />
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

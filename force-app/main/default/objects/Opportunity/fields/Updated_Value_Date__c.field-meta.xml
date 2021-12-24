@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Updated_Value_Date__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Updated Appraised Values effective date.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Updated Appraised Value Effective Date input field for AM</inlineHelpText>
+    <label>Updated Value Date</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,100 @@
+.THIS .slds-accordion__summary-heading {
+  background: rgb(243, 242, 242);
+}
+
+.THIS .slds-file-selector__button.slds-button.slds-button_neutral {
+  /* display: none; */
+  /* text-indent: 100%; */
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* font-size: 0px; */
+  /* color:transparent; */
+}
+
+.THIS
+  .slds-file-selector__button.slds-button.slds-button_neutral
+  .slds-button__icon
+  .slds-button__icon_left {
+  /* display: none; */
+  /* text-indent: 100%; */
+  /* white-space: nowrap; */
+  /* overflow: hidden; */
+  /* font-size: 0px; */
+  /* color:#0070d2 !important; */
+}
+
+.THIS .slds-file-selector__text.slds-medium-show {
+  display: none;
+}
+
+.THIS .slds-form-element__label {
+  /* display: none; */
+}
+
+.THIS.edit.slds-form-element__label {
+  display: inline-block !important;
+}
+.THIS .edit.slds-form-element__label {
+  display: inline-block !important;
+}
+.THIS .edit .slds-form-element__label {
+  display: inline-block !important;
+}
+
+.THIS .excludeRow {
+  background: #bebebe;
+}
+
+.THIS .excludeRow:hover {
+  background: #bebebe;
+}
+
+.THIS .excludeRow:hover > td {
+  background: #bebebe !important;
+}
+
+.THIS .excludeRow:hover > th {
+  background: #bebebe !important;
+}
+
+.THIS .strikeThrough {
+  text-decoration: line-through;
+}
+
+.THIS .slds-dropdown_left {
+  /* position: static !important; */
+  left: auto !important;
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
+
+.THIS .slds-table td {
+  white-space: normal !important;
+  /* border: 1px solid red !important; */
+}
+
+.THIS .slds-table th {
+  white-space: normal !important;
+  /* border: 1px solid red !important; */
+}
+
+.THIS .slds-modal__content {
+  overflow-y: hidden !important;
+  height: unset !important;
+  max-height: unset !important;
+}
+.THIS .slds-modal__container {
+  width: 70% !important;
+  max-width: 90% !important;
+}
+/* 
+.THIS .slds-file-selector__button {
+  white-space: nowrap !important;
+}
+
+.THIS.td {
+  border: 1px solid red !important;
+} */
+.THIS .comment {
+  font-size: 10px;
+}

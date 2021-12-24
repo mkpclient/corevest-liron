@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Bridge_Pipeline</fullName>
+    <columns>Deal_Loan_Number__c</columns>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Term_Sheet_Signed__c</columns>
+    <columns>of_Pending_Properties__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Date_Stage_Changed_To_UW__c</columns>
+    <columns>Kickoff_Date__c</columns>
+    <columns>Date_Change_From_Loan_Processing_to_UW__c</columns>
+    <columns>Days_In_Underwriting__c</columns>
+    <columns>Anticipated_IC_Approval__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Loan_Coordinator__c</columns>
+    <filterScope>SalesTeam</filterScope>
+    <filters>
+        <field>OPPORTUNITY.TYPE</field>
+        <operation>equals</operation>
+        <value>Bridge Loan,SAB Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Term Sheet Signed/Deposit Collected,Submitted to Underwriting,Loan Processing,Underwriting,Approved by Committee,UW Hold</value>
+    </filters>
+    <label>My Bridge Pipeline</label>
+    <sharedTo>
+        <role>Bridge</role>
+        <role>Bridge_Manager</role>
+        <role>Operations</role>
+        <role>Origination</role>
+        <role>Origination_Manager</role>
+    </sharedTo>
+</ListView>

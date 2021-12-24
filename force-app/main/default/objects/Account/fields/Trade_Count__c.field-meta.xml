@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Trade_Count__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <description>Not Used</description>
+    <externalId>false</externalId>
+    <label>Trade Count</label>
+    <securityClassification>Internal</securityClassification>
+    <summaryForeignKey>Trade__c.Correspondent__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

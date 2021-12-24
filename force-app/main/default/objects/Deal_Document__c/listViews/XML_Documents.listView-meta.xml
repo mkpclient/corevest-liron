@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>XML_Documents</fullName>
+    <columns>NAME</columns>
+    <columns>Type__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>Other_Document_Type__c</columns>
+    <columns>Deal__c</columns>
+    <columns>File_Name__c</columns>
+    <columns>Folder_String_Display__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Property__c</columns>
+    <columns>OBJECT_ID</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>File_Name__c</field>
+        <operation>contains</operation>
+        <value>.xml</value>
+    </filters>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>LAST_N_DAYS:10</value>
+    </filters>
+    <label>XML Documents</label>
+    <sharedTo>
+        <role>Administrator</role>
+    </sharedTo>
+</ListView>

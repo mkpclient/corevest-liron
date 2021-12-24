@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PropertyValuation xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CJC.Xpi.Vendor.Models">
+  <FirmName>BBG</FirmName>
+  <AppraisalTypeCd>Appraisal Report</AppraisalTypeCd>
+  <Address1>4945 Navy Road</Address1>
+  <City>Millington</City>
+  <ConstructionTypeCd>Wood frame</ConstructionTypeCd>
+  <CountryCd>US</CountryCd>
+  <County>Shelby</County>
+  <FloodZoneCd>Zone X (Unshaded)</FloodZoneCd>
+  <FloodZoneComments>Zone X (unshaded) is a Non-Special Flood Hazard Area (NSFHA) of minimal flood hazard, usually depicted on Flood Insurance Rate Maps (FIRM) as above the 500-year flood level. This is an area in a low to moderate risk flood zone that is not in any immediate danger from flooding caused by overflowing rivers or hard rains. In communities that participate in the National Flood Insurance Program (NFIP), flood insurance is available to all property owners and renters in this zone.</FloodZoneComments>
+  <FloodZoneDesignation>Zone X (Unshaded)</FloodZoneDesignation>
+  <FloorPlateSize>0</FloorPlateSize>
+  <GrossBuildingArea>146182</GrossBuildingArea>
+  <GrossLandArea>9.63</GrossLandArea>
+  <MostRecentRentRollDate>2019-12-19T00:00:00.0000000</MostRecentRentRollDate>
+  <MSA>Memphis</MSA>
+  <NRSF>144600</NRSF>
+  <NumBuildings>19</NumBuildings>
+  <NumFloors>2</NumFloors>
+  <OpenParking>201</OpenParking>
+  <PopulationDensity>17.899999999999999</PopulationDensity>
+  <PropertyComments>Upon completion of the renovation, the improvements will be typical of the neighborhood and represent a typical, walk-up garden-style apartment community. The overall quality, condition, and amenities for the subject will be typical of competing Class B/C properties in the market. </PropertyComments>
+  <PropertyName>Millington Oaks Apartments</PropertyName>
+  <PropertySubTypeCd>garden apartment complex</PropertySubTypeCd>
+  <PropertyTypeCd>Apartment</PropertyTypeCd>
+  <RoofMaterialCd>Shingle</RoofMaterialCd>
+  <RoofTypeCd>Sloped</RoofTypeCd>
+  <SecurityCd>Deadbolt entry doors</SecurityCd>
+  <SprinklersCd>No sprinkler system observed.</SprinklersCd>
+  <StateCd>Tennessee</StateCd>
+  <UnitAmenitiesComments>Standard appliances, dishwasher</UnitAmenitiesComments>
+  <Units>172</Units>
+  <YearBuilt>1950</YearBuilt>
+  <ZipCode>38053</ZipCode>
+  <Zoning>R-4, Residential (High Density)</Zoning>
+  <ZoningComments>This is a high density residential district, and there is no narrative description for this district in the zoning ordinance.
+</ZoningComments>
+  <ZoningComplianceCd>The subject is a legal, nonconforming use.</ZoningComplianceCd>
+  <ZoningMitigantComments>This is a high density residential district, and there is no narrative description for this district in the zoning ordinance.
+</ZoningMitigantComments>
+  <AssessorParcelNumber>M0115 00469C &amp; M0115 00651C</AssessorParcelNumber>
+  <OverallConditionCd>Average/Good</OverallConditionCd>
+  <Appraisal>
+    <AppraisalDate>2019-12-23T00:00:00.0000000</AppraisalDate>
+    <DirectCapRate>7.25</DirectCapRate>
+    <FinalAppraisedValue>7450000</FinalAppraisedValue>
+    <InterestAppraisedCd>Fee Simple</InterestAppraisedCd>
+    <USPAPConformanceCd>Y</USPAPConformanceCd>
+    <ValueAsOfDate>2019-12-23T00:00:00.0000000</ValueAsOfDate>
+    <AppraisalValues>
+      <AppraisalValue>
+        <AppraisedValue>6950000</AppraisedValue>
+        <ValueAsOfDate>2019-12-23T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Is</ValueCd>
+        <ValueMethodCd>SC</ValueMethodCd>
+      </AppraisalValue>
+      <AppraisalValue>
+        <AppraisedValue>7450000</AppraisedValue>
+        <ValueAsOfDate>2019-12-23T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Is</ValueCd>
+        <ValueMethodCd>IC</ValueMethodCd>
+      </AppraisalValue>
+      <AppraisalValue>
+        <AppraisedValue>8900000</AppraisedValue>
+        <ValueAsOfDate>2021-04-01T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Complete</ValueCd>
+        <ValueMethodCd>SC</ValueMethodCd>
+      </AppraisalValue>
+      <AppraisalValue>
+        <AppraisedValue>9400000</AppraisedValue>
+        <ValueAsOfDate>2021-04-01T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Complete</ValueCd>
+        <ValueMethodCd>IC</ValueMethodCd>
+      </AppraisalValue>
+      <AppraisalValue>
+        <AppraisedValue>8950000</AppraisedValue>
+        <ValueAsOfDate>2021-07-01T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Stabilized</ValueCd>
+        <ValueMethodCd>SC</ValueMethodCd>
+      </AppraisalValue>
+      <AppraisalValue>
+        <AppraisedValue>9450000</AppraisedValue>
+        <ValueAsOfDate>2021-07-01T00:00:00.0000000</ValueAsOfDate>
+        <ValueCd>As Stabilized</ValueCd>
+        <ValueMethodCd>IC</ValueMethodCd>
+      </AppraisalValue>
+    </AppraisalValues>
+  </Appraisal>
+  <RentComparables>
+    <RentComparable>
+      <Address>4465  Babe Howard Boulevard</Address>
+      <AvgMarketRent>688.75</AvgMarketRent>
+      <City>Millington</City>
+      <CompName>Commodore Village</CompName>
+      <ConditionCd>Average</ConditionCd>
+      <Distance>1.0459</Distance>
+      <OccupancyPct>95</OccupancyPct>
+      <QualityCd>Average</QualityCd>
+      <SqFt>288000</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1972</YearBuilt>
+      <ZipCode>38053</ZipCode>
+      <Units>320</Units>
+      <UnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>1</Beds>
+          <NumberUnits>80</NumberUnits>
+          <Rent>575</Rent>
+          <SqFt>650</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>80</NumberUnits>
+          <Rent>645</Rent>
+          <SqFt>750</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>1.5</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>40</NumberUnits>
+          <Rent>695</Rent>
+          <SqFt>950</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>40</NumberUnits>
+          <Rent>700</Rent>
+          <SqFt>750</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>40</NumberUnits>
+          <Rent>800</Rent>
+          <SqFt>1200</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2.5</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>40</NumberUnits>
+          <Rent>875</Rent>
+          <SqFt>1500</SqFt>
+        </RentComparableUnitMix>
+      </UnitMix>
+    </RentComparable>
+    <RentComparable>
+      <Address>7796 Hickory Meadow Road</Address>
+      <AvgMarketRent>800.37</AvgMarketRent>
+      <City>Millington</City>
+      <CompName>Biloxi Manor</CompName>
+      <ConditionCd>Average</ConditionCd>
+      <Distance>1.2913</Distance>
+      <OccupancyPct>95</OccupancyPct>
+      <QualityCd>Average</QualityCd>
+      <SqFt>48843</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1984</YearBuilt>
+      <ZipCode>38053</ZipCode>
+      <Units>41</Units>
+      <UnitMix>
+        <RentComparableUnitMix>
+          <Baths>1.5</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>11</NumberUnits>
+          <Rent>665</Rent>
+          <SqFt>873</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>1.5</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>10</NumberUnits>
+          <Rent>760</Rent>
+          <SqFt>1124</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>20</NumberUnits>
+          <Rent>895</Rent>
+          <SqFt>1400</SqFt>
+        </RentComparableUnitMix>
+      </UnitMix>
+    </RentComparable>
+    <RentComparable>
+      <Address>8594 Blue Creek Circle</Address>
+      <AvgMarketRent>977.78</AvgMarketRent>
+      <City>Millington</City>
+      <CompName>Cross Creek</CompName>
+      <ConditionCd>Average</ConditionCd>
+      <Distance>1.5835</Distance>
+      <OccupancyPct>100</OccupancyPct>
+      <QualityCd>Average</QualityCd>
+      <SqFt>166564</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>2006</YearBuilt>
+      <ZipCode>38053</ZipCode>
+      <Units>144</Units>
+      <UnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>1</Beds>
+          <NumberUnits>16</NumberUnits>
+          <Rent>850</Rent>
+          <SqFt>915</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>100</NumberUnits>
+          <Rent>950</Rent>
+          <SqFt>1153</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>28</NumberUnits>
+          <Rent>1150</Rent>
+          <SqFt>1308</SqFt>
+        </RentComparableUnitMix>
+      </UnitMix>
+    </RentComparable>
+    <RentComparable>
+      <Address>2266 North Big Creek View Circle</Address>
+      <AvgMarketRent>785.77</AvgMarketRent>
+      <City>Millington</City>
+      <CompName>Big Creek Apartments</CompName>
+      <ConditionCd>Average</ConditionCd>
+      <Distance>6.0614</Distance>
+      <OccupancyPct>94</OccupancyPct>
+      <QualityCd>Average</QualityCd>
+      <SqFt>104912</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>2000</YearBuilt>
+      <ZipCode>38053</ZipCode>
+      <Units>104</Units>
+      <UnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>1</Beds>
+          <NumberUnits>24</NumberUnits>
+          <Rent>665</Rent>
+          <SqFt>700</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>64</NumberUnits>
+          <Rent>785</Rent>
+          <SqFt>1050</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>16</NumberUnits>
+          <Rent>970</Rent>
+          <SqFt>1307</SqFt>
+        </RentComparableUnitMix>
+      </UnitMix>
+    </RentComparable>
+    <RentComparable>
+      <Address>4183 Troost Drive</Address>
+      <AvgMarketRent>666.00</AvgMarketRent>
+      <City>Memphis</City>
+      <CompName>Ashton Hills</CompName>
+      <ConditionCd>Average</ConditionCd>
+      <Distance>6.9211</Distance>
+      <OccupancyPct>85</OccupancyPct>
+      <QualityCd>Average/Fair</QualityCd>
+      <SqFt>182656</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1975</YearBuilt>
+      <ZipCode>38128</ZipCode>
+      <Units>200</Units>
+      <UnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>1</Beds>
+          <NumberUnits>16</NumberUnits>
+          <Rent>550</Rent>
+          <SqFt>580</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>1</Baths>
+          <Beds>2</Beds>
+          <NumberUnits>72</NumberUnits>
+          <Rent>600</Rent>
+          <SqFt>784</SqFt>
+        </RentComparableUnitMix>
+        <RentComparableUnitMix>
+          <Baths>2</Baths>
+          <Beds>3</Beds>
+          <NumberUnits>112</NumberUnits>
+          <Rent>725</Rent>
+          <SqFt>1044</SqFt>
+        </RentComparableUnitMix>
+      </UnitMix>
+    </RentComparable>
+  </RentComparables>
+  <SalesComparables>
+    <SalesComparable>
+      <Address>3645 Range Line</Address>
+      <AdjustedSalePrice>9269000</AdjustedSalePrice>
+      <CapRate>0.0867</CapRate>
+      <City>Memphis</City>
+      <CompName>Annie's Grove</CompName>
+      <Distance>9.1189</Distance>
+      <OccupancyPct>93</OccupancyPct>
+      <SaleDate>2019-09-17T00:00:00.0000000</SaleDate>
+      <SalePrice>7750000</SalePrice>
+      <SqFt>206464</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1975</YearBuilt>
+      <Units>198</Units>
+      <ZipCode>38127</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>6555 North Country Oaks Circle</Address>
+      <AdjustedSalePrice>10472800</AdjustedSalePrice>
+      <CapRate>0.0625</CapRate>
+      <City>Memphis</City>
+      <Comment>This comparable represents the sale of an apartment complex located at 6555 North Country Oaks Cr. in Memphis, TN 38115. The property was built in 1985 with 200 units. The property offers one-, two-bedroom floor plans with an average unit size of 822 square feet. The property was reported to be in average condition. The property recently sold on July 30, 2019 for $10,600,000 or $53,000 per unit. The cap rate for this transaction was 6.25%.</Comment>
+      <CompName>The Park at Hollyford</CompName>
+      <Distance>20.7904</Distance>
+      <OccupancyPct>98</OccupancyPct>
+      <SaleDate>2019-07-30T00:00:00.0000000</SaleDate>
+      <SalePrice>10600000</SalePrice>
+      <SqFt>164376</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1985</YearBuilt>
+      <Units>200</Units>
+      <ZipCode>38115</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>4500 Stone Gate Drive</Address>
+      <AdjustedSalePrice>9781414</AdjustedSalePrice>
+      <CapRate>0.0675</CapRate>
+      <City>Memphis</City>
+      <Comment>Part of a portfolio sale. The purchase price is an allocated price.</Comment>
+      <CompName>Stonegate</CompName>
+      <Distance>9.5504</Distance>
+      <OccupancyPct>90</OccupancyPct>
+      <SaleDate>2019-06-19T00:00:00.0000000</SaleDate>
+      <SalePrice>8550187</SalePrice>
+      <SqFt>185120</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1985</YearBuilt>
+      <Units>208</Units>
+      <ZipCode>38128</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>6033 Bangalore Court</Address>
+      <AdjustedSalePrice>7266000</AdjustedSalePrice>
+      <CapRate>0.0625</CapRate>
+      <City>Memphis</City>
+      <Comment>This comparable represents the sale of an apartment complex located at 6033 Bangalore Ct. in Memphis, TN 38119. The property was built in 1974 with 127 units. The property offers one-, two-, three-, and four-bedroom floor plans with an average unit size of 1,328 square feet. The property was reported to be in average condition. The property recently sold on October 17, 2018 for $8,650,000 or $68,110 per unit.</Comment>
+      <CompName>Ridgeway Commons</CompName>
+      <Distance>17.5262</Distance>
+      <OccupancyPct>95</OccupancyPct>
+      <SaleDate>2018-10-17T00:00:00.0000000</SaleDate>
+      <SalePrice>8650000</SalePrice>
+      <SqFt>168650</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1974</YearBuilt>
+      <Units>127</Units>
+      <ZipCode>38119</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>595 West Cadraca Drive</Address>
+      <AdjustedSalePrice>7947880</AdjustedSalePrice>
+      <CapRate>0.0000</CapRate>
+      <City>Memphis</City>
+      <Comment>The specific capitalization rate could not be verified, but the broker stated that the property had below-market occupancy at the time of sale, with substantial upside potential. CoStar reported a capitalization rate of 5.0%, but this does not stand to reason, given the estimated income levels at the time of sale and a reasonable operating expense ratio range.</Comment>
+      <CompName>Oak Grove Flats</CompName>
+      <Distance>13.4636</Distance>
+      <OccupancyPct>87</OccupancyPct>
+      <SaleDate>2018-09-14T00:00:00.0000000</SaleDate>
+      <SalePrice>6520000</SalePrice>
+      <SqFt>139050</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1964</YearBuilt>
+      <Units>163</Units>
+      <ZipCode>38122</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>1350 South Faronia Square</Address>
+      <AdjustedSalePrice>9237900</AdjustedSalePrice>
+      <CapRate>0.0887</CapRate>
+      <City>Memphis</City>
+      <CompName>Faronia Square</CompName>
+      <Distance>22.4310</Distance>
+      <OccupancyPct>95</OccupancyPct>
+      <SaleDate>2018-07-25T00:00:00.0000000</SaleDate>
+      <SalePrice>8300000</SalePrice>
+      <SqFt>250884</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1969</YearBuilt>
+      <Units>204</Units>
+      <ZipCode>38116</ZipCode>
+    </SalesComparable>
+    <SalesComparable>
+      <Address>1300 Lynnfield Road</Address>
+      <AdjustedSalePrice>12369200</AdjustedSalePrice>
+      <CapRate>0.0734</CapRate>
+      <City>Memphis</City>
+      <Comment>This was an arm's length transaction. The reported cap rate was 7.34%. </Comment>
+      <CompName>The Roxbury</CompName>
+      <Distance>17.0992</Distance>
+      <OccupancyPct>95</OccupancyPct>
+      <SaleDate>2017-10-06T00:00:00.0000000</SaleDate>
+      <SalePrice>13600000</SalePrice>
+      <SqFt>245684</SqFt>
+      <StateCd>TN</StateCd>
+      <YearBuilt>1973</YearBuilt>
+      <Units>211</Units>
+      <ZipCode>38119</ZipCode>
+    </SalesComparable>
+  </SalesComparables>
+</PropertyValuation>

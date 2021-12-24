@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Servicing_Sub_Servicer__c</fullName>
+    <externalId>false</externalId>
+    <label>Loan Servicing Sub-Servicer</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>FCI</fullName>
+                <default>false</default>
+                <label>FCI</label>
+            </value>
+            <value>
+                <fullName>BSI</fullName>
+                <default>false</default>
+                <label>BSI</label>
+            </value>
+            <value>
+                <fullName>StateBridge</fullName>
+                <default>false</default>
+                <label>StateBridge</label>
+            </value>
+            <value>
+                <fullName>Berkadia</fullName>
+                <default>false</default>
+                <label>Berkadia</label>
+            </value>
+            <value>
+                <fullName>ShellPoint</fullName>
+                <default>false</default>
+                <label>ShellPoint</label>
+            </value>
+            <value>
+                <fullName>Del Toro</fullName>
+                <default>false</default>
+                <label>Del Toro</label>
+            </value>
+            <value>
+                <fullName>In-House</fullName>
+                <default>false</default>
+                <label>In-House</label>
+            </value>
+            <value>
+                <fullName>Faye Servicing</fullName>
+                <default>false</default>
+                <label>Faye Servicing</label>
+            </value>
+            <value>
+                <fullName>Cohen Financial</fullName>
+                <default>false</default>
+                <label>Cohen Financial</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

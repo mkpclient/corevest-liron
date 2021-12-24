@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Section_8_Count__c</fullName>
+    <externalId>false</externalId>
+    <label>Section 8 Unit Count</label>
+    <summaryFilterItems>
+        <field>Property__c.Section_8__c</field>
+        <operation>equals</operation>
+        <value>Yes, Y</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Property__c.Active__c</field>
+        <operation>equals</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Property__c.Is_Parent__c</field>
+        <operation>notEqual</operation>
+        <value>True</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property__c.Deal__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

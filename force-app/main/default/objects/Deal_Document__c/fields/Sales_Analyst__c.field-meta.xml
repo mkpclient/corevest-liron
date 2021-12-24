@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sales_Analyst__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Sales Analyst from the related Deal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Sales Analyst from the related Deal</inlineHelpText>
+    <label>Sales Analyst</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Deal_Documents4</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

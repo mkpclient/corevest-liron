@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bridge_Deals_Approved_by_Committee</fullName>
+    <columns>Deal_Loan_Number__c</columns>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Contact__c</columns>
+    <columns>LOC_Commitment__c</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>IC_Approval_Date__c</columns>
+    <columns>Days_in_Approved_By_Committee__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Closer__c</columns>
+    <columns>Underwriter__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.LOC_Loan,Opportunity.Single_Asset_Bridge_Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Approved by Committee</value>
+    </filters>
+    <label>Bridge Deals - Approved by Committee</label>
+    <sharedTo>
+        <role>Administrator</role>
+        <role>Bridge</role>
+        <role>Bridge_Manager</role>
+    </sharedTo>
+</ListView>

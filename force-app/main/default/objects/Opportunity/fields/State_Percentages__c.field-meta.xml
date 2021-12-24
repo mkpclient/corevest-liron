@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>State_Percentages__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Percentage of Properties by State</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Percentage of Properties by State</inlineHelpText>
+    <label>State Percentages</label>
+    <length>2000</length>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>2</visibleLines>
+</CustomField>

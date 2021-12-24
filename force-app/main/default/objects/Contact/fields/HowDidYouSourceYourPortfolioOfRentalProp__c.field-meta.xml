@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HowDidYouSourceYourPortfolioOfRentalProp__c</fullName>
+    <description>Field is populated from the DocuSign Rental Portfolio Loan Only Sponsor/Borrower Questionnaire</description>
+    <externalId>false</externalId>
+    <label>HowDidYouSourceYourPortfolioOfRentalProp</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Trustee Sale</fullName>
+                <default>false</default>
+                <label>Trustee Sale</label>
+            </value>
+            <value>
+                <fullName>Short Sale</fullName>
+                <default>false</default>
+                <label>Short Sale</label>
+            </value>
+            <value>
+                <fullName>MLS</fullName>
+                <default>false</default>
+                <label>MLS</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Annual_Total_Expenses__c</fullName>
+    <externalId>false</externalId>
+    <formula>Annual_HOA_Fee__c + Annual_Insurance__c +  Annual_Managment_Fee__c + Annual_Taxes__c + Vacancy_Repairs__c + Maintenance_Repairs__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Annual Total Expenses</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

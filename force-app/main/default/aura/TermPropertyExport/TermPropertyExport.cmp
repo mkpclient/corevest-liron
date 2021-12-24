@@ -1,0 +1,63 @@
+<aura:component >
+	<aura:method name="close" action="{!c.close}" />
+	<aura:method name="open" action="{!c.open}" />
+	<aura:method name="getValue" action="{!c.getValue}" >
+		<aura:attribute name="callback" type="Object" />
+	</aura:method>
+
+	<aura:attribute name="v.randId" type="Integer" />
+
+	<aura:attribute name="recordId" type="String" />
+
+	<aura:attribute name="exportAction" type="Aura.Action" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<!-- <aura:registerEvent name="export" type="c:modal_Event" /> -->
+
+	<div role="dialog" tabindex="-1" aura:id="modal" aria-labelledby="header43" class="slds-modal slds-modal__close">
+	  <div class="slds-modal__container">
+	    <div class="slds-modal__header">
+	      <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" size="large" variant="bare-inverse" onclick="{! c.close }" alternativeText="Close window." />
+	      <h2 id="header43" class="slds-text-heading--medium">Export Data Tape</h2>
+	    </div>
+	    <div class="slds-modal__content slds-p-around--medium slds-is-relative">
+	    	<lightning:spinner aura:id="spinner" class="slds-hide" variant="brand"/>
+	    	<fieldset class="slds-form-element">
+			  	
+				<!-- <lightning:input type="radio" label="Export all Properties" name="{!'option-'+v.randId}" value="exportAll" aura:id="options" checked="true" />
+				<lightning:input type="radio" label="Don't Export Parent Properties" name="{!'option-'+v.randId}" value="excludeParent" aura:id="options" />
+				<lightning:input type="radio" label="Don't Export Sub-units" name="{!'option-'+v.randId}" value="excludeSubUnit" aura:id="options" /> -->
+				<div class="slds-form-element__control">
+					<span class="slds-radio">
+				    	<input type="radio" id="radio-1" name="options" value="exportAll" checked="true" aura:id="options" />
+				    	<label class="slds-radio__label" for="radio-1">
+				        	<span class="slds-radio--faux"></span>
+				        	<span class="slds-form-element__label">Export All Properties</span>
+				      	</label>
+				    </span>
+				    <span class="slds-radio">
+				    	<input type="radio" id="radio-2" name="options" value="excludeParent" checked="" aura:id="options" />
+				    	<label class="slds-radio__label" for="radio-2">
+				        	<span class="slds-radio--faux"></span>
+				        	<span class="slds-form-element__label">Don't Export Parent Properties</span>
+				      	</label>
+				    </span>
+				    <span class="slds-radio">
+				    	<input type="radio" id="radio-3" name="options" value="excludeSubUnit" checked="" aura:id="options" />
+				    	<label class="slds-radio__label" for="radio-3">
+				        	<span class="slds-radio--faux"></span>
+				        	<span class="slds-form-element__label">Don't Export Sub-units</span>
+				      	</label>
+				    </span>
+				</div>
+			</fieldset> 
+
+	    </div>
+	    <div class="slds-modal__footer">
+	    	<button class="slds-button slds-button--neutral" onclick="{!c.close}" >Cancel</button>
+	    	<button class="slds-button slds-button--brand" onclick="{!c.export}">Ok</button>
+	    </div>
+	  </div>
+	</div>
+	<div aura:id="backdrop" class="slds-backdrop"></div>
+</aura:component>

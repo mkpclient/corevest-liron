@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Company_Name_as_NA_None_etc</fullName>
+    <active>true</active>
+    <description>This will prevent a user from entering things like None or N/A into the Company Name field</description>
+    <errorConditionFormula>AND(
+NOT($Profile.Name= &quot;System Administrator&quot;) ,
+ IsConverted = true,
+OR(
+ Company = &quot;None&quot;,
+ Company = &quot;none&quot;,
+ Company = &quot;n/a&quot;,
+ Company = &quot;N/a&quot;,
+ Company = &quot;N/A&quot;,
+ Company = &quot;self&quot;,
+ Company = &quot;Self&quot;,
+Company = &quot;unknown&quot;,
+Company = &quot;Unknown&quot;,
+ Company = &quot;Investor&quot;,
+ Company = &quot;no company&quot;,
+ Company = &quot;No Company&quot;,
+ Company = &quot;not provided&quot;,
+ Company = &quot;Not Provided&quot;))</errorConditionFormula>
+    <errorDisplayField>Company</errorDisplayField>
+    <errorMessage>This is not a valid Company Name, please enter first and last name if a Company Name was not provided</errorMessage>
+</ValidationRule>

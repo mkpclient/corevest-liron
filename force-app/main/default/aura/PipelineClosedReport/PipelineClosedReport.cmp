@@ -1,0 +1,16 @@
+<aura:component controller="lightning_Controller" implements="flexipage:availableForAllPageTypes,force:LightningQuickAction">
+    <aura:attribute name="sheetClosed" type="Object" />
+    <aura:attribute name="sheetPipeline" type="Object" />
+    <ltng:require scripts="{!$Resource.xlsx_populate}" afterScriptsLoaded="{!c.init}"  />
+
+    <lightning:layout class="slds-m-top_medium" horizontalAlign="spread" verticalAlign="center">
+    	<lightning:layoutItem >
+    		<div class="slds-is-relative">
+		    	<lightning:buttonGroup >
+					<lightning:button label="Term Pipeline Report" aura:id="download" onclick="{!c.createPipelineReport}" />
+					<lightning:spinner size="small" variant="brand" aura:id="spinner" class="slds-hide"/>
+				</lightning:buttonGroup>
+			</div>
+    	</lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

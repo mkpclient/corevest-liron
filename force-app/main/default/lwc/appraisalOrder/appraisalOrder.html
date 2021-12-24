@@ -1,0 +1,563 @@
+<template>
+  <lightning-card title="Orders">
+    <!-- <ui:scrollerWrapper class="scroller"> -->
+
+    <lightning-layout slot="actions" horizontal-align="end">
+      <lightning-layout-item>
+        <lightning-button
+          label="Create In-House Appraisals"
+          onclick={openInhouseModal}
+          name="inhouseModal"
+          disabled={isLoading}
+        ></lightning-button>
+      </lightning-layout-item>
+      <lightning-layout-item>
+        <lightning-button
+          label="Order Appraisal"
+          onclick={openOrderModal}
+          name="openModal"
+          disabled={isLoading}
+        ></lightning-button>
+      </lightning-layout-item>
+      <lightning-layout-item>
+        <lightning-button
+          label="Refresh Status"
+          onclick={refreshStatus}
+          name="openModal"
+        ></lightning-button>
+      </lightning-layout-item>
+      <lightning-layout-item>
+        <lightning-button
+          label="Refresh All Open"
+          onclick={refreshAllOpen}
+        ></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout slot="actions" horizontal-align="end">
+      <lightning-layout-item padding="horizontal-medium">
+        <lightning-button-icon
+          icon-name="utility:refresh"
+          variant="bare"
+          alternative-text="Refresh"
+          onclick={refresh}
+        >
+        </lightning-button-icon>
+      </lightning-layout-item>
+      <lightning-layout-item padding="horizontal-medium">
+        <lightning-button-icon
+          icon-name="utility:filterList"
+          variant="bare"
+          alternative-text="Show Filters"
+          onclick={toggleFilter}
+        >
+        </lightning-button-icon>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <!-- <lightning-button
+      label="Retrieve Appraisal"
+      onclick={retrieveAppraisal}
+      name="openModal"
+      slot="actions"
+    ></lightning-button> -->
+
+    <lightning-layout multiple-rows="false" horizontal-align="spread">
+      <lightning-layout-item size={tableWidth}>
+        <template if:true={isLoading}>
+          <lightning-spinner
+            variant="brand"
+            alternative-text="Loading"
+          ></lightning-spinner>
+        </template>
+
+        <div>
+          <div class="slds-scrollable" style="height: 500px">
+            <table
+              style="table-layout: fixed"
+              class="slds-table slds-table_bordered slds-table_fixed-layout"
+            >
+              <thead>
+                <tr class="slds-line-height_reset">
+                  <!--  -->
+                  <!--  -->
+                  <th
+                    class="slds-text-align_right"
+                    scope="col"
+                    style="width: 3.25rem"
+                  >
+                    <span id="column-group-header" class="slds-assistive-text"
+                      >Choose a row</span
+                    >
+                    <div class="slds-checkbox">
+                      <lightning-input
+                        type="checkbox"
+                        name="selectAll"
+                        label="Select All"
+                        variant="label-hidden"
+                        onchange={selectAll}
+                      ></lightning-input>
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Address">Address</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="City">City</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Property Type">Property Type</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="# of Units"># of Units</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Status">Status</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Appraisal Firm">Appraisal Firm</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Appraisal Type">Appraisal Type</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Order Date">Order Date</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Est. Completion Date">
+                      Est. Completion Date
+                    </div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Completion Date">Completion Date</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Fee">Fee</div>
+                  </th>
+                  <th class="" scope="col">
+                    <div class="" title="Comments">Comments</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <template if:true={properties}>
+                  <template
+                    for:each={propertyList}
+                    for:item="property"
+                    for:index="index"
+                  >
+                    <tr key={property.Id}>
+                      <td class="slds-text-align_right" role="gridcell">
+                        <div class="slds-checkbox">
+                          <lightning-input
+                            type="checkbox"
+                            label="checkbox"
+                            data-name="propertyCheckbox"
+                            data-id={property.Id}
+                            data-index={index}
+                            data-propertytype={property.Property_Type__c}
+                            variant="label-hidden"
+                          ></lightning-input>
+                        </div>
+                      </td>
+                      <td scope="row" style="white-space: normal">
+                        <!-- <lightning-formatted-text
+                    value={property.Name}
+                  ></lightning-formatted-text> -->
+                        <a href={property.linkUrl} target="_blank"
+                          >{property.Name}</a
+                        >
+                      </td>
+                      <td scope="row" style="white-space: normal">
+                        <lightning-formatted-text
+                          value={property.City__c}
+                        ></lightning-formatted-text>
+                      </td>
+                      <td scope="row" style="white-space: normal">
+                        <lightning-formatted-text
+                          value={property.Property_Type__c}
+                        ></lightning-formatted-text>
+                      </td>
+                      <td
+                        scope="row"
+                        style="white-space: normal; text-align: right"
+                      >
+                        <lightning-formatted-number
+                          value={property.Number_of_Units__c}
+                        ></lightning-formatted-number>
+                      </td>
+                      <td scope="row" style="white-space: normal">
+                        <lightning-formatted-text
+                          value={property.Status__c}
+                        ></lightning-formatted-text>
+                      </td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                      <td scope="row"></td>
+                    </tr>
+                    <template
+                      for:each={property.Appraisals__r}
+                      for:item="appraisal"
+                    >
+                      <template if:true={appraisal.visible}>
+                        <tr key={appraisal.Id}>
+                          <td class="slds-text-align_right" scope="row"></td>
+                          <td scope="row" class="slds-text-align_right"></td>
+                          <td scope="row"></td>
+                          <td scope="row"></td>
+                          <td
+                            role="row"
+                            class="slds-text-align_right appraisal_row"
+                          >
+                            <div class="slds-checkbox">
+                              <template if:true={appraisal.showCheckbox}>
+                                <lightning-input
+                                  type="checkbox"
+                                  label="checkbox"
+                                  data-id={appraisal.Id}
+                                  name="appraisalCheckbox"
+                                  data-name="appraisalCheckbox"
+                                  variant="label-hidden"
+                                ></lightning-input>
+                              </template>
+                            </div>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <template if:true={appraisal.showURL}>
+                              <a
+                                href={appraisal.Link_Formula__c}
+                                target="_blank"
+                                >{appraisal.Status__c}</a
+                              >
+
+                              <template if:true={appraisal.showToolTip}>
+                                <lightning-helptext
+                                  content={appraisal.Status_Description__c}
+                                ></lightning-helptext>
+                              </template>
+                            </template>
+
+                            <template if:false={appraisal.showURL}>
+                              <lightning-formatted-text
+                                value={appraisal.Status__c}
+                              ></lightning-formatted-text>
+                            </template>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-text
+                              value={appraisal.Vendor_Ordered_From__c}
+                            ></lightning-formatted-text>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-text
+                              value={appraisal.Appraisal_Product_Ordered__c}
+                            ></lightning-formatted-text>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-date-time
+                              value={appraisal.Order_Received_Date__c}
+                              time-zone="UTC"
+                            ></lightning-formatted-date-time>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-date-time
+                              value={appraisal.Estimated_Completion_Date__c}
+                              time-zone="UTC"
+                            ></lightning-formatted-date-time>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-date-time
+                              value={appraisal.Appraisal_Completion_Date__c}
+                              time-zone="UTC"
+                            ></lightning-formatted-date-time>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <lightning-formatted-number
+                              value={appraisal.Appraisal_Fee__c}
+                              format-style="currency"
+                              currency-code="USD"
+                              minimum-fraction-digits="0"
+                            ></lightning-formatted-number>
+                          </td>
+                          <td scope="row" class="appraisal_row">
+                            <template if:true={appraisal.hasComments}>
+                              <a data-id={appraisal.Id} onclick={viewComments}
+                                >View</a
+                              >
+                            </template>
+                          </td>
+                        </tr>
+                      </template>
+                    </template>
+                  </template>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </lightning-layout-item>
+      <template if:true={showFilters}>
+        <lightning-layout-item size="4" class="slds-p-left_small filterItem">
+          <lightning-card title="Filters">
+            <lightning-layout multiple-rows="true">
+              <lightning-layout-item size="12">
+                <lightning-dual-listbox
+                  name="propertyTypes"
+                  label="Property Type"
+                  source-label="Available"
+                  selected-label="Selected"
+                  options={propertyTypes}
+                  value={selectedPropertyTypes}
+                  data-name="selectedPropertyTypes"
+                  onchange={handleFilterChange}
+                >
+                </lightning-dual-listbox>
+              </lightning-layout-item>
+              <lightning-layout-item size="12">
+                <lightning-dual-listbox
+                  name="statuses"
+                  label="Appraisal Status"
+                  source-label="Available"
+                  selected-label="Selected"
+                  options={statuses}
+                  value={selectedStatuses}
+                  data-name="selectedStatuses"
+                  onchange={handleFilterChange}
+                >
+                </lightning-dual-listbox>
+              </lightning-layout-item>
+              <lightning-layout-item size="12">
+                <lightning-dual-listbox
+                  name="propertystatuses"
+                  label="Property Status"
+                  source-label="Available"
+                  selected-label="Selected"
+                  options={propertystatuses}
+                  value={selectedPropertyStatuses}
+                  data-name="selectedPropertyStatuses"
+                  onchange={handleFilterChangepick}
+                >
+                </lightning-dual-listbox>
+              </lightning-layout-item>
+            </lightning-layout>
+          </lightning-card>
+        </lightning-layout-item>
+      </template>
+    </lightning-layout>
+  </lightning-card>
+
+  <c-modal data-id="orderModal" title="Order Appraisal">
+    <div slot="body">
+      <lightning-combobox
+        name="appraisalFirm"
+        label="Appraisal Company"
+        value={appraisalFirm}
+        placeholder="Select Appraisal Company"
+        options={appraisalFirms}
+        data-name="appraisalFirm"
+        onchange={appraisalFirmChangeHandler}
+        data-id="params"
+      >
+      </lightning-combobox>
+
+      <lightning-combobox
+        value={reportType}
+        name="productTypes"
+        label="Product Types"
+        placeholder="Select Product Types"
+        options={productTypes}
+        data-name="productType"
+        onchange={reportTypeChange}
+        data-id="params"
+      >
+      </lightning-combobox>
+
+      <template if:true={isClarocity}>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
+        <lightning-input
+          value={username}
+          name="anUsername"
+          label="Username"
+          data-name="anUsername"
+          data-id="params"
+        >
+        </lightning-input>
+        <lightning-input
+          type="password"
+          value={password}
+          name="anPassword"
+          label="Password"
+          data-name="anPassword"
+          data-id="params"
+        >
+        </lightning-input>
+      </template>
+
+      <template if:true={isClearCapital}>
+        <lightning-dual-listbox
+          name="addOns"
+          label="Add-Ons"
+          source-label="Available"
+          selected-label="Selected"
+          value={addOns}
+          options={addOnOptions}
+          onchange={handleAddonChange}
+          data-name="addOns"
+          data-id="params"
+          field-level-help="Select your Add-Ons for this Product/Report Type"
+          size="3"
+        >
+        </lightning-dual-listbox>
+        <lightning-combobox
+          value={turnTime}
+          name="turnTimes"
+          label="Turn Time"
+          placeholder="Select Turn Time"
+          options={turnTimeOptions}
+          data-name="turnTime"
+          onchange={turnTimeChange}
+          data-id="params"
+        >
+        </lightning-combobox>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
+      </template>
+      <template if:true={isAppraisalNation}>
+        <lightning-input
+          type="checkbox"
+          value={rushOrder}
+          name="rushOrder"
+          label="Rush Order"
+          data-name="rushOrder"
+          data-id="params"
+        ></lightning-input>
+        <lightning-input
+          type="date"
+          value={dueDate}
+          name="dueDate"
+          label="Due Date"
+          data-name="dueDate"
+          data-id="params"
+        ></lightning-input>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
+        <lightning-input
+          value={username}
+          name="anUsername"
+          label="Username"
+          data-name="anUsername"
+          data-id="params"
+        >
+        </lightning-input>
+        <lightning-input
+          type="password"
+          value={password}
+          name="anPassword"
+          label="Password"
+          data-name="anPassword"
+          data-id="params"
+        >
+        </lightning-input>
+      </template>
+      <template if:true={isValuationServices}>
+        <lightning-input
+          type="checkbox"
+          value={rushOrder}
+          name="rushOrder"
+          label="Rush Order"
+          data-name="rushOrder"
+          data-id="params"
+        ></lightning-input>
+        <lightning-input
+          type="date"
+          value={dueDate}
+          name="dueDate"
+          label="Due Date"
+          data-name="dueDate"
+          data-id="params"
+        ></lightning-input>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
+        <lightning-input
+          value={username}
+          name="anUsername"
+          label="Username"
+          data-name="anUsername"
+          data-id="params"
+        >
+        </lightning-input>
+        <lightning-input
+          type="password"
+          value={password}
+          name="anPassword"
+          label="Password"
+          data-name="anPassword"
+          data-id="params"
+        >
+        </lightning-input>
+      </template>
+    </div>
+
+    <template if:true={showFooter}>
+      <div slot="footer">
+        <lightning-button
+          slot="footer"
+          label="Cancel"
+          onclick={closeOrderModal}
+        ></lightning-button>
+        <lightning-button
+          data-name="submitButton"
+          slot="footer"
+          label="Submit Order"
+          variant="brand"
+          onclick={submitOrder}
+        ></lightning-button></div
+    ></template>
+  </c-modal>
+
+  <c-modal data-id="commentsModal" title="Comments">
+    <div slot="body">
+      <ul class="slds-has-dividers_bottom-space">
+        <template for:each={comments} for:item="comment">
+          <li class="slds-item" key={comment.Id}>
+            <lightning-tile label={comment.Comment_Date__c}>
+              <p>{comment.Comment__c}</p>
+            </lightning-tile>
+          </li>
+        </template>
+      </ul>
+    </div>
+    <div slot="footer">
+      <lightning-button
+        label="Close"
+        onclick={closeCommentModal}
+      ></lightning-button>
+    </div>
+  </c-modal>
+
+  <c-appraisal-input-modal deal-id={recordId}></c-appraisal-input-modal>
+</template>

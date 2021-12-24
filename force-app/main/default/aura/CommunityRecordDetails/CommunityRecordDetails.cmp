@@ -1,0 +1,140 @@
+<aura:component controller="RecordDetailsController" implements="forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+
+	<aura:attribute name="layout" type="Map" />
+	<aura:attribute name="activeSections" type="List" default="['test0','test1','test2','test3']" />
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<!-- <div>
+		<aura:iteration items="{!v.layout.sections}" var="section">
+			<div class="slds-section slds-is-open">
+				<h3 class="slds-section__title">
+					<button class="slds-button sectionHeader">
+						{!section.label}
+					</button>
+				</h3>
+
+				<lightning:layout horizontalAlign="spread" class="slds-section__content">
+					<aura:iteration items="{!section.columns}" var="column">
+						<lightning:layoutItem size="6" padding="horizontal-small">
+
+							<lightning:layout multipleRows="true">
+								<aura:iteration items="{!column.fields}" var="field">
+									<lightning:layoutItem size="12">
+										<ul class="slds-has-dividers_bottom-space">
+											<li class="slds-item">
+												<aura:if isTrue="{!!empty(field.label)}">
+													<p class="slds-text-heading_label slds-truncate">{!field.label}</p>
+
+													<aura:set attribute="else">
+														<p class="slds-text-heading_label slds-truncate slds-hidden"> - </p>
+													</aura:set>
+												</aura:if>
+
+												<aura:if isTrue="{!!empty(field.val)}">
+													<aura:if isTrue="{!field.fieldType == 'DATE'}">
+														<ui:outputDate value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!or(field.fieldType == 'TEXTAREA', field.fieldType == 'STRING')}">
+														<ui:outputText value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'REFERENCE'}">
+														<ui:outputURL value="{!'/portal/s/deal#!' + field.val}" label="Link" />
+													</aura:if>
+
+													<aura:if isTrue="{!or(field.fieldType == 'PICKLIST', field.fieldType == 'MULTIPICKLIST')}">
+														<ui:outputText value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'DOUBLE'}">
+														<ui:outputNumber value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'PERCENT'}">
+														<ui:outputNumber value="{!field.val}" />%
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'CURRENCY'}">
+														<ui:outputCurrency value="{!field.val}" format="$#,###" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'BOOLEAN'}">
+														<ui:outputCheckbox value="{!field.val}" />
+													</aura:if>
+													<aura:set attribute="else">
+														<p class="slds-text-body_regular slds-truncate slds-hidden"> - </p>
+													</aura:set>
+												</aura:if>
+											</li>
+										</ul>
+									</lightning:layoutItem>
+								</aura:iteration>
+							</lightning:layout>
+						</lightning:layoutItem>
+					</aura:iteration>
+				</lightning:layout>
+			</div>
+		</aura:iteration>
+	</div> -->
+	<lightning:accordion allowMultipleSectionsOpen="true" activeSectionName="{! v.activeSections }">
+		<aura:iteration items="{!v.layout.sections}" var="section" indexVar="sectionIndex">
+			<lightning:accordionSection label="{!section.label}" name="{!'test'+sectionIndex}">
+				<!-- {!'test'+sectionIndex} -->
+				<div class="slds-form slds-form_horizontal" role="list">
+					<aura:iteration items="{!section.rows}" var="rows">
+						<div class="slds-grid slds-gutters_small">
+							<aura:iteration items="{!rows}" var="field">
+								<div class="slds-col slds-has-flexi-truncate slds-grid" role="listitem">
+									<aura:if isTrue="{!!empty(field)}">
+										<div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-hint-parent">
+											<span class="slds-form-element__label">
+												{!field.label}
+											</span>
+											<div class="slds-form-element__control">
+												<div class="slds-form-element__static">
+													<aura:if isTrue="{!field.fieldType == 'DATE'}">
+														<ui:outputDate value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!or(field.fieldType == 'TEXTAREA', field.fieldType == 'STRING')}">
+														<ui:outputText value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'REFERENCE'}">
+														<ui:outputURL value="{!'/portal/s/deal?id=' + field.val}" label="Link" />
+													</aura:if>
+
+													<aura:if isTrue="{!or(field.fieldType == 'PICKLIST', field.fieldType == 'MULTIPICKLIST')}">
+														<ui:outputText value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'DOUBLE'}">
+														<ui:outputNumber value="{!field.val}" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'PERCENT'}">
+														<ui:outputNumber value="{!field.val}" />%
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'CURRENCY'}">
+														<ui:outputCurrency value="{!field.val}" format="$#,###" />
+													</aura:if>
+
+													<aura:if isTrue="{!field.fieldType == 'BOOLEAN'}">
+														<ui:outputCheckbox value="{!field.val}" />
+													</aura:if>
+												</div>
+											</div>
+										</div>
+									</aura:if>
+								</div>
+							</aura:iteration>
+						</div>
+					</aura:iteration>
+				</div>
+			</lightning:accordionSection>
+		</aura:iteration>
+	</lightning:accordion>
+</aura:component>

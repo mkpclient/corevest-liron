@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Auth Setting</label>
+    <protected>false</protected>
+    <values>
+        <field>Box_Folder_Id__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Client_Id__c</field>
+        <value xsi:type="xsd:string">btj2wxjpyu8rpp0nq6527x7ozd2uj75x</value>
+    </values>
+    <values>
+        <field>Enterprise_Id__c</field>
+        <value xsi:type="xsd:string">257409297</value>
+    </values>
+    <values>
+        <field>File_Split_By__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Private_Key__c</field>
+        <value xsi:type="xsd:string">MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzcjpQ/ROZfky3huTMSUguTwjJRWAtd7cjUt2EadfuM8xtmqt3WV5poVIU8H6VxFGS9HTvXnI+BEYchywf9zeJxCTYw4cN7bBh9a/otbCT8I8gS6D8NdShvBXrnX0gtZXjM3u9HG4+IdmcFNbDtGMlk4H4i0NjmiA1MwpfYg3TEebFOGQvfqqDyPQHek1PCri4EIRihe458qZ26HzOcyelDtcDdKsPM+BUCugcyf1fD3VTXj0jMBOLa1uWTA0cZ0jVE0yyBtH3J8+WvopsQG/vTx4komHXR8fXRKlv4BvndeLaNImB9W31Cqj6c6m/+WmnrJ9vY7WNKj0GeVtQtxP3AgMBAAECggEALZHtk1Ghn5I+Y0EDa4mUpgX2Ij7W/NTxEixiCtViO6C14oOr1aRBYKvSD3U/gEMZwCsKYxtmAa/OKkJ9hySd2wOPo+iLrJLW/xmIcZ1qWTd28WmjWUlGVUhRfMNC2oKirM8PNmg46thnzcZQ/+QYZZt/HyImm+2xDjGHCc/52Ma+lM/Vj/Jtm8eQ3uHMFMNN/3Z6pgvc+XXd0PmCgPBYF5dZSkWEocxywRYw1ZS4U0EpEbnDcPkPcym1qEU9c+acU492Z5xCXcTdzWbK7UthCRlxMl4LG/W6ilmZBBCaQGU4h3YuDIHd/o1gxdvhwetyxG5tMdeeTiavrRO442YkOQKBgQDtwZf8HkJQc2kHjz46sEk1cbVz0Vp4qmYwqHvKPEDspwL+s+Ph3BL1IyiUtlF/36GgPYwdP+W1nUPFQm2cdbsYUUijoY7G3KlZhTuQA3/5/IpM+jfrD21avVGUDeZGZaPuupmCGjXsX6BPUNhMVmjwpPM3tk9bNDklOKC/YA18qwKBgQDBNzX9OnmAYH78KupNrYQ8Ntve3Dmr9hoTmIGYF48i49geHpPNYPMqI/603Pa+7rl9nEarkw0UQ2IKfdj35sSNBMGZ3a7pJ8PTFApdNJZXFcFSIUZ+cNc0JCVE01Sgzxdbjkw8OzgLxIY3lo3Zo6CssgsieENnWT/hpfRzaDWt5QKBgQC0Dkjrxn6yLrT75J9cEuVedB7W91VszJ9XekFFhxwkHNdHzTRneCNjQp0ZAnn2PYZJtFLIU/vC7rbETOp18zMd13ELeu6F69bU1PGmvv/MclTKtzRh7+0BKx784QnjhlYAFZDr1q2/tSvS5YbpSQdwN3t6VbcDeylL5vbV+Ag+wQKBgAn6B9ejhVKTqPrsXFzWcNWLH59KT9AJTR9l6Isp7EIo8afcfFVGhEfQw/4iyrrhKMLLpvqFBU/eitlv1hw21j9R141SXQ289+eWSVK2vGySuwC6pyEwQmx20VXUc7I5/0LC/jy98g7pfuSv6XMrd8hzCRAmlZRoj1vfbdfnsZ3hAoGBAKwOblou724lTDmoebFjtN65UELAql20Ja9tvPAv/hEJ7gDv253lPANwQoNQBOq4G/7mvDwPmmro32iLffo3Xc7mcrcw0JOA7JtEXUbB87UK+zTRWs8W7q+V5ZyHvoFOLX6oDLyx6gL/ejK4mOwFqM9gxAtvPscg4bjqHZrshbUa</value>
+    </values>
+    <values>
+        <field>Public_Key__c</field>
+        <value xsi:type="xsd:string">neqmlm60</value>
+    </values>
+    <values>
+        <field>Secret__c</field>
+        <value xsi:type="xsd:string">E70rotYVl12n1sUpLrl3PiRCfXhfwaSh</value>
+    </values>
+    <values>
+        <field>Servicer__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Sub_Type__c</field>
+        <value xsi:type="xsd:string">user</value>
+    </values>
+</CustomMetadata>

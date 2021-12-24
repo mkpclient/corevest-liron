@@ -1,0 +1,152 @@
+<template>
+    <lightning-card title={dealName}>
+        <div slot="actions" class="slds-is-relative">
+            <lightning-button label="Print" slot="actions" onclick={print}></lightning-button>
+            <lightning-button label="Save" slot="actions" onclick={save}></lightning-button>
+            <lightning-spinner size="small" variant="brand" class={spinnerClass} ></lightning-spinner>
+        </div>
+
+        
+
+        <!-- <lightning-record-edit-form record-id={recordId} object-api-name="Opportunity">
+            <lightning-messages>
+            </lightning-messages> -->
+
+            <template if:true={deal.data}>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                        <!-- <lightning-input-field field-name="First_Payment_Due_Date__c"></lightning-input-field> -->
+                        <lightning-input name="paymentDueDate" onchange={dateChanged} value={paymentDueDate} label="First Payment Due Date" type="date" ></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                        <!-- placeholder -->
+                        <!-- <lightning-input disabled type="number" value={totalDeficient} label="Total Deficient" name="totalDeficient" ></lightning-input> -->
+                    </div>
+
+                </div>
+
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                        <!-- <lightning-input-field field-name="Ins_Renewal_Date__c"></lightning-input-field> -->
+                        <!-- <lightning-input name="renewalDate"  onchange={dateChanged} value={renewalDate} label="Ins. Renewal Date" type="date" ></lightning-input> -->
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                        <!-- placeholder -->
+                        <!-- <lightning-input disabled type="number" value={totalReserve} label="Total Reserve Required" name="totalReserve" ></lightning-input> -->
+
+                    </div>
+                </div>
+            </template>
+
+            <!-- <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+
+                </div>
+            </div> -->
+
+            <!-- <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input type="number" value={totalDeficient} label="Total Deficient" name="totalDeficient" ></lightning-input>
+                    
+                </div>
+            </div>
+
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input type="number" value={totalReserve} label="Total Reserve Required" name="totalReserve" ></lightning-input>
+                    
+                </div>
+            </div> -->
+
+            <table class="slds-m-top_medium slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                role="grid">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Property">Property</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Premium Amount">Premium Amount</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Renewal Date">Renewal Date</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Total Monthly Reserve">Total Monthly Reserve</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Monthly Premium">Monthly Premium</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Reserve On Closing Statement">Reserve On Closing
+                                Statement</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={properties.data}>
+                    <template for:each={propertyData} for:item='property' for:index='index'>
+                        <tr key={property.Id} class="slds-hint-parent">
+                            <th scope="row">
+                                <div class="slds-truncate" title={property.Name}>
+                                    <a href={property.url} target="_blank" tabindex="-1">{property.Name}</a>
+                                </div>
+                            </th>
+                            <td role="gridcell">
+                                <!-- <div class="slds-truncate" title="1">1</div> -->
+                                <lightning-input step="0.01" onchange={propertyValueChanged} data-index={index} name="premiumAmount" type="number" formatter="currency" value={property.Premium_Amount__c}
+                                    label="Premium Amount" variant="label-hidden"></lightning-input>
+                            </td>
+                            <td role="gridcell">
+                                <div class="">
+                                    <!--<lightning-input onchange={propertyValueChanged} class="" data-index={index} name="renewalDate" type="date" value={property.Renewal_Date__c} label="Renewal Date"
+                                    variant="label-hidden"></lightning-input>-->
+                                    <input class="slds-input" onchange={propertyValueChanged} type="date" name="renewalDate" data-index={index} value={property.Renewal_Date__c}></input>
+                                </div>
+                            </td>
+                            <td role="gridcell">
+                                <!-- {property.Total_Monthly_Reserve__c} -->
+                                <lightning-formatted-number value={property.Total_Monthly_Reserve_Required__c} currency-code="USD"></lightning-formatted-number>
+
+                            </td>
+                            <td role="gridcell">
+                                <!-- {property.Monthly_Premium__c} -->
+                                <lightning-formatted-number format-style="currency" value={property.Monthly_Premium__c} currency-code="USD"></lightning-formatted-number>
+
+                            </td>
+                            <td role="gridcell">
+                                <!-- {property.Reserve_On_Closing_Statement__c} -->
+                                <lightning-formatted-number format-style="currency" value={property.Reserve_on_Closing_Statement__c} currency-code="USD"></lightning-formatted-number>
+                            </td>
+                        </tr>
+                    </template>
+                </template>
+                    <tr>
+                        <td></td>
+                        <td><lightning-formatted-number format-style="currency" value={totalPremiumAmount} currency-code="USD"></lightning-formatted-number></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><lightning-formatted-number format-style="currency" value={totalReserveOnClosing} currency-code="USD"></lightning-formatted-number></td>
+                    </tr>
+                    <!--  -->
+                </tbody>
+            </table>
+
+            <!-- <lightning-layout>
+                <lightning-layout-item> -->
+            <!-- <lightning-input-field field-name="Name"></lightning-input-field> -->
+            <!-- </lightning-layout-item>
+            </lightning-layout> -->
+        <!-- </lightning-record-edit-form> -->
+    </lightning-card>
+</template>

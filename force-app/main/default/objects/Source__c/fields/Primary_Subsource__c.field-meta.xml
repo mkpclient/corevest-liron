@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Subsource__c</fullName>
+    <externalId>false</externalId>
+    <label>Primary Subsource</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Broker</fullName>
+                <default>false</default>
+                <label>Broker</label>
+            </value>
+            <value>
+                <fullName>RiverRock</fullName>
+                <default>false</default>
+                <label>RiverRock</label>
+            </value>
+            <value>
+                <fullName>5Star</fullName>
+                <default>false</default>
+                <label>5Star</label>
+            </value>
+            <value>
+                <fullName>AAPL</fullName>
+                <default>false</default>
+                <label>AAPL</label>
+            </value>
+            <value>
+                <fullName>ABS East</fullName>
+                <default>false</default>
+                <label>ABS East</label>
+            </value>
+            <value>
+                <fullName>ABS West</fullName>
+                <default>false</default>
+                <label>ABS West</label>
+            </value>
+            <value>
+                <fullName>ACOF</fullName>
+                <default>false</default>
+                <label>ACOF</label>
+            </value>
+            <value>
+                <fullName>ADC Roadshow</fullName>
+                <default>false</default>
+                <label>ADC Roadshow</label>
+            </value>
+            <value>
+                <fullName>Americatalyst</fullName>
+                <default>false</default>
+                <label>Americatalyst</label>
+            </value>
+            <value>
+                <fullName>Andy Thienkosol Sourced</fullName>
+                <default>false</default>
+                <label>Andy Thienkosol Sourced</label>
+            </value>
+            <value>
+                <fullName>Answering Service</fullName>
+                <default>false</default>
+                <label>Answering Service</label>
+            </value>
+            <value>
+                <fullName>Ashton Jajonie Sourced</fullName>
+                <default>false</default>
+                <label>Ashton Jajonie Sourced</label>
+            </value>
+            <value>
+                <fullName>Augie Jones Sourced</fullName>
+                <default>false</default>
+                <label>Augie Jones Sourced</label>
+            </value>
+            <value>
+                <fullName>BiggerPockets</fullName>
+                <default>false</default>
+                <label>BiggerPockets</label>
+            </value>
+            <value>
+                <fullName>BiggerPockets Conference</fullName>
+                <default>false</default>
+                <label>BiggerPockets Conference</label>
+            </value>
+            <value>
+                <fullName>Boris Zhuravel Sourced</fullName>
+                <default>false</default>
+                <label>Boris Zhuravel Sourced</label>
+            </value>
+            <value>
+                <fullName>Brad Chmura Sourced</fullName>
+                <default>false</default>
+                <label>Brad Chmura Sourced</label>
+            </value>
+            <value>
+                <fullName>Brandon Sarhad Sourced</fullName>
+                <default>false</default>
+                <label>Brandon Sarhad Sourced</label>
+            </value>
+            <value>
+                <fullName>Brandon Turk Sourced</fullName>
+                <default>false</default>
+                <label>Brandon Turk Sourced</label>
+            </value>
+            <value>
+                <fullName>Brendan Hamilton Sourced</fullName>
+                <default>false</default>
+                <label>Brendan Hamilton Sourced</label>
+            </value>
+            <value>
+                <fullName>Broker+</fullName>
+                <default>false</default>
+                <label>Broker+</label>
+            </value>
+            <value>
+                <fullName>California Mortgage Expo</fullName>
+                <default>false</default>
+                <label>California Mortgage Expo</label>
+            </value>
+            <value>
+                <fullName>California Realtors Expo</fullName>
+                <default>false</default>
+                <label>California Realtors Expo</label>
+            </value>
+            <value>
+                <fullName>CAMP</fullName>
+                <default>false</default>
+                <label>CAMP</label>
+            </value>
+            <value>
+                <fullName>Chatbot</fullName>
+                <default>false</default>
+                <label>Chatbot</label>
+            </value>
+            <value>
+                <fullName>Christian Knight Sourced</fullName>
+                <default>false</default>
+                <label>Christian Knight Sourced</label>
+            </value>
+            <value>
+                <fullName>Client</fullName>
+                <default>false</default>
+                <label>Client</label>
+            </value>
+            <value>
+                <fullName>Collective Genius</fullName>
+                <default>false</default>
+                <label>Collective Genius</label>
+            </value>
+            <value>
+                <fullName>Colony AF</fullName>
+                <default>false</default>
+                <label>Colony AF</label>
+            </value>
+            <value>
+                <fullName>Contact Us</fullName>
+                <default>false</default>
+                <label>Contact Us</label>
+            </value>
+            <value>
+                <fullName>CoreVest MSA</fullName>
+                <default>false</default>
+                <label>CoreVest MSA</label>
+            </value>
+            <value>
+                <fullName>Correspondent</fullName>
+                <default>false</default>
+                <label>Correspondent</label>
+            </value>
+            <value>
+                <fullName>CREFC</fullName>
+                <default>false</default>
+                <label>CREFC</label>
+            </value>
+            <value>
+                <fullName>CRELC</fullName>
+                <default>false</default>
+                <label>CRELC</label>
+            </value>
+            <value>
+                <fullName>Dan Federico Sourced</fullName>
+                <default>false</default>
+                <label>Dan Federico Sourced</label>
+            </value>
+            <value>
+                <fullName>Daniel Farber Sourced</fullName>
+                <default>false</default>
+                <label>Daniel Farber Sourced</label>
+            </value>
+            <value>
+                <fullName>Dennis Spivey Sourced</fullName>
+                <default>false</default>
+                <label>Dennis Spivey Sourced</label>
+            </value>
+            <value>
+                <fullName>Employee</fullName>
+                <default>false</default>
+                <label>Employee</label>
+            </value>
+            <value>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+                <label>Facebook</label>
+            </value>
+            <value>
+                <fullName>Facebook Lead Form</fullName>
+                <default>false</default>
+                <label>Facebook Lead Form</label>
+            </value>
+            <value>
+                <fullName>FAMP</fullName>
+                <default>false</default>
+                <label>FAMP</label>
+            </value>
+            <value>
+                <fullName>Fit Small Business</fullName>
+                <default>false</default>
+                <label>Fit Small Business</label>
+            </value>
+            <value>
+                <fullName>Geraci Events</fullName>
+                <default>false</default>
+                <label>Geraci Events</label>
+            </value>
+            <value>
+                <fullName>Homesearch</fullName>
+                <default>false</default>
+                <label>Homesearch</label>
+            </value>
+            <value>
+                <fullName>Homevestors</fullName>
+                <default>false</default>
+                <label>Homevestors</label>
+            </value>
+            <value>
+                <fullName>Hunter Latta Sourced</fullName>
+                <default>false</default>
+                <label>Hunter Latta Sourced</label>
+            </value>
+            <value>
+                <fullName>Ian Hardcastle Sourced</fullName>
+                <default>false</default>
+                <label>Ian Hardcastle Sourced</label>
+            </value>
+            <value>
+                <fullName>IMN East</fullName>
+                <default>false</default>
+                <label>IMN East</label>
+            </value>
+            <value>
+                <fullName>IMN Middle Market</fullName>
+                <default>false</default>
+                <label>IMN Middle Market</label>
+            </value>
+            <value>
+                <fullName>IMN West</fullName>
+                <default>false</default>
+                <label>IMN West</label>
+            </value>
+            <value>
+                <fullName>Info@ Email</fullName>
+                <default>false</default>
+                <label>Info@ Email</label>
+            </value>
+            <value>
+                <fullName>Instagram</fullName>
+                <default>false</default>
+                <label>Instagram</label>
+            </value>
+            <value>
+                <fullName>Instagram Lead Form</fullName>
+                <default>false</default>
+                <label>Instagram Lead Form</label>
+            </value>
+            <value>
+                <fullName>Joakim Mortensen Sourced</fullName>
+                <default>false</default>
+                <label>Joakim Mortensen Sourced</label>
+            </value>
+            <value>
+                <fullName>John Prins Sourced</fullName>
+                <default>false</default>
+                <label>John Prins Sourced</label>
+            </value>
+            <value>
+                <fullName>Keyspire</fullName>
+                <default>false</default>
+                <label>Keyspire</label>
+            </value>
+            <value>
+                <fullName>LinkedIn</fullName>
+                <default>false</default>
+                <label>LinkedIn</label>
+            </value>
+            <value>
+                <fullName>LinkedIn Lead Form</fullName>
+                <default>false</default>
+                <label>LinkedIn Lead Form</label>
+            </value>
+            <value>
+                <fullName>Liz Roling Sourced</fullName>
+                <default>false</default>
+                <label>Liz Roling Sourced</label>
+            </value>
+            <value>
+                <fullName>LoanMakers Forum</fullName>
+                <default>false</default>
+                <label>LoanMakers Forum</label>
+            </value>
+            <value>
+                <fullName>Main</fullName>
+                <default>false</default>
+                <label>Main</label>
+            </value>
+            <value>
+                <fullName>Main Application</fullName>
+                <default>false</default>
+                <label>Main Application</label>
+            </value>
+            <value>
+                <fullName>MAMP</fullName>
+                <default>false</default>
+                <label>MAMP</label>
+            </value>
+            <value>
+                <fullName>Mario Navarrete Sourced</fullName>
+                <default>false</default>
+                <label>Mario Navarrete Sourced</label>
+            </value>
+            <value>
+                <fullName>Marketing Partner</fullName>
+                <default>false</default>
+                <label>Marketing Partner</label>
+            </value>
+            <value>
+                <fullName>Mastermind Summit</fullName>
+                <default>false</default>
+                <label>Mastermind Summit</label>
+            </value>
+            <value>
+                <fullName>MBA Annual</fullName>
+                <default>false</default>
+                <label>MBA Annual</label>
+            </value>
+            <value>
+                <fullName>MBA CREF</fullName>
+                <default>false</default>
+                <label>MBA CREF</label>
+            </value>
+            <value>
+                <fullName>MBA Regional</fullName>
+                <default>false</default>
+                <label>MBA Regional</label>
+            </value>
+            <value>
+                <fullName>Melissa Data</fullName>
+                <default>false</default>
+                <label>Melissa Data</label>
+            </value>
+            <value>
+                <fullName>Michael Miller Sourced</fullName>
+                <default>false</default>
+                <label>Michael Miller Sourced</label>
+            </value>
+            <value>
+                <fullName>Michelle Suiter Sourced</fullName>
+                <default>false</default>
+                <label>Michelle Suiter Sourced</label>
+            </value>
+            <value>
+                <fullName>Motor City Mortgage Expo</fullName>
+                <default>false</default>
+                <label>Motor City Mortgage Expo</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Multifamily-CRE</fullName>
+                <default>false</default>
+                <label>Multifamily-CRE</label>
+            </value>
+            <value>
+                <fullName>NAMB National</fullName>
+                <default>false</default>
+                <label>NAMB National</label>
+            </value>
+            <value>
+                <fullName>NAMB Regional</fullName>
+                <default>false</default>
+                <label>NAMB Regional</label>
+            </value>
+            <value>
+                <fullName>NARPM</fullName>
+                <default>false</default>
+                <label>NARPM</label>
+            </value>
+            <value>
+                <fullName>New England Mortgage Expo</fullName>
+                <default>false</default>
+                <label>New England Mortgage Expo</label>
+            </value>
+            <value>
+                <fullName>New York Real Estate Expo</fullName>
+                <default>false</default>
+                <label>New York Real Estate Expo</label>
+            </value>
+            <value>
+                <fullName>Nick Duarte Sourced</fullName>
+                <default>false</default>
+                <label>Nick Duarte Sourced</label>
+            </value>
+            <value>
+                <fullName>Oliver Fair Sourced</fullName>
+                <default>false</default>
+                <label>Oliver Fair Sourced</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Pardot</fullName>
+                <default>false</default>
+                <label>Pardot</label>
+            </value>
+            <value>
+                <fullName>Partners</fullName>
+                <default>false</default>
+                <label>Partners</label>
+            </value>
+            <value>
+                <fullName>Pitbull</fullName>
+                <default>false</default>
+                <label>Pitbull</label>
+            </value>
+            <value>
+                <fullName>Purchased Loan</fullName>
+                <default>false</default>
+                <label>Purchased Loan</label>
+            </value>
+            <value>
+                <fullName>Quick Referral</fullName>
+                <default>false</default>
+                <label>Quick Referral</label>
+            </value>
+            <value>
+                <fullName>Ramsey Kassih Sourced</fullName>
+                <default>false</default>
+                <label>Ramsey Kassih Sourced</label>
+            </value>
+            <value>
+                <fullName>Real Investor Roundtable</fullName>
+                <default>false</default>
+                <label>Real Investor Roundtable</label>
+            </value>
+            <value>
+                <fullName>RealShare</fullName>
+                <default>false</default>
+                <label>RealShare</label>
+            </value>
+            <value>
+                <fullName>Real Wealth Network</fullName>
+                <default>false</default>
+                <label>Real Wealth Network</label>
+            </value>
+            <value>
+                <fullName>REI Expo</fullName>
+                <default>false</default>
+                <label>REI Expo</label>
+            </value>
+            <value>
+                <fullName>Rent Range</fullName>
+                <default>false</default>
+                <label>Rent Range</label>
+            </value>
+            <value>
+                <fullName>Ryan Harper Sourced</fullName>
+                <default>false</default>
+                <label>Ryan Harper Sourced</label>
+            </value>
+            <value>
+                <fullName>Scotsman Guide</fullName>
+                <default>false</default>
+                <label>Scotsman Guide</label>
+            </value>
+            <value>
+                <fullName>SFR Expo</fullName>
+                <default>false</default>
+                <label>SFR Expo</label>
+            </value>
+            <value>
+                <fullName>Single Project</fullName>
+                <default>false</default>
+                <label>Single Project</label>
+            </value>
+            <value>
+                <fullName>Single Rental</fullName>
+                <default>false</default>
+                <label>Single Rental</label>
+            </value>
+            <value>
+                <fullName>Spencer Weaver Sourced</fullName>
+                <default>false</default>
+                <label>Spencer Weaver Sourced</label>
+            </value>
+            <value>
+                <fullName>Streamsend</fullName>
+                <default>false</default>
+                <label>Streamsend</label>
+            </value>
+            <value>
+                <fullName>Think Realty Expo</fullName>
+                <default>false</default>
+                <label>Think Realty Expo</label>
+            </value>
+            <value>
+                <fullName>Tim Leber Sourced</fullName>
+                <default>false</default>
+                <label>Tim Leber Sourced</label>
+            </value>
+            <value>
+                <fullName>Top Accounts Leads Generation Database</fullName>
+                <default>false</default>
+                <label>Top Accounts Leads Generation Database</label>
+            </value>
+            <value>
+                <fullName>Tower</fullName>
+                <default>false</default>
+                <label>Tower</label>
+            </value>
+            <value>
+                <fullName>Trevor Hanson Sourced</fullName>
+                <default>false</default>
+                <label>Trevor Hanson Sourced</label>
+            </value>
+            <value>
+                <fullName>Twitter</fullName>
+                <default>false</default>
+                <label>Twitter</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+            <value>
+                <fullName>Vendor</fullName>
+                <default>false</default>
+                <label>Vendor</label>
+            </value>
+            <value>
+                <fullName>Western States CREF</fullName>
+                <default>false</default>
+                <label>Western States CREF</label>
+            </value>
+            <value>
+                <fullName>Wholesale</fullName>
+                <default>false</default>
+                <label>Wholesale</label>
+            </value>
+            <value>
+                <fullName>Sean Sutton Sourced</fullName>
+                <default>false</default>
+                <label>Sean Sutton Sourced</label>
+            </value>
+            <value>
+                <fullName>Adam Luray Sourced</fullName>
+                <default>false</default>
+                <label>Adam Luray Sourced</label>
+            </value>
+            <value>
+                <fullName>Five Star</fullName>
+                <default>false</default>
+                <label>Five Star</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

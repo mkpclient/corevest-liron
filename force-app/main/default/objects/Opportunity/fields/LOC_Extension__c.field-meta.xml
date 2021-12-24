@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LOC_Extension__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <description>Not Used Any Longer</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Need approval for extension.  If Other selected, describe arrangement in Deal Notes section.</inlineHelpText>
+    <label>LOC Extension</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>None</fullName>
+                <default>true</default>
+                <label>None</label>
+            </value>
+            <value>
+                <fullName>6 months, 50bps</fullName>
+                <default>false</default>
+                <label>6 months, 50bps</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Validated_Address_Threshold__c</fullName>
+    <description>Percent of the Properties that need to be validated before a Deal can submitted for Pricing Approval</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Percent of the Properties that need to be validated before a Deal can submitted for Pricing Approval</inlineHelpText>
+    <label>Validated Address Threshold</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Percent</type>
+</CustomField>

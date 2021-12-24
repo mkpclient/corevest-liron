@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Have_You_Entity_Principal_Forecloser__c</fullName>
+    <description>Questionnaire page</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Have you or any other entity of which you were/are a Principal been in foreclosure or default or been
+given relief by a lender under the terms of any mortgage loan, contract for deed or the equivalent?</inlineHelpText>
+    <label>Have You Entity Principal Forecloser</label>
+    <length>3</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

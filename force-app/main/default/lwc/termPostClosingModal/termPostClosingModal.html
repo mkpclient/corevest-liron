@@ -1,0 +1,286 @@
+<!-- sldsValidatorIgnore -->
+<template>
+  <template if:true={recordId}>
+    <lightning-quick-action-panel header={headerText} >
+      <template if:false={isEmailStage}>
+        <div class="slds-box slds-box_small slds-theme_shade">
+          <p><strong>Monthly Payments</strong></p>
+        </div>
+        <lightning-input
+          type="number"
+          name="Holdback_Reserve__c"
+          data-name="Holdback_Reserve__c"
+          data-record="Loan_Version__c"
+          data-section="MonthlyPayments"
+          label="Monthly Payment"
+          variant="label-inline"
+          value={loanVersionLocal.Holdback_Reserve__c}
+          formatter="currency"
+          step="0.01"
+          onchange={handleChange}
+          required
+        ></lightning-input>
+        <lightning-input
+          type="number"
+          name="Monthly_Tax__c"
+          data-name="Monthly_Tax__c"
+          data-record="Loan_Version__c"
+          data-section="MonthlyPayments"
+          label="Monthly Tax Constants"
+          variant="label-inline"
+          value={loanVersionLocal.Monthly_Tax__c}
+          formatter="currency"
+          step="0.01"
+          onchange={handleChange}
+          required
+        ></lightning-input>
+        <lightning-input
+          type="number"
+          name="Monthly_Cap_Ex__c"
+          data-name="Monthly_Cap_Ex__c"
+          data-record="Loan_Version__c"
+          data-section="MonthlyPayments"
+          label="Monthly CapEx Constants"
+          variant="label-inline"
+          value={loanVersionLocal.Monthly_Cap_Ex__c}
+          formatter="currency"
+          step="0.01"
+          onchange={handleChange}
+          required
+        ></lightning-input>
+        <lightning-input
+          type="number"
+          name="Monthly_Insurance__c"
+          data-name="Monthly_Insurance__c"
+          data-record="Loan_Version__c"
+          data-section="MonthlyPayments"
+          label="Monthly Insurance Constants"
+          variant="label-inline"
+          value={loanVersionLocal.Monthly_Insurance__c}
+          formatter="currency"
+          step="0.01"
+          onchange={handleChange}
+          required
+        ></lightning-input>
+        <lightning-input
+          type="number"
+          name="total"
+          data-name="total"
+          data-record="local"
+          label="Total"
+          variant="label-inline"
+          value={monthlyTotal}
+          formatter="currency"
+          step="0.01"
+          style="pointer-events: none;"
+          readonly
+        ></lightning-input>
+        <br />
+        <lightning-input
+          type="number"
+          name="Required_Holdback_Reserve__c"
+          data-name="Required_Holdback_Reserve__c"
+          data-record="Loan_Version__c"
+          data-section="Unrelated"
+          label="Holdback Reserve Collected at Closing"
+          variant="label-inline"
+          value={loanVersionLocal.Required_Holdback_Reserve__c}
+          formatter="currency"
+          step="0.01"
+          onchange={handleChange}
+          required
+        ></lightning-input>
+
+        <div class="slds-box slds-box_small slds-theme_shade">
+          <p><strong>Servicing Contact Information</strong></p>
+        </div>
+        <lightning-record-view-form
+          object-api-name="Opportunity"
+          record-id={recordId}
+          class="slds-p-top_small"
+        >
+          <lightning-output-field
+            field-name="Contact__c"
+            variant="label-inline"
+          >
+          </lightning-output-field>
+        </lightning-record-view-form>
+        <lightning-record-view-form
+          object-api-name="Contact"
+          record-id={contactId}
+          class="slds-p-top_small"
+        >
+          <lightning-output-field field-name="Name" variant="label-inline">
+          </lightning-output-field>
+          <lightning-output-field field-name="Phone" variant="label-inline">
+          </lightning-output-field>
+          <lightning-output-field
+            field-name="MailingAddress"
+            variant="label-inline"
+          >
+          </lightning-output-field>
+        </lightning-record-view-form>
+        <lightning-record-view-form
+          object-api-name="Opportunity"
+          record-id={recordId}
+          class="slds-p-top_small"
+        >
+          <lightning-output-field field-name="OwnerId" variant="label-inline">
+          </lightning-output-field>
+          <lightning-output-field
+            field-name="Underwriter__c"
+            variant="label-inline"
+          >
+          </lightning-output-field>
+          <lightning-output-field field-name="Closer__c" variant="label-inline">
+          </lightning-output-field>
+        </lightning-record-view-form>
+        <div class="slds-box slds-box_small slds-theme_shade">
+          <p><strong>Berkadia Email Chart</strong></p>
+        </div>
+        <lightning-record-view-form
+          object-api-name="Opportunity"
+          record-id={recordId}
+          class="slds-p-top_small"
+        >
+          <lightning-output-field field-name="CloseDate" variant="label-inline">
+          </lightning-output-field>
+        </lightning-record-view-form>
+        <template if:true={recordTypeId}>
+          <template if:true={recoursePicklistValues.data}>
+            <lightning-combobox
+              name="recourse"
+              label="Recourse"
+              data-name="Recourse__c"
+              data-record="Loan_Version__c"
+              value={loanVersionLocal.Recourse__c}
+              variant="label-inline"
+              placeholder="Select Recourse"
+              options={recoursePicklistValues.data.values}
+              onchange={handleChange}
+              dropdown-alignment="auto"
+              required
+            ></lightning-combobox>
+          </template>
+          <template if:true={tprPicklistVals.data}>
+            <lightning-combobox
+              name="recourse"
+              label="Tax Payment Recurrence"
+              data-name="Tax_Payment_Recurrence__c"
+              data-record="Loan_Version__c"
+              value={loanVersionLocal.Tax_Payment_Recurrence__c}
+              variant="label-inline"
+              placeholder="Select Option"
+              options={tprPicklistVals.data.values}
+              onchange={handleChange}
+              dropdown-alignment="auto"
+              required
+            ></lightning-combobox>
+          </template>
+          <lightning-textarea
+            name="First_Tax_Installment_Due__c"
+            label="1st Tax Installment Due"
+            data-name="First_Tax_Installment_Due__c"
+            data-record="Loan_Version__c"
+            value={loanVersionLocal.First_Tax_Installment_Due__c}
+            variant="label-inline"
+            onchange={handleChange}
+            maxlength="255"
+          ></lightning-textarea>
+          <template if:true={taxesPaidPicklistVals.data}>
+            <lightning-combobox
+              name="Taxes_Paid_at_Closing__c"
+              label="Taxes Paid at Closing"
+              data-name="Taxes_Paid_at_Closing__c"
+              data-record="Loan_Version__c"
+              value={loanVersionLocal.Taxes_Paid_at_Closing__c}
+              variant="label-inline"
+              placeholder="Select Option"
+              options={taxesPaidPicklistVals.data.values}
+              onchange={handleChange}
+              dropdown-alignment="auto"
+              required
+            ></lightning-combobox>
+          </template>
+        </template>
+      </template>
+      <template if:true={isEmailStage}>
+        <lightning-input
+          type="email"
+          label="Sender"
+          value={emailInfo.sender}
+          data-name="sender"
+          data-record="EmailModal"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input
+          type="text"
+          label="Recipients"
+          value={emailInfo.recipients}
+          data-name="recipients"
+          data-record="EmailModal"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input
+          type="text"
+          label="CC"
+          value={emailInfo.cc}
+          data-name="cc"
+          data-record="EmailModal"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input
+          type="text"
+          label="Subject"
+          placeholder="Subject"
+          value={emailInfo.subject}
+          data-name="subject"
+          data-record="EmailModal"
+          onchange={handleChange}
+        ></lightning-input>
+        <lightning-input-rich-text
+          label="Message"
+          label-visible="true"
+          placeholder="Write message here..."
+          formats={formats}
+          value={emailInfo.emailBody}
+          onchange={handleChange}
+          data-name="emailBody"
+          data-record="EmailModal"
+        ></lightning-input-rich-text>
+      </template>
+      <div slot="footer">
+        <lightning-button
+          variant="neutral"
+          label="Close"
+          onclick={handleClose}
+        ></lightning-button>
+        <template if:false={isEmailStage}>
+          <lightning-button
+            variant="brand"
+            label="Save and Proceed to Email"
+            data-name="email"
+            onclick={handleSubmit}
+            class="slds-m-left_x-small"
+          ></lightning-button>
+          <lightning-button
+            variant="brand"
+            label="Save and Upload as PDF"
+            data-name="pdf"
+            onclick={handleSubmit}
+            class="slds-m-left_x-small"
+            disabled={disablePDF}
+          ></lightning-button>
+        </template>
+        <template if:true={isEmailStage}>
+          <lightning-button
+            variant="brand"
+            label="Send Email"
+            onclick={handleEmail}
+            class="slds-m-left_x-small"
+          ></lightning-button>
+        </template>
+      </div>
+    </lightning-quick-action-panel>
+  </template>
+</template>

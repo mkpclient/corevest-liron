@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maturity_Date_Calculation_Type__c</fullName>
+    <description>This controls when the Loan Maturity Date is set.  If &quot;Fixed at Closing&quot;, then Loan Agreement Date drives the Maturity Date.  If &quot;Fixed at First Advance&quot;, then Close Date drives the Maturity Date upon funding of the first Advance or 90 days past Loan closing.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This controls when the Loan Maturity Date is set.  If &quot;Fixed at Closing&quot;, then Loan Agreement Date drives the Maturity Date.  If &quot;Fixed at First Advance&quot;, then Close Date drives the Maturity Date upon funding of the first Advance or 90 days past Loan closing.</inlineHelpText>
+    <label>Maturity Date Calculation Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>LOC_Loan_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fixed at Closing</fullName>
+                <default>false</default>
+                <label>Fixed at Closing</label>
+            </value>
+            <value>
+                <fullName>Fixed at First Advance</fullName>
+                <default>false</default>
+                <label>Fixed at First Advance</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Investor DSCR</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
+            <controllingFieldValue>Purchased Bridge</controllingFieldValue>
+            <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <controllingFieldValue>Build to Rent</controllingFieldValue>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Loan</controllingFieldValue>
+            <valueName>Fixed at Closing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <valueName>Fixed at First Advance</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

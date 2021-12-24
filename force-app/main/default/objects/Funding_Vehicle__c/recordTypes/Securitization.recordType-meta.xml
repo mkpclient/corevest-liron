@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Securitization</fullName>
+    <active>true</active>
+    <label>Securitization</label>
+    <picklistValues>
+        <picklist>Funding_Vehicle_Type__c</picklist>
+        <values>
+            <fullName>Securitization</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+</RecordType>

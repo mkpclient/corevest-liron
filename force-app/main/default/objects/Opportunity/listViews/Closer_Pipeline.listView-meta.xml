@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closer_Pipeline</fullName>
+    <columns>Kickoff_Date__c</columns>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>Current_Loan_Amount__c</columns>
+    <columns>Anticipated_Closing_Date__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Number_of_Properties__c</columns>
+    <columns>Recourse__c</columns>
+    <columns>LTV__c</columns>
+    <columns>Title__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Closer__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Underwriting,Approved by Committee,UW Hold</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.TYPE</field>
+        <operation>equals</operation>
+        <value>Term Loan</value>
+    </filters>
+    <label>Term Deals - Closer Pipeline</label>
+</ListView>

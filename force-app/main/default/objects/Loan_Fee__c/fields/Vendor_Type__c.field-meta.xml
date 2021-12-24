@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_Type__c</fullName>
+    <description>The Type of Vendor for this Loan Fee</description>
+    <externalId>false</externalId>
+    <label>Vendor Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>3rd Party Title Review</fullName>
+                <default>false</default>
+                <label>3rd Party Title Review</label>
+            </value>
+            <value>
+                <fullName>Cash Management</fullName>
+                <default>false</default>
+                <label>Cash Management</label>
+            </value>
+            <value>
+                <fullName>Insurance Premium</fullName>
+                <default>false</default>
+                <label>Insurance Premium</label>
+            </value>
+            <value>
+                <fullName>Insurance Review</fullName>
+                <default>false</default>
+                <label>Insurance Review</label>
+            </value>
+            <value>
+                <fullName>Lender Diligence</fullName>
+                <default>false</default>
+                <label>Lender Diligence</label>
+            </value>
+            <value>
+                <fullName>Lender Legal Counsel</fullName>
+                <default>false</default>
+                <label>Lender Legal Counsel</label>
+            </value>
+            <value>
+                <fullName>LexisNexis Risk Solutions</fullName>
+                <default>false</default>
+                <label>LexisNexis Risk Solutions</label>
+            </value>
+            <value>
+                <fullName>MISC</fullName>
+                <default>false</default>
+                <label>MISC</label>
+            </value>
+            <value>
+                <fullName>PCA &amp; ESA</fullName>
+                <default>false</default>
+                <label>PCA &amp; ESA</label>
+            </value>
+            <value>
+                <fullName>Post Closing Holdback</fullName>
+                <default>false</default>
+                <label>Post Closing Holdback</label>
+            </value>
+            <value>
+                <fullName>Servicer</fullName>
+                <default>false</default>
+                <label>Servicer</label>
+            </value>
+            <value>
+                <fullName>Tax Verification</fullName>
+                <default>false</default>
+                <label>Tax Verification</label>
+            </value>
+            <value>
+                <fullName>Title and Escrow</fullName>
+                <default>false</default>
+                <label>Title and Escrow</label>
+            </value>
+            <value>
+                <fullName>Title Review</fullName>
+                <default>false</default>
+                <label>Title Review</label>
+            </value>
+            <value>
+                <fullName>Valuations</fullName>
+                <default>false</default>
+                <label>Valuations</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

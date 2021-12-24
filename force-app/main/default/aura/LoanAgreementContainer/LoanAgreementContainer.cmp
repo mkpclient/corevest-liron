@@ -1,0 +1,31 @@
+<aura:component
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="isSendEmail" type="Boolean" />
+
+  <ltng:require
+    scripts="{!join(',', $Resource.jszip2, 
+                                $Resource.docxtemplater,
+                                $Resource.jszip_utils, 
+                                $Resource.filesaver,
+                                $Resource.angular_parse_browser)}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <aura:attribute
+    name="StaticResourceName"
+    type="String"
+    default="LoanAgreement"
+  />
+
+  <c:loanAgreementTab
+    recordId="{!v.recordId}"
+    ongenerate="{!c.generateLoanAgreement}"
+    oninitemail="{!c.initEmail}"
+  />
+
+  <c:EmailComposerModal recordId="{!v.recordId}" aura:id="emailComposer" />
+
+  <c:util aura:id="util" />
+</aura:component>

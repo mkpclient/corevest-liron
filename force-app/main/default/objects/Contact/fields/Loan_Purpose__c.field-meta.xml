@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Purpose__c</fullName>
+    <description>DocuSign multi-select checkboxes converted to a multi-select picklist. 
+Loan Purpose field located in Bridge Loan form within the Loan Request section.</description>
+    <externalId>false</externalId>
+    <label>Loan Purpose</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Refinance Debt</fullName>
+                <default>false</default>
+                <label>Refinance Debt</label>
+            </value>
+            <value>
+                <fullName>Refinance Equity (Cash-out)</fullName>
+                <default>false</default>
+                <label>Refinance Equity (Cash-out)</label>
+            </value>
+            <value>
+                <fullName>Acquisition</fullName>
+                <default>false</default>
+                <label>Acquisition</label>
+            </value>
+            <value>
+                <fullName>Renovation</fullName>
+                <default>false</default>
+                <label>Renovation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

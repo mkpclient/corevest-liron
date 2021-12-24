@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vdpv_match_code__c</fullName>
+    <description>Status of the Delivery Point Validation (DPV). This lets you know if the USPS delivers mail to the address.
+
+Y — Confirmed; entire address was DPV confirmed deliverable.
+(e.g., 1600 Amphitheatre Pkwy Mountain View, CA)
+N — Not Confirmed; address could not be DPV confirmed as deliverable.
+S — Confirmed By Dropping Secondary; address was DPV confirmed by dropping all or part of the secondary info (apartment, suite, etc.).
+(e.g., 62 Ea Darden Dr Apt 298 Anniston, AL)
+D — Confirmed - Missing Secondary Info; the address was DPV confirmed, but it is missing secondary information (apartment, suite, etc.).
+(e.g., 122 Mast Rd Lee, NH)
+[blank] — The address was not submitted for DPV. This is usually because the address does not have a ZIP Code and a +4 add-on code, or the address has already been determined to be Not Deliverable (only returned as part of the XML response).</description>
+    <externalId>false</externalId>
+    <label>Verified dpv_match_code</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

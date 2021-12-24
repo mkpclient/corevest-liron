@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Instructions__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Payment Instructions that will reflect on the Closing Loan Documents</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Payment Instructions that will reflect on the Closing Loan Documents</inlineHelpText>
+    <label>Payment Instructions</label>
+    <length>2000</length>
+    <securityClassification>Confidential</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

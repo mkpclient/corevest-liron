@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Since_Term_Sheet_Issued__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK( Term_Sheet_Signed__c  ), TODAY() - Term_Sheet_Issued__c, Term_Sheet_Signed__c - Term_Sheet_Issued__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Amount of days between Term Sheet Issued and Term Sheet Signed</inlineHelpText>
+    <label>Days Since Term-Sheet Issued</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

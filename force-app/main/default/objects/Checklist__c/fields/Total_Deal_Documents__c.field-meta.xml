@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Deal_Documents__c</fullName>
+    <externalId>false</externalId>
+    <label>Total Deal Documents</label>
+    <summarizedField>Checklist_Section__c.Total_Documents__c</summarizedField>
+    <summaryFilterItems>
+        <field>Checklist_Section__c.Type__c</field>
+        <operation>equals</operation>
+        <value>Opportunity</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Checklist_Section__c.Checklist__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

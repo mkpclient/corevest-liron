@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vendor_Ordered_From__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>This is the Appraisal Vendor that this order was submitted through</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the Appraisal Vendor that this order was submitted through</inlineHelpText>
+    <label>Vendor Ordered From</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Appraisal Nation</fullName>
+                <default>false</default>
+                <label>Appraisal Nation</label>
+            </value>
+            <value>
+                <fullName>Clear Capital</fullName>
+                <default>false</default>
+                <label>Clear Capital</label>
+            </value>
+            <value>
+                <fullName>Clarocity Valuation Services</fullName>
+                <default>false</default>
+                <label>Clarocity Valuation Services</label>
+            </value>
+            <value>
+                <fullName>CoreVest Finance</fullName>
+                <default>false</default>
+                <label>CoreVest Finance</label>
+            </value>
+            <value>
+                <fullName>Martin Montserrat</fullName>
+                <default>false</default>
+                <label>Martin Montserrat</label>
+            </value>
+            <value>
+                <fullName>BBG</fullName>
+                <default>false</default>
+                <label>BBG</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>ServiceLink</fullName>
+                <default>false</default>
+                <label>ServiceLink</label>
+            </value>
+            <value>
+                <fullName>ServiceLink-Bofi</fullName>
+                <default>false</default>
+                <label>ServiceLink-Bofi</label>
+            </value>
+            <value>
+                <fullName>Valuation Services AMC</fullName>
+                <default>false</default>
+                <label>Valuation Services AMC</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

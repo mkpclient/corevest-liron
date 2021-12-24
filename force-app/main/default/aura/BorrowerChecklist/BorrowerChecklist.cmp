@@ -1,0 +1,82 @@
+<aura:component
+  controller="BorrowerChecklistController"
+  implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="wrappers" type="List" />
+  <aura:attribute name="subtabs" type="List" />
+  <aura:attribute name="totalDocuments" type="Integer" default="0" />
+  <aura:attribute name="totalReviewed" type="Integer" default="0" />
+  <aura:attribute name="totalUploaded" type="Integer" default="0" />
+  <aura:attribute name="userId" type="String" />
+  <aura:attribute name="isCommunity" type="Boolean" default="false" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:handler event="force:showToast" action="{!c.init}" />
+	
+    
+  <lightning:layoutItem class="slds-text-align--center">
+    <lightning:button variant="base" onclick="{!c.init}">
+      <lightning:button aura:id="refresh" label="Refresh" />
+    </lightning:button>
+  </lightning:layoutItem>
+  <div class="slds-m-bottom_medium">
+    <c:ProgressBar
+      title="Documents Uploaded"
+      colorClass="blue"
+      percentage="{!v.totalDocuments == 0 ? 0 : v.totalUploaded/v.totalDocuments}"
+      barText=""
+    />
+  </div>
+  <!-- barText="{!v.totalUploaded+'/'+v.totalDocuments}" -->
+  <div class="slds-m-bottom_medium">
+    <c:ProgressBar
+      title="Documents Approved"
+      colorClass="orange"
+      percentage="{!v.totalDocuments == 0 ? 0 :v.totalReviewed/v.totalDocuments}"
+      barText=""
+    />
+  </div>
+  <!--
+     <c:BorrowerChecklistTabs
+            recordId="{!v.recordId}"
+            wrappers="{!v.wrappers}"
+            subtabs="{!v.subtabs}"
+            userId="{!v.userId}"
+            isCommunity="{!v.isCommunity}"
+          aura:id="ChecklistTabs"/> -->
+  <!-- barText="{!v.totalReviewed+'/'+v.totalDocuments}" -->
+  <lightning:tabset variant="scoped">
+    <lightning:tab label="Loan Documents">
+      <div class="slds-m-bottom_medium">
+        <aura:if isTrue="{!v.wrappers.length > 0}">
+          <c:BorrowerChecklistDocuments
+            recordId="{!v.recordId}"
+            wrappers="{!v.wrappers}"
+            userId="{!v.userId}"
+            isCommunity="{!v.isCommunity}"
+            paginationEnabled="false"
+            initAction="{!c.init}"
+            aura:id="LoanDocuments"
+          />
+        </aura:if>
+      </div>
+    </lightning:tab>
+
+    <lightning:tab label="Properties">
+      <div class="slds-m-bottom_medium">
+        <aura:if isTrue="{!v.subtabs.length > 0}">
+          <c:BorrowerChecklistDocuments
+            recordId="{!v.recordId}"
+            wrappers="{!v.subtabs}"
+            userId="{!v.userId}"
+            isCommunity="{!v.isCommunity}"
+            paginationEnabled="false"
+            initAction="{!c.init}"
+            aura:id="Properties"
+          />
+        </aura:if>
+      </div>
+    </lightning:tab>
+  </lightning:tabset>
+</aura:component>

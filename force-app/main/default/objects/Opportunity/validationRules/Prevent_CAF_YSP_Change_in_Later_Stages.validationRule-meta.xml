@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_CAF_YSP_Change_in_Later_Stages</fullName>
+    <active>true</active>
+    <description>Prevent the CAF YSP from being changed if the Requested Loan Amount is over $5,000,000 in later stages.</description>
+    <errorConditionFormula>AND(
+ RecordType.Name = &apos;Term Loan&apos;,
+ Loan_Size__c  &lt;= 5000000,
+ ISCHANGED(CAF_YSP__c),
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+NOT ( $Profile.Name= &quot;Origination Manager&quot;),
+ OR(ISPICKVAL(StageName, &apos;Submitted to Underwriting&apos;),
+    ISPICKVAL(StageName, &apos;Underwriting&apos;),
+    ISPICKVAL(StageName, &apos;Approved by Committee&apos;),
+    ISPICKVAL(StageName, &apos;Closed Won&apos;)))</errorConditionFormula>
+    <errorDisplayField>CAF_YSP__c</errorDisplayField>
+    <errorMessage>CAF YSP changes can only be made in &quot;Initial Review,&quot; &quot;Data Tape Received,&quot; &quot;Term Sheet Issued,&quot; and &quot;Term Sheet Signed/Deposit Collected&quot; stages.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Primary_Contact_Information_Incomplete</fullName>
+    <active>true</active>
+    <description>Per Ryan/Chris&apos; request, Borrower Full Name (first and last) are required along with Mailing Address. 4/5/18</description>
+    <errorConditionFormula>AND(
+ Apex_Context__c == false,
+ NOT( ISBLANK( Contact__c )) ,
+ (
+  ISPICKVAL (StageName, &apos;Initial Review&apos;) ||
+  ISPICKVAL (StageName, &apos;Data Tape Received&apos;)  
+ ),
+ (
+  ISBLANK (Contact__r.FirstName ) || 
+  ISBLANK (Contact__r.LastName )
+ )
+)</errorConditionFormula>
+    <errorMessage>Primary contact information is incomplete. Please ensure that the Primary Contact has a first and last name.</errorMessage>
+</ValidationRule>

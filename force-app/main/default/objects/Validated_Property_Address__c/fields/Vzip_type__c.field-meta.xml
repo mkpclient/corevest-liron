@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vzip_type__c</fullName>
+    <description>Indicates the type of the ZIP Code for the address that was matched. Only given if a 5-digit match is made.
+
+Unique — The ZIP Code consists of a single delivery point, pertaining to a United States Postal Service customer (like a large business or government agency) that routes all of its own mail internally.
+Military — The ZIP Code pertains to military units and diplomatic organizations, often in foreign locations.
+POBox — The ZIP Code is assigned to a collection of Post Office Boxes.
+Standard — The ZIP Code does not pertain to any of the above categories.</description>
+    <externalId>false</externalId>
+    <label>Verified zip type</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,21 @@
+.THIS .slds-dropdown_left {
+  /* position: static !important; */
+  left: auto !important;
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
+
+.THIS .hideme {
+  height: 1px;
+  border: none;
+}
+.THIS .noborder {
+  border: none;
+}
+.THIS .offscreen {
+  height: 1px;
+  width: 1px;
+  position: absolute;
+  overflow: hidden;
+  top: -10px;
+}

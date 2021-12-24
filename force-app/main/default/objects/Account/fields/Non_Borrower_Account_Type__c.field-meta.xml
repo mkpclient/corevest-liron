@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_Borrower_Account_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Account Record Sub-Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Attorney</fullName>
+                <default>false</default>
+                <label>Attorney</label>
+            </value>
+            <value>
+                <fullName>Auction Company</fullName>
+                <default>false</default>
+                <label>Auction Company</label>
+            </value>
+            <value>
+                <fullName>Bank</fullName>
+                <default>false</default>
+                <label>Bank</label>
+            </value>
+            <value>
+                <fullName>Borrower</fullName>
+                <default>false</default>
+                <label>Borrower</label>
+            </value>
+            <value>
+                <fullName>Broker Plus</fullName>
+                <default>false</default>
+                <label>Broker Plus</label>
+            </value>
+            <value>
+                <fullName>Cash Management</fullName>
+                <default>false</default>
+                <label>Cash Management</label>
+            </value>
+            <value>
+                <fullName>Competitor</fullName>
+                <default>false</default>
+                <label>Competitor</label>
+            </value>
+            <value>
+                <fullName>Correspondent</fullName>
+                <default>false</default>
+                <label>Correspondent</label>
+            </value>
+            <value>
+                <fullName>Correspondent - Bridge</fullName>
+                <default>false</default>
+                <label>Correspondent - Bridge</label>
+            </value>
+            <value>
+                <fullName>Credit and Background Search</fullName>
+                <default>false</default>
+                <label>Credit and Background Search</label>
+            </value>
+            <value>
+                <fullName>Diligence Review</fullName>
+                <default>false</default>
+                <label>Diligence Review</label>
+            </value>
+            <value>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+                <label>Engineering</label>
+            </value>
+            <value>
+                <fullName>Entity Search</fullName>
+                <default>false</default>
+                <label>Entity Search</label>
+            </value>
+            <value>
+                <fullName>Flood Check</fullName>
+                <default>false</default>
+                <label>Flood Check</label>
+            </value>
+            <value>
+                <fullName>Government</fullName>
+                <default>false</default>
+                <label>Government</label>
+            </value>
+            <value>
+                <fullName>Insurance Agent</fullName>
+                <default>false</default>
+                <label>Insurance Agent</label>
+            </value>
+            <value>
+                <fullName>Insurance Review</fullName>
+                <default>false</default>
+                <label>Insurance Review</label>
+            </value>
+            <value>
+                <fullName>Internal Referral</fullName>
+                <default>false</default>
+                <label>Internal Referral</label>
+            </value>
+            <value>
+                <fullName>Investment Bank</fullName>
+                <default>false</default>
+                <label>Investment Bank</label>
+            </value>
+            <value>
+                <fullName>Investor</fullName>
+                <default>false</default>
+                <label>Investor</label>
+            </value>
+            <value>
+                <fullName>Lease/Purchase Review</fullName>
+                <default>false</default>
+                <label>Lease/Purchase Review</label>
+            </value>
+            <value>
+                <fullName>Legal Counsel</fullName>
+                <default>false</default>
+                <label>Legal Counsel</label>
+            </value>
+            <value>
+                <fullName>Lender</fullName>
+                <default>false</default>
+                <label>Lender</label>
+            </value>
+            <value>
+                <fullName>Mortgage Broker</fullName>
+                <default>false</default>
+                <label>Mortgage Broker</label>
+            </value>
+            <value>
+                <fullName>Mortgage Broker/Banker</fullName>
+                <default>false</default>
+                <label>Mortgage Broker/Banker</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Property Manager</fullName>
+                <default>false</default>
+                <label>Property Manager</label>
+            </value>
+            <value>
+                <fullName>Ratings Agency</fullName>
+                <default>false</default>
+                <label>Ratings Agency</label>
+            </value>
+            <value>
+                <fullName>Real Estate Broker</fullName>
+                <default>false</default>
+                <label>Real Estate Broker</label>
+            </value>
+            <value>
+                <fullName>Realtor</fullName>
+                <default>false</default>
+                <label>Realtor</label>
+            </value>
+            <value>
+                <fullName>Rent Deposit Bank</fullName>
+                <default>false</default>
+                <label>Rent Deposit Bank</label>
+            </value>
+            <value>
+                <fullName>Servicer</fullName>
+                <default>false</default>
+                <label>Servicer</label>
+            </value>
+            <value>
+                <fullName>Tax Verification</fullName>
+                <default>false</default>
+                <label>Tax Verification</label>
+            </value>
+            <value>
+                <fullName>Title and Escrow</fullName>
+                <default>false</default>
+                <label>Title and Escrow</label>
+            </value>
+            <value>
+                <fullName>Title Company</fullName>
+                <default>false</default>
+                <label>Title Company</label>
+            </value>
+            <value>
+                <fullName>Title Review</fullName>
+                <default>false</default>
+                <label>Title Review</label>
+            </value>
+            <value>
+                <fullName>Unknown</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+            <value>
+                <fullName>Valuation</fullName>
+                <default>false</default>
+                <label>Valuation</label>
+            </value>
+            <value>
+                <fullName>Vendor</fullName>
+                <default>false</default>
+                <label>Vendor</label>
+            </value>
+            <value>
+                <fullName>Wholesale</fullName>
+                <default>false</default>
+                <label>Wholesale</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recorded_Document__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that this Document is Recorded</description>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>Recorded Document</label>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Approved_Completed_Rehab_Costs</fullName>
+    <active>true</active>
+    <description>This will require the Approved Completed Rehab Costs field is populated if Status is Pending or beyond and the Include Completed Rehab is Yes</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISCHANGED( Include_Rehab__c ) ,
+  ISCHANGED( Status__c )
+ ),
+ ISPICKVAL(Include_Rehab__c, &apos;Yes&apos;) ,
+ ISNULL( Approved_Completed_Rehab_Costs__c ) ,
+ OR(
+  ISPICKVAL( Status__c , &apos;Pending&apos;),
+  ISPICKVAL( Status__c , &apos;Closing&apos;)
+ )
+)</errorConditionFormula>
+    <errorDisplayField>Approved_Completed_Rehab_Costs__c</errorDisplayField>
+    <errorMessage>Approved Completed Rehab Costs is required if Include Completed Rehab is &apos;Yes&apos;</errorMessage>
+</ValidationRule>

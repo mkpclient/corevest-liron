@@ -1,0 +1,71 @@
+<template>
+  <!-- <lightning-button
+    label="New In-House Appraisal"
+    variant="brand"
+    onclick={openModal}
+  ></lightning-button> -->
+
+  <c-modal data-id="inputModal" title="In-House Appraisal">
+    <div slot="body">
+      <!-- <lightning-input name= -->
+      <lightning-input
+        type="date"
+        name="appraisedDate"
+        data-name="appraisedDate"
+        label="Appraisal Effective Date"
+        required
+        value={appraisedDate}
+        onchange={onchange}
+      ></lightning-input>
+      <lightning-input
+        type="number"
+        step=".01"
+        name="appraisedValueAmount"
+        required
+        data-name="appraisedValue"
+        label="Appraisal Value Amount"
+        value={appraisedValue}
+        formatter="currency"
+        onchange={onchange}
+      ></lightning-input>
+      <lightning-input
+        label="Address"
+        name="address"
+        value={property.Name}
+        readonly
+      ></lightning-input>
+      <lightning-input
+        label="City"
+        name="city"
+        readonly
+        value={property.City__c}
+      ></lightning-input>
+      <lightning-input
+        label="State"
+        name="state"
+        readonly
+        value={property.State__c}
+      ></lightning-input>
+      <lightning-input
+        label="ZIP"
+        name="zip"
+        readonly
+        value={property.ZipCode__c}
+      ></lightning-input>
+    </div>
+
+    <div slot="footer">
+      <lightning-button
+        label="Cancel"
+        onclick={closeModal}
+        disabled={isLoading}
+      ></lightning-button>
+      <lightning-button
+        label="Save"
+        onclick={save}
+        variant="Brand"
+        disabled={isLoading}
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

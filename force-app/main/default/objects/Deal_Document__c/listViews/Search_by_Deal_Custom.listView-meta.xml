@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search_by_Deal_Custom</fullName>
+    <columns>NAME</columns>
+    <columns>Added_By__c</columns>
+    <columns>Added_On__c</columns>
+    <columns>Deal__c</columns>
+    <columns>Document_Loaded__c</columns>
+    <columns>Section__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>File_Name__c</columns>
+    <columns>Type__c</columns>
+    <columns>Is_Deleted__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal__c</field>
+        <operation>equals</operation>
+        <value>MALLS LLC</value>
+    </filters>
+    <label>Search by Deal</label>
+</ListView>

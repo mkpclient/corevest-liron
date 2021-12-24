@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_In_Underwriting__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Days in &quot;Underwriting&quot; and &quot;Approved by Committee&quot; minus days in UW Hold</description>
+    <externalId>false</externalId>
+    <formula>IF(ISNULL(Date_Stage_Changed_To_UW_Hold__c) &amp;&amp; NOT(ISPICKVAL(Type, &apos;Bridge Loan&apos;)) &amp;&amp; NOT(ISPICKVAL(Type, &apos;SAB Loan&apos;)),
+IF(IsClosed,
+CloseDate - Date_Stage_Changed_To_UW__c - Days_In_UW_Hold_Total__c,
+TODAY() - Date_Stage_Changed_To_UW__c - Days_In_UW_Hold_Total__c
+),
+IF(ISNULL(Date_Stage_Changed_To_UW_Hold__c) &amp;&amp; NOT(ISPICKVAL(Type, &apos;Term Loan&apos;)) &amp;&amp; NOT(ISPICKVAL(Type, &apos;Single Rental Loan&apos;))
+, IF(IsClosed,
+CloseDate - Date_Change_From_Loan_Processing_to_UW__c - Days_In_UW_Hold_Total__c,
+TODAY() - Date_Change_From_Loan_Processing_to_UW__c - Days_In_UW_Hold_Total__c
+
+),
+Date_Stage_Changed_To_UW_Hold__c - Date_Stage_Changed_To_UW__c - Days_In_UW_Hold_Total__c
+))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Days in &quot;Underwriting&quot; and &quot;Approved by Committee&quot; minus days in UW Hold</inlineHelpText>
+    <label>Days In Underwriting</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

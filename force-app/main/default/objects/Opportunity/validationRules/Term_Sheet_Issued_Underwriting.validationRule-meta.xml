@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Sheet_Issued_Underwriting</fullName>
+    <active>false</active>
+    <description>Term Sheet Issued is a required field to move to Underwriting for Bridge Deals and move to Term Sheet Signed/Deposit stage for Term Deals</description>
+    <errorConditionFormula>OR( 
+(AND( 
+ISPICKVAL(StageName, &apos;Underwriting&apos;), 
+$RecordType.Name == &apos;Bridge Loan&apos;, 
+OR( 
+ISPICKVAL(PRIORVALUE(StageName),&apos;Term Sheet Issued&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Initial Review&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Hold&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Data Tape Received&apos;) 
+), 
+OR( 
+ISBLANK(Term_Sheet_Issued__c) 
+) 
+)), 
+( 
+AND( 
+ISPICKVAL(StageName, &apos;Term Sheet Signed/Deposit Collected&apos;), 
+$RecordType.Name == &apos;Term Loan&apos;, 
+OR( 
+ISPICKVAL(PRIORVALUE(StageName),&apos;Term Sheet Issued&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Initial Review&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Hold&apos;), 
+ISPICKVAL(PRIORVALUE(StageName), &apos;Data Tape Received&apos;) 
+), 
+OR( 
+ISBLANK(Term_Sheet_Issued__c) 
+) 
+)) 
+)</errorConditionFormula>
+    <errorDisplayField>Term_Sheet_Issued__c</errorDisplayField>
+    <errorMessage>This field is required to move to the next stage.</errorMessage>
+</ValidationRule>

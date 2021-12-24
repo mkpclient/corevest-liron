@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Between_UW_Apprvl_and_Kickoff_Date__c</fullName>
+    <description>The amount of days between when the Deal was approved into UW and the Kickoff Date</description>
+    <externalId>false</externalId>
+    <formula>Kickoff_Date__c - Date_Stage_Changed_To_UW__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount of days between when the Deal was approved into UW and the Kickoff Date</inlineHelpText>
+    <label>Days Between UW Apprvl and Kickoff Date</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

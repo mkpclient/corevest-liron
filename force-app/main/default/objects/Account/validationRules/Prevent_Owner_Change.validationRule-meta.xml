@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Owner_Change</fullName>
+    <active>true</active>
+    <description>This rule will only allow a user to change the owner of an Account if they are the existing user</description>
+    <errorConditionFormula>AND( ISCHANGED( OwnerId ) , 
+OR (PRIORVALUE(OwnerId ) &lt;&gt;  $User.Id) ,
+NOT(PRIORVALUE(Owner_Profile__c) = &quot;Sales Analyst&quot;),
+NOT($Profile.Name= &quot;System Administrator&quot;),
+NOT($Profile.Name= &quot;Operations&quot;),
+NOT($Profile.Name= &quot;Origination Manager&quot;),
+$User.Id = &quot;0050a00000L8MJrAAN&quot;)</errorConditionFormula>
+    <errorMessage>Only a Manager or the current record owner can transfer this record</errorMessage>
+</ValidationRule>

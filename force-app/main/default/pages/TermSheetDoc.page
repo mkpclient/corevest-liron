@@ -1,0 +1,3003 @@
+<apex:page standardController="Opportunity"
+  applyBodyTag="false"
+  extensions="TermSheetPDF_Controller"
+  renderAs=""
+  contentType="application/x-unknown"
+  cache="true"
+>
+
+
+<!-- application/msword#{!Opportunity.Name}_TermSheetv_{!intStr}.doc -->
+
+  <!-- <apex:outputText rendered="{!}">
+</apex:outputText> -->
+
+  <head>
+    <style type="text/css">
+      p.MsoHeader,
+      li.MsoHeader,
+      div.MsoHeader {
+        margin: 0in;
+        margin-top: 0.0001pt;
+        mso-pagination: widow-orphan;
+        tab-stops: center 3in right 6in;
+      }
+
+      p.MsoFooter,
+      li.MsoFooter,
+      div.MsoFooter {
+        margin: 0in;
+        margin-bottom: 0.0001pt;
+        mso-pagination: widow-orphan;
+        tab-stops: center 3in right 6in;
+      }
+
+      @page Section1 {
+        size: 8.5in 11in;
+        /* margin:0.5in 0.5in 0.5in 0.5in; */
+        margin: 0.5in 1in 1in 1in;
+        mso-header-margin: 0.5in;
+        mso-header: h1;
+        mso-footer: f1;
+        mso-footer-margin: 0.5in;
+        mso-paper-source: 0;
+      }
+
+      div.Section1 {
+        page: Section1;
+      }
+
+      /*Below is the style to prevent the repetition of header and Footer.. Cheers!!! */
+
+      table#hrdftrtbl {
+        margin: 0in 0in 0in 9in;
+      }
+
+      @page {
+        @bottom-right {
+          content: element(footer);
+        }
+      }
+
+      div.header {
+        padding: 10px;
+        height: 68px;
+        /* position: running(header); */
+        display: block;
+      }
+
+      div.footer {
+        display: block;
+        padding: 5px;
+        position: running(footer);
+        text-align: center;
+        font-family: Times;
+        font-size: 10pt;
+      }
+
+      .pagenumber /*:before*/ {
+        /*content: counter(page);*/
+        mso-field-code: PAGE;
+      }
+
+      .pagecount /*:before*/ {
+        /*content: counter(pages);*/
+        mso-field-code: NUMPAGES;
+      }
+
+      .pagebreak {
+        page-break-before: always;
+      }
+
+      .definition-title {
+        vertical-align: top;
+        font-family: Times;
+        font-size: 10pt;
+        font-weight: bold;
+        line-height: 1.3;
+        padding: 5px 6px;
+        width: 25%;
+      }
+
+      .definition {
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        text-align: justify;
+        vertical-align: top;
+        padding: 5px 6px;
+      }
+
+      .sub-definition-title {
+        vertical-align: top;
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        padding: 5px 6px;
+        width:25%;
+        text-decoration:underline;
+      }
+
+      .sub-definition {
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        text-align: justify;
+        vertical-align: top;
+        padding: 5px 6px;
+      }
+
+      .row-title {
+        font-family: Times;
+        font-size: 10pt;
+        padding: 2px 6px;
+        vertical-align: top;
+        width: 25%;
+        font-weight: bold;
+        border-right: solid 1px #bebebe;
+        border-bottom: solid 1px #bebebe;
+        border-top: solid 1px #bebebe;
+        border-left: solid 1px #bebebe;
+      }
+
+      .row-description {
+        font-family: Times;
+        font-size: 10pt;
+        padding: 2px 6px;
+        vertical-align: top;
+        width: 75%;
+        border-right: solid 1px #bebebe;
+        border-bottom: solid 1px #bebebe;
+        border-top: solid 1px #bebebe;
+        border-left: solid 1px #bebebe;
+      }
+
+      table#hrdftrtbl {
+        margin: 0in 0in 0in 9in;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="footer">
+      <div></div>
+    </div>
+
+    <div class="Section1">
+      <!--div class="header" style="mso-element: header;">
+        <div>
+          <apex:image url="https://cvest.my.salesforce.com/servlet/servlet.ImageServer?id=0150a000001fqte&oid=00Dj0000000L4sC"
+          />
+        </div>
+      </div-->
+
+      <div class="content">
+        <p
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          <!-- <apex:outputText value="{!TEXT(MONTH(Opportunity.Term_Sheet_Issued__c)) & '/' & TEXT(DAY(Opportunity.Term_Sheet_Issued__c)) & '/' & TEXT(YEAR(Opportunity.Term_Sheet_Issued__c))}" /> -->
+          <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+            <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}"
+          /></apex:outputText>
+        </p>
+        <p
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          <!-- {!Opportunity.Name}<br /> -->
+          <!--<apex:outputText value="{!Opportunity.Sponsor_Entity__c}" rendered="{! NOT( ISBLANK(Opportunity.Sponsor_Entity__c) ) }" />
+<apex:outputText value="{!Opportunity.Primary_Contact__c}" rendered="{! ISBLANK(Opportunity.Sponsor_Entity__c) }" /><br />-->
+          <!-- <apex:outputText value="{!Opportunity.Account.BillingStreet}" /> -->
+          <apex:outputField value="{!Opportunity.Account.BillingStreet}" />
+          <br />
+          <apex:outputText value="{!Opportunity.Account.BillingCity}, " />
+          <apex:outputText value="{!Opportunity.Account.Billing_State_Code__c} "
+            rendered="{!NOT (ISBLANK(Opportunity.Account.BillingState))}"
+          />
+          <apex:outputText value="{!Opportunity.Account.BillingPostalCode}" />
+          <br />
+
+          <span
+            style="{!IF(NOT(Opportunity.Account.BillingCountry == 'United States'), 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <apex:outputText value="{!Opportunity.Account.BillingCountry}"
+              rendered="{!NOT(Opportunity.Account.BillingCountry == 'United States')}"
+            />
+            <br />
+          </span>
+          <!--<apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c}" rendered="{! NOT( ISBLANK(Opportunity.Sponsor_Entity__c) ) }" />-->
+          Attention:
+          <apex:outputText value=" {!Opportunity.Primary_Contact__c}" />
+        </p>
+        <p
+          style="{!IF(includeCOBroker = true, 'page-break-inside:avoid;', 'display:none;')}"
+        >
+          <span
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              line-height: 1.3;
+              page-break-inside: avoid;
+            "
+          >
+            C/O:
+            <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} "
+            />
+            -
+            <apex:outputText value=" {!Opportunity.Referral_Source__r.Name}" />
+          </span>
+        </p>
+        <p
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          <apex:outputText value="${0, number}">
+            <apex:param value="{! Opportunity.Loan_Size__c }" />
+          </apex:outputText>
+          Portfolio Financing Proposal
+        </p>
+        <p
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          Dear
+          <apex:outputText value=" {!Opportunity.Contact__r.FirstName}" />:
+        </p>
+        <p
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+            text-indent: 45px;
+            text-align: justify;
+          "
+        >
+          <span>CoreVest</span> American Finance Lender LLC (
+          <strong>"Lender"</strong>) is pleased to present this summary of loan
+          terms (this <strong>"Summary of Terms"</strong>) to provide a blanket
+          first mortgage loan (the <strong>"Loan"</strong>) secured by your
+          portfolio of
+          <apex:outputText value=" {!totalPropertiesText}" />
+          <apex:outputText value=" ({0,number,###})">
+            <apex:param value="{!Opportunity.Total_Properties__c}"
+          /></apex:outputText>
+          <span style="{!if(totalPropertiesText == 'one', '', 'display:none' )}"
+            >property,</span
+          >
+          <span style="{!if(totalPropertiesText != 'one', '', 'display:none' )}"
+            >properties,</span
+          >
+          specifically set forth in Schedule 4 attached hereto and incorporated
+          herein, which
+          <span style="{!if(totalPropertiesText == 'one', '', 'display:none' )}"
+            >is</span
+          >
+          <span style="{!if(totalPropertiesText != 'one', '', 'display:none' )}"
+            >are</span
+          >
+          located in
+          <apex:outputText value=" {!Opportunity.Distinct_States_Full__c}" />
+          (each a <strong>"Property"</strong> and, collectively,
+          <strong>"Properties"</strong> or the <strong>"Portfolio"</strong>). As
+          set forth below, this Summary of Terms is for discussion purposes only
+          and is neither an express nor implied commitment to provide any
+          financing or to provide any loans in connection with the transactions
+          contemplated hereby.
+        </p>
+        <table style="table-layout: fixed; width: 95vw" cellspacing="0">
+          <colgroup>
+            <col class="short" />
+            <col class="long" />
+          </colgroup>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Loan Amount:
+            </td>
+            <td class="row-description">
+              <apex:outputText value="{0,number,###,###,###}">
+                $
+                <apex:param value="{!Opportunity.Loan_Size__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Loan Purpose:
+            </td>
+            <td class="row-description">
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Refinance_Property_Count__c)), Opportunity.Refinance_Property_Count__c > 0)}"
+                value="{!'Refinance on ' & TEXT(Opportunity.Refinance_Property_Count__c)}"
+              />
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Refinance_Property_Count__c)), Opportunity.Refinance_Property_Count__c == 1)}"
+                value=" property"
+              />
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Refinance_Property_Count__c)), Opportunity.Refinance_Property_Count__c > 1)}"
+                value=" properties"
+              />
+
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Refinance_Property_Count__c)), Opportunity.Refinance_Property_Count__c > 0, NOT(ISBLANK(Opportunity.Acquisition_Property_Count__c)), Opportunity.Acquisition_Property_Count__c > 0)}"
+                value="{!' and '}"
+              />
+
+              <apex:outputText rendered="{!Opportunity.Acquisition_Property_Count__c != null && Opportunity.Acquisition_Property_Count__c > 0}"
+                value="{!'Acquisition of ' & TEXT(Opportunity.Acquisition_Property_Count__c)}"
+              />
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Acquisition_Property_Count__c)), Opportunity.Acquisition_Property_Count__c == 1)}"
+                value=" property"
+              />
+              <apex:outputText rendered="{!AND(NOT(ISBLANK(Opportunity.Acquisition_Property_Count__c)), Opportunity.Acquisition_Property_Count__c > 1)}"
+                value=" properties"
+              />
+              <!-- <apex:outputText rendered="{!Opportunity.Aggregate_Payoffs__c != null && Opportunity.Aggregate_Payoffs__c > 0}" value="{!'Note: CAF Bridge Payoff on ' & TEXT(Opportunity.Aggregate_Payoffs__c) & ' properties '}" /> -->
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Maximum LTV:
+            </td>
+            <td class="row-description">
+              Up to
+              <apex:outputText value=" {0,number,###.##}">
+                <apex:param value="{!Opportunity.LTV__c}" /></apex:outputText>%
+              <apex:outputText rendered="{!Opportunity.Acquisition_Count__c  != null && Opportunity.Acquisition_Count__c > 0}"
+              >
+                LTV to be based upon lesser of (a) as-is third-party value or
+                (b) acquisition price
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Required/Threshold DSCR:
+            </td>
+            <td class="row-description">
+              <!--<span style="{!IF(Opportunity.Loan_Size__c < 1000000, 'display:inline;', 'display:none;')}">
+1.25x
+</span>
+<span style="{!IF(Opportunity.Loan_Size__c >= 1000000, 'display:inline;', 'display:none;')}">
+1.20x
+</span>-->
+              <apex:outputText value="{!Opportunity.Min_DSCR__c}" />
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Interest Rate:
+            </td>
+            <td class="row-description">
+              The interest rate for the Loan shall be fixed at a rate equal to
+              the sum of (a) the
+              <apex:outputText value=" {!Opportunity.Term_Loan_Type__c}" /> Swap
+              Rate as of the Closing (see defined term below) Date, subject to a
+              floor of
+              <apex:outputText value=" {0,number,###.00}">
+                <apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>% and (b)
+              <apex:outputText value=" {!Opportunity.Spread_BPS__c}" />% per
+              annum. Today's indicative rate is
+              <apex:outputText value=" {!Opportunity.Indicative_Rate_Calc__c}"
+              />%. Pricing of base rate and margin is indicative and subject to
+              re-pricing at Lender's discretion based on factors that may
+              include, but are not limited to, prevailing market conditions and
+              underwriting/diligence review. Actual interest rate will be
+              determined based on rate lock.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Term:
+            </td>
+            <td class="row-description">
+              <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '5 Year'}"
+                value="{!'Five (5) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '7 Year'}"
+                value="{!'Seven (7) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '10 Year'}"
+                value="{!'Ten (10) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '30 Year'}"
+                value="{!'Thrity (30) years'}"
+              />
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Amortization:
+            </td>
+            <td class="row-description">
+              <apex:outputText rendered="{!Opportunity.Amortization_Term__c == '360 months'}"
+                value="{!'Thirty (30) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Amortization_Term__c == '300 months'}"
+                value="{!'Twenty-Five (25) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Amortization_Term__c == '240 months'}"
+                value="{!'Twenty (20) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Amortization_Term__c == '180 months'}"
+                value="{!'Fifteen (15) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.Amortization_Term__c == '120 months'}"
+                value="{!'Ten (10) years'}"
+              />
+              <apex:outputText rendered="{!Opportunity.IO_Term__c != null && Opportunity.IO_Term__c != '0 months' && Opportunity.Amortization_Term__c !=null && Opportunity.Amortization_Term__c == '0 months'}"
+                value="{!'None, interest only'}"
+              />
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Loan_Size__c >= 1000000, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Origination Fee:
+            </td>
+            <td class="row-description">
+              <div
+                style="display:{!IF(includeBrokerFee = false && Opportunity.Loan_Size__c >= 1000000,'inline','none')}"
+              >
+                <apex:outputText value="{0, number, ##.00}">
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount, due at closing
+              </div>
+              <div
+                style="display:{!IF(includeBrokerFee = true && Opportunity.Loan_Size__c >= 1000000,'inline','none')}"
+              >
+                <apex:outputText value="{0, number, ##.00}">
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount paid to CoreVest and
+                <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.Broker_Fees__c}"
+                /></apex:outputText>
+                paid to the broker
+              </div>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Loan_Size__c < 1000000, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Origination Fee:
+            </td>
+            <td class="row-description">
+              <div
+                style="display:{!IF(includeBrokerFee = false && Opportunity.Loan_Size__c < 1000000,'inline','none')}"
+              >
+                The greater of $7,500 or
+                <apex:outputText value="{0, number, ##.00}">
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount, due at closing
+              </div>
+              <div
+                style="display:{!IF(includeBrokerFee = true && Opportunity.Loan_Size__c < 1000000,'inline','none')}"
+              >
+                The greater of $7,500 or
+                <apex:outputText value="{0, number, ##.00}">
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount paid to CoreVest and
+                <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.Broker_Fees__c}"
+                /></apex:outputText>
+                paid to the broker
+              </div>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Closing:
+            </td>
+            <td class="row-description">
+              Approximately sixty (60) days from the execution of this Summary
+              of Terms (provided timely delivery of Due Diligence), on or about
+              <apex:outputText value=" {0,date,MMMM d',' yyyy}">
+                <apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 60}" /></apex:outputText>. Any loan closing more than sixty (60) days after execution of
+              Summary of Terms may be subject to additional underwriting fees.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Recourse:
+            </td>
+            <td class="row-description">
+              <span
+                style="display:{!IF(Opportunity.Recourse__c == 'Recourse', 'inline','none')}"
+              >
+                Full recourse to Borrower, Pledgor, and Sponsor
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Recourse__c != 'Recourse', 'inline','none')}"
+              >
+                Non-recourse, except for environmental indemnification and
+                Lender's standard carve outs
+              </span>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c == 'None', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Cash Management:
+            </td>
+            <td class="row-description">
+              <apex:outputText value="{!Opportunity.Cash_Management__c}" />
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Cash Management:
+            </td>
+            <td class="row-description">
+              <apex:outputText value="{!Opportunity.Cash_Management__c}" />, as
+              described in Schedule "2"
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Reserves:
+            </td>
+            <td class="row-description">
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: top;
+                      border: none;
+                    "
+                  >
+                    Reserves required for taxes, insurance, capital expenditures
+                    <span
+                      style="display:{!IF(Opportunity.Recourse__c != 'Recourse' && Opportunity.Cash_Management__c != 'None', 'inline','none')}"
+                      >, advance rent and cash collateral</span
+                    >
+                  </td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr
+            style="{!IF((Opportunity.Cash_Management__c == 'None' || Opportunity.Cash_Management__c == 'Springing') && Opportunity.Recourse__c == 'Non-Recourse', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Holdback Reserve Amount:
+            </td>
+            <td class="row-description">
+              <!-- <span style="display:{!IF(Opportunity.Total_Units__c >= 20, 'inline','none')}">Three (3) months of principal, interest, taxes, insurance and capital expenditures</span>
+                            <span style="display:{!IF(Opportunity.Total_Units__c < 20, 'inline','none')}">Six (6) months of principal, interest, taxes, insurance and capital expenditures</span> -->
+
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: top;
+                      border: none;
+                    "
+                  >
+                    <span
+                      style="display:{!IF(Opportunity.Total_Units__c >= 20 && (Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null), 'inline','none')}"
+                      >One (1) month of principal and interest</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Total_Units__c < 20 && (Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null), 'inline','none')}"
+                      >One (1) month of principal and interest</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Total_Units__c >= 20 && Opportunity.IO_Term__c != '0 months', 'inline','none')}"
+                      >One (1) month of interest</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Total_Units__c < 20 && Opportunity.IO_Term__c != '0 months', 'inline','none')}"
+                      >One (1) month of interest</span
+                    >
+                  </td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">Par Prepayment Date:</td>
+            <td class="row-description">
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: top;
+                      border: none;
+                    "
+                  >
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
+                    >
+                      34th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '36 Months', 'inline','none')}"
+                    >
+                      36th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '42 Months', 'inline','none')}"
+                    >
+                      42nd month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '48 Months', 'inline','none')}"
+                    >
+                      48th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '52 Months', 'inline','none')}"
+                    >
+                      52nd month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '53 Months', 'inline','none')}"
+                    >
+                      53th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '54 Months', 'inline','none')}"
+                    >
+                      54th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '55 Months', 'inline','none')}"
+                    >
+                      55th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '56 Months', 'inline','none')}"
+                    >
+                      56th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '57 Months', 'inline','none')}"
+                    >
+                      57th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '58 Months', 'inline','none')}"
+                    >
+                      58th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '60 Months', 'inline','none')}"
+                    >
+                      60th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '61 Months', 'inline','none')}"
+                    >
+                      61st month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '66 Months', 'inline','none')}"
+                    >
+                      66th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '72 Months', 'inline','none')}"
+                    >
+                      72nd month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '77 Months', 'inline','none')}"
+                    >
+                      77th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '78 Months', 'inline','none')}"
+                    >
+                      78th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '81 Months', 'inline','none')}"
+                    >
+                      81st month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '84 Months', 'inline','none')}"
+                    >
+                      84th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '96 Months', 'inline','none')}"
+                    >
+                      96th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '102 Months', 'inline','none')}"
+                    >
+                      102nd month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '108 Months', 'inline','none')}"
+                    >
+                      108th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '112 Months', 'inline','none')}"
+                    >
+                      112th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '113 Months', 'inline','none')}"
+                    >
+                      113th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '114 Months', 'inline','none')}"
+                    >
+                      114th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '117 Months', 'inline','none')}"
+                    >
+                      117th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '120 Months', 'inline','none')}"
+                    >
+                      120th month after origination
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == 'Date of Maturity' || Opportunity.YM_Prepayment_Penalty__c == 'N/A', 'inline','none')}"
+                    >
+                      Date of Maturity
+                    </span>
+                  </td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A' && Opportunity.Stepdown_Prepayment_Period__c != null, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">Stepdown Par Prepayment Period:</td>
+            <td class="row-description">
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1,0,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 3% of the loan amount, Year Two (2) the
+                prepayment premium will be 2% of the loan amount, Year Three (3)
+                the prepayment premium will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1,1,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 3% of the loan amount, Year Two (2) the
+                prepayment premium will be 2% of the loan amount, Year Three (3)
+                through Year Five (5) the prepayment premium will be 1% of the
+                loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '4,3,2,1,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 4% of the loan amount, Year Two (2) the
+                prepayment premium will be 3% of the loan amount, Year Three (3)
+                the prepayment premium will be 2% of the loan amount, Year Four
+                (4) the prepayment premium will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 5% of the loan amount, Year Two (2) the
+                prepayment premium will be 4% of the loan amount, Year Three (3)
+                the prepayment premium will be 3% of the loan amount, Year Four
+                (4) the prepayment premium will be 2% of the loan amount, and
+                Year Five (5) the prepayment premium will be 1% of the loan
+                amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,1,0,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to a
+                declining prepayment premium. Year One (1) the prepayment premium
+                will be 5% of the loan amount, Year Two (2) the prepayment premium
+                will be 4% of the loan amount, Year Three (3) the prepayment premium
+                will be 3% of the loan amount, Year Four (4) the prepayment premium
+                will be 2% of the loan amount, and Year Five (5) the prepayment premium will 
+                be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,1,1,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 5% of the loan amount, Year Two (2) the
+                prepayment premium will be 4% of the loan amount, Year Three (3)
+                the prepayment premium will be 3% of the loan amount, Year Four
+                (4) the prepayment premium will be 2% of the loan amount, and
+                Year Five (5) through Year Seven (7) the prepayment premium will
+                be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,2,1,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 5% of the loan amount, Year Two (2) the
+                prepayment premium will be 4% of the loan amount, Year Three (3)
+                the prepayment premium will be 3% of the loan amount, Year Four
+                (4) and Year Five (5) the prepayment premium will be 2% of the
+                loan amount, and Year Six (6) and Year Seven (7) the prepayment
+                premium will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,4,3,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 5% of the loan amount, Year Two (2) and Year
+                Three (3) the prepayment premium will be 4% of the loan amount,
+                Year Four (4) and Year Five (5) the prepayment premium will be
+                3% of the loan amount, Year Six (6) the prepayment premium will
+                be 2% of the loan amount, and Year Seven (7) the prepayment
+                premium will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,4,3,2,1,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) and Year Two (2)
+                the prepayment premium will be 5% of the loan amount, Year Three
+                (3) the prepayment premium will be 4% of the loan amount, Year
+                Four (4) the prepayment premium will be 3% of the loan amount,
+                Year Five (5) the prepayment premium will be 2% of the loan
+                amount, and Year Six (6) the prepayment premium will be 1% of
+                the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,4,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) through Year Three
+                (3) the prepayment premium will be 5% of the loan amount, Year
+                Four (4) the prepayment premium will be 4% of the loan amount,
+                Year Five (5) the prepayment premium will be 3% of the loan
+                amount, Year Six (6) the prepayment premium will be 2% of the
+                loan amount, and Year Seven (7) the prepayment premium will be
+                1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '7,6,5,4,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 7% of the loan amount, Year Two (2) the
+                prepayment premium will be 6% of the loan amount, Year Three (3)
+                the prepayment premium will be 5% of the loan amount, Year Four
+                (4) the prepayment premium will be 4% of the loan amount, Year
+                Five (5) the prepayment premium will be 3% of the loan amount,
+                Year Six (6) the prepayment premium will be 2% of the loan
+                amount, and Year Seven (7) the prepayment premium will be 1% of
+                the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,4,4,3,3,2,2,1,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) and Year Two (2)
+                the prepayment premium will be 5% of the loan amount, Year Three
+                (3) and Year Four (4) the prepayment premium will be 4% of the
+                loan amount, Year Five (5) and Year Six (6) the prepayment
+                premium will be 3% of the loan amount, Year Seven (7) and Year
+                Eight (8) the prepayment premium will be 2% of the loan amount,
+                and Year Nine (9) and Year Ten (10) the prepayment premium will
+                be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,4,3,2,0,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) through Year Five
+                (5) the prepayment premium will be 5% of the loan amount, Year
+                Six (6) the prepayment premium will be 4% of the loan amount,
+                Year Seven (7) the prepayment premium will be 3% of the loan
+                amount, Year Eight (8) the prepayment premium will be 2% of the
+                loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,5,4,3,2,0', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) through Year Six
+                (6) the prepayment premium will be 5% of the loan amount, Year
+                Seven (7) the prepayment premium will be 4% of the loan amount,
+                Year Eight (8) the prepayment premium will be 3% of the loan
+                amount, Year Nine (9) the prepayment premium will be 2% of the
+                loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,4,3,2,1,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) through Year Five
+                (5) the prepayment premium will be 5% of the loan amount, Year
+                Six (6) the prepayment premium will be 4% of the loan amount,
+                Year Seven (7) the prepayment premium will be 3% of the loan
+                amount, Year Eight (8) the prepayment premium will be 2% of the
+                loan amount, Year Nine (9) and Year Ten (10) the prepayment
+                premium will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,5,4,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) through Year Six
+                (6) the prepayment premium will be 5% of the loan amount, Year
+                Seven (7) the prepayment premium will be 4% of the loan amount,
+                Year Eight (8) the prepayment premium will be 3% of the loan
+                amount, Year Nine (9) the prepayment premium will be 2% of the
+                loan amount, and Year Ten (10) the prepayment premium will be 1%
+                of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '10,9,8,7,6,5,4,3,2,1', 'inline','none')}"
+              >
+                The loan can be prepaid anytime during the loan term subject to
+                a declining prepayment premium. Year One (1) the prepayment
+                premium will be 10% of the loan amount, Year Two (2) the
+                prepayment premium will be 9% of the loan amount, Year Three (3)
+                the prepayment premium will be 8% of the loan amount, Year Four
+                (4) the prepayment premium will be 7% of the loan amount, Year
+                Five (5) the prepayment premium will be 6% of the loan amount,
+                Year Six (6) the prepayment premium will be 5% of the loan
+                amount, Year Seven (7) the prepayment premium will be 4% of the
+                loan amount, Year Eight (8) the prepayment premium will be 3% of
+                the loan amount, Year Nine (9) the prepayment premium will be 2%
+                of the loan amount, and Year Ten (10) the prepayment premium
+                will be 1% of the loan amount.
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'Other', 'inline','none')}"
+              >
+                <apex:outputText value="{!Opportunity.YM_Prepayment_Penalty_Description__c}"
+                />
+              </span>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Net Worth and Liquidity:
+            </td>
+            <td class="row-description">
+              Sponsor/Guarantor is required to maintain a net worth of
+              <apex:outputText value=" {!Opportunity.Sponsor_Net_Worth__c}" />%
+              of the principal amount of the Loan and liquidity of
+              <apex:outputText value=" {!Opportunity.Sponsor_Liquidity__c}" />%
+              of the principal amount of the Loan
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Reporting:
+            </td>
+            <td class="row-description">
+              <span
+                style="display:{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c = 'Recourse', 'inline','none')}"
+              >
+                Monthly rent rolls delivered quarterly and such additional items
+                set forth in Schedule “2” below
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c != 'Recourse', 'inline','none')}"
+              >
+                Unaudited balance sheets, statements of operations, equity
+                holders' capital and cash flows for each calendar year, in
+                addition to the additional items set forth in Schedule "2" below
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 15000000, 'inline','none')}"
+              >
+                Audited balance sheets, statements of operations, equity
+                holders' capital and cash flows for each calendar year, in
+                addition to the additional items set forth in Schedule "2" below
+              </span>
+              <span
+                style="display:{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 5000000 && Opportunity.Loan_Size__c < 15000000, 'inline','none')}"
+              >
+                Reviewed balance sheets, statements of operations, equity
+                holders' capital and cash flows for each calendar year, in
+                addition to the additional items set forth in Schedule "2" below
+              </span>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Include_Prop_Sub_Text__c = true, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Substitution:
+            </td>
+            <td class="row-description">
+              Yes
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Include_Assumption__c = true, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="row-title">
+              Assumption:
+            </td>
+            <td class="row-description">
+              Yes
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="row-title">
+              Expense Deposit:
+            </td>
+            <td class="row-description">
+              $
+              <apex:outputText value="{0,number,###,###,###.##}">
+                <apex:param value="{!Opportunity.Deposit_Amount_Requested__c}"
+              /></apex:outputText>
+              to cover a portion of the estimated costs of due diligence and
+              documentation, as detailed in the Expense Summary set forth on
+              Schedule "1" to this Summary of Terms
+            </td>
+          </tr>
+        </table>
+        <br clear="all" style="page-break-before: always" />
+        <p
+          style="
+            text-align: justify;
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          As evidenced by the signature below, Sponsor agrees and acknowledges
+          reviewing the more comprehensive terms set forth in Schedule "2"
+          below. Sponsor desires to proceed with negotiating terms as outlined
+          above in Schedule "2". Unless otherwise extended in writing by Lender,
+          this Summary of Terms will expire on
+          <strong>
+            <apex:outputText value=" {0,date,MMMM d',' yyyy}">
+              <apex:param value="{! DATE(year, month, day)}"
+            /></apex:outputText>
+          </strong>
+          (the <strong>"Summary of Terms Expiration Date"</strong>). Please
+          indicate your willingness to deliver the Expense Deposit pursuant to
+          the wire instructions set forth in Schedule "3" of this Summary of
+          Terms and proceed subject in all respects and for all purposes to the
+          non-binding nature of this Summary of Terms (except as specifically
+          provided in Schedule "2" below) by signing below and returning this
+          Summary of Terms with the <strong>Expense Deposit </strong> no later
+          than the Summary of Terms Expiration Date. If this Summary of Terms is
+          not signed and returned by the Summary of Terms Expiration Date
+          together with the applicable Expense Deposit, we will assume that you
+          have elected not to proceed with us regarding a loan.
+        </p>
+        <div
+          style="
+            font-family: Times;
+            font-size: 10pt;
+            line-height: 1.3;
+            page-break-inside: avoid;
+          "
+        >
+          <p>
+            Please do not hesitate to call
+            <apex:outputText value=" {!Opportunity.Owner_Name__c}" /> at
+            <apex:outputText value=" {!Opportunity.Owner_Phone__c}" /> if you
+            have any questions.
+          </p>
+          <p>Sincerely,</p>
+          <p>
+            COREVEST AMERICAN FINANCE LENDER LLC
+            <br /> a Delaware limited liability company
+          </p>
+          <p>
+            <table>
+              <tr>
+                <td>By:</td>
+                <td>____________________</td>
+              </tr>
+              <tr>
+                <td>Its:</td>
+                <td>Authorized Signatory</td>
+              </tr>
+            </table>
+          </p>
+          <p>Acknowledged and agreed as of ____________________ by:</p>
+          <p>SPONSOR</p>
+          <p>____________________</p>
+          <p>
+            <table>
+              <tr>
+                <td>By:</td>
+                <td>____________________</td>
+              </tr>
+            </table>
+            <br clear="all" style="page-break-before: always" />
+          </p>
+        </div>
+
+        <div>
+          <table
+            style="
+              table-layout: fixed;
+              width: 95vw;
+              border-collapse: collapse;
+              border-spacing: 0;
+              border: 0px;
+              margin: 0 auto;
+              width: 100%;
+              position: center;
+            "
+          >
+            <thead>
+              <th colspan="2" style="text-align: center; border: 0px">
+                <h4 style="font-family: Times; font-weight: bold">
+                  Schedule 1
+                </h4>
+                <h4 style="font-family: Times; font-weight: bold">
+                  Expense Summary
+                </h4>
+              </th>
+            </thead>
+            <thead>
+              <tr style="border: 0px; border-bottom: 1px solid black">
+                <th
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    width: 70%;
+                    font-weight: bold;
+                    border: 0;
+                    border-bottom: 1px solid black;
+                    text-align: left;
+                  "
+                >
+                  Item
+                  <sup>1</sup>
+                </th>
+                <th
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    width: 30%;
+                    font-weight: bold;
+                    border: 0;
+                    border-bottom: 1px solid black;
+                    text-align: right;
+                  "
+                >
+                  $ Amount
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    width: 70%;
+                    padding: 8px 0;
+                  "
+                >
+                  Legal Counsel, Diligence
+                  <sup>2</sup>
+                </td>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    width: 30%;
+                    padding: 8px 0;
+                    text-align: right;
+                  "
+                >
+                  $
+                  <apex:outputText value="{0,number,###,###,###.00}">
+                    <apex:param value="{!Opportunity.Deposit_Legal_Counsel_Diligence__c}"
+                    />
+                  </apex:outputText>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    width: 70%;
+                    padding: 8px 0;
+                  "
+                >
+                  Appraisals
+                </td>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    width: 30%;
+                    padding: 8px 0;
+                    text-align: right;
+                  "
+                >
+                  $
+                  <apex:outputText value="{0,number,###,###,###.00}">
+                    <apex:param value="{!Opportunity.Deposit_Broker_Price_Opinions_Appraisal__c}"
+                    />
+                  </apex:outputText>
+                </td>
+              </tr>
+              <!--<tr>
+<td style="width:70%;padding:8px 0;">
+Insurance Review
+</td>
+<td style="width:30%;padding:8px 0;">
+$ <apex:outputText value="{0,number,###,###,###.00}">
+<apex:param value="{!Opportunity.Deposit_Insurance_Review__c}" />
+</apex:outputText>
+</td>
+</tr>-->
+              <tr>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    width: 70%;
+                    padding: 8px 0;
+                  "
+                >
+                  Lender Out of Pocket Expenses
+                  <sup>3</sup>
+                  <span
+                    style="display:{!IF(Opportunity.Recourse__c = 'Non-Recourse (Springing Cash Management)' || Opportunity.Recourse__c = 'Non-Recourse (No Cash Management)','block','none')}"
+                  >
+                    <!--Includes previous “Lender Due Diligence” ($200/Asset) <br /> and “Lender Out of Pocket” ($2k-$5k)-->
+                  </span>
+                </td>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    width: 30%;
+                    padding: 8px 0;
+                    text-align: right;
+                  "
+                >
+                  $
+                  <apex:outputText value="{0,number,###,###,###.00}">
+                    <apex:param value="{!Opportunity.Deposit_Lender_Out_of_Pocket__c}"
+                    />
+                  </apex:outputText>
+                </td>
+              </tr>
+              <tr
+                style="
+                  font-family: Times;
+                  font-size: 10pt;
+                  border-top: 1px solid black;
+                "
+              >
+                <td
+                  style="
+                    border: 0px;
+                    border-top: 1px solid black;
+                    font-weight: bold;
+                    width: 70%;
+                  "
+                >
+                  Total Estimated Expenses
+                </td>
+                <td
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    border: 0px;
+                    border-top: 1px solid black;
+                    width: 30%;
+                    text-align: right;
+                  "
+                >
+                  $
+                  <apex:outputText value="{0,number,###,###,###.00}">
+                    <apex:param value="{!Opportunity.Deposit__c}" />
+                  </apex:outputText>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <p
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              page-break-inside: avoid;
+            "
+          >
+            <sup>(1)</sup> Excludes title insurance costs, mortgage related
+            costs, transfer taxes, borrower opinions, banking costs and other
+            costs customarily paid by Borrower.
+          </p>
+          <p
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              page-break-inside: avoid;
+            "
+          >
+            <sup>(2)</sup> Includes documentation and other diligence activities
+            (exclusive of reasonable out-of- pocket disbursements).
+          </p>
+          <p
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              page-break-inside: avoid;
+            "
+          >
+            <sup>(3)</sup> Includes tax analysis, in-place insurance review,
+            lease and purchase price review, site visit expenses, if any,
+            subscription fees to vendors utilized for underwriting services,
+            certain securitization expenses and related lender expenses incurred
+            in order to underwrite and process the loan.
+          </p>
+        </div>
+        <br clear="all" style="page-break-before: always" />
+        <h4 style="font-family: Times; font-weight: bold; text-align: center">
+          Schedule 2
+        </h4>
+        <h4 style="font-family: Times; font-weight: bold; text-align: center">
+          Definitions
+        </h4>
+
+        <table
+          style="
+            table-layout: fixed;
+            width: 95vw;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 0px;
+          "
+        >
+          <colgroup>
+            <col class="short" />
+            <col class="long" />
+          </colgroup>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Sponsor:
+            </td>
+            <td class="definition">
+              The undersigned "Sponsor" or an individual or entity acceptable to
+              Lender following due diligence.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Borrower:
+            </td>
+            <td class="definition">
+              A newly-formed, single purpose, Delaware limited liability company
+              acceptable to Lender.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Pledgor:
+            </td>
+            <td class="definition">
+              A newly-formed, single purpose, Delaware limited liability company
+              acceptable to Lender if the Loan is $5,000,000 or above or an
+              entity or individual acceptable to Lender following due diligence
+              if the Loan is below $5,000,000.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Property Manager:
+            </td>
+            <td class="definition">
+              Either a professional property manager, Sponsor, Pledgor or
+              another Borrower affiliate, in each case acceptable to Lender
+              following due diligence.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Properties:
+            </td>
+            <td class="definition">
+              Properties leased to and occupied by a bona fide third-party
+              tenant paying rent pursuant to an approved form of residential
+              lease, on market terms, for an initial term of not less than
+              twelve (12) months or more than three (3) years, unless permitted
+              by Lender. Borrower must not participate in home sharing
+              activities (including, but not limited to platforms such as
+              Airbnb, VRBO and bookings.com), purchase options, rights of first
+              refusal, rights of first offer or similar title encumberments.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Collateral:
+            </td>
+            <td class="definition">
+              Loan shall be secured by, among other things, (a) a first priority
+              mortgage/deed of trust on each Property comprising the Portfolio;
+              (b) a first priority blanket assignment of all leases and rents
+              with respect to the Portfolio; (c) a first priority security
+              interest in all other property and assets related to the
+              Portfolio; and (d) a pledge of the equity of Borrower by Pledgor.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Interest Rate:
+            </td>
+            <td class="definition">
+              Pricing of floor and margin is indicative and subject to
+              re-pricing at Lender's discretion based on factors that may
+              include, but are not limited to, prevailing market conditions and
+              underwriting/due diligence review.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Interest Period:
+            </td>
+            <td class="definition">
+              Interest shall accrue on an actual/360 basis from the 1st of each
+              month to and including the last day of such month.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Payment Date:
+            </td>
+            <td class="definition">
+              The payment date shall be the 9th day of each month on a preceding
+              business day convention.
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Prepayment:
+            </td>
+            <td class="definition">
+              <table style="border: none">
+                <tr
+                  style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+                >
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: top;
+                      border: none;
+                    "
+                  >
+                    Borrower may voluntarily prepay the Loan with payment of a
+                    Yield Maintenance Premium prior to the Par Prepayment Date.
+                    After the Par Prepayment Date, the Loan is pre-payable
+                    without any Yield Maintenance Premium.
+                  </td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Verbiage when Step Down Prepayment-->
+          <tr
+            style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Prepayment:
+            </td>
+            <td class="definition">
+              Borrower may voluntarily prepay the Loan with payment of a
+              Prepayment Premium prior to the Par Prepayment Date. After
+              the Par Prepayment Date, the Loan is pre-payable without any
+              Prepayment Premium.
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: top;
+                      border: none;
+                    "
+                  >
+                  </td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Yield Maintenance Premium:
+            </td>
+            <td class="definition">
+              An amount determined by Lender to be equal to the greater of (a)
+              one percent (1%) of the principal amount of the Loan prepaid and
+              (b) the excess, if any, of (i) the sum of the present values of
+              all then-scheduled payments of principal and interest on the
+              principal amount of the Loan being prepaid through the Maturity
+              Date (including a balloon payment on the Maturity Date of the
+              remaining principal on the Maturity Date), with each such payment
+              discounted to its present value at the date of prepayment at the
+              rate which, when compounded monthly, is equivalent to the United
+              States Treasury Rate that has a remaining term closest to the
+              Maturity Date when compounded semi-annually, and deducting from
+              the sum of such present values any interest paid for the period
+              from the date of prepayment to the next succeeding payment date in
+              the event such payment is not made on a payment date, over (ii)
+              the principal amount of the Loan being prepaid.
+            </td>
+            <td
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              width: 10%;
+              vertical-align: bottom;
+              border: none;
+            "
+            >
+            <strong> Initials:_______ </strong>
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Property Releases:
+            </td>
+            <td class="definition">
+            <p>
+              Subject to the prepayment provisions above and additional
+              requirements set forth in the loan documents, Borrower shall have
+              the right to release individual Properties comprising part of the
+              Portfolio through the payment of release prices equal to 120% of
+              the allocated loan amount of the individual Properties released
+              (plus the applicable
+              <span
+                style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+                >Yield Maintenance Premium</span
+              >
+              <span
+                style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
+                >Prepayment Premium</span
+              >, interest on the amount prepaid through the end of the interest
+              accrual period in which the release occurs and out-of-pocket fees
+              and expenses of Lender); provided (i) pro forma DSCR (see defined
+              term below) following such release of the remaining Properties
+              shall exceed the greater of (A) Required DSCR and (B) DSCR as of
+              the fiscal quarter ended immediately preceding such release, and
+              (ii) other customary conditions are satisfied.
+            </p>
+              <span
+                style="{!IF(Opportunity.Cash_Management__c == 'None', 'page-break-inside:avoid;', 'display:none;')}"
+              >
+                <p>
+                  Rent to Debt Service Ratio: Ratio of (i) revenues actually
+                  collected by Borrower for the Properties for the twelve (12)
+                  completed full calendar months prior to any date of
+                  determination to (ii) the monthly loan payment amount on the
+                  Loan multiplied by twelve (12), as further described in the
+                  Loan Documents.
+                </p>
+                <p>Required Rent to Debt Service Ratio: 1.80x</p>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title"></td>
+            <td class="definition">
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Include_Prop_Sub_Text__c = true, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Property Substitutions:
+            </td>
+            <td class="definition">
+              If the Summary of Terms provides that the Loan will include
+              property substitutions, then subject to customary limitations
+              described in the Loan Agreement and Lender's approval, Borrower
+              shall have the right to substitute individual Properties
+              comprising part of the Portfolio. Such substitution limitations
+              shall include, but not be limited to: (i) not more than
+              <apex:outputText value=" {!Opportunity.Property_Substitution__c}"
+              />% of the aggregate value of the financed Properties, (ii)
+              maintenance of the DSCR and LTV existing immediately prior to such
+              substitution, and (iii) substitutions only with single family
+              rental properties (excluding condominiums or townhomes).
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Include_Assumption__c = true, 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Assumption:
+            </td>
+            <td class="definition">
+              If the Summary of Terms provides that the Loan is assumable, then
+              from and after the first anniversary of the Closing date, Borrower
+              shall have a one-time right to (a) convey the all of the
+              Properties to a replacement borrower and (b) have a replacement
+              borrower, sponsor and borrower equity owner (collectively, the
+              "Replacement Loan Parties") assume Borrower's, Sponsor's and
+              Pledgor's respective obligations under the Loan Documents (clauses
+              (a) and (b), collectively, an "Assumption"). The Assumption shall
+              be subject to the satisfaction of the following conditions, which
+              include, but are not limited to: (a) no event of default shall
+              have occurred, (b) borrower shall have paid Lender's costs and
+              expenses incurred in connection with the Assumption, together with
+              a fee equal to 1% of the outstanding principal balance of the
+              Loan, (c) each Replacement Loan Party shall provide such due
+              diligence documentation and shall execute such consents,
+              agreements or other documentation as Lender may require in its
+              sole discretion, (d) each Replacement Loan Party shall be an
+              individual or entity satisfactory to Lender in its sole discretion
+              and (e) Lender has otherwise consented to such Assumption, which
+              consent may be withheld in Lender's sole and absolute discretion.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Reporting:
+            </td>
+            <td class="definition">
+              Borrower shall provide to Lender (i) if the Loan is non-recourse,
+              balance sheets, statements of operations, equity holders' capital
+              and cash flows for each calendar year as set forth in the Summary
+              of Terms, (ii) if the Loan is non-recourse, unaudited balance
+              sheets, statements of operations, equity holders' capital and cash
+              flows for each calendar quarter along with a statement in
+              reasonable detail calculating the underwritten net operating
+              income of Borrower for such calendar quarter, (iii) monthly rent
+              rolls delivered quarterly and (iv) other reports reasonably
+              requested by Lender, in each case certified true and correct by an
+              officer of Borrower.
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:avoid;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Budget:
+            </td>
+            <td class="definition">
+              Within thirty (30) days after the commencement of a Trigger Period
+              and at least thirty (30) days prior to the one year anniversary
+              thereof if a Trigger Period is continuing, Borrower shall provide
+              Lender with an annual budget for the Properties for the next
+              twelve (12) calendar months, which shall be reviewed and approved
+              by Lender.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Property Management:
+            </td>
+            <td class="definition">
+              Each Property must at all times be managed by one or more property
+              managers approved by Lender, pursuant to management agreements in
+              form and substance satisfactory to Lender. Property Manager(s)
+              will agree to the collateral assignment of its management
+              agreement to Lender and to subordinate its rights under the
+              management agreement to Lender's rights under the Loan Documents.
+              Lender shall have the right to terminate and replace the Property
+              Manager upon (i) an event of default under the Loan or the
+              management agreement; (ii) an insolvency or bankruptcy of the
+              Property Manager; or (iii) the misconduct of the Property Manager.
+              Borrower shall not terminate or make any material modifications to
+              the management agreement without Lender consent.
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:auto;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Cash Management:
+            </td>
+            <td class="definition">
+              <span
+                style="{!IF(Opportunity.Cash_Management__c = 'Soft', 'page-break-inside:auto;', 'display:none;')}"
+              >
+                Borrower shall (i) establish and maintain an account at an
+                eligible institution acceptable to Lender for purpose of
+                collecting rents (
+                <strong>"Rent Deposit Account"</strong>), (ii) cause all rents
+                to be directly deposited therein by all tenants of the
+                Properties (and all other monies received by Borrower or
+                Property Manager with respect to the Properties shall be
+                deposited therein within two (2) business days of receipt by
+                Borrower or Property Manager), and (iii) enter into a deposit
+                account control agreement in favor of Lender in respect of the
+                Rent Deposit Account. As long as no Trigger Period exists, all
+                amounts in the Rent Deposit Account shall be swept into an
+                operating account of Borrower no less frequently than weekly.
+                During a Trigger Period, all rents deposited into the Rent
+                Deposit Account shall be swept into an account controlled by
+                Lender (the <strong>"Cash Management Account"</strong>) for
+                disbursement in accordance with the Loan Documents, with 100% of
+                the net cash flow from the Properties (after application to
+                Lender expenses, mandatory prepayments (if any), debt service,
+                reserves and budgeted and approved operating expenses) to be
+                swept into the Cash Collateral Reserve.
+              </span>
+              <span
+                style="{!IF(Opportunity.Cash_Management__c = 'Springing', 'page-break-inside:auto;', 'display:none;')}"
+              >
+                Borrower shall at Closing (i) establish and maintain an account
+                at an eligible institution acceptable to Lender for purpose of
+                collecting rents (
+                <strong>"Rent Deposit Account"</strong>), (ii) cause all rents
+                to be directly deposited into an operating account of Borrower,
+                and (iii) enter into a deposit account control agreement in
+                favor of Lender in respect of the Rent Deposit Account. As long
+                as no Trigger Period exists, all rents shall be directly
+                deposited into an operating account of Borrower no less
+                frequently than weekly. During a Trigger Period, Borrower shall
+                cause all rents to be directly deposited into the Rent Deposit
+                Account (all other monies received by Borrower or Property
+                Manager with respect to the Properties shall be deposited into
+                the Rent Deposit Account within two (2) business days of receipt
+                by Borrower or Property Manager) which shall be swept into an
+                account controlled by Lender (the
+                <strong>"Cash Management Account"</strong>) for disbursement in
+                accordance with the Loan Documents, with 100% of the net cash
+                flow from the Properties (after application to Lender expenses,
+                debt service, reserves and budgeted and approved operating
+                expenses) to be swept into the Cash Collateral Reserve.
+              </span>
+              <span
+                style="{!IF(Opportunity.Cash_Management__c = 'Hard', 'page-break-inside:auto;', 'display:none;')}"
+              >
+                Borrower shall (i) establish and maintain an account at an
+                eligible institution acceptable to Lender for purpose of
+                collecting rents (
+                <strong>"Rent Deposit Account"</strong>), (ii) cause all rents
+                to be directly deposited therein by all tenants of the
+                Properties (and all other monies received by Borrower or
+                Property Manager with respect to the Properties shall be
+                deposited therein within two (2) business days of receipt by
+                Borrower or Property Manager), and (iii) enter into a deposit
+                account control agreement in favor of Lender in respect of the
+                Rent Deposit Account. All amounts in the Rent Deposit Account
+                shall be swept no less frequently than weekly into an account
+                controlled by Lender (the
+                <strong>"Cash Management Account").</strong> On each payment
+                date, as long as no Trigger Period exists, 100% of the net cash
+                flow from the Properties (after application to Lender expenses,
+                debt service and reserves) will be released to Borrower from the
+                Cash Management Account. If a Trigger Period exists on a payment
+                date, such net cash flows shall be released to Borrower in the
+                amount of a monthly expense budget approved by Lender and the
+                balance shall be swept into the Cash Collateral Reserve.
+              </span>
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:auto;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Trigger Period:
+            </td>
+            <td class="definition">
+              A Low Debt Service Period occurs upon either (i) an event of
+              default under the Loan Documents or (ii) a Low Debt Service Period
+              (see defined term below) occurs and shall end upon the cure of the
+              event of default or cessation of the Low Debt Service Period.
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:auto;', 'display:none;')}"
+          >
+            <td class="definition-title">
+              Low Debt Service Period:
+            </td>
+            <td class="definition">
+              A Trigger Period occurs when DSCR is less than the Minimum DSCR
+              (see defined term below) and ends when Borrower achieves a DSCR
+              greater than or equal to the Threshold DSCR (see defined term
+              above) for two consecutive calendar quarters.
+            </td>
+          </tr>
+          <tr
+            style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:auto;', 'display:none;')}"
+          >
+            <td class="definition-title"></td>
+            <td class="definition">
+              <!-- table inside here -->
+              <table style="table-layout: fixed; width: 100%; border: 0px">
+                <tr
+                  style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:avoid;', 'display:none;')}"
+                >
+                  <td class="sub-definition-title">
+                    DSCR:
+                  </td>
+                  <td class="sub-definition">
+                    Ratio of (i) underwritten net operating income for the
+                    twelve (12) months ended on any date of determination to
+                    (ii) the monthly loan payment amount on the Loan multiplied
+                    by twelve (12), as further described in the Loan Documents.
+                  </td>
+                </tr>
+                <tr
+                  style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:avoid;', 'display:none;')}"
+                >
+                  <td class="sub-definition-title">
+                    Minimum DSCR:
+                  </td>
+                  <td class="sub-definition">
+                    1.10x
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Reserves:
+            </td>
+            <td class="definition">
+              Borrower shall establish and fund reserves at Closing and on an
+              ongoing basis for taxes, insurance, capital expenditures, advance
+              rent and cash collateral, as follows:
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td
+              style="
+                font-family: Times;
+                font-size: 10pt;
+                border: 0px;
+                padding: 12px 6px;
+                vertical-align: top;
+                width: 25%;
+                font-weight: bold;
+              "
+            ></td>
+            <td
+              style="
+                font-family: Times;
+                font-size: 10pt;
+                border: 0px;
+                padding: 12px 6px;
+                vertical-align: top;
+                width: 75%;
+                text-align: justify;
+              "
+            >
+
+            </td>
+          </tr> -->
+          <tr>
+            <td class="definition-title"></td>
+            <td class="definition">
+              <table style="table-layout: fixed; width: 100%; border: 0px">
+                <tr>
+                  <td class="sub-definition-title">
+                    Taxes:
+                  </td>
+                  <td class="sub-definition">
+                    Deposit at Closing sufficient to pay all taxes by the 30th
+                    day prior to the date they come due assuming subsequent
+                    monthly payments to such reserve equal to one twelfth (1/12)
+                    of annual Portfolio real estate taxes that Lender estimates
+                    will be payable in the ensuing twelve (12) months or such
+                    reasonable amounts as may be reasonably requested by Lender.
+                    Absent an event of default, Lender shall release funds to
+                    pay tax bills when due, so long as such bills are provided
+                    to Lender not less than thirty (30) days before due.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="sub-definition-title">
+                    Insurance:
+                  </td>
+                  <td class="sub-definition">
+                    Deposit (i) at Closing an amount sufficient to pay all
+                    insurance costs for the Portfolio that Lender estimates will
+                    be payable in the ensuing twelve (12) months and (ii)
+                    thereafter monthly, one twelfth (1/12) of annual Portfolio
+                    insurance costs or such other amounts as may be reasonably
+                    requested by Lender. Absent an event of default, Lender
+                    shall release funds to pay insurance premiums when due, so
+                    long as such invoices are provided to Lender not less than
+                    thirty (30) days before due.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="sub-definition-title">
+                    Capital Expenditures:
+                  </td>
+                  <td class="sub-definition">
+                    Deposit at Closing and monthly thereafter an amount
+                    reasonably determined by Lender to provide a reserve for the
+                    payment of anticipated capital expenditures with respect to
+                    the Properties. Actual payments shall be made by Borrower
+                    and reimbursed by Lender subject to (i) receipt by Lender of
+                    an officer's certificate in form and substance satisfactory
+                    to Lender and (ii) satisfaction of other customary
+                    conditions specified in the Loan Documents.
+                  </td>
+                </tr>
+
+                <!-- <tr style="{!IF((Opportunity.Cash_Management__c = 'None' && Opportunity.Recourse__c = 'Recourse') || Opportunity.Cash_Management__c == 'Hard' || Opportunity.Cash_Management__c == 'Soft', 'page-break-inside:avoid;', 'display:none;')}">
+                                    <td style="font-family: Times; font-size: 10pt;border:0px;padding:12px 6px;vertical-align:top;width:25%;font-weight:bold;">
+                                        <u>Holdback Reserve:</u>
+                                    </td>
+                                    <td style="font-family: Times; font-size: 10pt;border:0px;padding:12px 6px;vertical-align:top;width:75%;text-align: justify;">
+                                        Borrower shall deposit with Lender at Closing an amount equal to the Holdback Reserve Amount. At any time 
+                                        during the continuance of an Event of Default, or prior to an Event of Default and upon Borrower’s satisfaction 
+                                        of the conditions set forth in the Loan Documents, Lender shall have the right to apply any funds in the 
+                                        Holdback Reserve to the payment of principal, interest, property taxes, insurance premiums, operating 
+                                        expenses and capital expenditures or to any other obligations. On or after the date that is 
+                                        twelve (12) months from the Closing date, and upon satisfaction of the conditions described in 
+                                        the Loan Documents, Lender shall release any remaining funds on deposit in the Holdback Reserve to Borrower.
+                                    </td>
+                                </tr> -->
+                <!-- I remove "Opportunity.Recourse__c = 'Non-Recourse' && " from the below conditional statement -->
+                <tr
+                  style="{!IF((Opportunity.Cash_Management__c = 'None' && Opportunity.Recourse__c = 'Non-Recourse') || Opportunity.Cash_Management__c = 'None' || Opportunity.Cash_Management__c = 'Springing', 'page-break-inside:avoid;', 'display:none;')}"
+                >
+                  <td class="sub-definition-title">
+                    Holdback Reserve:
+                  </td>
+                  <!-- <td style="font-family: Times; font-size: 10pt;padding:12px 6px;vertical-align:top;text-align: justify;">
+                                        Borrower shall deposit at Closing one (1) months’ (a) debt service, (b) capital expenditure reserve, (c) insurance reserve
+                                        and (d) taxes reserve. At any time during the continuance of an Event of Default,
+                                        Lender shall have the right to apply any funds in the Holdback Reserve to the payment
+                                        of principal, interest, property taxes, insurance premiums, operating expenses and
+                                        capital expenditures or to any other obligations. Borrower shall, within five (5)
+                                        days of a written request by Lender, deposit such additional funds into the Holdback
+                                        Reserve as are necessary to return the amount in the Holdback Reserve to the original
+                                        Holdback Reserve amount.
+                                    </td> -->
+                  <td class="sub-definition">
+                    Borrower shall deposit with Lender at Closing an amount
+                    equal to the Holdback Reserve Amount. At any time during the
+                    continuance of an Event of Default, or prior to an Event of
+                    Default and upon Borrower's satisfaction of the conditions
+                    set forth in the Loan Documents, Lender shall have the right
+                    to apply any funds in the Holdback Reserve to the payment of
+                    principal, interest, property taxes, insurance premiums,
+                    operating expenses and capital expenditures or to any other
+                    obligations. On or after the date that is twelve (12) months
+                    from the Closing date, and upon satisfaction of the
+                    conditions described in the Loan Documents, Lender shall
+                    release any remaining funds on deposit in the Holdback
+                    Reserve to Borrower, but for one (1) month of principal and
+                    interest which shall be held for the life of the Loan.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="sub-definition-title">
+                    Advance Rent:
+                  </td>
+                  <td class="sub-definition">
+                    If the Loan is non-recourse with any form of Cash
+                    Management, if Borrower receives any rent paid more than
+                    thirty (30) days in advance, Borrower shall deposit such
+                    funds with Lender and provide an appropriate disbursement
+                    schedule to Lender. If the Loan is subject to Soft Cash
+                    Management, then as long as no Trigger Period exists,
+                    advance rents held in reserve will be released to Borrower
+                    on the applicable Payment Dates designated on the advance
+                    rent disbursement schedule. If a Trigger Period exists,
+                    advance rents held in reserve shall be released to the Cash
+                    Management Account on the Payment Dates designated on the
+                    advance rent disbursement schedule and applied (together
+                    with other collections of rents) as provided in "Cash
+                    Management" above. If the Loan is subject to Hard Cash
+                    Management, then advance rents held in reserve shall be
+                    released to the Cash Management Account on the Payment Dates
+                    designated on the advance rent disbursement schedule and
+                    applied (together with other collections of rents) as
+                    provided in "Cash Management" above.
+                  </td>
+                </tr>
+                <tr
+                  style="{!IF(Opportunity.Cash_Management__c != 'None', 'page-break-inside:avoid;', 'display:none;')}"
+                >
+                  <td class="sub-definition-title">
+                    Cash Collateral:
+                  </td>
+                  <td class="sub-definition">
+                    If the Loan is subject to any form of Cash Management, then
+                    during a Trigger Period, Borrower shall deposit with Lender
+                    all excess cash flow remaining after the application of
+                    funds pursuant to "Cash Management" above. Funds will be
+                    released to Borrower after the conclusion of the Trigger
+                    Period.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Indebtedness:
+            </td>
+            <td class="definition">
+              No additional mortgage debt, mezzanine debt or "hard pay"
+              preferred equity is permitted by either Borrower (or Pledgor if
+              the Loan is $5,000,000 or greater). Trade payables to be capped as
+              agreed in the Loan Documents.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title"></td>
+            <td class="definition">
+              <table style="border: none">
+                <tr>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 90%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  ></td>
+                  <td
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      width: 10%;
+                      vertical-align: bottom;
+                      border: none;
+                    "
+                  >
+                    <strong> Initials:_______ </strong>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Change of Ownership:
+            </td>
+            <td class="definition">
+              Transfers of equity interests in Borrower and pledges of the
+              equity interests in Borrower and Pledgor are not permitted.
+              Transfers of up to 49% of the equity interests of Pledgor are
+              permitted. In addition, transfers of equity interests in Pledgor
+              in excess of 49% will be permitted, subject to Lender approval and
+              payment of a transfer fee equal to 1% of the loan amount and costs
+              and expenses incurred in connection with the transfer.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Insurance Requirements:
+            </td>
+            <td class="definition">
+              Borrower shall maintain insurance as described further in the Loan
+              Documents, including, but not limited to: (i) "all risk" hazard
+              insurance, (ii) liability insurance, (iii) business interruption /
+              rental loss insurance, (iv) flood insurance for all Properties
+              located in a flood hazard zone, (v) windstorm insurance for all
+              Properties located in a coastal zone, (vi) if applicable,
+              automobile liability, (vii) if applicable, worker's compensation
+              and (viii) such other insurance as may be reasonably required by
+              Lender, all in amounts satisfactory to Lender. All policies shall
+              be from providers with a claims paying ability rating of "A3" or
+              better by Moody's Investors Service, Inc., or if such insurance
+              company is not rated by Moody's, "A-" or better by Standard &amp;
+              Poor's Ratings Services or "A:X" or better in the current Best's
+              Insurance Reports, which policies must name Lender as additional
+              insured, subject to certain conditions described in the Loan
+              Documents.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Due Diligence:
+            </td>
+            <td class="definition">
+              Lender shall be satisfied, with respect to all due diligence
+              items, including but not limited to: (i) the financial condition,
+              background and reputation of Borrower, Pledgor and Sponsor, (ii)
+              the quality of each Property comprising the Portfolio, including
+              but not limited to a satisfactory review of UCC and judgment
+              searches, leases, interior appraisals (or alternative valuations
+              product at Lender's discretion), value reconciliations,
+              environmental database search where applicable, title report,
+              title insurance policy, inspections to confirm rehab on a sample
+              of the Properties and all insurance policies and/or other reports
+              as reasonably deemed necessary by Lender, and (iii) feasibility
+              and viability of Sponsor's business plan and operations. All
+              interior appraisals (or alternative valuations product at Lender's
+              discretion) for the Properties must be dated within ninety (90)
+              days of the Loan closing. All title work related to the Loan shall
+              be performed by OS National or other party selected by Lender.
+              <p>
+                Sponsor understands, acknowledges, and agrees that the Lender
+                and Other Loan Participants may obtain, use and share tax return
+                information for purposes of (i) providing an offer; (ii)
+                originating, maintaining, managing, monitoring, servicing,
+                selling, insuring, and securitizing a loan; (iii) marketing; or
+                (iv) as otherwise permitted by applicable laws, including state
+                and federal privacy and data security laws. The Lender includes
+                the Lender's affiliates, agents, service providers and any of
+                aforementioned parties' successors and assigns. The Other Loan
+                Participants includes any actual or potential owners of a loan
+                resulting from your loan application, or acquirers of any
+                beneficial or other interest in the loan, any mortgage insurer,
+                guarantor, any servicers or service providers for these parties
+                and any of aforementioned parties' successors and assigns.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Conditions Precedent to Funding:
+            </td>
+            <td class="definition">
+              Among other things, in Lender's sole and absolute discretion: (i)
+              approval of Lender's investment committee; (ii) satisfactory
+              completion of Due Diligence and other conditions described herein;
+              (iii) accuracy of representations and warranties; (iv)
+              satisfactory Loan Documents; and (v) Lender's title insurance. If
+              the Loan is between $5,000,000 and $10,000,000, then in addition
+              to the aforementioned conditions precedent, satisfactory opinions
+              of counsel including customary Delaware corporate law opinions,
+              New York enforceability opinion and local law opinions shall be
+              required. If the Loan is $15,000,000 or greater, then in addition
+              to all of the aforementioned conditions precedent, the appointment
+              of an independent director of each of Borrower and Pledgor and a
+              satisfactory non-consolidation opinion letter shall be required.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Expense Deposit:
+            </td>
+            <td class="definition">
+              All expenses actually incurred by Lender in connection with the
+              Loan will be paid by Borrower regardless of whether the Loan
+              closes. These expenses shall include but not be limited to
+              Lender's due diligence, legal fees, interior appraisals (or
+              alternative valuations product at Lender's discretion), value
+              reconciliations, environmental database searches, home
+              inspections, and all other third party expenses related to the
+              Loan closing. Borrower shall also be responsible for
+              administrative fees and expenses. Moreover, if prior to the Loan
+              closing, Lender determines that the Expense Deposit will be
+              insufficient to pay all expenses, at Lender's request, Sponsor
+              shall promptly deliver to Lender funds in the amount of such
+              shortfall. In the event that the Loan closes, at Lender's request
+              any unused portion of the Expense Deposit will be deducted from
+              the Origination Fee due and retained by Lender.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Brokers:
+            </td>
+            <td class="definition">
+              Sponsor shall indemnify and hold harmless Lender and its
+              affiliates against any and all loss, cost, damage, liability and
+              expenses suffered or incurred by Lender or its affiliates arising
+              out of, or in connection with, any claims by brokers, agents or
+              finders claiming to have assisted or represented Sponsor in
+              connection with the Loan.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Attorneys' Fees:
+            </td>
+            <td class="definition">
+              In the event any party shall institute any action or proceeding
+              against the other party relating to this Summary of Terms, the
+              party not prevailing in such action or proceeding shall reimburse
+              the prevailing party for its disbursements incurred in connection
+              therewith and for its reasonable attorneys' fees and costs.
+            </td>
+          </tr>
+          <tr style="page-break-inside: avoid">
+            <td class="definition-title">
+              Governing Law:
+            </td>
+            <td class="definition">
+              This Summary of Terms and the Loan shall be governed by the laws
+              of the State of New York, except that the attachment, perfection
+              and priority of the mortgage(s)/deed(s) of trust shall be governed
+              by the law of the State in which the respective Properties are
+              located.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Exclusivity:
+            </td>
+            <td class="definition">
+              Sponsor agrees that so long as Lender is willing to provide the
+              Loan on the terms and conditions set forth herein, it will not
+              negotiate or deal with any party to obtain financing in
+              substitution of or in addition to the Loan with respect to the
+              Portfolio or any portion thereof or interest in a Property until
+              the date that is three (3) months after the date hereof. If the
+              Loan does not close for any reason other than Lender's
+              determination not to make the Loan despite Sponsor's cooperation,
+              and Sponsor, or any of its affiliates, accepts financing of the
+              Portfolio or a commitment to finance the Portfolio or any portion
+              thereof or interest in a Property, from a party other than Lender
+              within six (6) months following the date hereof, then Sponsor
+              shall pay to Lender an amount equal to 1.0% of the Loan Amount
+              specified herein promptly upon receipt of such financing or
+              acceptance of such commitment, as the case may be.
+            </td>
+          </tr>
+          <tr>
+            <td class="definition-title">
+              Confidentiality:
+            </td>
+            <td class="definition">
+              Sponsor may use or be exposed to Lender's proprietary and
+              confidential methodologies, procedures, processes, materials and
+              loan documentation in the evaluation, negotiation and closing of
+              the Loan. Sponsor agrees to keep all such confidential information
+              supplied by Lender (
+              <strong>"Confidential Information"</strong>) confidential and only
+              use the Confidential Information for the purpose of evaluating,
+              negotiating and closing the Loan. Sponsor agrees (i) the
+              Confidential Information is proprietary and created by Lender for
+              a new asset class, (ii) the Confidential Information provides
+              Lender with a significant competitive advantage in becoming a
+              leader in this asset class and (iii) any dissemination or
+              disclosure of the Confidential Information will cause material
+              harm to Lender.
+            </td>
+          </tr>
+        </table>
+        <tr>
+          <td
+            style="
+              font-family: Times;
+              font-size: 10pt;
+              line-height: 1.3;
+              padding: 5px 6px;
+              vertical-align: top;
+              width: 100%;
+              text-align: justify;
+            "
+          >
+            This Summary of Terms does not purport to be and does not constitute
+            a binding agreement among the parties, and the parties hereto shall
+            have no obligations whatsoever, express or implied, written or oral,
+            with regard to the Summary of Terms except for the provisions
+            captioned "Expense Deposit", "Brokers", "Attorney's Fees",
+            "Governing Law", "Exclusivity" and "Confidentiality". This Summary
+            of Terms is for discussion purposes only and does not in any way
+            whatsoever constitute a commitment to lend or an agreement to issue
+            a commitment, and Lender has made no commitments or agreements
+            whatsoever, express or implied, written or oral, to Sponsor or with
+            regard to any of the matters covered by this Summary of Terms. The
+            terms of this Summary of Terms are not all-inclusive and should not
+            be construed as to reflect all of the provisions to be included in
+            the Loan Documents and may be varied as the Lender may determine in
+            its sole and absolute discretion. No oral agreements between or
+            among the parties shall be binding under any circumstances at any
+            time.
+          </td>
+        </tr>
+        <br clear="all" style="page-break-before: always" />
+
+        <div>
+          <table
+            style="
+              table-layout: fixed;
+              width: 95vw;
+              border-collapse: collapse;
+              border-spacing: 0;
+              border: 0px;
+              margin: 0 auto;
+              width: 95vw;
+            "
+          >
+            <thead>
+              <th style="border: 0px">
+                <h4
+                  style="
+                    font-family: Times;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                >
+                  Schedule 3
+                </h4>
+                <h4
+                  style="
+                    font-family: Times;
+                    font-weight: bold;
+                    text-align: center;
+                  "
+                >
+                  Wire Instructions
+                </h4>
+              </th>
+            </thead>
+            <tr>
+              <td style="border: 0px; padding-top: 12px; width: 100%">
+                <p
+                  style="
+                    font-family: Times;
+                    font-size: 10pt;
+                    page-break-inside: avoid;
+                  "
+                >
+                  Please use the following wiring instructions for disbursements
+                  to CoreVest American Finance Lender LLC:
+                </p>
+                <div
+                  style="display:{!IF(!CONTAINS(Opportunity.Distinct_States_Full__c, 'Oregon'), 'inline','none')}"
+                >
+                  <p
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      page-break-inside: avoid;
+                      width: 100%;
+                    "
+                  >
+                    BANK OF AMERICA N.A.
+                    <br /> 100 WEST 33RD STREET <br /> NEW YORK, NEW YORK 10001
+                    <br />
+                  </p>
+                  <p
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      page-break-inside: avoid;
+                      width: 100%;
+                    "
+                  >
+                    ABA Routing Number: 026009593
+                    <br /> Account Name: CoreVest American Finance Lender LLC
+                    (Borrower Deposits) <br /> Account Number: 4451272357
+                    <br /> Address: 4 Park Plaza, Suite 900, Irvine, CA 92614
+                    <br /> Reference: CAF Term Loan/
+                    <apex:outputText value="{!Opportunity.Name}" />/D
+                    <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}"
+                    />
+                    <br />
+                  </p>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="border: 0px; padding-top: 12px; width: 100%">
+                <!--<p style="font-family: Times; font-size: 10pt;page-break-inside:avoid;">
+Except if any Oregon property is included in the portfolio in which case the following wire information should be utilized:
+</p>-->
+                <div
+                  style="display:{!IF(CONTAINS(Opportunity.Distinct_States_Full__c, 'Oregon'), 'inline','none')}"
+                >
+                  <p
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      page-break-inside: avoid;
+                      width: 100%;
+                    "
+                  >
+                    BANK OF AMERICA N.A.
+                    <br /> 100 WEST 33RD STREET <br /> NEW YORK, NEW YORK 10001
+                    <br />
+                  </p>
+                  <p
+                    style="
+                      font-family: Times;
+                      font-size: 10pt;
+                      page-break-inside: avoid;
+                      width: 100%;
+                    "
+                  >
+                    ABA Routing Number: 026009593
+                    <br /> Account Name: CoreVest American Finance Lender LLC
+                    (Client Trust) <br /> Account Number: 485010367633
+                    <br /> Address: 4 Park Plaza, Suite 900, Irvine, CA 92614
+                    <br /> Reference: CAF Term Loan/
+                    <apex:outputText value="{!Opportunity.Name}" />/D
+                    <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}"
+                    />
+                    <br />
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <br clear="all" style="page-break-before: always" />
+        <div>
+          <h4 style="font-weight: bold; text-align: center">Schedule 4</h4>
+          <h4 style="font-weight: bold; text-align: center">
+            Properties (Subject to lender approval)
+          </h4>
+          <table
+            style="
+              width: 100%;
+              border: 1px solid black;
+              -fs-table-paginate: paginate;
+              border-collapse: collapse;
+
+              page-break-inside: auto;
+            "
+          >
+            <thead>
+              <tr>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  Count
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  Property Name&#10;&#13; (Parent Property)
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  Property&#10;&#13; Type
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  Address
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  City
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  State
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  Zip
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  County
+                </th>
+                <th
+                  style="
+                    width: fit-content;
+                    vertical-align: middle;
+                    padding: 1px;
+                    font-family: Times;
+                    font-size: 12pt;
+                    text-align: center;
+                    background-color: #d3d3d3;
+                    font-weight: bold;
+                    border: 1px solid black;
+                  "
+                >
+                  # of Units
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <apex:variable var="rowNum" value="{!1}" />
+              <apex:repeat var="property" value="{!allProperties}">
+                <tr style="page-break-inside: avoid; page-break-after: auto">
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: right;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!rowNum}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.Property_Name__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.Property_Type__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.Name}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.City__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.State__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.ZipCode__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: left;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.County__c}
+                  </td>
+                  <td
+                    style="
+                      width: fit-content;
+                      vertical-align: middle;
+                      padding: 2px;
+                      font-family: Times;
+                      font-size: 10pt;
+                      text-align: right;
+                      border: 1px solid black;
+                    "
+                  >
+                    {!property.Number_of_Units__c}
+                  </td>
+                </tr>
+                <apex:variable var="rowNum" value="{!rowNum+1}" />
+              </apex:repeat>
+            </tbody>
+          </table>
+        </div>
+        <table
+          id="hrdftrtbl"
+          border="1"
+          cellspacing="0"
+          cellpadding="0"
+          style="width: 100%; border: none"
+        >
+          <tr>
+            <td>
+              <div id="h1" style="mso-element: header">
+                <p class="MsoHeader">
+                  <table border="none" width="100%">
+                    <tr>
+                      <td>
+                        <apex:image url="https://cvest.my.salesforce.com/servlet/servlet.ImageServer?id=0150a000001fqte&oid=00Dj0000000L4sC"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="height: 12px"><br /></td>
+                    </tr>
+                  </table>
+                </p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="mso-element: footer" id="f1" width="100%">
+                <p
+                  class="MsoFooter"
+                  width="100%"
+                  border="0"
+                  cellspacing="0"
+                  cellpadding="0"
+                >
+                  <!--<table width="100%">
+  <tr>
+  <td width="30%"></td>
+  <td align="center" width="40%">
+  <span style='mso-field-code: PAGE '></span>
+  </td>
+  <td align="right" width="30%">
+  <span style="font-size: 10pt;">Sponsor Initials ________</span>
+  </td>
+  </tr>
+  </table>-->
+                  <table style="width: 100%">
+                    <tr>
+                      <td
+                        style="
+                          width: 30%;
+                          vertical-align: top;
+                          padding-top: 1px;
+                          font-family: Times;
+                          font-size: 7pt;
+                          text-align: left;
+                        "
+                      >
+                        Term Loan
+                        <br /> Loan Number:
+                        <apex:outputText value=" {!Opportunity.Deal_Loan_Number__c}"
+                        />
+                        <br /> Date Generated:
+                        <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+                          <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}"
+                        /></apex:outputText>
+                        <br /> Version 1.0
+                      </td>
+                      <td
+                        style="
+                          width: 40%;
+                          vertical-align: top;
+                          padding-top: 1px;
+                          font-family: Times;
+                          font-size: 10pt;
+                          text-align: center;
+                        "
+                      >
+                        <div>
+                          Page <span class="pagenumber" /> of
+                          <span class="pagecount" />
+                        </div>
+                      </td>
+                    </tr>
+                  </table>
+                </p>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <apex:form >
+          <apex:inputField value="{!Opportunity.Negotiated_by_Counsel__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.LOC_Commitment__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Include_Prop_Sub_Text__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Include_Assumption__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Cash_Management__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.YM_Prepayment_Penalty__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Recourse__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Sponsor_Net_Worth__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Sponsor_Liquidity__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Distinct_States_Full__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Include_3_Months_Min_Interest__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Loan_Size__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Total_Units__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.IO_Term__c}" rendered="false" />
+          <apex:inputField value="{!Opportunity.Stepdown_Prepayment_Period__c}"
+            rendered="false"
+          />
+        </apex:form>
+      </div>
+
+      <br clear="all" style="page-break-before: always" />
+      <td>
+        <!--Footer-->
+        <div style="mso-element: footer" id="f1">
+          <p class="MsoFooter">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="30%">
+                  <!--Left<br/>Footer-->
+                </td>
+                <td align="center" width="40%">
+                  <!--Center<br/>Footer-->
+                </td>
+                <td align="right" width="30%"></td>
+              </tr>
+            </table>
+          </p>
+        </div>
+      </td>
+
+      <!-- close Section 1 div-->
+    </div>
+  </body>
+</apex:page>

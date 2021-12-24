@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Maturity_Beyond_Deal_Maturity</fullName>
+    <active>false</active>
+    <description>This will prevent a User from entering an &quot;Asset Maturity Date Override&quot; beyond the Deal Current Maturity Date</description>
+    <errorConditionFormula>AND(
+ ISCHANGED( Asset_Maturity_Date_Override__c ),
+ Asset_Maturity_Date_Override__c &gt; Deal__r.Current_Line_Maturity_Date__c 
+)</errorConditionFormula>
+    <errorDisplayField>Asset_Maturity_Date_Override__c</errorDisplayField>
+    <errorMessage>The Asset Maturity Date Override cannot exceed the Deal Current Maturity Date</errorMessage>
+</ValidationRule>

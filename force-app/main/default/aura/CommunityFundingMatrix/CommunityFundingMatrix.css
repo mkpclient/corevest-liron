@@ -1,0 +1,15 @@
+.THIS .uploadedStatus {
+  background-color: #1393d1;
+}
+
+.THIS .reviewedStatus {
+  background-color: rgb(255, 103, 27);
+}
+
+.THIS .totalStatus {
+  background-color: #ff671b;
+}
+
+.THIS .slds-progress-bar {
+  height: 3rem;
+}

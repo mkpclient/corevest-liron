@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Private__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Once uploaded, this Document will only be visible to the Vendor who uploaded it and the Borrower</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Once uploaded, this Document will only be visible to the Vendor who uploaded it and the Borrower</inlineHelpText>
+    <label>Private</label>
+    <securityClassification>Internal</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

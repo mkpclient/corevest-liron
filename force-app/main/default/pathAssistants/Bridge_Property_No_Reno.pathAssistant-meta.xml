@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Property__c</entityName>
+    <fieldName>Status__c</fieldName>
+    <masterLabel>Bridge Property No Reno</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Payoff_Request_Date__c</fieldNames>
+        <fieldNames>Payoff_Request_Sent_Date__c</fieldNames>
+        <fieldNames>Payoff_Received_Date__c</fieldNames>
+        <info>&lt;p&gt;This Property is in &lt;b&gt;Active&lt;/b&gt; Status&lt;/p&gt;&lt;ul&gt;&lt;li&gt;This Property has been fully funded and is part of an active loan&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Active</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Requested_Funding_Date__c</fieldNames>
+        <info>&lt;p&gt;This Property is in &lt;b&gt;Closing &lt;/b&gt;Status&lt;/p&gt;&lt;ul&gt;&lt;li&gt;At Closing Status, the Property is ready to be funded&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Closing</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Acquisition_Price__c</fieldNames>
+        <fieldNames>Rehab_Budget__c</fieldNames>
+        <fieldNames>BPO_Appraisal_Value__c</fieldNames>
+        <info>&lt;p&gt;This Property is in &lt;b&gt;Due Diligence&lt;/b&gt; Status&lt;/p&gt;&lt;ul&gt;&lt;li&gt;In the Due Diligence Status, appraisals should be done and documents uploaded&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Due Diligence</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;p&gt;This Property is in &lt;b&gt;Paid off&lt;/b&gt; Status&lt;/p&gt;&lt;ul&gt;&lt;li&gt;The Borrower has paid off this Property&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Paid Off</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <fieldNames>Acquisition_Price__c</fieldNames>
+        <fieldNames>Rehab_Budget__c</fieldNames>
+        <fieldNames>BPO_Appraisal_Value__c</fieldNames>
+        <info>&lt;p&gt;This Property is in &lt;b&gt;Pending &lt;/b&gt;Status&lt;/p&gt;&lt;ul&gt;&lt;li&gt;At Pending Status, Appraisal Details should be collected&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Pending</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Bridge_No_Renovation</recordTypeName>
+</PathAssistant>

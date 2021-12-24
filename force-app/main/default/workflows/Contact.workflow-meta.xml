@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Contact_Do_Not_Lend</fullName>
+        <description>Contact Do Not Lend</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/Contact_Do_Not_Lend</template>
+    </alerts>
+    <alerts>
+        <fullName>Contact_in_Litigation</fullName>
+        <description>Contact in Litigation</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/Contact_In_Litigation</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Update_Introduction_Source</fullName>
+        <field>Introduction_Source_Text__c</field>
+        <formula>TEXT(Account.Introductions_Source__c)</formula>
+        <name>Update Introduction Source</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>utm_Campaign_Content</fullName>
+        <field>utm_Campaign_Content__c</field>
+        <formula>Account.utm_Campaign_Content__c</formula>
+        <name>utm Campaign Content</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>utm_Campaign_Medium</fullName>
+        <field>utm_Campaign_Medium__c</field>
+        <formula>Account.utm_Campaign_Medium__c</formula>
+        <name>utm Campaign Medium</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>utm_Campaign_Name</fullName>
+        <field>utm_Campaign_Name__c</field>
+        <formula>Account.utm_Campaign_Name__c</formula>
+        <name>utm Campaign Name</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>utm_Campaign_Source</fullName>
+        <field>utm_Campaign_Source__c</field>
+        <formula>Account.utm_Campaign_Source__c</formula>
+        <name>utm Campaign Source</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>utm_Campaign_Term</fullName>
+        <field>utm_Campaign_Term__c</field>
+        <formula>Account.utm_Campaign_Term__c</formula>
+        <name>utm Campaign Term</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Contact Do Not Lend</fullName>
+        <actions>
+            <name>Contact_Do_Not_Lend</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Contact.Do_Not_Lend__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Email Alert when Contact is set to Do Not Lend (contact level only)</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Do not Lend%2FIn Litigation Email Alert</fullName>
+        <actions>
+            <name>Contact_in_Litigation</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Contact.In_Litigation__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Email alert to notify user that contact is in litigation.</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Map UTM fields from Account</fullName>
+        <actions>
+            <name>utm_Campaign_Content</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>utm_Campaign_Medium</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>utm_Campaign_Name</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>utm_Campaign_Source</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <actions>
+            <name>utm_Campaign_Term</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>TRUE</formula>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+    <rules>
+        <fullName>Update Introduction Source</fullName>
+        <actions>
+            <name>Update_Introduction_Source</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <formula>TRUE</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

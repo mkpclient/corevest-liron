@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template">
+  <aura:attribute name="propertyArray" type="Object[]" />
+  <aura:attribute name="headerList" type="Object[]" />
+</aura:event>

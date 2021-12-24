@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_Sync__c</fullName>
+    <description>Indicates that an appraisal has been merged with this property</description>
+    <externalId>false</externalId>
+    <formula>NOT(ISBLANK(Appraised_Value_Amount__c))</formula>
+    <inlineHelpText>Indicates that an appraisal has been merged with this property</inlineHelpText>
+    <label>Appraisal Received</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

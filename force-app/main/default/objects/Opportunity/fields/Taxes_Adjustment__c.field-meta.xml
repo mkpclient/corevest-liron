@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Taxes_Adjustment__c</fullName>
+    <defaultValue>IF($RecordType.Name == &apos;Term Loan&apos;, 0, NULL )</defaultValue>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Calculated as a % of Estimated Value</inlineHelpText>
+    <label>Taxes Adjustment</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

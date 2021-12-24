@@ -1,0 +1,113 @@
+<aura:component>
+    <aura:attribute name="formType" type="String" default="stacked" />
+    <aura:attribute name="property" type="Map" default="{}" />
+    <aura:attribute name="valid" type="Boolean" default="true" />
+
+    <aura:method name="validateInput" action="{!c.validateInput}" />
+
+    <div class="{!'slds-form slds-form_' + v.formType}">
+        <lightning:select required="true" aura:id="input" label="Property Record Type" value="{!v.property.RecordTypeId}">
+            <option value=""></option>
+            <option value="0120a0000019jiAAAQ">Renovation</option>
+            <option value="0120a0000015H6TAAU">No Renovation</option>
+            <option value="0120a0000015H6TAAU">Ground Up Construction</option>
+        </lightning:select>
+        <lightning:input required="true" aura:id="input" label="Street Address" name="streetAddress" value="{!v.property.Name}" />
+        <lightning:input required="true" aura:id="input" label="City" name="city" value="{!v.property.City__c}" />
+        <lightning:select required="true" aura:id="input" label="State" name="State" value="{!v.property.State__c}">
+            <option value=""></option>
+            <option value="AL">AL</option>
+            <option value="AK">AK</option>
+            <option value="AZ">AZ</option>
+            <option value="AR">AR</option>
+            <option value="CA">CA</option>
+            <option value="CO">CO</option>
+            <option value="CT">CT</option>
+            <option value="DE">DE</option>
+            <option value="FL">FL</option>
+            <option value="GA">GA</option>
+            <option value="HI">HI</option>
+            <option value="ID">ID</option>
+            <option value="IL">IL</option>
+            <option value="IN">IN</option>
+            <option value="IA">IA</option>
+            <option value="KS">KS</option>
+            <option value="KY">KY</option>
+            <option value="LA">LA</option>
+            <option value="ME">ME</option>
+            <option value="MD">MD</option>
+            <option value="MA">MA</option>
+            <option value="MI">MI</option>
+            <option value="MN">MN</option>
+            <option value="MS">MS</option>
+            <option value="MO">MO</option>
+            <option value="MT">MT</option>
+            <option value="NE">NE</option>
+            <option value="NV">NV</option>
+            <option value="NH">NH</option>
+            <option value="NJ">NJ</option>
+            <option value="NM">NM</option>
+            <option value="NY">NY</option>
+            <option value="NC">NC</option>
+            <option value="ND">ND</option>
+            <option value="OH">OH</option>
+            <option value="OK">OK</option>
+            <option value="OR">OR</option>
+            <option value="PA">PA</option>
+            <option value="RI">RI</option>
+            <option value="SC">SC</option>
+            <option value="SD">SD</option>
+            <option value="TN">TN</option>
+            <option value="TX">TX</option>
+            <option value="UT">UT</option>
+            <option value="VT">VT</option>
+            <option value="VA">VA</option>
+            <option value="WA">WA</option>
+            <option value="WV">WV</option>
+            <option value="WI">WI</option>
+            <option value="WY">WY</option>
+        </lightning:select>
+        <lightning:input required="true" aura:id="input" label="Zip" name="zip" value="{!v.property.ZipCode__c}" />
+        <!--<lightning:input required="true" aura:id="input" label="County" name="county" value="{!v.property.County__c}" /> -->
+        <lightning:select required="true" aura:id="input" label="Property Type" name="propertyType" value="{!v.property.Property_Type__c}">
+            <option value=""></option>
+            <option value="2-4 Unit">2-4 Unit</option>
+            <option value="Condo">Condo</option>
+            <option value="Multifamily">Multifamily</option>
+            <option value="SFR">SFR</option>
+            <option value="Townhome">Townhome</option>
+        </lightning:select>
+        <lightning:input required="true" aura:id="input" label="# of Units" name="numOfUnits" type="number" value="{!v.property.Number_of_Units__c}" />
+        <lightning:input required="true" aura:id="input" label="Bedroom" name="bedroom" type="number" value="{!v.property.Number_of_Beds__c}" />
+        <lightning:input required="true" aura:id="input" label="Bath" name="bath" type="number" value="{!v.property.Number_of_Bath__c}" />
+        <lightning:input required="true" aura:id="input" label="Square Footage" name="squareFootage" value="{!v.property.Square_Feet__c}" />
+        <lightning:select required="true" aura:id="input" label="Transaction Type" name="transactionType" value="{!v.property.Refinance_Acquisition__c}">
+            <option value=""></option>
+            <option value="Acquisition">Acquisition</option>
+            <option value="Refinance">Refinance</option>
+            <option value="Refinance with completed rehab">Refinance with completed rehab</option>
+            <option value="Purchase with Renovation Financing">Purchase with Renovation Financing</option>
+        </lightning:select>
+
+        <lightning:input required="true" aura:id="input" label="Requested Funding Date" type="date" name="requestedFundingDate"
+            value="{!v.property.Requested_Funding_Date__c}" />
+        <lightning:input required="true" aura:id="input" label="Purchase Price" name="purchasePrice" type="number"
+            value="{!v.property.Acquisition_Price__c}" formatter="currency" />
+        <lightning:input required="true" aura:id="input" label="Purchase Date" name="purchaseDate" type="date" value="{!v.property.Acquisition_Date__c}" />
+        <lightning:input required="true" aura:id="input" label="Contract Close Date" name="contractCloseDate" type="date"
+            value="{!v.property.Contract_Close_Date__c}" />
+        <lightning:input required="true" aura:id="input" label="Title Company" name="titleCompany" value="{!v.property.Title_Company_text__c}" />
+        <lightning:input required="true" aura:id="input" label="Title Contact Name" name="titleContactName" value="{!v.property.Title_Contact_Name__c}" />
+        <lightning:input required="true" aura:id="input" type="tel" label="Title Contact Phone" name="titleContactPhone"
+            value="{!v.property.Title_Contact_Phone__c}" />
+        <lightning:input required="true" aura:id="input" type="email" label="Title Contact Email Address" name="titleContactEmail"
+            value="{!v.property.Title_Contact_Email_Address__c}" />
+        <lightning:input required="true" aura:id="input" label="Point of Contact for interior Access"
+            name="interiorContact" value="{!v.property.Interior_Access_POC__c}" />
+        <lightning:input required="true" aura:id="input" type="tel" label="Interior Access POC Phone" name="interiorAccessPOCPhone"
+            value="{!v.property.Interior_Access_POC_Phone__c}" />
+        <lightning:input required="true" aura:id="input" type="email" label="Interior Access POC Email" name="interiorAccessPOCEmail"
+            value="{!v.property.Interior_Access_POC_Email__c}" />
+    </div>
+
+</aura:component>

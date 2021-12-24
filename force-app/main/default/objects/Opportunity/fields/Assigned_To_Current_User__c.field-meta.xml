@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Assigned_To_Current_User__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(Underwriter__c = $User.Id, Closer__c = $User.Id, Loan_Coordinator__c = $User.Id, OwnerId = $User.Id )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Assigned To Current User</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HD_Code__c</fullName>
+    <description>Auto generated code for storing and assigning next available HD code to deals that have closed.</description>
+    <displayFormat>CV{0000}</displayFormat>
+    <externalId>false</externalId>
+    <label>HD Code</label>
+    <trackHistory>false</trackHistory>
+    <type>AutoNumber</type>
+</CustomField>

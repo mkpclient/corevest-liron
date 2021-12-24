@@ -1,0 +1,208 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="deal" type="Object" default="{}" />
+	<aura:attribute name="loanMods" type="Object[]" default="[]"/>
+
+	<aura:attribute name="parentDealId" type="String" />
+	<aura:attribute name="summaryData" type="Object" />
+
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:handler event="force:refreshView" action="{!c.init}" />
+
+
+	<ui:scrollerWrapper class="scrollerSize">
+		<table class="slds-table slds-table_bordered slds-table_col-bordered">
+		  <thead>
+		    <tr class="slds-text-title_caps">
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">Deal Name</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="#">#</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Loan Mod Type">Loan Mod Type</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Status">Status</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Requested Loan Amount">Requested Loan Amount</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Final Loan Amount">LOC Commitment</div>
+		      </th>
+					<th scope="col">
+		        <div class="slds-truncate" title="Final Loan Amount">Aggregate Funding</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Current Closing Date">Current Closing Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Original Line Maturity Date">Original Line Maturity Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="New Line Maturity Date">New Line Maturity Date</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Contact">Interest Rate</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Term">Term</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Max LTC">Max LTC</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Max LTV">Max LTV</div>
+		      </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<aura:iteration items="{!v.loanMods}" var="item" indexVar="index" >
+		    	<tr>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.Id + '/view'}" onclick="{!c.handleClick}" id="{!item.Id}">{!item.Name}</a></div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="{!index}">{!index}</div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<aura:if isTrue="{!index == 0}">
+			        		N/A
+			        		<aura:set attribute="else">
+			        			{!item.Loan_Mod_Type__c}
+			        		</aura:set>
+			        	</aura:if>
+			        	
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	{!item.StageName}
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{!item.Loan_Size__c}" style="currency" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{!item.LOC_Commitment__c}" style="currency" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{!item.Aggregate_Funding__c}" style="currency" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.CloseDate}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.Original_Line_Maturity_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputDate value="{!item.Current_Line_Maturity_Date__c}" format="MM/dd/yy" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{! empty(item.Rate__c) ? null : item.Rate__c/100}" minimumSignificantDigits="4" style="percent" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">{!item.LOC_Term__c}</div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{! empty(item.LTC__c) ? null : item.LTC__c/100}" style="percent" />
+			        </div>
+			      </td>
+			      <td scope="col" data-label="Opportunity Name">
+			        <div class="slds-truncate" title="">
+			        	<lightning:formattedNumber value="{! empty(item.LTV__c) ? null : item.LTV__c/100}" style="percent" />
+			        </div>
+			      </td>
+			    </tr>
+		    </aura:iteration>
+
+		    <tr>
+		    	<th scope="row" data-label="Current Total">
+		    		<div class="slds-truncate" title="">Current Total</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title=""></div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title=""></div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title=""></div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{!v.summaryData.requestedLoanAmount}" style="currency" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{!v.summaryData.locCommitment}" style="currency" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{!v.summaryData.aggregateFunding}" style="currency" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<ui:outputDate value="{!v.summaryData.closeDate}" format="MM/dd/yy"/>
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<ui:outputDate value="{!v.summaryData.origMaturityDate}" format="MM/dd/yy" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<ui:outputDate value="{!v.summaryData.currentMaturityDate}" format="MM/dd/yy" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{! empty(v.summaryData.interestRate) ? null : v.summaryData.interestRate/100}" style="percent" minimumSignificantDigits="4" />
+		    			
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<ui:outputText value="{!v.summaryData.termType}" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{! empty(v.summaryData.maxLTC) ? null : v.summaryData.maxLTC/100}" style="percent" />
+		    		</div>
+		    	</th>
+		    	<th scope="row" data-label="">
+		    		<div class="slds-truncate" title="">
+		    			<lightning:formattedNumber value="{! empty(v.summaryData.maxLTV) ? null : v.summaryData.maxLTV/100}" style="percent" />
+		    		</div>
+		    	</th>
+		    </tr>
+		  </tbody>
+		</table> 
+	</ui:scrollerWrapper>
+
+	<c:util aura:id="util" />
+</aura:component>

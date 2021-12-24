@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Between_UW_Subm_and_UW_Approval__c</fullName>
+    <description>The amount of days between submission into UW and the date approved into UW</description>
+    <externalId>false</externalId>
+    <formula>Date_Stage_Changed_To_UW__c - Submission_Date__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount of days between submission into UW and the date approved into UW</inlineHelpText>
+    <label>Days Between UW Subm and UW Approval</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disable_Post_Close_Trigger__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This will disable the Post Close Trigger</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This will disable the Post Close Trigger</inlineHelpText>
+    <label>Disable Post Close Trigger</label>
+    <type>Checkbox</type>
+</CustomField>

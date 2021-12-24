@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Attorney_States__c</fullName>
+    <externalId>false</externalId>
+    <formula>CASE ( State__c ,
+&quot;AL&quot;,	&quot;Yes&quot;,
+&quot;CT&quot;,	&quot;Yes&quot;,
+&quot;DE&quot;,	&quot;Yes&quot;,
+&quot;DC&quot;,	&quot;Yes&quot;,
+&quot;FL&quot;,	&quot;Yes&quot;,
+&quot;GA&quot;,	&quot;Yes&quot;,
+&quot;KS&quot;,	&quot;Yes&quot;,
+&quot;KY&quot;,	&quot;Yes&quot;,
+&quot;ME&quot;,	&quot;Yes&quot;,
+&quot;MD&quot;,	&quot;Yes&quot;,
+&quot;MA&quot;,	&quot;Yes&quot;,
+&quot;MS&quot;,	&quot;Yes&quot;,
+&quot;NH&quot;,	&quot;Yes&quot;,
+&quot;NJ&quot;,	&quot;Yes&quot;,
+&quot;NY&quot;,	&quot;Yes&quot;,
+&quot;ND&quot;,	&quot;Yes&quot;,
+&quot;PA&quot;,	&quot;Yes&quot;,
+&quot;RI&quot;,	&quot;Yes&quot;,
+&quot;SC&quot;,	&quot;Yes&quot;,
+&quot;VT&quot;,	&quot;Yes&quot;,
+&quot;VA&quot;,	&quot;Yes&quot;,
+&quot;WVA&quot;,	&quot;Yes&quot;,
+&quot;NC&quot;,	&quot;Yes&quot;,
+&quot;TN&quot;,	&quot;Yes&quot;,
+&quot;No&quot;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Attorney States</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

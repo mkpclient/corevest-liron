@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Qualified_and_Not_Converted</fullName>
+    <active>true</active>
+    <description>This will prevent a User from selecting &quot;Qualified&quot; as the Status and the Lead is not converted</description>
+    <errorConditionFormula>AND(
+ ISPICKVAL( Status , &apos;Qualified&apos;),
+NOT( IsConverted ))</errorConditionFormula>
+    <errorMessage>&quot;Qualified&quot; is not a valid Status option, please use the &quot;Convert&quot; button to convert your Lead</errorMessage>
+</ValidationRule>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Dennis_New_Leads</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.PHONE</columns>
+    <columns>LEAD.MOBILE_PHONE</columns>
+    <columns>Introduction_Source__c</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>Loan_Product_s__c</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Owner_Name__c</field>
+        <operation>equals</operation>
+        <value>Dennis Spivey</value>
+    </filters>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>equals</operation>
+        <value>Open,Contacted</value>
+    </filters>
+    <filters>
+        <field>Created_Date_Time__c</field>
+        <operation>greaterThan</operation>
+        <value>LAST_MONTH</value>
+    </filters>
+    <label>Dennis&apos; New Leads - Current Month</label>
+    <sharedTo></sharedTo>
+</ListView>

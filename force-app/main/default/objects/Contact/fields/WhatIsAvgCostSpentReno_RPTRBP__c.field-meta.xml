@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WhatIsAvgCostSpentReno_RPTRBP__c</fullName>
+    <description>RPTRBP = Rental Property Track Record and Business Plan</description>
+    <externalId>false</externalId>
+    <label>WhatIsAvgCostSpentReno</label>
+    <precision>10</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

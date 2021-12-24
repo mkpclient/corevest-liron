@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Age_Younger_than_SSN_Issue_Date__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Age Younger than SSN Issue Date</description>
+    <externalId>false</externalId>
+    <label>Age Younger than SSN Issue Date</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

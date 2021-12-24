@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_Not_Re_Assign__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>CIS 7065 - checkbox to exclude leads from the ScheduableApexClass that automatically reassigns them to the House Account if their lead status is Contacted and the Lead was created 20+ days ago.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check this box if you want this lead to be excluded from the automation that reassigns it to the House Account if the lead was created at least 20 days prior and the lead status is Contacted.</inlineHelpText>
+    <label>Do Not Auto Re-Assign</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

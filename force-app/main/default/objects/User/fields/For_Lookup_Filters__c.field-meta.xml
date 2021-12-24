@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>For_Lookup_Filters__c</fullName>
+    <description>This is used for filters on Lookup fields</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is used for filters on Lookup fields</inlineHelpText>
+    <label>For Lookup Filters</label>
+    <length>200</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

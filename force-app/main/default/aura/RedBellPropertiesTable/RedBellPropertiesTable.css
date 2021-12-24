@@ -1,0 +1,28 @@
+.THIS .redbellColor {
+	background-color: #e3e5ed;
+}
+
+.THIS .diff {
+	color: #D93125;
+}
+/*
+.THIS tbody {
+    display:block;
+    height:200px;
+    overflow:auto;
+}
+
+.THIS thead, .THIS tbody tr {
+  display: table;
+  table-layout: fixed;
+}
+
+.THIS tbody tr {
+  width: 100%;
+} */
+
+
+.THIS .scroller {
+	max-height: 600px;
+	overflow-y: scroll;
+}

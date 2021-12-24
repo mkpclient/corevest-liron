@@ -1,0 +1,218 @@
+<aura:component
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickActionWithoutHeader"
+  controller="InterfaceEmail_LightningController"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="recordId" type="Id" default="0065C0000026GP2QAM" />
+  <aura:attribute name="possibleAttachments" type="Object[]" />
+  <aura:attribute name="user" type="Object" />
+  <aura:attribute name="recipients" type="String[]" />
+
+  <aura:attribute name="emailMessage" type="String" />
+  <aura:attribute name="emailSubject" type="String" />
+  <aura:attribute name="selectedRecipients" type="Object[]" />
+  <aura:attribute name="selectedCC" type="Object[]" />
+  <aura:attribute name="ccText" type="String" />
+  <aura:attribute name="selectedAttachments" type="Object[]" />
+  <aura:attribute name="submitted" type="String" />
+  <aura:attribute name="submitting" type="Boolean" default="false" />
+
+  <aura:html tag="style">
+    .cuf-content { padding: 0 0rem !important; } .slds-p-around--medium {
+    padding: 0rem !important; } .slds-modal__content{
+    <!-- overflow-y:hidden !important; -->
+    height:unset !important; max-height:unset !important; }
+    .slds-modal__container{ width: 70% !important; max-width: 90% !important;
+    <!--  -->
+    }
+    .slds-button.slds-modal__close.closeIcon.slds-button_icon-bare.slds-button_icon-inverse{
+    display: none; } .slds-modal:focus{ outline-style:none !important; }
+
+    <!-- box-shadow: mno; -->
+  </aura:html>
+
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+          >Termsheet Approval</h2
+        >
+      </header>
+      <div
+        class="slds-is-relative slds-modal__content slds-p-around_medium"
+        id="modal-content-id-1"
+      >
+        <lightning:spinner
+          variant="brand"
+          aura:id="spinner"
+          class="{!v.submitting ? '' : 'slds-hide'}"
+        />
+
+        <ui:message
+          title="Missing Termsheet"
+          severity="error"
+          closable="false"
+          aura:id="termsheetError"
+          class="slds-hide"
+        >
+          Please attach a Termsheet to the deal
+        </ui:message>
+
+        <div aura:id="allowed" class="slds-hide">
+          <div class="{!empty(v.submitted) ? 'body' : 'slds-hide'}">
+            <div class="sender section">
+              <label class="slds-form-element__label">Sender</label>
+              <div class="slds-pill_container custom-padding-input">
+                {!v.user.Email}
+              </div>
+            </div>
+
+            <div class="recipients section">
+              <label class="slds-form-element__label">Recipient</label>
+              <div class="slds-pill_container custom-padding-input">
+                {!v.recipients[0]}; {!v.recipients[1]}; {!v.recipients[2]}
+              </div>
+            </div>
+
+            <div class="recipients-cc section">
+              <label class="slds-form-element__label">CC</label>
+              <div class="slds-pill_container custom-padding-input">
+                {!v.ccText}
+              </div>
+            </div>
+
+            <div class="attachments section">
+              <c:EmailAttachments
+                possibilities="{!v.possibleAttachments}"
+                selectedAttachments="{!v.selectedAttachments}"
+              />
+            </div>
+
+            <div class="subject section">
+              <lightning:input
+                name="subject"
+                type="text"
+                label="Subject"
+                value="{!v.emailSubject}"
+                placeholder="Subject"
+              />
+            </div>
+
+            <div class="message section">
+              <label class="slds-form-element__label">Message</label>
+              <br />
+              <lightning:inputRichText
+                value="{!v.emailMessage}"
+                placeholder="Write message here"
+              />
+            </div>
+
+            <!-- <div style="margin-top:20px;">
+              <lightning:button
+                aura:id="submitBdutton"
+                variant="brand"
+                label="Submit"
+                onclick="{!c.submitEmail}"
+              />
+            </div> -->
+          </div>
+
+          <div class="{!v.submitted == 'SUCCESS' ? 'feedback' : 'slds-hide'}">
+            <div class="feedback-child">
+              Request has been sent.
+              <div class="button-div">
+                <button
+                  onclick="{!c.closeWindow}"
+                  class="slds-button slds-button_brand"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="{!v.submitted == 'ERROR' ? 'feedback' : 'slds-hide'}">
+            <div class="feedback-child">
+              There was an error sending your request. Please try again or
+              contact your administrator.
+              <div class="button-div">
+                <button
+                  onclick="{!c.closeWindow}"
+                  class="slds-button slds-button_brand"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div aura:id="notAllowed" class="slds-hide">
+          You can only submit a term sheet for approval after a pricing review
+          has been approved and a term sheet has been generated.
+        </div>
+        <div aura:id="validationError" class="slds-hide">
+          Please fill in the Product Sub-Type before sending any emails.
+        </div>
+        <div aura:id="noTermSheet" class="slds-hide">
+          You can only submit a term sheet for approval after a term sheet has
+          been generated.
+        </div>
+        <div aura:id="originator" class="slds-hide">
+          You are not the originator of this deal.
+        </div>
+      </div>
+      <footer class="slds-modal__footer">
+        <span class="{!empty(v.submitted) ? '' : 'slds-hide'}">
+        <!-- <button
+          class="slds-button slds-button_neutral"
+          onclick="{!c.closeWindow}"
+          >Cancel</button
+        > -->
+          <lightning:button
+            label="Cancel"
+            disabled="{!v.submitting}"
+            onclick="{!c.closeWindow}"
+          />
+          <lightning:button
+            aura:id="submitButton"
+            variant="brand"
+            label="Submit"
+            disabled="{!v.submitting}"
+            onclick="{!c.submitEmail}"
+          />
+        </span>
+
+        <!-- <button class="slds-button slds-button_brand">Save</button> -->
+
+        <!-- <span aura:id="allowedBt" class="slds-hide slds-m-left_medium">
+          <lightning:button
+            disabled="{!or(v.submitting, !v.bypass)}"
+            aura:id="submitButtghon"
+            variant="brand"
+            label="Submit"
+            onclick="{!c.bypass}"
+          />
+
+          <span class="{!v.submitted == 'SUCCESS' ? '' : 'slds-hide'}">
+            <button
+              onclick="{!c.closeWindow}"
+              class="slds-button slds-button_brand"
+            >
+              OK
+            </button>
+          </span>
+        </span> -->
+      </footer>
+    </div>
+  </section>
+</aura:component>

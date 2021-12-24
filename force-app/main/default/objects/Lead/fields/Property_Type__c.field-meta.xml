@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Property Type(s)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <controllingField>Loan_Product_s__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2 Unit</fullName>
+                <default>false</default>
+                <label>2 Unit</label>
+            </value>
+            <value>
+                <fullName>3 Unit</fullName>
+                <default>false</default>
+                <label>3 Unit</label>
+            </value>
+            <value>
+                <fullName>4 Unit</fullName>
+                <default>false</default>
+                <label>4 Unit</label>
+            </value>
+            <value>
+                <fullName>Condo</fullName>
+                <default>false</default>
+                <label>Condo</label>
+            </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Mixed-Use</fullName>
+                <default>false</default>
+                <label>Mixed-Use</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Multifamily 20+ Units</fullName>
+                <default>false</default>
+                <label>Multifamily 20+ Units</label>
+            </value>
+            <value>
+                <fullName>Multifamily 5-20 Units</fullName>
+                <default>false</default>
+                <label>Multifamily 5-20 Units</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>PUD</fullName>
+                <default>false</default>
+                <label>PUD</label>
+            </value>
+            <value>
+                <fullName>SFR 1-4 Units</fullName>
+                <default>false</default>
+                <label>SFR 1-4 Units</label>
+            </value>
+            <value>
+                <fullName>Single Family</fullName>
+                <default>false</default>
+                <label>Single Family</label>
+            </value>
+            <value>
+                <fullName>Student Housing</fullName>
+                <default>false</default>
+                <label>Student Housing</label>
+            </value>
+            <value>
+                <fullName>Townhome</fullName>
+                <default>false</default>
+                <label>Townhome</label>
+            </value>
+            <value>
+                <fullName>Vacation Rental</fullName>
+                <default>false</default>
+                <label>Vacation Rental</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>Condo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Multifamily 20+ Units</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Multifamily 5-20 Units</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>SFR 1-4 Units</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>Townhome</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Mixed-Use</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Multifamily</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>Student Housing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>PUD</valueName>
+        </valueSettings>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

@@ -1,0 +1,173 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="sobjectType" type="String" />
+
+	<aura:attribute name="parentFieldName" type="String" />
+	<aura:attribute name="fieldList" type="String[]" />
+	<!-- <aura:attribute name="s"
+ -->	<aura:attribute name="whereClause" type="String"/>
+	<aura:attribute name="orderBy" type="String" />
+	<aura:attribute name="editMode" type="Boolean" default="false"/>
+	<!-- <aura:attribute name="recordList" type="String" /> -->
+
+	<aura:attribute name="title" type="String" default="Title" />
+	<aura:attribute name="footer" type="String" />
+	<aura:attribute name="pageSize" type="Integer" default="10" />
+
+	<aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/>
+    <aura:handler name="sortChangeEvent" event="c:DataTableSortChangeEvent" action="{!c.handleSortChangeEvent}" phase="capture"/>
+
+    <aura:handler name="newEntity" event="c:NewRecordEvent" action="{!c.addRecord}" />
+
+    <!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+
+
+	<lightning:card >
+		<aura:set attribute="title" >
+			<lightning:icon iconName="standard:groups" size="medium" />
+			<span class="slds-m-left--medium">
+				{!v.title}
+			</span>
+		</aura:set>
+
+		<aura:set attribute="actions">
+			<lightning:layout horizontalAlign="end">
+				<lightning:layoutItem padding="horizontal-medium">
+					<lightning:button variant="base" onclick="{!c.refresh}" >
+						<lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+					</lightning:button>
+				</lightning:layoutItem>
+				<lightning:layoutItem >
+					<lightning:button variant="base" onclick="{!c.delete}">
+						<lightning:buttonIcon iconName="utility:delete" variant="bare" alternativeText="Delete"/>
+					</lightning:button>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</aura:set>
+
+		<div class="slds-table--edit_container slds-is-relative">
+		<c:DataTable aura:id="dataTable">
+	        <aura:set attribute="columns">
+
+	        	<!-- <c:DataTableColumn label="Name"
+	        						name="Name"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        		/> -->
+	        	 
+	        		<!-- selectOptions="[
+	        							{'label': '- -Select One- -', 'value': ''},
+					                    {'label': 'Broker', 'value':'Broker' },
+					                    {'label': 'Borrower', 'value': 'Borrower'},
+					                    {'label': 'Applicant', 'value': 'Applicant'},
+					                    {'label': 'Pledgor', 'value':'Pledgor' },
+					                    {'label': 'Guarantor', 'value':'Guarantor' },
+					                    {'label': 'Sponsor', 'value':'Sponsor' },
+
+					                ]" -->
+	        	<c:DataTableColumn label="Entity"
+	        						name="Entity_Type__c"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        						
+					                columnWidth="8"
+
+	        		/>
+
+	        	<c:DataTableColumn label="Entity Name"
+	        						name="Contact__r.Name"
+	        						linkToRecord="Contact__c"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        						columnWidth="13" />
+
+
+	        	<!-- <c:DataTableColumn label="Company Name"
+	        						name="Contact__r.Account.Name"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        						linkToRecord="Contact__r.AccountId"
+
+	        		/> -->
+
+	        	<c:DataTableColumn label="Phone"
+	        						name="Contact__r.Phone"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        	/>
+
+	        	<c:DataTableColumn label="Fax"
+	        						name="Contact__r.Fax"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        	/>
+
+	        	<c:DataTableColumn label="Email"
+	        						name="Contact__r.Email"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        	/>
+
+	        	<c:DataTableColumn label="Experian"
+	        						name="Contact__r.Experian__c"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        						columnWidth="6"
+	        	/>
+
+	        	<c:DataTableColumn label="TransUnion"
+	        						name="Contact__r.TransUnion__c"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="true"
+	        						columnWidth="6"
+	        	/>
+
+	        	<c:DataTableColumn label="Equifax"
+	        						name="Contact__r.Equifax__c"
+	        						sortable="true"
+	        						displayType="text"
+	        						isEditable="false"
+	        						columnWidth="6"
+	        	/>
+
+
+
+
+
+	        </aura:set>
+
+	        <!-- optional -->
+
+	        <aura:set attribute="pageNumber" value="1"/>
+	        <aura:set attribute="pageSize" value="{!v.pageSize}"/>
+	        <aura:set attribute="sortColumnName" value="Name"/>
+	        <aura:set attribute="sortDirection" value="desc"/>
+	        <aura:set attribute="editMode" value="{!v.editMode}" />
+	        <aura:set attribute="tableClass" value="slds-table  slds-table--bordered slds-table--fixed-layout slds-no-cell-focus" />
+    	</c:DataTable>
+    </div>
+
+
+
+
+    	<aura:set attribute="footer">
+    		<div class="{!v.editMode ? '' : 'slds-hide' }">
+	    		<lightning:button variant="neutral" label="Cancel" onclick="{!c.toggleEdit}" />
+	    		<lightning:button variant="brand" label="Save" onclick="{!c.saveRows}" />
+    		</div>
+    	</aura:set>
+
+	</lightning:card> 
+
+	<!-- <c:NewTermEntity aura:id="newEntity" defaults="{'Deal_Contact_Type__c': 'Entity', 'sobjectType': 'Deal_Contact__c'}" parentId="{!v.recordId}" parentFieldName="Deal__c" /> -->
+
+</aura:component>

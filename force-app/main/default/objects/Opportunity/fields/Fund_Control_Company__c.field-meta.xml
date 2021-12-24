@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fund_Control_Company__c</fullName>
+    <externalId>false</externalId>
+    <label>Fund Control Company</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>5Arch</fullName>
+                <default>false</default>
+                <label>5Arch</label>
+            </value>
+            <value>
+                <fullName>CFSI</fullName>
+                <default>false</default>
+                <label>CFSI</label>
+            </value>
+            <value>
+                <fullName>Granite</fullName>
+                <default>false</default>
+                <label>Granite</label>
+            </value>
+            <value>
+                <fullName>Hasz</fullName>
+                <default>false</default>
+                <label>Hasz</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

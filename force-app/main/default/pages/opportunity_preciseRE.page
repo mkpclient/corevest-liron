@@ -1,0 +1,12 @@
+<apex:page ><!-- showHeader="false" sidebar="false" standardController="Opportunity" extensions="opportunity_Extension" action="{!sendToPreciseRE}">
+	<apex:form >
+
+		<apex:pageBlock title="Precise RES">
+			<apex:pageBlockSection >
+				<apex:outputText id="responseMessage" escape="false" value="{!responseMessage}"></apex:outputText>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+
+	</apex:form>-->
+
+</apex:page>

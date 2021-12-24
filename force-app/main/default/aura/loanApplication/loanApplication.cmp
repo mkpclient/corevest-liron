@@ -1,0 +1,1397 @@
+<aura:component controller="lightning_Controller" implements="flexipage:availableForAllPageTypes,force:hasRecordId" >
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:attribute name="recordId" type="String" />
+    <aura:attribute name="lightningOut" type="Boolean" default="false" />
+	<!-- <button onclick="{!c.debug}">Submit</button> -->
+
+	<!-- <form id="form"> -->
+
+
+	<div class="{!'nav-box no-print' + (v.lightningOut ? '' : ' slds-hide')}">
+		<div class="printbar push-right no-print">
+			<button class="no-print" onclick="{!c.save}">Save</button>
+			<button class="no-print" onclick="{!c.print}">Print</button>
+		</div>
+	</div>
+
+	<div class="header">
+      <div class="logo">
+        <img src="{!$Resource.formImages + '/caf-form-images/caf-logo.png'}" />
+      </div>
+      <div class="title">SPONSOR / BORROWER APPLICATION</div>
+    </div>
+
+    <table class="table">
+    	<!-- <tr>
+				<td colspan="6" class="caption"> -->
+					<caption>SPONSOR / BORROWER CONTACT INFORMATION</caption>
+				<!-- </td>
+			</tr> -->
+    	<tr>
+    		<td class="push-right"><label for="name">Name</label></td>
+    		<td colspan="2"><span><input id="name" name="name" type="text" /></span></td>
+        <td class="push-right"><label for="middlename">Middle Name</label></td>
+        <td colspan="2"><span><input id="middlename" name="middlename" type="text" /></span></td>
+    	</tr>
+
+      <tr>
+        <td class="push-right" colspan="1"><label for="lastname">Last Name</label></td>
+        <td colspan="2"><span><input id="lastname" name="lastname" type="text" /></span></td>
+      </tr>
+
+    	<tr>
+    		<td class="push-right"><label for="addr">Home Address</label></td>
+    		<td colspan="5"><span><input id="addr" name="addr" type="text" /></span></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="city">City</label></td>
+    		<td colspan="2"><span><input id="city" name="city" type="text" /></span></td>
+        <td class="push-right"><div><label for="state">State</label>
+        &nbsp; &nbsp;<span class="state"><input id="state" name="state" type="text" /></span></div></td>
+        <td class="push-right"><label for="zipcode">ZIP Code</label></td>
+        <td><span><input id="zipcode" name="zipcode" type="text" /></span></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="email">Email Address</label></td>
+    		<td colspan="2"><input id="email" class="email" name="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+				<td class="push-right"><label for="homephone">Home Phone</label></td>
+        <td colspan="2"><input id="homephone" name="homephone" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="cell">Mobile Phone</label></td>
+    		<td colspan="2">
+					<input id="cell" name="cell" type="text" onblur="{!c.validatePhone}"/>
+					<span class="fineprint"></span>
+				</td>
+        <td class="push-right"><label for="dob">Date of Birth</label></td>
+        <td colspan="2"><input id="dob" name="dob" type="text" /></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label>Marital Status</label></td>
+    		<td colspan="5">
+    			<input type="checkbox" name="marital_status" value="married" /> Married
+    			&nbsp;&nbsp;&nbsp;<input type="checkbox" name="marital_status" value="unmarried" /> Unmarried
+    			&nbsp;&nbsp;&nbsp;<input type="checkbox" name="marital_status" value="separated"/> Separated
+    		</td>
+    	</tr>
+    </table>
+    <br/>
+
+
+    <table class="table">
+    	<caption>BUSINESS CONTACT INFORMATION</caption>
+    	<tr>
+    		<td class="push-right"><label for="company_name">Company name</label></td>
+    		<td><input id="company_name" name="company_name" type="text" /></td>
+
+        <td class="push-right"><label for="company_addr">Street Address</label></td>
+        <td><input id="company_addr" name="company_addr" type="text" /></td>
+    	</tr>
+
+    	<tr>
+
+        <td class="push-right"><label for="rep_name">Representative Name</label></td>
+        <td><input id="rep_name" name="rep_name" type="text" /></td>
+
+        <td class="push-right"><label for="company_addr">City</label></td>
+        <td><input id="company_addr" name="company_addr" type="text" /></td>
+    	</tr>
+
+    	<tr>
+
+        <td class="push-right"><label for="company_phone">Work Phone</label></td>
+        <td>
+					<input id="company_phone" name="company_phone" type="text" onblur="{!c.validatePhone}"/>
+					<span class="fineprint"></span>
+				</td>
+
+    		<td class="push-right"><label for="state">State</label></td>
+    		<td><input id="state" name="state" type="text" /></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="company_email">Email</label></td>
+    		<td><input id="company_email" class="email" name="company_email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+
+        <td class="push-right"><label for="zip_code">Zip Code</label></td>
+        <td><input id="zip_code" name="zip_code" type="text" /></td>
+    	</tr>
+    </table>
+    <br/>
+
+    <table class="table">
+      <caption>Business Entity Information</caption>
+
+      <tr>
+        <td class="push-right" colspan="2"><label for="entity_loc">City/State of Entity Formation</label></td>
+        <td colspan="3"><input id="entity_loc" name="entity_loc" type="text" /></td>
+
+        <td class="push-right" colspan="2"><label for="formation_date">Date of Formation</label></td>
+        <td colspan="2"><input id="formation_date" name="formation_date" type="text" /></td>
+      </tr>
+
+      <tr>
+        <td class="push-right" colspan="2"><label>Type of company</label></td>
+        <td colspan="7">
+          <input type="checkbox" name="company_type" value="sole_proprietorship" /> Sole Proprietorship
+          &nbsp;&nbsp;&nbsp;<input type="checkbox" name="company_type" value="corporation" /> Corporation
+          &nbsp;&nbsp;&nbsp;<input type="checkbox" name="company_type" value="other"/> Other
+          &nbsp;&nbsp;&nbsp;<input type="checkbox" name="company_type" value="limited_partnership"/> Limited Partnership
+          &nbsp;&nbsp;&nbsp;<input type="checkbox" name="company_type" value="llc"/> LLC
+        </td>
+
+      </tr>
+
+    </table>
+
+    <br/>
+
+
+    <table class="table">
+    	<caption>Principal Information</caption>
+    	<tr>
+    		<td class="push-right"><label for="prin_name1">Name</label></td>
+    		<td><input id="prin_name1" name="prin_name_1" type="text" /></td>
+    		<td class="push-right"><label for="prin_phone1">Phone</label></td>
+    		<td>
+					<input id="prin_phone1" name="prin_phone_1" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_addr1">Address</label></td>
+    		<td><input id="prin_addr1" name="prin_addr1" type="text" /></td>
+    		<td class="push-right"><label for="prin_fax1">Fax</label></td>
+    		<td><input id="prin_fax1" name="prin_fax1" type="text" /></td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_address1">City, State ZIP Code</label></td>
+    		<td><input id="prin_address1" name="prin_address1" type="text" /></td>
+    		<td class="push-right"><label for="prin_email1">Email</label></td>
+    		<td><input id="prin_email1" name="prin_email1" class="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="prin_name2">Name</label></td>
+    		<td><input id="prin_name2" name="prin_name2" type="text" /></td>
+    		<td class="push-right"><label for="prin_phone2">Phone</label></td>
+    		<td>
+					<input id="prin_phone2" name="prin_phone2" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_addr2">Address</label></td>
+    		<td><input id="prin_addr2" name="prin_addr2" type="text" /></td>
+    		<td class="push-right"><label for="prin_fax2">Fax</label></td>
+    		<td><input id="prin_fax2" name="prin_fax2" type="text" /></td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_address2">City, State ZIP Code</label></td>
+    		<td><input id="prin_address2" name="prin_address2" type="text" /></td>
+    		<td class="push-right"><label for="prin_email2">Email</label></td>
+    		<td><input id="prin_email2" name="prin_email2" class="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="prin_name3">Name</label></td>
+    		<td><input id="prin_name3" name="prin_name3" type="text" /></td>
+    		<td class="push-right"><label for="prin_phone3">Phone</label></td>
+    		<td><input id="prin_phone3" name="prin_phone3" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_addr3">Address</label></td>
+    		<td><input id="prin_addr3" name="prin_addr3" type="text" /></td>
+    		<td class="push-right"><label for="prin_fax3">Fax</label></td>
+    		<td><input id="prin_fax3" name="prin_fax3" type="text" /></td>
+    	</tr>
+    	<tr>
+    		<td class="push-right"><label for="prin_address3">City, State ZIP Code</label></td>
+    		<td><input id="prin_address3" name="prin_address3" type="text" /></td>
+    		<td class="push-right"><label for="prin_email3">Email</label></td>
+    		<td><input id="prin_email3" name="prin_email3" class="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+    	</tr>
+    </table>
+
+    <br/>
+
+    <table class="table">
+    	<caption>SPONSOR/BORROWER ATTORNEY CONTACT</caption>
+    	<tr>
+    		<td class="push-right"><label for="attorney_name">Attorney Name</label></td>
+    		<td><input id="attorney_name" name="attorney_name" type="text" /></td>
+    		<td class="push-right"><label for="attorney_phone">Work Phone</label></td>
+    		<td><input id="attorney_phone" name="attorney_phone" type="text" onblur="{!c.validatePhone}"/>
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="lawfirm_name">Law Firm Name</label></td>
+    		<td><input id="lawfirm_name" name="lawfirm_name" type="text" /></td>
+    		<td class="push-right"><label for="lawfirm_cell">Mobile Number</label></td>
+    		<td><input id="lawfirm_cell" name="lawfirm_cell" type="text" /></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="lawfirm_addr">Address</label></td>
+    		<td><input id="lawfirm_addr" name="lawfirm_addr" type="text" /></td>
+    		<td class="push-right"><label for="lawfirm_fax">Fax</label></td>
+    		<td><input id="lawfirm_fax" name="lawfirm_fax" type="text" /></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="lawfirm_addr1">City, State ZIP Code</label></td>
+    		<td><input id="lawfirm_addr1" name="lawfirm_addr1" type="text" /></td>
+    		<td class="push-right"><label for="lawfirm_email">Email</label></td>
+    		<td><input id="lawfirm_email" name="lawfirm_email" class="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+    	</tr>
+    </table>
+
+    <br/>
+    <table class="table">
+    	<caption>SPONSOR/BORROWER INSURANCE AGENT/BROKER CONTACT</caption>
+    	<tr>
+    		<td class="push-right"><label for="broker_name">Insurance Agent/Broker Name</label></td>
+    		<td><input id="broker_name" name="broker_name" type="text" /></td>
+    		<td class="push-right"><label for="broker_phone">Work Phone</label></td>
+    		<td><input id="broker_phone" name="broker_phone" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="broker_company_name">Company Name</label></td>
+    		<td><input id="broker_company_name" name="broker_company_name" type="text" /></td>
+    		<td class="push-right"><label for="broker_cell">Mobile Phone</label></td>
+    		<td><input id="broker_cell" name="broker_cell" type="text" onblur="{!c.validatePhone}" />
+					<span class="fineprint"></span>
+				</td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="broker_addr">Address</label></td>
+    		<td><input id="broker_addr" name="broker_addr" type="text" /></td>
+    		<td class="push-right"><label for="broker_fax">Fax</label></td>
+    		<td><input id="broker_fax" name="broker_fax" type="text" /></td>
+    	</tr>
+
+    	<tr>
+    		<td class="push-right"><label for="broker_addr1">City, State ZIP Code</label></td>
+    		<td><input id="broker_addr1" name="broker_addr1" type="text" /></td>
+    		<td class="push-right"><label for="broker_email">Email Address</label></td>
+    		<td><input id="broker_email" name="broker_email" class="email" type="text" onblur="{!c.validateEmail}" />
+					<br /><span class="fineprint email-notice"></span>
+				</td>
+    	</tr>
+    </table>
+
+    <br/>
+
+    <table class="table questionnaire">
+      <caption>Questionnaire</caption>
+      <tr>
+        <td colspan="4">
+          Have you or any other entity of which you were/are a Principal been in foreclosure or default or been given relief by a lender under the terms of any mortgage loan, contract for deed or the equivalent? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q1" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q1" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Have you or any other entity of which you were/are a Principal been the subject of bankruptcy or insolvency proceedings? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q2" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q2" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are you presently delinquent or in default on any Federal debt or any other loan, mortgage, financial obligation, bond or loan guarantee? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q3" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q3" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Have you ever been convicted of a felony? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q4" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q4" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Do you currently have any pending litigation against you? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q5" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q5" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Have you ever been identified, or are you presently identified, on the list of specially designated nationals and blocked persons subject to financial sanctions that are maintained by the U.S. Treasury Department Of ce of Foreign Assets Control?
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q6" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q6" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          In the last five years, have any of your properties been cited for any violations or investigated by any regulatory agency? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q7" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q7" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Do you currently have any outstanding judgments against you? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q8" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q8" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are you currently a defendant in a lawsuit? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q9" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q9" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are there currently any pending/existing litigation involving properties in your portfolio? If yes, please provide a separate signed written explanation.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q10" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q10" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are you a U.S. citizen?
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q11" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q11" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are you a permanent resident alien?
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q123" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q123" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          Are you a foreign national? If yes, please provide country of citizenship and residence.
+        </td>
+        <td>
+					<fieldset>
+						<label><input type="radio" name="q13" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="q13" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+    </table>
+
+		<br />
+
+    <table class="table">
+      <caption>Financial Information</caption>
+      <tr>
+        <td colspan="3">
+          <label for="sponsor_worth">Sponsor/Borrower's estimated net worth:</label>
+        </td>
+        <td colspan="3">
+          <label for="sponsor_assets">Sponsor/Borrower's estimated value of total assets:</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+      		$&nbsp;<input id="sponsor_worth" name="sponsor_worth" type="number" step="any" min="0"/>
+        </td>
+        <td colspan="3">
+          $&nbsp;<input id="sponsor_assets" name="sponsor_assets" type="number" step="any" min="0"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          As of date: &nbsp;<input id="sponsor_worth_date" name="sponsor_worth_date" type="date"/>
+        </td>
+        <td colspan="3">
+          As of date: &nbsp;<input id="sponsor_assets_date" name="sponsor_assets_date" type="date"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="sponsor_liquid_assets">Sponsor/Borrower's estimated total value of liquid assets (cash or assets that can be readily converted to cash):</label>
+        </td>
+        <td colspan="3">
+          <label for="sponsor_liabilities">Sponsor/Borrower’s estimated value of total liabilities:</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          $&nbsp;<input id="sponsor_liquid_assets" name="sponsor_liquid_assets" type="number" step="any" min="0"/>
+        </td>
+        <td colspan="3">
+          $&nbsp;<input id="sponsor_liabilities" name="sponsor_liabilities" type="number" step="any" min="0"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          As of date: &nbsp;<input id="sponsor_liquid_assets_date" name="sponsor_liquid_assets_date" type="date"/>
+        </td>
+        <td colspan="3">
+          As of date: &nbsp;<input id="sponsor_liabilities_date" name="sponsor_liabilities_date" type="date"/>
+        </td>
+      </tr>
+    </table>
+
+		<br />
+
+    <table class="table">
+      <caption>Loan Request</caption>
+      <tr>
+        <td colspan="6">
+          What is your desired credit commitment/loan amount?<br />
+          <textarea name="credit_commitment" rows="4">
+          </textarea>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          Please state in your own words that you do not intend to occupy any properties  nanced using proceeds from this loan as your primary residence, and that you understand this is a commercial loan for business purposes only. <br />
+          <textarea rows="4">
+          </textarea>
+        </td>
+      </tr>
+    </table>
+
+		<br/>
+
+		<p style="page-break-after:always;"></p>
+
+    <!-- <div class="header">
+      <div class="logo">
+        LOGO
+      </div>
+      <div class="mid-title">
+        TERM LOAN ONLY<br />
+        SPONSOR / BORROWER APPLICATION
+      </div>
+    </div> -->
+
+	<div class="hide term-loan">
+		<table class="table margin-bottom">
+			<caption>TERM LOANS</caption>
+		</table>
+
+  	<table class="table">
+  		<caption>TERM LOAN TRACK RECORD</caption>
+  		<tr>
+  			<td colspan="3">
+  				<label for="tr1">How many rental properties do you own?</label>
+        </td>
+
+  			<td colspan="3">
+  				<label for="tr2">How long have you been investing in rental properties (single family, condos, townhomes, small Multi-Family)?</label>
+  			</td>
+			</tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="tr1" id="tr1" />
+        </td>
+
+        <td colspan="3">
+          <input type="text" name="tr2" id="tr2" />
+        </td>
+      </tr>
+
+  		<tr>
+  			<td colspan="3">
+  				<label for="tr3">What is the estimated value of your entire portfolio?</label>
+  			</td>
+  			<td colspan="3">
+  				<label for="tr4"> What is the average purchase price of properties in your portfolio?</label>
+  			</td>
+  		</tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="tr3" id="tr3" />
+        </td>
+
+        <td colspan="3">
+          <input type="text" name="tr4" id="tr4" />
+        </td>
+      </tr>
+
+      <tr>
+  			<td colspan="3">
+  				<label for="tr5">What is the average hold time of properties in your portfolio?</label>
+  			</td>
+  			<td colspan="3">
+  				<label for="tr6">What is the average rehab expense for each of your rental properties?</label>
+  			</td>
+  		</tr>
+
+      <tr>
+  			<td colspan="3">
+          <input type="text" name="tr5" id="tr5" />
+  			</td>
+  			<td colspan="3">
+          <input type="text" name="tr6" id="tr6" />
+  			</td>
+  		</tr>
+
+
+      <tr>
+        <td colspan="4">
+          <label for="tr7">What type of rental properties do you own?</label>
+        </td>
+        <td colspan="2">
+          <label for="tr8">Have you ever lost money on a rental property investment? If yes, please provide a separate signed written explanation.</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="checkbox" name="tr7" value="sfr" /> SFR &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr7" value="2-4_units" /> 2-4 Units &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr7" value="condos" /> Condos &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr7" value="townhome" /> Townhome &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr7" value="multi-family" /> Multi-family &nbsp;&nbsp;&nbsp;
+        </td>
+        <td colspan="2">
+					<fieldset>
+						<label><input type="radio" name="tr8" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="tr8" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          <label for="tr9">How did you source your porfolio of rental properties? <em>(Check all that apply)</em></label><br />
+          <input type="checkbox" name="tr9" value="trustee_sale" /> Trustee Sale &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr9" value="short_sale" /> Short Sale &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr9" value="other" /> Other* &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr9" value="mls" /> MLS &nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="tr9" value="bank_loan" /> Bank Loan &nbsp;&nbsp;&nbsp;
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          *Please Describe: <input type="text" name="other" id="tr10" />
+        </td>
+      </tr>
+  	</table>
+
+  	<br/>
+
+  	<table class="table">
+  		<caption>TERM LOAN SPONSOR/BORROWER BUSINESS PLAN</caption>
+
+  		<tr>
+  			<td colspan="3">
+          <label for="intended_use">What is your intended use of proceeds?</label>
+  			</td>
+  			<td colspan="3">
+          <label for="software">What accounting program and/or property management software do you use to keep track of operating income and expenses?</label>
+  			</td>
+  		</tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="checkbox" name="intended_use" value="buy_more" /> Buy more properties&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="intended_use" value="other" /> Other*
+        </td>
+        <td colspan="3">
+          <input type="text" name="software" id="software" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="other_description">*Please Describe:</label>
+        </td>
+        <td colspan="3">
+          <label for="outsourced_companies">List any outsourced Property Management Companies you use:</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="other_description" id="other_description" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="outsourced_companies" id="outsourced_companies" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          <label for="property_mgmt">How do you handle property management?</label> &nbsp; <input type="checkbox" name="property_mgmt" value="self-managed" /> Self-Managed
+          &nbsp; <input type="checkbox" name="property_mgmt" value="third-party" /> 3rd Party Management
+          &nbsp; <input type="checkbox" name="property_mgmt" value="combination" /> Combination
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="years_exp">If self-managed, how many years of experience do you have managing your portfolio?</label>
+        </td>
+        <td colspan="3">
+          <label for="current_mgmt">If self-managed, how many properties do you currently manage?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="years_exp" id="years_exp" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="current_mgmt" id="current_mgmt" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <label for="buy_properties">
+            What type of properties do you intend to buy?<br />
+            <em>(check all that apply)</em>
+          </label>
+        </td>
+        <td colspan="2">
+          <label for="underwrite_acq">How do you underwrite your acquisitions?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="checkbox" name="buy_properties" value="sfr" /> SFR&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="buy_properties" value="condos" /> Condos&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="buy_properties" value="2-4 units" /> 2-4 Units&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="buy_properties" value="multi-family" /> Multi-Family&nbsp;&nbsp;&nbsp;
+          <input type="checkbox" name="buy_properties" value="commercial" /> Commercial&nbsp;&nbsp;&nbsp;
+        </td>
+        <td colspan="2">
+          <input type="text" name="underwrite_acq" id="underwrite_acq" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="property_value">How do you determine property value?</label>
+        </td>
+        <td colspan="3">
+          <label for="estimate_costs">How do you estimate capital improvement costs?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="property_value" id="property_value" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="estimate_costs" id="estimate_costs" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <label for="rehab_level">How do you determine current property value?</label>
+        </td>
+        <td colspan="2">
+          <label for="background_info">How do you estimate capital improvement costs?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="checkbox" name="rehab_level" value="light" /> Light
+          <input type="checkbox" name="rehab_level" value="moderate" /> Moderate
+          <input type="checkbox" name="rehab_level" value="heavy" /> Heavy
+        </td>
+        <td colspan="2">
+          <input type="text" name="background_info" id="background_info" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          <label for="portfolio time">How long do you intend to hold the portfolio?</label>
+          &nbsp; <input type="checkbox" name="portfolio_time" value="0-2" /> 0-2 Years
+          &nbsp; <input type="checkbox" name="portfolio_time" value="3-4" /> 3-4 Years
+          &nbsp; <input type="checkbox" name="portfolio_time" value="5+" /> 5+ Years
+        </td>
+      </tr>
+
+  	</table>
+
+    <table class="table">
+      <caption>TERM LOAN ONLY - USE OF PROCEEDS INFORMATION</caption>
+
+      <tr>
+        <td>
+          <label for="loan_purpose">Loan Purpose (check all that apply):</label> <br />
+          <input type="checkbox" name="loan_purpose" value="refinance_debt" /> Refinance Debt
+          &nbsp; <input type="checkbox" name="loan_purpose" value="refinance_equity" /> Refinance Equity
+          &nbsp; <input type="checkbox" name="loan_purpose" value="acquisition" /> Acquisition
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="debt_refinancing">How many properties are subject to a lender pay off (debt refinancing)?</label><br />
+          <input type="text" name="debt_refinancing" id="debt_refinancing"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="payoff">Estimated payoff amount by lender (include “as of” dates):</label><br />
+          <input type="text" name="payoff" id="payoff"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="penalties">Estimated prepayment penalties (if applicable):</label><br />
+          <input type="text" name="penalties" id="penalties"/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="acknowledgment">Acknowledgment of final CAF loan proceeds<br />
+          Borrower understands and acknowledges that final loan proceeds are contingent on diligence and interest rate at the time of closing<br /></label>
+					<fieldset>
+						<label><input type="radio" name="acknowledgment" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="acknowledgment" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+    </table>
+
+		<p style="page-break-after:always;"></p>
+	</div> <!-- this closes the Term Loans div -->
+
+    <!-- <div class="header">
+      <div class="logo">
+        LOGO
+      </div>
+      <div class="mid-title">
+        CREDIT LINE ONLY<br />
+        SPONSOR / BORROWER QUESTIONNAIRE
+      </div>
+    </div> -->
+
+    <!-- <div class="padding-bottom center">
+      <strong>CREDIT LINE ONLY SPONSOR / BORROWER QUESTIONNAIRE</strong>
+    </div> -->
+
+<div class="hide bridge">
+    <table class="table">
+      <caption>CREDIT LINE SPONSOR BUSINESS PLAN</caption>
+      <tr>
+        <td colspan="3">
+          <label for="intent_loan">Do you intend to use the loan to purchase properties to:</label>
+        </td>
+        <td colspan="3">
+          <label for="buy_properties">What type of properties do you intend to buy? <em>(check all that apply)</em></label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="checkbox" name="intent_loan" value="rent" /> Rent
+          &nbsp; <input type="checkbox" name="intent_loan" value="fix" /> Fix and Flip
+        </td>
+        <td colspan="3">
+          <input type="text" name="buy_properties" id="buy_properties" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="states_op">What states do you operate in?</label>
+        </td>
+        <td colspan="3">
+          <label for="cities_op">In these states, what cities/counties do you target?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="states_op" id="states_op" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="cities_op" id="cities_op" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <label for="source_acq">How do you intend to source your acquisitions? <em>(check all that apply)</em></label>
+        </td>
+        <td colspan="2">
+          <label for="other_acq">If Other – Please Describe:</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="checkbox" name="source_acq" value="rent" /> Trustee Sale
+          &nbsp; <input type="checkbox" name="source_acq" value="short_sale" /> Short Sale Bank
+          &nbsp; <input type="checkbox" name="source_acq" value="other" /> Other
+          &nbsp; <input type="checkbox" name="source_acq" value="mls" /> MLS
+          &nbsp; <input type="checkbox" name="source_acq" value="bank_loan" /> Bank Loan
+        </td>
+        <td colspan="2">
+          <input type="text" name="other_acq" id="other_acq" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="title_review">If acquired at a Trustee sale, how do you review title?</label>
+        </td>
+        <td colspan="3">
+          <label for="title_ins">If acquired through a Trustee’s sale, do you obtain Title Insurance?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="title_review" id="title_review" />
+        </td>
+        <td colspan="3">
+					<fieldset>
+						<label><input type="radio" name="title_ins" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="title_ins" value="false" /> No</label>
+					</fieldset>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+        </td>
+        <td colspan="3">
+          <label for="title_name">If Yes, name of the Title Company:</label><br />
+          <input type="text" name="title_name" id="title_name" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="price_range">What is the price range of properties you purchase?</label>
+        </td>
+        <td colspan="3">
+          <label for="underwrite_meth">How do you underwrite your acquisitions?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="price_range" id="price_range" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="underwrite_meth" id="underwrite_meth" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <label for="fair_market">How do you determine fair market value?</label>
+        </td>
+        <td colspan="3">
+          <label for="rehab_costs">How do you estimate capital improvement (rehab) costs?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="text" name="fair_market" id="fair_market" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="rehab_costs" id="rehab_costs" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <label for="rehab_prop">Level of rehab for properties you acquire (check all that apply):</label>
+        </td>
+        <td colspan="2">
+          <label for="rehab_perf">Who performs your rehab work?</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="checkbox" name="rehab_prop" value="light" /> Light Rehab
+          &nbsp; <input type="checkbox" name="rehab_prop" value="moderate" /> Moderate Rehab
+          &nbsp; <input type="checkbox" name="rehab_prop" value="heavy" /> Heavy Rehab
+        </td>
+        <td colspan="2">
+          <input type="text" name="rehab_perf" id="rehab_perf" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <label for="rental_loss">Have you ever lost money on a rental property or fix and flip investment?</label>
+        </td>
+        <td colspan="2">
+          <label for="reason_loss">If so, explain the reason for the loss(es):</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+					<fieldset>
+						<label><input type="radio" name="rental_loss" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="rental_loss" value="false" /> No</label>
+					</fieldset>
+        </td>
+        <td colspan="2">
+          <input type="text" name="reason_loss" id="reason_loss" />
+        </td>
+      </tr>
+
+    </table>
+
+    <table class="table">
+      <caption>CREDIT LINE SPONSOR/BORROWER EXIT STRATEGY</caption>
+      <tr>
+        <td colspan="3">
+          <label for="exit_strategy">What is your exit strategy and how long do you expect each cash advance to be outstanding?</label>
+        </td>
+        <td colspan="3">
+          <label for="fallback">What are your plans if you cannot sell your properties?</label>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <input type="text" name="exit_strategy" id="exit_strategy" />
+        </td>
+        <td colspan="3">
+          <input type="text" name="fallback" id="fallback" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+          <label for="lender_rel">If your plan is to purchase rental properties, do you have an existing relationship with a lender for refinancing?</label>
+        </td>
+        <td colspan="3">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+					<fieldset>
+						<label><input type="radio" name="lender_rel" value="true" /> Yes</label>
+						&nbsp;&nbsp;&nbsp;
+						<label><input type="radio" name="lender_rel" value="false" /> No</label>
+					</fieldset>
+        </td>
+        <td colspan="3">
+        </td>
+      </tr>
+
+    </table>
+
+    <!-- <div class="warning">
+      END CREDIT LINE SECTION
+    </div> -->
+
+		<p style="page-break-after:always;"></p>
+</div> <!-- closes Bridge section -->
+
+    <!-- <div class="header">
+      <div class="logo">
+        LOGO
+      </div>
+      <div class="title">AGREEMENT</div>
+    </div> -->
+
+		<table class="table">
+			<caption>Agreement</caption>
+		</table>
+
+    <div class="fineprint">
+      <p>“I realize that Colony American Finance (“CAF”), any broker, and assignees are relying on the information set forth in the application. I declare under penalty of perjury that the foregoing is true and correct.”</p>
+      <p>Borrower/sponsor understands and acknowledges that  nal loan proceeds are subject to change based on external market conditions and the results of CAF due diligence.</p>
+    </div>
+
+		<p style="page-break-after:always;"></p>
+
+    <table class="table">
+      <caption>SIGNATURES</caption>
+
+      <tr>
+        <td colspan="1"  class="push-right">
+          <label for="signature1">Signature</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="signature1" class="input-white" id="signature1" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="signature2">Signature</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="signature2" class="input-white" id="signature2" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="name_title1">Name and Title</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="name_title1" id="name_title1" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="name_title2">Name and Title</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="name_title2" id="name_title2" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="date1">Date</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="date1" id="date1" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="date2">Date</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="date2" id="date2" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="signature3">Signature</label>
+        </td>
+        <td colspan="2">
+          <input type="text" name="signature3" class="input-white" id="signature3" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="signature4">Signature</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="signature4" class="input-white" id="signature4" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="name_title3">Name and Title</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="name_title3" id="name_title3" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="name_title4">Name and Title</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="name_title4" id="name_title4" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="date3">Date</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="date3" id="date3" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="date4">Date</label>
+        </td>
+        <td colspan="2" class="push-right">
+          <input type="text" name="date4" id="date4" />
+        </td>
+      </tr>
+
+    </table>
+
+    <table class="table">
+      <caption>SIGNATURE - AUTHORIZATION TO CONDUCT BACKGROUND AND CREDIT CHECK</caption>
+      <tr>
+        <td colspan="6">
+          <div class="fineprint">
+            <p>By signing this form, you are authorizing CAF to conduct a background and credit check on you.</p>
+            <p>I understand that it is a Federal crime punishable by fine or imprisonment, or both, to knowingly make any false statements when applying for this mortgage, as applicable under the provisions of Title 18, United States Code, §1014. I also understand that the CAF intends to use the data obtained through the investigation for due diligence purposes only, and shall not disclose such information to any other party.</p>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="signature5">Signature</label>
+        </td>
+        <td colspan="2">
+          <input type="text" name="date3" id="date3" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="date5">Date</label>
+        </td>
+        <td colspan="2">
+          <input type="text" name="date5" id="date5" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="1" class="push-right">
+          <label for="name5">Name</label>
+        </td>
+        <td colspan="2">
+          <input type="text" name="name5" id="name5" />
+        </td>
+        <td colspan="1" class="push-right">
+          <label for="date6">Date</label>
+        </td>
+        <td colspan="2">
+          <input type="text" name="date6" id="date6" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6">
+          <div class="fineprint">
+            <p>This application does not purport to be and does not constitute a binding agreement among the parties, and the parties hereto shall have no obligations whatsoever, express or implied, written or oral, with regard to the proposed loan(s). This borrower application does not in any way whatsoever constitute a commitment from CAF or an agreement to issue a commitment or term sheet, and CAF has made no commitments or agreements whatsoever, express or implied, written or oral, to the applicant or sponsor or with respect to any of the matters related to the loan. The items set forth in this application are not all-inclusive and should not be construed to re ect all off the provisions to be included in the loan which may be varied as CAF may determine in its sole and absolute discretion. No oral agreements between or among the parties shall be binding under any circumstances at any time. In addition, all information provided by the applicable is subject to verification and underwriting.</p>
+          </div>
+        </td>
+      </tr>
+
+    </table>
+
+		<p style="page-break-after:always;"></p>
+
+    <!-- <div class="header">
+      <div class="logo">
+        LOGO
+      </div>
+      <div class="title">ORGANIZATIONAL STRUCTURE - TEMPLATE</div>
+    </div> -->
+
+		<table class="table">
+			<caption>Organizational Structure - TEmplate</caption>
+		</table>
+
+    <div class="fineprint center padding-bottom">
+      Individual Equity Owners<br />
+      (Equity owners owning 20% or more of Borrower/Equity Holder Equity %)
+    </div>
+
+    <table class="table fineprint">
+      <tr>
+        <td>
+          <label for="owner1">Owner Name:</label><br />
+          <input type="text" name="owner1" id="owner1" />
+        </td>
+        <td>
+          <label for="owner2">Owner Name:</label><br />
+          <input type="text" name="owner2" id="owner2" />
+        </td>
+        <td>
+          <label for="owner3">Owner Name:</label><br />
+          <input type="text" name="owner3" id="owner3" />
+        </td>
+        <td>
+          <label for="owner4">Owner Name:</label><br />
+          <input type="text" name="owner4" id="owner4" />
+        </td>
+        <td>
+          <label for="owner5">Owner Name:</label><br />
+          <input type="text" name="owner5" id="owner5" />
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <label for="ownership1">Ownership %:</label><br />
+          <input type="text" name="ownership1" id="ownership1" />
+        </td>
+        <td>
+          <label for="ownership2">Ownership %:</label><br />
+          <input type="text" name="ownership2" id="ownership2" />
+        </td>
+        <td>
+          <label for="ownership3">Ownership %:</label><br />
+          <input type="text" name="ownership3" id="ownership3" />
+        </td>
+        <td>
+          <label for="ownership4">Ownership %:</label><br />
+          <input type="text" name="ownership4" id="ownership4" />
+        </td>
+        <td>
+          <label for="ownership5">Ownership %:</label><br />
+          <input type="text" name="ownership5" id="ownership5" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5" class="center">
+          <img class="medium-size" src="{!$Resource.formImages + '/caf-form-images/down-arrow.png'}" height="20" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5" class="center">
+          <label for="portfolio_owner">Current Portfolio Owner/Equity Holder <br />
+          Existing entity that owns the properties (if multiple equity holders, please add all entities</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5" class="center">
+          <img class="medium-size" src="{!$Resource.formImages + '/caf-form-images/down-arrow.png'}" height="20" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5">
+          <input type="text" name="portfolio_owner" id="portfolio_owner" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5" class="center">
+          <img class="medium-size" src="{!$Resource.formImages + '/caf-form-images/down-arrow.png'}" height="20" />
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5" class="center">
+          <label for="borrower">Borrower/NewlyFormed DE LLC<br />
+          Newly formed Delaware Single Purpose Entity* (see definition of Single Purpose Entity)</label>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="5">
+          <input type="text" name="borrower" id="borrower" />
+        </td>
+      </tr>
+
+    </table>
+
+    <div class="fineprint">
+      *SPE Note: All Bridge Credit Lines require newly formed SPEs. Delaware LLC Required for Bridge Credit Lines exceeding $10,000,000.
+    </div>
+
+    <div class="superfineprint padding-top">
+      1 Term Loans: Newly formed Delaware Single Purpose Entities are required for loans $5,000,000 and over <br />
+      2 Bridge Credit Lines: Equity Pledges are only required for Bridge Credit Lines exceeding $10,000,000
+    </div>
+
+	<!-- </form> -->
+
+</aura:component>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rent_Status__c</fullName>
+    <externalId>false</externalId>
+    <label>Rent Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Long term in place</fullName>
+                <default>true</default>
+                <label>Long term in place</label>
+            </value>
+            <value>
+                <fullName>Long term pending</fullName>
+                <default>false</default>
+                <label>Long term pending</label>
+            </value>
+            <value>
+                <fullName>Seasonal rental</fullName>
+                <default>false</default>
+                <label>Seasonal rental</label>
+            </value>
+            <value>
+                <fullName>Vacation rental</fullName>
+                <default>false</default>
+                <label>Vacation rental</label>
+            </value>
+            <value>
+                <fullName>Student Housing</fullName>
+                <default>false</default>
+                <label>Student Housing</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

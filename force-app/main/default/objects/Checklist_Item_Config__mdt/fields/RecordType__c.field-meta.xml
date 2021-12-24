@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RecordType__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>RecordType</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Term_Loan</fullName>
+                <default>true</default>
+                <label>Term_Loan</label>
+            </value>
+            <value>
+                <fullName>LOC_Loan</fullName>
+                <default>false</default>
+                <label>LOC_Loan</label>
+            </value>
+            <value>
+                <fullName>Single_Asset_Bridge</fullName>
+                <default>false</default>
+                <label>Single_Asset_Bridge</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

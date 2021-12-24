@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_Status_Validation</fullName>
+    <active>true</active>
+    <description>This will prevent a Property from being updated to Pending Status if certain data points are missing</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Status__c),
+ ISPICKVAL( Status__c , &apos;Pending&apos;),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+OR(
+ CONTAINS(RecordType.Name, &apos;Ground Up&apos;),
+ CONTAINS(RecordType.Name, &apos;Bridge&apos;)),
+OR(
+ ISBLANK(BPO_Appraisal_Firm__c),
+ ISBLANK(BPO_Appraisal_Order_Date__c),
+ ISBLANK(TEXT(Valuation_Type__c)),
+ ISBLANK(BPO_Appraisal_Date__c),
+ ISBLANK(Appraised_Value_Amount__c)
+))</errorConditionFormula>
+    <errorMessage>Appraisal details are required before updating the Status to Pending.  Please verify these fields are populated: Appraised As Is Value, Appraisal Firm, Appraisal Fee, Appraisal Order Date, Appraisal Date, Valuation Type</errorMessage>
+</ValidationRule>

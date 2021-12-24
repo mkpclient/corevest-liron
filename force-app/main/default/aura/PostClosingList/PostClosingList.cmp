@@ -1,0 +1,96 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sObjectName" type="String" />
+
+  <aura:attribute name="dealId" type="String" />
+
+  <aura:attribute name="itemWrappers" type="List" />
+  <aura:attribute name="advanceWrappers" type="List" />
+  <aura:attribute name="postClosing" type="Map" />
+
+  <aura:attribute name="userId" type="String" />
+  <!-- <aura:attribute name="isCommunity" type="Boolean" default="false" /> -->
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:handler event="force:showToast" action="{!c.refresh}" />
+
+  <lightning:layoutItem class="slds-text-align--center">
+    <lightning:button variant="base" onclick="{!c.refresh}">
+      <lightning:button aura:id="refresh" label="Refresh" />
+    </lightning:button>
+  </lightning:layoutItem>
+
+  <div class="slds-m-bottom_medium">
+    <!-- <aura:if isTrue={!empty(v)} -->
+    <c:ProgressBar
+      title="Items Completed"
+      colorClass="blue"
+      percentage="{!v.postClosing.Num_of_Items_Completed__c/v.postClosing.Num_of_Items__c}"
+      barText=""
+    />
+  </div>
+  <!-- <div class="slds-m-bottom_medium">
+    <c:ProgressBar
+      title="Documents Approved"
+      colorClass="orange"
+      percentage="{!v.totalDocuments == 0 ? 0 :v.totalReviewed/v.totalDocuments}"
+      barText=""
+    />
+  </div> -->
+  <!--
+     <c:BorrowerChecklistTabs
+            recordId="{!v.recordId}"
+            wrappers="{!v.wrappers}"
+            subtabs="{!v.subtabs}"
+            userId="{!v.userId}"
+            isCommunity="{!v.isCommunity}"
+          aura:id="ChecklistTabs"/> -->
+  <!-- barText="{!v.totalReviewed+'/'+v.totalDocuments}" -->
+  <lightning:tabset variant="scoped">
+    <aura:if isTrue="{!v.itemWrappers.length > 0}">
+      <lightning:tab label="Loan Documents">
+        <div class="slds-m-bottom_medium">
+          <aura:if isTrue="{!v.itemWrappers.length > 0}">
+            <c:PostClosingListItems
+              userId="{!v.userId}"
+              recordId="{!v.recordId}"
+              itemSObjectType="Opportunity"
+              itemWrappers="{!v.itemWrappers}"
+              paginationEnabled="false"
+              initAction="{!c.refresh}"
+              aura:id="itemTabs"
+              sObjectName="{!v.sObjectName}"
+            />
+          </aura:if>
+        </div>
+      </lightning:tab>
+    </aura:if>
+
+    <aura:if isTrue="{!v.advanceWrappers.length > 0}">
+      <lightning:tab label="Advances">
+        <div class="slds-m-bottom_medium">
+          <aura:if isTrue="{!v.advanceWrappers.length > 0}">
+            <c:PostClosingListItems
+              userId="{!v.userId}"
+              recordId="{!v.recordId}"
+              itemSObjectType="Advance__c"
+              itemWrappers="{!v.advanceWrappers}"
+              paginationEnabled="false"
+              initAction="{!c.refresh}"
+              aura:id="itemTabs"
+              sObjectName="{!v.sObjectName}"
+            />
+          </aura:if>
+        </div>
+      </lightning:tab>
+    </aura:if>
+
+    <!-- <lightning:tab label="Properties?">
+        <div class="slds-m-bottom_medium"></div>
+      </lightning:tab> -->
+  </lightning:tabset>
+
+  <c:util aura:id="util" />
+</aura:component>

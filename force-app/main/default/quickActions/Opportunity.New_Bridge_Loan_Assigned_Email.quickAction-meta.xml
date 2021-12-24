@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldOverrides>
+        <field>CcAddress</field>
+        <formula>Opportunity.Owner.Email + &apos;;&apos; + $User.Email + &apos;;&apos; +  Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + &apos;brad@cvest.com&apos; + &apos;;&apos; + &apos;gregg.moore@cvest.com&apos; + &apos;;&apos; + &apos;jimmy.rojas@cvest.com&apos;</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>HtmlBody</field>
+        <formula>&apos;All:&lt;br/&gt; Please be advised that you have been assigned a new loan.&lt;br/&gt;Deal:  &lt;a href=&quot;https://cvest.lightning.force.com/lightning/r/Opportunity/&apos;+Opportunity.Id +&apos;/view&quot;&gt; &apos;+Opportunity.Name+&apos;&lt;br/&gt;&lt;br/&gt;Notes from Originator:&lt;br/&gt;&apos; +  Opportunity.Submission_into_UW_Comments__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos; +  $User.FirstName</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>RelatedToId</field>
+        <formula>Opportunity.Id</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Subject</field>
+        <formula>Opportunity.Deal_Loan_Number__c + &apos; | &apos; + Opportunity.Name + &apos; | New Bridge Loan Assigned&apos;</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>ToAddress</field>
+        <formula>Opportunity.Underwriter__r.Email + &apos;;&apos; + 
+Opportunity.Closer__r.Email + &apos;;&apos; + 
+Opportunity.Loan_Coordinator__r.Email</formula>
+    </fieldOverrides>
+    <label>New Bridge Loan Assigned Email</label>
+    <optionsCreateFeedItem>true</optionsCreateFeedItem>
+    <quickActionLayout>
+        <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
+        <quickActionLayoutColumns>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>ValidatedFromAddress</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>ToAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>CcAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>BccAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Subject</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>HtmlBody</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>RelatedToId</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>EmailTemplateId</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+        </quickActionLayoutColumns>
+        <quickActionLayoutColumns/>
+    </quickActionLayout>
+    <targetObject>OutgoingEmail</targetObject>
+    <targetParentField>RelatedTo</targetParentField>
+    <type>SendEmail</type>
+</QuickAction>

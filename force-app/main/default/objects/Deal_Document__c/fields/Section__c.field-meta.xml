@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Section__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please use the &quot;Update Folder&quot; button to make changes to the Folder and Document Type.</inlineHelpText>
+    <label>Section</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Assignments</fullName>
+                <default>false</default>
+                <label>Assignments</label>
+            </value>
+            <value>
+                <fullName>Background and Credit Search</fullName>
+                <default>false</default>
+                <label>Background and Credit Search</label>
+            </value>
+            <value>
+                <fullName>Borrower</fullName>
+                <default>false</default>
+                <label>Borrower</label>
+            </value>
+            <value>
+                <fullName>Cash Management</fullName>
+                <default>false</default>
+                <label>Cash Management</label>
+            </value>
+            <value>
+                <fullName>Closing Documents</fullName>
+                <default>false</default>
+                <label>Closing Documents</label>
+            </value>
+            <value>
+                <fullName>Closing Template</fullName>
+                <default>false</default>
+                <label>Closing Template</label>
+            </value>
+            <value>
+                <fullName>DS Funding Package</fullName>
+                <default>false</default>
+                <label>DS Funding Package</label>
+            </value>
+            <value>
+                <fullName>Guarantor / Sponsor</fullName>
+                <default>false</default>
+                <label>Guarantor / Sponsor</label>
+            </value>
+            <value>
+                <fullName>IC Memo</fullName>
+                <default>false</default>
+                <label>IC Memo</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Invoices</fullName>
+                <default>false</default>
+                <label>Invoices</label>
+            </value>
+            <value>
+                <fullName>LDR</fullName>
+                <default>false</default>
+                <label>LDR</label>
+            </value>
+            <value>
+                <fullName>Model</fullName>
+                <default>false</default>
+                <label>Model</label>
+            </value>
+            <value>
+                <fullName>Pledgor</fullName>
+                <default>false</default>
+                <label>Pledgor</label>
+            </value>
+            <value>
+                <fullName>Portfolio Level Documents</fullName>
+                <default>false</default>
+                <label>Portfolio Level Documents</label>
+            </value>
+            <value>
+                <fullName>Principle Loan Documents</fullName>
+                <default>false</default>
+                <label>Principle Loan Documents</label>
+            </value>
+            <value>
+                <fullName>Property Level Documents</fullName>
+                <default>false</default>
+                <label>Property Level Documents</label>
+            </value>
+            <value>
+                <fullName>Property Management</fullName>
+                <default>false</default>
+                <label>Property Management</label>
+            </value>
+            <value>
+                <fullName>Recorded Loan Documents</fullName>
+                <default>false</default>
+                <label>Recorded Loan Documents</label>
+            </value>
+            <value>
+                <fullName>Submission Documents</fullName>
+                <default>false</default>
+                <label>Submission Documents</label>
+            </value>
+            <value>
+                <fullName>Taxes</fullName>
+                <default>false</default>
+                <label>Taxes</label>
+            </value>
+            <value>
+                <fullName>Tax Template</fullName>
+                <default>false</default>
+                <label>Tax Template</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Title</fullName>
+                <default>false</default>
+                <label>Title</label>
+            </value>
+            <value>
+                <fullName>Title Policies</fullName>
+                <default>false</default>
+                <label>Title Policies</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Background and Credit Search</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Cash Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Insurance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Portfolio Level Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Property Level Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Property Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Submission Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Taxes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Diligence Documents</controllingFieldValue>
+            <valueName>Title</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loan Document</controllingFieldValue>
+            <valueName>Assignments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loan Document</controllingFieldValue>
+            <valueName>LDR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loan Document</controllingFieldValue>
+            <valueName>Principle Loan Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loan Document</controllingFieldValue>
+            <valueName>Recorded Loan Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Loan Document</controllingFieldValue>
+            <valueName>Title Policies</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate Entity Documents</controllingFieldValue>
+            <valueName>Borrower</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate Entity Documents</controllingFieldValue>
+            <valueName>Guarantor / Sponsor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Corporate Entity Documents</controllingFieldValue>
+            <valueName>Pledgor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Invoices</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DS Funding Package</controllingFieldValue>
+            <valueName>Closing Template</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DS Funding Package</controllingFieldValue>
+            <valueName>DS Funding Package</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>DS Funding Package</controllingFieldValue>
+            <valueName>Tax Template</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

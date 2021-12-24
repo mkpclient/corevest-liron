@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Bridge</fullName>
+    <columns>Document_Structure__c</columns>
+    <columns>Sort__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>Check_Only__c</columns>
+    <columns>Field_Name__c</columns>
+    <columns>DeveloperName</columns>
+    <columns>Filters__c</columns>
+    <columns>sObjectName__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>sObjectName__c</field>
+        <operation>equals</operation>
+        <value>Opportunity</value>
+    </filters>
+    <filters>
+        <field>MasterLabel</field>
+        <operation>contains</operation>
+        <value>Bridge</value>
+    </filters>
+    <label>All Bridge</label>
+</ListView>

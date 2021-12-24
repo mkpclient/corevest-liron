@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>Getting_Started_reg</defaultLandingTab>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <tabs>Getting_Started_reg</tabs>
+    <tabs>standard-Contact</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>standard-Lead</tabs>
+    <tabs>standard-Opportunity</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>standard-Chatter</tabs>
+    <tabs>standard-File</tabs>
+    <tabs>standard-Product2</tabs>
+    <tabs>standard-Forecasting3</tabs>
+    <tabs>Integration_Mapping__c</tabs>
+    <tabs>standard-Quote</tabs>
+    <tabs>CTM</tabs>
+    <tabs>standard-WaveHome</tabs>
+    <tabs>Post_Closing_Section__c</tabs>
+    <tabs>Checklist__c</tabs>
+    <tabs>Checklist_Section__c</tabs>
+    <tabs>Checklist_Item__c</tabs>
+    <tabs>Clear_Result__c</tabs>
+    <tabs>Comment__c</tabs>
+    <tabs>Deal_x_Funding_Vehicle__c</tabs>
+    <tabs>Loan_Version__c</tabs>
+</CustomApplication>

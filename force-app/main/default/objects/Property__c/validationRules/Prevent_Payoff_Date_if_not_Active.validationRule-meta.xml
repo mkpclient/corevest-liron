@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Payoff_Date_if_not_Active</fullName>
+    <active>true</active>
+    <description>This will prevent the user from entering a Payoff Received Date when the Property is not Active</description>
+    <errorConditionFormula>AND(
+NOT(ISBLANK(Payoff_Received_Date__c )),
+ISCHANGED(Payoff_Received_Date__c),
+OR(
+ISPICKVAL( PRIORVALUE(Status__c) , &quot;Due Diligence&quot;),
+ISPICKVAL( PRIORVALUE(Status__c) , &quot;Pending&quot;),
+ISPICKVAL( PRIORVALUE(Status__c)  , &quot;Rescinded&quot;),
+ISPICKVAL( PRIORVALUE(Status__c)  , &quot;Cancelled&quot;),
+ISPICKVAL( PRIORVALUE(Status__c)  , &quot;On Hold&quot;)))</errorConditionFormula>
+    <errorMessage>A Payoff Received Date can only be entered when the Status is Active</errorMessage>
+</ValidationRule>

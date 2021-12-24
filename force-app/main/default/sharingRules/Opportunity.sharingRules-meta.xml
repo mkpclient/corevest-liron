@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Capital_Markets</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>Capital Markets</label>
+        <sharedTo>
+            <role>Capital_Markets</role>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>Origination_Manager</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Sales_Analyst</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Shares all Deals with Sales Analyst</description>
+        <label>Sales Analyst</label>
+        <sharedTo>
+            <group>CAF_Analysts</group>
+        </sharedTo>
+        <sharedFrom>
+            <role>Origination</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+    <sharingOwnerRules>
+        <fullName>Sharing_Deals_Owned_by_Capital_Markets</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This will share Deals owned by Users with Capital Markets Roles</description>
+        <label>Sharing Deals Owned by Capital Markets</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Operations</roleAndSubordinatesInternal>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>Capital_Markets</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

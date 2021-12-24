@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SecuritizationReview_Email_CC__c</fullName>
+    <description>These are the CC email addresses for sending the email to notify Securitization Counsel that Documents have been uploaded and ready to review</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>These are the CC email addresses for sending the email to notify Securitization Counsel that Documents have been uploaded and ready to review</inlineHelpText>
+    <label>SecuritizationReview Email CC</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

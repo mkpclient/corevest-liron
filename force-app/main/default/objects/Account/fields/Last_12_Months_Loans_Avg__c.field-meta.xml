@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Last_12_Months_Loans_Avg__c</fullName>
+    <description>Last 12 Months Loans - Avg. $ (Updated Monthly with 3rd Party Data)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Last 12 Months Loans - Avg. $ (Updated Monthly with 3rd Party Data)</inlineHelpText>
+    <label>Last 12 Months Loans - Avg. $</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

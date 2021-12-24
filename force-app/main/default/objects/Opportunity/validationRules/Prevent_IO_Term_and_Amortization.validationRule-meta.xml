@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_IO_Term_and_Amortization</fullName>
+    <active>false</active>
+    <description>Prevents IO term and Amortization fields from having a value at the same time.</description>
+    <errorConditionFormula>CONTAINS(RecordType.DeveloperName , &quot;Term_Loan&quot;) &amp;&amp; (not(ISPICKVAL( Amortization_Term__c,&quot;0 months&quot; )) &amp;&amp; (or(
+ISPICKVAL(IO_Term__c ,&quot;24 months&quot;)
+,ISPICKVAL(IO_Term__c ,&quot;36 months&quot;)
+,ISPICKVAL(IO_Term__c ,&quot;48 months&quot;)
+,ISPICKVAL(IO_Term__c ,&quot;60 months&quot;)
+,ISPICKVAL(IO_Term__c ,&quot;84 months&quot;)
+,ISPICKVAL(IO_Term__c ,&quot;120 months&quot;)
+
+))
+ || 
+(not(ISPICKVAL( IO_Term__c,&quot;0 months&quot; )) &amp;&amp; (or(
+ISPICKVAL(Amortization_Term__c ,&quot;120 months&quot;)
+,ISPICKVAL(Amortization_Term__c ,&quot;180 months&quot;)
+,ISPICKVAL(Amortization_Term__c ,&quot;240 months&quot;)
+,ISPICKVAL(Amortization_Term__c ,&quot;300 months&quot;)
+,ISPICKVAL(Amortization_Term__c ,&quot;360 months&quot;)
+))))</errorConditionFormula>
+    <errorMessage>IO Term and Amortization Term field cannot have a value greater than 0 at the same time. 
+
+Please review fields.</errorMessage>
+</ValidationRule>

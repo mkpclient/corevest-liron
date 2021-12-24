@@ -1,0 +1,418 @@
+<apex:page applyBodyTag="false" standardController="Advance__c" extensions="advancePrint_Extension" renderAs="" contentType="application/msword#ClosingInstructions.doc" cache="true">
+    <head>
+        <style>
+            @page {
+            size: A4 portrait;
+            }
+            
+            body {
+            font-family: 'Salesforce Sans',Arial,sans-serif;
+            font-size: 10px;
+            }
+            
+            h4 {
+            font-weight: normal;
+            text-align: center;
+            font-size: 18px;
+            }
+            
+            h3 {
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+            }
+            
+            .text-center {
+            text-align: center;
+            }
+            
+            .text-blue {
+            color: rgb(61,148,243);
+            }
+            
+            .subheading {
+            color: rgb(126, 126, 126);
+            display: block;
+            margin-top: -16px;
+            font-size: 13px;
+            }
+            
+            .margin-top {
+            margin-top: 30px;
+            }
+            
+            .margin-bottom {
+            margin-bottom: 20px;
+            }
+            
+            .inline-block {
+            display: inline-block;
+            }
+            
+            .full-width {
+            width: 100%;
+            }
+            
+            .paragraph1 {
+            text-indent: 50px;
+            }
+            
+            .paragraph2 {
+            text-indent: 100px;
+            }
+            
+            .paragraph3 {
+            text-indent: 150px;
+            }
+            
+        </style>
+
+    </head>
+    
+    <html>
+        <body style ="font-size: 14px;">
+            
+            <p style ="font-weight: bold;text-align: center;font-size: 18px;">
+                <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" /><br />
+            </p>
+            <p style ="font-weight: bold;text-align: center;font-size: 18px;">Closing Instructions<br />
+            (Borrower Owned Property Advance)</p>
+            <div>
+                <div style="text-align:center;">
+                    Dated:
+                    <apex:outputText value="{0, date, MMMM d, YYYY}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </div>
+                <div>
+                    <apex:outputText value="{!properties[0].Property__r.Title_Company__r.Name}" /><br />
+                    <apex:outputText value="{!properties[0].Property__r.Title_Company__r.BillingStreet}" /><br />
+                    <apex:outputText value="{!properties[0].Property__r.Title_Company__r.BillingCity}" />,<apex:outputText value=" {!properties[0].Property__r.Title_Company__r.BillingState}" /><apex:outputText value=" {!properties[0].Property__r.Title_Company__r.BillingPostalCode}" /><br />
+                    Attention:  <apex:outputText value=" {!properties[0].Property__r.Title_Contact_Name__c}" />, Title Officer<br />
+                </div>
+                
+                <table style="table-layout:fixed;width:95vw;border:0px solid white;">
+                    <colgroup>
+                        <col class="short" />
+                        <col class="long" />
+                    </colgroup>
+                    <tr>
+                        <td style="padding:12px 6px;vertical-align:top;width:10%;font-weight:bold;border:0px solid white;">
+                            Re:
+                        </td>
+                        <td style="padding:12px 6px;vertical-align:top;width:80%;border:0px solid white;">
+                            Loan No. <apex:outputText value="{!Advance__c.Deal__r.Deal_Loan_Number__c}" /> in the maximum amount of <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.LOC_Commitment__c}" /></apex:outputText> (<strong>"Loan Amount"</strong>) from 
+                            <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" /> (<strong>"Lender"</strong>) to <apex:outputText value="{!Advance__c.Deal__r.Account_Name__c}" />
+                            (<strong>"Borrower"</strong>) <br />
+                            <strong>Property Address(es):</strong> See <strong>Exhibit A</strong> attached <br />
+                            <strong>"Aggregate Advance Amount": </strong><apex:outputText value="{0, number, Currency}"><apex:param value="{!Advance__c.Aggregate_Funding__c}" /></apex:outputText><br />
+                            <strong>Advance Amount by Property:</strong> See <strong>Exhibit A</strong> attached<br />
+                            <strong>"Lender's Title Agent":</strong> VANTAGE POINT TITLE<br />
+                            <strong>Title Order No(s): </strong> See <strong>Exhibit A</strong> attached<br />
+                        </td>
+                    </tr>                
+                </table> 
+                <div style="text-indent: 50px;">
+                    This letter shall constitute the instructions (<strong>"Lender's Instructions"</strong>) of Lender to <apex:outputText value="{!properties[0].Property__r.Title_Company__r.Name}" /> (<strong>"Title Company"</strong>) in connection with the closing of an 
+                    Advance under the above referenced Loan made pursuant to that certain Loan Agreement between Borrower and Lender dated as of 
+                    <apex:outputText value="{0,date, MMMM d ', ' yyyy}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                    (together with any and all amendments thereto and/or restatements thereof, the <strong>"Loan Agreement"</strong>).  Unless otherwise defined herein, terms used 
+                    herein with initial capital letters shall have the same meaning assigned to such terms in the Loan Agreement.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    Borrower is the owner of each property listed on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> hereto (each a 
+                    <strong>"Property"</strong> and if more than one, collectively, the <strong>"Properties"</strong>).  This letter shall constitute Lender's instructions 
+                    (<strong>"Instructions"</strong>) for the closing of the Advance requested by Borrower pursuant to the Request for Advance dated of even date herewith executed 
+                    by Borrower in favor of Lender (<strong>"Request for Advance"</strong>) with respect to the (i) receipt and disbursement of Loan Proceeds (as defined below); 
+                    (ii) the recordation of the Recordable Documents (as defined below), and (iii) the commitment of Title Company to issue the Policy(ies) (as defined below).
+                </div><br />
+                <div style="text-indent: 50px;">
+                    A.     Title Company has or will have received the following original fully executed and, as applicable, notarized documents from Borrower (the documents described 
+                    in items 1 (if any) and 2 below are collectively referred to as the <strong>"Recordable Documents"</strong>):                
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    1.      For each Property where a correction deed is required to correct the vesting of fee title to the Property exactly in the name of Borrower as it appears in 
+                    the Security Instrument, an original executed grant deed or other form of warranty deed used in the applicable State where the Property is located as approved by 
+                    Lender and Lender's Title Agent (with the grantor's signature notarized and otherwise in recordable form), to be recorded prior to the Security Instrument 
+                    <strong>"Correction Deed"</strong>).
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    2.  For each Property, an original [Deed of Trust][Mortgage], Assignment of Leases and Rents, Security Agreement and Fixture Filing duly executed by Borrower, in 
+                    favor of Lender (with Borrower's signature notarized and otherwise in recordable form), creating a first lien against the Property (each a <strong>"Security 
+                    Instrument"</strong> and if more than one, the <strong>"Security Instruments"</strong>);
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    3.  A copy of the Request for Advance, executed by Borrower; 
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    4.  For each Property where Approved Renovation Costs are listed on Exhibit A to the Request for Advance, the original of the Renovation Certificate, duly executed 
+                    by Borrower; and
+                </div><br />
+                <div style = "text-indent: 100px;">
+                    5.  A counterpart of these Lender's Instructions, executed by Borrower.
+                </div><br />
+                <div style="text-indent: 100px;background-color: yellow;">
+                    [6. SOUTH CAROLINA AND TENNESSEE: INSERT STATE LEVEL ANCILLARY DOCUMENTS FROM REQUEST FOR ADVANCE]
+                </div><br />
+                <div style="text-indent: 50px;">
+                    B.  Upon our receipt of a counterpart of these Lender's Instructions executed by Title Company and Borrower, together with each Proforma Policy attached hereto 
+                    as <span style = "text-decoration: underline;font-weight: bold;">Exhibit B</span>, Lender will wire or cause to be wired an amount (the 
+                    <strong>"Loan Proceeds"</strong>) to the account of Title Company (the <strong>"Escrow Account"</strong>), which represents the Advance Amount for each Property, 
+                    net of any amounts specified on, and otherwise in accordance with, the Approved Closing Statement (defined below) and these Lender's Instructions.  THE ADVANCE 
+                    AMOUNT FOR EACH PROPERTY SHALL BE DISBURSED FROM THE ESCROW ACCOUNT ONLY IN STRICT ACCORDANCE WITH THESE LENDER'S INSTRUCTIONS AND THE APPROVED CLOSING STATEMENT.  FURTHERMORE, TITLE COMPANY AGREE THAT LENDER OR LENDER'S TITLE AGENT MAY, IN ITS SOLE AND ABSOLUTE DISCRETION, UNILATERALLY INSTRUCT TITLE COMPANY TO RETURN THE LOAN PROCEEDS TO LENDER OR TO DISBURSE SUCH PROCEEDS IN CONNECTION WITH THE CLOSING OF THE ADVANCE(S) BEING MADE PURSUANT TO THESE LENDER'S INSTRUCTIONS.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    C.  The following requirements must be satisfied before the Loan Proceeds may be disbursed out of the Escrow Account:
+                </div><br />
+                <div style="text-indent: 100px;">
+                    1.  Title Company shall have determined that the Recordable Documents are in proper form for recording and shall be in a position to record the Recordable 
+                    Documents for each Property in the office of the clerk of the County of where the Property is located (the <strong>"Recorder's Office"</strong>).
+                </div><br />
+                <div style="text-indent: 100px;">
+                    2.  Title Company shall have determined for each Property that (a) the legal description contained in the Deed, the Correction Deed ( if applicable), the 
+                    Security Instrument and the Policy (defined below) to be issued for such Property are identical and (b) fee title to the real property described in the Security 
+                    Instrument shall be vested solely and exactly as Borrower's name appears in the Security Instrument.  Title Company is authorized and instructed to attach prior 
+                    to recordation pursuant to these Instructions as (i) Exhibit B to the Security Instrument, the legal description of the Property listed on Exhibit A to the 
+                    Security Instrument, and if more than one Property is encumbered by the Security Instrument, as Exhibit B-1 through Exhibit B-<span style = "background-color: yellow;">__</span>, the legal description of each 
+                    Property, with the street address and APN of each Property listed at the top of each Exhibit.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    3.  Title Company shall be irrevocably and unconditionally committed to issue a final title insurance policy for each Security Instrument (each a 
+                    <strong>"Policy"</strong> and if more than one, the <strong>"Policies"</strong>) to Lender, its successors and/or assigns. as follows for each such Policy:
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (a) The Policy will be dated as of the date of the recording of the Security Instrument insured under the Policy (the <strong>"Insured Security Instrument"</strong>). 
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (b) The Policy will contain the recording information of the Insured Security Instrument, insure the Insured Security Instrument as a first lien on the Property 
+                    or Properties described in the Policy as encumbered by the Insured Security Instrument, show fee title to each such Property vested in Borrower, and (e) otherwise 
+                    be in form identical to the proforma title policy, as marked, attached hereto as <span style = "text-decoration: underline;font-weight: bold;">Exhibit B</span> 
+                    (each a <strong>"Proforma Policy"</strong>).
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (c) The coverage on each Policy shall be in an amount equal to the Advance Amount set forth on 
+                    <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> 
+                    hereto for the Property that is encumbered by the Insured Security Instrument, or if more than one Property is encumbered by the Insured Security Instrument, 
+                    in an amount equal to the aggregate Advance Amounts set forth on <span style = "text-decoration: underline;font-weight: bold;">Exhibit A</span> hereto for all 
+                    Properties encumbered by the Insured Security Instrument.
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (d) In the event Lender authorizes in writing the disbursement of Loan Proceeds prior to recordation of the Recordable Documents, the disbursement of Loan 
+                    Proceeds prior to recordation of the Recordable Documents shall be conditioned upon Title Company's irrevocable and unconditional commitment to issue each Policy 
+                    with GAP coverage for any intervening liens or encumbrances between the date of disbursement of Loan Proceeds and the recordation date of the Insured Security 
+                    Instrument.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    4.  All taxes and homeowner's association fees, if any, that are to have been paid as of the date of the Policy shall be shown as paid.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    5.  Title Company shall prepare a statement of payments and disbursements (the <strong>"Estimated Closing Statement"</strong>) which must be approved in writing 
+                    by either one of Gina Lambis or Samuel Harrity of Lender (<strong>"Approved Closing Statement"</strong>), and you shall transmit the following documents to Lender 
+                    at funding@cvest.com and to Victoria Bretton of Lender's Title Agent at vbnazarko@vptitle.net prior to closing and prior to disbursement of any Loan Proceeds: 
+                    (a) the Approved Closing Statement executed by Borrower; (b) fully executed and assembled copies of the Recordable Documents with the legal descriptions 
+                    attached; (c) a copy of these Lender's Instructions executed by Title Company and Borrower, and (d) a copy of the Request for Advance (and any Renovation 
+                    Certificates), in each case executed by Borrower.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    6.  Title Company shall have received from Borrower, immediately available funds in an amount, which when added to the Loan Proceeds, is sufficient to pay 
+                    all amounts set forth on the Approved Closing Statement.  In particular, Title Company shall have received sums sufficient to pay for each Property (a) all 
+                    title insurance premiums due with respect to the issuance of the Policy (defined below) for each Property, (b) all other sums required to be paid in order to 
+                    enable Title Company to issue the Policy for each Property, (c) all homeowner's association fees, intangibles, mortgage tax, recording, filing and documentary 
+                    stamp taxes and fees payable in connection with the Security Instrument, and (d)  the title review fee to VANTAGE POINT TITLE set forth on the Approved Closing 
+                    Statement (collectively, the <strong>"Taxes and Fees"</strong>).
+                </div><br />
+                <div style="text-indent: 50px;">
+                    D.  Upon the satisfaction of all of the above requirements (including the requirements of paragraph B above) Title Company shall do the following for each 
+                    Property:
+                </div><br />
+                <div style="text-indent: 100px;">
+                    1.  Title Company shall record or cause to be recorded in the Recorder's Office the Recordable Documents in the exact order as follows: first, the Correction 
+                    Deed, if any, and, second, immediately thereafter the Security Instrument.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    2.  If and when (and only if and when) Title Company has received confirmation that all of the Recordable Documents have been recorded, disburse the Loan 
+                    Proceeds from the Escrow Account in accordance with the Approved Closing Statement.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    3.  Title Company shall pay all Taxes and Fees in connection with recording and/or filing of the above referenced documents.
+                </div><br />
+                <div style="text-indent: 100px;">
+                    4.  Promptly following recordation of the Recordable Documents (but not later than ten (10) business days after said recordation), Title Company shall:
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (a) Deliver to Lender by overnight courier at 1920 Main St., Suite 850, Irvine, CA  92614, Attention: Cecilia Lai, the following documents (collectively, 
+                    the <strong>"Closing Documents"</strong>): (i) the original Request for Advance executed by Borrower (together with the original of any Renovation Certificates 
+                    executed by Borrower); (ii) the final Approved Closing Statement executed by Borrower; (iii) a fully executed copy of these Lender's Instructions; (iv) certified, 
+                    conformed copies of the recorded Security Instruments; and (v) the original Policy or Policies, as applicable conforming to the Proforma Policy or Proforma 
+                    Policies attached hereto as <span style = "text-decoration: underline;font-weight: bold;">Exhibit B</span>.
+                </div><br />
+                <div style="text-indent: 150px;">
+                    (b) Deliver to Lender at loanadmin@cvest.com pdf copies of the Closing Documents described in paragraph 4(a) above.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    E.  By acceptance of these Lender's Instructions, Title Company acknowledges and agrees that upon Title Company's disbursement of the Loan Proceeds in accordance 
+                    with these Lender's Instructions, the title insurance premiums will have been paid in full and the Proforma Policy(ies) shall constitute Lender's title insurance 
+                    policy effective as of the date of such disbursement until receipt of the original Policy(ies).
+                </div><br />
+                <div style="text-indent: 50px;">
+                    F.  If for any reason the Loan Proceeds are funded by Lender and the funds have not been disbursed by Title Company pursuant to these Lender's Instructions on or 
+                    before 5:00 p.m. Pacific on 
+                    <apex:outputText value="{0,date, MMMMM d', ' yyyy}">
+                        <apex:param value="{!TODAY()+10}" />
+                    </apex:outputText>, Title Company is directed immediately to notify Gina Lambis and Samuel Harrity of Lender and Victoria Bretton of Lender's Title Agent for 
+                    further instructions.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    G.  Lender shall not be held liable or responsible for any expense in this transaction.  All costs, fees, expenses (including without limitation, your fees 
+                    and the expenses for the issuance of each Policy, including the title endorsements described therein), the recording and transfer costs and fees, and any and 
+                    all documentary transfer taxes and/or mortgage taxes are to be paid by the Borrower.  You are to return to Lender and/or Borrower upon demand of Lender all 
+                    documents, funds and other information provided by Lender or Borrower at any time prior to the recording described herein, if such recording has not yet occurred.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    H.  Notwithstanding the failure of Lender to receive a copy of these Lender's Instructions executed by an authorized officer of Title Company, the disbursement 
+                    of Loan Proceeds and/or the recordation of the Security Instrument(s) shall constitute evidence of Title Company's agreement to comply with their respective 
+                    obligations under these Lender's Instructions, including issuance of each Policy by Title Company.
+                </div><br />
+                <div style="text-indent: 50px;">
+                    I.  These Lender's Instructions may be executed in original or electronic (pdf) counterparts, each of which shall be deemed an original, but all of which, 
+                    taken together, shall constitute one and the same instrument.  
+                </div><br />                
+                <div style="text-indent: 50px;">
+                    <strong>PLEASE IMMEDIATELY RETURN AN EXECUTED COPY OF THESE INSTRUCTIONS TO THE UNDERSIGNED.  IF YOU FAIL TO RETURN A FULLY EXECUTED COPY OF THESE 
+                        INSTRUCTIONS TO THE UNDERSIGNED, INCLUDING, WITHOUT LIMITATION, BY FACSIMILE OR ELECTRONIC TRANSMISSION, PRIOR TO TITLE COMPANY'S RECEIPT OF THE LOAN 
+                        PROCEEDS, THEN TITLE COMPANY'S RECEIPT OF THE LOAN PROCEEDS SHALL BE DEEMED TO BE EVIDENCE OF YOUR AGREEMENT TO PROCEED IN STRICT ACCORDANCE WITH THE 
+                        TERMS OF THESE LETTER INSTRUCTIONS.</strong>
+                </div><br /> 
+                
+                <table style="table-layout:fixed;width:95vw;border:0px solid white;">
+                    <tr>
+                        <td style="padding:12px 6px;vertical-align:top;width:40%;border:0px solid white;">
+                        </td>
+                        <td style="padding:12px 6px;vertical-align:top;width:60%;border:0px solid white;">
+                            Sincerely, <br />
+                            COREVEST AMERICAN FINANCE LENDER LLC <br />
+                            <p style= "font-style:italic;">(Signatures Follow on Next Page)</p>
+                        </td>
+                    </tr>
+                </table>
+                
+                <br clear="all" style="page-break-before:always" /> 
+                <p>
+                    <strong>THE UNDERSIGNED ACKNOWLEDGES RECEIPT OF THE ENCLOSED DOCUMENT(S) AND THE WITHIN INSTRUCTIONS AND AGREES TO PROCEED IN STRICT ACCORDANCE THEREWITH.</strong>
+                </p>
+                <p>
+                    <!--ST  01 && 21 && 31 -->
+                    <apex:outputpanel rendered="{!IF(Day(TODAY()) = 1 || Day(TODAY()) = 21 || Day(TODAY()) = 31 , TRUE, FALSE) }">
+                        <apex:outputText value="{0,date,dd}<sup>st</sup> 'DAY OF '{0,date,MMMM} {0,date,YYYY}" escape="false">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                    </apex:outputpanel>
+                    <!--ND 02 && 22 -->
+                    <apex:outputpanel rendered="{!IF(Day(TODAY()) = 2 || Day(TODAY()) = 22  , TRUE, FALSE) }">
+                        <apex:outputText value="{0,date,dd}<sup>nd</sup> 'DAY OF '{0,date,MMMM} {0,date,YYYY}" escape="false">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                    </apex:outputpanel>
+                    <!-- RD 3 && 23 -->
+                    <apex:outputpanel rendered="{!IF(Day(TODAY()) = 3 || Day(TODAY()) = 23  , TRUE, FALSE) }">
+                        <apex:outputText value="{0,date,dd}<sup>rd</sup> 'DAY OF '{0,date,MMMM} {0,date,YYYY}" escape="false">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                    </apex:outputpanel>
+                    <!-- TH 4 && 5- 20 && 24 -30 -->
+                    <apex:outputpanel rendered="{!IF(Day(TODAY()) != 1 && Day(TODAY()) != 21 && Day(TODAY()) != 21 && Day(TODAY()) != 31 && Day(TODAY()) != 2 && Day(TODAY()) != 22 && Day(TODAY()) != 3 && Day(TODAY()) != 23, TRUE, FALSE) }">
+                        <apex:outputText value="{0,date,dd}<sup>th</sup> 'DAY OF '{0,date,MMMM} {0,date,YYYY}" escape="false">
+                            <apex:param value="{!TODAY()}" />
+                        </apex:outputText>
+                    </apex:outputpanel>
+                </p>
+                <p>
+                    <strong>"Title Company"</strong>
+                </p>
+                <p>
+                    <apex:outputText value="{!properties[0].Property__r.Title_Company__r.Name}" /><br />
+                </p>
+                <p>
+                    By:______________________________________________________<br />
+                    <span style = "text-indent: 50px;">Name:______________________________________________________</span><br />
+                    <span style = "text-indent: 50px;">Title:______________________________________________________</span><br />
+                </p>
+                <p>
+                    <strong>ACKNOWLEDGED AND AGREED:</strong>                        
+                </p>
+                <p>
+                    <strong>"Borrower":</strong>
+                </p>
+                <p>
+                    <apex:outputText value="{!Advance__c.Deal__r.Account_Name__c}" />
+                </p>
+                <p>
+                    <strong>Borrower's Address:</strong><br />
+                </p>
+                <p>
+                </p>
+                <p>
+                    <apex:outputText value="{!Advance__c.Deal__r.Contact__r.MailingStreet}" /><br />
+                    <apex:outputText value="{!Advance__c.Deal__r.Contact__r.MailingCity} " /><apex:outputText value="{!Advance__c.Deal__r.Contact__r.MailingState} " />
+                    <apex:outputText value="{!Advance__c.Deal__r.Contact__r.MailingPostalCode}" /><br />
+                </p>
+                <br clear="all" style="page-break-before:always" />
+                
+                <p style="text-align:center;text-decoration:underline;">
+                    EXHIBIT A<br />
+                    PROPERTIES AND ADVANCE AMOUNTS
+                </p>
+                <table>
+                    <tr>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                Property Address
+                            </div>
+                        </th>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                Advance Amount
+                            </div>
+                        </th>
+                        <th style="width:33%;border: 1px solid black;">
+                            <div class="table-header grayscale">
+                                Title Order No:
+                            </div>
+                        </th>
+                    </tr>
+                    <apex:repeat value="{!properties}" var="property">
+                        <tr>
+                            <td>
+                                <apex:outputText value="{!property.Property__r.Name}" /><br />
+                                <apex:outputText value="{!property.Property__r.City__c}" />,<apex:outputText value=" {!property.Property__r.State__c}" /><apex:outputText value=" {!property.Property__r.ZipCode__c}" />
+                            </td>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                <apex:outputText value="{0, number, Currency}">
+                                    <apex:param value="{!property.Approved_Advance_Amount__c}" />
+                                </apex:outputText>
+                            </td>
+                            <td style = "text-align:center;border: 1px solid black;">
+                                #######
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                
+            </div>
+            
+            <br clear="all" style="page-break-before:always" />        
+            
+            <!-- Exhibit B Page -->
+            
+            <div class="subheading text-center">
+                Exhibit B<br />
+                PROFORMA LENDER'S POLICY(IES) <br /><br />
+                [See attached]
+            </div>
+            
+        </body>
+    </html>
+</apex:page>

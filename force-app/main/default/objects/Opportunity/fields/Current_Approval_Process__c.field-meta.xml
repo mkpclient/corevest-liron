@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Approval_Process__c</fullName>
+    <description>This is the Approval Process that this Deal is currently in</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the Approval Process that this Deal is currently in</inlineHelpText>
+    <label>Current Approval Process</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pricing Approval</fullName>
+                <default>false</default>
+                <label>Pricing Approval</label>
+            </value>
+            <value>
+                <fullName>Pricing Review - Capital Markets</fullName>
+                <default>false</default>
+                <label>Pricing Review - Capital Markets</label>
+            </value>
+            <value>
+                <fullName>Pricing Review - Underwriting</fullName>
+                <default>false</default>
+                <label>Pricing Review - Underwriting</label>
+            </value>
+            <value>
+                <fullName>Entry Into UW Approval</fullName>
+                <default>false</default>
+                <label>Entry Into UW Approval</label>
+            </value>
+            <value>
+                <fullName>Confirmation of Terms - Originations</fullName>
+                <default>false</default>
+                <label>Confirmation of Terms - Originations</label>
+            </value>
+            <value>
+                <fullName>Confirmation of Terms - Underwriting</fullName>
+                <default>false</default>
+                <label>Confirmation of Terms - Underwriting</label>
+            </value>
+            <value>
+                <fullName>Confirmation of Terms</fullName>
+                <default>false</default>
+                <label>Confirmation of Terms</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>These are the default Commission Configuration Details</description>
+    <label>Commission Configuration</label>
+    <pluralLabel>Commission Configurations</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

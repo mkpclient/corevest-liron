@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LOC_Assigned_To_Me</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>Anticipated_Closing_Date__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Date_Stage_Changed_To_UW__c</columns>
+    <columns>Kickoff_Date__c</columns>
+    <columns>Date_Change_From_Loan_Processing_to_UW__c</columns>
+    <columns>Days_In_Underwriting__c</columns>
+    <columns>Anticipated_IC_Approval__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Number_of_Properties__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Contact__c</columns>
+    <filterScope>SalesTeam</filterScope>
+    <filters>
+        <field>OPPORTUNITY.TYPE</field>
+        <operation>equals</operation>
+        <value>Bridge Loan,SAB Loan</value>
+    </filters>
+    <label>Bridge Deals Assigned To Me</label>
+    <sharedTo>
+        <role>Bridge</role>
+        <role>Bridge_Manager</role>
+    </sharedTo>
+</ListView>

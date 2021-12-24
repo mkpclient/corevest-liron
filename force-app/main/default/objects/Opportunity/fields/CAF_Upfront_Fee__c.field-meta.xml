@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CAF_Upfront_Fee__c</fullName>
+    <defaultValue>IF($RecordType.Name  = &quot;Term Loan&quot;, 1/100, 0)</defaultValue>
+    <description>Term and Bridge Use</description>
+    <externalId>false</externalId>
+    <label>Origination Fee %</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Percent</type>
+</CustomField>

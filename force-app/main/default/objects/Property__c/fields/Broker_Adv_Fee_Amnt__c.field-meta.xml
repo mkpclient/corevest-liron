@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Broker_Adv_Fee_Amnt__c</fullName>
+    <description>Bridge Use
+
+Previously:
+IF( Deal__r.Record_Type_Name__c  = &quot;Single_Asset_Bridge_Loan&quot;,
+Broker_Advance_Fee_Perc__c *  Approved_Advance_Amount_Max__c,
+Broker_Advance_Fee_Perc__c * Approved_Advance_Amount__c)</description>
+    <externalId>false</externalId>
+    <formula>IF(  ISPICKVAL( Deal__r.Broker_Fee_Paid_When__c , &apos;Each Initial Advance&apos; ),
+ Deal__r.Broker_Fees__c  * Approved_Advance_Amount_Max__c,
+ 0
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>% of the max amount funded for this property</inlineHelpText>
+    <label>Broker Fee $</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bridge_Post_Closing_Docs</fullName>
+    <columns>Document_Type__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>RecordType__c</columns>
+    <columns>Post_Close_Setting__c</columns>
+    <columns>Post_Closing_sObjectType__c</columns>
+    <columns>Post_Closing_Trigger__c</columns>
+    <columns>Post_Closing_Item_Per_County__c</columns>
+    <columns>Post_Closing_Criteria__c</columns>
+    <columns>Post_Closing_Sort__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Post_Close_Setting__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>LOC_Loan</value>
+    </filters>
+    <label>Bridge Post Closing Docs</label>
+</ListView>

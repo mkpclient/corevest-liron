@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Department_Role__c</fullName>
+    <description>Roles within the user&apos;s division</description>
+    <externalId>false</externalId>
+    <label>Department Role</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Asset Manager</fullName>
+                <default>false</default>
+                <label>Asset Manager</label>
+            </value>
+            <value>
+                <fullName>Bridge Closer</fullName>
+                <default>false</default>
+                <label>Bridge Closer</label>
+            </value>
+            <value>
+                <fullName>Bridge Loan Coordinator</fullName>
+                <default>false</default>
+                <label>Bridge Loan Coordinator</label>
+            </value>
+            <value>
+                <fullName>Bridge Underwriter</fullName>
+                <default>false</default>
+                <label>Bridge Underwriter</label>
+            </value>
+            <value>
+                <fullName>Funding</fullName>
+                <default>false</default>
+                <label>Funding</label>
+            </value>
+            <value>
+                <fullName>Loss Mitigation</fullName>
+                <default>false</default>
+                <label>Loss Mitigation</label>
+            </value>
+            <value>
+                <fullName>Manager</fullName>
+                <default>false</default>
+                <label>Manager</label>
+            </value>
+            <value>
+                <fullName>Post Closer</fullName>
+                <default>false</default>
+                <label>Post Closer</label>
+            </value>
+            <value>
+                <fullName>Term Closer</fullName>
+                <default>false</default>
+                <label>Term Closer</label>
+            </value>
+            <value>
+                <fullName>Term Loan Coordinator</fullName>
+                <default>false</default>
+                <label>Term Loan Coordinator</label>
+            </value>
+            <value>
+                <fullName>Term Underwriter</fullName>
+                <default>false</default>
+                <label>Term Underwriter</label>
+            </value>
+            <value>
+                <fullName>Loan Processor</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Loan Processor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>7</visibleLines>
+</CustomField>

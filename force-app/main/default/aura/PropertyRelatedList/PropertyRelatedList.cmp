@@ -1,0 +1,357 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Property__c" />
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" default="" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+  <aura:attribute name="title" type="String" default="Title" />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="recordCount" type="Integer" default="0" />
+  <aura:attribute name="toggleInactive" type="Boolean" default="true" />
+  <aura:attribute name="toggleActive" type="Boolean" default="true" />
+  <aura:attribute name="showDupeDataTapeButton" type="Boolean" default="true" />
+  <aura:attribute name="appName" type="String" default="Term Active" />
+
+
+  <aura:attribute name="showAssignRefinanceDeal" type="Boolean" default="true" />
+  <!-- <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/> -->
+  <aura:handler name="sortChangeEvent" event="c:DataTableSortChangeEvent" action="{!c.handleSortChangeEvent}"
+    phase="capture" />
+  <aura:attribute name="records" type="Object[]" />
+  <aura:attribute name="pageSize" type="Integer" default="50" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="possibleDuplicateCount" type="Integer" default="0" />
+  <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="dataTapeOpen" type="boolean" default="false" />
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <aura:attribute name="showReasonModal" type="Boolean" default="false" />
+  <aura:attribute name="reasonForInativeValue" type="String" />
+
+  <!-- attributes for Assign Refinance Deal-->
+  <aura:attribute name="showRefinanceModal" type="Boolean" default="false" />
+  <aura:attribute name="isNoRowSelected" type="Boolean" default="false" />
+  <aura:attribute name="selectedRecord" type="sObject" default="{}"
+    description="Use,for store SELECTED sObject Record" />
+  <aura:attribute name="listOfSearchRecords" type="List"
+    description="Use,for store the list of search records which returns from apex class" />
+  <aura:attribute name="SearchKeyWord" type="string" />
+  <!-- <aura:attribute name="objectAPIName" type="string" default=""/> -->
+  <aura:attribute name="IconName" type="string" default="standard:opportunity" />
+  <aura:attribute name="label" type="string" default="" />
+  <aura:attribute name="DealName" type="String" default="" />
+  <aura:attribute name="Message" type="String" default="" />
+
+  <aura:handler name="oSelectedRecordEvent" event="c:selectedsObjectRecordEventForRefinanceDeal"
+    action="{!c.handleComponentEvent}" />
+
+  <aura:if isTrue="{!v.showReasonModal}">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick="{!c.closeReasonModal}">
+            <lightning:icon iconName="utility:close" size="medium" />
+            <span class="slds-assistive-text">Close</span>
+          </button>
+
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Reason For Inactive</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
+          <lightning:textarea name="ReasonForInactive" label="Reason For Inactive" value="{!v.reasonForInativeValue}">
+          </lightning:textarea>
+          <lightning:spinner aura:id="mySpinner" style="position: revert" alternativeText="Processing.."
+            title="Processing.." variant="brand" size="large" class="slds-hide" />
+        </div>
+        <footer class="slds-modal__footer">
+          <lightning:button variant="neutral" label="Cancel" class="slds-button" onclick="{!c.closeReasonModal}">
+          </lightning:button>
+          <lightning:button variant="brand" label="Save" class="slds-button" onclick="{!c.makeInactive}">
+          </lightning:button>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
+
+  <aura:if isTrue="{!v.showRefinanceModal}">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+      aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+            onclick="{!c.closeRefinanceModal}">
+            <lightning:icon iconName="utility:close" size="medium" />
+            <span class="slds-assistive-text">Close</span>
+          </button>
+
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Assign Refinance Deal</h2>
+        </header>
+        <aura:if isTrue="{!!v.isNoRowSelected}">
+          <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1" style="height: 50%;">
+            <div class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small">{!v.Message}</div>
+            <div onmouseleave="{!c.onblur}" aura:id="searchRes"
+              class="slds-form-element slds-lookup slds-is-close slds-p-bottom_xx-large" data-select="single">
+              <label class="slds-form-element__label" for="lookup-348">Search Deal</label>
+              <!--This part is for display search bar for lookup-->
+              <div class="slds-form-element__control">
+
+                <div class="slds-input-has-icon slds-input-has-icon--right">
+                  <!-- This markup is for when an record is selected -->
+                  <div aura:id="lookup-pill" class="slds-pill-container slds-hide">
+                    <lightning:pill class="pillSize" label="{!v.selectedRecord.Name}" name="{!v.selectedRecord.Name}"
+                      onremove="{! c.clear }">
+                      <aura:set attribute="media">
+                        <lightning:icon iconName="standard:opportunity" size="x-small"
+                          alternativeText="{!v.IconName}" />
+                      </aura:set>
+                    </lightning:pill>
+                  </div>
+                  <div aura:id="lookupField" class="slds-show">
+                    <lightning:icon class="slds-input__icon slds-show" iconName="utility:search" size="x-small"
+                      alternativeText="search" />
+                    <span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
+                      <lightning:icon class="slds-icon slds-icon slds-icon_small slds-icon-text-default"
+                        iconName="{!v.IconName}" size="x-small" alternativeText="icon" />
+                      <span class="slds-assistive-text"></span>
+                    </span>
+                    <ui:inputText click="{!c.onfocus}" updateOn="keyup" keyup="{!c.keyPressController}"
+                      class="slds-lookup__search-input slds-input leftPaddingClass" value="{!v.SearchKeyWord}"
+                      placeholder="search.." />
+                  </div>
+                </div>
+              </div>
+              <!--This part is for Display typehead lookup result List-->
+              <ul style="min-height:40px;margin-top:0px !important"
+                class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds"
+                role="listbox">
+                <lightning:spinner class="slds-hide" variant="brand" size="small" aura:id="mySpinner" />
+                <center> {!v.DealName}</center>
+                <aura:iteration items="{!v.listOfSearchRecords}" var="singleRec">
+                  <c:customLookupResultForRefinanceDeal oRecord="{!singleRec}" IconName="{!v.IconName}" />
+                </aura:iteration>
+              </ul>
+            </div>
+
+            <lightning:spinner aura:id="refinanceModalSpinner" style="position: revert" alternativeText="Processing.."
+              title="Processing.." variant="brand" size="large" class="slds-hide" />
+          </div>
+        </aura:if>
+        <aura:if isTrue="{!v.isNoRowSelected}">
+          <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
+            <div class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small">{!v.Message}</div>
+          </div>
+        </aura:if>
+        <footer class="slds-modal__footer">
+          <lightning:button variant="neutral" label="Cancel" class="slds-button" onclick="{!c.closeRefinanceModal}">
+          </lightning:button>
+          <aura:if isTrue="{!!v.isNoRowSelected}">
+            <lightning:button variant="brand" label="Save" class="slds-button" onclick="{!c.onAssignRefinanceDealSave}">
+            </lightning:button>
+          </aura:if>
+          <aura:if isTrue="{!v.isNoRowSelected}">
+            <lightning:button variant="brand" label="Save" class="slds-button" disabled="true"></lightning:button>
+          </aura:if>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
+
+  <lightning:card>
+
+    <aura:set attribute="title">
+      <lightning:icon iconName="standard:home" size="medium" />
+      <span class="slds-m-left--medium">
+        {!v.title} ({!v.records.length})
+      </span>
+    </aura:set>
+
+    <aura:set attribute="actions">
+      <aura:if isTrue="{!v.appName == 'Term Active' || v.appName == 'Term Inactive'}">
+
+        <lightning:layout horizontalAlign="end">
+
+          <aura:if isTrue="{!v.showAssignRefinanceDeal}">
+            <lightning:layoutItem>
+              <lightning:button variant="brand" label="Assign Refinance Deal" onclick="{!c.openRefinanceModal}" />
+            </lightning:layoutItem>
+          </aura:if>
+
+          <aura:if isTrue="{!v.showDupeDataTapeButton}">
+            <lightning:layoutItem padding="horizontal-medium">
+              <lightning:button variant="brand" label="Bridge Duplicate Export" onclick="{!c.duplicateDatatape}" />
+            </lightning:layoutItem>
+          </aura:if>
+
+          <aura:if isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.Active__c.isUpdateable : 'false'}">
+            <aura:if isTrue="{!v.toggleActive}">
+              <lightning:layoutItem>
+                <lightning:button variant="brand" label="Toggle Active" onclick="{!c.makeActive}" />
+              </lightning:layoutItem>
+            </aura:if>
+            <aura:if isTrue="{!v.toggleInactive}">
+              <lightning:layoutItem>
+                <lightning:button variant="neutral" label="Toggle Inactive" onclick="{!c.openReasonModal}" />
+              </lightning:layoutItem>
+            </aura:if>
+          </aura:if>
+        </lightning:layout>
+      </aura:if>
+
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem>
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh" />
+          </lightning:button>
+        </lightning:layoutItem>
+      </lightning:layout>
+
+      <lightning:spinner class="" aura:id="spinner" variant="brand" alternativeText="Loading" />
+    </aura:set>
+
+    <aura:if isTrue="{!v.appName == 'Asset Management'}">
+      <c:DataTable aura:id="dataTable">
+        <aura:set attribute="columns">
+          <c:DataTableColumn label="Street Address" name="Name" linkToRecord="Id" sortable="true" isEditable="false" />
+
+          <c:DataTableColumn label="Status" name="Servicer_Status__c" sortable="true" isEditable="false" />
+
+          <c:DataTableColumn label="Original UPB" name="Original_UPB__c" linkToRecord="Id" sortable="true"
+            isEditable="false" displayType="currency" />
+
+          <c:DataTableColumn label="Current UPB" name="Current_UPB__c" sortable="true" isEditable="false"
+            displayType="currency" />
+
+          <c:DataTableColumn label="First Payment Date" name="First_Payment_Date__c" sortable="true" isEditable="false"
+            displayType="date" />
+
+          <c:DataTableColumn label="Last Payment Date" name="Last_Payment_Date__c" sortable="true" isEditable="false"
+            displayType="date" />
+
+          <c:DataTableColumn label="Next Payment Date" name="Next_Payment_Date__c" sortable="true" isEditable="false"
+            displayType="date" />
+
+          <c:DataTableColumn label="Current Interest Rate" name="Current_Interest_Rate__c" sortable="true"
+            isEditable="false" displayType="percent" />
+        </aura:set>
+
+        <!-- optional -->
+
+        <aura:set attribute="pageNumber" value="1" />
+        <aura:set attribute="pageSize" value="{!v.pageSize}" />
+        <aura:set attribute="sortColumnName" value="Name" />
+        <aura:set attribute="sortDirection" value="desc" />
+      </c:DataTable>
+    </aura:if>
+
+    <aura:if isTrue="{!v.appName == 'Term Active'}">
+      <c:DataTable aura:id="dataTable">
+        <aura:set attribute="columns">
+          <c:DataTableColumn label="Address" name="Name" linkToRecord="Id" sortable="true" isEditable="false" />
+          <!-- s -->
+
+          <c:DataTableColumn label="Parent Property" name="Parent_Property__r.Name" hidden="true" displayType="hidden"
+            sortable="false" />
+
+          <c:DataTableColumn label="Property Type" name="Property_Type__c" sortable="true" displayType="text" />
+
+          <c:DataTableColumn label="City" name="City__c" sortable="true" displayType="text" />
+          <c:DataTableColumn label="State" name="State__c" sortable="true" displayType="text" />
+
+          <c:DataTableColumn label="Active" name="Active__c" sortable="false" displayType="Boolean" />
+          <c:DataTableColumn label="Bridge Duplicate?" name="Possible_Duplicate__c" sortable="true" linkToRecord="Id"
+            displayType="BooleanAndLink" />
+
+          <c:DataTableColumn label="Active Date" name="Active_Last_Changed__c" sortable="true" displayType="date" />
+        </aura:set>
+
+        <!-- optional -->
+
+        <aura:set attribute="pageNumber" value="1" />
+        <aura:set attribute="pageSize" value="{!v.pageSize}" />
+        <aura:set attribute="sortColumnName" value="Property_Name__c" />
+        <aura:set attribute="sortDirection" value="desc" />
+      </c:DataTable>
+    </aura:if>
+
+    <aura:if isTrue="{!v.appName == 'Term Inactive'}">
+      <c:DataTable aura:id="dataTable">
+        <aura:set attribute="columns">
+          <c:DataTableColumn label="Address" name="Name" linkToRecord="Id" sortable="true" isEditable="false" />
+          <!-- s -->
+
+          <c:DataTableColumn label="Parent Property" name="Parent_Property__r.Name" hidden="true" displayType="hidden"
+            sortable="false" />
+
+          <c:DataTableColumn label="Reason For Inactive" name="Reason_For_Inactive__c" sortable="true"
+            displayType="text" />
+
+          <c:DataTableColumn label="Property Type" name="Property_Type__c" sortable="true" displayType="text" />
+
+          <c:DataTableColumn label="City" name="City__c" sortable="true" displayType="text" />
+          <c:DataTableColumn label="State" name="State__c" sortable="true" displayType="text" />
+
+          <c:DataTableColumn label="Active" name="Active__c" sortable="false" displayType="Boolean" />
+
+          <c:DataTableColumn label="Bridge Duplicate?" name="Possible_Duplicate__c" sortable="true" linkToRecord="Id"
+            displayType="BooleanAndLink" />
+
+          <c:DataTableColumn label="Inactive Date" name="Active_Last_Changed__c" sortable="true" displayType="date" />
+        </aura:set>
+
+        <!-- optional -->
+
+        <aura:set attribute="pageNumber" value="1" />
+        <aura:set attribute="pageSize" value="{!v.pageSize}" />
+        <aura:set attribute="sortColumnName" value="Property_Name__c" />
+        <aura:set attribute="sortDirection" value="desc" />
+      </c:DataTable>
+    </aura:if>
+
+    <aura:set attribute="footer">
+      <div>
+        <span>
+          <span class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}">First</span>
+          <a disabled="true" href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}">First</a>
+        </span>
+        &nbsp;
+        <span>
+          <span class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}">Previous</span>
+          <a href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}">Previous</a>
+        </span>
+        &nbsp;
+        <span>
+          <span class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Next</span>
+          <a href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}">Next</a>
+        </span>
+        &nbsp;
+        <span>
+          <span class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Last</span>
+          <a href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}">Last</a>
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.records.length ?
+        (v.currentPage)*v.pageSize : v.records.length) + ' of ' +
+        v.records.length}
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <c:util aura:id="util" />
+</aura:component>

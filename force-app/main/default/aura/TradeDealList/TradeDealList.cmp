@@ -1,0 +1,174 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="trade" type="Object" default="{}" />
+	<aura:attribute name="deals" type="Object[]" default="[]"/>
+	<aura:attribute name="open" type="Boolean" default="true" />
+	<aura:attribute name="isCommunity" type="Boolean" default="false" />
+	<aura:attribute name="checked" type="Boolean" default="false" />
+	<aura:attribute name="dealsToDelete" type="List" default="false" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<lightning:card >
+		<aura:set attribute="title">
+			Deals
+		</aura:set>
+
+		<aura:set attribute="actions">
+			<lightning:buttonGroup >
+				<aura:if isTrue="{!!v.isCommunity}">
+					<lightning:button label="Exception" name="exception" onclick="{!c.markDeals}" />
+				</aura:if>
+				
+				<lightning:button label="Delete Deal(s)" name="delete" onclick="{!c.confirmDelete}" />
+			</lightning:buttonGroup>
+		</aura:set>
+
+		 <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+		  <thead>
+		    <tr class="slds-text-title_caps">
+		      <th scope="col">
+		      	<lightning:input type="checkbox" name="check" variant="label-hidden" label="check" checked="{!v.checked}" onchange="{!c.selectAll}"  />
+		      </th>
+
+		      <th scope="col" title="Exception">
+		      	
+		      	<div class="slds-truncate">Exception</div>
+		      </th>
+		      <th scope="col" class="slds-is-sortable">
+		      	<a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" role="button" tabindex="-1">
+      	         	<div class="slds-truncate" title="Borrower Name">Borrower Name</div>
+      	        </a>
+		      	
+		      </th>
+
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">Loan Id</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">Address</div>
+		      </th>
+
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">City</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">State</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Deal Name">Net Proceeds</div>
+		      </th>
+
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<aura:iteration items="{!v.deals}" var="deal">
+			    <tr>
+			      <td scope="row" data-label="">
+			      	<lightning:input type="checkbox" name="c" label="check" variant="label-hidden" checked="{!deal.selected}" />
+			      </td>
+
+			      <td scope="row" data-label="">
+			      	<aura:if isTrue="{!deal.Exception__c}">
+			      		<img src="/img/samples/flag_red.gif" />
+			      	</aura:if>
+			      </td>
+
+			      <td scope="row" data-label="">
+			      	<div class="slds-truncate" title="">
+			      		{!deal.Borrower_Name__c}
+			      	</div>
+			      </td>
+
+			      <td scope="row" data-label="Name">
+			        <div class="slds-truncate" title="{!deal.Loan_ID__c}">
+			        	<aura:if isTrue="{!!v.isCommunity}">
+			        		<a href="{!'#/sObject/'+ deal.Id + '/view'}">
+				        		{!deal.Loan_ID__c}
+				        	</a>
+
+				        	<aura:set attribute="else">
+        		        		<a href="{!'/correspondent/s/trade-deal/'+ deal.Id}">
+					        		{!deal.Loan_ID__c}
+					        	</a>
+				        	</aura:set>
+
+			        	</aura:if>
+
+			        	
+			        </div>
+
+
+
+			      </td>
+
+			      <td scope="row" data-label="">
+			        <div class="slds-truncate" title="">{!deal.Address__c}</div>
+			      </td>
+
+			      <td scope="row" data-label="">
+			        <div class="slds-truncate" title="">{!deal.City__c}</div>
+			      </td>
+
+			      <td scope="row" data-label="">
+			        <div class="slds-truncate" title="">{!deal.State__c}</div>
+			      </td>
+
+			      <td scope="row" data-label="" class="slds-text-align_right">
+			        <div class="slds-truncate" title="">
+			        	<ui:outputCurrency value="{!deal.Net_Proceeds__c}" />
+			        </div>
+			      </td>
+
+			      
+			    </tr>
+			</aura:iteration>
+			<tr>
+				<td scope="row"></td>
+				<td scope="row"></td>
+				
+				<td scope="row"></td>
+				<td scope="row"></td>
+				<td scope="row"></td>
+				<td scope="row" class="slds-text-align_right">Total:</td>
+				<td scope="row"></td>
+
+				<td scope="row" class="slds-text-align_right">
+					<ui:outputCurrency value="{!v.trade.Proceed_to_Wire__c}" />
+				</td>
+			</tr> 
+		  </tbody> 
+		</table>
+
+	</lightning:card>
+	
+	<div>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" aura:id="modal" class="slds-modal ">
+		    <div class="slds-modal__container">
+		      <header class="slds-modal__header">
+		        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+		          <lightning:icon iconName="utility:close" variant="inverse" size="x-small"/>
+		          <span class="slds-assistive-text">Close</span>
+		        </button>
+
+
+		        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Delete Deals</h2>
+		      </header>
+		      <div class="slds-modal__content slds-p-around_medium slds-text-align_center" id="modal-content-id-1">
+		        Are you sure you want to delete {!v.dealsToDelete.length} deals from the trade?
+		      </div>
+		      <footer class="slds-modal__footer">
+		        <button class="slds-button slds-button_neutral" onclick="{!c.closeDeleteModal}">Cancel</button>
+		        <button class="slds-button slds-button_brand" onclick="{!c.deleteDeals}">Delete</button>
+		      </footer>
+		    </div>
+		  </section>
+		  <div aura:id="backdrop" class="slds-backdrop"></div>
+	</div>
+
+
+	<c:util aura:id="util" />
+
+
+
+</aura:component>

@@ -1,0 +1,30 @@
+<aura:component controller="AdvanceDocumentGeneratorController">
+    <aura:attribute name="recordId" type="String" />
+    <ltng:require 
+            scripts="{!join(',', $Resource.jszip2, 
+                                $Resource.docxtemplater,
+                                $Resource.jszip_utils, 
+                                $Resource.filesaver,
+                                $Resource.angular_parse_browser)}" 
+            afterScriptsLoaded="{!c.init}" 
+    />
+	
+    <aura:attribute name="StaticResourceName" type="String" />
+    <aura:attribute name="isSendEmail" type="Boolean" />
+    <aura:attribute name="emailAddress" type="String" />
+    <aura:attribute name="ccAddress" type="String" />
+    <aura:attribute name="bccAddress" type="String" />
+    <aura:attribute name="subject" type="String" />
+    <aura:attribute name="emailBody" type="String" />
+    <aura:attribute name="fileIds" type="Object" />
+    <aura:attribute name="showLoadingSpinner" type="Boolean" default="false"/>
+    <aura:registerEvent name="cmpEvent" type="c:GenericNotifyEvent"/>
+
+    <aura:method name="generateDocx" action="{!c.generateDocx}">
+        <aura:attribute name="data" type="Map" />
+        <aura:attribute name="fileName" type="String" /> 
+    </aura:method>
+
+    <c:util aura:id="util" />
+
+</aura:component>

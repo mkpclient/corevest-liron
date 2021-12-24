@@ -1,0 +1,8 @@
+.THIS .slds-page-header {
+  box-shadow: none;
+}
+
+.THIS .requestButton {
+  color: white;
+  background: rgb(255, 103, 27);
+}

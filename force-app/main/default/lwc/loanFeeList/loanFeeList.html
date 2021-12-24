@@ -1,0 +1,252 @@
+<template>
+  <lightning-card title="Loan Fees" icon-name="custom:custom17">
+    <template if:false={displayOnly}>
+      <lightning-layout slot="actions" horizontal-align="end">
+        <lightning-layout-item>
+          <lightning-button
+            variant="neutral"
+            label="New"
+            onclick={addLoanFee}
+          ></lightning-button>
+        </lightning-layout-item>
+      </lightning-layout>
+
+      <lightning-layout slot="actions" horizontal-align="end">
+        <lightning-layout-item padding="horizontal-medium">
+          <lightning-button-icon
+            icon-name="utility:refresh"
+            variant="bare"
+            alternative-text="Refresh"
+            onclick={refresh}
+          >
+          </lightning-button-icon>
+        </lightning-layout-item>
+        <lightning-layout-item>
+          <lightning-button-icon
+            icon-name="utility:delete"
+            variant="bare"
+            alternative-text="Delete"
+            onclick={deleteLoanFees}
+          >
+          </lightning-button-icon>
+        </lightning-layout-item>
+      </lightning-layout>
+    </template>
+
+    <div class="slds-table_edit_container slds-is-relative">
+      <template if:true={isLoading}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+      </template>
+
+      <table
+        class="slds-table slds-no-cell-focus slds-table_bordered slds-table_edit slds-table_fixed-layout"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th style="width: 3.25rem"></th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Vendor Type">Vendor Type</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Name">Name</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Reference">Reference</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Fee Amount">Fee Amount</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={loanFees}>
+            <template
+              for:each={loanFeeList}
+              for:item="loanFee"
+              for:index="index"
+            >
+              <template if:true={isViewMode}>
+                <tr key={loanFee.original.Id} class="slds-hint-parent">
+                  <td>
+                    <lightning-input
+                      class="checkbox"
+                      data-index={index}
+                      type="checkbox"
+                    ></lightning-input>
+                  </td>
+                  <td class={loanFee.styleClass.Vendor_Type__c}>
+                    <lightning-formatted-text
+                      value={loanFee.Vendor_Type__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right slds-cell-edit__button"
+                      icon-class="slds-text-color_inverse slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <td class={loanFee.styleClass.Vendor__c}>
+                    <template if:true={loanFee.Vendor__r}>
+                      <lightning-formatted-url
+                        target="_blank"
+                        value={loanFee.urls.Vendor__c}
+                        label={loanFee.Vendor__r.Name}
+                      >
+                      </lightning-formatted-url>
+                    </template>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <td class={loanFee.styleClass.Reference__c}>
+                    <lightning-formatted-text
+                      value={loanFee.Reference__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <td class={loanFee.styleClass.Fee_Amount__c}>
+                    <lightning-formatted-number
+                      value={loanFee.Fee_Amount__c}
+                      format-style="currency"
+                      currency-code="USD"
+                    ></lightning-formatted-number>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                </tr>
+              </template>
+
+              <template if:true={isEditMode}>
+                <tr key={loanFee.original.Id}>
+                  <td>
+                    <lightning-input
+                      class="checkbox"
+                      type="checkbox"
+                    ></lightning-input>
+                  </td>
+                  <td>
+                    <template if:true={vendorTypes}>
+                      <select
+                        name="vendorType"
+                        onchange={updateValue}
+                        data-name="Vendor_Type__c"
+                        data-index={index}
+                      >
+                        <option value=""></option>
+                        <template
+                          for:each={loanFee.vendorTypeOptions}
+                          for:item="type"
+                        >
+                          <option
+                            key={type.label}
+                            value={type.label}
+                            selected={type.selected}
+                          >
+                            {type.label}
+                          </option>
+                        </template>
+                      </select>
+                    </template>
+                  </td>
+                  <td>
+                    <c-lookup
+                      id={index}
+                      data-name="Vendor__c"
+                      selection={loanFee.lookupSelections.Vendor__c}
+                      data-index={index}
+                      placeholder="Search"
+                      onselectionchange={handleSelectionChange}
+                      onsearch={handleSearch}
+                    ></c-lookup>
+                  </td>
+                  <td>
+                    <lightning-input
+                      label="reference"
+                      variant="label-hidden"
+                      value={loanFee.Reference__c}
+                      onchange={updateValue}
+                      data-name="Reference__c"
+                      data-index={index}
+                    ></lightning-input>
+                  </td>
+                  <td>
+                    <lightning-input
+                      label="reference"
+                      variant="label-hidden"
+                      type="number"
+                      value={loanFee.Fee_Amount__c}
+                      onchange={updateValue}
+                      data-name="Fee_Amount__c"
+                      data-index={index}
+                      formatter="currency"
+                      step="0.01"
+                    ></lightning-input>
+                  </td>
+                </tr>
+              </template>
+            </template>
+          </template>
+          <template if:false={displayOnly}>
+            <tr class="slds-hint-parent">
+              <td></td>
+              <td>
+                <lightning-formatted-text
+                  value={berkadiaLoanFee.Vendor_Type__c}
+                ></lightning-formatted-text>
+              </td>
+              <td>
+                <template if:true={berkadiaLoanFee.Vendor__r}>
+                  <lightning-formatted-text
+                    value={berkadiaLoanFee.Vendor__r.Name}
+                  ></lightning-formatted-text>
+                </template>
+              </td>
+              <td>
+                <lightning-formatted-text
+                  value={berkadiaLoanFee.Reference__c}
+                ></lightning-formatted-text>
+              </td>
+              <td>
+                <lightning-formatted-number
+                  value={totalReserveAtClosing}
+                  format-style="currency"
+                  currency-code="USD"
+                ></lightning-formatted-number>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <template if:true={isEditMode}>
+        <lightning-button label="Cancel" onclick={cancel}></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Save"
+          onclick={save}
+        ></lightning-button>
+      </template>
+    </div>
+  </lightning-card>
+</template>

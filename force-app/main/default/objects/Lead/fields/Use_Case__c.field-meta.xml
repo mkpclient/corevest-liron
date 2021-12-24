@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Use_Case__c</fullName>
+    <externalId>false</externalId>
+    <label>Use Case</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Build to Rent</fullName>
+                <default>false</default>
+                <label>Build to Rent</label>
+            </value>
+            <value>
+                <fullName>Construction</fullName>
+                <default>false</default>
+                <label>Construction</label>
+            </value>
+            <value>
+                <fullName>Fix and Flip</fullName>
+                <default>false</default>
+                <label>Fix and Flip</label>
+            </value>
+            <value>
+                <fullName>Freddie Mac</fullName>
+                <default>false</default>
+                <label>Freddie Mac</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Multiple</fullName>
+                <default>false</default>
+                <label>Multiple</label>
+            </value>
+            <value>
+                <fullName>Rental Aggregation</fullName>
+                <default>false</default>
+                <label>Rental Aggregation</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

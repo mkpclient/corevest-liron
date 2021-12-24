@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>After_Repair_Value__c</fullName>
+    <description>The Appraised After Repair value of this Property at the time of funding</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Appraised After Repair value of this Property at the time of funding</inlineHelpText>
+    <label>Appraised After Repair Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

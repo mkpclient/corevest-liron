@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraised_Value_Amount__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Most recent Appraised As Is Value</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Most recent Appraised As Is Value</inlineHelpText>
+    <label>Current Appraised As Is Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Currency</type>
+</CustomField>

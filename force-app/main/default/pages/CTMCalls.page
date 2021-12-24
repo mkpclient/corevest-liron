@@ -1,0 +1,4 @@
+<apex:page >
+  <iframe border="none" allow="geolocation; microphone; camera" style="border:0;height:100%;min-height:800px;" width="100%"
+            src="https://app.calltrackingmetrics.com/calls?head=0"></iframe>
+</apex:page>

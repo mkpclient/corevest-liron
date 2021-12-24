@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Broker_Fees_Percentage_Required</fullName>
+    <active>false</active>
+    <description>Broker Fee % is required before submitting Deal into Underwriting.</description>
+    <errorConditionFormula>AND ( 
+Record_Type_Name__c = &quot;Term Loan&quot; , 
+Amount &gt; 0,
+ISPICKVAL( StageName , &quot;Initial Review&quot;))</errorConditionFormula>
+    <errorDisplayField>Broker_Fees__c</errorDisplayField>
+    <errorMessage>Please fill out Broker Fee % before submitting to Underwriting.</errorMessage>
+</ValidationRule>

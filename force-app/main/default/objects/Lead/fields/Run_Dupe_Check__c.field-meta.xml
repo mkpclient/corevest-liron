@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Run_Dupe_Check__c</fullName>
+    <description>When duplicate Leads come in, there is code that reassigns the Lead to the owner of the original record.  This will prevent that reassignment from occurring</description>
+    <externalId>false</externalId>
+    <formula>OR(
+!ISPICKVAL(Introduction_Source__c, &apos;Website Single Asset Rental&apos;),
+!ISPICKVAL(Introduction_Source__c, &apos;Website Broker+&apos;),
+!ISPICKVAL(Introduction_Source__c, &apos;Imported Leads&apos;),
+!ISPICKVAL( Loan_Product_s__c , &apos;Single Property Rental Loan&apos;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Run Dupe Check</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

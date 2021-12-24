@@ -1,0 +1,349 @@
+<template>
+  <lightning-card title="Vendors">
+    <lightning-layout slot="actions" horizontal-align="end">
+      <lightning-layout-item>
+        <template if:true={permissionsMap.sobject.isCreateable}>
+          <lightning-button
+            variant="neutral"
+            label="New"
+            onclick={addVendor}
+          ></lightning-button>
+        </template>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <lightning-layout slot="actions" horizontal-align="end">
+      <lightning-layout-item padding="horizontal-medium">
+        <!-- <lightning-button variant="base" onclick={refresh} > -->
+        <template if:true={permissionsMap.sobject.isUpdateable}>
+          <lightning-button-icon
+            icon-name="utility:refresh"
+            variant="bare"
+            alternative-text="Refresh"
+            onclick={refresh}
+          >
+          </lightning-button-icon>
+        </template>
+        <!-- </lightning-button> -->
+      </lightning-layout-item>
+      <lightning-layout-item>
+        <template if:true={permissionsMap.sobject.isDeletable}>
+          <lightning-button-icon
+            icon-name="utility:delete"
+            variant="bare"
+            alternative-text="Delete"
+            onclick={deleteVendors}
+          >
+          </lightning-button-icon>
+        </template>
+      </lightning-layout-item>
+    </lightning-layout>
+
+    <div class="slds-table_edit_container slds-is-relative">
+      <template if:true={isLoading}>
+        <lightning-spinner variant="brand"></lightning-spinner>
+      </template>
+
+      <table
+        class="slds-table slds-no-cell-focus slds-table_bordered slds-table_edit slds-table_fixed-layout"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th style="width: 3.25rem">
+              <!-- <lightning-input class="masterCheckbox" type="checkbox" onchange={checkAll}></lightning-input> -->
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Vendor Type">Vendor Type</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Name">Name</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Contact">Contact</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Order Date">Order Date</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Completed Date">
+                Completed Date
+              </div>
+            </th>
+            <th class="" scope="col" style="width: 3.25rem">
+              <!-- <div class="slds-truncate" title="Completed Date">Completed Date</div> -->
+              <div class="slds-truncate slds-assistive-text" title="Actions">
+                Actions
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template if:true={vendors}>
+            <template for:each={vendorList} for:item="vendor" for:index="index">
+              <template if:true={isViewMode}>
+                <tr key={vendor.original.Id} class="slds-hint-parent">
+                  <td>
+                    <lightning-input
+                      class="checkbox"
+                      data-index={index}
+                      type="checkbox"
+                    ></lightning-input>
+                  </td>
+                  <td class={vendor.styleClass.Vendor_Type__c}>
+                    <lightning-formatted-text
+                      value={vendor.Vendor_Type__c}
+                    ></lightning-formatted-text>
+                    <template
+                      if:true={permissionsMap.Vendor_Type__c.isUpdateable}
+                    >
+                      <lightning-button-icon
+                        icon-name="utility:edit"
+                        class="slds-float_right slds-cell-edit__button"
+                        icon-class="slds-text-color_inverse slds-button__icon_hint slds-button__icon_edit"
+                        variant="bare"
+                        onclick={toggleEdit}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                  </td>
+                  <td class={vendor.styleClass.Account__c}>
+                    <template if:true={vendor.Account__r}>
+                      <lightning-formatted-url
+                        target="_blank"
+                        value={vendor.urls.Account__c}
+                        label={vendor.Account__r.Name}
+                      >
+                      </lightning-formatted-url>
+                    </template>
+                    <template if:true={permissionsMap.Account__c.isUpdateable}>
+                      <lightning-button-icon
+                        icon-name="utility:edit"
+                        class="slds-float_right"
+                        icon-class="slds-button__icon_hint slds-button__icon_edit"
+                        variant="bare"
+                        onclick={toggleEdit}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                  </td>
+                  <td class={vendor.styleClass.Contact__c}>
+                    <template if:true={vendor.Contact__r}>
+                      <lightning-formatted-url
+                        target="_blank"
+                        value={vendor.urls.Contact__c}
+                        label={vendor.Contact__r.Name}
+                      >
+                      </lightning-formatted-url>
+                    </template>
+                    <template if:true={permissionsMap.Contact__c.isUpdateable}>
+                      <lightning-button-icon
+                        icon-name="utility:edit"
+                        class="slds-float_right"
+                        icon-class="slds-button__icon_hint slds-button__icon_edit"
+                        variant="bare"
+                        onclick={toggleEdit}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                  </td>
+                  <td class={vendor.styleClass.Order_Date__c}>
+                    <lightning-formatted-date-time
+                      value={vendor.Order_Date__c}
+                    ></lightning-formatted-date-time>
+                    <!-- <lightning-button-icon icon-name="utility:edit" class="slds-float_right" icon-class="slds-button__icon_hint slds-button__icon_edit" variant="bare" onclick={toggleEdit}></lightning-button-icon> -->
+                    <template
+                      if:true={permissionsMap.Order_Date__c.isUpdateable}
+                    >
+                      <lightning-button-icon
+                        icon-name="utility:edit"
+                        class="slds-float_right"
+                        icon-class="slds-button__icon_hint slds-button__icon_edit"
+                        variant="bare"
+                        onclick={toggleEdit}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                    <!-- <button class="slds-button slds-button_icon slds-cell-edit__button slds-m-left_x-small" tabindex="-1" title="Edit Name of Acme - 1,200 Widgets">
+                        <svg class="slds-button__icon slds-button__icon_hint slds-button__icon_edit" aria-hidden="true">
+                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit" />
+                        </svg>
+                        <lightning-icon size="x-small" icon-name="utility:edit" class="slds-button__icon slds-button__icon_hint slds-button__icon_edit" ></lightning-icon>
+                      </button> -->
+                  </td>
+                  <td class={vendor.styleClass.Completed_Date__c}>
+                    <lightning-formatted-date-time
+                      value={vendor.Completed_Date__c}
+                    ></lightning-formatted-date-time>
+                    <template
+                      if:true={permissionsMap.Completed_Date__c.isUpdateable}
+                    >
+                      <lightning-button-icon
+                        icon-name="utility:edit"
+                        class="slds-float_right"
+                        icon-class="slds-button__icon_hint slds-button__icon_edit"
+                        variant="bare"
+                        onclick={toggleEdit}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                  </td>
+                  <td>
+                    <template if:true={vendor.sendEmail}>
+                      <lightning-button-icon
+                        data-index={index}
+                        icon-name="utility:email"
+                        variant="bare"
+                        onclick={openModal}
+                      >
+                      </lightning-button-icon>
+                    </template>
+                  </td>
+                </tr>
+              </template>
+
+              <template if:true={isEditMode}>
+                <tr key={vendor.original.Id}>
+                  <td>
+                    <lightning-input
+                      class="checkbox"
+                      type="checkbox"
+                    ></lightning-input>
+                  </td>
+                  <td>
+                    <template if:true={vendorTypes}>
+                      <!-- <lightning-combobox dropdown-alignment="auto" name="vendorTypes" label="Vendor Type" placeholder="Select Vendor Type"
+                        options={vendorTypes} variant="label-hidden" value={vendor.Vendor_Type__c}
+                        data-name="Vendor_Type__c" data-index={index} onchange={updateValue}>
+
+                      </lightning-combobox> -->
+
+                      <select
+                        name="vendorType"
+                        onchange={updateValue}
+                        data-name="Vendor_Type__c"
+                        data-index={index}
+                      >
+                        <option value=""></option>
+                        <!-- <template if:true={vendorTypes}> -->
+                        <template
+                          for:each={vendor.vendorTypeOptions}
+                          for:item="type"
+                        >
+                          <option
+                            key={type.label}
+                            value={type.label}
+                            selected={type.selected}
+                          >
+                            {type.label}
+                          </option>
+                        </template>
+                        <!-- </template> -->
+                      </select>
+                    </template>
+
+                    <!-- <lightning-select name="vendorType" variant="label-hidden" label="account">
+                      <option value=""></option>
+                      <template if:true={vendorTypes}>
+                          <template for:each={vendorTypes} for:item="type">
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          </template>
+                      </template>
+                  </lightning-select> -->
+                  </td>
+                  <td>
+                    <c-lookup
+                      id={index}
+                      data-name="Account__c"
+                      selection={vendor.lookupSelections.Account__c}
+                      data-index={index}
+                      placeholder="Search"
+                      onselectionchange={handleSelectionChange}
+                      onsearch={handleSearch}
+                    ></c-lookup>
+                  </td>
+                  <td>
+                    <c-lookup
+                      data-index={index}
+                      data-name="Contact__c"
+                      selection={vendor.lookupSelections.Contact__c}
+                      onselectionchange={handleSelectionChange}
+                      onsearch={handleSearch}
+                      placeholder="Search"
+                    ></c-lookup>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      value={vendor.Order_Date__c}
+                      onchange={updateValue}
+                      data-name="Order_Date__c"
+                      data-index={index}
+                    />
+                    <!-- </input> -->
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      value={vendor.Completed_Date__c}
+                      onchange={updateValue}
+                      data-name="Completed_Date__c"
+                      data-index={index}
+                    />
+                    <!-- </input> -->
+                  </td>
+                  <td></td>
+                </tr>
+              </template>
+            </template>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">
+      <template if:true={isEditMode}>
+        <lightning-button label="Cancel" onclick={cancel}></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Save"
+          onclick={save}
+        ></lightning-button>
+      </template>
+    </div>
+  </lightning-card>
+
+  <c-modal title="Email">
+    <div slot="body">
+      <template if:true={params}>
+        <!-- <template if:true={params} -->
+        <lightning-combobox
+          data-name="selectedTemplate"
+          label="Template Name"
+          options={params.selectOptions}
+          placeholder="Select a template.."
+        ></lightning-combobox>
+        <lightning-input
+          data-name="modalDate"
+          type="date"
+          label="Order Date"
+          value={selectedDate}
+        ></lightning-input>
+      </template>
+    </div>
+
+    <div slot="footer">
+      <lightning-button
+        slot="footer"
+        label="Cancel"
+        onclick={closeModal}
+      ></lightning-button>
+      <lightning-button
+        slot="footer"
+        label="Select"
+        variant="brand"
+        onclick={sendEmail}
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

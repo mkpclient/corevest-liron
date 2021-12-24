@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Purchase_Funded_Date__c</fullName>
+    <description>If this is an Initial Advance, this will reflect the Purchase Date of the Loan, otherwise it will reflect the Wire Date</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ CONTAINS(RecordType.Name, &quot;Initial&quot;),
+ Deal__r.Purchase_Date__c,
+ Wire_Date__c 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>If this is an Initial Advance, this will reflect the Purchase Date of the Loan, otherwise it will reflect the Wire Date</inlineHelpText>
+    <label>Purchase/Funded Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

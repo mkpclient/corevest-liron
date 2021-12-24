@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Num_of_Item_Requiring_Follow_Up__c</fullName>
+    <description>Total Number of Post Closing Items that require a follow up</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Total Number of Post Closing Items that require a follow up</inlineHelpText>
+    <label># of Item Requiring Follow Up</label>
+    <summaryFilterItems>
+        <field>Post_Closing_Item__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Follow-Up</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Post_Closing_Item__c.Post_Closing_Section__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

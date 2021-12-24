@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Universal_Settings</label>
+    <protected>false</protected>
+    <values>
+        <field>Alchemy_Portal_Dev_URL__c</field>
+        <value xsi:type="xsd:string">https://coreveststaging-api.alchemylms.com</value>
+    </values>
+    <values>
+        <field>Alchemy_Production_URL__c</field>
+        <value xsi:type="xsd:string">https://portalapi.cvest.com</value>
+    </values>
+    <values>
+        <field>Berkadia_CC_Emails__c</field>
+        <value xsi:type="xsd:string">sokun.soun@cvest.com;cj.suzuki@cvest.com;suzanne.nguyen@cvest.com;micaela.lumpkin@cvest.com;aileen.fallis@cvest.com;support@cvest.com;bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+    </values>
+    <values>
+        <field>Berkadia_To_Emails__c</field>
+        <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
+    </values>
+    <values>
+        <field>Disable_Advance_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Deal_Contact_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Deal_Document_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Lead_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Opportunity_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Post_Close_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Property_Advance_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Property_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Duplicate_Property_Alert_Email__c</field>
+        <value xsi:type="xsd:string">Jonathan.Lay@cvest.com;bryon.harland@cvest.com;Dan.Federico@cvest.com;Brad.Chmura@cvest.com</value>
+    </values>
+    <values>
+        <field>Enable_Data_Tape_Change_Email__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Enable_Duplicate_Property_Email__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_Portal_User_Creation__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_SmartyStreets_API__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Num_of_Days_to_Transfer_Lead__c</field>
+        <value xsi:type="xsd:double">90.0</value>
+    </values>
+    <values>
+        <field>Require_AVM_Sync_on_Pricing__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Require_AVM_Sync_on_UW_Submission__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Require_Address_Val_on_UW_Submit__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Require_Address_Valid_on_Pricing__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Require_X_Author_Validation_on_Pricing__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Require_X_Author_Validation_on_UW_Submis__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>SecuritizationReview_Email_CC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>SecuritizationReview_Email_To__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Validated_Address_Threshold__c</field>
+        <value xsi:type="xsd:double">50.0</value>
+    </values>
+</CustomMetadata>

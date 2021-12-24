@@ -1,0 +1,31 @@
+.THIS.whitespace-initial{
+    white-space: initial !important; 
+    width:100%;
+    word-wrap: break-word;
+}
+
+.THIS .whitespace-initial{
+    white-space: initial !important; 
+    width:100%;
+    word-wrap: break-word;
+}
+
+.THIS.changeColorRed {
+    background-color:red;
+}
+
+.THIS.changeColorgreen {
+    background-color:#3edc3e;
+}
+
+.THIS.changeColorYellow {
+    background-color: yellow;
+}
+
+.THIS .indent{
+	padding-left: 15px !important;
+}
+
+.THIS.indent{
+	padding-left: 15px !important;
+}

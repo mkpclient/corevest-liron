@@ -1,0 +1,25 @@
+.THIS.slds-card {
+  box-shadow: none;
+}
+
+/* .THIS .slds-avatar_large {
+  width: 5rem;
+  height: 5rem;
+} */
+
+.THIS {
+  background-color: #f6f8fd;
+  /* /height: 10rem; */
+}
+
+.THIS div {
+  color: rgb(5, 86, 137);
+}
+
+.THIS .centered {
+  text-align:center;
+}
+
+.THIS .slds-icon-utility-email{
+  display:none;
+}

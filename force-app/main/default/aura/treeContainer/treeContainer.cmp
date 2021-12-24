@@ -1,0 +1,25 @@
+<aura:component >
+	<aura:attribute name="folderStructure" type="Object" />
+	<aura:attribute name="label" type="String" default="Deal Name" />
+	<aura:attribute name="folders" type="List" />
+	<aura:attribute name="checked" type="Boolean" default="true" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:handler name="change" value="{!v.checked}" action="{!c.checked}" />
+	<!-- <aura:handler name="change" value="{!v.folderStructure}" action="{!c.debug}" /> -->
+
+
+	<div class="slds-tree_container" role="application">
+		<div class="slds-text-title--caps" id="treeheading">
+			<lightning:input type="checkbox" name="{!'checkbox-' + v.label + '-head'}" label="{!v.label}" checked="{!v.checked}" /> 
+		</div>
+		
+		<ul class="slds-tree" role="tree" aria-labelledby="treeheading" aria-activedescendant="tree0-node1">
+			<aura:iteration items="{!v.folders}" var="folder" indexVar="nodeIndex">
+				<c:treeItem aura:id="items" label="{!folder.label}" checked="{#v.checked}" tree="{!folder}" folderStructure="{!v.folderStructure}" />
+			</aura:iteration>
+		</ul>
+	</div>
+
+
+</aura:component>

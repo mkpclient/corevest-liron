@@ -1,0 +1,46 @@
+.THIS .input {
+  margin: 15px 0;
+}
+.THIS .td-label {
+  width: 65px;
+}
+.THIS .from-label {
+  padding-top: 9px;
+}
+.THIS .label {
+  margin: 5px 0;
+  padding-top: 18px;
+}
+.THIS .input-container {
+  padding-top: 18px;
+}
+.THIS .cc-buttons {
+  text-align: right;
+}
+
+.THIS.input {
+  margin: 15px 0;
+}
+.THIS.td-label {
+  width: 65px;
+}
+.THIS.from-label {
+  padding-top: 9px;
+}
+.THIS.label {
+  margin: 5px 0;
+  padding-top: 18px;
+}
+.THIS.input-container {
+  padding-top: 18px;
+}
+.THIS.cc-buttons {
+  text-align: right;
+}
+
+.THIS.contentAttachmentPills li {
+  width: 50%;
+  display: inline-block;
+  float: left;
+  margin-bottom: 0.5rem;
+}

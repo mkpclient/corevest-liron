@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Deal_Stage_Going_Backwards</fullName>
+    <active>false</active>
+    <description>This will prevent a user from moving the stage of a Deal backwards</description>
+    <errorConditionFormula>IF(  AND($Profile.Name =&quot;System Administrator&quot;,FALSE, 
+$Profile.Name =&quot;Origination Manager&quot;),FALSE,
+
+Case(StageName,&quot;Initial Review&quot;,1,
+&quot;Data Tape Received&quot; ,2,
+&quot;Term Sheet Issued&quot; ,3,
+&quot;Term Sheet Signed/Deposit Collected&quot; ,4,
+&quot;Submitted to Underwriting&quot; ,5,
+&quot;Underwriting&quot; ,6,
+&quot;Approved by Committee&quot; ,7,
+&quot;Closed Won&quot;, 8,0)  &lt; Case(PRIORVALUE(StageName),
+&quot;Initial Review&quot; ,1,
+&quot;Data Tape Received&quot; ,2,
+&quot;Term Sheet Issued&quot;,3,
+&quot;Term Sheet Signed/Deposit Collected&quot;,4,
+&quot;Submitted to Underwriting&quot; ,5,
+&quot;Underwriting&quot; ,5,
+&quot;Approved by Committee&quot; ,5,
+&quot;Closed Won&quot;,6, 0))</errorConditionFormula>
+    <errorMessage>The Stage of the Deal cannot be moved backwards.  If this is a special case, please request this through your manager or Salesforce Administrator</errorMessage>
+</ValidationRule>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Specific_Deal</fullName>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Folder__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>Product_Type__c</columns>
+    <columns>Exclude_From_CTC__c</columns>
+    <columns>Doc_String__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Required_for_Clear_to_Close__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal__c</field>
+        <operation>contains</operation>
+        <value>Netz Group XI</value>
+    </filters>
+    <filters>
+        <field>Document_Type__c</field>
+        <operation>equals</operation>
+        <value>OFAC Search</value>
+    </filters>
+    <label>Specific Deal</label>
+</ListView>

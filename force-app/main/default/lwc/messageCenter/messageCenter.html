@@ -1,0 +1,131 @@
+<template>
+  <lightning-card>
+    <div slot="actions">
+      <!-- <lightning-button label="New Comment"></lightning-button> -->
+    </div>
+
+    <div>
+      <lightning-layout multiple-rows="false">
+        <lightning-layout-item size="2">
+          <lightning-vertical-navigation
+            onselect={handleCommentSelect}
+            selected-item={selectedCommentId}
+          >
+            <lightning-vertical-navigation-section label="Chats">
+              <template for:each={comments} for:item="comment">
+                <lightning-vertical-navigation-item
+                  label={comment.title}
+                  name={comment.id}
+                  key={comment.id}
+                  data-title={comment.title}
+                >
+                </lightning-vertical-navigation-item>
+              </template>
+            </lightning-vertical-navigation-section>
+          </lightning-vertical-navigation>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="10">
+          <lightning-card title={commentSubject} icon-name="standard:note">
+            <!-- <dl class="slds-list_horizontal slds-wrap">
+              <dt
+                class="slds-item_label slds-text-color_weak"
+                title="Related To"
+              >
+                Related To:
+              </dt>
+              <dd class="slds-item_detail">
+
+                <a href={selectedCommentInfo.url}
+                  >{selectedCommentInfo.urlName}</a
+                >
+              </dd>
+            </dl> -->
+            <template for:each={selectedComments} for:item="comment">
+              <article class="slds-tile slds-media" key={comment.id}>
+                <div class="slds-media__figure">
+                  <!-- <span class="slds-avatar slds-avatar_circle slds-avatar_medium">
+                  <img
+                    alt=""
+                    src={comment.profileImg}
+                    title="Lexee L. Jackson avatar"
+                  />
+                </span> -->
+                  <lightning-avatar
+                    src={comment.profileImg}
+                    fallback-icon-name="standard:avatar"
+                    variant="circle"
+                  ></lightning-avatar>
+                </div>
+                <div class="slds-media__body">
+                  <h3 class="slds-tile__title" title={comment.submitterName}>
+                    <!-- <a href="#">Lexee L. Jackson</a> -->
+                    <span style="font-weight: bold"
+                      >{comment.submitterName}</span
+                    >
+                    <!-- <div> -->
+                    <lightning-formatted-date-time
+                      class="slds-float_right"
+                      value={comment.commentDate}
+                      year="numeric"
+                      month="numeric"
+                      day="numeric"
+                      hour="2-digit"
+                      minute="2-digit"
+                      time-zone-name="short"
+                      hour12="true"
+                    ></lightning-formatted-date-time>
+                    <!-- </div> -->
+                  </h3>
+                  <div class="slds-tile__detail">
+                    <!-- <dl class="slds-list_horizontal slds-wrap">
+                    <dt
+                      class="slds-item_label slds-text-color_weak slds-truncate"
+                      title="First Label"
+                    >
+                      First Label:
+                    </dt>
+                    <dd
+                      class="slds-item_detail slds-truncate"
+                      title="Description for first label"
+                    >
+                      Description for first label
+                    </dd>
+                    <dt
+                      class="slds-item_label slds-text-color_weak slds-truncate"
+                      title="Second Label"
+                    >
+                      Second Label:
+                    </dt>
+                    <dd
+                      class="slds-item_detail slds-truncate"
+                      title="Description for second label"
+                    >
+                      Description for second label
+                    </dd>
+                  </dl> -->
+
+                    <lightning-formatted-rich-text
+                      value={comment.body}
+                    ></lightning-formatted-rich-text>
+                  </div>
+                </div>
+              </article>
+            </template>
+            <template if:true={selectedCommentId}>
+              <!-- <div>reply</div> -->
+              <!-- <lightning-input-rich-text></lightning-input-rich-text> -->
+
+              <lightning-textarea></lightning-textarea>
+              <lightning-button
+                onclick={createComment}
+                label="Reply"
+                class="slds-float_right"
+              ></lightning-button>
+            </template>
+          </lightning-card>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+  </lightning-card>
+</template>

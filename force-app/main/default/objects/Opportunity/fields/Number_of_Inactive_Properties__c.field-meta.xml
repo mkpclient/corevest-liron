@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Inactive_Properties__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Roll Up Count of Inactive/Cancelled Properties</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Roll Up Count of Inactive/Cancelled Properties</inlineHelpText>
+    <label># of Inactive/Cancelled Properties</label>
+    <securityClassification>Internal</securityClassification>
+    <summaryFilterItems>
+        <field>Property__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Inactive, Rescinded, Cancelled</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Property__c.Is_Sub_Unit__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property__c.Deal__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

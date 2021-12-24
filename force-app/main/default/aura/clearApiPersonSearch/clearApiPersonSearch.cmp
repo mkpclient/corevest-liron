@@ -1,0 +1,117 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" controller="ClearBase" >
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="Message" type="String" />
+	<aura:attribute name="resultMap" type="Map" />	
+	<aura:attribute name="showClearAPIModal" type="boolean" default="false"/>
+    <aura:attribute name="contactIdList" type="String[]" />
+    <aura:attribute name="dealContactIdsList" type="String[]" />
+    <aura:attribute name="dealRecordId" type="String" />
+    <aura:attribute name="contactID" type="String" />
+    <aura:attribute name="loading" type="boolean" default="false"/>
+    <aura:attribute name="isNoPersonSelected" type="boolean" default="false"/>
+    
+    <aura:attribute name="isPersonNotFound" type="boolean" default="false"/>
+    <aura:attribute name="SteetAddress" type="boolean" default="false"/>
+    <aura:attribute name="City" type="boolean" default="false"/>
+    <aura:attribute name="State" type="boolean" default="false"/>
+    <aura:attribute name="Country" type="boolean" default="false"/>
+    <aura:attribute name="Zip" type="boolean" default="false"/>
+    <aura:attribute name="isConfirmDetails" type="boolean" default="false"/>
+    <aura:attribute name="isPersonSearch" type="boolean" default="false"/>
+   
+	<aura:if isTrue="{!v.showClearAPIModal}">
+   
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+            <aura:if isTrue="{!v.loading}">
+                <lightning:spinner aura:id="mySpinner1" style="position: revert" alternativeText="Processing.." title="Processing.." variant="brand" size="large"/>
+            </aura:if>
+            <!--<lightning:spinner aura:id="mySpinner" style="position: revert" alternativeText="Processing.." title="Processing.." variant="brand" size="large" class="slds-hide"/>-->
+            <lightning:recordEditForm recordId="{!v.contactID}" objectApiName="Contact" onsubmit="{!c.handleOnSubmit}"
+                                  onsuccess="{!c.handleOnSuccess}" onload="{!c.handleLoad}">
+                <header class="slds-modal__header">
+                     <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeCreatePropertyModal}">
+                        <lightning:icon iconName="utility:close" size="medium"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Background Check</h2>
+                </header>
+                <div class="slds-modal__content slds-p-left_xx-large slds-p-right_xx-large slds-p-top_large slds-p-bottom_large" id="modal-content-id-1">
+                    <aura:if isTrue="{!v.isNoPersonSelected}">
+                        <div class="slds-text-align_center slds-text-heading_medium">
+                            {!v.Message}
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isConfirmDetails}">
+                        <lightning:messages />
+                        <lightning:inputField fieldName="FirstName" />
+                        <lightning:inputField fieldName="LastName" />
+                        <lightning:inputField fieldName="SponsorHomeAddress__c" />
+                        <lightning:inputField fieldName="SponsorCity__c" />
+                        <lightning:inputField fieldName="SponsorState__c" />
+                        <lightning:inputField fieldName="SponsorZipCode__c" />
+                        <lightning:inputField fieldName="SponsorDateofBirth__c" />
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.isPersonNotFound}">
+                        <div class="slds-text-align_center">
+                        	{!v.Message}
+                        </div>
+                        <div class="slds-p-left_xx-large slds-p-top_medium">
+                            <lightning:input type="checkbox" label="SteetAddress" value="SteetAddress" onchange="{!c.checkboxcheked}"/>
+                            <div class="slds-p-top_xx-small">
+                                <lightning:input type="checkbox" label="City" value="City" onchange="{!c.checkboxcheked}"/>
+                            </div>
+                            <div class="slds-p-top_xx-small">
+                                <lightning:input type="checkbox" label="State" value="State" onchange="{!c.checkboxcheked}"/>
+                            </div>
+                            <div class="slds-p-top_xx-small">
+                                <lightning:input type="checkbox" label="Country" value="Country" onchange="{!c.checkboxcheked}"/>
+                            </div>
+                            <div class="slds-p-top_xx-small">
+                                <lightning:input type="checkbox" label="Zip" value="Zip" onchange="{!c.checkboxcheked}"/>
+                            </div>
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isPersonSearch}">
+                        <div class="slds-text-align_center">
+                        	{!v.Message}
+                        </div>
+                        <div class="slds-m-around_x-large">
+                            <div class="slds-align_absolute-center slds-m-around_small">
+                                <lightning:button class="slds-size_x-small" label="Person Search" variant="brand" onclick="{!c.callclearPersonsearchApi}" aura:id="personSearchButtonId"/>
+                            </div>
+                            <div class="slds-align_absolute-center slds-m-around_small">
+                                <lightning:button class="slds-size_x-small" label="Risk Score" variant="brand" onclick="{!c.callclearPersonrisksearchApi}" aura:id="riskButtonId"/>
+                            </div>
+                            <div class="slds-align_absolute-center slds-m-around_small">
+                                <lightning:button class="slds-size_x-small" label="Person Search Report" variant="brand" onclick="{!c.callClearPersonReportApi}" aura:id="personSearchReportButtonId"/> 
+                            </div>
+                            <div class="slds-align_absolute-center slds-m-around_small slds-m-bottom-large">
+                                <lightning:button class="slds-size_x-small" label="Risk Search Report" variant="brand" onclick="{!c.callClearRiskReportApi}" aura:id="riskSearchReportButtonId"/>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" label="Cancel" class="slds-button" onclick="{!c.closeCreatePropertyModal}"></lightning:button>
+                    <aura:if isTrue="{!v.isPersonSearch}">
+                        <lightning:button variant="neutral" label="Back" class="slds-button slds-float_left" onclick="{!c.onBackButton}"></lightning:button>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isConfirmDetails}">
+                    	<lightning:button variant="brand" type="submit" name="Submit" label="Submit" />
+                    </aura:if>
+                     <aura:if isTrue="{!v.isPersonNotFound}">
+                        <lightning:button variant="neutral" label="Submit" class="slds-button" onclick="{!c.submitAddressFields}"></lightning:button>
+                    </aura:if>
+                </footer>
+            </lightning:recordEditForm>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+	</aura:if>
+
+</aura:component>

@@ -1,0 +1,77 @@
+<aura:component controller="CommunityController" implements="forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="relationshipManager" type="Map" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:if isTrue="{!!empty(v.relationshipManager)}">
+        <!-- <lightning:card title="My Relationship Manager" class="slds-m-top_x-small "> -->
+        <!-- <div class="slds-p-top_small">
+            <div class="slds-tile slds-media slds-p-left_small slds-p-right_small">
+                <div class="slds-media__figure">
+                    <span class="slds-avatar slds-avatar_circle slds-avatar_large">
+                        <img alt="" src="{!v.relationshipManager.photoURL}" title="{!v.relationshipManager.name}" />
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-tile__detail">
+                        <div class="slds-truncate slds-text-heading_small">
+                            My Relationship Manager
+                        </div>
+                        <div class="slds-truncate slds-text-heading_small" title="{!v.relationshipManager.name}">
+                            {!v.relationshipManager.name}
+                        </div>
+                        <div class="slds-truncate" title="{!v.relationshipManager.email}">
+                            {!v.relationshipManager.email}
+                        </div>
+                        <div class="slds-truncate" title="{!v.relationshipManager.phone}">
+                            <ui:outputPhone value="{!v.relationshipManager.phone}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-text-align_center slds-m-top_medium slds-p-bottom_medium">
+                <button class="slds-button slds-button_brand"><a href="/portal/s/new-loan-request">New Loan Request</a></button>
+            </div>
+        </div> -->
+
+        <lightning:layout multipleRows="true" horizontalAlign="center">
+
+            <lightning:layoutItem size="12" class="centered slds-m-top_medium">
+                <lightning:avatar src="{!v.relationshipManager.photoURL}" title="{!v.relationshipManager.name}" size="large"
+                    variant="circle" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered slds-m-top_small slds-m-bottom_small">
+                <div class="slds-text-heading_small">
+                    My Relationship Manager
+                </div>
+
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered">
+                <div class="slds-truncate " title="{!v.relationshipManager.name}">
+                    {!v.relationshipManager.name}
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered">
+                <!-- <div class="slds-truncate" title="{!v.relationshipManager.email}">
+                    {!v.relationshipManager.email}
+                </div> -->
+                <lightning:formattedEmail value="{!v.relationshipManager.email}" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered slds-m-bottom_medium">
+                <div class="slds-truncate" title="{!v.relationshipManager.phone}">
+                    <ui:outputPhone value="{!v.relationshipManager.phone}" />
+                </div>
+            </lightning:layoutItem>
+
+
+        </lightning:layout>
+
+        <!-- </lightning:card> -->
+    </aura:if>
+
+
+</aura:component>

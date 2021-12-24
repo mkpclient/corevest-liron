@@ -1,0 +1,19 @@
+<aura:component>
+  <aura:attribute name="data" type="String" />
+  <aura:attribute name="title" type="String" />
+  <aura:attribute name="type" type="String" default="text" />
+  <aura:attribute name="width" type="String" />
+  <aura:attribute name="source" type="String[]" />
+  <aura:attribute name="dateFormat" type="String" default="YYYY/MM/DD" />
+  <aura:attribute name="allowEmpty" type="Boolean" default="true" />
+  <aura:attribute name="format" type="String" />
+  <aura:attribute name="correctFormat" type="Boolean" default="false" />
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="isFormula" type="Boolean" default="false" />
+  <aura:attribute name="isPercent" type="Boolean" default="false" />
+  <aura:attribute
+    name="notRequiredForChildren"
+    type="Boolean"
+    default="false"
+  />
+</aura:component>

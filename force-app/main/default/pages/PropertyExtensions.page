@@ -1,0 +1,38 @@
+<apex:page standardController="Property__c" >
+	<apex:includeLightning />
+
+	<div id="lightning"/>
+
+	<script>
+		$Lightning.use("c:LoanModList", function(){
+			$Lightning.createComponent("c:BridgePropertyExtensions",
+			{
+				recordId: "{!Property__c.Id}",
+			},
+			"lightning",
+			function(cmp){
+				console.log('stuff');
+				$A.eventService.addHandler({
+					event: 'force:navigateToSObject',
+					handler: function(event){
+						//console.log(event.source);
+						//console.log(event.source.elements[0].id);
+						// console.log(event.getParams().recordId);
+						// console.log(event.$params$.scope);
+						sforce.one.navigateToSObject(event.getParams().recordId);
+					}
+					//if(sforce && sforce.one){
+						//sforce.one.navigateToSObject(event.$params$.scope);
+					//}
+				})
+
+		
+
+
+
+			});
+
+		});
+	</script>
+
+</apex:page>

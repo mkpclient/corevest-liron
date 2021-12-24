@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <decisions>
+        <description>This will make decisions based on the Stage</description>
+        <name>Decision_Based_On_Stage_Change</name>
+        <label>Decision Based On Stage Change</label>
+        <locationX>614</locationX>
+        <locationY>200</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Stage_is_Closed_Won</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Closed Won</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.StageName</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Commission_Detail</targetReference>
+            </connector>
+            <label>Stage is Closed Won</label>
+        </rules>
+    </decisions>
+    <description>Runs actions when the Stage of the Deal is updated</description>
+    <interviewLabel>Actions on Deal Stage Change {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Actions on Deal Stage Change</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Creates the Commission Detail Record</description>
+        <name>Create_Commission_Detail</name>
+        <label>Create Commission Detail</label>
+        <locationX>134</locationX>
+        <locationY>416</locationY>
+        <connector>
+            <targetReference>Update_Deal_Commission_Detail</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Commission_Type__c</field>
+            <value>
+                <elementReference>$Record.Commission_Type__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Deal__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Internal_Referral__c</field>
+            <value>
+                <elementReference>$Record.Internal_Referral__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OwnerId</field>
+            <value>
+                <elementReference>$Record.OwnerId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Commission_Detail__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordUpdates>
+        <description>Updates the Commission Detail Lookup on the Deal after creation</description>
+        <name>Update_Deal_Commission_Detail</name>
+        <label>Update Deal Commission Detail</label>
+        <locationX>134</locationX>
+        <locationY>632</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Commission_Detail__c</field>
+            <value>
+                <elementReference>Create_Commission_Detail</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Decision_Based_On_Stage_Change</targetReference>
+        </connector>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

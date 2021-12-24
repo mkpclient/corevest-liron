@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RequireCreditTierApprovedByCommittee</fullName>
+    <active>true</active>
+    <description>Require a value in Final Credit Tier before being able to move to Approved by Committee</description>
+    <errorConditionFormula>AND(
+OR(
+ISPICKVAL(Type, &apos;Bridge Loan&apos;),
+ISPICKVAL(Type, &apos;SAB Loan&apos;)),
+ISPICKVAL( StageName , &apos;Approved by Committee&apos;),
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+NOT ( $Profile.Name= &quot;Integration&quot;),
+ISBLANK(TEXT( Final_Sponsor_Tier__c )))</errorConditionFormula>
+    <errorDisplayField>Final_Sponsor_Tier__c</errorDisplayField>
+    <errorMessage>Final Credit Tier is required before the Deal can be updated to Approved by Committee</errorMessage>
+</ValidationRule>

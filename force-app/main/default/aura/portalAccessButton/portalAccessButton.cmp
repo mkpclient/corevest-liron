@@ -1,0 +1,14 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickActionWithoutHeader">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="errorMessage" type="String" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<div aura:id="spinner" class="slds-is-relative slds-m-top--medium">
+		<lightning:spinner variant="brand" />
+		<p>
+			{!v.errorMessage}
+		</p>
+	</div>
+	
+</aura:component>

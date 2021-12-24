@@ -1,0 +1,335 @@
+<aura:component controller="CommunityFundingController">
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="modalOpen" type="String" />
+
+  <aura:attribute name="property" type="Map" />
+  <aura:attribute name="fieldMap" type="Map" />
+  <aura:attribute name="fields" type="List" />
+
+  <aura:attribute name="statusPercent" type="Decimal" default="0" />
+  <aura:attribute name="statusText" type="String" />
+  <aura:attribute name="reviewedPercent" type="Decimal" default="0" />
+  <aura:attribute name="reviewedText" type="String" />
+  <aura:attribute name="totalPercent" type="Decimal" default="0" />
+  <aura:attribute name="docTypes" type="List" />
+  <aura:attribute name="picklistMap" type="Map" />
+  <aura:attribute name="errorMsg" type="String" />
+  <aura:attribute name="rdy" type="Boolean" default="false" />
+
+  <aura:handler event="force:showToast" action="{!c.init}" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="slds-modal slds-fade-in-open slds-modal_medium"
+  >
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          <aura:if isTrue="{!!v.errorMsg}">
+            Funding Status <aura:set attribute="else"> {!v.errorMsg} </aura:set>
+          </aura:if>
+        </h2>
+      </header>
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="modal-content-id-1"
+      >
+        <!-- <lightning:progressBar value="50" size="large" /> -->
+        <aura:if isTrue="{!!empty(v.docTypes)}">
+          <div class="slds-m-bottom_medium">
+            <c:ProgressBar
+              title="Required Document Uploaded"
+              colorClass="blue"
+              percentage="{!v.statusPercent}"
+              barText="{!v.statusText}"
+            />
+          </div>
+
+          <div class="slds-m-bottom_medium">
+            <c:ProgressBar
+              title="Documents Approved"
+              colorClass="orange"
+              percentage="{!v.reviewedPercent}"
+              barText="{!v.reviewedText}"
+            />
+          </div>
+        </aura:if>
+
+        <!--
+          <div class="slds-m-bottom_medium">
+              <div class="slds-grid slds-grid_align-spread" id="progress-bar-label-id-1">
+                  <span>Total % to Overall Progress to Funding</span>
+
+              </div>
+              <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"
+                  aria-labelledby="progress-bar-label-id-1" role="progressbar">
+                  <span aria-hidden="true" class="slds-float_left slds-is-relative" style="line-height: 3rem; left: 10px">
+                      <strong>
+                          <lightning:formattedNumber value="{!v.totalPercent}" style="percent" /></strong>
+                  </span>
+                  <span class="slds-progress-bar__value totalStatus" style="{!'width: ' + v.totalPercent*100 + '%;'}">
+
+                      <span class="slds-assistive-text"></span>
+                  </span>
+              </div>
+          </div>
+        -->
+
+        <lightning:tabset>
+          <aura:if isTrue="{!!empty(v.docTypes)}">
+            <lightning:tab label="Loan Documents" id="one">
+              <table
+                class="slds-table slds-table_cell-buffer slds-table_bordered"
+              >
+                <thead>
+                  <tr class="slds-line-height_reset">
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Opportunity Name">
+                        File
+                      </div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Account Name">
+                        Added By
+                      </div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Close Date">
+                        Added On
+                      </div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Stage">Reviewed By</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Confidence">
+                        Reviewed On
+                      </div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                      <div class="slds-truncate" title="Confidence">
+                        Comments
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <aura:iteration
+                    items="{!v.docTypes}"
+                    var="docType"
+                    indexVar="index"
+                  >
+                    <!-- <tbody> -->
+                    <tr>
+                      <td colspan="6" style="padding-left: 0.75rem">
+                        <div
+                          class="slds-accordion__summary"
+                          data-aura-rendered-by="114:8;a"
+                        >
+                          <h2
+                            class="slds-accordion__summary-heading"
+                            data-aura-rendered-by="115:8;a"
+                          >
+                            <button
+                              class="slds-button slds-button_reset slds-accordion__summary-action"
+                              type="button"
+                            >
+                              <lightning:icon
+                                class="slds-m-right_small"
+                                iconName="utility:chevrondown"
+                                size="x-small"
+                              />
+                              <lightning:icon
+                                iconName="{!!empty(docType.docs) ? 'action:approval' : 'action:close'}"
+                                size="x-small"
+                                class="slds-m-right_small"
+                              />
+                              <span
+                                class="slds-truncate"
+                                title="{!docType.type}"
+                              >
+                                {!docType.type}
+                              </span>
+                            </button>
+                          </h2>
+
+                          <!-- render facet: 120:8;a -->
+                        </div>
+                      </td>
+                    </tr>
+                    <!--
+                      </tbody>
+                      <tbody>
+                    -->
+                    <aura:iteration items="{!docType.docs}" var="doc">
+                      <tr class="slds-hint-parent">
+                        <th data-label="Opportunity Name" scope="row">
+                          <div class="slds-truncate" title="Cloudhub">
+                            <lightning:formattedText
+                              value="{!doc.File_Name__c}"
+                            />
+                          </div>
+                        </th>
+                        <td data-label="Account Name">
+                          <div class="slds-truncate" title="">
+                            <lightning:formattedText
+                              value="{!doc.Added_By__r.Name}"
+                            />
+                          </div>
+                        </td>
+                        <td data-label="Close Date">
+                          <div class="slds-truncate" title="">
+                            <ui:outputDateTime
+                              value="{!doc.Added_On__c}"
+                              format="MM/dd/YYYY"
+                            />
+                          </div>
+                        </td>
+                        <td data-label="Prospecting">
+                          <div class="slds-truncate" title="">
+                            <lightning:formattedText
+                              value="{!doc.Reviewed_By__r.Name}"
+                            />
+                          </div>
+                        </td>
+                        <td data-label="Confidence">
+                          <div class="slds-truncate" title="">
+                            <ui:outputDateTime
+                              value="{!doc.Reviewed_On__c}"
+                              format="MM/dd/YYYY"
+                            />
+                          </div>
+                        </td>
+                        <td data-label="Confidence">
+                          <div class="slds-truncate" title=""></div>
+                        </td>
+                      </tr>
+                    </aura:iteration>
+                    <!-- </tbody> -->
+                  </aura:iteration>
+                </tbody>
+              </table>
+              <!--
+                <lightning:accordion allowMultipleSectionsOpen="true">
+                    <aura:iteration items="{!v.docTypes}" var="docType" indexVar="index">
+
+                        <lightning:accordionSection name="{index}" label="{!docType.type}">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_header-hidden">
+                                <thead class="">
+                                    <tr class="slds-line-height_reset">
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Opportunity Name">File</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Account Name">Added By</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Close Date">Added On</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Stage">Reviewed By</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Confidence">Reviewed On</div>
+                                        </th>
+                                        <th class="slds-text-title_caps" scope="col">
+                                            <div class="slds-truncate" title="Confidence">Comments</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!docType.docs}" var="doc">
+                                        <tr class="slds-hint-parent">
+                                            <th data-label="Opportunity Name" scope="row">
+                                                <div class="slds-truncate" title="Cloudhub">
+                                                    <lightning:formattedText value="{!doc.File_Name__c}" />
+                                                </div>
+                                            </th>
+                                            <td data-label="Account Name">
+                                                <div class="slds-truncate" title="">
+                                                    <lightning:formattedText value="{!doc.Added_By__r.Name}" />
+                                                </div>
+                                            </td>
+                                            <td data-label="Close Date">
+                                                <div class="slds-truncate" title="">
+                                                    <ui:outputDateTime value="{!doc.Added_On__c}" format="MM/dd/YYYY" />
+                                                </div>
+                                            </td>
+                                            <td data-label="Prospecting">
+                                                <div class="slds-truncate" title="">
+                                                    <lightning:formattedText value="{!doc.Reviewed_By__r.Name}" />
+                                                </div>
+                                            </td>
+                                            <td data-label="Confidence">
+                                                <div class="slds-truncate" title="">
+                                                    <ui:outputDateTime value="{!doc.Reviewed_On__c}" format="MM/dd/YYYY" />
+                                                </div>
+                                            </td>
+                                            <td data-label="Confidence">
+                                                <div class="slds-truncate" title="">
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </lightning:accordionSection>
+
+                    </aura:iteration>
+                </lightning:accordion>
+              -->
+            </lightning:tab>
+          </aura:if>
+
+          <aura:if isTrue="{!!empty(v.fields)}">
+            <lightning:tab label="Contact Information">
+              <span style="font-weight: bold"
+                >Please enter the information below:</span
+              >
+
+              <lightning:layout multipleRows="true" class="slds-m-top_x-small">
+                <aura:iteration items="{!v.fields}" var="field">
+                  <lightning:layoutItem size="12">
+                    <lightning:input
+                      name="{!field.fieldName}"
+                      label="{!field.label}"
+                      value="{!field.value}"
+                      onblur="{!c.saveField}"
+                    />
+                  </lightning:layoutItem>
+                </aura:iteration>
+              </lightning:layout>
+            </lightning:tab>
+          </aura:if>
+
+          <lightning:tab label="Upload Files" id="two">
+            <aura:if isTrue="{!and(!empty(v.recordId), v.rdy)}">
+              <c:PortalDocumentUploader
+                recordId="{!v.recordId}"
+                uploadType="single"
+                recordType="LOC_Loan"
+                uploaderType="portal"
+                sobjectType="Property__c"
+                picklistMap="{!v.picklistMap}"
+              />
+            </aura:if>
+          </lightning:tab>
+        </lightning:tabset>
+      </div>
+      <footer class="slds-modal__footer">
+        <!-- <button class="slds-button slds-button_neutral">Cancel</button> -->
+        <lightning:button label="Close" onclick="{!c.closeModal}" />
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

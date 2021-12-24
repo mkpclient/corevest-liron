@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldOverrides>
+        <field>HtmlBody</field>
+        <formula>&apos;Deal: &apos; + Property__c.Deal__r.Name + &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
+&apos;Lender: &apos; + text(Property__c.Deal__r.Lender__c)+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
+&apos;Loan Number: &apos; + Property__c.Deal_Loan_Number__c+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
+&apos;Requested Funding Date: &apos; + text(MONTH(Property__c.Requested_Funding_Date__c))+ &apos;/&apos; + text(DAY(Property__c.Requested_Funding_Date__c))+ &apos;/&apos; + text(YEAR(Property__c.Requested_Funding_Date__c))+&apos;&lt;br/&gt;&lt;br/&gt;&apos; +  
+
+&apos;Title Company: &apos; + Property__c.Title_Company_text__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
+&apos;Title Contact Name: &apos; + Property__c.Title_Contact_Name__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos; + 
+
+&apos;Title Contact Phone: &apos; + Property__c.Title_Contact_Phone__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos; + 
+
+&apos;Title Contact Email: &apos; + Property__c.Title_Contact_Email_Address__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos; + 
+
+&apos;Closer: &apos; + Property__c.Closer__r.FirstName + &apos; &apos; + Property__c.Closer__r.LastName +&apos;&lt;br/&gt;&lt;br/&gt;&apos; + 
+
+&apos;Address: &apos; + Property__c.Name+ &apos;, &apos; + Property__c.City__c+ &apos;, &apos; + text(Property__c.State__c) + &apos;, &apos; + Property__c.ZipCode__c+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
+&apos;Appraisal Order Date: &apos; + text(MONTH(Property__c.BPO_Appraisal_Order_Date__c)) + &apos;/&apos; + text(DAY(Property__c.BPO_Appraisal_Order_Date__c)) + &apos;/&apos; +text(YEAR(Property__c.BPO_Appraisal_Order_Date__c))+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; + 
+
+&apos;Renovation or Non Renovation: &apos; + Property__c.Renovation_Type_formula__c + &apos;&lt;br/&gt;&lt;br/&gt;&apos;</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Subject</field>
+        <formula>&apos;Deal#: &apos;+ Property__c.Deal_Loan_Number__c + &apos;, Address: &apos; + Property__c.Name + &apos;, &apos; + Property__c.Renovation_Type_formula__c + &apos;, &apos; + TEXT(Property__c.Refinance_Acquisition__c)</formula>
+    </fieldOverrides>
+    <label>Title Review Email</label>
+    <optionsCreateFeedItem>true</optionsCreateFeedItem>
+    <quickActionLayout>
+        <layoutSectionStyle>TwoColumnsLeftToRight</layoutSectionStyle>
+        <quickActionLayoutColumns>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>ValidatedFromAddress</field>
+                <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>ToAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>CcAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>BccAddress</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Subject</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>HtmlBody</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>RelatedToId</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>EmailTemplateId</field>
+                <uiBehavior>Edit</uiBehavior>
+            </quickActionLayoutItems>
+        </quickActionLayoutColumns>
+        <quickActionLayoutColumns/>
+    </quickActionLayout>
+    <targetObject>OutgoingEmail</targetObject>
+    <targetParentField>RelatedTo</targetParentField>
+    <type>SendEmail</type>
+</QuickAction>

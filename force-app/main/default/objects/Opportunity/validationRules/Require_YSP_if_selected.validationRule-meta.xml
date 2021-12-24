@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_YSP_if_selected</fullName>
+    <active>false</active>
+    <description>This will require the user to enter the YSP % if there is one</description>
+    <errorConditionFormula>AND (
+RecordType.Name = &quot;Term Loan&quot; ,
+ISPICKVAL( YSP_yesno__c , &quot;Yes&quot;) ,
+ISBLANK( YSP_perc__c ))</errorConditionFormula>
+    <errorDisplayField>YSP_perc__c</errorDisplayField>
+    <errorMessage>Please enter a YSP %</errorMessage>
+</ValidationRule>

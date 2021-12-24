@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ALA__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Term Use
+Previous formula:
+IF(Appraised_Value_Amount__c = 0,
+Deal__r.LTV__c *  Borrower_Opinion_of_Current_Value__c,
+Deal__r.LTV__c * Appraised_Value_Amount__c)</description>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Status__c, &apos;Active&apos;) &amp;&amp; OR(ISPICKVAL(Deal__r.Type, &apos;Term Loan&apos;),ISPICKVAL(Deal__r.Type, &apos;Single Rental Loan&apos;)) ,
+ IF(ISBLANK( Deal__r.Final_Loan_Amount__c ), 
+  Assumed_3rd_Party_Value__c / Deal__r.Total_Assumed_3rd_Party_Value__c * Deal__r.Current_Loan_Amount__c,
+  Assumed_3rd_Party_Value__c / Deal__r.Total_Assumed_3rd_Party_Value__c * Deal__r.Final_Loan_Amount__c),
+IF(ISPICKVAL(Deal__r.Type, &apos;Bridge Loan&apos;) || ISPICKVAL(Deal__r.Type, &apos;SAB Loan&apos;),
+ Approved_Advance_Amount_Used__c,
+0))</formula>
+    <inlineHelpText>Allocated Loan Amount.  If the &quot;Appraised Value Amount&quot; is blank, then the &quot;Borrower Opinion of Current Value&quot;</inlineHelpText>
+    <label>ALA</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

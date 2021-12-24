@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Liquidity_Based_Percentage__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Coverage ratio based off of current cash position.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Coverage ratio based off of current cash position.</inlineHelpText>
+    <label>Liquidity Based Percentage</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origination_Date_Valuation_Provider__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Valuation Provider when this Loan was funded</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Valuation Provider when this Loan was funded</inlineHelpText>
+    <label>Origination Date Valuation Provider</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

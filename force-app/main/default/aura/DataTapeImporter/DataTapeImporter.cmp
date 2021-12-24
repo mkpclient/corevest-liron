@@ -1,0 +1,45 @@
+<aura:component >
+
+	<aura:method name="close" action="{!c.close}" />
+	<aura:method name="open" action="{!c.open}" />
+
+	<aura:registerEvent name="importer" type="c:DataTapeImportEvent" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<aura:attribute name="randId" type="Integer" />
+	<aura:attribute name="recordType" type="String" />
+
+	<ltng:require scripts="{!$Resource.sheetJS + '/dist/xlsx.core.min.js'}" />
+
+	<div role="dialog" tabindex="-1" aura:id="modal" aria-labelledby="header43" class="slds-modal slds-modal__close">
+	  <div class="slds-modal__container">
+	    <div class="slds-modal__header">
+	      <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" size="large" variant="bare-inverse" onclick="{! c.close }" alternativeText="Close window." />
+	      <h2 id="header43" class="slds-text-heading--medium">Import Data Tape</h2>
+	    </div>
+	    <div class="slds-modal__content slds-p-around--medium slds-is-relative">
+	    	<lightning:spinner alternativeText="Loading" aura:id="spinner" variant="brand"/>
+	      	<div class="slds-form-element">
+			  <!-- <span class="slds-form-element__label" id="file-selector-id" onclick='{!c.debug}'>Attachment</span> -->
+			  <div class="slds-form-element__control">
+			    <div class="slds-file-selector slds-file-selector--files">
+			      <div class="slds-file-selector__dropzone" ondragover="{!c.onDragOver}" ondrop="{!c.onDrop}">
+			        <input aura:id="inputFile" class="slds-file-selector__input slds-assistive-text" multiple="true" type="file" id="{!'file-upload-input-'+v.randId}" onchange="{!c.handleFiles}" />
+			        <label class="slds-file-selector__body" for="{!'file-upload-input-'+v.randId}">
+			          <span class="slds-file-selector__button slds-button slds-button--neutral">
+
+			            <lightning:icon class="slds-m-right--x-small" iconName="utility:upload" size="xx-small" alternativeText="Upload File" />
+		                Upload Files
+			          </span>
+			          <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+			        </label>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+	    </div>
+	  </div>
+	</div>
+	<div aura:id="backdrop" class="slds-backdrop"></div>
+</aura:component>

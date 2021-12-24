@@ -1,0 +1,228 @@
+<aura:component
+  controller="community_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="searchText" type="String" />
+  <aura:attribute name="documentType" type="String" />
+  <aura:attribute name="picklistOptions" type="String" />
+
+  <aura:attribute name="documents" type="List" />
+
+  <aura:attribute name="modalOpen" type="Boolean" default="false" />
+  <aura:attribute name="selectedIds" type="List" />
+
+  <aura:attribute name="isCommunity" type="Boolean" default="false" />
+  <aura:attribute name="recordType" type="String" default="Term_Loan" />
+
+  <aura:attribute name="user" type="Object" />
+
+  <aura:attribute name="whereClause" type="String" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <div>
+    <!-- <lightning:datatable keyField="Id" /> -->
+  </div>
+  <lightning:card>
+  <c:util aura:id="util" />
+
+  <lightning:layout horizontalAlign="end">
+    <lightning:layoutItem>
+      <span onkeypress="{!c.inputKeyPress}">
+        <lightning:input
+          type="search"
+          variant="label-hidden"
+          aura:id="search"
+          name="searchText"
+          label="Search..."
+          placeholder="search"
+        />
+      </span>
+    </lightning:layoutItem>
+    <lightning:layoutItem>
+      <lightning:select
+        name="select"
+        label="Select an Item"
+        aura:id="option"
+        class="label-hidden"
+        variant="label-hidden"
+      >
+        <aura:iteration items="{!v.picklistOptions}" var="option">
+          <option value="{!option}">{!option}</option>
+        </aura:iteration>
+      </lightning:select>
+    </lightning:layoutItem>
+    <lightning:layoutItem>
+      <lightning:button
+        name="searchText"
+        label="Search"
+        class="slds-button--brand"
+        onclick="{!c.search}"
+        variant="brand"
+      />
+    </lightning:layoutItem>
+  </lightning:layout>
+
+  <aura:if isTrue="{!!v.isCommunity}">
+    <lightning:layout horizontalAlign="end" class="slds-m-top_medium">
+      <aura:if
+        isTrue="{!!empty(v.permissionsMap) ? and(v.permissionsMap.Document_Type__c.isUpdateable, v.permissionsMap.Section__c.isUpdateable) : 'false'}"
+      >
+        <lightning:layoutItem>
+          <lightning:button label="Update Folder" onclick="{!c.updateFolder}" />
+        </lightning:layoutItem>
+      </aura:if>
+      <!-- <lightning:layoutItem>
+        <lightning:button label="Update Folder" onclick="{!c.updateFolder}" />
+	  </lightning:layoutItem> -->
+      <aura:if
+        isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isDeletable : 'false'}"
+      >
+        <lightning:layoutItem>
+          <lightning:button
+            name="deleteDocs"
+            label="Delete Documents"
+            onclick="{!c.deleteDocuments}"
+            variant="neutral"
+          />
+        </lightning:layoutItem>
+      </aura:if>
+    </lightning:layout>
+  </aura:if>
+
+  <!-- <lightning:datatable keyField="Id" aura:id="documents" /> -->
+
+  <table
+    class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_medium slds-table_fixed-layout" role="grid"
+  >
+    <thead>
+      <tr class="slds-text-title_caps">
+        <th scope="col" style="width: 4%">
+          <lightning:input
+            type="checkbox"
+            name="check"
+            variant="label-hidden"
+            label="check"
+            aura:id="checked"
+            onchange="{!c.selectAll}"
+          />
+        </th>
+        <th scope="col" title="Exception" style="width: 9%">
+          <div class="slds-truncate" title="Document ID">Document Id</div>
+        </th>
+        <th scope="col" style="width: 30%">
+          <div class="slds-truncate" title="Document Name">Name</div>
+        </th>
+
+        <th scope="col" style="width: 13%">
+          <div class="slds-truncate" title="Document Folder">Folder</div>
+        </th>
+
+        <th scope="col">
+          <div class="slds-truncate" title="Property">Property</div>
+        </th>
+
+        <th scope="col">
+          <div class="slds-truncate" title="Document Type">Document Type</div>
+        </th>
+
+        <th scope="col">
+          <div class="slds-truncate" title="Upload Date">Upload Date</div>
+        </th>
+
+        <th scope="col">
+          <div class="slds-truncate" title="Uploaded By">Uploaded By</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <aura:iteration items="{!v.documents}" var="document">
+        <tr>
+          <td scope="row" data-label="">
+            <lightning:input
+              type="checkbox"
+              name="c"
+              label="check"
+              variant="label-hidden"
+              checked="{!document.selected}"
+            />
+          </td>
+
+          <td scope="row" data-label="" class="slds-truncate">
+            <aura:if isTrue="{!!v.isCommunity}">
+              <a href="{!'#/sObject/'+ document.Id + '/view'}">
+                {!document.Name}
+              </a>
+
+              <aura:set attribute="else">
+                <!-- <a href="{!'/correspondent/s/trade-document/'+ document.Id}"> -->
+                {!document.Name}
+                <!-- </a> -->
+              </aura:set>
+            </aura:if>
+          </td>
+
+          <td scope="row" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputURL
+                label="{!document.File_Name__c}"
+                title="{!document.Attachment_Id__c}"
+                click="{!c.viewDocument}"
+              />
+            </div>
+          </td>
+
+          <td scope="row" data-label="Name">
+            <div class="slds-truncate" title="{!document.Section__c}">
+              {!document.Section__c}
+            </div>
+          </td>
+
+          <td scope="row" data-label="" class="slds-truncate">
+            <aura:if isTrue="{!!v.isCommunity}">
+              <a href="{!'#/sObject/'+ document.Property__c + '/view'}">
+                {!document.Property__r.Name}
+              </a>
+
+              <aura:set attribute="else">
+                <a href="{!'/portal/s/property?id='+ document.Property__c}">
+                  {!document.Property__r.Name}
+                </a>
+              </aura:set>
+            </aura:if>
+          </td>
+
+          <td scope="row" data-label="Name">
+            <div class="slds-truncate" title="{!document.Document_Type__c}">
+              {!document.Document_Type__c}
+            </div>
+          </td>
+
+          <td scope="row" data-label="Name">
+            <div class="slds-truncate" title="{!document.Document_Type__c}">
+              <ui:outputDate value="{!document.Added_On__c}" />
+            </div>
+          </td>
+
+          <td scope="row" data-label="Name">
+            <div class="slds-truncate" title="{!document.Added_By__r.Name}">
+              {!document.Added_By__r.Name}
+            </div>
+          </td>
+        </tr>
+      </aura:iteration>
+    </tbody>
+  </table>
+  <aura:if isTrue="{!v.modalOpen}">
+    <c:DocumentTypeSelectorContainer
+      recordId="{!v.recordId}"
+      sObjectName="Opportunity"
+      modalOpen="{!v.modalOpen}"
+      recordIds="{!v.selectedIds}"
+    />
+  </aura:if>
+  </lightning:card>
+</aura:component>

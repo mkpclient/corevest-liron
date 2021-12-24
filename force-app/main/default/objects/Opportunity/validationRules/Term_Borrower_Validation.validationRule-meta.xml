@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Borrower_Validation</fullName>
+    <active>true</active>
+    <description>Prevent user from selecting &quot;No&quot; on the Term Borrower field when the Account has Closed Won Term Loans</description>
+    <errorConditionFormula>AND(
+OR(
+ISCHANGED( Term_Borrower__c ),
+ISCHANGED(AccountId)),
+NOT(IsClosed),
+ISPICKVAL(Term_Borrower__c, &apos;No&apos;),
+Account.Borrowed_on_Term_Loans__c  &gt; 0)</errorConditionFormula>
+    <errorDisplayField>Term_Borrower__c</errorDisplayField>
+    <errorMessage>Incorrect!  This Account has funded Term Loans which makes them a Term Borrower.  Please confirm if these Assets will be coming off of a Term Loan.</errorMessage>
+</ValidationRule>

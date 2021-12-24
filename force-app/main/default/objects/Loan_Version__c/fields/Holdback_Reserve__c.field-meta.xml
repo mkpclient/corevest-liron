@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Holdback_Reserve__c</fullName>
+    <description>Monthly Debt Service Payment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For an Interest Only Loan, this may not match the Model.  The Monthly Debt Service in the Model will use an average days in the month.  The Schedule of Lender Costs will be based on the number of days in the month that the Loan closes.</inlineHelpText>
+    <label>Monthly Debt Service Payment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

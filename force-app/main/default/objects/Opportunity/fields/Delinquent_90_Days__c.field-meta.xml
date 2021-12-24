@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delinquent_90_Days__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Term Loan: Number times payment received on 90th thru 119th day past due date life-to-date</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Term Loan: Number times payment received on 90th thru 119th day past due date life-to-date</inlineHelpText>
+    <label>Delinquent 90 Days +</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

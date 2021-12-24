@@ -1,0 +1,135 @@
+<template>
+  <!-- Lightning Form with read and edit mode -->
+  <!-- <lightning-card title="Special Asset" icon-name="custom:custom11">
+    <div class="slds-m-around_medium">
+      <lightning-record-form
+        record-id={specialAssetId}
+        object-api-name="Special_Asset__c"
+        mode="View"
+        fields={specialAssetFields}
+        columns="2"
+        onsuccess={fireToast}
+        id="speacialAssetForm">
+      </lightning-record-form>
+    </div>
+  </lightning-card> -->
+
+  <!-- Lightning Form in Edit Mode -->
+  <lightning-card title="Special Asset" icon-name="custom:custom11">
+    <div class="slds-m-around_medium">
+      <lightning-record-edit-form
+        record-id={specialAssetId}
+        object-api-name="Special_Asset__c"
+        onsuccess={fireToast}
+        onsubmit={handleSubmit}
+      >
+        <lightning-messages></lightning-messages>
+        <div class="slds-grid slds-wrap slds-gutters">
+          <!-- <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Loss_Mitigation_Associate__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Follow_Up_Date__c"
+            ></lightning-input-field>
+          </div> -->
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Severity_Level__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Estimated_Recovery_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Resolution_Type__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Resolved_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Litigation_Pending__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Accrual_Stop_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Special_Asset_Reason__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Referred_for_FC_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+            <lightning-input-field
+              field-name="Net_Proceeds__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+            <lightning-input-field
+              field-name="Property_ALA__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+            <lightning-input-field
+              field-name="Protected_Advances__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+            <lightning-output-field
+              field-name="Net_Loss_Severity_Recovery__c"
+            ></lightning-output-field>
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+            
+          </div>
+          <div class="slds-col slds-size_1-of-3">
+
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning-input-field
+              field-name="Status_Comment__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning-input-field
+              field-name="Strategy__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-1">
+            <lightning-input-field
+              class="slds-p-left_x-large"
+              field-name="Milestones__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_5-of-12"></div>
+          <div class="slds-col slds-size_2-of-12">
+            <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleReset}></lightning-button>
+            <lightning-button
+              class="slds-m-top_small"
+              type="submit"
+              variant="brand"
+              label="Save"
+            ></lightning-button>
+          </div>
+          <div class="slds-col slds-size_5-of-12"></div>
+        </div>
+      </lightning-record-edit-form>
+    </div>
+  </lightning-card>
+</template>

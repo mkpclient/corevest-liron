@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Maturity_Date_Before_Current</fullName>
+    <active>true</active>
+    <description>This will prevent a User from entering a Loan Mod with a Maturity Date that is before the Current Maturity Date on the Deal</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Modification_Maturity_Date__c),
+ Modification_Maturity_Date__c &lt; 
+ Deal__r.Current_Line_Maturity_Date__c 
+)</errorConditionFormula>
+    <errorDisplayField>Modification_Maturity_Date__c</errorDisplayField>
+    <errorMessage>The New Maturity Date cannot be before the Current Maturity Date</errorMessage>
+</ValidationRule>

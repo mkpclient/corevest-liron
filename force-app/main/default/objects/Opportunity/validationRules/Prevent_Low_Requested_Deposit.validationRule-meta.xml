@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Low_Requested_Deposit</fullName>
+    <active>true</active>
+    <description>This will ensure that the requested Deposit covers 50% of the Deposit, Broker Price Opinions/Appraisal</description>
+    <errorConditionFormula>Deposit_Amount_Requested__c   &lt;(Deposit_Broker_Price_Opinions_Appraisal__c/2)</errorConditionFormula>
+    <errorDisplayField>Deposit_Amount_Requested__c</errorDisplayField>
+    <errorMessage>The requested deposit amount must cover at least 50% of the &quot;Deposit, Broker Price Opinions/Appraisal&quot;</errorMessage>
+</ValidationRule>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Line_Expiration__c</fullName>
+    <description>Bridge model pricing request field for Line Expiration</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Requested Term = &apos;Line Expiration&apos;&apos; in Pricing Model</inlineHelpText>
+    <label>Requested Term</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Maturity_Date_Calculation_Type__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>LOC_Terms</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>6 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>9 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>12 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>15 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>18 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>21 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>24 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>30 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <valueName>36 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at Closing</controllingFieldValue>
+            <controllingFieldValue>Fixed at First Advance</controllingFieldValue>
+            <valueName>N/A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at First Advance</controllingFieldValue>
+            <valueName>540 Days</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at First Advance</controllingFieldValue>
+            <valueName>630 Days</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Fixed at First Advance</controllingFieldValue>
+            <valueName>720 Days</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

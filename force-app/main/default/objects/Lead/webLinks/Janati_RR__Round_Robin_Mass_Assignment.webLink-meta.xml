@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Janati_RR__Round_Robin_Mass_Assignment</fullName>
+    <availability>online</availability>
+    <displayType>massActionButton</displayType>
+    <linkType>javascript</linkType>
+    <masterLabel>Round Robin Mass Assignment</masterLabel>
+    <openType>onClickJavaScript</openType>
+    <protected>false</protected>
+    <requireRowSelection>true</requireRowSelection>
+    <url>{!REQUIRESCRIPT(&quot;/soap/ajax/29.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/29.0/apex.js&quot;)}
+
+var selectedIds = {!GETRECORDIDS($ObjectType.Lead)};
+if(!selectedIds.length){
+	alert(&apos;Please select at least one record!&apos;);
+}else{
+	if(confirm(&quot;The selected &quot; + selectedIds.length + &quot; records will be processed by Round Robin.&quot;)){
+		var res = sforce.apex.execute(&quot;Janati_RR.AssignmentControllerMultiple&quot;,&quot;assignLeads_v2&quot;,{leadIds: selectedIds });
+        if(res &amp;&amp; res.length){
+            if(res.length === 1 &amp;&amp; res[0].indexOf(&quot;Advanced Reassign Functionality&quot; === 0)){
+                alert(res[0]);
+            }else{
+                var moreThanFive = res.length - 5;
+                if(moreThanFive &gt; 0){
+                    res.length = 5;
+                }
+                alert(&apos;You must have Write access to all leads selected.  No write access for leads for:  &apos; + res.join(&apos;, &apos;) + (moreThanFive &gt; 0 ? (&apos; + &apos; + moreThanFive + &apos; more&apos;) : &apos;&apos;));
+            }
+        }else{
+		    window.location.reload();
+        }
+	}
+}</url>
+</WebLink>

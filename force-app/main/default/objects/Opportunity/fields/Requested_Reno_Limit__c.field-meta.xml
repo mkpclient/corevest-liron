@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Reno_Limit__c</fullName>
+    <description>Bridge Reno Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>% of Acquisition Cost</inlineHelpText>
+    <label>Requested Reno Limit (% Acq Cost)</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

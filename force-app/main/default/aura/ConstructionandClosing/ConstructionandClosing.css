@@ -1,0 +1,22 @@
+.THIS .slds-table thead th {
+    background-color:#006dcc;
+    color:white;
+}
+
+.THIS .slds-text-heading_small {
+    color:#F75D16;
+}
+
+.THIS .cmp-icon {
+    background-color:#F75D16;
+}
+
+.THIS .slds-th__action:hover {
+    color:#F75D16;
+    background-color:#1E92D0;
+}
+
+.THIS .slds-th__action:focus {
+    color:#F75D16;
+    background-color:#1E92D0;
+}

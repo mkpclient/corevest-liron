@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Initial_Loan_Amount__c</fullName>
+    <businessOwnerGroup>Bridge_Ops</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Reno Use
+
+IF(RecordType.Name == &apos;Bridge Renovation&apos;,
+MIN(BPO_Appraisal_Value__c*Deal__r.LTV__c  ,Acquisition_Price__c*Deal__r.LTC__c),
+MIN(Max_LTC_Dollar__c, Max_LTV_Dollar__c))</description>
+    <externalId>false</externalId>
+    <formula>MIN(
+  Appraised_Value_Amount__c*Deal__r.LTV__c,
+  (Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c,&apos;Yes&apos;),Approved_Completed_Rehab_Costs__c,0))*Deal__r.LTC__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Minimum of &quot;As Is Value&quot;/Max LTV and &quot;Acquisition Price&quot;/Max LTC</inlineHelpText>
+    <label>Max Initial Loan Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

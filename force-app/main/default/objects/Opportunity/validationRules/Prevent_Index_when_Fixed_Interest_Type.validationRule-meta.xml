@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Index_when_Fixed_Interest_Type</fullName>
+    <active>true</active>
+    <description>Prevents the user from entering a Requested Index, Requested Index Margin or Requested Index Floor</description>
+    <errorConditionFormula>AND(
+OR(
+Record_Type_Name__c = &quot;LOC_Loan&quot;,
+Record_Type_Name__c = &quot;Single_Asset_Bridge_Loan&quot;),
+ ISPICKVAL(Requested_Interest_Type__c, &quot;Fixed&quot;),
+ NOT(ISBLANK(Requested_Index_Margin__c)),
+OR(
+ ISPICKVAL(StageName, &quot;Initial Review&quot;),
+ ISPICKVAL(StageName, &quot;Term Sheet Issued&quot;),
+ ISPICKVAL(StageName, &quot;Term Sheet Signed/Deposit Collected&quot;)
+))</errorConditionFormula>
+    <errorDisplayField>Requested_Index_Margin__c</errorDisplayField>
+    <errorMessage>A Fixed Interest Rate cannot have a Requested Index Margin</errorMessage>
+</ValidationRule>

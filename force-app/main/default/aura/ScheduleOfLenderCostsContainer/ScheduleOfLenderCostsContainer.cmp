@@ -1,0 +1,24 @@
+<aura:component
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+  controller="ScheduleOfLenderCostsPDFExtension"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="isSendEmail" type="Boolean" />
+
+  <c:scheduleOfLenderCostsTab
+    recordId="{!v.recordId}"
+    ongenerate="{!c.generatePDF}"
+    oninitemail="{!c.initEmail}"
+  />
+
+  <c:EmailComposerModal aura:id="emailComposer" recordId="{!v.recordId}" />
+
+  <!-- <ltng:require
+    scripts="{!join(',', 
+                                $Resource.jszip_utils, 
+                                $Resource.filesaver)}"
+    afterScriptsLoaded="{!c.init}"
+  /> -->
+
+  <!-- <c:util aura:id="util" /> -->
+</aura:component>

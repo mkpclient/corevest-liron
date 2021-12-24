@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Frequency_of_Operating_Statements__c</fullName>
+    <externalId>false</externalId>
+    <label>Frequency of Operating Statements</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Quarterly</fullName>
+                <default>false</default>
+                <label>Quarterly</label>
+            </value>
+            <value>
+                <fullName>Quarterly/Reviewed Annual</fullName>
+                <default>false</default>
+                <label>Quarterly/Reviewed Annual</label>
+            </value>
+            <value>
+                <fullName>Quarterly/Audited Annual</fullName>
+                <default>false</default>
+                <label>Quarterly/Audited Annual</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

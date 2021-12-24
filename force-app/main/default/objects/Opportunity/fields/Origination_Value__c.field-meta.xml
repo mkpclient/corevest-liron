@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origination_Value__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Total Appraised Values of the Property Assets at time of Origination</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Appraised Value at Origination input field for AM</inlineHelpText>
+    <label>Origination Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

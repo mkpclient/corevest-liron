@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Complete_Property_Ext</fullName>
+    <active>true</active>
+    <description>This will prevent the User from updating the Task to Complete until all items are completed on the Property Extension</description>
+    <errorConditionFormula>AND(
+OR(
+AND(
+ ISBLANK( Property_Extension__r.KYC_Ordered_Date__c ),
+ ISBLANK( Property_Extension__r.KYC_Received_Date__c ),
+ ISBLANK( Property_Extension__r.Appraisal_Ordered_Date__c ),
+ ISBLANK( Property_Extension__r.Appraisal_Received_Date__c ),
+ ISBLANK( Property_Extension__r.Questionnaire_Sent_Date__c ),
+ ISBLANK( Property_Extension__r.Questionnaire_Received_Date__c ),
+ ISBLANK( Property_Extension__r.Extension_Form_Start_Date__c ),
+ ISBLANK( Property_Extension__r.Extension_Form_Completed_Date__c ),
+ ISBLANK( Property_Extension__r.Extension_Form_Approval_Date__c )),
+ ISPICKVAL( Property_Extension__r.Status__c , &quot;Cancelled&quot;)),
+ NOT(ISPICKVAL(Property_Extension__r.Status__c, &quot;Complete&quot;)),
+ RecordType.Name = &quot;Property Extension Task&quot;,
+ ISPICKVAL(Status, &quot;Completed&quot;)
+)</errorConditionFormula>
+    <errorMessage>This Task cannot be completed.  There are missing items for this Property Extension.  Please check the &quot;Diligence Items&quot; section of the Property Extension.</errorMessage>
+</ValidationRule>

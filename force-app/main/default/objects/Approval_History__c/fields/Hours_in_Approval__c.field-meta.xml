@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hours_in_Approval__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(Status__c = &quot;Approved&quot; || Status__c = &quot;Recalled&quot; || Status__c = &quot;Rejected&quot;  ,(Date_Acted__c - CreatedDate)*24,(NOW() - CreatedDate )*24)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Hours in Approval</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrower_Documents_Uploaded__c</fullName>
+    <externalId>false</externalId>
+    <label>Borrower Documents Uploaded</label>
+    <summarizedField>Checklist_Section__c.Documents_Uploaded__c</summarizedField>
+    <summaryFilterItems>
+        <field>Checklist_Section__c.Type__c</field>
+        <operation>equals</operation>
+        <value>Borrower</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Checklist_Section__c.Checklist__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

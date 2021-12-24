@@ -1,0 +1,13 @@
+@keyframes blink{50% { color: transparent }}
+
+/*.THIS.loader__dot { animation: 1s blink infinite }
+.THIS.loade__dot:nth-child(2) { animation-delay: 250ms }
+.THIS.loader__dot:nth-child(3) { animation-delay: 500ms }*/
+
+.THIS .loader__dot { animation: 1s blink infinite }
+.THIS .loader__dot:nth-child(2) { animation-delay: 250ms }
+.THIS .loader__dot:nth-child(3) { animation-delay: 500ms }
+
+.THIS .uiInput--checkbox input, .THIS input.uiInput--checkbox {
+    /*display:inline-block !important;*/
+}

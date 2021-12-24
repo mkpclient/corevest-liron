@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_House_Account_Owning_Open_Leads</fullName>
+    <active>true</active>
+    <description>This will prevent users from being able to move Open/Contacted Leads to the House Account</description>
+    <errorConditionFormula>AND(
+OR(
+ ISPICKVAL( Status , &quot;Open&quot;) ,
+ ISPICKVAL( Status , &quot;Contacted&quot;)) ,
+ Owner_Name__c = &quot;House Account&quot;,
+NOT(ISNEW()))</errorConditionFormula>
+    <errorMessage>House Account cannot own Open/Contacted Leads.  House Account can only own Unresponsive or Unqualified Leads.</errorMessage>
+</ValidationRule>

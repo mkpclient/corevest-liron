@@ -1,0 +1,156 @@
+<aura:component controller="community_Controller" implements="forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="data" type="List" />
+	<aura:attribute name="documents" type="List" />
+
+	<aura:attribute name="user" type="Object" />
+
+	<aura:attribute name="sobjectType" type="String" default="Deal" />
+
+	<aura:attribute name="whereClause" type="String" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<c:util aura:id="util" />
+
+	<lightning:layout horizontalAlign="end">
+		<lightning:layoutItem>
+			<span onkeypress="{!c.inputKeyPress}">
+				<lightning:input type="search" variant="label-hidden" aura:id="search" name="searchText" label="Search..."
+				 placeholder="Search..." />
+			</span>
+		</lightning:layoutItem>
+		<lightning:layoutItem>
+			<lightning:select name="select" label="Select an Item" class="label-hidden" aura:id="option" variant="label-hidden">
+				<option value="Deal">Loan</option>
+				<option value="Property">Property</option>
+			</lightning:select>
+		</lightning:layoutItem>
+		<lightning:layoutItem>
+			<lightning:button name="searchText" label="Search" class="slds-button--brand" onclick="{!c.search}" variant="brand" />
+		</lightning:layoutItem>
+	</lightning:layout>
+	<aura:if isTrue="{!v.sobjectType == 'Deal'}">
+		<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_medium">
+			<thead>
+				<tr class="slds-text-title_caps">
+					<th scope="col" title="Loan Name">
+						<div class="slds-truncate">Loan Name</div>
+					</th>
+					<th scope="col" title="Loan NUmber">
+						<div class="slds-truncate">Loan Number</div>
+					</th>
+					<th scope="col" title="Loan NUmber">
+						<div class="slds-truncate">Servicer Loan Number</div>
+					</th>
+					<th scope="col" title="Type">
+						<div class="slds-truncate">Type</div>
+					</th>
+					<th scope="col">
+						<div class="slds-truncate" title="Loan Stage">Stage</div>
+					</th>
+
+					<th scope="col">
+						<div class="slds-truncate" title="Loan Amount">Loan Size</div>
+					</th>
+
+					<th scope="col">
+						<div class="slds-truncate" title="Closing Date">Closing Date</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<aura:iteration items="{!v.data}" var="deal">
+					<tr>
+						<td scope="row" data-label="">
+							<a href="{!'/portal/s/deal?id=' + deal.Id}">
+								{!deal.Name}
+							</a>
+						</td>
+						<td scope="row" data-label="">
+							<a href="{!'/portal/s/deal?id=' + deal.Id}">
+								{!deal.Deal_Loan_Number__c}
+							</a>
+						</td>
+						<td scope="row" data-label="">
+							<div class="slds-truncate" title="">
+								{!deal.Servicer_Commitment_Id__c}
+							</div>
+						</td>
+						<td scope="row" data-label="">
+							<div class="slds-truncate" title="">
+								{!deal.RecordType.Name}
+							</div>
+						</td>
+						<td scope="row" data-label="">
+							<div class="slds-truncate" title="">
+								{!deal.StageName}
+							</div>
+						</td>
+						<td scope="row" data-label="Name">
+							<div class="slds-truncate" title="">
+								<ui:outputCurrency value="{!deal.Loan_Size__c}" />
+							</div>
+						</td>
+						<td scope="row" data-label="Name">
+							<div class="slds-truncate" title="">
+								<ui:outputDate value="{!deal.Anticipated_Closing_Date__c}" />
+							</div>
+						</td>
+					</tr>
+				</aura:iteration>
+			</tbody>
+		</table>
+	</aura:if>
+
+	<aura:if isTrue="{!v.sobjectType == 'Property'}">
+		<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_medium">
+			<thead>
+				<tr class="slds-text-title_caps">
+					<th scope="col" title="Exception">
+						<div class="slds-truncate">Address</div>
+					</th>
+					<th scope="col">
+						<div class="slds-truncate" title="Parent Property">Parent Property</div>
+					</th>
+					<th scope="col">
+						<div class="slds-truncate" title="Property City">City</div>
+					</th>
+					<th scope="col">
+						<div class="slds-truncate" title="Property City">State</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<aura:iteration items="{!v.data}" var="property">
+					<tr>
+						<td scope="row" data-label="">
+							<a href="{!'/portal/s/property?id=' + property.Id}">
+								{!property.Name}
+							</a>
+						</td>
+						<td scope="row" data-label="">
+							<a href="{!'/portal/s/property?id=' + property.Parent_Property__r.Id}">
+								{!property.Parent_Property__r.Name}
+							</a>
+						</td>
+						<td scope="row" data-label="">
+							<div class="slds-truncate" title="">
+								{!property.City__c}
+							</div>
+						</td>
+						<td scope="row" data-label="Name">
+							<div class="slds-truncate" title="">
+								{!property.State__c}
+							</div>
+						</td>
+						<!-- <td scope="row" data-label="Name">
+			      	<div class="slds-truncate" title="">
+			        	{!property.Anticipated_Closing_Date__c}
+			        </div>
+			      </td> -->
+					</tr>
+				</aura:iteration>
+			</tbody>
+		</table>
+	</aura:if>
+</aura:component>

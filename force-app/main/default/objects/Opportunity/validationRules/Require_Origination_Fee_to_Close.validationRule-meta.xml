@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Origination_Fee_to_Close</fullName>
+    <active>false</active>
+    <description>This will require that the Origination Fee $ amount is entered before a Deal can be updated to Closed Won</description>
+    <errorConditionFormula>AND(
+ISCHANGED(StageName),
+RecordType.Name == &apos;Term Loan&apos;,
+ISPICKVAL(StageName, &apos;Closed Won&apos;),
+NOT($Profile.Name= &quot;System Administrator&quot;),
+NOT($Profile.Name= &quot;Integration&quot;),
+NOT($Profile.Name= &quot;Capital Markets&quot;),
+ISBLANK( Origination_Fee__c ))</errorConditionFormula>
+    <errorDisplayField>Origination_Fee__c</errorDisplayField>
+    <errorMessage>The Origination Fee must be entered to update this Deal to Closed Won</errorMessage>
+</ValidationRule>

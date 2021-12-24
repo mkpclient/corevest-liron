@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Payment_Date1__c</fullName>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(First_Payment_Date__c),
+ IF(  ISPICKVAL( Type , &apos;Term Loan&apos;),
+  IF( CONTAINS( Deal_Loan_Number__c , &quot;5A-&quot;),
+  
+   DATE(YEAR(ADDMONTHS( CloseDate ,1)),MONTH(ADDMONTHS(CloseDate,1)) ,1),
+  DATE(YEAR(ADDMONTHS( CloseDate ,2)),MONTH(ADDMONTHS(CloseDate,2)) ,9)),
+ DATE(YEAR(ADDMONTHS( CloseDate ,3)),MONTH(ADDMONTHS(CloseDate,3)) ,1)),
+First_Payment_Date__c )</formula>
+    <label>First Payment Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

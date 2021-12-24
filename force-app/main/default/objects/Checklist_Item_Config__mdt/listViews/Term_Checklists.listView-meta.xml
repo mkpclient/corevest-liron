@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Checklists</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>RecordType__c</columns>
+    <columns>sObject__c</columns>
+    <columns>Type__c</columns>
+    <columns>Document_Structure__c</columns>
+    <columns>Responsible_Party__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>Term_Loan</value>
+    </filters>
+    <label>Term Checklists</label>
+</ListView>

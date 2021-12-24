@@ -1,0 +1,575 @@
+<apex:page controller="SABAdvanceMemoExtension" applyBodyTag="false" applyHtmlTag="false"
+           showHeader="false">
+    
+    <head>
+        <style>
+            @page {
+            /*fits in landscape too */
+            size: A4 landscape;
+            margin: .2in .2in .2in .2in;
+            font-family: Calibri, sans-serif;
+            @top-right {
+            content: "Page " counter(page) " of " counter(pages);
+            }  
+            }
+            }
+            body {
+            font-family: Calibri, sans-serif 
+            }
+            
+            .left-column {
+            width:48%;
+            float: left;
+            margin-right: 20px;
+            
+            }
+            
+            .left-table {
+            width:100%;
+            font-family:Calibri;
+            font-size:9pt;
+            border-spacing: 0px;
+            }
+            
+            .right-column {
+            width:48%;
+            float: left;
+            }
+            
+            .right-table {
+            width:100%;
+            font-family:sans-serif;
+            font-size:9pt;
+            border-spacing: 0px;
+            }
+            
+            .section-header {
+            padding:2px 0 2px 4px;
+            color:#fff;
+            font-weight:bold;
+            background-color:#2d5391;
+            }
+            
+            .left-row-title {
+            padding:2px 0 0 4px; 
+            width:40%;
+            color:#fff;
+            background-color:#2d5391;
+            }
+            
+            .right-row-title {
+            padding:2px 0 0 4px; 
+            background-color:#ddeeff;
+            color:black;
+            width:30%;
+            }
+            
+            .row-data-one-column {
+            padding:2px 4px 0 4px; 
+            background-color:white;
+            color:black;
+            width:60%;
+            text-align:right;
+            }
+            
+            .row-data-two-column {
+            padding:2px 4px 0 2px; 
+            background-color:white;
+            color:black;
+            width:30%;
+            text-align:right;
+            }
+            
+            .gray-background {
+            background-color:#F3F2F2;
+            }
+            * {
+            font-family: Calibri, sans-serif
+            }
+            table{ page-break-inside:auto; }
+            tr{ page-break-inside:avoid; page-break-after:auto; }
+            
+        </style>
+    </head>
+    <apex:image url="{!$Resource.corevestLogo}" width="250" height="50" style="margin-top: 10px; float:right;margin-right: 150px;" />
+    <br/>
+    <div>
+        <apex:form id="formId">
+            <div style="font-family:sans-serif; font-size:14pt; font-weight:bold; border-bottom:2px solid #000; width:96%;float:right;margin-bottom:20px;">{!propAdv.Property__r.Name} Funding Request
+                <span style="float:right;font-size: 9pt;margin-right:40px;">{!MONTH(TODAY())}/{!DAY(TODAY())}/{!YEAR(TODAY())}</span>
+            </div>
+            <br />
+            
+            <!--Loan / Property info -->
+            <div class ="left-column">       
+                <table class="left-table" style="background-color:blue;margin-bottom:20px;border-color:black;border-style:solid;">
+                    <tbody>
+                        <tr>
+                            <td class="left-row-title">Loan ID:</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center">
+                                <apex:outputText value="{!record.Loan_Number__c}">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Borrower/ Guarantor Name:</td>
+                            <td class="row-data-one-column" style="text-align: center; background-color:#b3d9ff">
+                                <apex:outputText value="{!sponsor.Contact__r.Name}">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Company Name:</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center">
+                                {!deal.Borrower_Entity__r.Name}
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Property Address:</td>
+                            <td class="row-data-one-column" style="text-align: center; background-color:#b3d9ff">
+                                {!propAdv.Property__r.Name}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">City: </td>
+                            <td class="row-data-one-column" style="text-align: center">
+                                {!propAdv.Property__r.City__c}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">State: </td>
+                            <td class="row-data-one-column" style="text-align: center; background-color:#b3d9ff">
+                                {!propAdv.Property__r.State__c}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">ZIP Code</td>
+                            <td class="row-data-one-column" style="text-align: center">
+                                {!propAdv.Property__r.ZipCode__c}
+                            </td>
+                        </tr>
+                        <!--    </tbody>
+</table> -->
+                        
+                        <!--   <table class="left-table" style="background-color:blue;border-color:black;border-style:solid">-->
+                        <tr style="background-color:#eb8c34">
+                            <td ><b>LOAN TYPE: {!unsavedObj.loantype} </b></td>
+                            <td class="row-data-two-column">
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Property Purchase Price:</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Acquisition_Price__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">80% of Purchase Price:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Override_Initial_Disbursement__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">"As Is" Value:</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Appraised_Value_Amount__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">After Repair value:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.After_Repair_Value__c}"/>
+                                </apex:outputText>  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Rehab Budget:</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Rehab_Budget__c}"/>
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Total Loan Amount:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!record.LOC_Commitment__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Interest Rate</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="{!deal.Rate__c}%">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Total Origination Fee</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                {!TotalOriginationFee}%
+                            </td>
+                        </tr>
+                        
+                        <!--   <table class="left-table" style="background-color:blue;margin-bottom:20px;border-color:black;border-style:solid">-->
+                        
+                        <tr style="background-color:#eb8c34">
+                            <td >Origination Fee to Broker</td>
+                            <td class="row-data-two-column">
+                                <apex:outputText value="{!deal.Broker_Fees__c}%">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Origination Fee to CoreVest</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="{!deal.CAF_Upfront_Fee__c}%">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Initial LTV:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="{!deal.LTV__c}%">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">ARV LTV:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="{!deal.LTC__c}%">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">LTC Ratio:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="{!record.Max_LTC__c}">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Borrower Equity (%):</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                {!borrowerEquityPercent}%
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Borrower Equity ($):</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Borrower_Equity__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Property Type:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="{!propAdv.Property__r.Property_Type__c}">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">FICO Score:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="{!sponsor.Contact__r.Middle_Credit_Score__c}">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Anticipated closing date</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputField value="{!deal.Anticipated_Closing_Date__c}"/>                      
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title" style="color:red">Number of prior CV loans:</td>
+                            <td class="row-data-one-column" style="background-color:#FFFF00">
+                                {!unsavedObj.priorcvloans}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title" style="color:red">Delinquent on any prior CV loans?</td>
+                            <td class="row-data-one-column gray-background">
+                                {!unsavedObj.everdeliquent}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title" style= "color:red">Liquid Cash Reserves:</td>
+                            <td class="row-data-one-column" style="background-color:#FFFF00;border-color:black;border-style:line">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!unsavedObj.liquidcashreserves}"/>
+                                </apex:outputText> 
+                              <!--  ${!unsavedObj.liquidcashreserves}-->
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="left-table" style="background-color:blue;margin-bottom:20px;border-color:black;border-style:solid;">
+                    <tbody>
+                        <tr>
+                            <td class="left-row-title">Originator:</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="{!deal.Owner_Name__c}">
+                                </apex:outputText> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Underwriter:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="{!deal.Underwriter__r.Name}">
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="left-table" style="background-color:blue;margin-bottom:30px;border-color:black;border-style:solid;">
+                    <tbody>
+                        <tr>
+                            <td class="left-row-title">Underwriting Approval Date</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center;background-color:#b3d9ff">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!deal.Approved_by_Underwriter_Date__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">CoreVest Approval Date</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!deal.Pricing_Approval_Date__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">CoreVest Approval Manager:</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center;background-color:#b3d9ff">
+                                {!unsavedObj.corevestapprovalmanager}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Documents Issued/Signed:</td>
+                            <td class="row-data-one-column" style="text-align: center; background-color:#b3d9ff">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!deal.Document_Date__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title" style="background-color:#eebb99;color:black">FUNDING DATE:</td>
+                            <td class="row-data-one-column gray-background" style="text-align: center">
+                                <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                    <apex:param value="{!propAdv.Property__r.Requested_Funding_Date__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="left-table" style="background-color:blue;margin-bottom:20px;border-color:black;border-style:solid;">
+                    <tbody>
+                        <tr>
+                            <td class="left-row-title">Combined/Total Loan Amount:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!record.LOC_Commitment__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Renovation Holdback/Reserve</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Approved_Renovation_Holdback__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Base "Funding" Amount:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Initial_Disbursement__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Total Origination Amount:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!record.Origination_Fee_Total__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">CoreVest Origination Netted Out:</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!deal.Calculated_Origination_Fee__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Broker Split/Origination Paid:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!propAdv.Property__r.Broker_Adv_Fee_Amnt__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Other Fees Netted Out:($750 UW / $500 Process)</td>
+                            <td class="row-data-one-column">$1,250.00
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Adjusted "Funding" Amount:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!AdjustedFundingAmount}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Appraisal Fee Advanced for Borrower</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!record.BPO_Appraisal_Fee_Total__c}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Other Adjustments (described below)</td>
+                            <td class="row-data-one-column">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!unsavedObj.otheradjustments}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">{!unsavedObj.otheradjustmentstext}</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">                  
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">Construction Management Fee:</td>
+                            <td class="row-data-one-column">$150.00                       
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title">CREDIT FOR DEPOSIT PAID AT APPLICATION:</td>
+                            <td class="row-data-one-column" style="background-color:#b3d9ff">
+                                <apex:outputText rendered="{! If(deal.Deposit_Amount__c != null, true, false ) }" value="${!deal.Deposit_Amount__c}" />
+                                <apex:outputText rendered="{! If(deal.Deposit_Amount__c == null, true, false ) }" value="$0.00" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-row-title" style="background-color:#eebb99;color:black">NET WIRE AMOUNT:</td>
+                            <td class="row-data-one-column gray-background">
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                    <apex:param value="{!NetWireAmount}"/>
+                                </apex:outputText>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+            
+            <!-- Beginning of Right Side Column -->    
+            <div class ="right-column">
+                <!-- <apex:form id="form"> -->
+                <table class="right-table">
+                    <tr>
+                        <td colspan="2" style="text-align:center;margin-bottom:20px">
+                            <b><u>Exception Requested:</u></b><!--<apex:inputTextarea  id="ExceptionRequested" value="{!ExceptionRequested}" label="Exception Requested:" rows="6"/>-->
+                        </td>
+                        <td colspan="2" style="text-align:center">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="ExceptionRequested" name="ExceptionRequested" style="border:1px solid black;width:100%;height:200px;margin-bottom:50px">
+                                <apex:outputText value="{!deal.Exceptions_Comments_Explanations__c}">
+                                </apex:outputText>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="right-table"> 
+                    <tr>
+                        <td colspan="2" style="text-align:center;margin-bottom:20px">
+                            <b><u>Compensating Factors:</u></b>
+                          <!--  <apex:inputTextarea id="CompensatingFactors" value="{!CompensatingFactors}" label="Compensating Factors:" rows="6"/> -->
+                        </td>              
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="CompensatingFactors" name="CompensatingFactors" style="border:1px solid black;width:100%;height:200px;margin-bottom:150px">
+                                <apex:outputText value="{!propAdv.Property__r.Lender_Comments__c}">
+                                </apex:outputText>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="right-table">
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            <b><u> Comments:</u></b><!--<apex:inputTextarea  id="Comments" value="{!Comments}" label="Comments:" rows="6"/>-->
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="Comments" name="Comments" style="border:1px solid black;width:100%;height:80px;margin-bottom:50px">
+                                <apex:outputText value="{!deal.Notes__c}">
+                                </apex:outputText>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table class="right-table">
+                    <tr>
+                        <td colspan="2" style="text-align:center">
+                            <b><u>Funding:</u></b><!--<apex:inputTextarea  id="Funding" value="{!Funding}" label="Funding:" rows="6"/>-->
+                        </td>                 
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="Funding" name="Funding" style="border:1px solid black;width:100%;height:80px;margin-bottom:50px">
+                                <apex:outputText value="{!propAdv.Property__r.Funding_Status__c}">
+                                </apex:outputText>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <script type="text/javascript">
+                window.addEventListener("message", function (event) {
+                    getData(event.data); 
+                }, false);
+                </script>
+                <apex:outputPanel id="printPanel1">
+                    <apex:outputPanel id="printPanel2" rendered="{!printReady}">
+                        <script type="text/javascript">
+                        window.print();
+                        parent.postMessage("finished printing", "*");
+                        </script>
+                    </apex:outputPanel>
+                </apex:outputPanel>
+                
+                <apex:actionFunction action="{!getData}" name="getData" rerender="printPanel1,formId">
+                    <apex:param name="filtersJSON" assignTo="{!filtersJSON}" value="" />
+                </apex:actionFunction>
+                
+            </div>
+        </apex:form>
+    </div>
+</apex:page>

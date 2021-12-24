@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Archived_By_OwnBackup__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates this document has been archived by OwnBackup.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please review the &quot;Archived Data/Files&quot; tab to view the document.</inlineHelpText>
+    <label>Document Archived By OwnBackup</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

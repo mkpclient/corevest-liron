@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Updated_By_CTM__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Used To Verify If Lead Data Was Updated By CTM.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Used To Verify If Lead Data Was Updated By CTM.</inlineHelpText>
+    <label>Updated By CTM</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

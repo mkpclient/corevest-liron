@@ -1,0 +1,18 @@
+<template>
+  <div>
+    <lightning-input
+      class="input-container"
+      type="email"
+      variant="label-hidden"
+      label="emails"
+      onblur={handleInputBlur}
+      placeholder="Type email here"
+    ></lightning-input>
+    <template if:true={showPillContainer}>
+      <lightning-pill-container
+        items={pillItems}
+        onitemremove={removeEmail}
+      ></lightning-pill-container>
+    </template>
+  </div>
+</template>

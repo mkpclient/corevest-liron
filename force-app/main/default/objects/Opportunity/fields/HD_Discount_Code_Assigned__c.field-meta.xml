@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HD_Discount_Code_Assigned__c</fullName>
+    <description>Logic to check if HD Discount Code is already assigned in Account, if so use code.  Else, when Deal Stage = Close Won assign the next available code.</description>
+    <externalId>false</externalId>
+    <formula>IF( Account.Home_Depot__c &lt;&gt; &quot;&quot;, Account.Home_Depot__c, (IF(ISPICKVAL(StageName , &quot;Closed Won&quot;), HD_Code__c , &quot;&quot;)))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>HD Discount Code Assigned</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Code__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <caseSensitive>false</caseSensitive>
+    <description>If this Deal is from Open Close, then this is the Open Close Loan Number.  If this is a purchased loan, then this is the originating Lender&apos;s Loan Number</description>
+    <externalId>true</externalId>
+    <inlineHelpText>If this Deal is from Open Close, then this is the Open Close Loan Number.  If this is a purchased loan, then this is the originating Lender&apos;s Loan Number</inlineHelpText>
+    <label>External Deal ID</label>
+    <length>50</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>true</unique>
+</CustomField>

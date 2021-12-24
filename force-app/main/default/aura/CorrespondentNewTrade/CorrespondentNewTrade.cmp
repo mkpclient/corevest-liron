@@ -1,0 +1,9 @@
+<aura:component implements="lightning:actionOverride" >
+	<aura:attribute name="accountId" type="String" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+
+	<c:util aura:id="util" />
+
+</aura:component>

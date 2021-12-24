@@ -1,0 +1,122 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="property" type="Object" default="{}" />
+	<aura:attribute name="extensions" type="Object[]" default="[]"/>
+	<aura:attribute name="open" type="Boolean" default="true" />
+	<!-- <aura:attribute name="parentDealId" type="String" /> -->
+	<!-- <aura:attribute name="summaryData" type="Object" /> -->
+
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	<aura:handler event="force:refreshView" action="{!c.init}" />
+
+	<ul class="slds-accordion">
+	  <li class="slds-accordion__list-item">
+	    <section class="{!v.open ? 'slds-accordion__section slds-is-open' : 'slds-accordion__section'}">
+	      <div class="slds-accordion__summary">
+	        <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+	     
+	          <lightning:button class="slds-accordion__summary-action slds-button_reset" variant="base" label="Extension Information" iconName="{!v.open ? 'utility:chevrondown' : 'utility:chevronright'}" iconPosition="left" onclick="{! c.toggle }" />
+	        </h3>
+	      </div>
+	      <div aria-hidden="false" class="slds-accordion__content" id="accordion-details-01">
+	      		<ui:scrollerWrapper class="scrollerSize">
+	      			<table class="slds-table slds-table_bordered slds-table_col-bordered">
+	      			  <thead>
+	      			    <tr class="slds-text-title_caps">
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="Deal Name">#</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="#">Extension Id</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="#">Property Date</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="Extension Date">Extension Date</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="Requested By">Requested By</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="Current Line Maturity Date">Current Line Maturity Date</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="Orig Asset Maturity Date">Orig Asset Maturity Date</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="New Asset Maturity Date">New Asset Maturity Date</div>
+	      			      </th>
+	      						<th scope="col">
+	      			        <div class="slds-truncate" title="Orig Interest Rate">Orig Interest Rate</div>
+	      			      </th>
+	      			      <th scope="col">
+	      			        <div class="slds-truncate" title="New Interest Rate">New Interest Rate</div>
+	      			      </th>
+	      			    </tr>
+	      			  </thead>
+	      			  <tbody>
+	      			  	<aura:iteration items="{!v.extensions}" var="item" indexVar="index" >
+	      			    	<tr>
+	      			    	<td scope="col" data-label="Opportunity Name">
+	      			    	  <div class="slds-truncate" title="{!item.Extension__c}">{!item.Extension__c}</div>
+	      			    	</td>
+	      				      <td scope="col" data-label="Extension Name">
+	      				        <div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.Id + '/view'}" onclick="{!c.handleClick}" id="{!item.Id}">{!item.Name}</a></div>
+	      				      </td>
+	      				      <td scope="col" data-label="Opportunity Name">
+	      				        <div class="slds-truncate" title="">
+	      				        	<div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.Property__c + '/view'}" onclick="{!c.handleClick}" id="{!item.Property__c}">{!item.Property__r.Name}</a></div>
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="Extension Date">
+	      				        <div class="slds-truncate" title="">
+	      				        	<ui:outputDate value="{!item.Extension_Date__c}" format="MM/dd/yy" />
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="Requested By">
+	      				        <div class="slds-truncate" title="">
+	      				        	<div class="slds-truncate" title="{!item.Name}"><a href="{!'#/sObject/'+ item.CreatedById + '/view'}" onclick="{!c.handleClick}" id="{!item.CreatedById}">{!item.CreatedBy.Name}</a></div>
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="Current Line Maturity Date">
+	      				        <div class="slds-truncate" title="">
+	      				        	<ui:outputDate value="{!item.Property__r.Deal__r.Current_Line_Maturity_Date__c}" format="MM/dd/yy" />
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="Original Asset Maturity Date">
+	      				        <div class="slds-truncate" title="">
+	      				        	<ui:outputDate value="{!item.Property__r.Asset_Maturity_Date__c}" format="MM/dd/yy" />
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="New Asset Maturity Date">
+	      				        <div class="slds-truncate" title="">
+	      				        	<ui:outputDate value="{!item.New_Asset_Maturity_Date__c}" format="MM/dd/yy" />
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="Original Interest Rate">
+	      				        <div class="slds-truncate" title="">
+	      				        	<lightning:formattedNumber value="{! empty(item.Original_Interest_Rate__c) ? null : item.Original_Interest_Rate__c/100}" minimumSignificantDigits="4" style="percent" />
+	      				        </div>
+	      				      </td>
+	      				      <td scope="col" data-label="New Interest Rate">
+	      				        <div class="slds-truncate" title="">
+	      				        	<lightning:formattedNumber value="{! empty(item.New_Asset_Interest_Rate__c) ? null : item.New_Asset_Interest_Rate__c/100}" minimumSignificantDigits="4" style="percent" />
+	      				        </div>
+	      				      </td>
+	      				    </tr>
+	      			    </aura:iteration>
+	      			  </tbody>
+	      			</table> 
+	      		</ui:scrollerWrapper>
+	      </div>
+	    </section>
+	  </li>
+	</ul>
+
+
+	
+
+	<c:util aura:id="util" />
+</aura:component>

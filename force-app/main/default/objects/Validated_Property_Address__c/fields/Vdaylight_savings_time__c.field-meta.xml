@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vdaylight_savings_time__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the time zone &quot;obeys,&quot; or, in other words, adjusts their clocks forward and back with the seasons. This information is particularly useful to determine time in other time zones with areas that may or may not use daylight saving time - for example, Arizona, Hawaii, and,  Indiana.
+true — Time zone observes daylight saving time.
+If dst is absent from the response, then time zone does not observe daylight saving time.</description>
+    <externalId>false</externalId>
+    <label>Verified daylight savings time</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

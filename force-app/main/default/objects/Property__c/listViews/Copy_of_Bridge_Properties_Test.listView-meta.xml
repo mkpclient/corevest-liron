@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copy_of_Bridge_Properties_Test</fullName>
+    <columns>NAME</columns>
+    <columns>RECORDTYPE</columns>
+    <columns>Maturity_Status__c</columns>
+    <columns>Property_Type__c</columns>
+    <columns>First_Funding_Date__c</columns>
+    <columns>Asset_Maturity_Date_Override__c</columns>
+    <columns>Assumed_3rd_Party_Value__c</columns>
+    <columns>Deal_Loan_Number__c</columns>
+    <columns>DealID__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Property__c.Bridge_No_Renovation</value>
+    </filters>
+    <label>Copy of Bridge Properties - Test</label>
+    <sharedTo>
+        <role>Asset_Management</role>
+        <roleAndSubordinatesInternal>Asset_Management</roleAndSubordinatesInternal>
+    </sharedTo>
+</ListView>

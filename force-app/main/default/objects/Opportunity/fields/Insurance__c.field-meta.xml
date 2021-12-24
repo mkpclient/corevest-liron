@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insurance__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Updated via Apex - When an &quot;Insurance Review&quot; Deal Contact is created, the Account is populated</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Insurance Review from the Vendor Entities Section</inlineHelpText>
+    <label>Insurance Review</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Deals (Insurance)</relationshipLabel>
+    <relationshipName>Deals_as_Insurance_Review</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

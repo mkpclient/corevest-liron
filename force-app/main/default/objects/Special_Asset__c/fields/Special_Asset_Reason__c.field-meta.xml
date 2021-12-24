@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Special_Asset_Reason__c</fullName>
+    <description>The reason that this Property is a Special Asset</description>
+    <externalId>false</externalId>
+    <label>Special Asset Reason</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1st Payment Default</fullName>
+                <default>false</default>
+                <label>1st Payment Default</label>
+            </value>
+            <value>
+                <fullName>60+ Days</fullName>
+                <default>false</default>
+                <label>60+ Days</label>
+            </value>
+            <value>
+                <fullName>75+ Days Delinquent</fullName>
+                <default>false</default>
+                <label>75+ Days Delinquent</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy</fullName>
+                <default>false</default>
+                <label>Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Cross Default/Same Borrower</fullName>
+                <default>false</default>
+                <label>Cross Default/Same Borrower</label>
+            </value>
+            <value>
+                <fullName>Matured</fullName>
+                <default>false</default>
+                <label>Matured</label>
+            </value>
+            <value>
+                <fullName>Non-Monetary Default</fullName>
+                <default>false</default>
+                <label>Non-Monetary Default</label>
+            </value>
+            <value>
+                <fullName>REO</fullName>
+                <default>false</default>
+                <label>REO</label>
+            </value>
+            <value>
+                <fullName>SSML1</fullName>
+                <default>false</default>
+                <label>SSML1</label>
+            </value>
+            <value>
+                <fullName>SSML2</fullName>
+                <default>false</default>
+                <label>SSML2</label>
+            </value>
+            <value>
+                <fullName>Title</fullName>
+                <default>false</default>
+                <label>Title</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

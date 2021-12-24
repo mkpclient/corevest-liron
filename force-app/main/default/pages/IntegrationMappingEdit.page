@@ -1,0 +1,215 @@
+<apex:page showHeader="true" sidebar="false" controller="IntegrationMappingEdit_Extension" tabStyle="Integration_Mapping__c">
+	
+	    <style>
+        .lightBoxBackground{
+            position:absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            background-color: #000;
+            z-index: 1001;
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+            filter: alpha(opacity=0.5);
+            height: 1500px;
+        }
+
+        .lightBoxForeground{
+            width: 900px;
+            height:1500px;
+
+            padding:10px;
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+
+            background-color:#F6F6F6;
+            border-radius:8px;
+            position:absolute;
+            border-top:4px solid #0B9DD2;
+            border-left:1px solid #EBEBEB;
+            border-right:1px solid #EBEBEB;
+            border-bottom:1px solid #EBEBEB;
+
+            top: 0px;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+
+        .pleaseWaitForeground{
+            width: 200px;
+            height:auto;
+
+            padding:10px;
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
+
+            background-color:#F6F6F6;
+            border-radius:8px;
+            position:absolute;
+            border-top:4px solid #0B9DD2;
+            border-left:1px solid #EBEBEB;
+            border-right:1px solid #EBEBEB;
+            border-bottom:1px solid #EBEBEB;
+
+            top: 0px;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+    </style>
+
+    <script>
+        function togglePleaseWaitLB(){
+            var e = document.getElementById('pleaseWaitLB');
+            if (e.style.display=='none') e.style.display = 'block';
+            else e.style.display = 'none';
+        }
+    </script>
+
+	<apex:pageBlock title="Integration Mapping Edit Page">
+	  <apex:form id="theform">
+
+	  	<apex:outputText value="Select an object: "></apex:outputText>
+
+	  	<apex:pageMessages > </apex:pageMessages>
+
+		<apex:selectList size="1" value="{!selectedObject}">
+			<apex:selectOptions value="{!ObjectOptions}"></apex:selectOptions>
+			<apex:actionSupport event="onchange" rerender="theform" onsubmit="togglePleaseWaitLB();"></apex:actionSupport>
+		</apex:selectList>
+
+		<br/>
+		<br/>
+
+		<div id="pleaseWaitLB" style="display:none">
+            <div class="lightBoxBackground"/>
+            <div class="pleaseWaitForeground">
+                <apex:image value="/img/loading.gif"/>&nbsp;&nbsp;Please wait...
+            </div>
+        </div>
+
+		<apex:pageBlockSection id="accountBlock" title="{!selectedObject}" columns="1" rendered="{!IF(selectedObject == null, false, true)}"> 
+
+			<apex:pageBlockSection id="mappedFields" title="Mapped {!selectedObject} Fields" columns="1">
+
+				<apex:pageBlockSectionItem >
+					<apex:outputText value="Save changes to Mapped Fields: "> </apex:outputText>
+					<apex:commandButton value="Save" action="{!doSave}" onclick="togglePleaseWaitLB();" reRender="theform"> </apex:commandButton>
+				</apex:pageBlockSectionItem>
+
+				<apex:pageBlockTable value="{!objectMappedRowMap[selectedObject]}" var="m">
+					<apex:column value="{!m.SalesforceField}"> 
+						<apex:facet name="header">Field Name</apex:facet>
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header">To Table</apex:facet>
+						<apex:inputText value="{!m.DestinationTable}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">To Field</apex:facet>
+						<apex:inputText value="{!m.DestinationField}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Active</apex:facet>
+						<apex:inputCheckbox value="{!m.Active}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Required</apex:facet>
+						<apex:inputCheckbox value="{!m.Required}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Key</apex:facet>
+						<apex:inputCheckbox value="{!m.Key}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column >
+						<apex:commandButton value="Delete" action="{!deleteMapping}" onclick="togglePleaseWaitLB();" reRender="theform">
+							<apex:param name="selectedDelete" assignTo="{!selectedDelete}" value="{!m.SalesforceField}"></apex:param>
+						</apex:commandButton>
+					</apex:column>
+				</apex:pageBlockTable>
+			</apex:pageBlockSection>
+
+
+			<apex:pageBlockSection id="mismappedFields" title="Mismapped {!selectedObject} Fields" columns="1">
+				<apex:pageBlockTable value="{!objectMismappedRowMap[selectedObject]}" var="m">
+					<apex:column value="{!m.SalesforceField}"> 
+						<apex:facet name="header">Field Name</apex:facet>
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header">To Table</apex:facet>
+						<apex:inputText value="{!m.DestinationTable}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">To Field</apex:facet>
+						<apex:inputText value="{!m.DestinationField}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Active</apex:facet>
+						<apex:inputCheckbox value="{!m.Active}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Required</apex:facet>
+						<apex:inputCheckbox value="{!m.Required}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Key</apex:facet>
+						<apex:inputCheckbox value="{!m.Key}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column >
+						<apex:commandButton value="Delete" action="{!deleteBadMapping}" onclick="togglePleaseWaitLB();" reRender="theform">
+							<apex:param name="selectedDelete" assignTo="{!selectedDelete}" value="{!m.SalesforceField}"></apex:param>
+						</apex:commandButton>
+					</apex:column>
+				</apex:pageBlockTable>
+			</apex:pageBlockSection>
+
+
+			<apex:pageBlockSection id="unmappedFields" title="Unmapped {!selectedObject} Fields" columns="1">
+				<apex:pageBlockTable value="{!objectUnmappedRowMap[selectedObject]}" var="m">
+					<apex:column value="{!m.SalesforceField}"> 
+						<apex:facet name="header">Field Name</apex:facet>
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header">To Table</apex:facet>
+						<apex:inputText value="{!m.DestinationTable}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">To Field</apex:facet>
+						<apex:inputText value="{!m.DestinationField}"></apex:inputText>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Active</apex:facet>
+						<apex:inputCheckbox value="{!m.Active}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Required</apex:facet>
+						<apex:inputCheckbox value="{!m.Required}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column > 
+						<apex:facet name="header">Key</apex:facet>
+						<apex:inputCheckbox value="{!m.Key}"></apex:inputCheckbox>
+					</apex:column>
+					<apex:column >
+						<apex:commandButton value="Add" action="{!addMapping}" onclick="togglePleaseWaitLB();" reRender="theform">
+							<apex:param name="selectedAdd" assignTo="{!selectedAdd}" value="{!m.SalesforceField}"></apex:param>
+						</apex:commandButton>
+					</apex:column>
+				</apex:pageBlockTable>
+			</apex:pageBlockSection>
+
+		</apex:pageBlockSection>
+
+	  </apex:form>
+	</apex:pageBlock>
+<!--
+	My code heap
+
+
+	rendered="true"
+	
+-->
+</apex:page>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Override_Reno_Advance</fullName>
+    <active>true</active>
+    <description>This will prevent entering any data into the Override Reno Advance when No Renovation Funding is selected on the Deal</description>
+    <errorConditionFormula>AND(
+ISPICKVAL(Deal__r.Renovation_Funding__c , &apos;No&apos;),
+Override_Reno_Advance_Amount__c &gt; 0)</errorConditionFormula>
+    <errorDisplayField>Override_Reno_Advance_Amount__c</errorDisplayField>
+    <errorMessage>A Reno Advance Amount cannot be entered as the Deal indicates there is no Reno funding on this Deal.  See field &quot;Renovation Funding&quot; on the Deal.</errorMessage>
+</ValidationRule>

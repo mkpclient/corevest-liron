@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Status_Change_Date__c</fullName>
+    <description>Date that the Deal Stage was last changed.  Updated by Apex</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date that the Deal Stage was last changed</inlineHelpText>
+    <label>Loan Stage Change Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Stage_At_Time_of_Submission__c</fullName>
+    <description>This was the Stage of the Deal at the time of this Approval Submission</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This was the Stage of the Deal at the time of this Approval Submission</inlineHelpText>
+    <label>Deal Stage At Time of Submission</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Initial Review</fullName>
+                <default>false</default>
+                <label>Initial Review</label>
+            </value>
+            <value>
+                <fullName>Data Tape Received</fullName>
+                <default>false</default>
+                <label>Data Tape Received</label>
+            </value>
+            <value>
+                <fullName>Term Sheet Issued</fullName>
+                <default>false</default>
+                <label>Term Sheet Issued</label>
+            </value>
+            <value>
+                <fullName>Term Sheet Signed/Deposit Collected</fullName>
+                <default>false</default>
+                <label>Term Sheet Signed/Deposit Collected</label>
+            </value>
+            <value>
+                <fullName>Loan Processing</fullName>
+                <default>false</default>
+                <label>Loan Processing</label>
+            </value>
+            <value>
+                <fullName>Underwriting</fullName>
+                <default>false</default>
+                <label>Underwriting</label>
+            </value>
+            <value>
+                <fullName>Approved By Committee</fullName>
+                <default>false</default>
+                <label>Approved By Committee</label>
+            </value>
+            <value>
+                <fullName>Closed Won</fullName>
+                <default>false</default>
+                <label>Closed Won</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

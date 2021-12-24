@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_Product_Ordered__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The Appraisal Product Type ordered</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Appraisal Product Type ordered</inlineHelpText>
+    <label>Appraisal Product Ordered</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Interior Appraisal</fullName>
+                <default>false</default>
+                <label>Interior Appraisal</label>
+            </value>
+            <value>
+                <fullName>Exterior Appraisal</fullName>
+                <default>false</default>
+                <label>Exterior Appraisal</label>
+            </value>
+            <value>
+                <fullName>Appraisal Update</fullName>
+                <default>false</default>
+                <label>Appraisal Update</label>
+            </value>
+            <value>
+                <fullName>Final Inspection</fullName>
+                <default>false</default>
+                <label>Final Inspection</label>
+            </value>
+            <value>
+                <fullName>Recert. of Value</fullName>
+                <default>false</default>
+                <label>Recert. of Value</label>
+            </value>
+            <value>
+                <fullName>BPO</fullName>
+                <default>false</default>
+                <label>BPO</label>
+            </value>
+            <value>
+                <fullName>CDAIR Exterior Disaster Area Inspection Report</fullName>
+                <default>false</default>
+                <label>CDAIR Exterior Disaster Area Inspection Report</label>
+            </value>
+            <value>
+                <fullName>CDAIR Interior Disaster Area Inspection Report</fullName>
+                <default>false</default>
+                <label>CDAIR Interior Disaster Area Inspection Report</label>
+            </value>
+            <value>
+                <fullName>ClearVal Plus (Interior PCI)</fullName>
+                <default>false</default>
+                <label>ClearVal Plus (Interior PCI)</label>
+            </value>
+            <value>
+                <fullName>ClearVal Plus (Exterior PCI)</fullName>
+                <default>false</default>
+                <label>ClearVal Plus (Exterior PCI)</label>
+            </value>
+            <value>
+                <fullName>Commercial Narrative</fullName>
+                <default>false</default>
+                <label>Commercial Narrative</label>
+            </value>
+            <value>
+                <fullName>CoreVal+</fullName>
+                <default>false</default>
+                <label>CoreVal+</label>
+            </value>
+            <value>
+                <fullName>EDR</fullName>
+                <default>false</default>
+                <label>EDR</label>
+            </value>
+            <value>
+                <fullName>Internal In-House Appraisal</fullName>
+                <default>false</default>
+                <label>Internal In-House Appraisal</label>
+            </value>
+            <value>
+                <fullName>Market Value Pro Exterior</fullName>
+                <default>false</default>
+                <label>Market Value Pro Exterior</label>
+            </value>
+            <value>
+                <fullName>Post Disaster Inspection</fullName>
+                <default>false</default>
+                <label>Post Disaster Inspection</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disposition__c</fullName>
+    <externalId>false</externalId>
+    <label>Disposition</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Status</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Active Prospect</fullName>
+                <default>false</default>
+                <label>Active Prospect</label>
+            </value>
+            <value>
+                <fullName>Bad Contact Info</fullName>
+                <default>false</default>
+                <label>Bad Contact Info</label>
+            </value>
+            <value>
+                <fullName>Bankruptcy / Foreclosure</fullName>
+                <default>false</default>
+                <label>Bankruptcy / Foreclosure</label>
+            </value>
+            <value>
+                <fullName>Deceased/ Not Reachable</fullName>
+                <default>false</default>
+                <label>Deceased/ Not Reachable</label>
+            </value>
+            <value>
+                <fullName>Email</fullName>
+                <default>false</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Bankruptcy</fullName>
+                <default>false</default>
+                <label>Future Prospect - Bankruptcy</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Experience</fullName>
+                <default>false</default>
+                <label>Future Prospect - Experience</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - FICO</fullName>
+                <default>false</default>
+                <label>Future Prospect - FICO</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Income</fullName>
+                <default>false</default>
+                <label>Future Prospect - Income</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Liquidity</fullName>
+                <default>false</default>
+                <label>Future Prospect - Liquidity</label>
+            </value>
+            <value>
+                <fullName>Future Prospect - Product Type</fullName>
+                <default>false</default>
+                <label>Future Prospect - Product Type</label>
+            </value>
+            <value>
+                <fullName>Lack of Experience</fullName>
+                <default>false</default>
+                <label>Lack of Experience</label>
+            </value>
+            <value>
+                <fullName>Low Fico</fullName>
+                <default>false</default>
+                <label>Low Fico</label>
+            </value>
+            <value>
+                <fullName>Low Income</fullName>
+                <default>false</default>
+                <label>Low Income</label>
+            </value>
+            <value>
+                <fullName>Low Liquidity</fullName>
+                <default>false</default>
+                <label>Low Liquidity</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Not Investor/Broker</fullName>
+                <default>false</default>
+                <label>Not Investor/Broker</label>
+            </value>
+            <value>
+                <fullName>Phone</fullName>
+                <default>false</default>
+                <label>Phone</label>
+            </value>
+            <value>
+                <fullName>Spam / Solicitation</fullName>
+                <default>false</default>
+                <label>Spam / Solicitation</label>
+            </value>
+            <value>
+                <fullName>Voicemail</fullName>
+                <default>false</default>
+                <label>Voicemail</label>
+            </value>
+            <value>
+                <fullName>Wrong Number</fullName>
+                <default>false</default>
+                <label>Wrong Number</label>
+            </value>
+            <value>
+                <fullName>Contacted</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Contacted</label>
+            </value>
+            <value>
+                <fullName>Current Credit Issue</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Current Credit Issue</label>
+            </value>
+            <value>
+                <fullName>DO NOT CALL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DO NOT CALL</label>
+            </value>
+            <value>
+                <fullName>Left Message / Sent Email</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Left Message / Sent Email</label>
+            </value>
+            <value>
+                <fullName>Non-Borrower</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Borrower</label>
+            </value>
+            <value>
+                <fullName>Seeking Non-CAF Loan</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Seeking Non-CAF Loan</label>
+            </value>
+            <value>
+                <fullName>Seeking Non-CAF Product</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Seeking Non-CAF Product</label>
+            </value>
+            <value>
+                <fullName>Seeking Personal Loan</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Seeking Personal Loan</label>
+            </value>
+            <value>
+                <fullName>Set Appointment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Set Appointment</label>
+            </value>
+            <value>
+                <fullName>Unresponsive</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Unresponsive</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Qualified</controllingFieldValue>
+            <valueName>Active Prospect</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Qualified</controllingFieldValue>
+            <valueName>Future Prospect - Bankruptcy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contacted</controllingFieldValue>
+            <valueName>Email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contacted</controllingFieldValue>
+            <valueName>Phone</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Contacted</controllingFieldValue>
+            <valueName>Voicemail</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Bankruptcy / Foreclosure</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Lack of Experience</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Low Fico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Low Income</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Low Liquidity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Not Investor/Broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <valueName>Spam / Solicitation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unqualified</controllingFieldValue>
+            <controllingFieldValue>Unresponsive</controllingFieldValue>
+            <valueName>Wrong Number</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresponsive</controllingFieldValue>
+            <valueName>Bad Contact Info</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresponsive</controllingFieldValue>
+            <valueName>Deceased/ Not Reachable</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Unresponsive</controllingFieldValue>
+            <valueName>No Response</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

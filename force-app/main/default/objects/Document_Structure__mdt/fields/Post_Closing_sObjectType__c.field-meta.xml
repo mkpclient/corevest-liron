@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_Closing_sObjectType__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Post Closing sObjectType</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Opportunity</fullName>
+                <default>true</default>
+                <label>Opportunity</label>
+            </value>
+            <value>
+                <fullName>Deal_Contact__c</fullName>
+                <default>false</default>
+                <label>Deal_Contact__c</label>
+            </value>
+            <value>
+                <fullName>Advance__c</fullName>
+                <default>false</default>
+                <label>Advance__c</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

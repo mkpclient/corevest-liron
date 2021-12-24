@@ -1,0 +1,86 @@
+<template>
+  <lightning-card title="Payoff Details" icon-name="custom:custom17">
+    <div class="slds-m-around_medium">
+      <lightning-record-edit-form
+        record-id={recordId}
+        object-api-name="Property__c"
+        onsuccess={fireToast}
+        onsubmit={handleSubmit}
+      >
+        <div class="slds-grid slds-wrap slds-gutters">
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Request_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Request_Sent_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Correction_Received__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Reviewed__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_2nd_Review__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Pending_Sign__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Approved_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Received_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Payoff_Good_Thru_Date__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <!-- <label for="payoffamount">Amount</label> -->
+            <lightning-input-field
+              field-name="Payoff_Amount__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Current_UPB__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_5-of-12"></div>
+          <div class="slds-col slds-size_2-of-12">
+            <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleReset}></lightning-button>
+            <lightning-button
+              class="slds-m-top_small"
+              type="submit"
+              variant="brand"
+              label="Save"
+            ></lightning-button>
+          </div>
+          <div class="slds-col slds-size_5-of-12"></div>
+        </div>
+      </lightning-record-edit-form>
+    </div>
+  </lightning-card>
+</template>

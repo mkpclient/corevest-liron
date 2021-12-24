@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Account_Introduction_Source__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Was
+TEXT(Account.Introductions_Source__c) &amp; &quot;; &quot;&amp; TEXT(Account.Introduction_Subsource__c)</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Account.Introductions_Source__c) &amp; 
+IF(ISBLANK(TEXT(Account.Introduction_Subsource__c)),&quot;; &quot;&amp; TEXT(Account.Introduction_Subsource__c),&apos;&apos;)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Introduction Source and Subsource of the Account</inlineHelpText>
+    <label>Account Introduction Source</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

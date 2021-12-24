@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vlacslink_code__c</fullName>
+    <description>The reason for the LACSLink indication that was given (below)
+
+A — Match: Address provided. LACSLink record match was found, and a converted address was provided.
+00 — No Match. No converted address. No soup for you!
+09 — Match: No new address. LACSLink matched an input address to an old address which is a &quot;high-rise default&quot; address; no new address was provided.
+14 — Match: No conversion. Found a LACSLink record, but couldn&apos;t convert the data to a deliverable address.
+92 — Match: Dropped secondary number. LACSLink record was matched after dropping the secondary number from input.
+[blank] — No LACSLink lookup attempted.</description>
+    <externalId>false</externalId>
+    <label>Verified lacslink reason code</label>
+    <length>5</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

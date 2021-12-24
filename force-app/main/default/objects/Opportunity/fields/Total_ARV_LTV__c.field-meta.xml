@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_ARV_LTV__c</fullName>
+    <description>For LOC Rehab Standard Terms - Total ARV LTV</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For Renovation Deals: Defaulted Value = 65.00% if renovation.</inlineHelpText>
+    <label>Total ARV LTV</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

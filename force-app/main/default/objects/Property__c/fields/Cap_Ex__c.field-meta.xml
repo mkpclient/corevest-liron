@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cap_Ex__c</fullName>
+    <externalId>false</externalId>
+    <formula>Deal__r.Average_Cap_Ex_Per_Asset__c *  Deal__r.Number_of_Properties__c / Deal__r.Sub_Unit__c * Number_of_Units__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Cap Ex</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

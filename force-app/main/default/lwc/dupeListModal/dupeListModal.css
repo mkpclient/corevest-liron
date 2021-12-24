@@ -1,0 +1,18 @@
+.border {
+  border-style: solid !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+table {
+  position: relative;
+}
+
+th {
+  background-color: var(--lwc-colorBackgroundAlt, rgb(255, 255, 255));
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  white-space: initial;
+  text-align: center;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}

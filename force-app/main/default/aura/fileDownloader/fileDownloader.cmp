@@ -1,0 +1,145 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:LightningQuickActionWithoutHeader,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="whereClause" type="String" />
+
+  <aura:attribute name="userType" type="String" default="internal" />
+  <aura:attribute name="accountType" type="String" />
+  <aura:attribute name="accountId" type="String" />
+
+  <aura:attribute name="docList" type="List[]" />
+  <aura:attribute name="currentIndex" type="Integer" />
+  <aura:attribute name="downloading" type="Boolean" default="false" />
+  <aura:attribute name="numOfFiles" type="Integer" default="0" />
+  <aura:attribute name="documents" type="Object[]" />
+  <aura:attribute name="dealLabel" type="String" default="" />
+
+  <aura:attribute name="fileTypes" type="Object[]" />
+  <aura:attribute name="fileTypesArr" type="String[]" />
+
+  <aura:attribute name="folderStructure" type="Object" />
+
+  <aura:attribute name="filesTooBig" type="List" />
+  <aura:attribute name="filesDeleted" type="List" />
+
+  <aura:handler name="treeEvent" event="c:treeEvent" action="{!c.treeEvent}" />
+  <aura:handler
+    name="change"
+    value="{!v.folderStructure}"
+    action="{!c.compileFileTypes}"
+  />
+
+  <ltng:require
+    scripts="{!join(',', $Resource.jszip , $Resource.filesaver)}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <aura:if isTrue="{!!empty(v.filesTooBig)}">
+    <ui:message
+      title="The files below were skipped due to the Bulk Export feature's size
+	limitation.  You will need to individually download these files."
+      severity="error"
+      closable="false"
+    >
+      <div> </div>
+      <ul class="slds-list_dotted slds-m-top_small">
+        <aura:iteration items="{!v.filesTooBig}" var="file">
+          <li
+            ><a
+              target="_blank"
+              href="{!'/sfc/servlet.shepherd/version/download/' + file.contentDocumentId}"
+              >{!file.folder} - {!file.docType} - {!file.title}
+            </a></li
+          >
+        </aura:iteration>
+      </ul>
+    </ui:message>
+  </aura:if>
+
+  <aura:if isTrue="{!!empty(v.filesDeleted)}">
+    <ui:message
+      title="The files below were skipped due to document data being deleted"
+      severity="error"
+      closable="false"
+    >
+      <div> </div>
+      <ul class="slds-list_dotted slds-m-top_small">
+        <aura:iteration items="{!v.filesDeleted}" var="file">
+          <li>{!file.folder} - {!file.docType}</li>
+        </aura:iteration>
+      </ul>
+    </ui:message>
+  </aura:if>
+
+  <div class="{!v.downloading ? 'slds-hide' : ''}">
+    <lightning:layout class="slds-m-top--medium" horizontalAlign="spread">
+      <lightning:layoutItem>
+        <lightning:buttonIcon
+          variant="bare"
+          iconName="utility:refresh"
+          onclick="{!c.init}"
+        />
+      </lightning:layoutItem>
+      <lightning:layoutItem>
+        <lightning:button
+          variant="brand"
+          onclick="{!c.export}"
+          label="Export"
+        />
+      </lightning:layoutItem>
+    </lightning:layout>
+
+    <lightning:layout class="slds-m-top--medium" horizontalAlign="spread">
+      <lightning:layoutItem size="7">
+        <aura:if isTrue="{! !empty(v.folderStructure)}">
+          <c:treeContainer
+            folderStructure="{!v.folderStructure}"
+            label="{!v.dealLabel}"
+          />
+        </aura:if>
+      </lightning:layoutItem>
+
+      <lightning:layoutItem size="5">
+        Document Type:
+        <ui:outputURL label="Check" value="" click="{!c.checkOn}" />&nbsp;
+        <ui:outputURL label="Uncheck" value="" click="{!c.checkOff}" /> all
+
+        <!-- <aura:iteration items="{!v.fileTypes}" var="item" >
+				<aura:if isTrue="{!item.checked}">
+					<aura:iteration items="{!item.fileTypesArr}" var="fileType">
+						<aura:if isTrue="{!!empty(fileType)}">
+							<lightning:input aura:id="checks" type="checkbox" checked="true" label="{!fileType}" name="fileType" />
+						</aura:if>
+						
+					</aura:iteration>
+				</aura:if>
+			</aura:iteration> -->
+
+        <br />
+        <aura:iteration items="{!v.fileTypesArr}" var="item" indexVar="index">
+          <!--<ui:inputCheckbox value="true" label="{!item}" />-->
+          <span>
+            <lightning:input
+              aura:id="checks"
+              type="checkbox"
+              checked="true"
+              label="{!item}"
+              name="{!item + '-' + index}"
+            />
+          </span>
+        </aura:iteration>
+      </lightning:layoutItem>
+    </lightning:layout>
+  </div>
+
+  <div
+    class="{!v.downloading ? 'slds-text-heading--large slds-text-align--center' : 'slds-hide'}"
+  >
+    Currently downloading file {!v.currentIndex} of {!v.numOfFiles}<span
+      class="loader__dot"
+      >.</span
+    ><span class="loader__dot">.</span><span class="loader__dot">.</span>
+  </div>
+</aura:component>

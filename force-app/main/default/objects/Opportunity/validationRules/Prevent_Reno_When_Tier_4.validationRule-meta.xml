@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Reno_When_Tier_4</fullName>
+    <active>true</active>
+    <description>Prevents selection of Renovation or Construction when the Estimated Sponsor Tier is 4</description>
+    <errorConditionFormula>AND( 
+ISPICKVAL(Estimated_Sponsor_Tier__c, &apos;Tier 4&apos;), 
+$UserRole.Name = &apos;Origination&apos;, 
+OR(
+
+AND( 
+Record_Type_Name__c = &apos;LOC_Loan&apos;, 
+ISPICKVAL(Product_Sub_Type__c, &apos;Renovation&apos;)), 
+
+AND(
+OR(Record_Type_Name__c = &apos;LOC_Loan&apos;, 
+Record_Type_Name__c = &apos;Single_Asset_Bridge_Loan&apos;),
+OR( 
+ISPICKVAL(Product_Sub_Type__c, &apos;Construction&apos;), 
+ISPICKVAL(Product_Sub_Type__c, &apos;Build to Rent&apos;)))))</errorConditionFormula>
+    <errorDisplayField>Estimated_Sponsor_Tier__c</errorDisplayField>
+    <errorMessage>Tier 4 Estimated Sponsor Tier is not eligible for Renovation or Construction Loans</errorMessage>
+</ValidationRule>

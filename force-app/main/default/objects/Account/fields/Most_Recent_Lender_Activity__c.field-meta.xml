@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Most_Recent_Lender_Activity__c</fullName>
+    <description>Most Recent Lender Activity (Updated Monthly with 3rd Party Data)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Most Recent Lender Activity (Updated Monthly with 3rd Party Data)</inlineHelpText>
+    <label>Most Recent Lender Activity</label>
+    <length>131072</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>5</visibleLines>
+</CustomField>

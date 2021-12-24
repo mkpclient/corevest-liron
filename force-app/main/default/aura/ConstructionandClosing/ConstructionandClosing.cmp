@@ -1,0 +1,172 @@
+<aura:component controller="ConstructionAndClosingController" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sobjectType" type="String" default="Deal_Contact__c"/>
+    
+    <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+    <aura:attribute name="fieldList" type="String[]" />
+	<aura:attribute name="whereClause" type="String" default="Entity_Type__c IN ('Architect' , 'Contractor', 'Engineer', 'EscrowAgent', 'TitleCompany')"/>
+    <aura:attribute name="orderBy" type="String" />
+    <aura:attribute name="editMode" type="Boolean" default="false"/>
+    
+    <aura:attribute name="title" type="String" default="Construction and Closing" />
+    <aura:attribute name="footer" type="String" />
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    
+    <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/>
+    <aura:handler name="sortChangeEvent" event="c:DataTableSortChangeEvent" action="{!c.handleSortChangeEvent}" phase="capture"/>
+    
+    <aura:handler name="newEntity" event="c:NewRecordEvent" action="{!c.addRecord}" />
+    
+    
+    <lightning:card >
+        <aura:set attribute="title" >
+            <lightning:icon iconName="standard:groups" size="medium" class="cmp-icon"/>
+            <span class="slds-m-left--medium">
+                {!v.title}
+            </span>
+        </aura:set>
+		
+		<aura:set attribute="actions">
+			<lightning:layout horizontalAlign="end">
+				<lightning:layoutItem >
+					<lightning:button variant="neutral" label="New" onclick="{!c.addRow}" />
+				</lightning:layoutItem>
+			</lightning:layout>
+			
+			<lightning:layout horizontalAlign="end">
+				<lightning:layoutItem padding="horizontal-medium">
+					<lightning:button variant="base" onclick="{!c.refresh}" >
+						<lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+					</lightning:button>
+				</lightning:layoutItem>
+				<lightning:layoutItem >
+					<lightning:button variant="base" onclick="{!c.delete}">
+						<lightning:buttonIcon iconName="utility:delete" variant="bare" alternativeText="Delete"/>
+					</lightning:button>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</aura:set>
+		
+		<div class="slds-table--edit_container slds-is-relative">
+			<c:DataTable aura:id="dataTable">
+				<aura:set attribute="columns">
+				
+					<c:DataTableColumn label="Entity"
+									   name="Entity_Type__c"
+									   sortable="true"
+									   displayType="select"
+									   isEditable="true"
+									   columnWidth="7"
+										selectOptions="[
+											{'label': '--Select One--', 'value': ''},
+											{'label': 'Architect', 'value': 'Architect'},
+											{'label': 'Contractor', 'value': 'Contractor'},
+											{'label': 'Engineer', 'value': 'Engineer'},
+											{'label': 'EscrowAgent', 'value':'EscrowAgent' },
+											{'label': 'TitleCompany', 'value':'TitleCompany' }
+                                       
+										]"
+									   />
+					
+					<c:DataTableColumn label="Company Name"
+									name="Company_Name__c"
+									sortable="true"
+									displayType="text"
+									isEditable="true"
+									columnWidth="10"
+					/>
+					
+					<c:DataTableColumn label="Email"
+									   name="Email__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   columnWidth="10"
+									   
+									   />
+					
+					<c:DataTableColumn label="Phone"
+									   name="Phone__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+									   
+					<c:DataTableColumn label="Street"
+									   name="Street__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+									   
+					<c:DataTableColumn label="City"
+									   name="City__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+									   
+					<c:DataTableColumn label="State"
+									   name="State__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+					
+					<c:DataTableColumn label="Zip Code"
+									   name="Zip__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />	
+                    <c:DataTableColumn label="Contact Name"
+									   name="Contact_Full_Name__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+									   
+                    <!--	<c:DataTableColumn label="Contact Name"
+									   name="Contact__r.Name"
+									   linkToRecord="Contact__c"
+									   sortable="true"
+									   displayType="lookup"
+									   isEditable="true"
+									   columnWidth="10" 
+										lookup="{
+											sobjectType : 'Contact',
+										}"                    
+										/> -->
+					
+					<c:DataTableColumn label="Contact Title"
+									   name="Contact_Title__c"
+									   sortable="true"
+									   displayType="text"
+									   isEditable="true"
+									   />
+				
+				</aura:set>
+				
+				<!-- optional -->
+				
+				<aura:set attribute="pageNumber" value="1"/>
+				<aura:set attribute="pageSize" value="{!v.pageSize}"/>
+				<aura:set attribute="sortColumnName" value="Name"/>
+				<aura:set attribute="sortDirection" value="desc"/>
+				<aura:set attribute="editMode" value="{!v.editMode}" />
+				<aura:set attribute="tableClass" value="slds-table  slds-table--bordered slds-table--fixed-layout slds-no-cell-focus" />
+			</c:DataTable>
+		</div>
+        
+        <aura:set attribute="footer">
+            <div class="{!v.editMode ? '' : 'slds-hide' }">
+                <lightning:button variant="neutral" label="Cancel" onclick="{!c.toggleEdit}" />
+                <lightning:button variant="brand" label="Save" onclick="{!c.saveRows}" />
+            </div>
+        </aura:set>
+        
+    </lightning:card> 
+    
+		
+    
+</aura:component>

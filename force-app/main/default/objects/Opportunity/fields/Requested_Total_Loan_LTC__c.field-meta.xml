@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Total_Loan_LTC__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>For Renovation Deals: Default Value = 90%</inlineHelpText>
+    <label>Requested Total Loan LTC</label>
+    <precision>3</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

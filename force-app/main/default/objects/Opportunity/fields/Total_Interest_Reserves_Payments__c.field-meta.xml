@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Interest_Reserves_Payments__c</fullName>
+    <externalId>false</externalId>
+    <label>Total Interest Reserves Payments</label>
+    <summarizedField>Advance__c.Interest_Reserves_Payment__c</summarizedField>
+    <summaryFilterItems>
+        <field>Advance__c.RecordTypeId</field>
+        <operation>equals</operation>
+        <value>Interest Reserve</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Advance__c.Deal__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

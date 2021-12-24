@@ -1,0 +1,9 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction">
+
+	<aura:attribute name="recordId" type="String" />
+	
+	<c:TermDocumentUploader recordId="{!v.recordId}" 
+							sobjectType="Property__c" 
+							recordType="Term Loan" />
+
+</aura:component>

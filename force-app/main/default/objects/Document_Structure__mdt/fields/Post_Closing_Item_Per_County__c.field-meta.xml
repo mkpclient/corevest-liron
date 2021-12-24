@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_Closing_Item_Per_County__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This will indicate if a Post Closing Item is created per County</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This will indicate if a Post Closing Item is created per County</inlineHelpText>
+    <label>Post Closing Item Per County</label>
+    <type>Checkbox</type>
+</CustomField>

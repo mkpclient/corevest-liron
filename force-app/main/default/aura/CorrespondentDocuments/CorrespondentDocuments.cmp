@@ -1,0 +1,101 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="isCommunity" type="Boolean" default="false" />
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="title" type="String" />
+	<aura:attribute name="whereClause" type="String" />
+
+	<aura:attribute name="documents" type="String" />
+
+	<aura:attribute name="checked" type="Boolean" />
+
+	<aura:attribute name="file" type="List" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<lightning:card >
+		<aura:set attribute="title">
+			{!v.title}
+		</aura:set>
+
+		<aura:set attribute="actions">
+			<aura:if isTrue="{!!v.isCommunity}">
+				<lightning:buttonGroup >
+					<lightning:button label="Unreview Selected" />
+					<lightning:button label="Review Selected" />
+				</lightning:buttonGroup>
+			</aura:if>
+
+			<lightning:layout horizontalAlign="end">
+				<lightning:layoutItem >
+					<lightning:button variant="base" onclick="{!c.refresh}" >
+						<lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+					</lightning:button>
+				</lightning:layoutItem>
+			</lightning:layout>
+			<!-- <lightning:spinner class="" aura:id="spinner" variant="brand" /> -->
+		</aura:set>
+
+		<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+		  <thead>
+		    <tr class="slds-text-title_caps">
+		      <th scope="col">
+		        <div class="slds-truncate" title=""><lightning:input type="checkbox" name="cb" variant="label-hidden" label="cb" value="{!v.checked}" /></div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Account Name">Name</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Document Type">Document Type</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Close Date">Added On</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Stage">Added By</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Confidence">Reviewed On</div>
+		      </th>
+		      <th scope="col">
+		        <div class="slds-truncate" title="Amount">Reviewed By</div>
+		      </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<aura:iteration items="{!v.documents}" var="doc" >
+			    <tr>
+			      <th scope="row">
+			      	<lightning:input type="checkbox" name="check" variant="label-hidden" label="checked" value="{!doc.checked}" />
+			      </th>
+			      <th scope="row" data-label="Name" data-id="{!doc.ContentDocumentId}">
+			        <div class="slds-truncate" data-id="{!doc.ContentDocumentId}" title="{!doc.Title}"><a href="javascript:void(0);" onclick="{!c.openDocument}" data-id="{!doc.ContentDocumentId}">{!doc.Title}</a></div>
+			      </th>
+			      <td data-label="Document Type">
+			        <div class="slds-truncate" title="Cloudhub">{!doc.Type__c}</div>
+			      </td>
+			      <td data-label="Added On">
+			        <div class="slds-truncate" title="{!doc.CreatedDate}"><ui:outputDate value="{!doc.CreatedDate}" /></div>
+			      </td>
+			      <td data-label="Added By">
+			        <div class="slds-truncate" title="{!doc.CreatedBy.Name}">{!doc.CreatedBy.Name}</div>
+			      </td>
+			      <td data-label="Confidence">
+			        <!-- <div class="slds-truncate" title="20%">20%</div> -->
+			      </td>
+			      <td data-label="Amount">
+			        <!-- <div class="slds-truncate" title="$25k">$25k</div> -->
+			      </td>
+			      <td data-label="Contact">
+			        <!-- <div class="slds-truncate" title="jrogers@cloudhub.com"><a href="javascript:void(0);">jrogers@cloudhub.com</a></div> -->
+			      </td>
+			    </tr>
+			</aura:iteration>
+		 
+		  </tbody>
+		</table>
+
+	</lightning:card>
+
+	<c:util aura:id="util" />
+	
+</aura:component>

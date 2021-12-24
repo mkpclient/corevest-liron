@@ -1,0 +1,15 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+
+    <lightning:tabset variant="scoped">
+        <lightning:tab label="Fundings to Date">
+            
+            <c:CommunityClosedFundings />
+        </lightning:tab>
+        <lightning:tab label="Fundings In Process">
+            <c:CommunityFundingInProcess />
+        </lightning:tab>
+        <!-- <lightning:tab label="Summary of Loan Terms">
+            <c:CommunityFundingSummary />
+        </lightning:tab> -->
+    </lightning:tabset>
+</aura:component>

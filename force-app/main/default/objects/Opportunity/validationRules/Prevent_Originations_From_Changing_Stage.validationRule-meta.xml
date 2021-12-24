@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Originations_From_Changing_Stage</fullName>
+    <active>true</active>
+    <description>This will prevent an Originations user from updating the Stage of a Deal to Withdrawn or Rejected once the Deal is in Underwriting</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(StageName),
+ NOT(ISBLANK(Date_Stage_Changed_To_UW__c)),
+OR(
+ $Profile.Name = &quot;Relationship Manager&quot;,
+ $Profile.Name = &quot;Origination Manager&quot;,
+ $Profile.Name = &quot;Sales Analyst&quot;,
+ $Profile.Name = &quot;Sales Analyst Bridge Operations Hybrid&quot;,
+ $Profile.Name = &quot;Sales Analyst Term Operations Hybrid&quot;
+)
+)</errorConditionFormula>
+    <errorMessage>Once a Deal is in Underwriting, only the Operations team can update the Stage of the Deal</errorMessage>
+</ValidationRule>

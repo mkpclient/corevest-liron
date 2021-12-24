@@ -1,0 +1,519 @@
+<template>
+  <lightning-layout multiple-rows="true">
+    <lightning-layout-item size="12">
+      <!-- <div class="slds-section slds-is-open"> -->
+      <h3 class="slds-section-title--divider slds-m-top_small">
+        <span class="slds-truncate" title="Borrower Section"
+          >BORROWER SECTION</span
+        >
+      </h3>
+      <!-- </div> -->
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Loan Number"
+        value={deal.Deal_Loan_Number__c}
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Borrower Name"
+        value={deal.Borrower_Name}
+        data-field="Borrower_Name"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Loan Amount"
+        value={deal.Current_Loan_Amount__c}
+        onchange={updateValue}
+        data-field="Current_Loan_Amount__c"
+        type="number"
+        formatter="currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Deposit Amount"
+        value={deal.Deposit_Amount__c}
+        data-field="Deposit_Amount__c"
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Funding Date"
+        type="date"
+        value={deal.CloseDate}
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Deposit Received"
+        value={deal.Deposit_Collected__c}
+        type="date"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <!-- <lightning-layout-item padding="around-medium" size="6">
+
+    </lightning-layout-item> -->
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Final Swap Rate"
+        value={deal.Final_Swap__c}
+        onchange={updateValue}
+        data-field="Final_Swap__c"
+        type="number"
+        formatter="percent-fixed"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Final Spread"
+        value={deal.Final_Spread__c}
+        onchange={updateValue}
+        data-field="Final_Spread__c"
+        type="number"
+        formatter="percent-fixed"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6">
+      <lightning-combobox
+        name="rateTypes"
+        label="Rate Type"
+        options={interestRateTypes}
+        value={deal.Interest_Rate_Type__c}
+        onchange={updateValue}
+        data-field="Interest_Rate_Type__c"
+      ></lightning-combobox>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Final Interest Rate"
+        value={calculatedFields.Final_Interest_Rate__c}
+        type="number"
+        formatter="percent-fixed"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Monthly Debt Service Payment"
+        value={calculatedFields.Holdback_Reserve__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Term"
+        value={deal.Term_Loan_Type__c}
+        data-field="Term"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Total Source"
+        value={calculatedFields.Total_Sources__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6">
+    </lightning-layout-item>
+
+    <lightning-layout-item size="12">
+      <!-- <div class="slds-section slds-is-open"> -->
+      <h3 class="slds-section-title--divider">
+        <span class="slds-truncate" title="Total Lender Section"
+          >Total Lender Section</span
+        >
+      </h3>
+      <!-- </div> -->
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Origination Fee Percentage"
+        value={deal.CAF_Upfront_Fee__c}
+        onchange={updateValue}
+        data-field="CAF_Upfront_Fee__c"
+        type="number"
+        formatter="percent-fixed"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Origination Fee"
+        value={calculatedFields.Calculated_Origination_Fee__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+        data-field="Calculated_Origination_Fee__c"
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Bridge Payoff"
+        value={deal.Bridge_Payoff__c}
+        onchange={updateValue}
+        data-field="Bridge_Payoff__c"
+        type="number"
+        formatter="currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Stub Interest"
+        value={calculatedFields.Stub_Interest__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Lender Diligence and Out of Pocket"
+        value={deal.Deposit_Lender_Out_of_Pocket__c}
+        onchange={updateValue}
+        data-field="Deposit_Lender_Out_of_Pocket__c"
+        type="number"
+        formatter="currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Total Lender"
+        value={calculatedFields.Total_Lender__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item size="12">
+      <!-- <div class="slds-section slds-is-open"> -->
+      <h3 class="slds-section-title--divider">
+        <lightning-input
+          label="COREVEST PROCEEDS PAID TO (ESCROW)"
+          value={calculatedFields.Proceeds_Paid_To_Escrow__c}
+          type="number"
+          formatter="currency"
+          step="0.01"
+          read-only
+        ></lightning-input>
+      </h3>
+      <!-- </div> -->
+    </lightning-layout-item>
+
+    <lightning-layout-item size="12">
+      <h3 class="slds-section-title--divider slds-m-top_small">
+        <span class="slds-truncate" title="Total Reserves Section"
+          >TOTAL RESERVES SECTION</span
+        >
+      </h3></lightning-layout-item
+    >
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Annual Tax"
+        value={deal.Total_Annual_Tax__c}
+        onchange={updateValue}
+        data-field="Total_Annual_Tax__c"
+        type="number"
+        formatter="currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Monthly Tax"
+        value={calculatedFields.Monthly_Tax__c}
+        type="number"
+        formatter="Currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        type="number"
+        step="0.01"
+        label="Reserve Tax"
+        value={deal.Reserve_Tax__c}
+        onchange={updateValue}
+        data-field="Reserve_Tax__c"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Total Reserve Tax"
+        value={calculatedFields.Total_Reserve_Tax__c}
+        type="number"
+        formatter="Currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Annual Insurance"
+        value={deal.Total_Annual_Insurance__c}
+        onchange={updateValue}
+        data-field="Total_Annual_Insurance__c"
+        type="number"
+        formatter="Currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Monthly Insurance"
+        value={calculatedFields.Monthly_Insurance__c}
+        read-only
+        type="number"
+        formatter="Currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Reserve Insurance"
+        value={deal.Reserve_Insurance__c}
+        onchange={updateValue}
+        data-field="Reserve_Insurance__c"
+        type="number"
+        step="1"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Total Reserve Insurance"
+        value={calculatedFields.Total_Reserve_Insurance__c}
+        type="number"
+        formatter="Currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Annual Cap Ex"
+        value={deal.Total_Annual_Cap_Ex__c}
+        onchange={updateValue}
+        data-field="Total_Annual_Cap_Ex__c"
+        type="number"
+        formatter="Currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Monthly Cap Ex"
+        value={calculatedFields.Monthly_Cap_Ex__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Reserve Cap Ex"
+        value={deal.Reserve_Cap_Ex__c}
+        onchange={updateValue}
+        data-field="Reserve_Cap_Ex__c"
+        type="number"
+        step="1"
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Total Reserve Cap Ex"
+        value={calculatedFields.Total_Reserve_Cap_Ex__c}
+        type="number"
+        formatter="Currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Debt Service Override"
+        value={deal.Holdback_Reserve_Override__c}
+        type="number"
+        formatter="currency"
+        onchange={updateValue}
+        data-field="Holdback_Reserve_Override__c"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Monthly Debt Service Payment"
+        value={calculatedFields.Holdback_Reserve__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        field-level-help="For an Interest Only Loan, this may not match the Model. The Monthly Debt Service in the Model will use an average days in the month. The Schedule of Lender Costs will be based on the number of days in the month that the Loan closes."
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Monthly Debt Service Payment Multiplier"
+        value={deal.Holdback_Reserve_Month_Multiplier__c}
+        type="number"
+        onchange={updateValue}
+        data-field="Holdback_Reserve_Month_Multiplier__c"
+        step="1"
+        min="1"
+        max="12"
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Holdback Deposit Amount"
+        value={calculatedFields.Required_Holdback_Reserve__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="3">
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Total Monthly Payment"
+        value={calculatedFields.Monthly_Payment__c}
+        type="number"
+        formatter="Currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="3">
+      <lightning-input
+        label="Total Reserve at Closing"
+        value={calculatedFields.Total_Reserve_at_Closing__c}
+        read-only
+        type="number"
+        formatter="Currency"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>
+
+    <lightning-layout-item size="12">
+      <h3 class="slds-section-title--divider">
+        <span class="slds-truncate" title="TOTAL THIRD PARTY SECTION"
+          >TOTAL THIRD PARTY SECTION</span
+        >
+      </h3></lightning-layout-item
+    >
+    <lightning-layout-item padding="around-medium" size="12">
+      <c-loan-fee-list
+        record-id={recordId}
+        onupdate={handleUpdate}
+        total-reserve-at-closing={calculatedFields.Total_Reserve_at_Closing__c}
+      ></c-loan-fee-list>
+    </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="12"
+      ><lightning-input
+        label="Total Total Third Party"
+        value={calculatedFields.Total_Third_Party__c}
+        read-only
+        type="number"
+        formatter="Currency"
+        step="0.01"
+      ></lightning-input
+    ></lightning-layout-item>
+
+    <lightning-layout-item size="12">
+      <h3 class="slds-section-title--divider">
+        <lightning-textarea
+          value={deal.Installment_Comment__c}
+          label="Installment Comment"
+          onchange={updateValue}
+          data-field="Installment_Comment__c"
+        ></lightning-textarea>
+      </h3>
+    </lightning-layout-item>
+    <lightning-layout-item size="12">
+      <!-- <div class="slds-section slds-is-open"> -->
+      <h3 class="slds-section-title--divider">
+        <lightning-input
+          label="NET PROCEEDS TO BORROWER"
+          value={calculatedFields.Net_Proceeds_to_Borrower__c}
+          type="number"
+          formatter="currency"
+          step="0.01"
+          read-only
+        >
+        </lightning-input>
+      </h3>
+    </lightning-layout-item>
+    <lightning-layout-item size="12">
+      <h3 class="slds-section-title--divider">
+        <lightning-input
+          label="TOTAL USES"
+          value={calculatedFields.Total_Uses__c}
+          type="number"
+          formatter="currency"
+          step="0.01"
+          read-only
+        ></lightning-input></h3
+    ></lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="12">
+      <lightning-input
+        label="Amount"
+        value={calculatedFields.Proceeds_Paid_To_Escrow__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input
+    ></lightning-layout-item>
+  </lightning-layout>
+</template>

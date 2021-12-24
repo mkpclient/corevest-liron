@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>YM_Prepayment_Penalty_Description__c</fullName>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field is required when &quot;Other&quot; is selected above.  The verbiage entered is shown on the Term Sheet.</inlineHelpText>
+    <label>Stepdown Prepayment Period Description</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

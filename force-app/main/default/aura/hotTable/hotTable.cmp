@@ -1,0 +1,39 @@
+<aura:component>
+  <ltng:require
+    scripts="{!$Resource.handsontable + '/handsontable/handsontable.full.min.js'}"
+    styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <aura:attribute name="hot" type="Object" />
+  <aura:attribute name="columns" type="Aura.Component[]" />
+
+  <aura:attribute name="data" type="Object[]" />
+  <aura:attribute name="height" type="Integer" />
+  <aura:attribute name="width" type="Integer" />
+  <aura:attribute name="row-headers" type="Boolean" />
+  <aura:attribute name="settings" type="Object" />
+  <aura:attribute name="fixedColumnsLeft" type="Integer" default="1" />
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="allowDelete" type="Boolean" default="false" />
+  <aura:attribute name="allowInsert" type="Boolean" default="true" />
+  <aura:attribute name="allowActiveToggle" type="Boolean" default="true" />
+
+  <aura:method name="createTable" action="{!c.createTable}">
+    <aura:attribute name="data" type="Object[]" />
+    <aura:attribute name="callback" type="Object" />
+  </aura:method>
+
+  <aura:method name="getData" action="{!c.getData}">
+    <aura:attribute name="callback" type="Object" />
+  </aura:method>
+
+  <aura:method name="loadData" action="{!c.loadData}">
+    <aura:attribute name="data" type="Object[]" />
+    <aura:attribute name="callback" type="Object" />
+  </aura:method>
+
+  <div id="parentContainer">
+    <div id="table" aura:id="table"></div>
+  </div>
+</aura:component>

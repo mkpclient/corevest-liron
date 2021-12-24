@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Promo_Code_Change</fullName>
+    <active>true</active>
+    <description>Prevent users from being able to change the Promo Code</description>
+    <errorConditionFormula>AND(
+ ISCHANGED( Promo_Code__c ) ,
+NOT ( ISBLANK( PRIORVALUE( Promo_Code__c ) )),
+NOT ( $Profile.Name= &quot;System Administrator&quot;) )</errorConditionFormula>
+    <errorDisplayField>Promo_Code__c</errorDisplayField>
+    <errorMessage>The Promo Code cannot be changed</errorMessage>
+</ValidationRule>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Renovation_Amount_Total__c</fullName>
+    <description>This is the max amount that can be funded for the Renovation on all Properties in this Advance. This is not what will be funded on this Advance</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the max amount that can be funded for the Renovation on all Properties in this Advance. This is not what will be funded on this Advance</inlineHelpText>
+    <label>Approved_Renovation_Amount_Total</label>
+    <summarizedField>Property_Advance__c.Approved_Renovation_Holdback__c</summarizedField>
+    <summaryForeignKey>Property_Advance__c.Advance__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

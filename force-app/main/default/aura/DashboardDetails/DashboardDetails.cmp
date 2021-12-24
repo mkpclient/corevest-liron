@@ -1,0 +1,172 @@
+<!-- @ Author Trivikram Created to Display Dashboard Components as Aura/Lightning-->
+<aura:component controller="DashboardDetailsController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.initRecords}"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="showHidePanel" type="Boolean"/>
+    <aura:attribute name="displayDensity" type="String"/>
+    
+    <div class="slds-page-header" style="cursor: pointer;padding: 0.45rem 1rem;" onclick="{!c.fiterSection}">
+        <section class="slds-clearfix">
+            <div class="slds-float--left ">
+                <aura:if isTrue="{!v.showHidePanel}">
+                    <lightning:icon aura:id="filter" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates chevrondown"/>
+                    <aura:set attribute="else">
+                        <lightning:icon aura:id="filter" iconName="utility:chevronright" size="x-small" alternativeText="Indicates chevronright"/>
+                    </aura:set>
+                </aura:if> 
+            </div>
+            <div class="slds-m-left--large">Dashboard</div>
+        </section>
+    </div>
+    <aura:renderIf isTrue="{!v.showHidePanel}"> 
+        
+        <lightning:recordViewForm recordId="{!v.recordId}" objectApiName="Opportunity">
+            <aura:if isTrue="{!v.displayDensity !='Compact'}">
+                <div class="slds-grid slds-grid_align-space slds-box">
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_medium">
+                        <div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="LOC_Commitment__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Outstanding_Facility_Amount__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Outstanding_Loan_Amount_PreAdvance__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Over_LOC_Commitment_dashboard__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Expired__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Days_Remaining__c" />
+                        </div>
+                    </div>
+					
+					
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_medium">
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Aggregate_Funding__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Aggregate_Payoffs__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Aggregate_Value_PreAdvance__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Max_Advance_Fee_formula__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Aggregate_Advance_Fee_PreAdvance__c" />
+                        </div>
+						<div class="slds-form-element_readonly">
+                        	<lightning:outputField fieldName="Asset_Maturity_Days_dashboard__c" />
+                        </div>
+                    </div>
+					
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-form_horizontal slds-form slds-grid slds-wrap">
+                        <div class="slds-col slds-p-left_small slds-p-right_medium">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">LOC Commitment</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="LOC_Commitment__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Outstanding Facility Amount</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Outstanding_Facility_Amount__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Outstanding Loan Amount PreAdvance</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Outstanding_Loan_Amount_PreAdvance__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Over LOC Commitment?</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Over_LOC_Commitment_dashboard__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Expired</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Expired__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Days Remaining</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Days_Remaining__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        
+                        <!-- Right Panel Start here -->
+                        
+                        <div class="slds-col slds-p-right_small slds-p-left_medium">
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Aggregate Funding</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Aggregate_Funding__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Aggregate Payoffs</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Aggregate_Payoffs__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Aggregate Value PreAdvance</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Aggregate_Value_PreAdvance__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Max Advance Fee</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Max_Advance_Fee_formula__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span  class="slds-form-element__label">Aggregate Advance Fee PreAdvance</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Aggregate_Advance_Fee_PreAdvance__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                                <span class="slds-form-element__label">Asset Maturity Days</span>
+                                <div class="slds-form-element__control">
+                                    <lightning:outputField fieldName="Asset_Maturity_Days_dashboard__c" variant="label-hidden" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:set>
+                
+            </aura:if>
+            
+        </lightning:recordViewForm>
+        
+        
+    </aura:renderIf>
+</aura:component>

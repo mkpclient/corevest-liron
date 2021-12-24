@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Based_on_Reno_Holdback_Limitor__c</fullName>
+    <description>Bridge Reno Use</description>
+    <externalId>false</externalId>
+    <formula>Max_Total_Loan_Amount__c * Override_Rehab_Holdback_Limit__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Max Based on Reno Holdback Limitor</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

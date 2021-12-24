@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Resolution_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Resolution Type</label>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bring Current</fullName>
+                <default>false</default>
+                <label>Bring Current</label>
+            </value>
+            <value>
+                <fullName>Covenant Default</fullName>
+                <default>false</default>
+                <label>Covenant Default</label>
+            </value>
+            <value>
+                <fullName>Deed In Lieu</fullName>
+                <default>false</default>
+                <label>Deed In Lieu</label>
+            </value>
+            <value>
+                <fullName>Discounted Payoff</fullName>
+                <default>false</default>
+                <label>Discounted Payoff</label>
+            </value>
+            <value>
+                <fullName>Extension Req</fullName>
+                <default>false</default>
+                <label>Extension Req</label>
+            </value>
+            <value>
+                <fullName>FC with Guarantee</fullName>
+                <default>false</default>
+                <label>FC with Guarantee</label>
+            </value>
+            <value>
+                <fullName>FC without Guarantee</fullName>
+                <default>false</default>
+                <label>FC without Guarantee</label>
+            </value>
+            <value>
+                <fullName>Forbearance</fullName>
+                <default>false</default>
+                <label>Forbearance</label>
+            </value>
+            <value>
+                <fullName>Foreclosure</fullName>
+                <default>false</default>
+                <label>Foreclosure</label>
+            </value>
+            <value>
+                <fullName>In-House Refi</fullName>
+                <default>false</default>
+                <label>In-House Refi</label>
+            </value>
+            <value>
+                <fullName>Mod/Assumption</fullName>
+                <default>false</default>
+                <label>Mod/Assumption</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Payoff Pending</fullName>
+                <default>false</default>
+                <label>Payoff Pending</label>
+            </value>
+            <value>
+                <fullName>Pursue Guarantee</fullName>
+                <default>false</default>
+                <label>Pursue Guarantee</label>
+            </value>
+            <value>
+                <fullName>Refinance</fullName>
+                <default>false</default>
+                <label>Refinance</label>
+            </value>
+            <value>
+                <fullName>Reinstated</fullName>
+                <default>false</default>
+                <label>Reinstated</label>
+            </value>
+            <value>
+                <fullName>REO with Guarantee</fullName>
+                <default>false</default>
+                <label>REO with Guarantee</label>
+            </value>
+            <value>
+                <fullName>REO without Guarantee</fullName>
+                <default>false</default>
+                <label>REO without Guarantee</label>
+            </value>
+            <value>
+                <fullName>Sale Pending</fullName>
+                <default>false</default>
+                <label>Sale Pending</label>
+            </value>
+            <value>
+                <fullName>Sell REO</fullName>
+                <default>false</default>
+                <label>Sell REO</label>
+            </value>
+            <value>
+                <fullName>Special Asset Tracking</fullName>
+                <default>false</default>
+                <label>Special Asset Tracking</label>
+            </value>
+            <value>
+                <fullName>Title Claim</fullName>
+                <default>false</default>
+                <label>Title Claim</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,587 @@
+<apex:page standardController="Loan_Version__c" extensions="ScheduleOfLenderCostsPDFExtension" renderAs="PDF" showheader="false" standardstylesheets="false" sidebar="false" applyhtmltag="false">
+    
+    <head>
+        <style>
+            @page {
+            /*fits in landscape too */
+            size: A4 portrait;
+            border: 2px solid #000;
+            margin: .2in .2in .2in .2in;
+            font-family: Calibri, sans-serif
+            
+            }
+            body {
+            font-family: Calibri, sans-serif,
+            }
+            
+            .left-column {
+            width:48%;
+            float: left;
+            margin-right: 20px;
+            border-style:solid;
+            border-width:2px;
+            border-color:black;
+            }
+            
+            .left-table {
+            width:100%;
+            font-family:Calibri;
+            font-size:4pt;
+            border-spacing: 0px;
+            }
+            
+            .right-column {
+            width:48%;
+            float: left;
+            border-style:solid;
+            border-width:2px;
+            border-color:black;
+            }
+            
+            .right-table {
+            width:100%;
+            font-family:sans-serif;
+            font-size:9pt;
+            border-spacing: 0px;
+            }
+            
+            .section-header {
+            padding:2px 0 2px 4px;
+            color:#fff;
+            font-weight:bold;
+            background-color:#2d5391;
+            }
+            
+            .left-row-title {
+            padding:2px 0 0 4px; 
+            background-color:#ddeeff;
+            color:black;
+            width:40%;
+            }
+            
+            .right-row-title {
+            padding:2px 0 0 4px; 
+            background-color:#ddeeff;
+            color:black;
+            width:30%;
+            }
+            
+            .row-data-one-column {
+            padding:2px 4px 0 4px; 
+            background-color:white;
+            color:black;
+            width:60%;
+            text-align:right;
+            }
+            
+            .row-data-two-column {
+            padding:2px 4px 0 2px; 
+            background-color:white;
+            color:black;
+            width:30%;
+            text-align:right;
+            }
+            
+            .gray-background {
+            background-color:#F3F2F2;
+            }
+            * {
+            font-family: Calibri
+            }
+            
+        </style>
+    </head>
+    <apex:image url="{!$Resource.corevestLogo}" width="210" height="38" style="margin-top: 8px; margin-left: 4px;" />
+    <div style="font-family:sans-serif; font-size:8pt; font-weight:bold; border-bottom:2px solid #000; width:96%;"></div>
+    <br />
+    <!--Loan / Property info -->
+    <div >
+        <apex:form id="formId">
+            <table style="width:50%">
+                <thead >
+                    <tr>
+                        <th style="text-align:left">
+                            <b>Borrower</b>
+                        </th>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            {!record.Borrower__c}
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            <b>Loan Name</b>
+                        </th>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            {!record.Deal__r.Name}
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            <b>Loan Number:</b> 
+                        </th>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            {!record.Deal_Loan_Number__c}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            Funding Date: 
+                        </th>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+                                <apex:param value="{!record.CloseDate__c}" /> 
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            
+            <table style="width:50%;margin-top:20px;border-collapse: collapse;">
+                <thead >
+                    <tr>
+                        <td>
+                        </td>
+                        <!-- <th style="text-align:left">
+                            Term Sheet 
+                            
+                        </th> -->
+                        <th style="text-align:left">
+                            Rate Lock
+                            
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            {!record.Deal__r.Term_Loan_Type__c} Swap Rate 
+                        </th>
+                        <!-- <td>
+                            <apex:outputText rendered="{! If(record.Swap_Rate__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Swap_Rate__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Swap_Rate__c == null, true, false ) }" value="0.00%" />
+                        </td> -->
+                        <td>
+                            <apex:outputText rendered="{! If(record.Final_Swap_Rate__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Final_Swap_Rate__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Final_Swap_Rate__c == null, true, false ) }" value="0.00%" />
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            Credit Spread 
+                        </th>
+                        <!-- <td>
+                            <apex:outputText rendered="{! If(record.Credit_Spread__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Credit_Spread__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Credit_Spread__c == null, true, false ) }" value="0.00%" />
+                        </td> -->
+                        <td>
+                            <apex:outputText rendered="{! If(record.Final_Credit_Spread__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Final_Credit_Spread__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Final_Credit_Spread__c == null, true, false ) }" value="0.00%" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="border-top: 1pt solid black;text-align:left">
+                            Interest Rate
+                        </th>
+                        <!-- <td style="border-top: 1pt solid black;">
+                            <apex:outputText rendered="{! If(record.Indicative_Rate_Calc__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Indicative_Rate_Calc__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Indicative_Rate_Calc__c == null, true, false ) }" value="0.00%" />
+                        </td> -->
+                        <td style="border-top: 1pt solid black;">
+                            <apex:outputText rendered="{! If(record.Final_Interest_Rate__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">
+                                <apex:param value="{!record.Final_Interest_Rate__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Final_Interest_Rate__c == null, true, false ) }" value="0.00%" />
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            
+            <table style="width:100%;margin-top:20px;border-collapse: collapse;">
+                <thead >
+                    <tr>
+                        
+                        <th style="border-top: 1pt solid black;text-align:left">
+                            Sources:
+                        </th>
+                        <td style="border-top: 1pt solid black;  text-align:right">
+                            <b>Amount &nbsp;</b> 
+                        </td>
+                        
+                        <th style="border-top: 1pt solid black; text-align:left">
+                           &nbsp; Uses:
+                            
+                        </th>
+                        <th style="border-top: 1pt solid black;border-bottom: 1pt solid black;text-align-last: justify">
+                            Amount
+                            
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="border-top: 1pt solid black;text-align:left" >
+                            Loan Amount 
+                        </th>
+                        <td style="border-top: 1pt solid black;text-align:right">
+                            <apex:outputText rendered="{! If(record.Final_Loan_Amount__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Final_Loan_Amount__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Final_Loan_Amount__c == null, true, false ) }" value="$0.00" />
+                        </td>
+                        <td rowspan="2" style="border-top: 1pt solid black;">
+                        </td>
+                        <td rowspan="2" style="border-top: 1pt solid black;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th style="text-align:left">
+                            Deposit Received  
+                        </th>
+                        <td style="text-align:right">
+                            <apex:outputText rendered="{! If(record.Deposit_Amount__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Deposit_Amount__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Deposit_Amount__c == null, true, false ) }" value="$0.00" />
+                            
+                        </td>
+                        <td rowspan="2">
+                        </td>
+                        <td rowspan="2">
+                        </td>
+                        
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            
+                            Origination Fee
+                        </td>
+                        <td>
+                            <apex:outputText rendered="{! If(record.Origination_Fee__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Origination_Fee__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Origination_Fee__c == null, true, false ) }" value="$0.00" /> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            Stub Interest 
+                        </td>
+                        <td>
+                            <apex:outputText rendered="{! If(record.Stub_Interest__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Stub_Interest__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Stub_Interest__c == null, true, false ) }" value="$0.00" />
+                                                       
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <span style="display:{!IF(record.Bridge_Payoff__c!=null && record.Bridge_Payoff__c>0,'','none')}"><b>CF CoreVest Purchaser LLC</b></span>
+                            
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Bridge_Payoff__c!=null && record.Bridge_Payoff__c>0,true,false)}">
+                                <apex:param value="{!record.Bridge_Payoff__c}"/>
+                            </apex:outputText> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <span style="display:{!IF(record.Deposit_Lender_Out_of_Pocket__c!=null && record.Deposit_Lender_Out_of_Pocket__c>0,'','none')}">Lender Diligence &amp; Out of Pocket</span>
+                             
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Deposit_Lender_Out_of_Pocket__c!=null && record.Deposit_Lender_Out_of_Pocket__c>0,true,false)}">
+                                <apex:param value="{!record.Deposit_Lender_Out_of_Pocket__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-bottom:20px;">
+                        </td>
+                        <td style="border-top: 1pt solid black;padding-bottom:20px;">
+                            <b>Total Lender</b>
+                        </td>
+                        <td style="border-top: 1pt solid black;padding-bottom:20px;">
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Lender__c}"/>
+                            </apex:outputText> 
+                        </td>
+                    </tr>
+                    
+                    <tr >
+                        <td colspan="2">
+                        </td>
+                        <td style="border: 1pt solid black;">
+                            <b>CoreVest Proceeds Paid to Escrow</b>
+                        </td>
+                        <td style="border: 1pt solid black;">
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Proceeds_Paid_To_Escrow__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2" style="padding-top:20px;">
+                        </td>
+                        <td style="padding-top:20px;">
+                            Tax
+                            
+                        </td>
+                        <td style="padding-top:20px;">
+                            <apex:outputText value="${0, number,###,##0.00}">
+                                <apex:param value="{!record.Total_Reserve_Tax__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            Insurance
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Reserve_Insurance__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            Cap Ex
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Reserve_Cap_Ex__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td> <!--style="display:{!IF(AND(record.Recourse__c=='Non-Recourse',record.Cash_Management__c=='None') ,'','none')}" -->
+                            <span >Holdback Deposit Amount</span>
+                        </td>
+                        <td> <!-- style="display:{!IF(AND(record.Recourse__c=='Non-Recourse',record.Cash_Management__c=='None') ,'','none')}" -->
+                            <span >
+                                <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Required_Holdback_Reserve__c}"/>
+                            </apex:outputText></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding-bottom:20px;">
+                        </td>
+                        <td style="border-top: 1pt solid black;padding-bottom:20px;">
+                            <b>Total Reserves at Closing to Servicer</b>
+                            
+                        </td>
+                        <td style="border-top: 1pt solid black;padding-bottom:20px;">
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Reserve_at_Closing__c}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                             
+                            
+                        </td>
+                        <td >
+                            
+                            
+                        </td>
+                    </tr>
+                    <apex:repeat value="{!loanFees}" var="loanFee" >
+                        <tr style="{!IF(loanFee.Vendor_Type__c == 'Servicer', 'display: none', '')}">
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                <apex:outputText rendered="{!IF(loanFee.Vendor_Type__c!=null ,true,false)}" value="{!loanFee.Vendor_Type__c}"/>
+                            </td>
+                            <td>
+                                <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(and(loanFee.Fee_Amount__c!=null, loanFee.Fee_Amount__c>0),true,false)}">
+                                    <apex:param value="{!loanFee.Fee_Amount__c}"/>
+                                </apex:outputText> 
+                                <apex:outputText rendered="{! If(loanFee.Fee_Amount__c == null, true, false ) }" value="$0.00" />
+                                
+                            </td>
+                        </tr>
+                        
+                    </apex:repeat>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td style="border-top: 1pt solid black;">
+                            <b>Total Third Party</b>
+                        </td>
+                        <td style="border-top: 1pt solid black;"> 
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Third_Party__c}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            {!record.Installment_Comment__c}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td style="border: 1pt solid black; display:none">
+                            Net Proceeds to Borrower
+                        </td>
+                        <td style="border: 1pt solid black; display:none">
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Net_Proceeds_to_Borrower__c}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+            
+            <table style="width:100%;margin-top:20px;border-collapse: collapse;">
+                <thead >
+                    <tr>
+                        
+                        <th style="border-top: 1pt solid black;text-align:left">
+                            Total Sources:
+                        </th>
+                        <th style="border-top: 1pt solid black;">
+                            <apex:outputText rendered="{! If(record.Total_Sources__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Sources__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Total_Sources__c == null, true, false ) }" value="$0.00" />
+                                                   
+                        </th>
+                        
+                        <th style="border-top: 1pt solid black; border-bottom: 1pt solid black; text-align:left">
+                            Total Uses:
+                            
+                        </th>
+                        <th style="border-top: 1pt solid black;border-bottom: 1pt solid black;">
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Total_Uses__c}"/>
+                            </apex:outputText>
+                            
+                        </th>
+                    </tr>
+                    <td rowspan="2" style="border-top: 1pt solid black;">
+                    </td>
+                    <td rowspan="2" style="border-top: 1pt solid black;">
+                    </td>
+                </thead>
+            </table>
+            
+            <div style="font-family:sans-serif; font-size:8pt; font-weight:bold; border-bottom:2px solid #000; width:100%;"></div>
+            <br />
+            <!-- <div> -->
+                <table style="width:50%;text-align:left;">
+                    <thead >
+                        <tr>
+                            <th>
+                                <b>Wiring Instructions for Title</b>
+                            </th>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+                
+                <apex:repeat value="{!loanFees}" var="loanFee" >
+                    <table style="width:50%; page-break-inside:avoid; page-break-after:auto;">
+                        <thead >
+                            <br/>
+                            <tr>
+                                <td colspan="2">
+                                    Please use the following wiring instructions for disbursements: {!loanFee.vendor__r.Name}
+                                </td>
+                                <td width="50%"></td>
+                                <!-- <td width=""></td>                          -->
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td colspan="2">
+                                    {!loanFee.vendor__r.Payment_Instructions__c}
+                                </td>
+                                <td width="50%"></td>
+                            </tr> 
+                            <tr>
+                                <td>Reference:</td> 
+                                <td align="right" width="40%">
+                                    {!loanFee.Reference__c}
+                                </td>
+                                <td width="50%"></td> 
+                            </tr> 
+                            <tr>
+                                <td style="border: 1pt solid black;" >
+                                    <b>Amount</b> 
+                                </td>
+                                <td style="border: 1pt solid black;" align="right" width="10%">
+                                    <apex:outputText rendered="{! If(loanFee.Fee_Amount__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                        <apex:param value="{!loanFee.Fee_Amount__c}"/>
+                                    </apex:outputText>
+                                    <apex:outputText rendered="{! If(loanFee.Fee_Amount__c == null, true, false ) }" value="$0.00" />                                 
+                                </td>
+                                <td width="50%"></td> 
+                            </tr> 
+                        </thead>
+                    </table>
+                </apex:repeat>
+                        
+
+                    
+            <!-- </div> -->
+        </apex:form>
+    </div>
+    
+</apex:page>

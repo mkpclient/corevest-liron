@@ -1,0 +1,263 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" />
+  <aura:attribute name="userId" type="String" />
+  <aura:attribute name="parentFieldName" type="String" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+
+  <aura:attribute name="title" type="String" default="Title" />
+  <aura:attribute name="footer" type="String" />
+
+  <aura:attribute name="records" type="Object[]" />
+  <aura:attribute name="pageSize" type="Integer" default="15" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+
+  <aura:attribute name="modalOpen" type="Boolean" default="false" />
+  <aura:attribute name="selectedIds" type="List" />
+  <!-- <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/> -->
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <aura:handler event="force:refreshView" action="{!c.refresh}" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon iconName="standard:folder" size="medium" />
+      <span class="slds-m-left--medium"> {!v.title} </span>
+    </aura:set>
+
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem>
+          <aura:if
+            isTrue="{!!empty(v.permissionsMap) ? and(v.permissionsMap.Document_Type__c.isUpdateable, v.permissionsMap.Section__c.isUpdateable) : 'false'}"
+          >
+            <lightning:button
+              label="Update Folder"
+              onclick="{!c.updateFolder}"
+            />
+          </aura:if>
+        </lightning:layoutItem>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isDeletable : 'false'}"
+        >
+          <lightning:layoutItem>
+            <lightning:button
+              label="Delete Documents"
+              onclick="{!c.deleteDocuments}"
+            />
+          </lightning:layoutItem>
+        </aura:if>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.Reviewed_By__c.isUpdateable : 'false'}"
+        >
+          <lightning:layoutItem>
+            <lightning:button
+              label="Unreview Selected"
+              onclick="{!c.unreviewSelected}"
+            />
+          </lightning:layoutItem>
+          <lightning:layoutItem>
+            <lightning:button
+              label="Review Selected"
+              onclick="{!c.reviewSelected}"
+            />
+          </lightning:layoutItem>
+        </aura:if>
+      </lightning:layout>
+
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem>
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+      </lightning:layout>
+      <lightning:spinner class="" aura:id="spinner" variant="brand" />
+    </aura:set>
+
+    <c:DataTable aura:id="dataTable">
+      <aura:set attribute="columns">
+        <c:DataTableColumn
+          label="Document #"
+          name="Name"
+          linkToRecord="Id"
+          sortable="true"
+          isEditable="false"
+          columnWidth="15"
+        />
+
+        <c:DataTableColumn
+          label="Address"
+          name="Property__r.Name"
+          linkToRecord="Property__c"
+          sortable="true"
+          columnWidth="20"
+        />
+
+        <c:DataTableColumn
+          label="Name"
+          name="File_Name__c"
+          linkToRecord="ContentVersion_Id__c"
+          linkToURL="/sfc/servlet.shepherd/version/download/"
+        />
+        <c:DataTableColumn
+          label="ContentVersionID"
+          name="ContentVersion_Id__c"
+          hidden="true"
+          displayType="hidden"
+          sortable="false"
+        />
+
+        <c:DataTableColumn
+          label="Link"
+          name="Attachment_Id__c"
+          sortable="false"
+          displayType="file"
+          columnWidth="5"
+        />
+
+        <c:DataTableColumn
+          label="Document Type"
+          name="Document_Type__c"
+          sortable="true"
+        />
+
+        <c:DataTableColumn
+          label="Added On"
+          name="Added_On__c"
+          sortable="true"
+          displayType="date"
+        />
+
+        <c:DataTableColumn
+          label="Added By"
+          name="Added_By__r.Name"
+          linkToRecord="Added_By__c"
+          sortable="true"
+        />
+
+        <c:DataTableColumn
+          label="Reviewed On"
+          name="Reviewed_On__c"
+          displayType="datetime"
+          sortable="true"
+        />
+
+        <c:DataTableColumn
+          label="Reviewed By"
+          linkToRecord="Reviewed_By__c"
+          name="Reviewed_By__r.Name"
+          sortable="true"
+        />
+
+        <c:DataTableColumn
+          label="Document_Loaded__c"
+          name="Document_Loaded__c"
+          hidden="true"
+          displayType="hidden"
+          sortable="false"
+        />
+      </aura:set>
+
+      <aura:set attribute="pageNumber" value="1" />
+      <aura:set attribute="pageSize" value="{!v.pageSize}" />
+      <aura:set attribute="sortColumnName" value="Property__r.Name" />
+      <aura:set attribute="sortDirection" value="asc" />
+    </c:DataTable>
+
+    <aura:set attribute="footer">
+      <!-- <lightning:button label="Check all" /> -->
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.records.length ?
+        (v.currentPage)*v.pageSize : v.records.length) + ' of ' +
+        v.records.length}
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <aura:if isTrue="{!v.modalOpen}">
+    <c:DocumentTypeSelectorContainer
+      recordId="{!v.recordId}"
+      sObjectName="Opportunity"
+      modalOpen="{!v.modalOpen}"
+      recordIds="{!v.selectedIds}"
+    />
+  </aura:if>
+
+  <c:util aura:id="util" />
+</aura:component>

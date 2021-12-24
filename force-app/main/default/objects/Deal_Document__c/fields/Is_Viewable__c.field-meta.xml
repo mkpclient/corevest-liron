@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Viewable__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(
+    ISBLANK( $User.ContactId ) , 
+    AND( !$User.Is_Vendor__c, OR(! Confidential__c,  CreatedById ==  $User.Id )), 
+    AND(  $User.Is_Vendor__c, OR( !Private__c,  OR($User.Vendor_Type__c != Uploader_Vendor_Type__c, CreatedById ==  $User.Id  )  )) 
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Viewable</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

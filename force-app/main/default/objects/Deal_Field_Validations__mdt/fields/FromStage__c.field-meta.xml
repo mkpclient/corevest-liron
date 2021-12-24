@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FromStage__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>SubscriberControlled</fieldManageability>
+    <label>From Stage</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Approved by Committee</fullName>
+                <default>true</default>
+                <label>Approved by Committee</label>
+            </value>
+            <value>
+                <fullName>Closed Won</fullName>
+                <default>false</default>
+                <label>Closed Won</label>
+            </value>
+            <value>
+                <fullName>Data Tape Received</fullName>
+                <default>false</default>
+                <label>Data Tape Received</label>
+            </value>
+            <value>
+                <fullName>Expired</fullName>
+                <default>false</default>
+                <label>Expired</label>
+            </value>
+            <value>
+                <fullName>Initial Review</fullName>
+                <default>false</default>
+                <label>Initial Review</label>
+            </value>
+            <value>
+                <fullName>Issue Term Sheet/Order Appraisal</fullName>
+                <default>false</default>
+                <label>Issue Term Sheet/Order Appraisal</label>
+            </value>
+            <value>
+                <fullName>Loan Processing</fullName>
+                <default>false</default>
+                <label>Loan Processing</label>
+            </value>
+            <value>
+                <fullName>Matured</fullName>
+                <default>false</default>
+                <label>Matured</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Submitted to Underwriting</fullName>
+                <default>false</default>
+                <label>Submitted to Underwriting</label>
+            </value>
+            <value>
+                <fullName>Term Sheet Issued</fullName>
+                <default>false</default>
+                <label>Term Sheet Issued</label>
+            </value>
+            <value>
+                <fullName>Term Sheet Signed/Deposit Collected</fullName>
+                <default>false</default>
+                <label>Term Sheet Signed/Deposit Collected</label>
+            </value>
+            <value>
+                <fullName>Underwriting</fullName>
+                <default>false</default>
+                <label>Underwriting</label>
+            </value>
+            <value>
+                <fullName>UW Hold</fullName>
+                <default>false</default>
+                <label>UW Hold</label>
+            </value>
+            <value>
+                <fullName>Withdrawn</fullName>
+                <default>false</default>
+                <label>Withdrawn</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

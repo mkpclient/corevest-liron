@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pandemic</fullName>
+                <default>false</default>
+                <label>Pandemic</label>
+            </value>
+            <value>
+                <fullName>COVID-19</fullName>
+                <default>false</default>
+                <label>COVID-19</label>
+            </value>
+            <value>
+                <fullName>Economic Downturn</fullName>
+                <default>false</default>
+                <label>Economic Downturn</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Construction Delay</fullName>
+                <default>false</default>
+                <label>Construction Delay</label>
+            </value>
+            <value>
+                <fullName>In House Refi</fullName>
+                <default>false</default>
+                <label>In House Refi</label>
+            </value>
+            <value>
+                <fullName>Outside Refi</fullName>
+                <default>false</default>
+                <label>Outside Refi</label>
+            </value>
+            <value>
+                <fullName>Sale Pending</fullName>
+                <default>false</default>
+                <label>Sale Pending</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

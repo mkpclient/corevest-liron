@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Sub_Type__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <label>Product Sub-Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>LOC_Loan_Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Build to Rent</fullName>
+                <default>false</default>
+                <label>Build to Rent</label>
+            </value>
+            <value>
+                <fullName>Line of Credit</fullName>
+                <default>false</default>
+                <label>Line of Credit</label>
+            </value>
+            <value>
+                <fullName>Construction</fullName>
+                <default>false</default>
+                <label>Construction</label>
+            </value>
+            <value>
+                <fullName>No Renovation</fullName>
+                <default>true</default>
+                <label>No Renovation</label>
+            </value>
+            <value>
+                <fullName>Renovation</fullName>
+                <default>false</default>
+                <label>Renovation</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Condo Development</fullName>
+                <default>false</default>
+                <label>Condo Development</label>
+            </value>
+            <value>
+                <fullName>Student Housing</fullName>
+                <default>false</default>
+                <label>Student Housing</label>
+            </value>
+            <value>
+                <fullName>Adaptive Reuse</fullName>
+                <default>false</default>
+                <label>Adaptive Reuse</label>
+            </value>
+            <value>
+                <fullName>Mixed Use</fullName>
+                <default>false</default>
+                <label>Mixed Use</label>
+            </value>
+            <value>
+                <fullName>Land Development</fullName>
+                <default>false</default>
+                <label>Land Development</label>
+            </value>
+            <value>
+                <fullName>Fixed Rate Term Loan</fullName>
+                <default>false</default>
+                <label>Fixed Rate Term Loan</label>
+            </value>
+            <value>
+                <fullName>Floating Rate Term Loan</fullName>
+                <default>false</default>
+                <label>Floating Rate Term Loan</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
+            <valueName>No Renovation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
+            <valueName>Renovation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Condo Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Student Housing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Adaptive Reuse</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Mixed Use</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Land Development</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build to Rent</controllingFieldValue>
+            <valueName>Build to Rent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build to Rent</controllingFieldValue>
+            <valueName>Line of Credit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <valueName>Fixed Rate Term Loan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <valueName>Floating Rate Term Loan</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

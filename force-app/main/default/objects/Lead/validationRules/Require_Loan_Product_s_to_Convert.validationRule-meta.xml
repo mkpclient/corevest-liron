@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Loan_Product_s_to_Convert</fullName>
+    <active>true</active>
+    <description>Requires a value for Loan Product(s) field before a lead can be converted</description>
+    <errorConditionFormula>AND(
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ NOT(ISPICKVAL(Applicant_Type__c, &apos;Lender&apos;)),
+ IsConverted,
+ ConvertedDate = TODAY(),
+ ISBLANK(TEXT( Loan_Product_s__c ))
+)</errorConditionFormula>
+    <errorDisplayField>Loan_Product_s__c</errorDisplayField>
+    <errorMessage>Loan Product(s) is required before converting a Lead</errorMessage>
+</ValidationRule>

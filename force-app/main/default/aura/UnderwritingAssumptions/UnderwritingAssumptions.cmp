@@ -1,0 +1,68 @@
+<aura:component >
+    <aura:attribute name="record" type="Object" />
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Lease Term
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Average_Lease_Term__c}
+          </dd>
+        </div>
+
+
+
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Static Vacancy
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              <ui:outputNumber value="{!v.record.Static_Vacancy__c}" format=".00" />
+              <aura:if isTrue="{!!empty(v.record.Static_Vacancy__c)}">
+                  %
+              </aura:if>
+          </dd>
+        </div>
+    </div>
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Maintenance per Asset
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              <ui:outputCurrency value="{!v.record.Average_Maintenance_Per_Asset__c}" format="$###,###,###,###.00"/>
+          </dd>
+        </div>
+
+
+
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Cap-Ex per Asset
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              <ui:outputCurrency value="{!v.record.Average_Cap_Ex_Per_Asset__c}" format="$###,###,###,###.00" />
+          </dd>
+        </div>
+    </div>
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Additional Adjustments
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+              {!v.record.Additional_Adjustments__c}
+          </dd>
+        </div>
+
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+            </dt>
+          <dd class="slds-item_detail slds-truncate">
+          </dd>
+        </div>
+    </div>
+</aura:component>

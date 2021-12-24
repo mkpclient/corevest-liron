@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Opportunity</entityName>
+    <fieldName>StageName</fieldName>
+    <masterLabel>SAB Sales Path</masterLabel>
+    <pathAssistantSteps>
+        <fieldNames>Appraisal_Ordered__c</fieldNames>
+        <fieldNames>Background_Check_Completed__c</fieldNames>
+        <fieldNames>Credit_Check_Completed__c</fieldNames>
+        <info>&lt;p&gt;At this Stage, you should have the below completed&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Appraisal should be ordered and paid for by the Borrower&lt;/li&gt;&lt;li&gt;Background Check &amp;amp; Credit Check have been completed&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Issue Term Sheet/Order Appraisal</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>Single_Asset_Bridge_Loan</recordTypeName>
+</PathAssistant>

@@ -1,0 +1,59 @@
+<aura:component controller="UploadFile_LightningController" implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickAction">
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="dealId" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+<!--     <article class="slds-card">
+      <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
+            </span>
+          </div>
+          <div class="slds-media__body">
+            <h2>
+                <span class="slds-text-heading_small">Upload Files</span>
+            </h2>
+          </div>
+        </header>
+      </div>
+      <div class="slds-card__body slds-card__body_inner">
+          <div class="container">
+              <input type="file" class="file" aura:id="file" />
+              <button onclick="{!c.save}">
+                  Upload
+              </button>
+          </div>
+      </div>
+    </article>
+<div>
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Success</h2>
+      </header>
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <p style="text-align:center;">File has been uploaded.</p>
+      </div>
+      <footer class="slds-modal__footer" style="text-align:center;">
+        <button class="slds-button slds-button_brand" style="color:white;background-color:rgb(20,89,180);" onclick="{!c.closeModal}">OK</button>
+      </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop"></div>
+</div> -->
+  
+  <div>
+
+    <lightning:fileUpload label=" " 
+            multiple="true"
+            recordId="{!v.dealId}"
+            onuploadfinished="{!c.handleUploadFinish}"
+
+    />
+
+    <c:util aura:id="util" />
+  </div>
+
+</aura:component>

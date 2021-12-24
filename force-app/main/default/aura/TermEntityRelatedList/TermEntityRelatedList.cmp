@@ -1,0 +1,305 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" />
+
+  <aura:attribute name="parentFieldName" type="String" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <!-- <aura:attribute name="s"
+ -->
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" />
+  <aura:attribute name="editMode" type="Boolean" default="false" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+
+  <aura:attribute name="title" type="String" default="Title" />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="pageSize" type="Integer" default="10" />
+
+  <!--Clear API attributes-->
+  <aura:attribute name="showClearAPIModal" type="boolean" default="false" />
+  <aura:attribute name="contactIdsForClearAPI" type="String[]" />
+  <aura:attribute name="dealContactIds" type="String[]" />
+  <aura:attribute name="dealRecordId" type="String" />
+  <aura:attribute
+    name="showClearBackgroundButton"
+    type="Boolean"
+    default="true"
+  />
+    
+  <!-- Soft Pull attributes -->
+  <aura:attribute name="showSoftPullModal" type="boolean" default="false" />
+  <aura:attribute name="contactIDForSoftPull" type="String[]" />
+  <aura:attribute
+    name="showCreditSoftPullButton"
+    type="Boolean"
+    default="true"
+  />
+   
+  <aura:handler
+    name="pageChangeEvent"
+    event="c:DataTablePageChangeEvent"
+    action="{!c.handlePageChangeEvent}"
+    phase="capture"
+  />
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+
+  <aura:handler
+    name="newEntity"
+    event="c:NewRecordEvent"
+    action="{!c.addRecord}"
+  />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon
+        iconName="standard:groups"
+        size="medium"
+        class="cmp-icon"
+      />
+      <span class="slds-m-left--medium"> {!v.title} </span>
+    </aura:set>
+
+    <aura:if isTrue="{!v.showClearAPIModal}">
+      <c:clearApiPersonSearch
+        showClearAPIModal="{!v.showClearAPIModal}"
+        contactIdList="{!v.contactIdsForClearAPI}"
+        dealContactIdsList="{!v.dealContactIds}"
+        dealRecordId="{!v.dealRecordId}"
+      />
+    </aura:if>
+
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="end">
+        <aura:if isTrue="{!v.showClearBackgroundButton}">
+          <lightning:layoutItem>
+            <lightning:button
+              variant="brand"
+              onclick="{!c.callclearAPiModel}"
+              label="Background Check"
+            >
+            </lightning:button>
+          </lightning:layoutItem>
+        </aura:if>
+        <lightning:layoutItem padding="horizontal-medium">
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isDeletable : 'false'}"
+        >
+          <lightning:layoutItem>
+            <lightning:button variant="base" onclick="{!c.delete}">
+              <lightning:buttonIcon
+                iconName="utility:delete"
+                variant="bare"
+                alternativeText="Delete"
+              />
+            </lightning:button>
+          </lightning:layoutItem>
+        </aura:if>
+      </lightning:layout>
+    </aura:set>
+
+    <ui:scrollerWrapper>
+      <div class="slds-table--edit_container slds-is-relative">
+        <aura:if isTrue="{!!empty(v.permissionsMap)}">
+          <c:DataTable aura:id="dataTable">
+            <aura:set attribute="columns">
+              <!-- <c:DataTableColumn label="Name"
+               name="Name"
+               sortable="true"
+               displayType="text"
+               isEditable="false"
+           /> -->
+
+              <!-- selectOptions="[
+                {'label': '- -Select One- -', 'value': ''},
+                         {'label': 'Broker', 'value':'Broker' },
+                         {'label': 'Borrower', 'value': 'Borrower'},
+                         {'label': 'Applicant', 'value': 'Applicant'},
+                         {'label': 'Pledgor', 'value':'Pledgor' },
+                         {'label': 'Guarantor', 'value':'Guarantor' },
+                         {'label': 'Sponsor', 'value':'Sponsor' },
+
+                     ]" -->
+              <c:DataTableColumn
+                label="Role"
+                name="Entity_Type__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Name"
+                name="Contact__r.Name"
+                linkToRecord="Contact__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="13"
+              />
+
+              <!-- <c:DataTableColumn label="Company Name"
+               name="Contact__r.Account.Name"
+               sortable="true"
+               displayType="text"
+               isEditable="false"
+               linkToRecord="Contact__r.AccountId"
+
+           /> -->
+
+              <c:DataTableColumn
+                label="Phone"
+                name="Contact__r.Phone"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="12"
+              />
+
+              <c:DataTableColumn
+                label="Fax"
+                name="Contact__r.Fax"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Email"
+                name="Contact__r.Email"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="16"
+              />
+
+              <c:DataTableColumn
+                label="Experian"
+                name="Experian__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Experian__c.isUpdateable : 'false'}"
+                columnWidth="9"
+              />
+
+              <c:DataTableColumn
+                label="TransUnion"
+                name="TransUnion__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.TransUnion__c.isUpdateable : 'false'}"
+                columnWidth="9"
+              />
+
+              <c:DataTableColumn
+                label="Equifax"
+                name="Equifax__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Equifax__c.isUpdateable : 'false'}"
+                columnWidth="9"
+              />
+
+              <c:DataTableColumn
+                label="Mid Credit Score"
+                name="Middle_Credit_Score__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="9"
+              />
+              
+              <c:DataTableColumn
+                label="Risk Number"
+                name="Clear_Result__r.Risk_Number__c"
+                linkToRecord="Clear_Result__c"
+                sortable="true"
+                displayType="Number"
+                isEditable="false"
+                columnWidth="12"
+              />
+
+              <c:DataTableColumn
+                label="Net Worth"
+                name="Net_Worth__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="12"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Net_Worth__c.isUpdateable : 'false'}"
+              />
+
+              <c:DataTableColumn
+                label="Liquidity"
+                name="Liquidity__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="12"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Liquidity__c.isUpdateable : 'false'}"
+              />
+
+              <c:DataTableColumn
+                label="Years of Experience"
+                name="Years_of_Experience1__c"
+                sortable="false"
+                displayType="number"
+                columnWidth="12"
+                isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Years_of_Experience1__c.isUpdateable : 'false'}"
+              />
+            </aura:set>
+
+            <!-- optional -->
+
+            <aura:set attribute="pageNumber" value="1" />
+            <aura:set attribute="pageSize" value="{!v.pageSize}" />
+            <aura:set attribute="sortColumnName" value="Name" />
+            <aura:set attribute="sortDirection" value="desc" />
+            <aura:set attribute="editMode" value="{!v.editMode}" />
+            <aura:set
+              attribute="tableClass"
+              value="slds-table  slds-table--bordered slds-table--fixed-layout slds-no-cell-focus"
+            />
+          </c:DataTable>
+        </aura:if>
+      </div>
+    </ui:scrollerWrapper>
+
+    <aura:set attribute="footer">
+      <div class="{!v.editMode ? '' : 'slds-hide' }">
+        <lightning:button
+          variant="neutral"
+          label="Cancel"
+          onclick="{!c.toggleEdit}"
+        />
+        <lightning:button
+          variant="brand"
+          label="Save"
+          onclick="{!c.saveRows}"
+        />
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <c:util aura:id="util" />
+
+  <!-- <c:NewTermEntity aura:id="newEntity" defaults="{'Deal_Contact_Type__c': 'Entity', 'sobjectType': 'Deal_Contact__c'}" parentId="{!v.recordId}" parentFieldName="Deal__c" /> -->
+</aura:component>

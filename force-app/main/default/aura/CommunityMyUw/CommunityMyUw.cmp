@@ -1,0 +1,49 @@
+<aura:component controller="CommunityController" implements="forceCommunity:availableForAllPageTypes">
+    <aura:attribute name="underwriter" type="Map" />
+    <aura:attribute name="recordType" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <!-- {!v.recordType} -->
+
+    <aura:if isTrue="{!!empty(v.underwriter)}">
+
+        <lightning:layout multipleRows="true" horizontalAlign="center">
+
+            <lightning:layoutItem size="12" class="centered slds-m-top_medium">
+                <lightning:avatar src="{!v.underwriter.photoURL}" title="{!v.underwriter.name}" size="large" variant="circle" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered slds-m-top_small slds-m-bottom_small">
+                <div class="slds-text-heading_small">
+                    {!v.recordType == 'Term' ? 'My Rental Underwriter' : 'My Bridge Underwriter'}
+                </div>
+
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered">
+                <div class="slds-truncate " title="{!v.underwriter.name}">
+                    {!v.underwriter.name}
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered">
+                <!-- <div class="slds-truncate" title="{!v.underwriter.email}">
+                    {!v.underwriter.email}
+                </div> -->
+
+                <lightning:formattedEmail value="{!v.underwriter.email}" />
+            </lightning:layoutItem>
+
+            <lightning:layoutItem size="12" class="centered slds-m-bottom_medium">
+                <div class="slds-truncate" title="{!v.underwriter.phone}">
+                    <ui:outputPhone value="{!v.underwriter.phone}" />
+                </div>
+            </lightning:layoutItem>
+
+
+        </lightning:layout>
+
+        <!-- </lightning:card> -->
+    </aura:if>
+
+</aura:component>

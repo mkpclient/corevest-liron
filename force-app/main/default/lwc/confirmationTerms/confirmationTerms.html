@@ -1,0 +1,1440 @@
+<template>
+  <!-- <lightning-card title="test"> -->
+
+  <lightning-combobox
+    value={selectedProcessInstanceId}
+    options={picklists}
+    label="Approvals"
+    onchange={historyChange}
+  >
+  </lightning-combobox>
+  <br />
+  <br />
+  <div class="slds-grid">
+    <div class="slds-col slds-size_1-of-1">
+      <template if:true={isCloserPanel}>
+        <template if:true={isEnabledCloserPanel}>
+          <template if:true={showSubmissionButton}>
+            <lightning-button
+              onclick={openModal}
+              label="Submit Approval"
+              class="slds-float_right"
+              variant="brand"
+            ></lightning-button>
+          </template>
+        </template>
+        <template if:false={isEnabledCloserPanel}>
+          <lightning-button
+            label="Recall"
+            class="slds-float_right"
+            variant="brand"
+            onclick={openModalReject}
+          ></lightning-button>
+        </template>
+      </template>
+      <!-- </template> -->
+
+      <template if:true={isOriginatorPanel}>
+        <template if:true={isEnabledOriginatorPanel}>
+          <lightning-button
+            onclick={openModal}
+            label="Approve"
+            class="slds-float_right slds-m-left_small"
+            variant="success"
+          ></lightning-button>
+          <lightning-button
+            onclick={openOriginationsModalReject}
+            label="Reject"
+            class="slds-float_right"
+            variant="destructive"
+          ></lightning-button>
+        </template>
+
+        <!-- <template if:false={isEnabledOriginatorPanel}>
+          <lightning-button
+            label="Approve"
+            class="slds-float_right slds-m-left_small"
+            variant="success"
+            disabled
+          ></lightning-button>
+          <lightning-button
+            label="Reject"
+            class="slds-float_right"
+            variant="destructive"
+            disabled
+          ></lightning-button>
+        </template> -->
+      </template>
+
+      <template if:true={isUnderWriterPanel}>
+        <template if:true={isEnabledUnderwriterPanel}>
+          <lightning-button
+            onclick={openModal}
+            label="Approve"
+            class="slds-float_right slds-m-left_small"
+            variant="success"
+          ></lightning-button>
+          <lightning-button
+            onclick={openModalReject}
+            label="Reject"
+            class="slds-float_right"
+            variant="destructive"
+          ></lightning-button>
+        </template>
+      </template>
+    </div>
+  </div>
+
+  <div class="spacing">Submission Comments: {comments.submissionComments}</div>
+
+  <lightning-accordion
+    allow-multiple-sections-open
+    active-section-name={activeSections}
+  >
+    <lightning-accordion-section
+      name="originations"
+      label="Originations Approval Details"
+    >
+      <table>
+        <tbody>
+          <tr
+            style="
+              width: 100%;
+              border-bottom: 1px solid rgb(90, 90, 90);
+              border-collapse: collapse;
+            "
+          >
+            <td style="width: 15%; padding: 5px"></td>
+            <td
+              style="
+                width: 25%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Details at Submission
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Current Details
+            </td>
+            <td
+              style="
+                width: 35%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Comments
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Deposit Amount Collected
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.depositCollected}
+                format-style="currency"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                label="depositAmount"
+                variant="label-hidden"
+                value={currentDetails.depositCollected}
+                formatter="currency"
+                type="number"
+                disabled={originationsFieldsDisabled}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="depositCollected"
+              ></lightning-input>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.depositCollected}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="depositCollected"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Final Spread
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.finalSpread}
+                format-style="percent"
+                maximum-fraction-digits="4"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.finalSpread}
+                format-style="percent"
+                maximum-fraction-digits="4"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.finalSpread}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="finalSpread"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Recourse
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.recourse}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={currentDetails.recourse}
+              ></lightning-formatted-text>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.recourse}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="recourse"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Foreign National
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                type="checkbox"
+                checked={submissionDetails.foreignNational}
+                label="foreignNational"
+                variant="label-hidden"
+                disabled
+              ></lightning-input>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                type="checkbox"
+                checked={currentDetails.foreignNational}
+                label="foreignNational"
+                variant="label-hidden"
+                disabled
+              ></lightning-input>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.foreignNational}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="foreignNational"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Holdback Multiplier
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.holdback}
+                maximum-fraction-digits="0"
+              >
+                ></lightning-formatted-number
+              >
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                label="holdback"
+                variant="label-hidden"
+                value={currentDetails.holdback}
+                step="0"
+                type="number"
+                disabled={originationsFieldsDisabled}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="holdback"
+                required
+              ></lightning-input>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.holdback}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="holdback"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Broker Fee %
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.brokerFees}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.brokerFees}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.brokerFees}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="brokerFees"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Term Loan Type
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.termLoanType}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.termLoanType}
+              ></lightning-formatted-text>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.termLoanType}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="termLoanType"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Amortization Term
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.amortizationTerm}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.amortizationTerm}
+              ></lightning-formatted-text>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.amortizationTerm}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="amortizationTerm"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Cash Management
+            </td>
+
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.cashManagement}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={currentDetails.cashManagement}
+              ></lightning-formatted-text>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.cashManagement}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="cashManagement"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Origination Fee %
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.originationFee}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.originationFee}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.originationFee}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="originationFee"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Broker YSP %
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.brokerYSP}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.brokerYSP}
+                format-style="percent"
+                maximum-fraction-digits="3"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.brokerYSP}
+                disabled={originationsFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="brokerYSP"
+              ></lightning-textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="spacing">
+        Originations Comments: {comments.originationsComments}
+      </div>
+    </lightning-accordion-section>
+
+    <lightning-accordion-section
+      name="underwriter"
+      label="Underwriter Approval Details"
+    >
+      <table>
+        <tbody>
+          <tr
+            style="
+              width: 100%;
+              border-bottom: 1px solid rgb(90, 90, 90);
+              border-collapse: collapse;
+            "
+          >
+            <td style="width: 15%; padding: 5px"></td>
+            <td
+              style="
+                width: 25%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Details at Submission
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Current Details
+            </td>
+            <td
+              style="
+                width: 35%;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 15px;
+                text-align: center;
+              "
+            >
+              Comments
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Current Loan Amount
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.currentLoanAmount}
+                format-style="currency"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.currentLoanAmount}
+                format-style="currency"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.currentLoanAmount}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="currentLoanAmount"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Is this Loan Amortized or Interest Only?
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.amortizationStatus}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.amortizationStatus}
+                label="label"
+                variant="label-hidden"
+                options={amortizationStatusOptions}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="amortizationStatus"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.amortizationStatus}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="amortizationStatus"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Property Management
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={submissionDetails.propertyManagement}
+              ></lightning-formatted-text>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-text
+                value={currentDetails.propertyManagement}
+              ></lightning-formatted-text>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.propertyManagement}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="propertyManagement"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Property Management Adjustment
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={submissionDetails.propertyManagementAdjustment}
+                format-style="percent"
+                maximum-fraction-digits="1"
+              ></lightning-formatted-number>
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-formatted-number
+                value={currentDetails.propertyManagementAdjustment}
+                format-style="percent"
+                maximum-fraction-digits="1"
+              ></lightning-formatted-number>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.propertyManagementAdjustment}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="propertyManagementAdjustment"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Total Annual Cap Ex
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                label="depositAmount"
+                variant="label-hidden"
+                value={currentDetails.totalAnnualCapEx}
+                type="number"
+                formatter="currency"
+                onchange={handleCurrentDetailsUpdate}
+                data-field="totalAnnualCapEx"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-input>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.totalAnnualCapEx}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="totalAnnualCapEx"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Valuation Invoices
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-input
+                label="depositAmount"
+                variant="label-hidden"
+                value={currentDetails.valuationInvoices}
+                type="number"
+                formatter="currency"
+                onchange={handleCurrentDetailsUpdate}
+                data-field="valuationInvoices"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-input>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.valuationInvoices}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="valuationInvoices"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Valuation Invoice uploaded to SF?
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.valuationInvoiceUploaded}
+                label="label"
+                variant="label-hidden"
+                options={picklistOptions}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="valuationInvoiceUploaded"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.valuationInvoiceUploaded}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="valuationInvoiceUploaded"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Lease and PP review complete?
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.leasePPReviewComplete}
+                label="label"
+                variant="label-hidden"
+                options={picklistOptions}
+                onchange={leasePPReviewComplete}
+                data-field="totalAnnualCapEx"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.leasePPReviewComplete}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="leasePPReviewComplete"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Insurance Complete
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.insuranceComplete}
+                label="label"
+                variant="label-hidden"
+                options={picklistOptions}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="insuranceComplete"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.insuranceComplete}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="insuranceComplete"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Model up to date
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.modelUpToDate}
+                label="label"
+                variant="label-hidden"
+                options={picklistOptions}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="modelUpToDate"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.modelUpToDate}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="modelUpToDate"
+              ></lightning-textarea>
+            </td>
+          </tr>
+
+          <tr>
+            <td
+              style="
+                width: 15%;
+                padding-left: 10px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              Clear to Lock
+            </td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            ></td>
+            <td
+              style="
+                width: 25%;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-right: 1px solid rgb(90, 90, 90);
+                border-collapse: collapse;
+              "
+            >
+              <lightning-combobox
+                value={currentDetails.clearToLock}
+                label="label"
+                variant="label-hidden"
+                options={picklistOptions}
+                onchange={handleCurrentDetailsUpdate}
+                data-field="clearToLock"
+                disabled={underwriterFieldsDisabled}
+              ></lightning-combobox>
+            </td>
+            <td style="width: 35%; padding-left: 20px; padding-right: 20px">
+              <lightning-textarea
+                label="comments"
+                variant="label-hidden"
+                value={comments.clearToLock}
+                disabled={underwriterFieldsDisabled}
+                onchange={handleCommentsUpdate}
+                data-field="clearToLock"
+              ></lightning-textarea>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="spacing">
+        Underwriter Comments: {comments.underwriterComments}
+      </div>
+    </lightning-accordion-section>
+  </lightning-accordion>
+
+  <c-modal title="Confirmation of Terms">
+    <div slot="body">
+      <template if:true={showButtonsCloser}>
+        <lightning-textarea
+          label="Comments for Closer review:"
+          value={closerReviewComment}
+          data-field="closerReviewComment"
+          onchange={handleModalComments}
+          required
+        >
+        </lightning-textarea>
+      </template>
+
+      <template if:true={showButtonsOriginator}
+        ><lightning-textarea
+          label="Comments for Originations review:"
+          value={origingatorReviewComment}
+          data-field="origingatorReviewComment"
+          onchange={handleModalComments}
+          required
+        >
+        </lightning-textarea>
+      </template>
+
+      <template if:true={showButtonsUnderwriter}>
+        <lightning-textarea
+          label="Comments for Underwriter review:"
+          value={underwriterReviewComment}
+          data-field="underwriterReviewComment"
+          onchange={handleModalComments}
+          required
+        >
+        </lightning-textarea
+      ></template>
+    </div>
+
+    <div slot="footer">
+      <template if:true={showButtonsCloser}>
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          class="slds-button"
+          onclick={closeModal}
+        ></lightning-button>
+        <lightning-button
+          variant="neutral"
+          label="Submit"
+          class="slds-button"
+          onclick={submitApproval}
+        ></lightning-button
+      ></template>
+
+      <template if:true={showButtonsOriginator}
+        ><lightning-button
+          variant="neutral"
+          label="Cancel"
+          class="slds-button"
+          onclick={closeModal}
+        ></lightning-button>
+        <lightning-button
+          variant="neutral"
+          label="Submit"
+          class="slds-button"
+          onclick={submitOriginator}
+        ></lightning-button>
+      </template>
+
+      <template if:true={showButtonsUnderwriter}>
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          class="slds-button"
+          onclick={closeModal}
+        ></lightning-button>
+        <lightning-button
+          variant="neutral"
+          label="Submit"
+          class="slds-button"
+          onclick={submitUnderwriter}
+        ></lightning-button
+      ></template>
+    </div>
+  </c-modal>
+
+  <!-- </lightning-card> -->
+</template>

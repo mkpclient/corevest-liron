@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IfAcquiredThroughTrusteeYouObtainInsuran__c</fullName>
+    <description>If acquired through a trustee&apos;s sale, do you obtain Title insurance?</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If acquired through a trustee&apos;s sale, do you obtain Title insurance?</inlineHelpText>
+    <label>IfAcquiredThroughTrusteeYouObtainInsuran</label>
+    <length>3</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

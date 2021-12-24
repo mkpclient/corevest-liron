@@ -1,0 +1,75 @@
+<aura:component>
+  <!-- <aura:attribute name="defaults" type="Map" /> -->
+  <aura:attribute type="String" name="recordId" />
+  <aura:attribute type="String" name="body" />
+  <aura:attribute type="String" name="subject" />
+  <aura:attribute name="emailOpen" type="Boolean" default="false" />
+  <aura:method name="openModal" action="{!c.init}">
+    <aura:attribute name="defaults" type="Map" />
+  </aura:method>
+
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    aura:id="modal"
+    class="slds-modal"
+  >
+    <div
+      class="slds-modal__container"
+      style="
+        margin: 0 auto;
+        width: auto !important;
+        max-width: 85% !important;
+        min-width: 20rem;
+      "
+    >
+      <header class="slds-modal__header">
+        <!-- <button
+          class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+          title="Close"
+        >
+          <svg
+            class="slds-button__icon slds-button__icon_large"
+            aria-hidden="true"
+          >
+            <use
+              xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"
+            ></use>
+          </svg>
+          <span class="slds-assistive-text">Close</span>
+        </button> -->
+        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+          Email Composer
+        </h2>
+      </header>
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="modal-content-id-1"
+      >
+        <!-- <aura:if isTrue="{!v.emailOpen}"> -->
+
+        <c:EmailComposerAura
+          recordId="{!v.recordId}"
+          subject="{!v.subject}"
+          aura:id="composer"
+        />
+        <!-- </aura:if> -->
+      </div>
+      <footer class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick="{!c.closeModal}"
+        >
+          Cancel
+        </button>
+        <button class="slds-button slds-button_brand" onclick="{!c.send}">
+          Send Email
+        </button>
+      </footer>
+    </div>
+  </section>
+  <div aura:id="backdrop" class="slds-backdrop"></div>
+</aura:component>

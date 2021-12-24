@@ -1,0 +1,74 @@
+<aura:component
+  controller="DashboardPricing_LightningController"
+  implements="flexipage:AvailableForAllPageTypes,force:appHostable"
+>
+  <aura:attribute name="allApprovals" type="Object[]" />
+  <aura:attribute name="approvals" type="Object[]" />
+  <aura:attribute name="hideOption" type="String" default="More" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <article class="slds-card" style="background: white">
+    <div class="slds-card__header slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__figure">
+          <span
+            class="slds-icon_container slds-icon-standard-contact"
+            title="description of icon when needed"
+          >
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <h2>
+            <span class="slds-text-heading_small"
+              ><a href="/lightning/n/Pricing_Reviews_In_Progress"
+                >Pricing Reviews In Progress</a
+              ></span
+            >
+          </h2>
+        </div>
+      </header>
+    </div>
+    <div class="slds-card__body slds-card__body_inner">
+      <aura:iteration items="{!v.approvals}" var="approval">
+        <button class="section" onclick="{!c.showApproval}">
+          <span class="marker"> + </span>
+          &nbsp; {!approval.oppName}: {!approval.processStatus}
+          <br />
+          <div style="font-size: 11px; font-weight: bold">
+            &nbsp;&nbsp;&nbsp;&nbsp;Date Submitted:
+            {!approval.createdDateFormatted} &nbsp; Time Since Submission:
+            {!approval.timeInSubmission}
+          </div>
+        </button>
+
+        <div class="hide detail-section" data-state="hidden">
+          <aura:iteration items="{!approval.ahSet}" var="record">
+            <div>
+              <span>
+                <aura:if
+                  isTrue="{!!empty(record.Process_Id__c) &amp;&amp; record.Status__c == 'Pending'}"
+                >
+                  {!record.Approver__c}:
+                  <a
+                    href="{!'/one/one.app?#/sObject/' + record.Process_Id__c + '/view'}"
+                    >{!record.Status_Text__c}</a
+                  >
+                  <aura:set attribute="else">
+                    {!record.Approver__c}: {!record.Status_Text__c}
+                  </aura:set>
+                </aura:if>
+              </span>
+            </div>
+          </aura:iteration>
+        </div>
+      </aura:iteration>
+      <div
+        style="text-align: center; padding: 6px; cursor: pointer"
+        onclick="{!c.showMore}"
+        data-state="hide"
+      >
+        {!v.hideOption}
+      </div>
+    </div>
+  </article>
+</aura:component>

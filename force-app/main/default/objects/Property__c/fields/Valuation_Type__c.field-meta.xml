@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Valuation_Type__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Type of Valuation/Appraisal performed on this Property</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Type of Valuation/Appraisal performed on this Property</inlineHelpText>
+    <label>Valuation Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Addendum</fullName>
+                <default>false</default>
+                <label>Addendum</label>
+            </value>
+            <value>
+                <fullName>Appraisal Update</fullName>
+                <default>false</default>
+                <label>Appraisal Update</label>
+            </value>
+            <value>
+                <fullName>Appraisal with AS IS with ARV</fullName>
+                <default>false</default>
+                <label>Appraisal with AS IS with ARV</label>
+            </value>
+            <value>
+                <fullName>Certification of Completion</fullName>
+                <default>false</default>
+                <label>Certification of Completion</label>
+            </value>
+            <value>
+                <fullName>ClearVal 2.0 (Exterior PCI)</fullName>
+                <default>false</default>
+                <label>ClearVal 2.0 (Exterior PCI)</label>
+            </value>
+            <value>
+                <fullName>ClearVal 2.0 (Interior PCI)</fullName>
+                <default>false</default>
+                <label>ClearVal 2.0 (Interior PCI)</label>
+            </value>
+            <value>
+                <fullName>Commercial</fullName>
+                <default>false</default>
+                <label>Commercial</label>
+            </value>
+            <value>
+                <fullName>CoreVal+</fullName>
+                <default>false</default>
+                <label>CoreVal+</label>
+            </value>
+            <value>
+                <fullName>Drive By BPO</fullName>
+                <default>false</default>
+                <label>Drive By BPO</label>
+            </value>
+            <value>
+                <fullName>Exterior Appraisal</fullName>
+                <default>false</default>
+                <label>Exterior Appraisal</label>
+            </value>
+            <value>
+                <fullName>Exterior Desktop Appraisal</fullName>
+                <default>false</default>
+                <label>Exterior Desktop Appraisal</label>
+            </value>
+            <value>
+                <fullName>Interior Appraisal</fullName>
+                <default>false</default>
+                <label>Interior Appraisal</label>
+            </value>
+            <value>
+                <fullName>Interior BPO</fullName>
+                <default>false</default>
+                <label>Interior BPO</label>
+            </value>
+            <value>
+                <fullName>Interior Desktop Appraisal</fullName>
+                <default>false</default>
+                <label>Interior Desktop Appraisal</label>
+            </value>
+            <value>
+                <fullName>Market Value Pro Exterior</fullName>
+                <default>false</default>
+                <label>Market Value Pro Exterior</label>
+            </value>
+            <value>
+                <fullName>Market Value Pro Interior</fullName>
+                <default>false</default>
+                <label>Market Value Pro Interior</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

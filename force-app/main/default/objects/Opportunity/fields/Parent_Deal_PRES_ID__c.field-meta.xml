@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Parent_Deal_PRES_ID__c</fullName>
+    <businessStatus>DeprecateCandidate</businessStatus>
+    <description>Not Used</description>
+    <externalId>false</externalId>
+    <formula>Parent_Deal__r.Pres_Deal_ID_formula__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Parent Deal PRES ID</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

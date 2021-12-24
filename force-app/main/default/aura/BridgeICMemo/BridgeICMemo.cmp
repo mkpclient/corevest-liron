@@ -1,0 +1,99 @@
+<aura:component controller="BridgeICMemoController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="Deal" type="Opportunity" default="{'sobjectType':'Opportunity'}"/>
+    <aura:attribute name="unsavedObj" type="object" />
+    <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+    <!--<aura:attribute name="Deal" type="SObject"/> -->
+    
+    <aura:attribute name="iframeBaseURL" type="String" />
+    <!-- Print iFrame -->
+    <iframe style="height : 0; width : 0; position : absolute; z-index : -99999; visibility:hidden;" height="100%" id="vfFrame" aura:id="vfFrame"></iframe>
+    <!-- Print iFrame -->
+    <div class="slds slds-container--center" >
+        <!--section 1-->
+        <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+            <span>Bridge IC Memo</span>
+        </h3>
+        <lightning:layout multipleRows="true">
+            <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="annualincomeyear" label="Annual Income Year" value="{!v.unsavedObj.annualincomeyear}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="annualincome" label="Annual Income" value="{!v.unsavedObj.annualincome}"/>
+                </div>
+            </lightning:layoutItem>
+            <!-- <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="repeatborrower" label="Repeat Borrower" value="{!v.unsavedObj.repeatborrower}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="fundedborrower" label="Funded Amount" value="{!v.unsavedObj.fundedborrower}"/>
+                </div>
+            </lightning:layoutItem>  -->
+            <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="deliquencyhistory" label="Delinquency History" value="{!v.unsavedObj.deliquencyhistory}"/>
+                </div>
+            </lightning:layoutItem>
+            
+            <!-- <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="recourse" label="Recourse" value="{!v.unsavedObj.recourse}"/>
+                </div>
+            </lightning:layoutItem> -->
+            <!-- <lightning:layoutItem padding="around-small" size="6">
+                <div>
+                    <lightning:input aura:id="glcapproveddate" label="GLC Date" value="{!v.unsavedObj.glcapproveddate}"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+            </lightning:layoutItem> -->
+            <!-- <aura:if isTrue="{! or(v.Deal.LOC_Loan_Type__c == 'Multifamily/CRE', or(v.Deal.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)',v.Deal.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)',v.Deal.LOC_Loan_Type__c == 'Build to Rent'))}">
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="loanpsf" label="Loan PSF" value="{!v.unsavedObj.loanpsf}"/>
+                    </div>
+                </lightning:layoutItem>
+                
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="loanperunit" label="Loan Per Unit" value="{!v.unsavedObj.loanperunit}"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="valuepsf" label="Value PSF" value="{!v.unsavedObj.valuepsf}"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="valueperunit" label="Value Per Unit" value="{!v.unsavedObj.valueperunit}"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="sponsorcostpsf" label="Sponsor Cost PSF" value="{!v.unsavedObj.sponsorcostpsf}"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <lightning:input aura:id="sponsorcpu" label="Sponsor CPU" value="{!v.unsavedObj.sponsorcpu}"/>
+                    </div>
+                </lightning:layoutItem> 
+            </aura:if> -->
+            <lightning:layoutItem padding="around-large" size="12" class="slds-m-top--small slds-text-align--center">
+                <lightning:button variant="brand" label="Print" onclick="{!c.saveAndPrint}" />
+                <lightning:button variant="brand" label="Cancel" onclick="{!c.cancel}" /> 
+                
+            </lightning:layoutItem>
+            
+            
+        </lightning:layout>
+    </div>      
+    {!v.body}
+</aura:component>

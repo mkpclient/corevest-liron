@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Strategy__c</fullName>
+    <externalId>false</externalId>
+    <label>Strategy</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Fix/Flip</fullName>
+                <default>false</default>
+                <label>Fix/Flip</label>
+            </value>
+            <value>
+                <fullName>Buy/Hold</fullName>
+                <default>false</default>
+                <label>Buy/Hold</label>
+            </value>
+            <value>
+                <fullName>Multiple</fullName>
+                <default>false</default>
+                <label>Multiple</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Opportunity_Invoices</fullName>
+    <columns>Folder_Structure_String__c</columns>
+    <columns>Sort__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>RecordType__c</columns>
+    <columns>sObject__c</columns>
+    <columns>Vendor_Access__c</columns>
+    <columns>Vendor_Type_Access__c</columns>
+    <columns>Borrower_Access__c</columns>
+    <columns>Confidential__c</columns>
+    <columns>Clear_To_Close_Setting__c</columns>
+    <columns>Borrower_Checklist__c</columns>
+    <columns>Display_In_Internal_Picklist__c</columns>
+    <columns>Display_In_Portal_Picklist__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>Term_Loan</value>
+    </filters>
+    <filters>
+        <field>sObject__c</field>
+        <operation>equals</operation>
+        <value>Opportunity</value>
+    </filters>
+    <filters>
+        <field>Folder_Structure_String__c</field>
+        <operation>equals</operation>
+        <value>Invoices</value>
+    </filters>
+    <label>Term Opportunity - Invoices</label>
+</ListView>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Between_Wire_and_Last_Day_Month__c</fullName>
+    <description>Previous:
+IF(
+  MONTH(  Wire_Date__c ) = 12,
+  DATE( YEAR( Wire_Date__c ), 12, 31 ),
+  DATE( YEAR( Wire_Date__c ), MONTH ( Wire_Date__c ) + 1, 1 ) - 1 
+)</description>
+    <externalId>false</externalId>
+    <formula>IF( ISBLANK(Wire_Date__c),
+IF(
+  MONTH( Target_Advance_Date__c ) = 12,
+  DATE( YEAR( Target_Advance_Date__c ), 12, 31 ),
+  DATE( YEAR( Target_Advance_Date__c ), MONTH ( Target_Advance_Date__c ) + 1, 1 ) - 1 
+) - Target_Advance_Date__c + 1,
+IF(
+  MONTH(  Wire_Date__c ) = 12,
+  DATE( YEAR( Wire_Date__c ), 12, 31 ),
+  DATE( YEAR( Wire_Date__c ), MONTH ( Wire_Date__c ) + 1, 1 ) - 1 
+) - Wire_Date__c + 1)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Number of days between the Wire Date and the last day of the Month</inlineHelpText>
+    <label>Days Between Wire and Last Day of Month</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

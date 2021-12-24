@@ -1,0 +1,30 @@
+<aura:component>
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="percentage" type="Decimal" />
+    <aura:attribute name="barText" type="String" />
+
+    <aura:attribute name="colorClass" type="String" />
+
+    <div class="slds-grid slds-grid_align-spread" id="progress-bar-label-id-1">
+        <span>{!v.title}</span>
+
+    </div>
+    <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" aria-labelledby="progress-bar-label-id-1"
+        role="progressbar">
+        <span aria-hidden="true" class="slds-float_left slds-is-relative" style="line-height: 3rem; left: 10px;">
+            <strong>
+                <lightning:formattedNumber value="{!v.percentage}" style="percent" />
+            </strong>
+        </span>
+        <span aria-hidden="true" class="slds-float_right slds-is-relative" style="line-height: 3rem; right: 10px;">
+            <strong>
+                {!v.barText}
+            </strong>
+        </span>
+        <span class="{!'slds-progress-bar__value ' + v.colorClass}" style="{!'width: ' + v.percentage*100 + '%;'}">
+
+            <span class="slds-assistive-text"></span>
+        </span>
+    </div>
+
+</aura:component>

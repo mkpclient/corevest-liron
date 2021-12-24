@@ -1,0 +1,36 @@
+.THIS .hide{
+    display: none;
+}
+
+.THIS .section {
+    background: #eef1f6;
+    color: inherit;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: inherit;
+    padding: 0 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    line-height: 1.875rem;
+    position: relative;
+    -webkit-appearance: none;
+    white-space: normal;
+    user-select: none;
+    margin-bottom: 12px;
+}
+
+.THIS .section:focus {
+    outline: 0;
+    box-shadow: 0 0 3px #0070D2;
+}
+
+.THIS .detail-section {
+    margin-bottom: 12px;
+}
+
+.THIS .marker {
+    font-weight: bold;
+    font-size: 14px;
+}

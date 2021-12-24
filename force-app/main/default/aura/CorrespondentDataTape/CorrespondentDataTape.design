@@ -1,0 +1,4 @@
+<design:component >
+    <design:attribute name="isCommunity" label="Is this a community" />
+    <design:attribute name="templateId" label="Template Id" />
+</design:component>

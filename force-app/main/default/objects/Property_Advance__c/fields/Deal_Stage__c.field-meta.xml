@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Stage__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Stage of the related Deal.  Used in DOMO</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Advance__r.Deal__r.StageName)</formula>
+    <inlineHelpText>Stage of the related Deal</inlineHelpText>
+    <label>Deal Stage</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,1870 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="record" type="Object" />
+  <aura:attribute name="propertyAdvances" type="Object[]" />
+  <aura:attribute name="wires" type="Object[]" />
+  <aura:attribute name="user" type="Object" />
+  <aura:attribute name="depositNotes" type="String" />
+  <aura:attribute name="brokerFeeLabel" type="String" />
+  <aura:handler event="force:refreshView" action="{!c.init}" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <!-- <aura:handler name="change" value={!v.record.Inspection_Fee} -->
+
+  <div class="slds-is-relative">
+    <lightning:spinner
+      variant="brand"
+      aura:id="spinner"
+      class="slds-hide"
+    ></lightning:spinner>
+
+    <div
+      class="{! and(!empty(v.permissionsMap), v.permissionsMap.sobject.isUpdateable) ? '' : 'slds-hide'}"
+    >
+      <lightning:buttonIcon
+        variant="bare"
+        iconName="utility:refresh"
+        alternativeText="refresh"
+        aura:id="refresh"
+        onclick="{!c.refresh}"
+        class="{!v.record.Status__c == 'Completed' ? 'slds-hide' : ''}"
+      />
+    </div>
+
+    <!-- Begin Non Renovation Table -->
+    <aura:if
+      isTrue="{!or(empty(v.record.RecordTypeId), v.record.RecordType_Name__c == 'Non Renovation Initial')}"
+    >
+      <ui:scrollerWrapper class="scrollerSize">
+        <table
+          class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--col-bordered"
+        >
+          <thead>
+            <tr class="slds-text-title--caps">
+              <th>
+                <div
+                  class="{! and(!empty(v.permissionsMap), v.permissionsMap.sobject.isUpdateable) ? '' : 'slds-hide'}"
+                >
+                  <lightning:buttonIcon
+                    variant="bare"
+                    iconName="utility:delete"
+                    class="{!v.record.Status__c == 'Completed' ? 'slds-hide' : ''}"
+                    alternativeText="Delete Property Advance"
+                    onclick="{!c.delete}"
+                  />
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Property #">Property #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Yardi ID">Yardi ID</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Wire #">Wire #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Assessor's Parcel Number">
+                  Assessor's Parcel Number
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Address">Address</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Purchase Price">
+                  Purchase Price
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Appraisal Value">
+                  Appraisal Value
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Max LTC">Max LTC</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Max LTV">Max LTV</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Approved Advance Amount">
+                  Approved Advance Amount Max
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Advance Fee">Advance Fee</div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Origination Fee">
+                    Origination Fee
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Broker Fee">{!v.brokerFeeLabel}</div>
+                </th>
+                <!-- <aura:set attribute="else">
+                  <th scope="col">
+                    <div class="slds-truncate" title="Broker Fee">Broker Fee</div>
+                  </th>
+                </aura:set> -->
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Daily Interest Rate">
+                    Daily Interest Rate
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="col">
+                <div class="slds-truncate" title="Appraisal Fee">
+                  Appraisal Fee
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Doc Prep Fee">
+                  Doc Prep Fee
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Net Funding">Net Funding</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Non Renovation Table Data Rows -->
+            <aura:iteration
+              items="{!v.propertyAdvances}"
+              indexVar="index"
+              var="item"
+            >
+              <tr>
+                <th scope="row" data-lable="">
+                  <ui:inputCheckbox aura:id="checkbox" name="{!item.Id}" />
+                </th>
+                <th scope="row" data-label="{!index}">
+                  <div class="slds-truncate" title="{!index}">{!index+1}</div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Property__r.Yardi_Id__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Wire__r.Wire_Number__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Property__r.APN__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputURL
+                      label="{!item.Property__r.Name}"
+                      title="{!item.Property__c}"
+                      click="{!c.handleClick}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Purchase_Price__c) ? 0 : item.Purchase_Price__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.BPO_Appraisal_Value__c) ? 0 : item.BPO_Appraisal_Value__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Max_LTC_Dollar__c) ? 0 : item.Max_LTC_Dollar__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Max_LTV_Dollar__c) ? 0 : item.Max_LTV_Dollar__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Approved_Advance_Amount_Max__c) ? 0 : item.Approved_Advance_Amount_Max__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Advance_Fee__c) ? 0 : item.Advance_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Origination_Fee__c) ? 0 : item.Origination_Fee__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Broker_Advance_Fee__c) ? 0 : item.Broker_Advance_Fee__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Daily_Interest_Rate_Total__c) ? 0 : item.Daily_Interest_Rate_Total__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.BPO_Appraisal_Fee__c) ? 0 : item.BPO_Appraisal_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Doc_Prep_Fee__c) ? 0 : item.Doc_Prep_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Net_Funding__c) ? 0 : item.Net_Funding__c}"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </aura:iteration>
+
+            <!-- Non Renovation Sub-total Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Sub-Total:">
+                <div class="slds-truncate" title="Sub-Total:">Sub-Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Purchase_Price_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Value_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency value="{!v.record.Max_LTC_Total__c}" />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency value="{!v.record.Max_LTV_Total__c}" />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Advance_Amount_Max_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Advance_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Origination_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(v.record.Broker_Advance_Fee_Subtotal__c) ? 0 : v.record.Broker_Advance_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Daily_Interest_Rate_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Doc_Prep_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Net_Funding_Subtotal__c}"
+                  />
+                </div>
+              </th>
+            </tr>
+
+            <!-- Non Renovation Table Adjustments Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Adjustments:">
+                <div class="slds-truncate" title="Adjustments:">
+                  Adjustments:
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class=""
+                    value="{!v.record.Advance_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:inputCurrency
+                      class=""
+                      value="{!v.record.Origination_Fee_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title=""></div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:inputCurrency
+                      class=""
+                      value="{!v.record.Daily_Interest_Rate_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class="slds-input"
+                    value="{!v.record.BPO_Appraisal_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class="slds-input"
+                    value="{!v.record.Doc_Prep_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+            </tr>
+
+            <!-- Non Renovation Table Totals Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Total:">
+                <div class="slds-truncate" title="Total:">Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Purchase_Price_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Value_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency value="{!v.record.Max_LTC_Total__c}" />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency value="{!v.record.Max_LTV_Total__c}" />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Advance_Amount_Max_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Advance_Fee_Subtotal__c+v.record.Advance_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Origination_Fee_Subtotal__c+v.record.Origination_Fee_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Broker_Advance_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Daily_Interest_Rate_Subtotal__c+v.record.Daily_Interest_Rate_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Fee_Subtotal__c+v.record.BPO_Appraisal_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Doc_Prep_Fee_Subtotal__c + v.record.Doc_Prep_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Net_Funding_Subtotal__c-
+                                                                                          (v.record.Advance_Fee_Adjustment__c+
+                                                                                          v.record.Origination_Fee_Adjustment__c+
+                                                                                          v.record.BPO_Appraisal_Fee_Adjustment__c+
+                                                                                          v.record.Doc_Prep_Fee_Adjustment__c+
+                                                                                          v.record.Daily_Interest_Rate_Adjustment__c+
+                                                                                          v.record.Inspection_Fee_Adjustment__c)}"
+                  />
+                </div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </ui:scrollerWrapper>
+    </aura:if>
+
+    <!-- Renovation Table Begin -->
+
+    <aura:if isTrue="{!v.record.RecordType_Name__c == 'Renovation Initial' || v.record.RecordType_Name__c == 'Construction Advance'}">
+      <ui:scrollerWrapper class="scrollerSize">
+        <table
+          class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--col-bordered"
+        >
+          <thead>
+            <tr class="slds-text-title--caps">
+              <th>
+                <lightning:buttonIcon
+                  variant="bare"
+                  iconName="utility:delete"
+                  class="{!v.record.Status__c == 'Completed' ? 'slds-hide' : ''}"
+                  alternativeText="Delete Property Advance"
+                  onclick="{!c.delete}"
+                />
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Property #">Property #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Yardi ID">Yardi ID</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Wire #">Wire #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Assessor's Parcel Number">
+                  Assessor's Parcel Number
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Address">Address</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Initial Disbursement">
+                  Initial Disbursement
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Renovation Advance">
+                  Renovation Advance
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Renovation Advance">
+                  Approved Renovation Amount
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Approved Advance Amount">
+                  Approved Advance Amount Max
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Advance Fee">Advance Fee</div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Origination Fee">
+                    Origination Fee
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Broker Fee">{!v.brokerFeeLabel}</div>
+                </th>
+                <!-- <aura:set attribute="else">
+                  <th scope="col">
+                    <div class="slds-truncate" title="Broker Fee">Broker Fee</div>
+                  </th>
+                </aura:set> -->
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="col">
+                  <div class="slds-truncate" title="Daily Interest Rate">
+                    Daily Interest Rate
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="col">
+                <div class="slds-truncate" title="Onboarding Fee">
+                  Onboarding Fee
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Appraisal Fee">
+                  Appraisal Fee
+                </div>
+              </th>
+              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                <th scope="col">
+                  <div class="slds-truncate" title="Inspection Fee">
+                    Inspection Fee
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="col">
+                <div class="slds-truncate" title="Doc Prep Fee">
+                  Doc Prep Fee
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Net Funding">Net Funding</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Renovation Table Data Row -->
+            <aura:iteration
+              items="{!v.propertyAdvances}"
+              indexVar="index"
+              var="item"
+            >
+              <tr>
+                <th scope="row" data-lable="">
+                  <ui:inputCheckbox aura:id="checkbox" name="{!item.Id}" />
+                </th>
+                <th scope="row" data-label="{!index}">
+                  <div class="slds-truncate" title="{!index}">{!index+1}</div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Property__r.Yardi_Id__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Wire__r.Wire_Number__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Property__r.APN__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputURL
+                      label="{!item.Property__r.Name}"
+                      title="{!item.Property__c}"
+                      click="{!c.handleClick}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Initial_Disbursement__c) ? 0 : item.Initial_Disbursement__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Renovation_Reserve__c) ? 0 : item.Renovation_Reserve__c}"
+                    />
+                    <!-- RENOVATION RESERVE <ui:outputCurrency value="{!empty(item.BPO_Appraisal_Value__c) ? 0 : item.BPO_Appraisal_Value__c}" /> -->
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Approved_Renovation_Holdback__c) ? 0 : item.Approved_Renovation_Holdback__c}"
+                    />
+                    <!-- RENOVATION RESERVE <ui:outputCurrency value="{!empty(item.BPO_Appraisal_Value__c) ? 0 : item.BPO_Appraisal_Value__c}" /> -->
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Approved_Advance_Amount_Max__c) ? 0 : item.Approved_Advance_Amount_Max__c}"
+                    /><!-- APPROVED ADVANCE AMOUNT <ui:outputCurrency value="{!empty(item.Max_LTC_Dollar__c) ? 0 : item.Max_LTC_Dollar__c}" /> -->
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Advance_Fee__c) ? 0 : item.Advance_Fee__c}"
+                    /><!-- ADVANCE FEE <ui:outputCurrency value="{!empty(item.Max_LTV_Dollar__c) ? 0 : item.Max_LTV_Dollar__c}" /> -->
+                  </div>
+                </th>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Origination_Fee__c) ? 0 : item.Origination_Fee__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Broker_Advance_Fee__c) ? 0 : item.Broker_Advance_Fee__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <aura:if
+                  isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+                >
+                  <th scope="" data-label="">
+                    <div class="slds-truncate" title="">
+                      <ui:outputCurrency
+                        value="{!empty(item.Daily_Interest_Rate_Total__c) ? 0 : item.Daily_Interest_Rate_Total__c}"
+                      />
+                    </div>
+                  </th>
+                </aura:if>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.BlackSquare_Fee__c) ? 0 : item.BlackSquare_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.BPO_Appraisal_Fee__c) ? 0 : item.BPO_Appraisal_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                  <th scope="" data-label="">
+                    <!-- <div class="slds-truncate" title=""
+                      ><ui:outputCurrency
+                        value="{!empty(item.Inspection_Fee__c) ? 0 : item.Inspection_Fee__c}"
+                    /></div>
+                  </th>
+                  <th scope="" data-label=""> -->
+                    <!-- inspection fee input -->
+                    <!-- <lightning:input
+                  type="number"
+                  formatter="currency"
+                  step="0.01"
+                  label="inspection fee"
+                  variant="label-hidden"
+                  value="{!item.Inspection_Fee__c}"
+                  onchange="{!c.calculateSubTotals}"
+                ></lightning:input> -->
+                    <ui:inputCurrency
+                      class=""
+                      value="{!item.Inspection_Fee__c}"
+                      updateOn="keyup"
+                      keyup="{!c.calculateSubTotals}"
+                    />
+                  </th>
+                </aura:if>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Doc_Prep_Fee__c) ? 0 : item.Doc_Prep_Fee__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Net_Funding__c) ? 0 : item.Net_Funding__c}"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </aura:iteration>
+
+            <!-- Renovation Table Sub-Total Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Sub-Total:">
+                <div class="slds-truncate" title="Sub-Total:">Sub-Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Initial_Disbursement_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Renovation_Reserve_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Renovation_Amount_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <!--<ui:outputCurrency
+                    value="{!v.record.Approved_Advance_Amount_Total__c}"
+                  /> <ui:outputCurrency value="{!v.record.Max_LTC_Total__c}" /> -->
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Advance_Amount_Max_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <!-- <ui:outputCurrency value="{!v.record.Max_LTV_Total__c}" /> -->
+                  <ui:outputCurrency
+                    value="{!v.record.Advance_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Origination_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Broker_Advance_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Daily_Interest_Rate_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BlackSquare_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Inspection_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Doc_Prep_Fee_Subtotal__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Net_Funding_Subtotal__c}"
+                  />
+                </div>
+              </th>
+            </tr>
+
+            <!-- Renovation Table Adjustments Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Adjustments:">
+                <div class="slds-truncate" title="Adjustments:">
+                  Adjustments:
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class=""
+                    value="{!v.record.Advance_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:inputCurrency
+                      class=""
+                      value="{!v.record.Origination_Fee_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title=""></div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:inputCurrency
+                      class=""
+                      value="{!v.record.Daily_Interest_Rate_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class=""
+                    value="{!v.record.BlackSquare_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class="slds-input"
+                    value="{!v.record.BPO_Appraisal_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:inputCurrency
+                      class=""
+                      value="{!v.record.Inspection_Fee_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:inputCurrency
+                    class="slds-input"
+                    value="{!v.record.Doc_Prep_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+            </tr>
+
+            <!-- Renovation Table Total Row -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Total:">
+                <div class="slds-truncate" title="Total:">Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Initial_Disbursement_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Renovation_Reserve_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Renovation_Amount_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Approved_Advance_Amount_Max_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Advance_Fee_Subtotal__c+v.record.Advance_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Origination_Fee_Total__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Broker_Advance_Fee_Subtotal__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <aura:if
+                isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+              >
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Daily_Interest_Rate_Subtotal__c+v.record.Daily_Interest_Rate_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BlackSquare_Fee_Subtotal__c+v.record.BlackSquare_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Fee_Subtotal__c+v.record.BPO_Appraisal_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!v.record.Inspection_Fee_Subtotal__c + v.record.Inspection_Fee_Adjustment__c}"
+                    />
+                  </div>
+                </th>
+              </aura:if>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Doc_Prep_Fee_Subtotal__c + v.record.Doc_Prep_Fee_Adjustment__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Net_Funding_Subtotal__c-
+                                                                                          (v.record.Advance_Fee_Adjustment__c+
+                                                                                          v.record.Origination_Fee_Adjustment__c+
+                                                                                          v.record.BPO_Appraisal_Fee_Adjustment__c+
+                                                                                          v.record.Doc_Prep_Fee_Adjustment__c+
+                                                                                          v.record.BlackSquare_Fee_Adjustment__c+
+                                                                                          v.record.Daily_Interest_Rate_Adjustment__c+
+                                                                                          v.record.Inspection_Fee_Adjustment__c)}"
+                  />
+                </div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+        <!-- End of First Renovation Table -->
+
+        <!-- Second Renovation Table - Header Row -->
+        <table
+          class="slds-table slds-m-top--medium slds-table--bordered slds-table--cell-buffer slds-table--col-bordered"
+        >
+          <thead>
+            <tr class="slds-text-title--caps">
+              <th>
+                <div
+                  class="{! and(!empty(v.permissionsMap), v.permissionsMap.sobject.isUpdateable) ? '' : 'slds-hide'}"
+                >
+                  <lightning:buttonIcon
+                    variant="bare"
+                    iconName="utility:delete"
+                    class="{!v.record.Status__c == 'Completed' ? 'slds-hide' : 'slds-hidden'}"
+                    alternativeText="Delete Property Advance"
+                    onclick="{!c.delete}"
+                  />
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Property #">Property #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Wire #">Wire #</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Assessor's Parcel Number">
+                  Assessor's Parcel Number
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Address">Address</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Purchase Price">
+                  Initial Cost Basis
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="BPO/Appraisal Value">
+                  Total Cost Basis
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Max LTC">As-Is Value</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Max LTV">
+                  After Rehab Value
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="% of Rehab Budget">
+                  % of Rehab Budget
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Approved Advance Amount">
+                  Initial LTC
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Advance Fee">Total LTC</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="BPO/Appraisal Fee">
+                  As-Is LTV
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Doc Prep Fee">ARV LTV</div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Second Renovation Table - Data Rows -->
+            <aura:iteration
+              items="{!v.propertyAdvances}"
+              indexVar="index"
+              var="item"
+            >
+              <tr>
+                <th scope="row" data-lable="">
+                  <ui:inputCheckbox
+                    aura:id="checkbox"
+                    name="{!item.Id}"
+                    class="slds-hidden"
+                  />
+                </th>
+                <th scope="row" data-label="{!index}">
+                  <div class="slds-truncate" title="{!index}">{!index+1}</div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Wire__r.Wire_Number__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Property__r.APN__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputURL
+                      label="{!item.Property__r.Name}"
+                      title="{!item.Property__c}"
+                      click="{!c.handleClick}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Purchase_Price__c) ? 0 : item.Purchase_Price__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Total_Cost_Basis__c) ? 0 : item.Total_Cost_Basis__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.BPO_Appraisal_Value__c) ? 0 : item.BPO_Appraisal_Value__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.After_Repair_Value__c) ? 0 : item.After_Repair_Value__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <lightning:formattedNumber
+                      value="{!empty(item.Perc_of_Rehab_Budget__c) ? 0 : item.Perc_of_Rehab_Budget__c/100}"
+                      style="percent"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <lightning:formattedNumber
+                      value="{!empty(item.Initial_LTC_percent__c) ? 0 : item.Initial_LTC_percent__c}"
+                      style="percent"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <lightning:formattedNumber
+                      value="{!empty(item.Total_LTC_percent__c) ? 0 : item.Total_LTC_percent__c}"
+                      style="percent"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <lightning:formattedNumber
+                      value="{!empty(item.As_Is_LTV_Percent__c) ? 0 : item.As_Is_LTV_Percent__c}"
+                      style="percent"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <lightning:formattedNumber
+                      value="{!empty(item.ARV_LTV_percent__c) ? 0 : item.ARV_LTV_percent__c}"
+                      style="percent"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </aura:iteration>
+
+            <!-- Second Renovation Table -->
+            <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="Total:">
+                <div class="slds-truncate" title="Total:">Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Purchase_Price_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Total_Cost_Basis_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.BPO_Appraisal_Value_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.After_Repair_Value_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <lightning:formattedNumber
+                    value="{!empty(v.record.Total_Initial_LTC__c) ? 0 : v.record.Total_Initial_LTC__c/100}"
+                    style="percent"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <lightning:formattedNumber
+                    value="{!empty(v.record.Total_LTC_Total__c) ? 0 : v.record.Total_LTC_Total__c/100}"
+                    style="percent"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <lightning:formattedNumber
+                    value="{!empty(v.record.As_Is_LTV_Total__c) ? 0 : v.record.As_Is_LTV_Total__c/100}"
+                    style="percent"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <lightning:formattedNumber
+                    value="{!empty(v.record.ARV_LTV_Total__c) ? 0 : v.record.ARV_LTV_Total__c/100}"
+                    style="percent"
+                  />
+                </div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </ui:scrollerWrapper>
+    </aura:if>
+  </div>
+  <div class="slds-float--right">
+    <aura:if
+      isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isUpdateable : 'false'}"
+    >
+      <lightning:button
+        class="slds-m-top--small slds-m-bottom--large"
+        variant="brand"
+        label="Save"
+        aura:id="save"
+        onclick="{!c.saveRecord}"
+      />
+    </aura:if>
+  </div>
+
+  <!-- Wire Table - Header Row -->
+  <ui:scrollerWrapper>
+    <table
+      class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--col-bordered slds-m-top--xx-large slds-m-bottom_large"
+    >
+      <thead>
+        <tr class="slds-text-title--caps">
+          <th scope="col">
+            <div class="slds-truncate" title="Wire #">Wire #</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Escrow Company">
+              Escrow Company
+            </div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Advance Amount">
+              Approved Advance Amount
+            </div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Advance Fee">Advance Fee $</div>
+          </th>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+          >
+            <th scope="col">
+              <div class="slds-truncate" title="Origination Fee">
+                Origination Fee $
+              </div>
+            </th>
+          </aura:if>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+          >
+            <th scope="col">
+              <div class="slds-truncate" title="Daily Interest Rate">
+                Daily Interest Rate
+              </div>
+            </th>
+          </aura:if>
+          <th scope="col">
+            <div class="slds-truncate" title="Appraisal Fee">
+              BPO/Appraisal Fee
+            </div>
+          </th>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Inspection_Fee_Subtotal__c), v.record.Inspection_Fee_Subtotal__c != 0)}"
+          >
+            <th scope="col">
+              <div class="slds-truncate" title="Daily Interest Rate">
+                Inspection Fee
+              </div>
+            </th>
+          </aura:if>
+          <th scope="col">
+            <div class="slds-truncate" title="DOc Prep Fee">Doc Prep Fee</div>
+          </th>
+          <th scope="col">
+            <div class="slds-truncate" title="Net Funding">Net Funding</div>
+          </th>
+        </tr>
+      </thead>
+
+      <!-- Wire Table - Data Rows -->
+      <tbody>
+        <aura:iteration items="{!v.wires}" indexVar="index" var="item">
+          <tr>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputURL
+                  label="{!item.Wire_Number__c}"
+                  title="{!item.Id}"
+                  click="{!c.handleClick}"
+                />
+              </div>
+            </th>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+              </div>
+            </th>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{!empty(item.Approved_Advance_Amount_Calc__c) ? 0 : item.Approved_Advance_Amount_Calc__c}"
+                />
+              </div>
+            </th>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{! (empty(item.Advance_Fee__c) ? 0 : item.Advance_Fee__c) + 
+                                                              (empty(item.Advance_Fee_Adjustment__c) ? 0 : item.Advance_Fee_Adjustment__c)}"
+                />
+              </div>
+            </th>
+            <aura:if
+              isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+            >
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{! (empty(item.Origination_Fee__c) ? 0 : item.Origination_Fee__c) + 
+                                                              (empty(item.Origination_Fee_Adjustment__c) ? 0 : item.Origination_Fee_Adjustment__c)}"
+                  />
+                </div>
+              </th>
+            </aura:if>
+            <aura:if
+              isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+            >
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{! (empty(item.Daily_Interest_Rate__c) ? 0 : item.Daily_Interest_Rate__c) + 
+                                                              (empty(item.Daily_Interest_Rate_Adjustment__c) ? 0 : item.Daily_Interest_Rate_Adjustment__c)}"
+                  />
+                </div>
+              </th>
+            </aura:if>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{! (empty(item.BPO_Appraisal_Fee__c) ? 0 : item.BPO_Appraisal_Fee__c)  + 
+                                                          (empty(item.BPO_Appraisal_Fee_Adjustment__c) ? 0 : item.BPO_Appraisal_Fee_Adjustment__c)}"
+                />
+              </div>
+            </th>
+            <aura:if
+              isTrue="{!and(!empty(v.record.Inspection_Fee_Subtotal__c), v.record.Inspection_Fee_Subtotal__c != 0)}"
+            >
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{! (empty(item.Inspection_Fee__c) ? 0 : item.Inspection_Fee__c) + 
+                                                              (empty(item.Inspection_Fee_Adjustment__c) ? 0 : item.Inspection_Fee_Adjustment__c)}"
+                  />
+                </div>
+              </th>
+            </aura:if>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{! (empty(item.Doc_Prep_Fee__c) ? 0 : item.Doc_Prep_Fee__c)  + 
+                                                                                          (empty(item.Doc_Prep_Fee_Adjustment__c) ? 0 : item.Doc_Prep_Fee_Adjustment__c)}"
+                />
+              </div>
+            </th>
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{!
+                                                          empty(item.Net_Funding__c) ? 0 : item.Net_Funding__c}"
+                />
+              </div>
+            </th>
+          </tr>
+        </aura:iteration>
+
+        <!-- Wire Table - Totals Row -->
+        <tr>
+          <th scope="row" data-label="">
+            <div class="slds-truncate" title=""></div>
+          </th>
+
+          <th scope="" data-label="Total:">
+            <div class="slds-truncate" title="Total:">Total:</div>
+          </th>
+          <th scope="" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputCurrency
+                value="{!v.record.Approved_Advance_Amount_Total__c}"
+              />
+            </div>
+          </th>
+          <th scope="" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputCurrency
+                value="{!v.record.Advance_Fee_Subtotal__c+v.record.Advance_Fee_Adjustment__c}"
+              />
+            </div>
+          </th>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Origination_Fee_Subtotal__c), v.record.Origination_Fee_Subtotal__c != 0)}"
+          >
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{!v.record.Origination_Fee_Subtotal__c+v.record.Origination_Fee_Adjustment__c}"
+                />
+              </div>
+            </th>
+          </aura:if>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Daily_Interest_Rate_Subtotal__c), v.record.Daily_Interest_Rate_Subtotal__c != 0)}"
+          >
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{!v.record.Daily_Interest_Rate_Subtotal__c+v.record.Daily_Interest_Rate_Adjustment__c}"
+                />
+              </div>
+            </th>
+          </aura:if>
+          <th scope="" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputCurrency
+                value="{!v.record.BPO_Appraisal_Fee_Subtotal__c+v.record.BPO_Appraisal_Fee_Adjustment__c}"
+              />
+            </div>
+          </th>
+          <aura:if
+            isTrue="{!and(!empty(v.record.Inspection_Fee_Subtotal__c), v.record.Inspection_Fee_Subtotal__c != 0)}"
+          >
+            <th scope="" data-label="">
+              <div class="slds-truncate" title="">
+                <ui:outputCurrency
+                  value="{!v.record.Inspection_Fee_Subtotal__c + v.record.Inspection_Fee_Adjustment__c}"
+                />
+              </div>
+            </th>
+          </aura:if>
+          <th scope="" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputCurrency
+                value="{!v.record.Doc_Prep_Fee_Subtotal__c + v.record.Doc_Prep_Fee_Adjustment__c}"
+              />
+            </div>
+          </th>
+          <th scope="" data-label="">
+            <div class="slds-truncate" title="">
+              <ui:outputCurrency
+                value="{!v.record.Net_Funding_Subtotal__c-
+                                                                                      (v.record.Advance_Fee_Adjustment__c+
+                                                                                      v.record.Origination_Fee_Adjustment__c+
+                                                                                      v.record.Daily_Interest_Rate_Adjustment__c+
+                                                                                      v.record.BPO_Appraisal_Fee_Adjustment__c+
+                                                                                      v.record.Doc_Prep_Fee_Adjustment__c+
+                                                                                      v.record.Inspection_Fee_Adjustment__c+
+                       																	v.record.BlackSquare_Fee_Adjustment__c)}"
+              />
+            </div>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </ui:scrollerWrapper>
+
+  <!-- <lightning:accordion activeSectionName="notes">
+    <lightning:accordionSection label="Deposit Notes" name="notes">
+      test
+    </lightning:accordionSection>
+  </lightning:accordion> -->
+  <lightning:card
+    class="slds-m-around_small"
+    title="Deposit Notes"
+    iconName="standard:note"
+  >
+    {!v.depositNotes}
+  </lightning:card>
+
+  <c:util aura:id="util" />
+</aura:component>

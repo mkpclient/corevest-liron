@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Background_Check_Completed__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>SAB Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Background Check has been completed and uploaded to the Deal</inlineHelpText>
+    <label>Background Check Completed</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

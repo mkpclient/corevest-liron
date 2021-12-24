@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sponsor_Strategy__c</fullName>
+    <description>A place to enter a strategy for the LOC borrower</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please enter additional details for on the Sponsor&apos;s strategy for the LOC Loan request.</inlineHelpText>
+    <label>Sponsor Strategy</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>TextArea</type>
+</CustomField>

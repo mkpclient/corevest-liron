@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Account_in_foreclosure_alert</fullName>
+        <description>Account in foreclosure alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Sales Manager</recipient>
+            <type>accountTeam</type>
+        </recipients>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/Account_in_Foreclosure</template>
+    </alerts>
+    <alerts>
+        <fullName>Lender_Account_Approved</fullName>
+        <description>Lender Account Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>accountOwner</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Lender_Partnerships_Account_Approvals/Lender_Approved_Email</template>
+    </alerts>
+    <alerts>
+        <fullName>Lender_Account_Rejected</fullName>
+        <description>Lender Account Rejected</description>
+        <protected>false</protected>
+        <recipients>
+            <type>accountOwner</type>
+        </recipients>
+        <senderAddress>caf-apps@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Lender_Partnerships_Account_Approvals/Lender_Rejected_Email</template>
+    </alerts>
+    <alerts>
+        <fullName>Lender_Approval_Request_Submitted</fullName>
+        <description>Lender Approval Request Submitted</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Lender_Partnerships_Account_Approvals/Lender_Approval_Request</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Account_Status_Active</fullName>
+        <field>Account_Status__c</field>
+        <literalValue>Active</literalValue>
+        <name>Account Status - Active</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_Status_Approved</fullName>
+        <field>Account_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Account Status - Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_Status_Declined</fullName>
+        <field>Account_Status__c</field>
+        <literalValue>Declined</literalValue>
+        <name>Account Status-Declined</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_Status_Diligence_Review</fullName>
+        <field>Account_Status__c</field>
+        <literalValue>Diligence Review</literalValue>
+        <name>Account Status - Diligence Review</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Account_Status_Legal_Review</fullName>
+        <field>Account_Status__c</field>
+        <literalValue>Legal Review</literalValue>
+        <name>Account Status - Legal Review</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Approved</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Approval Status-Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Approval_Status_Declined</fullName>
+        <field>Approval_Status__c</field>
+        <literalValue>Declined</literalValue>
+        <name>Approval Status-Declined</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Remove_Phone</fullName>
+        <description>Remove Account Phone number when a Borrower or Non-Borrower Account is created and updated.</description>
+        <field>Phone</field>
+        <name>Remove Phone</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Null</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>UpdateDoNotLend</fullName>
+        <field>Do_Not_Lend__c</field>
+        <literalValue>1</literalValue>
+        <name>UpdateDoNotLend</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Account in foreclosure</fullName>
+        <actions>
+            <name>Account_in_foreclosure_alert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Account.In_Foreclosure__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Alert to owner and manager when in foreclosure</description>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>UpdateDoNotLend</fullName>
+        <actions>
+            <name>UpdateDoNotLend</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <criteriaItems>
+            <field>Account.In_Litigation__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Account.In_Foreclosure__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>Updates do not lend field based on in litigation or in foreclosure fields</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

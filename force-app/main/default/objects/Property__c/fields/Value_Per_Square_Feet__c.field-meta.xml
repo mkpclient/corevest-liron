@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Value_Per_Square_Feet__c</fullName>
+    <externalId>false</externalId>
+    <formula>Appraised_Value_Amount__c / VALUE(Square_Feet__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>As Is Value / Square Feet</inlineHelpText>
+    <label>Value Per Square Feet</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

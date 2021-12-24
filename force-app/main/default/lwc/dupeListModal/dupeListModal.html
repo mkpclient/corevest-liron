@@ -1,0 +1,200 @@
+<template>
+  <c-modal title="Duplicates">
+    <div slot="body">
+      <!-- <lightning-card title="card"> -->
+      <div
+        class="slds-scrollable_x"
+        style="max-height: 75vh; overflow-y: scroll; min-height: 70vh"
+      >
+        <table
+          style="table-layout: fixed"
+          class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout"
+        >
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Opportunity Name">
+                  Source Property Name
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Source Deal Name
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Source Stage
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Source Close Date
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Source CAF Originator
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Source Production Analyst
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match Property Name
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Close Date">
+                  Match Deal Name
+                </div>
+              </th>
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match Stage
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match Close Date
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match CAF Originator
+                </div>
+              </th>
+
+              <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match Production Analyst
+                </div>
+              </th>
+              <!-- <th class="" scope="col">
+                <div class="slds-truncated" title="Account Name">
+                  Match Created Date
+                </div>
+              </th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <template if:true={dupeList}>
+              <template for:each={dupeList} for:item="dupe">
+                <tr class="slds-hint-parent" key={dupe.key}>
+                  <th data-label="Source Property Name" scope="row">
+                    <div class="slds-truncate" title={dupe.source.Name}>
+                      <a href={dupe.href} target="_blank">{dupe.source.Name}</a>
+                    </div>
+                  </th>
+                  <td data-label={dupe.source.Deal__r.Name}>
+                    <div class="slds-truncate" title={dupe.source.Deal__r.Name}>
+                      <a href={dupe.deal_href} target="_blank"
+                        >{dupe.source.Deal__r.Name}</a
+                      >
+                    </div>
+                  </td>
+                  <td data-label={dupe.source.Deal__r.StageName}>
+                    <div
+                      class="slds-truncate"
+                      title={dupe.source.Deal__r.StageName}
+                    >
+                      {dupe.source.Deal__r.StageName}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      <lightning-formatted-date-time
+                        value={dupe.source.Deal__r.CloseDate}
+                      ></lightning-formatted-date-time>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      {dupe.source.Deal__r.Owner.Name}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      {dupe.source.Deal__r.CAF_Analyst__r.Name}
+                    </div>
+                  </td>
+
+                  <td data-label={dupe.match.Name}>
+                    <div class="slds-truncate" title={dupe.match.Name}>
+                      <a href={dupe.match_href} target="_blank"
+                        >{dupe.match.Name}</a
+                      >
+                    </div>
+                  </td>
+                  <td data-label={dupe.match.Deal__r.Name}>
+                    <div class="slds-truncate" title={dupe.match.Deal__r.Name}>
+                      <a href={dupe.match_deal_href} target="_blank"
+                        >{dupe.match.Deal__r.Name}</a
+                      >
+                    </div>
+                  </td>
+                  <td data-label={dupe.match.Deal__r.StageName}>
+                    <div
+                      class="slds-truncate"
+                      title={dupe.match.Deal__r.StageName}
+                    >
+                      {dupe.match.Deal__r.StageName}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      <lightning-formatted-date-time
+                        value={dupe.match.Deal__r.CloseDate}
+                      ></lightning-formatted-date-time>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      {dupe.match.Deal__r.Owner.Name}
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="slds-truncate">
+                      {dupe.match.Deal__r.CAF_Analyst__r.Name}
+                    </div>
+                  </td>
+                  <!-- <td>{dupe.match.CreatedDate}</td> -->
+                </tr>
+              </template>
+            </template>
+          </tbody>
+        </table>
+        <template if:true={dupeList}>
+          <template for:each={dupeList} for:item="dupe"> </template>
+        </template>
+      </div>
+    </div>
+
+    <div slot="footer">
+      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+      {showReturnToDeal}
+      <template if:true={showReturnToDealButton}>
+        <lightning-button
+          label="Return to Deal"
+          onclick={returnToDeal}
+          variant="brand"
+        ></lightning-button>
+      </template>
+    </div>
+  </c-modal>
+</template>

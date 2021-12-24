@@ -1,0 +1,294 @@
+<aura:component
+  controller="TermSheetInput_LightningController"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickActionWithoutHeader"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="recordType" type="String" />
+  <aura:attribute name="fields" type="Map" default="{}" />
+  <aura:attribute name="missingFields" type="String[]" />
+  <aura:attribute name="initiated" type="Boolean" />
+  <aura:attribute name="success" type="Boolean" default="false" />
+  <aura:attribute name="failure" type="Boolean" default="false" />
+  <aura:attribute name="dateError" type="String" />
+  <aura:attribute name="errorMessage" type="String" />
+  <aura:attribute name="deal" type="Map" />
+  <aura:attribute name="generateDocPermission" type="String" />
+  <aura:attribute name="generatedDoc" type="Boolean" default="false" />
+  <aura:attribute name="commissionTypes" type="List" />
+
+  <aura:html tag="style">
+    .cuf-content { padding: 0 0rem !important; } .slds-p-around--medium {
+    padding: 0rem !important; } .slds-modal__content{
+    <!-- overflow-y:hidden !important; -->
+    height:unset !important; max-height:unset !important; }
+    .slds-modal__container{ width: 70% !important; max-width: 90% !important;
+    <!--  -->
+    }
+    .slds-button.slds-modal__close.closeIcon.slds-button_icon-bare.slds-button_icon-inverse{
+    display: none; } .slds-modal:focus{ outline-style:none !important; }
+
+    <!-- box-shadow: mno; -->
+  </aura:html>
+
+  <section
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="modal-content-id-1"
+    class="slds-modal slds-fade-in-open"
+  >
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+          >Generate Term Sheet</h2
+        >
+      </header>
+      <div
+        class="slds-is-relative slds-modal__content slds-p-around_medium"
+        id="modal-content-id-1"
+      >
+        <div class="{! v.initiated == false? '' : 'slds-hide'}">
+          <div aura:id="approvedStatus" class="slds-hide">
+            Pricing request has not been approved.
+          </div>
+          <div aura:id="missingFields" class="slds-hide">
+            These fields are required to generate the term sheet:
+            <aura:iteration
+              items="{!v.missingFields}"
+              var="field"
+              indexVar="idx"
+            >
+              <aura:if isTrue="{!idx == v.missingFields.length - 1}">
+                {!field + '.'}
+                <aura:set attribute="else"> {!field + ', '} </aura:set>
+              </aura:if>
+            </aura:iteration>
+          </div>
+          <div aura:id="incorrectLoanType" class="slds-hide">
+            A Term Sheet cannot be generated for Commercial or Build to Rent Loans. Please refer
+            to Bridge Management for any questions.
+          </div>
+        </div>
+
+        <div
+          class="{! !v.generatedDoc &amp;&amp; !v.success &amp;&amp; !v.failure &amp;&amp; !empty(v.recordType) ? '' : 'slds-hide'}"
+        >
+          <div class="slds-form slds-form_stacked">
+            <div class="slds-form-element">
+              <div class="slds-form-element__control">
+                <lightning:input
+                  type="date"
+                  label="Term Sheet Expiration Date"
+                  name="Term_Sheet_Expiration_Date__c"
+                  value="{!v.fields.Term_Sheet_Expiration_Date__c}"
+                  required="true"
+                  onblur="{!c.handleBlur}"
+                />
+                <div
+                  style="color:rgb(194, 57, 52);font-size:.75rem;margin-top:-.5rem;display:block;"
+                  >{!v.dateError}</div
+                >
+              </div>
+            </div>
+            <aura:if
+              isTrue="{!or(v.recordType == 'LOC_Loan', v.recordType == 'Single_Asset_Bridge_Loan')}"
+            >
+              <!--
+          <div class="slds-form-element">
+            <div class="slds-form-element__control">
+              <ui:inputNumber label="Swap Rate" value="{!v.fields.Swap_Rate__c}" required="true" format="###.####" />
+            </div>
+          </div>
+        -->
+
+              <!--
+          <div class="slds-form-element">
+            <div class="slds-form-element__control">
+              <ui:inputNumber label="Indicative Rate" value="{!v.fields.Indicative_Rate__c}" required="true" format="###.####" />
+            </div>
+          </div>
+        -->
+
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="Negotiated by Counsel"
+                    aura:id="Negotiated_by_Counsel__c"
+                    name="Negotiated_by_Counsel__c"
+                    value="{!v.fields.Negotiated_by_Counsel__c}"
+                  />
+                </div>
+              </div>
+
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="Include Interest Guarantee"
+                    aura:id="Include_3_Months_Min_Interest__c"
+                    name="Include_3_Months_Min_Interest__c"
+                    value="{!v.fields.Include_3_Months_Min_Interest__c}"
+                  />
+                </div>
+              </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.recordType == 'Term_Loan'}">
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="NY Counsel Required"
+                    name="NY_Counsel_Required__c"
+                    aura:id="NY_Counsel_Required__c"
+                    value="{!v.fields.NY_Counsel_Required__c}"
+                  />
+                </div>
+              </div>
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="Include Property Substitution"
+                    name="Include_Prop_Sub_Text__c"
+                    aura:id="Include_Prop_Sub_Text__c"
+                    value="{!v.fields.Include_Prop_Sub_Text__c}"
+                  />
+                </div>
+              </div>
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="Include Assumption"
+                    name="Include_Assumption__c"
+                    aura:id="Include_Assumption__c"
+                    value="{!v.fields.Include_Assumption__c}"
+                  />
+                </div>
+              </div>
+            </aura:if>
+
+            <div
+              class="{! !empty(v.deal.Referral_Source_Contact__c) ? 'slds-form-element' : 'slds-hide'}"
+            >
+              <div class="slds-form-element__control">
+                <lightning:input
+                  type="checkbox"
+                  label="Include C/O Broker"
+                  name="Include_CO_Broker_Text__c"
+                  aura:id="Include_CO_Broker_Text__c"
+                  value="{!v.fields.Include_CO_Broker_Text__c}"
+                />
+              </div>
+            </div>
+
+            <div
+              class="{! and(!empty(v.deal.Broker_Fees__c), v.deal.Broker_Fees__c != 0) ? 'slds-form-element' : 'slds-hide'}"
+            >
+              <div class="slds-form-element__control">
+                <lightning:input
+                  type="checkbox"
+                  label="Include Broker Fee"
+                  name="Include_Broker_Fee__c"
+                  aura:id="Include_Broker_Fee__c"
+                  value="{!v.fields.Include_Broker_Fee__c}"
+                />
+              </div>
+            </div>
+
+            <aura:if isTrue="{!v.generateDocPermission == 'true'}">
+              <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  <lightning:input
+                    type="checkbox"
+                    label="Generate Word doc"
+                    name="Generate_Word_Doc"
+                    aura:id="Generate_Word_Doc"
+                  />
+                </div>
+              </div>
+            </aura:if>
+
+            <!-- <div class="slds-form-element">
+              <div class="slds-form-element__control">
+                
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <aura:if isTrue="{!v.success}">
+          <div style="text-align:center;"> Term sheet was generated. </div>
+          <div style="text-align:center;padding-top:20px;">
+            <!--
+        <button onclick="{!c.reload}">
+            OK
+        </button>
+      -->
+          </div>
+        </aura:if>
+        <aura:if isTrue="{!v.generatedDoc}">
+          <div style="text-align:center;">
+            Word document has been downloaded.
+          </div>
+          <div style="text-align:center;padding-top:20px;">
+            <!--
+        <button onclick="{!c.reload}">
+            OK
+        </button>
+      -->
+          </div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.failure}">
+          <div style="text-align:center;">
+            Term sheet was not generated. Please try again later or contact your
+            administrator.
+          </div>
+          <div style="text-align:center;padding-top:20px;">
+            <lightning:button
+              variant="brand"
+              label="OK"
+              onclick="{!c.closeModal }"
+            />
+          </div>
+        </aura:if>
+      </div>
+      <footer class="slds-modal__footer">
+        <button
+          class="slds-button slds-button_neutral"
+          onclick="{!c.closeWindow}"
+          >Cancel</button
+        >
+
+        <aura:if isTrue="{! and(and(!v.success, !v.generatedDoc), !v.failure)}">
+          <lightning:button
+            aura:id="submitButton"
+            variant="brand"
+            label="Submit"
+            disabled="true"
+            onclick="{!c.handleClick }"
+          />
+        </aura:if>
+
+        <aura:if isTrue="{!v.success}">
+          <lightning:button variant="brand" label="OK" onclick="{!c.reload }" />
+        </aura:if>
+
+        <aura:if isTrue="{!v.generatedDoc}">
+          <lightning:button variant="brand" label="OK" onclick="{!c.reload }" />
+        </aura:if>
+
+        <aura:if isTrue="{!v.failure}">
+          <lightning:button variant="brand" label="OK" onclick="{!c.reload }" />
+        </aura:if>
+      </footer>
+    </div>
+  </section>
+</aura:component>

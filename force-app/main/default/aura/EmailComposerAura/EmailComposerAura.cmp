@@ -1,0 +1,297 @@
+<aura:component controller="EmailComposerController">
+  <aura:attribute type="String" name="recordId" />
+  <aura:attribute type="List" name="emailOptions" default="[]" />
+
+  <aura:attribute type="Boolean" name="showCC" />
+  <aura:attribute type="Boolean" name="showBCC" />
+
+  <aura:attribute type="String" name="from" />
+  <aura:attribute type="String" name="body" />
+  <aura:attribute type="String" name="subject" />
+  <aura:attribute type="List" name="to" default="[]" />
+  <aura:attribute type="List" name="cc" default="[]" />
+  <aura:attribute type="List" name="bcc" default="[]" />
+
+  <aura:attribute name="files" type="List" />
+  <aura:attribute name="fileColumns" type="List" />
+
+  <aura:attribute name="selectedFiles" type="List" />
+  <aura:attribute name="selectedFileColumns" type="List" />
+
+  <!-- <aura:method name="callInit" action="{!c.init}">
+    <aura:attribute name="defaults" type="Map" />
+  </aura:method> -->
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:method name="send" action="{!c.send}">
+    <aura:attribute name="callback" type="Object" />
+  </aura:method>
+  <lightning:card>
+    <div style="margin: auto; width: 94%">
+      <table class="email-table">
+        <tr>
+          <td class="td-label">
+            <div>From</div>
+          </td>
+          <td>
+            <lightning:combobox
+              class="from-input"
+              name="from"
+              value="{!v.from}"
+              placeholder="Select From Address..."
+              options="{!v.emailOptions}"
+            ></lightning:combobox>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-label">
+            <div class="label">To</div>
+          </td>
+          <td>
+            <div class="input-container">
+              <c:emailPillList
+                aura:id="v.to"
+                emails="{!v.to}"
+                onupdate="{!c.handleChange}"
+              ></c:emailPillList>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="cc-buttons">
+            <aura:if isTrue="{!!v.showCC}">
+              <lightning:button
+                name="cc"
+                label="Cc"
+                variant="base"
+                onclick="{!c.showCCc}"
+              ></lightning:button>
+            </aura:if>
+            <aura:if isTrue="{!!v.showBCC}">
+              <lightning:button
+                class="slds-m-left_x-small"
+                name="bcc"
+                label="Bcc"
+                variant="base"
+                onclick="{!c.showBCCc}"
+              ></lightning:button>
+            </aura:if>
+          </td>
+        </tr>
+
+        <aura:if isTrue="{!v.showCC}">
+          <tr>
+            <td class="td-label">
+              <div class="label">Cc</div>
+            </td>
+            <td>
+              <div class="input-container">
+                <c:emailPillList
+                  aura:id="v.cc"
+                  emails="{!v.cc}"
+                  onupdate="{!c.handleChange}"
+                ></c:emailPillList>
+              </div>
+            </td>
+          </tr>
+        </aura:if>
+
+        <aura:if isTrue="{!v.showBCC}">
+          <tr>
+            <td class="td-label">
+              <div class="label">Bcc</div>
+            </td>
+            <td>
+              <div class="input-container">
+                <c:emailPillList
+                  aura:id="v.bcc"
+                  emails="{!v.bcc}"
+                  onupdate="{!c.handleChange}"
+                ></c:emailPillList>
+              </div>
+            </td>
+          </tr>
+        </aura:if>
+
+        <tr>
+          <td class="td-label">
+            <div class="label">Subject</div>
+          </td>
+          <td>
+            <div class="input-container">
+              <lightning:input
+                class="subject-input"
+                name="subject"
+                label="subject"
+                variant="label-hidden"
+                placeholder="Enter Subject..."
+                value="{!v.subject}"
+              ></lightning:input>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <lightning:inputRichText
+        class="input"
+        placeholder="Write message here"
+        value="{!v.body}"
+      />
+      <!-- <lightning-input-rich-text
+        label="body"
+        class="input"
+        value="{body}"
+      ></lightning-input-rich-text> -->
+      <!--  -->
+
+      <!-- <lightning:layout multipleRows="true"> -->
+      <!-- <aura:iteration items="{"  -->
+
+      <!-- </lightning:layout> -->
+      <ul
+        class="slds-has-dividers_bottom slds-has-block-links_space"
+        style="width: 50%"
+      >
+        <aura:iteration items="{!v.selectedFiles}" var="file" indexVar="index">
+          <li
+            class="slds-item slds-m-bottom_small"
+            style="
+              border: 1px solid rgb(221, 219, 218);
+              border-radius: 0.25rem;
+              background-color: rgb(243, 242, 242);
+            "
+          >
+            <lightning:layout multipleRows="false" horizontalAlign="spread">
+              <lightning:layoutItem>
+                <a
+                  href="javascript:void(0);"
+                  title="{!file.Id}"
+                  onclick="{!c.openFilePreview}"
+                  >{!file.Title + '.' + file.FileExtension}</a
+                >
+              </lightning:layoutItem>
+              <lightning:layoutItem>
+                <lightning:buttonIcon
+                  iconName="utility:close"
+                  title="{!index}"
+                  onclick="{!c.removeSelected}"
+                  variant="bare"
+                ></lightning:buttonIcon>
+              </lightning:layoutItem>
+            </lightning:layout>
+          </li>
+        </aura:iteration>
+      </ul>
+
+      <lightning:buttonIcon
+        iconName="utility:upload"
+        title="Add attachment"
+        alternativeText="upload"
+        onclick="{!c.toggleAttachmentModal}"
+      ></lightning:buttonIcon>
+    </div>
+  </lightning:card>
+  <div
+    aura:id="attachmentModal"
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="modal-heading-01"
+    aria-modal="true"
+    aria-describedby="selectEmailContent"
+    class="slds-modal slds-modal_medium"
+  >
+    <div class="slds-modal__container" style="width: 100% !important">
+      <div class="slds-modal__header">
+        <h2
+          id="modal-heading-01"
+          class="slds-text-heading_medium slds-hyphenate"
+        >
+          Attachment
+        </h2>
+      </div>
+
+      <div
+        class="slds-modal__content slds-p-around_medium"
+        id="selectEmailContent"
+      >
+        <lightning:layout>
+          <lightning:layoutItem size="3">
+            <lightning:fileUpload
+              label="Upload File"
+              name="fileUpload"
+              recordId="{!v.recordId}"
+              variant="label-hidden"
+              onuploadfinished="{!c.uploadFinished}"
+              class="slds-m-bottom_small"
+            />
+            <lightning:verticalNavigation
+              selectedItem="owned"
+              onselect="{!c.fileTabSelected}"
+            >
+              <lightning:verticalNavigationItem
+                label="Selected"
+                name="selected"
+              />
+              <lightning:verticalNavigationSection label="Add Files">
+                <lightning:verticalNavigationItem label="Deal" name="owned" />
+              </lightning:verticalNavigationSection>
+
+              <!--
+                      <lightning:verticalNavigationItem label="Shared with Me" name="shared" />
+                    -->
+            </lightning:verticalNavigation>
+          </lightning:layoutItem>
+          <lightning:layoutItem size="9">
+            <lightning:layout>
+              <lightning:layoutItem size="12">
+                <ui:scrollerWrapper class="scroller">
+                  <aura:if isTrue="{!false}" aura:id="selected">
+                    <lightning:datatable
+                      aura:id="selectedFileTable"
+                      keyField="Id"
+                      data="{!v.selectedFiles}"
+                      columns="{!v.selectedFileColumns}"
+                      isLoading="false"
+                      hideCheckboxColumn="true"
+                      resizeColumnDisabled="true"
+                      onrowaction="{!c.handleRowAction}"
+                    />
+                  </aura:if>
+
+                  <aura:if isTrue="{!true}" aura:id="files">
+                    <lightning:datatable
+                      aura:id="fileTable"
+                      keyField="Id"
+                      data="{!v.files}"
+                      columns="{!v.fileColumns}"
+                      isLoading="false"
+                      hideCheckboxColumn="false"
+                      resizeColumnDisabled="true"
+                    />
+                  </aura:if>
+                </ui:scrollerWrapper>
+              </lightning:layoutItem>
+            </lightning:layout>
+          </lightning:layoutItem>
+        </lightning:layout>
+      </div>
+      <div class="slds-modal__footer">
+        <lightning:button
+          aura:id="attachment"
+          onclick="{!c.toggleAttachmentModal}"
+          name="closeModal"
+          label="Close"
+        />
+        <lightning:button
+          variant="brand"
+          name="insert"
+          label="Add"
+          onclick="{!c.addFiles}"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="slds-backdrop" aura:id="attachmentModalBackdrop"></div>
+
+  <c:util aura:id="util" />
+</aura:component>

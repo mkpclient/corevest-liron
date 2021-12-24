@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>kimberly@cvest.com</contactEmail>
+    <contactPhone>949-288-7373</contactPhone>
+    <description>Call Tracking Metrics App for SSO</description>
+    <label>Call Tracking Metrics</label>
+    <logoUrl>https://dwklcmio8m2n2.cloudfront.net/images/logo2x2.png</logoUrl>
+    <oauthConfig>
+        <callbackUrl>https://login.salesforce.com/services/oauth2/success</callbackUrl>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdCXZar3sleLSuy6pHXrsdpjLtrRPYu021pYWacgDIvtkflpTbuWpHj9cu7Oh</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>OpenID</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

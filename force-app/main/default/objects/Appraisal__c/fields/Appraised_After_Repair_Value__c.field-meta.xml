@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraised_After_Repair_Value__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>This is the value of the Property after report provided by the Appraisal Firm</description>
+    <externalId>false</externalId>
+    <label>Appraised After Repair Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

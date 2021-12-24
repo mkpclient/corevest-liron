@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>6 Months</fullName>
+        <default>false</default>
+        <label>6 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>9 Months</fullName>
+        <default>false</default>
+        <label>9 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>12 Months</fullName>
+        <default>false</default>
+        <label>12 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>15 Months</fullName>
+        <default>false</default>
+        <label>15 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>18 Months</fullName>
+        <default>false</default>
+        <label>18 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>21 Months</fullName>
+        <default>false</default>
+        <label>21 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>24 Months</fullName>
+        <default>false</default>
+        <label>24 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>30 Months</fullName>
+        <default>false</default>
+        <label>30 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>36 Months</fullName>
+        <default>false</default>
+        <label>36 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>540 Days</fullName>
+        <default>false</default>
+        <label>540 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>630 Days</fullName>
+        <default>false</default>
+        <label>630 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>720 Days</fullName>
+        <default>false</default>
+        <label>720 Days</label>
+    </customValue>
+    <customValue>
+        <fullName>N/A</fullName>
+        <default>false</default>
+        <label>N/A</label>
+    </customValue>
+    <customValue>
+        <fullName>33 Months</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>33 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>27 Months</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>27 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>3 Months</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>3 Months</label>
+    </customValue>
+    <customValue>
+        <fullName>Other</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Other</label>
+    </customValue>
+    <description>Terms for LOC Loans</description>
+    <masterLabel>LOC Terms</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

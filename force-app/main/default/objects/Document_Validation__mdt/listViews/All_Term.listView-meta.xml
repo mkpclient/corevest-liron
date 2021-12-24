@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_Term</fullName>
+    <columns>Sort__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Filters__c</columns>
+    <columns>Document_Structure__c</columns>
+    <columns>sObjectName__c</columns>
+    <columns>Field_Name__c</columns>
+    <columns>Field_Label__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>sObjectName__c</field>
+        <operation>equals</operation>
+        <value>Loan_Version__c</value>
+    </filters>
+    <label>All Term</label>
+</ListView>

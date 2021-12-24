@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Broker_Fees__c</fullName>
+    <defaultValue>0</defaultValue>
+    <description>This field was created to replace the old Broker Fees field.  The previous field was a text field and needed to be standardized as a %.</description>
+    <externalId>false</externalId>
+    <label>Broker Fee %</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lease_Up_Marketing_Adjustment__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>IF($RecordType.Name == &apos;Term Loan&apos;, 0.3826, NULL )</defaultValue>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Calculated as # Mos Rent / UW Lease Term</inlineHelpText>
+    <label>Lease Up/Marketing Adjustment</label>
+    <precision>5</precision>
+    <required>false</required>
+    <scale>4</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

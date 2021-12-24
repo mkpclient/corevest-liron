@@ -1,0 +1,83 @@
+.THIS .hide, .THIS.hide {
+    display: none !important;
+}
+
+.THIS .shown, .THIS.shown {
+    display: block;
+    background: white;
+    border-radius: 5px;
+}
+
+.THIS.dashboard-section {
+    margin: 12px;
+}
+
+.THIS .section, .THIS.section, .THIS.header, .THIS .header {
+    background: #eef1f6;
+    color: inherit;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: inherit;
+    padding: 0 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    line-height: 1.875rem;
+    position: relative;
+    -webkit-appearance: none;
+    white-space: normal;
+    user-select: none;
+    margin-bottom: 12px;
+}
+
+.THIS.header, .THIS .header {
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1.875rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.THIS .marker {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.THIS dt {
+    display: inline-block;
+    color: rgb(84, 105, 141);
+    font-size: .75rem;
+    line-height: 1.5;
+    margin-right: .75rem;
+    margin-bottom: .25rem;
+}
+
+.THIS.dashboard-section .slds-grid {
+    /*width: 90%;*/
+    /*margin: 0 auto;*/
+}
+
+.THIS.dashboard-section .slds-col {
+    border-bottom: 1px solid rgb(216, 221, 230);
+}
+
+.THIS.slds-grid, .THIS .slds-grid {
+    height: 80px;
+}
+
+/*.THIS table, .THIS.slds-table {
+    width: 100%;
+    table-layout:fixed;
+}*/
+
+.THIS .properties-table, .THIS.properties-table {
+    overflow: scroll;
+}
+
+/*@media(min-width: 800px){
+    .THIS.dashboard-section .slds-grid {
+        width: 600px;
+        margin: 0 auto;
+    }
+}*/

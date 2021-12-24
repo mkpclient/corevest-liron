@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Sheet_Date_Validation</fullName>
+    <active>true</active>
+    <description>This will prevent a Term Sheet Issued Date being after the Term Sheet Signed Date</description>
+    <errorConditionFormula>AND(
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ Term_Sheet_Issued__c  &gt; Term_Sheet_Signed__c,
+ OR(
+  ISPICKVAL(StageName, &apos;Initial Review&apos;),
+  ISPICKVAL(StageName, &apos;Data Tape Received&apos;),
+  ISPICKVAL(StageName, &apos;Term Sheet Issued&apos;),
+  ISPICKVAL(StageName, &apos;Issue Term Sheet/Order Appraisal&apos;)
+ )
+)</errorConditionFormula>
+    <errorMessage>The Term Sheet Issued Date cannot be beyond the Term Sheet Signed Date</errorMessage>
+</ValidationRule>

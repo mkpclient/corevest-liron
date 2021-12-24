@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_by_Underwriter_Date__c</fullName>
+    <description>Date that Underwriting approved the Pricing Request</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date that Underwriting approved the Pricing Request</inlineHelpText>
+    <label>Approved by Underwriter Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

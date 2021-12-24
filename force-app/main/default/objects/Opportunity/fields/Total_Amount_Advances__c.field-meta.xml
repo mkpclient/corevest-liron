@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Amount_Advances__c</fullName>
+    <externalId>false</externalId>
+    <label>Total $ Advances</label>
+    <summarizedField>Advance__c.Net_Funding_Total__c</summarizedField>
+    <summaryFilterItems>
+        <field>Advance__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Advance__c.Deal__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

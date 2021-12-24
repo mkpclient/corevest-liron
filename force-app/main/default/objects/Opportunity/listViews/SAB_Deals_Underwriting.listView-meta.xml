@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SAB_Deals_Underwriting</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Days_In_Underwriting__c</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.Single_Asset_Bridge_Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Initial Review,Data Tape Received,Issue Term Sheet/Order Appraisal,Term Sheet Issued,Term Sheet Signed/Deposit Collected,Submitted to Underwriting,Loan Processing,Underwriting,Approved by Committee,UW Hold</value>
+    </filters>
+    <label>SAB Deals - Underwriting</label>
+    <sharedTo>
+        <roleAndSubordinates>Bridge_Manager</roleAndSubordinates>
+    </sharedTo>
+</ListView>

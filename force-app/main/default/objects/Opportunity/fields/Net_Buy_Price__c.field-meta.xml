@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Net_Buy_Price__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Effective price of us originating/buying the loan.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Effective price of us originating/buying the loan.</inlineHelpText>
+    <label>Net Buy Price</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Comment__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Comment from the Appraisal Firm</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Comment from the Appraisal Firm</inlineHelpText>
+    <label>Comment</label>
+    <length>30000</length>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

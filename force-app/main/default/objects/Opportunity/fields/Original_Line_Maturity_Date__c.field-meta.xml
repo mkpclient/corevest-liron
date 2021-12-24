@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Original_Line_Maturity_Date__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Use
+Previously - ADDMONTHS(Loan_Effective_Date__c, LOC_Term_Number__c)</description>
+    <externalId>false</externalId>
+    <formula>IF(  ISBLANK( Stated_Maturity_Date__c ),
+
+ ADDMONTHS(Loan_Effective_Date__c, 
+  VALUE( SUBSTITUTE(TEXT(LOC_Term__c), &quot; Months&quot;, &quot;&quot;))),
+Stated_Maturity_Date__c)</formula>
+    <inlineHelpText>Loan Effective Date + Term</inlineHelpText>
+    <label>Original Loan Maturity date</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

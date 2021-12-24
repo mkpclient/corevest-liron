@@ -1,0 +1,4 @@
+<apex:page showHeader="false" standardController="Deal_Document__c" standardStylesheets="true" cache="true" docType="html-5.0" >
+        <OB_Archiver:OwnBackup_ShowArchiveTableComponent recordId="{!Deal_Document__c.Id}" object="Deal_Document__c">   
+        </OB_Archiver:OwnBackup_ShowArchiveTableComponent>
+</apex:page>

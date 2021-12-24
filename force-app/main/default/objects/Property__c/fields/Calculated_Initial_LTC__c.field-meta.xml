@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Calculated_Initial_LTC__c</fullName>
+    <description>Bridge Reno Use
+Was
+TEXT(Max_Initial_LTV_LTC__c*100) + &apos;%&apos;</description>
+    <externalId>false</externalId>
+    <formula>TEXT(ROUND(Max_Initial_Loan_Amount__c/ Acquisition_Price__c *100,0)) + &apos;%&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Max Initial Loan Amount / Acquisition Price</inlineHelpText>
+    <label>Calculated Initial LTC</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Unread_Leads</fullName>
+    <columns>FULL_NAME</columns>
+    <columns>LEAD.COMPANY</columns>
+    <columns>LEAD.EMAIL</columns>
+    <columns>LEAD.STATUS</columns>
+    <columns>LEAD.CREATED_DATE</columns>
+    <columns>Introduction_Source__c</columns>
+    <columns>Introduction_Subsource__c</columns>
+    <columns>Loan_Product_s__c</columns>
+    <columns>LEAD.UNREAD</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Existing_Lead__c</columns>
+    <columns>Existing_Contact__c</columns>
+    <columns>LEAD.PHONE</columns>
+    <columns>LEAD.STATE_CODE</columns>
+    <columns>Applicant_Type__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>LEAD.UNREAD</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>LEAD.STATUS</field>
+        <operation>equals</operation>
+        <value>Open,Contacted</value>
+    </filters>
+    <label>Open Leads Unread by Owner</label>
+</ListView>

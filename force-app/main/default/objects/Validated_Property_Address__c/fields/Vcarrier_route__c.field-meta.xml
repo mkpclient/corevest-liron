@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vcarrier_route__c</fullName>
+    <description>The postal carrier route for the address. Consists of a one-letter prefix followed by a three-digit route designator.
+(e.g., C007, R123)
+
+C — Carrier Route (commonly termed &quot;City Route&quot;
+R — Rural Route
+H — Highway Contract Route
+B — Post Office Box Section
+G — General Delivery Unit</description>
+    <externalId>false</externalId>
+    <label>Verified carrier route</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

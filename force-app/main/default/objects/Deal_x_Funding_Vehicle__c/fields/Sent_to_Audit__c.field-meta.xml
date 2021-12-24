@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sent_to_Audit__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Has this Deal been sent to audit?</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Has this Deal been sent to audit?</inlineHelpText>
+    <label>Sent to Audit</label>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

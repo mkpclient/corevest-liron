@@ -1,0 +1,1366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Document_Type__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Please use the &quot;Update Folder&quot; button to make changes to the Folder and Document Type.</inlineHelpText>
+    <label>Document Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Section__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>1 – Closing Statement</fullName>
+                <default>false</default>
+                <label>1 – Closing Statement</label>
+            </value>
+            <value>
+                <fullName>2 – Settlement Statement</fullName>
+                <default>false</default>
+                <label>2 – Settlement Statement</label>
+            </value>
+            <value>
+                <fullName>Acquisition Questionnaire</fullName>
+                <default>false</default>
+                <label>Acquisition Questionnaire</label>
+            </value>
+            <value>
+                <fullName>Affidavit</fullName>
+                <default>false</default>
+                <label>Affidavit</label>
+            </value>
+            <value>
+                <fullName>Application</fullName>
+                <default>false</default>
+                <label>Application</label>
+            </value>
+            <value>
+                <fullName>Appraisal Report</fullName>
+                <default>false</default>
+                <label>Appraisal Report</label>
+            </value>
+            <value>
+                <fullName>Assignment of Leases, Contracts and Asset-Related Property</fullName>
+                <default>false</default>
+                <label>Assignment of Leases, Contracts and Asset-Related Property</label>
+            </value>
+            <value>
+                <fullName>Assignment of Management</fullName>
+                <default>false</default>
+                <label>Assignment of Management</label>
+            </value>
+            <value>
+                <fullName>Assignments</fullName>
+                <default>false</default>
+                <label>Assignments</label>
+            </value>
+            <value>
+                <fullName>Assurant</fullName>
+                <default>false</default>
+                <label>Assurant</label>
+            </value>
+            <value>
+                <fullName>Background and Credit Search</fullName>
+                <default>false</default>
+                <label>Background and Credit Search</label>
+            </value>
+            <value>
+                <fullName>Background Check</fullName>
+                <default>false</default>
+                <label>Background Check</label>
+            </value>
+            <value>
+                <fullName>Background Letter of Explanation</fullName>
+                <default>false</default>
+                <label>Background Letter of Explanation</label>
+            </value>
+            <value>
+                <fullName>Bill of Sale</fullName>
+                <default>false</default>
+                <label>Bill of Sale</label>
+            </value>
+            <value>
+                <fullName>Bio / Resume</fullName>
+                <default>false</default>
+                <label>Bio / Resume</label>
+            </value>
+            <value>
+                <fullName>Black Knight Tax Results</fullName>
+                <default>false</default>
+                <label>Black Knight Tax Results</label>
+            </value>
+            <value>
+                <fullName>Blank Form Lease</fullName>
+                <default>false</default>
+                <label>Blank Form Lease</label>
+            </value>
+            <value>
+                <fullName>Borrower&apos;s Identification</fullName>
+                <default>false</default>
+                <label>Borrower&apos;s Identification</label>
+            </value>
+            <value>
+                <fullName>Borrower Information Sheet</fullName>
+                <default>false</default>
+                <label>Borrower Information Sheet</label>
+            </value>
+            <value>
+                <fullName>Borrower Organization Documents</fullName>
+                <default>false</default>
+                <label>Borrower Organization Documents</label>
+            </value>
+            <value>
+                <fullName>Broker Data Tape</fullName>
+                <default>false</default>
+                <label>Broker Data Tape</label>
+            </value>
+            <value>
+                <fullName>Bulk Purchase Contract</fullName>
+                <default>false</default>
+                <label>Bulk Purchase Contract</label>
+            </value>
+            <value>
+                <fullName>CAF Application</fullName>
+                <default>false</default>
+                <label>CAF Application</label>
+            </value>
+            <value>
+                <fullName>CAF Certification</fullName>
+                <default>false</default>
+                <label>CAF Certification</label>
+            </value>
+            <value>
+                <fullName>Cash Management Agreement</fullName>
+                <default>false</default>
+                <label>Cash Management Agreement</label>
+            </value>
+            <value>
+                <fullName>CC&amp;Rs</fullName>
+                <default>false</default>
+                <label>CC&amp;Rs</label>
+            </value>
+            <value>
+                <fullName>CEO approval</fullName>
+                <default>false</default>
+                <label>CEO approval</label>
+            </value>
+            <value>
+                <fullName>Certificate</fullName>
+                <default>false</default>
+                <label>Certificate</label>
+            </value>
+            <value>
+                <fullName>Certificate of Formation</fullName>
+                <default>false</default>
+                <label>Certificate of Formation</label>
+            </value>
+            <value>
+                <fullName>Certificate of LLC Interests in Borrower</fullName>
+                <default>false</default>
+                <label>Certificate of LLC Interests in Borrower</label>
+            </value>
+            <value>
+                <fullName>Certificate of Status for US Income Tax Purposes</fullName>
+                <default>false</default>
+                <label>Certificate of Status for US Income Tax Purposes</label>
+            </value>
+            <value>
+                <fullName>Certification of Authority to do Business</fullName>
+                <default>false</default>
+                <label>Certification of Authority to do Business</label>
+            </value>
+            <value>
+                <fullName>Certification of Formation</fullName>
+                <default>false</default>
+                <label>Certification of Formation</label>
+            </value>
+            <value>
+                <fullName>Certification of Good Standing</fullName>
+                <default>false</default>
+                <label>Certification of Good Standing</label>
+            </value>
+            <value>
+                <fullName>Checklist</fullName>
+                <default>false</default>
+                <label>Checklist</label>
+            </value>
+            <value>
+                <fullName>Clearing Account Agreement</fullName>
+                <default>false</default>
+                <label>Clearing Account Agreement</label>
+            </value>
+            <value>
+                <fullName>Clearing Account Agreement/DACA</fullName>
+                <default>false</default>
+                <label>Clearing Account Agreement/DACA</label>
+            </value>
+            <value>
+                <fullName>Closing Protection Letter</fullName>
+                <default>false</default>
+                <label>Closing Protection Letter</label>
+            </value>
+            <value>
+                <fullName>Credit Report</fullName>
+                <default>false</default>
+                <label>Credit Report</label>
+            </value>
+            <value>
+                <fullName>Deed</fullName>
+                <default>false</default>
+                <label>Deed</label>
+            </value>
+            <value>
+                <fullName>Deposit Account Control Agreement</fullName>
+                <default>false</default>
+                <label>Deposit Account Control Agreement</label>
+            </value>
+            <value>
+                <fullName>Determination Notice</fullName>
+                <default>false</default>
+                <label>Determination Notice</label>
+            </value>
+            <value>
+                <fullName>Distribution and Contribution Agreement</fullName>
+                <default>false</default>
+                <label>Distribution and Contribution Agreement</label>
+            </value>
+            <value>
+                <fullName>Draft Deeds</fullName>
+                <default>false</default>
+                <label>Draft Deeds</label>
+            </value>
+            <value>
+                <fullName>Draft IC Memo</fullName>
+                <default>false</default>
+                <label>Draft IC Memo</label>
+            </value>
+            <value>
+                <fullName>Draft Model</fullName>
+                <default>false</default>
+                <label>Draft Model</label>
+            </value>
+            <value>
+                <fullName>Draft of Management Agreement</fullName>
+                <default>false</default>
+                <label>Draft of Management Agreement</label>
+            </value>
+            <value>
+                <fullName>Early Rate Lock Agreement</fullName>
+                <default>false</default>
+                <label>Early Rate Lock Agreement</label>
+            </value>
+            <value>
+                <fullName>Entity Search</fullName>
+                <default>false</default>
+                <label>Entity Search</label>
+            </value>
+            <value>
+                <fullName>Environmental Indemnity Agreement</fullName>
+                <default>false</default>
+                <label>Environmental Indemnity Agreement</label>
+            </value>
+            <value>
+                <fullName>EOI</fullName>
+                <default>false</default>
+                <label>EOI</label>
+            </value>
+            <value>
+                <fullName>Escrow Holdback</fullName>
+                <default>false</default>
+                <label>Escrow Holdback</label>
+            </value>
+            <value>
+                <fullName>Escrow Instructions</fullName>
+                <default>false</default>
+                <label>Escrow Instructions</label>
+            </value>
+            <value>
+                <fullName>Executed Assignments</fullName>
+                <default>false</default>
+                <label>Executed Assignments</label>
+            </value>
+            <value>
+                <fullName>Executed Loan Agreement</fullName>
+                <default>false</default>
+                <label>Executed Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Executed Loan Documents</fullName>
+                <default>false</default>
+                <label>Executed Loan Documents</label>
+            </value>
+            <value>
+                <fullName>Executed Term Sheet</fullName>
+                <default>false</default>
+                <label>Executed Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Filed Articles of Organization/Incorporation/Certificate of Formation</fullName>
+                <default>false</default>
+                <label>Filed Articles of Organization/Incorporation/Certificate of Formation</label>
+            </value>
+            <value>
+                <fullName>Final Conditions Report</fullName>
+                <default>false</default>
+                <label>Final Conditions Report</label>
+            </value>
+            <value>
+                <fullName>Final IC Memo</fullName>
+                <default>false</default>
+                <label>Final IC Memo</label>
+            </value>
+            <value>
+                <fullName>Final Model</fullName>
+                <default>false</default>
+                <label>Final Model</label>
+            </value>
+            <value>
+                <fullName>Final Org Chart</fullName>
+                <default>false</default>
+                <label>Final Org Chart</label>
+            </value>
+            <value>
+                <fullName>Final Title Policies</fullName>
+                <default>false</default>
+                <label>Final Title Policies</label>
+            </value>
+            <value>
+                <fullName>Final Verified Tape</fullName>
+                <default>false</default>
+                <label>Final Verified Tape</label>
+            </value>
+            <value>
+                <fullName>Financial Statement</fullName>
+                <default>false</default>
+                <label>Financial Statement</label>
+            </value>
+            <value>
+                <fullName>Flood Certificate</fullName>
+                <default>false</default>
+                <label>Flood Certificate</label>
+            </value>
+            <value>
+                <fullName>Good Standing in the State where registered to do business</fullName>
+                <default>false</default>
+                <label>Good Standing in the State where registered to do business</label>
+            </value>
+            <value>
+                <fullName>GRC Certificate</fullName>
+                <default>false</default>
+                <label>GRC Certificate</label>
+            </value>
+            <value>
+                <fullName>GRC Interim / Master Tape</fullName>
+                <default>false</default>
+                <label>GRC Interim / Master Tape</label>
+            </value>
+            <value>
+                <fullName>Greenlight Deck</fullName>
+                <default>false</default>
+                <label>Greenlight Deck</label>
+            </value>
+            <value>
+                <fullName>Green River</fullName>
+                <default>false</default>
+                <label>Green River</label>
+            </value>
+            <value>
+                <fullName>Guarantor Bank Statement</fullName>
+                <default>false</default>
+                <label>Guarantor Bank Statement</label>
+            </value>
+            <value>
+                <fullName>Guarantor Bio / Resume</fullName>
+                <default>false</default>
+                <label>Guarantor Bio / Resume</label>
+            </value>
+            <value>
+                <fullName>Guarantor Financial Statement</fullName>
+                <default>false</default>
+                <label>Guarantor Financial Statement</label>
+            </value>
+            <value>
+                <fullName>Guarantor Tax Returns (multiple)</fullName>
+                <default>false</default>
+                <label>Guarantor Tax Returns (multiple)</label>
+            </value>
+            <value>
+                <fullName>HOA Breakdown</fullName>
+                <default>false</default>
+                <label>HOA Breakdown</label>
+            </value>
+            <value>
+                <fullName>HOA Demands</fullName>
+                <default>false</default>
+                <label>HOA Demands</label>
+            </value>
+            <value>
+                <fullName>HOA Demands (if applicable – ties to data tape)</fullName>
+                <default>false</default>
+                <label>HOA Demands (if applicable – ties to data tape)</label>
+            </value>
+            <value>
+                <fullName>HOA Questionnaires</fullName>
+                <default>false</default>
+                <label>HOA Questionnaires</label>
+            </value>
+            <value>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+                <label>Insurance</label>
+            </value>
+            <value>
+                <fullName>Insurance Broker</fullName>
+                <default>false</default>
+                <label>Insurance Broker</label>
+            </value>
+            <value>
+                <fullName>KYC Document</fullName>
+                <default>false</default>
+                <label>KYC Document</label>
+            </value>
+            <value>
+                <fullName>LDR Part A</fullName>
+                <default>false</default>
+                <label>LDR Part A</label>
+            </value>
+            <value>
+                <fullName>LDR Part B</fullName>
+                <default>false</default>
+                <label>LDR Part B</label>
+            </value>
+            <value>
+                <fullName>Lease Agreements</fullName>
+                <default>false</default>
+                <label>Lease Agreements</label>
+            </value>
+            <value>
+                <fullName>Legal Counsel</fullName>
+                <default>false</default>
+                <label>Legal Counsel</label>
+            </value>
+            <value>
+                <fullName>Legal Descriptions in Word Format</fullName>
+                <default>false</default>
+                <label>Legal Descriptions in Word Format</label>
+            </value>
+            <value>
+                <fullName>Line Item Hard and Soft Cost Budget (Renovation Budget)</fullName>
+                <default>false</default>
+                <label>Line Item Hard and Soft Cost Budget (Renovation Budget)</label>
+            </value>
+            <value>
+                <fullName>List of Endorsements</fullName>
+                <default>false</default>
+                <label>List of Endorsements</label>
+            </value>
+            <value>
+                <fullName>LLC Agreement</fullName>
+                <default>false</default>
+                <label>LLC Agreement</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement</fullName>
+                <default>false</default>
+                <label>Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Management Questionnaire</fullName>
+                <default>false</default>
+                <label>Management Questionnaire</label>
+            </value>
+            <value>
+                <fullName>Marked Up Title Commitments</fullName>
+                <default>false</default>
+                <label>Marked Up Title Commitments</label>
+            </value>
+            <value>
+                <fullName>Miscellaneous</fullName>
+                <default>false</default>
+                <label>Miscellaneous</label>
+            </value>
+            <value>
+                <fullName>Mortgage/Deed of Trust</fullName>
+                <default>false</default>
+                <label>Mortgage/Deed of Trust</label>
+            </value>
+            <value>
+                <fullName>Mortgage Loan Cooperation Agreement</fullName>
+                <default>false</default>
+                <label>Mortgage Loan Cooperation Agreement</label>
+            </value>
+            <value>
+                <fullName>Mortgage Payoffs</fullName>
+                <default>false</default>
+                <label>Mortgage Payoffs</label>
+            </value>
+            <value>
+                <fullName>No HOA Letters</fullName>
+                <default>false</default>
+                <label>No HOA Letters</label>
+            </value>
+            <value>
+                <fullName>OFAC Search</fullName>
+                <default>false</default>
+                <label>OFAC Search</label>
+            </value>
+            <value>
+                <fullName>Officer&apos;s Certificate(s)</fullName>
+                <default>false</default>
+                <label>Officer&apos;s Certificate(s)</label>
+            </value>
+            <value>
+                <fullName>Operating Agreement</fullName>
+                <default>false</default>
+                <label>Operating Agreement</label>
+            </value>
+            <value>
+                <fullName>Operating Agreement/Bylaws with Shareholders Certificate/Limited Partnership Agreement</fullName>
+                <default>false</default>
+                <label>Operating Agreement/Bylaws with Shareholders Certificate/Limited Partnership Agreement</label>
+            </value>
+            <value>
+                <fullName>Operating Statement</fullName>
+                <default>false</default>
+                <label>Operating Statement</label>
+            </value>
+            <value>
+                <fullName>Operating Template</fullName>
+                <default>false</default>
+                <label>Operating Template</label>
+            </value>
+            <value>
+                <fullName>Org Chart</fullName>
+                <default>false</default>
+                <label>Org Chart</label>
+            </value>
+            <value>
+                <fullName>OSN title review *</fullName>
+                <default>false</default>
+                <label>OSN title review *</label>
+            </value>
+            <value>
+                <fullName>Picture Id</fullName>
+                <default>false</default>
+                <label>Picture Id</label>
+            </value>
+            <value>
+                <fullName>Pledge Agreement</fullName>
+                <default>false</default>
+                <label>Pledge Agreement</label>
+            </value>
+            <value>
+                <fullName>Pledgor Agreement</fullName>
+                <default>false</default>
+                <label>Pledgor Agreement</label>
+            </value>
+            <value>
+                <fullName>Pledgor Guaranty</fullName>
+                <default>false</default>
+                <label>Pledgor Guaranty</label>
+            </value>
+            <value>
+                <fullName>Policy and Procedures Manual</fullName>
+                <default>false</default>
+                <label>Policy and Procedures Manual</label>
+            </value>
+            <value>
+                <fullName>Post-Closing Certificate</fullName>
+                <default>false</default>
+                <label>Post-Closing Certificate</label>
+            </value>
+            <value>
+                <fullName>Post-Closing Certificates</fullName>
+                <default>false</default>
+                <label>Post-Closing Certificates</label>
+            </value>
+            <value>
+                <fullName>Post-Closing Letter</fullName>
+                <default>false</default>
+                <label>Post-Closing Letter</label>
+            </value>
+            <value>
+                <fullName>Precise</fullName>
+                <default>false</default>
+                <label>Precise</label>
+            </value>
+            <value>
+                <fullName>Pre-Closing Certificate</fullName>
+                <default>false</default>
+                <label>Pre-Closing Certificate</label>
+            </value>
+            <value>
+                <fullName>Pre-Closing Certificates</fullName>
+                <default>false</default>
+                <label>Pre-Closing Certificates</label>
+            </value>
+            <value>
+                <fullName>Pricing Model</fullName>
+                <default>false</default>
+                <label>Pricing Model</label>
+            </value>
+            <value>
+                <fullName>Promissory Note</fullName>
+                <default>false</default>
+                <label>Promissory Note</label>
+            </value>
+            <value>
+                <fullName>Proof of Paid Taxes</fullName>
+                <default>false</default>
+                <label>Proof of Paid Taxes</label>
+            </value>
+            <value>
+                <fullName>Purchase Contract or HUD/Settlement Statement</fullName>
+                <default>false</default>
+                <label>Purchase Contract or HUD/Settlement Statement</label>
+            </value>
+            <value>
+                <fullName>Purchase Documents</fullName>
+                <default>false</default>
+                <label>Purchase Documents</label>
+            </value>
+            <value>
+                <fullName>Recorded Deed(s)</fullName>
+                <default>false</default>
+                <label>Recorded Deed(s)</label>
+            </value>
+            <value>
+                <fullName>Recorded Mortgage/Deed of Trust(s)</fullName>
+                <default>false</default>
+                <label>Recorded Mortgage/Deed of Trust(s)</label>
+            </value>
+            <value>
+                <fullName>Registration to do Business</fullName>
+                <default>false</default>
+                <label>Registration to do Business</label>
+            </value>
+            <value>
+                <fullName>Rehab Costs Breakdown</fullName>
+                <default>false</default>
+                <label>Rehab Costs Breakdown</label>
+            </value>
+            <value>
+                <fullName>Renovation Budget</fullName>
+                <default>false</default>
+                <label>Renovation Budget</label>
+            </value>
+            <value>
+                <fullName>Rent Roll</fullName>
+                <default>false</default>
+                <label>Rent Roll</label>
+            </value>
+            <value>
+                <fullName>Schedule of Lender Costs</fullName>
+                <default>false</default>
+                <label>Schedule of Lender Costs</label>
+            </value>
+            <value>
+                <fullName>Section 8 contract / HAP</fullName>
+                <default>false</default>
+                <label>Section 8 contract / HAP</label>
+            </value>
+            <value>
+                <fullName>Section 8 Data Tape</fullName>
+                <default>false</default>
+                <label>Section 8 Data Tape</label>
+            </value>
+            <value>
+                <fullName>Section 8 Data Tape/Questionnaire</fullName>
+                <default>false</default>
+                <label>Section 8 Data Tape/Questionnaire</label>
+            </value>
+            <value>
+                <fullName>Section 8 Questionnaire</fullName>
+                <default>false</default>
+                <label>Section 8 Questionnaire</label>
+            </value>
+            <value>
+                <fullName>Security Instrument - Deed of trust/mortgage/deed to debt</fullName>
+                <default>false</default>
+                <label>Security Instrument - Deed of trust/mortgage/deed to debt</label>
+            </value>
+            <value>
+                <fullName>Service Link Flood Certs</fullName>
+                <default>false</default>
+                <label>Service Link Flood Certs</label>
+            </value>
+            <value>
+                <fullName>Service Link Flood Results</fullName>
+                <default>false</default>
+                <label>Service Link Flood Results</label>
+            </value>
+            <value>
+                <fullName>Settlement Statement</fullName>
+                <default>false</default>
+                <label>Settlement Statement</label>
+            </value>
+            <value>
+                <fullName>Signature Pages</fullName>
+                <default>false</default>
+                <label>Signature Pages</label>
+            </value>
+            <value>
+                <fullName>Site Visit Checklist</fullName>
+                <default>false</default>
+                <label>Site Visit Checklist</label>
+            </value>
+            <value>
+                <fullName>Site Visit Photos</fullName>
+                <default>false</default>
+                <label>Site Visit Photos</label>
+            </value>
+            <value>
+                <fullName>Site Visit Questionnaire</fullName>
+                <default>false</default>
+                <label>Site Visit Questionnaire</label>
+            </value>
+            <value>
+                <fullName>Sponsor Guaranty</fullName>
+                <default>false</default>
+                <label>Sponsor Guaranty</label>
+            </value>
+            <value>
+                <fullName>Tax/Payoff Spreadsheet</fullName>
+                <default>false</default>
+                <label>Tax/Payoff Spreadsheet</label>
+            </value>
+            <value>
+                <fullName>Tax Returns</fullName>
+                <default>false</default>
+                <label>Tax Returns</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Title Quote Approval Email</fullName>
+                <default>false</default>
+                <label>Title Quote Approval Email</label>
+            </value>
+            <value>
+                <fullName>UCC1 - Borrower</fullName>
+                <default>false</default>
+                <label>UCC1 - Borrower</label>
+            </value>
+            <value>
+                <fullName>UCC1 - Owner</fullName>
+                <default>false</default>
+                <label>UCC1 - Owner</label>
+            </value>
+            <value>
+                <fullName>UCC1 - Pledgor</fullName>
+                <default>false</default>
+                <label>UCC1 - Pledgor</label>
+            </value>
+            <value>
+                <fullName>UCC1 - Sponsor</fullName>
+                <default>false</default>
+                <label>UCC1 - Sponsor</label>
+            </value>
+            <value>
+                <fullName>UCC3 - Borrower</fullName>
+                <default>false</default>
+                <label>UCC3 - Borrower</label>
+            </value>
+            <value>
+                <fullName>UCC3 - Owner</fullName>
+                <default>false</default>
+                <label>UCC3 - Owner</label>
+            </value>
+            <value>
+                <fullName>UCC3 - Pledgor</fullName>
+                <default>false</default>
+                <label>UCC3 - Pledgor</label>
+            </value>
+            <value>
+                <fullName>UCC3 - Sponsor</fullName>
+                <default>false</default>
+                <label>UCC3 - Sponsor</label>
+            </value>
+            <value>
+                <fullName>Unexecuted Assignments</fullName>
+                <default>false</default>
+                <label>Unexecuted Assignments</label>
+            </value>
+            <value>
+                <fullName>Valuations</fullName>
+                <default>false</default>
+                <label>Valuations</label>
+            </value>
+            <value>
+                <fullName>W9</fullName>
+                <default>false</default>
+                <label>W9</label>
+            </value>
+            <value>
+                <fullName>W9/W8 (if foreign national)</fullName>
+                <default>false</default>
+                <label>W9/W8 (if foreign national)</label>
+            </value>
+            <value>
+                <fullName>Wells Fargo DACA *</fullName>
+                <default>false</default>
+                <label>Wells Fargo DACA *</label>
+            </value>
+            <value>
+                <fullName>Wire Confirmation</fullName>
+                <default>false</default>
+                <label>Wire Confirmation</label>
+            </value>
+            <value>
+                <fullName>Wiring Instructions</fullName>
+                <default>false</default>
+                <label>Wiring Instructions</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Model</controllingFieldValue>
+            <valueName>Draft Model</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Model</controllingFieldValue>
+            <valueName>Final Model</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Model</controllingFieldValue>
+            <valueName>Pricing Model</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Acquisition Questionnaire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Bulk Purchase Contract</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Certificate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Final Verified Tape</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <controllingFieldValue>Pledgor</controllingFieldValue>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <controllingFieldValue>Cash Management</controllingFieldValue>
+            <controllingFieldValue>Assignments</controllingFieldValue>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <controllingFieldValue>Taxes</controllingFieldValue>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <controllingFieldValue>Property Management</controllingFieldValue>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <controllingFieldValue>Title Policies</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <controllingFieldValue>Guarantor / Sponsor</controllingFieldValue>
+            <valueName>Miscellaneous</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Operating Statement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Rehab Costs Breakdown</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Rent Roll</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Section 8 Data Tape/Questionnaire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Site Visit Checklist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Site Visit Photos</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Portfolio Level Documents</controllingFieldValue>
+            <valueName>Site Visit Questionnaire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IC Memo</controllingFieldValue>
+            <valueName>Draft IC Memo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>IC Memo</controllingFieldValue>
+            <valueName>Final IC Memo</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pledgor</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <controllingFieldValue>Guarantor / Sponsor</controllingFieldValue>
+            <valueName>Certification of Formation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pledgor</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <controllingFieldValue>Guarantor / Sponsor</controllingFieldValue>
+            <valueName>Certification of Good Standing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pledgor</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <controllingFieldValue>Guarantor / Sponsor</controllingFieldValue>
+            <valueName>Operating Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pledgor</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <valueName>W9/W8 (if foreign national)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Assurant</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Green River</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Insurance Broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Legal Counsel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>OSN title review *</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Precise</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <controllingFieldValue>Property Level Documents</controllingFieldValue>
+            <valueName>Valuations</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Invoices</controllingFieldValue>
+            <valueName>Wells Fargo DACA *</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LDR</controllingFieldValue>
+            <valueName>LDR Part A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>LDR</controllingFieldValue>
+            <valueName>LDR Part B</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Application</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Background and Credit Search</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Background Letter of Explanation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Borrower&apos;s Identification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Entity Search</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Guarantor Bank Statement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Guarantor Bio / Resume</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Guarantor Financial Statement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Guarantor Tax Returns (multiple)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>OFAC Search</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
+            <valueName>Picture Id</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cash Management</controllingFieldValue>
+            <valueName>Borrower Organization Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cash Management</controllingFieldValue>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <valueName>Final Org Chart</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cash Management</controllingFieldValue>
+            <valueName>KYC Document</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Cash Management</controllingFieldValue>
+            <valueName>Signature Pages</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Assignments</controllingFieldValue>
+            <valueName>Executed Assignments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Assignments</controllingFieldValue>
+            <valueName>Unexecuted Assignments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Assignment of Leases, Contracts and Asset-Related Property</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Assignment of Management</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Bill of Sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Cash Management Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Certificate of LLC Interests in Borrower</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Certificate of Status for US Income Tax Purposes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Checklist</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Clearing Account Agreement/DACA</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Distribution and Contribution Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Environmental Indemnity Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Escrow Instructions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Loan Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Mortgage/Deed of Trust</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Mortgage Loan Cooperation Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Officer&apos;s Certificate(s)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Pledge Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Pledgor Guaranty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Post-Closing Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Promissory Note</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Schedule of Lender Costs</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Settlement Statement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Principle Loan Documents</controllingFieldValue>
+            <valueName>Sponsor Guaranty</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Taxes</controllingFieldValue>
+            <valueName>Black Knight Tax Results</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Taxes</controllingFieldValue>
+            <valueName>Tax/Payoff Spreadsheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>CAF Application</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>CEO approval</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Determination Notice</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Early Rate Lock Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Executed Term Sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Greenlight Deck</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Org Chart</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Term Sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Submission Documents</controllingFieldValue>
+            <valueName>Wire Confirmation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Level Documents</controllingFieldValue>
+            <valueName>Lease Agreements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Level Documents</controllingFieldValue>
+            <valueName>Purchase Contract or HUD/Settlement Statement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Level Documents</controllingFieldValue>
+            <valueName>Purchase Documents</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Level Documents</controllingFieldValue>
+            <valueName>Section 8 contract / HAP</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Management</controllingFieldValue>
+            <valueName>Blank Form Lease</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Management</controllingFieldValue>
+            <valueName>Draft of Management Agreement</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Management</controllingFieldValue>
+            <valueName>Management Questionnaire</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Property Management</controllingFieldValue>
+            <valueName>Policy and Procedures Manual</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Broker Data Tape</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>CAF Certification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>EOI</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Final Conditions Report</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Service Link Flood Certs</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Insurance</controllingFieldValue>
+            <valueName>Service Link Flood Results</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Borrower Information Sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Closing Protection Letter</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Draft Deeds</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Escrow Holdback</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>HOA Breakdown</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>HOA Demands (if applicable – ties to data tape)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>HOA Questionnaires</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Legal Descriptions in Word Format</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>List of Endorsements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Marked Up Title Commitments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Mortgage Payoffs</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>No HOA Letters</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Post-Closing Certificate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Pre-Closing Certificate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Title Quote Approval Email</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Wiring Instructions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>Affidavit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>Assignments</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>Deed</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>Recorded Deed(s)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>Recorded Mortgage/Deed of Trust(s)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC1 - Borrower</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC1 - Owner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC1 - Pledgor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC1 - Sponsor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC3 - Borrower</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC3 - Owner</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC3 - Pledgor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Recorded Loan Documents</controllingFieldValue>
+            <valueName>UCC3 - Sponsor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title Policies</controllingFieldValue>
+            <valueName>Final Title Policies</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title Policies</controllingFieldValue>
+            <valueName>Post-Closing Certificates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title Policies</controllingFieldValue>
+            <valueName>Pre-Closing Certificates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <valueName>Certificate of Formation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <valueName>Good Standing in the State where registered to do business</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Borrower</controllingFieldValue>
+            <valueName>Registration to do Business</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

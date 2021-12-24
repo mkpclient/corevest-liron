@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Calculation_Method__c</fullName>
+    <externalId>false</externalId>
+    <label>Interest Calculation Method</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Actual/365</fullName>
+                <default>false</default>
+                <label>Actual/365</label>
+            </value>
+            <value>
+                <fullName>Actual/360</fullName>
+                <default>false</default>
+                <label>Actual/360</label>
+            </value>
+            <value>
+                <fullName>30/365</fullName>
+                <default>false</default>
+                <label>30/365</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

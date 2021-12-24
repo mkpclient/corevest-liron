@@ -1,0 +1,589 @@
+<aura:component >
+    <aura:attribute name="record" type="Object" />
+    
+    <aura:if isTrue="{!v.record.Record_Type_Name__c == 'LOC_Loan' || v.record.Record_Type_Name__c == 'Single_Asset_Bridge_Loan'}">
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Bridge Program Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.LOC_Program_Type__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Approval Status
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Approval_Status__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Product Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.LOC_Loan_Type__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Estimated Sponsor Tier
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Estimated_Sponsor_Tier__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Product Sub-Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Product_Sub_Type__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Project Strategy
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Project_Strategy__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Revolving
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Requested_Revolving__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Interest Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Requested_Interest_Type__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Advance Period
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Draw_Period__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Rate
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Rate_1_9_Months__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Rate_1_9_Months__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Repayment Period
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Repayment_Period__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Index
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Requested_Index__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Line Term
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Line_Expiration__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Index Margin
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Index_Margin__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Index_Margin__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested LTC Max
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_LTC_Max__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_LTC_Max__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Index Floor
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Requested_Index_Floor__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested LTV Max
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_LTV_Max__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_LTV_Max__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Origination Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Origination_Fee__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Origination_Fee__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Total Loan LTC
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Total_Loan_LTC__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Total_Loan_LTC__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Exit Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Exit_Fee__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Exit_Fee__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Total ARV LTV
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_ARV_LTV__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_ARV_LTV__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Advance Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Draw_Fee__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Draw_Fee__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Max Reno Cost Reimbursement
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Requested_Max_Reno_Cost_Reimbursement__c)}">
+                        <lightning:formattedNumber value="{!v.record.Requested_Max_Reno_Cost_Reimbursement__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Advance Fee Cap
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Requested_Draw_Fee_Cap__c}
+                </dd>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Renovation Limit
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Renovation_Limit__c)}">
+                        <lightning:formattedNumber value="{!v.record.Renovation_Limit__c/100}" minimumFractionDigits="0" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Broker Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <lightning:formattedNumber value="{!v.record.Broker_Fees__c/100}" minimumFractionDigits="2" style="percent" />
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->        
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Deal Notes
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Notes__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Extension Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <lightning:formattedNumber value="{!v.record.Extension_Fee__c/100}" minimumFractionDigits="2" style="percent" />                    
+                </dd>
+            </div>            
+        </div>
+    </aura:if>
+    
+    <!-- closes LOC part -->
+    
+    
+    <aura:if isTrue="{!v.record.Record_Type_Name__c == 'Term_Loan'}">
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Requested Loan Amount
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Loan_Size__c)}">
+                        <ui:outputCurrency value="{!v.record.Loan_Size__c}" />
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Loan Purpose
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Loan_Purpose__c}
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Amortization
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Amortization_Term__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Term
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <!-- {!v.record.LOC_Term__c} -->
+                    {!v.record.Term_Loan_Type__c}
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    IO Term
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.IO_Term__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Refinance Type
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Refinance_Type__c}
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Floor
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Floor__c)}">
+                        <ui:outputNumber value="{!v.record.Floor__c}" format="###,###,###,###.00"/>
+                        %
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Recourse
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Recourse__c}
+                </dd>
+            </div>
+        </div>
+        
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Cash Management
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Cash_Management__c}
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Property Management
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Property_Management__c}
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Origination Fee
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.CAF_Upfront_Fee__c)}">
+                        <ui:outputNumber value="{!v.record.CAF_Upfront_Fee__c}" format="###,###,###,###.00"/>
+                        %
+                    </aura:if>
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Broker Fees
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Broker_Fees__c}%
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    CAF YSP
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.CAF_YSP__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Broker YSP %
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.YSP_perc__c}%
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Min DSCR
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Min_DSCR__c}
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Spread
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Spread_BPS__c}
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Yield Maintenance Par Prepayment Period
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.YM_Prepayment_Penalty__c}
+                    <aura:if isTrue="{!!empty(v.record.YM_Prepayment_Penalty_Description__c)}"> 
+                        <span style="page-break-before:always;">   |  {!v.record.YM_Prepayment_Penalty_Description__c}</span>
+                    </aura:if>
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Swap Rate
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Swap_Rate__c)}">
+                        <ui:outputNumber value="{!v.record.Swap_Rate__c}" format="###,###,###,###.00"/>
+                        %
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        <!-- new row -->
+        <div class="slds-grid">
+            
+             <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Stepdown Prepayment Period
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    {!v.record.Stepdown_Prepayment_Period__c }
+                </dd>
+            </div>
+            
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Indicative Rate
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.Indicative_Rate_Calc__c)}">
+                        <ui:outputNumber value="{!v.record.Indicative_Rate_Calc__c}" format="###,###,###,###.00"/>
+                        %
+                    </aura:if>
+                </dd>
+            </div>
+        </div>
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Max LTV
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.LTC__c)}">
+                        <lightning:formattedNumber value="{!v.record.LTV__c/100}" minimumFractionDigits="2" style="percent" />
+                    </aura:if>
+                </dd>
+            </div>
+ 		<div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Max LTC
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.LTC__c)}">
+                        <ui:outputNumber value="{!v.record.LTC__c}" format="###,###,###,###.00"/>
+                        %
+                    </aura:if>
+                    <!-- <aura:if isTrue="{!!empty(v.record.Requested_Loan_Amount__c) &amp;&amp; !empty(v.record.Acquisition_Cost__c)}">
+                    {!v.record.Requested_Loan_Amount__c} / {v.record.Acquisition_Cost__c}
+                </aura:if> -->
+                </dd>
+            </div>
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    
+                </dd>
+            </div>
+        </div>
+        
+        <!-- new row -->
+        <div class="slds-grid">
+            <div class="slds-col slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Constrained by
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                    <aura:if isTrue="{!!empty(v.record.LTC__c) &amp;&amp; !empty(v.record.LTV__c)}">
+                        LTV
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(v.record.LTC__c) &amp;&amp; !empty(v.record.LTV__c)}">
+                        LTC
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(v.record.LTC__c) &amp;&amp; !empty(v.record.LTV__c)}">
+                        {!v.record.LTC__c > v.record.LTV__c ? 'LTC' : 'LTV'}
+                    </aura:if>
+                </dd>
+            </div>
+            <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                </dt>
+                <dd class="slds-item_detail slds-truncate">
+                </dd>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

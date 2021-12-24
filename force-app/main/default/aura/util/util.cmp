@@ -1,0 +1,85 @@
+<aura:component controller="lightning_Util">
+  <aura:method name="query" action="{!c.queryDatabase}">
+    <aura:attribute name="queryString" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="queryPromise" action="{!c.queryDatabasePromise}">
+    <aura:attribute name="queryString" type="String" />
+  </aura:method>
+
+  <aura:method name="queryJSON" action="{!c.queryDatabaseJSON}">
+    <aura:attribute name="queryString" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="upsert" action="{!c.upsertRecs}">
+    <aura:attribute name="records" type="Object" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="delete" action="{!c.deleteRecs}">
+    <aura:attribute name="records" type="Object" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="queryRecords" action="{!c.query}">
+    <aura:attribute name="sobjectType" type="String" />
+    <aura:attribute name="fields" type="String[]" />
+    <aura:attribute name="whereClause" type="String" />
+    <aura:attribute name="orderBy" type="String" />
+    <aura:attribute name="limit" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="getUserId" action="{!c.queryUserId}">
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="getUser" action="{!c.getUserRecord}">
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="getDependentPickists" action="{!c.getDependentPickists}">
+    <aura:attribute name="pObjName" type="String" />
+    <aura:attribute name="pControllingFieldName" type="String" />
+    <aura:attribute name="pDependentFieldName" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="insertFileAndLink" action="{!c.insertFiles}">
+    <aura:attribute name="request" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method name="queryPicklistValues" action="{!c.queryPicklist}">
+    <aura:attribute name="sobjectType" type="String" />
+    <aura:attribute name="fieldName" type="String" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+
+  <aura:method
+    name="getFileFromStaticResource"
+    action="{!c.getFileStaticResource}"
+  >
+    <aura:attribute name="staticResourceName" type="String" />
+    <aura:attribute name="fileName" type="String" />
+  </aura:method>
+
+  <aura:method name="getPermissions" action="{!c.queryPermissions}">
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="fields" type="List" />
+    <aura:attribute name="callback" type="Object" />
+    <aura:attribute name="failureCallback" type="Object" />
+  </aura:method>
+</aura:component>

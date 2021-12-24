@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commission_Type__c</fullName>
+    <description>The Type of Commission</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>The Type of Commission</inlineHelpText>
+    <label>Commission Type</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Term - Direct - &gt;5M</fullName>
+                <default>true</default>
+                <label>Term - Direct - &gt;5M</label>
+            </value>
+            <value>
+                <fullName>Term - Direct - &lt;=5M</fullName>
+                <default>false</default>
+                <label>Term - Direct - &lt;=5M</label>
+            </value>
+            <value>
+                <fullName>Term - Internal - &gt;5M</fullName>
+                <default>false</default>
+                <label>Term - Internal - &gt;5M</label>
+            </value>
+            <value>
+                <fullName>Term - Internal - &lt;=5M</fullName>
+                <default>false</default>
+                <label>Term - Internal - &lt;=5M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Direct - &lt;=5M</fullName>
+                <default>false</default>
+                <label>Bridge - Direct - &lt;=5M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Direct - 5Mto20M</fullName>
+                <default>false</default>
+                <label>Bridge - Direct - 5Mto20M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Direct - &gt;20M</fullName>
+                <default>false</default>
+                <label>Bridge - Direct - &gt;20M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Internal - &lt;=5M</fullName>
+                <default>false</default>
+                <label>Bridge - Internal - &lt;=5M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Internal - 5Mto20M</fullName>
+                <default>false</default>
+                <label>Bridge - Internal - 5Mto20M</label>
+            </value>
+            <value>
+                <fullName>Bridge - Internal - &gt;20M</fullName>
+                <default>false</default>
+                <label>Bridge - Internal - &gt;20M</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

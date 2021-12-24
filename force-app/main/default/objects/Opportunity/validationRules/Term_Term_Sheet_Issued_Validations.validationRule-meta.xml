@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Term_Sheet_Issued_Validations</fullName>
+    <active>false</active>
+    <description>Bridge Borrower field is needed for Term Deals to move from Term Sheet Issued to Term Sheet Signed/Deposit Collected stage.</description>
+    <errorConditionFormula>AND($RecordType.Name == &apos;Term Loan&apos;, 
+AND(ISPICKVAL(StageName, &apos;Term Sheet Signed/Deposit Collected&apos;),
+ISPICKVAL(PRIORVALUE(StageName), &apos;Term Sheet Issued&apos;)),
+ISBLANK(TEXT(Bridge_Borrower__c)))</errorConditionFormula>
+    <errorDisplayField>Bridge_Borrower__c</errorDisplayField>
+    <errorMessage>This field is required to move to the next stage.</errorMessage>
+</ValidationRule>

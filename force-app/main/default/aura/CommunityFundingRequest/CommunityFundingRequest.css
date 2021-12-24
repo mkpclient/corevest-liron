@@ -1,0 +1,11 @@
+.THIS .slds-card{
+    box-shadow:none;
+}
+
+.THIS .slds-page-header{
+    box-shadow:none;
+}
+
+.THIS .invalid .slds-accordion__summary-heading {
+    color: red;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_CAF_YSP_Change</fullName>
+    <active>true</active>
+    <description>Prevent the CAF YSP from being changed if the Requested Loan Amount is over $5,000,000</description>
+    <errorConditionFormula>AND(
+ RecordType.Name = &apos;Term Loan&apos;,
+ ISCHANGED( CAF_YSP__c ) ,
+ NOT($UserRole.Name = &quot;Administrator&quot;),
+NOT($UserRole.Name = &quot;Origination Manager&quot;),
+ Loan_Size__c  &gt;= 6000000,
+ NOT(ISBLANK(TEXT(CAF_YSP__c))),
+ NOT(ISPICKVAL(CAF_YSP__c, &apos;0 BPS in Spread&apos;)))</errorConditionFormula>
+    <errorDisplayField>CAF_YSP__c</errorDisplayField>
+    <errorMessage>Field updates are not allowed for Requested Loan Size &gt;= 6 Million.</errorMessage>
+</ValidationRule>

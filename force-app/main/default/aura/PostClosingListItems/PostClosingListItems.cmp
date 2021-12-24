@@ -1,0 +1,743 @@
+<aura:component
+  controller="PostClosingHelper"
+  implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="itemSObjectType" type="String" />
+  <aura:attribute name="itemWrappers" type="List" />
+  <aura:attribute name="userId" type="String" />
+  <aura:attribute name="selectedItemId" type="String" />
+  <aura:attribute name="selectedItemIdList" type="String" />
+  <!-- <aura:attribute name="docInfo" type="Map" /> -->
+  <aura:attribute name="isCommunity" type="Boolean" />
+
+  <aura:attribute name="documentList" type="List" />
+  <aura:attribute name="initAction" type="Aura.Action" />
+  <aura:attribute name="paginationEnabled" type="Boolean" default="false" />
+  <aura:attribute name="pageSize" type="Integer" default="10" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+
+  <aura:attribute name="selectedItemWrappers" type="List" />
+  <aura:attribute name="closingItem" type="Map"></aura:attribute>
+
+  <aura:attribute name="taskRelatedId" type="String" />
+  <aura:attribute name="newItemSectionId" type="String" />
+
+  <aura:attribute name="docStructureMap" type="Map" />
+  <aura:attribute name="docStructureOptions" type="List" />
+
+  <aura:method name="refreshChecklists" action="{!c.init}" access="PUBLIC" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:attribute name="selectedTabId" type="String" />
+
+  <aura:handler
+    name="onSaveSuccess"
+    event="force:recordSaveSuccess"
+    action="{!c.handleSaveSuccess}"
+  />
+
+  <lightning:tabset variant="scoped" selectedTabId="{!v.selectedTabId}">
+    <aura:iteration items="{!v.itemWrappers}" var="wrapper">
+      <lightning:tab
+        label="{!wrapper.Name + ' ' + wrapper.Percent_of_Items_Completed__c + '%'}"
+        id="{!wrapper.Id}"
+        onactive="{!c.handleActive}"
+      >
+        <ui:scrollerWrapper class="scroller">
+          <table
+            class="slds-table slds-table_cell-buffer slds-table_bordered"
+            style=""
+          >
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th class="slds-text-title_caps" scope="col">
+                  <div class="wrapText" title="Document Type">
+                    Document Type
+                  </div>
+                </th>
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Uploaded Status">
+                    Uploaded<br />Status
+                  </div>
+                </th>
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Related To">Related To</div>
+                </th>
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Recorded">Recorded</div>
+                </th>
+                <!-- <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Reviewed Status">Reviewed Date</div>
+          </th> -->
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Status">Status</div>
+                </th>
+
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Comments">Comments</div>
+                </th>
+                <!-- <aura:if isTrue="{!!v.isCommunity}">
+          -->
+                <!-- <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Intenal Comments">
+              Comments
+            </div>
+          </th> -->
+                <!-- </aura:if>
+          -->
+
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Upload Document">
+                    Upload Document
+                  </div>
+                </th>
+                <th
+                  class="slds-text-title_caps slds-text-align_center"
+                  scope="col"
+                >
+                  <div class="wrapText" title="Task Details">Task Details</div>
+                </th>
+                <th class="" scope="col" style="width: 100px">
+                  <div class="wrapText slds-assistive-text" title="Actions">
+                    Actions
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: rgb(243, 242, 242)">
+                <td colspan="7" style="padding-left: 0.75rem">
+                  <!-- <div class="slds-accordion__summary">
+                <h2 class="slds-accordion__summary-heading">
+                  <button
+                    class="slds-button slds-button_reset slds-accordion__summary-action"
+                    type="button"
+                  >
+                    <lightning:icon
+                      class="slds-m-right_small"
+                      iconName="utility:chevrondown"
+                      size="x-small"
+                    />
+                    <span class="" title="{!wrapper.section}">
+                      {!wrapper.Name}
+                    </span>
+                  </button>
+                </h2>
+              </div> -->
+                  <c:ProgressBar
+                    colorClass="blue"
+                    percentage="{!wrapper.Percent_of_Items_Completed__c/100}"
+                    barText=""
+                  />
+                  <!-- {!wrapper.Percent_of_Items_Completed__c} -->
+                </td>
+                <td class="">
+                  <aura:iteration items="{!wrapper.Tasks}" var="task">
+                    <div>
+                      <a
+                        href="{!'/lightning/r/Task/'+task.Id+'/view'}"
+                        target="_blank"
+                        >Assigned To: {!task.Owner.Name}<br />Due Date:
+                        <lightning:formattedDateTime
+                          value="{!task.ActivityDate}"
+                        />
+                        <br />Status: {!task.Status}</a
+                      >
+                    </div>
+                  </aura:iteration>
+                </td>
+                <td>
+                  <lightning:layout>
+                    <lightning:layoutItem>
+                      <button name="lead" class="slds-button">
+                        <span
+                          data-value="{!wrapper.Id}"
+                          onclick="{!c.openNewTaskModal}"
+                        >
+                          <lightning:icon
+                            iconName="action:new_task"
+                            size="x-small"
+                            alternative-text="New Task"
+                            title="Create New Task"
+                          />
+                        </span>
+                      </button>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                      <button name="lead" class="slds-button">
+                        <span
+                          data-value="{!wrapper.mdt_Id__c}"
+                          onclick="{!c.openNewItemModal}"
+                        >
+                          <lightning:icon
+                            iconName="action:new"
+                            size="x-small"
+                            alternative-text="New Item"
+                            title="New Post Closing Item"
+                          />
+                        </span>
+                      </button>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                      <button name="lead" class="slds-button slds-hidden">
+                        <span
+                          data-value="{!wrapper.Id}"
+                          onclick="{!c.handleEdit}"
+                        >
+                          <lightning:icon
+                            iconName="action:edit"
+                            size="x-small"
+                          />
+                        </span>
+                      </button>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                      <button
+                        data-name="{!'clone_'+wrapper.Id}"
+                        class="slds-button slds-hidden"
+                      >
+                        <span
+                          data-value="{!wrapper.Id}"
+                          onclick="{!c.cloneItemC}"
+                        >
+                          <lightning:icon
+                            iconName="action:clone"
+                            size="x-small"
+                          />
+                        </span>
+                      </button>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem>
+                      <button
+                        aura-id="deleteItem"
+                        data-value="{!wrapper.Id}"
+                        class="slds-button slds-hidden"
+                      >
+                        <span
+                          data-value="{!wrapper.Id}"
+                          onclick="{!c.deleteItem}"
+                        >
+                          <lightning:icon
+                            iconName="action:delete"
+                            size="x-small"
+                          />
+                        </span>
+                      </button>
+                    </lightning:layoutItem>
+                  </lightning:layout>
+                </td>
+              </tr>
+
+              <aura:iteration
+                items="{!wrapper.Post_Closing_Items__r}"
+                var="item"
+              >
+                <tr>
+                  <th
+                    data-label="Document Type"
+                    scope="row"
+                    class="slds-text-align_left"
+                  >
+                    <aura:if isTrue="{!empty(item.Deal_Documents__r)}">
+                      <lightning:formattedText value="{!item.Name}" />
+                      <aura:set attribute="else">
+                        <a
+                          href="javascript:void()"
+                          title="{!item.Id}"
+                          onclick="{!c.viewFiles}"
+                          >{!item.Name} ({!item.Deal_Documents__r.length})</a
+                        >
+                      </aura:set>
+                    </aura:if>
+                  </th>
+
+                  <td data-label="Confidence" class="slds-text-align_center">
+                    <lightning:icon
+                      class="slds-m-right_small"
+                      iconName="{!item.Uploaded__c ? 'action:approval' : 'action:close'}"
+                      size="x-small"
+                    />
+                  </td>
+                  <!-- This is the "Related To" column -->
+                  <td class="slds-text-align_center">
+                    <aura:if isTrue="{!!empty(item.Contact__c)}">
+                      <a
+                        href="{!'/lightning/r/Contact/'+ item.Contact__c+'/view'}"
+                        >{!item.Contact__r.Name}</a
+                      >
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(item.Business_Entity__c)}">
+                      <a
+                        href="{!'/lightning/r/Business_Entity__c/'+ item.Business_Entity__c+'/view'}"
+                        >{!item.Business_Entity__r.Name}</a
+                      >
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!!empty(item.Post_Closing_Section__r.Advance__c)}"
+                    >
+                      <a
+                        href="{!'/lightning/r/Advance__c/'+ item.Post_Closing_Section__r.Advance__c+'/view'}"
+                        >Advance
+                        #&nbsp;{!item.Post_Closing_Section__r.Advance__r.Name}<br /></a
+                      >
+
+                      <!-- <aura:if isTrue="{! !empty(item.County__c)}">
+                        <br />{!item.County__c}
+                      </aura:if> -->
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(item.County__c)}">
+                      County: {!item.County__c}
+                    </aura:if>
+                  </td>
+
+                  <td data-label="Confidence" class="slds-text-align_center">
+                    <aura:if isTrue="{!item.Recorded_Document__c}">
+                      <lightning:icon
+                        class="slds-m-right_small"
+                        iconName="{!(item.Recorded__c) ? 'action:approval' : 'action:close'}"
+                        size="x-small"
+                      />
+                    </aura:if>
+                  </td>
+                  <td data-label="" class="slds-text-align_center">
+                    <lightning:formattedText
+                      class=""
+                      value="{!item.Status__c}"
+                    />
+                  </td>
+                  <td
+                    data-label=""
+                    style="width: 300px"
+                    class="slds-text-align_center"
+                  >
+                    <div
+                      class="breakWord comment"
+                      style="white-space: normal; word-break: break-word"
+                      title=""
+                    >
+                      {!item.Comment__c}
+                    </div>
+                  </td>
+                  <td class="slds-text-align_center">
+                    <lightning:fileUpload
+                      class="slds-m-right_small slds-truncate"
+                      name="{!item.Id}"
+                      onuploadfinished="{!c.handleUpload}"
+                      title="{!item.mdt_Id__c}"
+                      recordId="{!v.userId}"
+                    />
+                  </td>
+                  <td>
+                    <aura:iteration items="{!item.Tasks}" var="task">
+                      <div>
+                        <a
+                          href="{!'/lightning/r/Task/'+task.Id+'/view'}"
+                          target="_blank"
+                          >Assigned To: {!task.Owner.Name}<br />Due Date:
+                          <lightning:formattedDateTime
+                            value="{!task.ActivityDate}"
+                          />
+                          <br />Status: {!task.Status}</a
+                        >
+                      </div>
+                    </aura:iteration>
+                  </td>
+                  <td style="text-align: right">
+                    <lightning:layout>
+                      <lightning:layoutItem>
+                        <button name="lead" class="slds-button">
+                          <span
+                            data-value="{!item.Id}"
+                            onclick="{!c.openNewTaskModal}"
+                          >
+                            <lightning:icon
+                              iconName="action:new_task"
+                              size="x-small"
+                              alternative-text="New Task"
+                              title="Create New Task"
+                            />
+                          </span>
+                        </button>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem>
+                        <button name="lead" class="slds-button">
+                          <span
+                            data-value="{!item.Id}"
+                            onclick="{!c.handleEdit}"
+                          >
+                            <lightning:icon
+                              iconName="action:edit"
+                              size="x-small"
+                              alternative-text="Edit"
+                              title="Edit"
+                            />
+                          </span>
+                        </button>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem>
+                        <button
+                          data-name="{!'clone_'+item.Id}"
+                          class="slds-button"
+                        >
+                          <span
+                            data-value="{!item.Id}"
+                            onclick="{!c.cloneItemC}"
+                          >
+                            <lightning:icon
+                              iconName="action:clone"
+                              size="x-small"
+                              alternative-text="Clone"
+                              title="Clone List Item"
+                            />
+                          </span>
+                        </button>
+                      </lightning:layoutItem>
+                      <lightning:layoutItem>
+                        <button
+                          aura-id="deleteItem"
+                          data-value="{!item.Id}"
+                          class="slds-button"
+                        >
+                          <span
+                            data-value="{!item.Id}"
+                            onclick="{!c.deleteItem}"
+                          >
+                            <lightning:icon
+                              iconName="action:delete"
+                              size="x-small"
+                              alternative-text="Delete"
+                              title="Delete List Item"
+                            />
+                          </span>
+                        </button>
+                      </lightning:layoutItem>
+                    </lightning:layout>
+                  </td>
+                </tr>
+              </aura:iteration>
+              <!-- </aura:iteration> -->
+            </tbody>
+          </table>
+        </ui:scrollerWrapper>
+      </lightning:tab>
+    </aura:iteration>
+  </lightning:tabset>
+
+  <aura:if isTrue="{!v.paginationEnabled}">
+    <div class="slds-text-align_center slds-m-bottom_medium">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.wrappers.length ?
+        (v.currentPage)*v.pageSize : v.wrappers.length) + ' of ' +
+        v.wrappers.length}
+      </div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.selectedItemId)}">
+    <div class="demo-only" style="height: 640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              Edit Document
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            <div class="slds-section slds-is-open">
+              <force:recordEdit aura:id="edit" recordId="{!v.selectedItemId}" />
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModal}"
+            >
+              Cancel
+            </button>
+            <button class="slds-button slds-button_brand" onclick="{!c.save}">
+              Save
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.selectedItemIdList)}">
+    <div class="demo-only" style="height: 640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              Document List
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium slds-is-relative"
+            id="modal-content-id-1"
+            style="min-height: 100px"
+          >
+            <div class="slds-section slds-is-open">
+              <c:postClosingDocumentList
+                recordId="{!v.selectedItemIdList}"
+                onupdate="{!v.init}"
+                aura:id="documentsList"
+              ></c:postClosingDocumentList>
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModalList}"
+            >
+              Close
+            </button>
+            <lightning:button
+              variant="brand"
+              label="Review"
+              onclick="{!c.review}"
+              aura:id="reviewBtn"
+            ></lightning:button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.taskRelatedId)}">
+    <div class="demo-only" style="height: 640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              New Task
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            <div class="slds-section slds-is-open">
+              <lightning:layout multipleRows="true">
+                <lightning:layoutItem size="6" padding="horizontal-small">
+                  <lightning:input
+                    required="true"
+                    label="Subject"
+                    aura:id="taskSubject"
+                  />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" padding="horizontal-small">
+                  <c:lookup
+                    show-label="true"
+                    label="Assigned To"
+                    onsearch="{!c.handleTaskSearch}"
+                    aura:id="taskLookup"
+                    id="taskLookup"
+                  />
+                </lightning:layoutItem>
+
+                <lightning:layoutItem size="6" padding="horizontal-small"
+                  ><lightning:input
+                    type="date"
+                    label="Due Date"
+                    required="true"
+                    aura:id="taskDueDate"
+                  />
+                </lightning:layoutItem>
+                <lightning:layoutItem size="6" padding="horizontal-small"
+                  ><lightning:textarea label="Comments" aura:id="taskComments"
+                /></lightning:layoutItem>
+              </lightning:layout>
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeTaskModal}"
+            >
+              Cancel
+            </button>
+            <button
+              class="slds-button slds-button_brand"
+              onclick="{!c.saveTask}"
+            >
+              Save
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.newItemSectionId)}">
+    <div class="demo-only" style="height: 640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              New Item
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            <div class="slds-section slds-is-open">
+              <lightning:select
+                name="select"
+                label="Document Type"
+                required="true"
+                aura:id="newItemDocType"
+              >
+                <aura:iteration items="{!v.docStructureOptions}" var="option">
+                  <option value="{!option.value}">{!option.label}</option>
+                </aura:iteration>
+              </lightning:select>
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeNewItemModal}"
+            >
+              Cancel
+            </button>
+            <button
+              class="slds-button slds-button_brand"
+              onclick="{!c.saveNewItem}"
+            >
+              Save
+            </button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <c:util aura:id="util" />
+</aura:component>

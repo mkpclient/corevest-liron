@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Referring_Employee</fullName>
+    <active>true</active>
+    <description>This will require the user to select a referral employee when the Deal Intro Source is Referral and the Sub Source is Employee</description>
+    <errorConditionFormula>AND( 
+ISPICKVAL( Deal_Intro_Sub_Source__c , &quot;Employee&quot;) ,
+OR(
+ISPICKVAL( StageName, &quot;Initial Review&quot;),
+ISPICKVAL( StageName, &quot;Data Tape Received&quot;),
+ISPICKVAL( StageName, &quot;Term Sheet Issued&quot;),
+ISPICKVAL( StageName, &quot;Term Sheet Signed/Deposit Collected&quot;)),
+AND(
+ISBLANK( Internal_Referral__c )))</errorConditionFormula>
+    <errorDisplayField>Internal_Referral__c</errorDisplayField>
+    <errorMessage>An Internal Referral is required when the Deal Intro Sub Source is &quot;Employee&quot;</errorMessage>
+</ValidationRule>

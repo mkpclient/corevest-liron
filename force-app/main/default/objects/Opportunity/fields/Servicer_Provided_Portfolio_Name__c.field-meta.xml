@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Servicer_Provided_Portfolio_Name__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Servicer Provided Portfolio name</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Portfolio Name Received from Midland Servicer</inlineHelpText>
+    <label>Servicer Provided Portfolio Name</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

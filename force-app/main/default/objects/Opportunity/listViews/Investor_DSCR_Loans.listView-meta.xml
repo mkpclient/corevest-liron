@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investor_DSCR_Loans</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Deal_Loan_Number__c</columns>
+    <columns>Deal_Code__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Final_Interest_Rate_Calc__c</columns>
+    <columns>Final_Loan_Amount__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Loan_Purpose__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.Investor_DSCR_Active</value>
+    </filters>
+    <label>Investor DSCR Loans</label>
+</ListView>

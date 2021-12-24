@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UW_LTV__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Underwriting LTV based on the Loan Amount and the Data Tape Portfolio Value
+
+IF( 
+Current_Loan_Amount__c = 0, 
+Loan_Size__c/Total_Borrower_Estimated_Value__c, 
+Current_Loan_Amount__c/Total_Borrower_Estimated_Value__c)</description>
+    <externalId>false</externalId>
+    <formula>IF( 
+ Current_Loan_Amount__c = 0 &amp;&amp; Final_Loan_Amount__c = 0, 
+ Loan_Size__c/Total_Assumed_3rd_Party_Value__c,
+  IF(
+   Current_Loan_Amount__c &gt; 0 &amp;&amp; Final_Loan_Amount__c = 0,
+   Current_Loan_Amount__c/Total_Assumed_3rd_Party_Value__c,
+Final_Loan_Amount__c / Total_Assumed_3rd_Party_Value__c ))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>UW LTV</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

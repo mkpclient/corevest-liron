@@ -1,0 +1,240 @@
+<aura:component controller="documentUploader_Controller" implements="force:lightningQuickAction">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="files" type="Object[]" default="[]" />
+    <aura:attribute name="picklistMap" type="Object" />
+    <aura:attribute name="sections" type="Object[]" />
+
+    <aura:attribute name="section" type="String" />
+    <aura:attribute name="documentType" type="String" />
+    <aura:attribute name="documentTypes" type="Object[]" default="[]" />
+    <aura:attribute name="propertyOptions" type="Object[]" default="[]"/>
+
+
+    <aura:attribute name="sobjectType" type="String" default="Opportunity" />
+    <aura:attribute name="recordType" type="String" default="Term_Loan" />
+
+    <aura:attribute name="userType" type="String" default="standard" />
+    <aura:attribute name="accountId" type="String" default="" />
+    <aura:attribute name="documentId" type="String" default="" />
+    <aura:attribute name="accountType" type="String" default="" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="uploaderType" type="String" default="internal" />
+    <aura:attribute name="message" type="String" default="" />
+
+    <aura:attribute name="uploadType" type="String" default="single" />
+
+    <!-- <aura:handler name="change" value="{!v.files}" action="{!c.filesChanged}" />  -->
+
+          <!-- <ui:outputText value="{!v.message}" class="{!empty(v.message) ? 'slds-hide' : ''}" /> -->
+
+        <aura:if isTrue="{!v.uploadType == 'bulk'}">
+            <lightning:layout >
+                <lightning:layoutItem >
+                    <!-- <ui:inputSelect label="Document Folder" class="bulk" aura:id="section" value="{!v.section}" change="{!c.picklistChange}" >
+                        <aura:iteration items="{!v.sections}" var="item">
+                          <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                        </aura:iteration>
+                    </ui:inputSelect> -->
+                    <lightning:select label="Document Folder" name="docFolder" class="bulk" aura:id="section" value="{!v.section}" onchange="{!c.picklistChange}" >
+                        <aura:iteration items="{!v.sections}" var="item">
+                          <option text="{!item}" value="{!item}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+                    
+                <lightning:layoutItem class="slds-m-left_medium">
+                    <!-- <ui:inputSelect label="Document Type" value="{!v.documentType}" change="{!c.documentTypeChange}">
+                        <aura:iteration items="{!v.documentTypes}" var="item">
+                            <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                        </aura:iteration>
+                    </ui:inputSelect> -->
+
+                    <lightning:select label="Document Type" name="docType" value="{!v.documentType}" onchange="{!c.documentTypeChange}">
+                        <aura:iteration items="{!v.documentTypes}" var="item">
+                            <option text="{!item}" value="{!item}"/>
+                        </aura:iteration>
+                    </lightning:select>
+
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+
+         
+          <lightning:layout horizontalAlign="spread">
+                  <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <c:fileUpload uploaderType="{!v.uploaderType}" parentId="{#v.recordId}" files="{!v.files}" accountId="{!v.documentId}"/>
+                  </lightning:layoutItem>
+                  <lightning:layoutItem flexibility="auto" padding="around-small">
+                     <lightning:button label="Save Documents"  onclick="{!c.saveFiles}" />
+                  </lightning:layoutItem>
+          </lightning:layout>
+          
+
+          <aura:if isTrue="{!v.uploadType == 'single'}">
+          <ul class="slds-has-dividers--bottom-space">
+              <aura:iteration items="{!v.files}" var="f" indexVar="rowIndex">
+                  <li class="slds-item">
+                      <div class="slds-tile slds-media">
+                        <div class="slds-media__figure">
+                          <lightning:icon iconName="doctype:attachment" />
+              
+                        </div>
+
+                        <div class="slds-media__body">
+                          <h3 class="slds-truncate" title="{!f.file.name}"><a href="javascript:void(0);">{!f.name}</a></h3>
+
+                          <div class="slds-tile__detail slds-text-body--small">
+                            <ul class="slds-list--horizontal slds-has-dividers--right">
+                              <li class="slds-item"><ui:outputNumber value="{!f.size/1000000}" />&nbsp;Mb</li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                <p>
+                                  Upload failed: File too big
+                                </p>
+                              </li>
+                                <li class="{!empty(f.attachmentId) ? 'slds-hide' : 'slds-item'}">
+                                    <ui:inputSelect class="{!'row-'+rowIndex}" aura:id="sections" value="{!f.section}" change="{!c.picklistChange}" >
+                                        <aura:iteration items="{#v.sections}" var="item">
+                                          <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                        </aura:iteration>
+                                    </ui:inputSelect>
+                                </li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : 'slds-item'}">
+                                  <ui:inputSelect aura:id="doc-types" value="{!f.documentType}" >
+                                    <aura:iteration items="{!f.typeOptions}" var="item">
+                                      <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                    </aura:iteration>
+                                  </ui:inputSelect>
+                              </li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : ''}">
+                                <lightning:buttonIcon iconName="utility:delete" class="{!empty(f.status) ? '' : 'slds-hide'}" value="{!rowIndex}" variant="bare" onclick="{!c.deleteAttachment}" />
+                                <img src="/img/loading.gif" class="{!f.status == 'uploading' ? '' : 'slds-hide'}" />
+                                <lightning:icon iconName="action:approval" size="xx-small" class="{!f.uploaded ? '' : 'slds-hide'}"/>
+                                <lightning:icon iconName="action:close" size="xx-small" class="{!f.status == 'failed' ? '' : 'slds-hide'}" />
+                              </li>
+                            </ul>
+
+                          </div>
+
+                        </div>
+                        
+                      </div>
+                    </li>
+                    
+              </aura:iteration>
+          </ul>
+        </aura:if>
+
+        <aura:if isTrue="{!and(v.uploadType == 'bulk', v.sobjectType == 'Opportunity')}">
+            
+
+
+
+
+            <ul class="slds-has-dividers--bottom-space">
+              <aura:iteration items="{!v.files}" var="f" indexVar="rowIndex">
+                  <li class="slds-item">
+                      <div class="slds-tile slds-media">
+                        <div class="slds-media__figure">
+                          <lightning:icon iconName="doctype:attachment" />
+              
+                        </div>
+
+                        <div class="slds-media__body">
+                          <h3 class="slds-truncate" title="{!f.file.name}"><a href="javascript:void(0);">{!f.name}</a></h3>
+
+                          <div class="slds-tile__detail slds-text-body--small">
+                            <ul class="slds-list--horizontal slds-has-dividers--right">
+                              <li class="slds-item"><ui:outputNumber value="{!f.size/1000000}" />&nbsp;Mb</li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                <p>
+                                  Upload failed: File too big
+                                </p>
+                              </li>
+                                <li class="{!empty(f.attachmentId) ? 'slds-hide' : 'slds-item'}">
+                                    <ui:inputSelect class="{!'row-'+rowIndex}" aura:id="sections" value="{!f.section}" change="{!c.picklistChange}" >
+                                        <aura:iteration items="{#v.sections}" var="item">
+                                          <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                        </aura:iteration>
+                                    </ui:inputSelect>
+                                </li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : 'slds-item'}">
+                                  <ui:inputSelect aura:id="doc-types" value="{!f.documentType}" >
+                                    <aura:iteration items="{!f.typeOptions}" var="item">
+                                      <ui:inputSelectOption text="{!item}" label="{!item}"/>
+                                    </aura:iteration>
+                                  </ui:inputSelect>
+                              </li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : ''}">
+                                <lightning:buttonIcon iconName="utility:delete" class="{!empty(f.status) ? '' : 'slds-hide'}" value="{!rowIndex}" variant="bare" onclick="{!c.deleteAttachment}" />
+                                <img src="/img/loading.gif" class="{!f.status == 'uploading' ? '' : 'slds-hide'}" />
+                                <lightning:icon iconName="action:approval" size="xx-small" class="{!f.uploaded ? '' : 'slds-hide'}"/>
+                                <lightning:icon iconName="action:close" size="xx-small" class="{!f.status == 'failed' ? '' : 'slds-hide'}" />
+                              </li>
+                            </ul>
+
+                          </div>
+
+                        </div>
+                        
+                      </div>
+                    </li>
+                    
+              </aura:iteration>
+          </ul>
+
+
+        </aura:if>
+
+        <aura:if isTrue="{!and(v.uploadType == 'bulk', v.sobjectType == 'Property__c')}">
+            <ul class="slds-has-dividers--bottom-space">
+              <aura:iteration items="{!v.files}" var="f" indexVar="rowIndex">
+                  <li class="slds-item">
+                      <div class="slds-tile slds-media">
+                        <div class="slds-media__figure">
+                          <lightning:icon iconName="doctype:attachment" />
+              
+                        </div>
+
+                        <div class="slds-media__body">
+                          <h3 class="slds-truncate" title="{!f.file.name}"><a href="javascript:void(0);">{!f.name}</a></h3>
+
+                          <div class="slds-tile__detail slds-text-body--small">
+                            <ul class="slds-list--horizontal slds-has-dividers--right">
+                              <li class="slds-item"><ui:outputNumber value="{!f.size/1000000}" />&nbsp;Mb</li>
+                              <li class="{!empty(f.attachmentId) ? 'slds-item' : 'slds-hide'}">
+                                <p>
+                                  Upload failed: File too big
+                                </p>
+                              </li>
+
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : 'slds-item'}">
+                                <ui:inputSelect value="{!f.parentId}" aura:id="propertySelect" >
+                                    <aura:iteration items="{!v.propertyOptions}" var="option">
+                                        <ui:inputSelectOption text="{!option.value}" label="{!option.label}" />
+                                    </aura:iteration>
+                                </ui:inputSelect>
+                            </li>
+                                
+                              <li class="{!empty(f.attachmentId) ? 'slds-hide' : ''}">
+                                <lightning:buttonIcon iconName="utility:delete" class="{!empty(f.status) ? '' : 'slds-hide'}" value="{!rowIndex}" variant="bare" onclick="{!c.deleteAttachment}" />
+                                <img src="/img/loading.gif" class="{!f.status == 'uploading' ? '' : 'slds-hide'}" />
+                                <lightning:icon iconName="action:approval" size="xx-small" class="{!f.uploaded ? '' : 'slds-hide'}"/>
+                                <lightning:icon iconName="action:close" size="xx-small" class="{!f.status == 'failed' ? '' : 'slds-hide'}" />
+                              </li>
+                            </ul>
+
+                      
+
+                          </div>
+
+                        </div>
+                        
+                      </div>
+                    </li>
+                    
+              </aura:iteration>
+          </ul>
+        </aura:if>
+
+    
+</aura:component>

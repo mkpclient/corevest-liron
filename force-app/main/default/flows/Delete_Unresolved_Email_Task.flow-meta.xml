@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <interviewLabel>Delete Unresolved Email Task {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Delete Unresolved Email Task</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>Delete_Unresolved_Email_Task</name>
+        <label>Delete Unresolved Email Task</label>
+        <locationX>519</locationX>
+        <locationY>74</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>VAR_TaskID</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Subject</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>Unresolved</stringValue>
+            </value>
+        </filters>
+        <object>Task</object>
+    </recordDeletes>
+    <startElementReference>Delete_Unresolved_Email_Task</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>VAR_TaskID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,217 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sobjectType" type="String" default="Deal_Contact__c" />
+    
+    <aura:attribute name="parentFieldName" type="String" default="Deal__c"/>
+    <aura:attribute name="fieldList" type="String[]" />
+    <!-- <aura:attribute name="s"
+ -->	<aura:attribute name="whereClause" type="String"/>
+    <aura:attribute name="orderBy" type="String" default=""/>
+    <aura:attribute name="editMode" type="Boolean" default="false"/>
+    <!-- <aura:attribute name="recordList" type="String" /> -->
+    
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="footer" type="String" />
+    <aura:attribute name="recordCount" type="Integer" default="0" />
+    
+    <!-- <aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/> -->
+    <aura:handler name="sortChangeEvent" event="c:DataTableSortChangeEvent" action="{!c.handleSortChangeEvent}" phase="capture"/>
+    
+    
+    <aura:attribute name="records" type="Object[]" />
+    <aura:attribute name="pageSize" type="Integer" default="25" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />
+    <aura:attribute name="maxPage" type="Integer" default="1" />
+    
+    <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+    
+    
+    <lightning:card >
+        <aura:set attribute="title" >
+            <lightning:icon iconName="standard:groups" size="medium" class="cmp-icon"/>
+            <span class="slds-m-left--medium">
+                {!v.title} ({!v.records.length})
+            </span>
+        </aura:set>
+        
+        <aura:set attribute="actions">
+            <lightning:layout horizontalAlign="end">
+                <!-- <lightning:button label="Create Advance" onclick="{!c.createAdvance}" /> -->
+            </lightning:layout>
+            
+            <lightning:layout horizontalAlign="end">
+                <lightning:layoutItem >
+                    <lightning:button variant="base" onclick="{!c.refresh}" >
+                        <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+                    </lightning:button>
+                </lightning:layoutItem>
+                <lightning:layoutItem >
+                    <lightning:button variant="base" onclick="{!c.delete}">
+                        <lightning:buttonIcon iconName="utility:delete" variant="bare" alternativeText="Delete"/>
+                    </lightning:button>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:spinner class="" aura:id="spinner" variant="brand" />
+        </aura:set>
+        
+        <ui:scrollerWrapper>
+            <c:DataTable aura:id="dataTable" tableClass="slds-table slds-table--bordered">
+                <aura:set attribute="columns">
+                    
+                    <c:DataTableColumn label="Role"
+                                       name="Entity_Type__c"
+                                       sortable="true"
+                                       displayType="text"
+                                       isEditable="false"
+                                       columnWidth="7"
+                                       />
+                    
+                    <c:DataTableColumn label="Full Name"
+                                       name="Contact__r.Name"
+                                       linkToRecord="Contact__c"
+                                       sortable="true"
+                                       columnWidth="10"
+                                       isEditable="false"/>
+                    
+                    <c:DataTableColumn label="Percentage Owned"
+                                       name="Percentage_Owned__c"
+                                       displayType="percent"
+                                       sortable="true"
+                                       columnWidth="8"
+                                       isEditable="true"/> 
+                    
+                    <c:DataTableColumn label="Tier"
+                                       name="Sponsor_Tier__c"
+                                       sortable="false"
+                                       displayType="select"
+                                       columnWidth="15"
+                                       isEditable="true"
+                                       selectOptions="[
+                                                      {'label': '--Select One--', 'value': ''},
+                                                      {'label': 'Tier 1', 'value': 'Tier 1'},
+                                                      {'label': 'Tier 2', 'value': 'Tier 2'},
+                                                      {'label': 'Tier 3', 'value': 'Tier 3'},
+                                                      {'label': 'Tier 4', 'value': 'Tier 4'}
+                                                      ]"
+                                       />
+                    
+                    <c:DataTableColumn label="Number of Projects"
+                                       name="Experience__c"
+                                       sortable="false"
+                                       displayType="number"
+                                       columnWidth="6"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Liquidity"
+                                       name="Liquidity__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="8"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Experian"
+                                       name="Experian__c"
+                                       sortable="true"
+                                       displayType="number"
+                                       isEditable="true"
+                                       columnWidth="6"
+                                       />
+                    
+                    <c:DataTableColumn label="TransUnion"
+                                       name="TransUnion__c"
+                                       sortable="true"
+                                       displayType="number"
+                                       isEditable="true"
+                                       columnWidth="6"
+                                       />
+                    
+                    <c:DataTableColumn label="Equifax"
+                                       name="Equifax__c"
+                                       sortable="true"
+                                       displayType="number"
+                                       isEditable="true"
+                                       columnWidth="6"
+                                       />
+                    
+                    <c:DataTableColumn label="Net Worth"
+                                       name="Net_Worth__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="8"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Annual Income 2018"
+                                       name="Annual_Income_2_Years_Ago__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="10"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Annual Income 2019"
+                                       name="Annual_Income_Last_Year__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="10"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Cash Position"
+                                       name="Cash_Position__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="8"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Cash Equivalent"
+                                       name="Cash_Equivalent__c"
+                                       sortable="false"
+                                       displayType="currency"
+                                       columnWidth="8"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Years Experience"
+                                       name="Years_of_Experience1__c"
+                                       sortable="false"
+                                       displayType="number"
+                                       columnWidth="7"
+                                       isEditable="true"
+                                       />
+                    
+                    <c:DataTableColumn label="Rental Units Owned"
+                                       name="Rental_Units_Owned__c"
+                                       sortable="false"
+                                       displayType="text"
+                                       columnWidth="15"
+                                       isEditable="true"
+                                       />
+                    
+                </aura:set>
+                
+                <!-- optional -->
+                
+                <aura:set attribute="pageNumber" value="1"/>
+                <aura:set attribute="pageSize" value="{!v.pageSize}"/>
+                <aura:set attribute="sortColumnName" value="Name"/>
+                <aura:set attribute="sortDirection" value="desc"/>
+                <aura:set attribute="editMode" value="{!v.editMode}" />
+                
+            </c:DataTable>
+          
+              </ui:scrollerWrapper>
+        
+   <aura:set attribute="footer"> 
+    		<div class="{!v.editMode ? '' : 'slds-hide' }">
+	    		<lightning:button variant="neutral" label="Cancel" onclick="{!c.toggleEdit}" />
+	    		<lightning:button variant="brand" label="Save" onclick="{!c.saveRows}" />
+    		</div>
+    	</aura:set> 
+        
+    </lightning:card> 
+    
+</aura:component>

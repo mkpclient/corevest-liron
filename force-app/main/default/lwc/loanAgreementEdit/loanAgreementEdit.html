@@ -1,0 +1,133 @@
+<template>
+  <lightning-record-view-form
+    record-id={loanVersionId}
+    object-api-name="Loan_Version__c"
+  >
+    <lightning-layout multiple-rows="false">
+      <lightning-layout-item size="6">
+        <lightning-layout multiple-rows="true">
+          <lightning-layout-item size="12" padding="around-medium">
+            <lightning-output-field
+              field-name="Borrower__c"
+            ></lightning-output-field>
+          </lightning-layout-item>
+          <!-- <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Sponsor__c"
+            ></lightning-output-field
+          ></lightning-layout-item> -->
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Final_Loan_Amount__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Maturity_Date__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <!-- <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Monthly_Payment__c"
+            ></lightning-output-field
+          ></lightning-layout-item> -->
+          <template if:true={showDebtService}>
+            <lightning-layout-item size="12" padding="around-medium"
+              ><lightning-output-field
+                field-name="Holdback_Reserve__c"
+              ></lightning-output-field
+            ></lightning-layout-item>
+          </template>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Initial_Monthly_Tax_Reserve_Deposit__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="InitialMonthlyInsuranceReserveDeposit__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Required_DSCR_Non_Recourse_Only__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Required_Holdback_Reserve__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+        </lightning-layout>
+      </lightning-layout-item>
+      <lightning-layout-item size="6">
+        <lightning-layout multiple-rows="true">
+          <!-- <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Pledgor__c"
+            ></lightning-output-field
+          ></lightning-layout-item> -->
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Recourse__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Cash_Management__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Origination_Fee__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Final_Interest_Rate__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Closing_Date_Tax_Reserve_Deposit__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Closing_Date_Insurance_Reserve_Deposit__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Underwriter_Vacancy_and_Credit_Loss_Perc__c"
+            ></lightning-output-field>
+          </lightning-layout-item>
+          <!-- <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Required_Rent_to_Debt_Service_Ratio__c"
+            ></lightning-output-field
+          ></lightning-layout-item> -->
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Property_Management_Adjustment__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <lightning-layout-item size="12" padding="around-medium"
+            ><lightning-output-field
+              field-name="Interest_Only__c"
+            ></lightning-output-field
+          ></lightning-layout-item>
+          <template if:true={showYMDescription}>
+            <lightning-output-field
+              field-name="YM_Prepayment_Penalty_Description__c"
+            ></lightning-output-field>
+          </template>
+        </lightning-layout>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-record-view-form>
+</template>

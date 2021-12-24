@@ -1,0 +1,6 @@
+<aura:documentation>
+	<aura:description>Documentation</aura:description>
+	<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+		This Component is used when a User clicks the "Create Property Extension" on the Property Table on a Deal
+	</aura:example>
+</aura:documentation>

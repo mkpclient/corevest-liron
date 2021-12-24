@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Intro_Source_from_being_edited</fullName>
+    <active>true</active>
+    <description>Prevent users from changing the Introduction Source for Imported Leads and Website Leads</description>
+    <errorConditionFormula>AND( 
+OR( 
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c), &quot;Imported Leads&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;CAF Website&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;CAF Website New Apply Form&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Application&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Broker Referral&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Contact Form&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Correspondent&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Single Asset Rental&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Website Wholesale&quot;) ,
+ISPICKVAL( PRIORVALUE ( Introduction_Source__c ), &quot;Answering Service&quot;)),
+ISCHANGED( Introduction_Source__c), 
+NOT ( $Profile.Name= &quot;System Administrator&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Introduction_Source__c</errorDisplayField>
+    <errorMessage>The Introduction Source cannot be changed when the source is Imported Leads or Website</errorMessage>
+</ValidationRule>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Closing Documents / Requirements</label>
+    <protected>false</protected>
+    <values>
+        <field>Header_Name__c</field>
+        <value xsi:type="xsd:string">CLOSING</value>
+    </values>
+    <values>
+        <field>Record_Type__c</field>
+        <value xsi:type="xsd:string">Single_Asset_Bridge_Loan</value>
+    </values>
+    <values>
+        <field>Section_Order__c</field>
+        <value xsi:type="xsd:double">8.0</value>
+    </values>
+    <values>
+        <field>sObject_Type__c</field>
+        <value xsi:type="xsd:string">Opportunity</value>
+    </values>
+</CustomMetadata>

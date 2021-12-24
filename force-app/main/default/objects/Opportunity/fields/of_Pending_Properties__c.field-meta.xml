@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>of_Pending_Properties__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Number of Properties that are in the Pending, Due Diligence or Closing Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Number of Properties that are in the Pending, Due Diligence or Closing Status</inlineHelpText>
+    <label># of Pending Properties</label>
+    <securityClassification>Internal</securityClassification>
+    <summaryFilterItems>
+        <field>Property__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Due Diligence, Pending</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property__c.Deal__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

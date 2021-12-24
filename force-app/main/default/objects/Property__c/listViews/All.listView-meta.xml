@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>DealID__c</columns>
+    <columns>Asset_ID__c</columns>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Payoff_Received_Date__c</columns>
+    <columns>Deal_Record_Type__c</columns>
+    <columns>Funding_Date__c</columns>
+    <columns>Approved_Advance_Amount__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal__c</field>
+        <operation>contains</operation>
+        <value>BRIDGETOPIA LLC</value>
+    </filters>
+    <label>All</label>
+</ListView>

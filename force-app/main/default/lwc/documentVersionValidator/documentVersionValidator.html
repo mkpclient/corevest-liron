@@ -1,0 +1,144 @@
+<template>
+  <!-- isValidated -->
+  <c-modal title={modalTitle}>
+    <div slot="body">
+      <!-- <lightning-combobox
+        name="loanVersions"
+        label="Select Loan Version"
+        options={loanVersionOptions}
+        value={selectedLoanVersionId}
+        onchange={selectLoanVersion}
+      ></lightning-combobox> -->
+
+      <template for:each={recordOptions} for:item="obj">
+        <lightning-combobox
+          key={obj.key}
+          name={obj.key}
+          label={obj.label}
+          options={obj.options}
+          value=""
+          data-id={obj.sobjectType}
+          onchange={selectRecord}
+        ></lightning-combobox>
+      </template>
+
+      <template if:true={showInputs}>
+        <lightning-layout multiple-rows="true" class="slds-form">
+          <template for:each={fieldValidations} for:item="section">
+            <lightning-layout-item size="12" key={section.index}>
+              <template if:true={section.showHeader}>
+                <h3 class="slds-section-title--divider slds-m-top_small">
+                  <span class="slds-truncate" title={section.headerLabel}
+                    >{section.headerLabel}</span
+                  >
+                </h3>
+              </template>
+            </lightning-layout-item>
+
+            <template for:each={section.fields} for:item="field">
+              <template if:true={field.isDisplayed}>
+                <lightning-layout-item
+                  size="6"
+                  key={field.index}
+                  padding="around-small"
+                >
+                  <lightning-layout
+                    multiple-rows="false"
+                    horizontal-align="spread"
+                  >
+                    <lightning-layout-item>
+                      <template if:true={field.checkOnly}>
+                        <lightning-layout multiple-rows="false">
+                          <lightning-layout-item>
+                            <lightning-input
+                              data-sobject={field.sobjectType}
+                              type={field.fieldType}
+                              label={field.label}
+                              formatter={field.formatter}
+                              data-name={field.fieldName}
+                              step="any"
+                              value={field.orignalValue}
+                              read-only
+                            >
+                            </lightning-input>
+                          </lightning-layout-item>
+                          <lightning-layout-item class="slds-m-top_large">
+                            <div class="slds-form-element">
+                              <div class="slds-form-element__control">
+                                <span
+                                  class="slds-checkbox slds-checkbox_standalone"
+                                >
+                                  <input
+                                    id={field.fieldName}
+                                    data-sobject={field.sobjectType}
+                                    type="checkbox"
+                                    name="label"
+                                    value="option"
+                                    data-name={field.fieldName}
+                                    onchange={updateValue}
+                                  />
+                                  <span class="slds-checkbox_faux"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </lightning-layout-item>
+                        </lightning-layout>
+                      </template>
+
+                      <template if:false={field.checkOnly}>
+                        <lightning-input
+                          data-sobject={field.sobjectType}
+                          type={field.fieldType}
+                          label={field.label}
+                          formatter={field.formatter}
+                          data-name={field.fieldName}
+                          step={field.scale}
+                          onchange={updateValue}
+                        >
+                        </lightning-input>
+                      </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item class="slds-m-top_large">
+                      <template if:true={field.validated}>
+                        <lightning-icon
+                          icon-name="action:approval"
+                          alternative-text="Validated"
+                          title="Validated"
+                          size="xx-small"
+                        ></lightning-icon>
+                      </template>
+                      <template if:false={field.validated}>
+                        <lightning-icon
+                          icon-name="action:close"
+                          alternative-text="Not Validated"
+                          title="Not Validated"
+                          size="xx-small"
+                        ></lightning-icon>
+                      </template>
+                    </lightning-layout-item>
+                  </lightning-layout>
+
+                  {field.value}
+                </lightning-layout-item>
+              </template>
+            </template>
+          </template>
+        </lightning-layout>
+      </template>
+    </div>
+
+    <div slot="footer">
+      <div>
+        <lightning-button
+          label="Cancel"
+          onclick={closeModal}
+        ></lightning-button>
+        <lightning-button
+          disabled={allowSave}
+          label="Save"
+          onclick={save}
+        ></lightning-button>
+      </div>
+    </div>
+  </c-modal>
+</template>

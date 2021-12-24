@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Berkadia</fullName>
+        <default>false</default>
+        <label>Berkadia</label>
+    </customValue>
+    <customValue>
+        <fullName>Statebridge</fullName>
+        <default>false</default>
+        <label>Statebridge</label>
+    </customValue>
+    <customValue>
+        <fullName>Midland</fullName>
+        <default>false</default>
+        <label>Midland</label>
+    </customValue>
+    <customValue>
+        <fullName>Cohen</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Cohen</label>
+    </customValue>
+    <customValue>
+        <fullName>Wells Fargo</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Wells Fargo</label>
+    </customValue>
+    <masterLabel>Servicer Name</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

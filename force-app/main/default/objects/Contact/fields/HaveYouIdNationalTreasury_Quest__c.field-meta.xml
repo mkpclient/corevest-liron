@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HaveYouIdNationalTreasury_Quest__c</fullName>
+    <description>Questionnaire page</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Have you ever been identified, or are you presently identified, on the list of specially designated
+nationals and blocked persons subject to financial sanctions that are maintained by the U.S. Treasury
+Department Office of Foreign Assets Control?</inlineHelpText>
+    <label>Have You Been Identfied by US Treasury</label>
+    <length>3</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

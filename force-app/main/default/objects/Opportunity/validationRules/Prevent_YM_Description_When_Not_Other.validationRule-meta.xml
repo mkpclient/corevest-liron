@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_YM_Description_When_Not_Other</fullName>
+    <active>true</active>
+    <description>This will prevent the user from entering text in the Stepdown Prepayment Period Description field when Stepdown Prepayment Period is not &quot;Other&quot;</description>
+    <errorConditionFormula>AND(
+ NOT(ISPICKVAL( Stepdown_Prepayment_Period__c , &quot;Other&quot;)),
+ NOT(ISBLANK( YM_Prepayment_Penalty_Description__c )),
+ ISCHANGED( YM_Prepayment_Penalty_Description__c ) 
+)</errorConditionFormula>
+    <errorDisplayField>YM_Prepayment_Penalty_Description__c</errorDisplayField>
+    <errorMessage>This field can only be edited when &quot;Other&quot; is selected as the Stepdown Prepayment Period</errorMessage>
+</ValidationRule>

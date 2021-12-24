@@ -1,0 +1,35 @@
+.THIS.body {
+    padding: 0 10px;
+}
+
+.THIS.body div.section:nth-child(n+2), .THIS.body div.section:nth-child(n+2) {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.THIS .custom-padding-input, .THIS.custom-padding-input{
+    padding: .4rem .75rem !important;
+}
+
+.THIS .custom-text-area, .THIS.custom-text-area {
+    background-color: rgb(255, 255, 255);
+    color: rgb(22, 50, 92);
+    border: 1px solid rgb(216, 221, 230);
+    border-radius: .25rem;
+    width: 100%;
+    -webkit-transition: border .1s linear,background-color .1s linear;
+    transition: border .1s linear,background-color .1s linear;
+    display: inline-block;
+    padding: 0 1rem 0 .75rem;
+    line-height: 1.875rem;
+    min-height: calc(1.875rem + (1px * 2));
+    height: 10rem;
+}
+
+.THIS .feedback, .THIS.feedback {
+    text-align: center;
+}
+
+.THIS .button-div {
+    padding-top: 10px;
+}

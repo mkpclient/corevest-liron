@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Intro_Sub_Source</fullName>
+    <active>true</active>
+    <description>This will require a user to select a valid Introduction Sub Source if applicable</description>
+    <errorConditionFormula>AND(
+OR( ISPICKVAL( Introductions_Source__c , &quot;Referral&quot;) ,
+ISPICKVAL( Introductions_Source__c , &quot;Event&quot;) ,
+ISPICKVAL( Introductions_Source__c , &quot;Non-Database&quot;) ,
+ISPICKVAL( Introductions_Source__c , &quot;Social Media&quot;)) ,
+ISBLANK(TEXT ( Introduction_Subsource__c )),
+NOT(ISCHANGED(Most_Recent_Opportunity_Date__c)),
+NOT ( $Profile.Name= &quot;System Administrator&quot;) 
+)</errorConditionFormula>
+    <errorDisplayField>Introduction_Subsource__c</errorDisplayField>
+    <errorMessage>A valid Introduction Sub Source is required</errorMessage>
+</ValidationRule>

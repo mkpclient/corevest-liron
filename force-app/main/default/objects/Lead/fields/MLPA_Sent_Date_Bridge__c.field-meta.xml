@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MLPA_Sent_Date_Bridge__c</fullName>
+    <description>Bridge Mortgage Loan Purchase Agreement Sent Date</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Bridge Mortgage Loan Purchase Agreement Sent Date</inlineHelpText>
+    <label>MLPA Sent Date (Bridge)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

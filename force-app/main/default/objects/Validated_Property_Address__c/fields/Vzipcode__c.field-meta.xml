@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vzipcode__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The 5-digit ZIP Code.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The 5-digit ZIP Code</inlineHelpText>
+    <label>Verified zipcode</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

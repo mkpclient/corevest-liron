@@ -1,0 +1,71 @@
+<aura:component controller="LoanStatusUpdatesController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,lightning:actionOverride,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="title" type="String" default="Loan Statuses" />
+    <aura:attribute name="recordCount" type="Integer" default="0" />
+    <aura:handler event="force:refreshView" action="{!c.refresh}" />
+    <aura:attribute name="records" type="List" />
+    <aura:attribute name="menu" type="List" />
+    <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+    
+    <lightning:layout multipleRows="true">
+        <lightning:card class="slds-size_1-of-1">
+            <aura:set attribute="title" >
+                <lightning:icon iconName="custom:custom105" size="medium" />
+                <span class="slds-m-left--medium">
+                    {!v.title} ({!v.records.length})
+                </span>
+            </aura:set>
+            
+            <aura:set attribute="actions">
+                <lightning:layout horizontalAlign="end">
+                    <lightning:layoutItem >
+                        <lightning:button variant="neutral" label="New" onclick="{!c.addRow}" />
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <lightning:layout horizontalAlign="end">
+                    <lightning:layoutItem padding="horizontal-medium">
+                        <lightning:button variant="base" onclick="{!c.refresh}" >
+                            <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+                        </lightning:button>
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+            </aura:set>
+        </lightning:card>
+        
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-size_1-of-1" width="100%">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Comment</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.records}"  var="obj" indexVar="index" >
+                    <tr>
+                        <td class="slds-rich-text-area__content slds-grow slds-cell-wrap">{!obj.Subject__c}</td>
+                        <td  class="slds-rich-text-area__content slds-grow slds-cell-wrap">
+                            <ui:outputRichText aura:id="comments" value="{!obj.Comment__c}" />
+                        </td>
+                        <td>{!obj.CreatedBy.Name}</td>
+                        <td><ui:outputDateTime aura:id="oDateTime" value="{!obj.CreatedDate}"  /></td> 
+                       <!--    <apex:outputText value= "{0,date,MM'/'dd'/'yyyy h:mm a}">
+                                <apex:param value="{!obj.CreatedDate}"/>
+                            </apex:outputText>
+                        </td> -->
+                        <td>
+                            <lightning:buttonMenu name="{!obj.Id}" onselect="{!c.handleRowAction}">
+                                <lightning:menuItem value="editRecord" label="Edit"></lightning:menuItem> 
+                                <lightning:menuItem value="deleteRecord" label="Delete" disabled="true"></lightning:menuItem>
+                            </lightning:buttonMenu>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </lightning:layout>    
+</aura:component>

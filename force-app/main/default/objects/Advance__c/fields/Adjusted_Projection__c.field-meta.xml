@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Adjusted_Projection__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Adjusted Projection of the Approved Advance Amount Funding Based On Probability. Used For Forecasting In Bridge.</description>
+    <externalId>false</externalId>
+    <formula>Approved_Advance_Amount_Total__c * CASE( Probability__c ,&apos;N/A&apos;, 0.00,&apos;0%&apos;, 0.00,&apos;50%&apos;, 0.50, &apos;80%&apos;, 0.80, &apos;100%&apos;, 1, 1)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Adjusted Projection of the Approved Advance Amount Funding Based On Probability. Used For Forecasting In Bridge.</inlineHelpText>
+    <label>Adjusted Projection</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

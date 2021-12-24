@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LOC_Commitment__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Line of Credit Commitment
+Bridge Use - This is the maximum loan amount</description>
+    <externalId>false</externalId>
+    <label>LOC Commitment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Currency</type>
+</CustomField>

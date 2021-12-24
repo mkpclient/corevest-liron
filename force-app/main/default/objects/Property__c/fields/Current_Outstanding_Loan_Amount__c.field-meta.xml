@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Outstanding_Loan_Amount__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>previous
+IF(ISPICKVAL(Status__c, &apos;Active&apos;),
+    IF(ISBLANK( Payoff_Request_Date__c ), Approved_Advance_Amount__c-Partial_Paydown__c, Approved_Advance_Amount__c)
+,0)</description>
+    <externalId>false</externalId>
+    <formula>IF(OR(
+ ISPICKVAL(Status__c, &apos;Active&apos;),
+ ISPICKVAL(Status__c, &apos;In Process&apos;)),
+    IF(ISBLANK( Payoff_Request_Date__c ), Approved_Advance_Amount_Used__c-Partial_Paydown__c, Approved_Advance_Amount_Used__c)
+,0)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total Amount Funded - Partial Paydown</inlineHelpText>
+    <label>Current Outstanding Loan Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

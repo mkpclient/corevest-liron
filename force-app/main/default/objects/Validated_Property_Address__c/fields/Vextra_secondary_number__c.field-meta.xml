@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vextra_secondary_number__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Descriptive information about the location of a building within a campus
+(e.g., E-5 in &quot;5619 Loop 1604, Bldg E-5, Ste. 101 San Antonio TX&quot;).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Descriptive information about the location of a building within a campus
+(e.g., E-5 in &quot;5619 Loop 1604, Bldg E-5, Ste. 101 San Antonio TX&quot;)</inlineHelpText>
+    <label>Verified extra secondary number</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

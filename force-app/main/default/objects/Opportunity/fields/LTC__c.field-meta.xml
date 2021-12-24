@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LTC__c</fullName>
+    <businessOwnerGroup>Bridge_Ops</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>This is used in Bridge.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Initial LTC % in Bridge</inlineHelpText>
+    <label>Max LTC %</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>true</trackTrending>
+    <type>Percent</type>
+</CustomField>

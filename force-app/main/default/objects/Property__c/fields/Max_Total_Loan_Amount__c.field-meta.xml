@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_Total_Loan_Amount__c</fullName>
+    <description>Bridge Reno Use</description>
+    <externalId>false</externalId>
+    <formula>MIN(After_Repair_Value__c*Deal__r.Total_ARV_LTV__c, Total_Cost_Basis__c*Deal__r.Total_Loan_LTC__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Minimum of &quot;After Rehab Value&quot; * Deal Total ARV LTV and &quot;Total Cost Basis&quot; * Deal Reno Total Loan LTC</inlineHelpText>
+    <label>Max Total Loan Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

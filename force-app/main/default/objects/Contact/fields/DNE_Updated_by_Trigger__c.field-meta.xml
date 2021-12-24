@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>DNE_Updated_by_Trigger__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Do not lend has checked the Do not Email field and can undo the change.</description>
+    <externalId>false</externalId>
+    <label>DNE Updated by Trigger</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

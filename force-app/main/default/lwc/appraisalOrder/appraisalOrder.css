@@ -1,0 +1,23 @@
+.filterItem {
+  box-shadow: var(--lwc-shadowDrag, 0 2px 4px 0 rgba(0, 0, 0, 0.4));
+  z-index: 1000;
+}
+
+table {
+  position: relative;
+}
+
+th {
+  background-color: var(--lwc-colorBackgroundAlt, rgb(255, 255, 255));
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  white-space: initial;
+  text-align: center;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.appraisal_row {
+  background-color: #e3e5ed;
+  white-space: normal;
+}

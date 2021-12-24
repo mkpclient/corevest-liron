@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <apiVersion>49.0</apiVersion>
+    <decisions>
+        <name>Validate_to_Proceed</name>
+        <label>Validate to Proceed</label>
+        <locationX>293</locationX>
+        <locationY>334</locationY>
+        <defaultConnector>
+            <targetReference>Create_Special_Asset</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Prevent_Moving_Forward</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Query_Current_Property.Is_Special_Asset__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>End_of_the_Road</targetReference>
+            </connector>
+            <label>Prevent Moving Forward</label>
+        </rules>
+    </decisions>
+    <description>This will create a Special Asset record related to a Property</description>
+    <dynamicChoiceSets>
+        <name>severityLevel</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Severity_Level__c</picklistField>
+        <picklistObject>Special_Asset__c</picklistObject>
+    </dynamicChoiceSets>
+    <formulas>
+        <name>specialAssetNameFormula</name>
+        <dataType>String</dataType>
+        <expression>{!Query_Current_Property.Asset_ID__c} + &apos;-SA&apos;</expression>
+    </formulas>
+    <interviewLabel>Create Special Asset {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Create Special Asset</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_Special_Asset_Record</name>
+        <label>Create Special Asset Record</label>
+        <locationX>713</locationX>
+        <locationY>156</locationY>
+        <assignRecordIdToReference>specialAssetRecordId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Update_Property</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>specialAssetNameFormula</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Property__c</field>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Severity_Level__c</field>
+            <value>
+                <elementReference>severityLevel</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Special_Asset__c</object>
+    </recordCreates>
+    <recordLookups>
+        <description>Query the Property and determine if it is a Special Asset</description>
+        <name>Query_Current_Property</name>
+        <label>Query Current Property</label>
+        <locationX>176</locationX>
+        <locationY>222</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Validate_to_Proceed</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Property__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Is_Special_Asset__c</queriedFields>
+        <queriedFields>Asset_ID__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Updates the Property Record</description>
+        <name>Update_Property</name>
+        <label>Update Property</label>
+        <locationX>905</locationX>
+        <locationY>330</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Is_Special_Asset__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Special_Asset__c</field>
+            <value>
+                <elementReference>specialAssetRecordId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Property__c</object>
+    </recordUpdates>
+    <screens>
+        <name>Create_Special_Asset</name>
+        <label>Create Special Asset</label>
+        <locationX>443</locationX>
+        <locationY>156</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Create_Special_Asset_Record</targetReference>
+        </connector>
+        <fields>
+            <name>Severity_Level</name>
+            <choiceReferences>severityLevel</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>Severity Level</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <description>This Screen informs the User that this Property is already a Special Asset and prevents moving forward</description>
+        <name>End_of_the_Road</name>
+        <label>End of the Road</label>
+        <locationX>444</locationX>
+        <locationY>502</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>propertyAlreadySpecialAsset</name>
+            <fieldText>&lt;p&gt;This Property is already a Special Asset.  Please refer to the Special Asset Tab for details.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Query_Current_Property</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Is this Property a Special Asset</description>
+        <name>propertyIsSpecialAsset</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Store the Property Record ID</description>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>This will be the Name of the Special Asset Record</description>
+        <name>specialAssetName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Store the Record Id of the newly created Special Asset Record</description>
+        <name>specialAssetRecordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

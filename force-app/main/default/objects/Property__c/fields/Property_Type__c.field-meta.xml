@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Type__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <label>Property Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2-4 Unit</fullName>
+                <default>false</default>
+                <label>2-4 Unit</label>
+            </value>
+            <value>
+                <fullName>Attached</fullName>
+                <default>false</default>
+                <label>Attached</label>
+            </value>
+            <value>
+                <fullName>Commercial</fullName>
+                <default>false</default>
+                <label>Commercial</label>
+            </value>
+            <value>
+                <fullName>Condo</fullName>
+                <default>false</default>
+                <label>Condo</label>
+            </value>
+            <value>
+                <fullName>Detached</fullName>
+                <default>false</default>
+                <label>Detached</label>
+            </value>
+            <value>
+                <fullName>Land/Lot</fullName>
+                <default>false</default>
+                <label>Land/Lot</label>
+            </value>
+            <value>
+                <fullName>Manufactured Housing</fullName>
+                <default>false</default>
+                <label>Manufactured Housing</label>
+            </value>
+            <value>
+                <fullName>Mixed Use</fullName>
+                <default>false</default>
+                <label>Mixed Use</label>
+            </value>
+            <value>
+                <fullName>Modular</fullName>
+                <default>false</default>
+                <label>Modular</label>
+            </value>
+            <value>
+                <fullName>Multifamily</fullName>
+                <default>false</default>
+                <label>Multifamily</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>PUD</fullName>
+                <default>false</default>
+                <label>PUD</label>
+            </value>
+            <value>
+                <fullName>Rural</fullName>
+                <default>false</default>
+                <label>Rural</label>
+            </value>
+            <value>
+                <fullName>SFR</fullName>
+                <default>false</default>
+                <label>SFR</label>
+            </value>
+            <value>
+                <fullName>Townhome</fullName>
+                <default>false</default>
+                <label>Townhome</label>
+            </value>
+            <value>
+                <fullName>-</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>-</label>
+            </value>
+            <value>
+                <fullName>0</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0</label>
+            </value>
+            <value>
+                <fullName>1</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1</label>
+            </value>
+            <value>
+                <fullName>1 - 4 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1 - 4 Unit</label>
+            </value>
+            <value>
+                <fullName>1- 4 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1- 4 Unit</label>
+            </value>
+            <value>
+                <fullName>1-4</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4</label>
+            </value>
+            <value>
+                <fullName>1-4  Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4  Unit</label>
+            </value>
+            <value>
+                <fullName>1-4 UNITS</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4 UNITS</label>
+            </value>
+            <value>
+                <fullName>1-4 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4 Unit</label>
+            </value>
+            <value>
+                <fullName>1-4 Unt</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4 Unt</label>
+            </value>
+            <value>
+                <fullName>1-4Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-4Unit</label>
+            </value>
+            <value>
+                <fullName>1-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1-Family</label>
+            </value>
+            <value>
+                <fullName>2</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2</label>
+            </value>
+            <value>
+                <fullName>2 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2 Unit</label>
+            </value>
+            <value>
+                <fullName>2 family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2 family</label>
+            </value>
+            <value>
+                <fullName>2- Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2- Family</label>
+            </value>
+            <value>
+                <fullName>2-4 Units</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2-4 Units</label>
+            </value>
+            <value>
+                <fullName>2-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2-Family</label>
+            </value>
+            <value>
+                <fullName>2-Flat</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2-Flat</label>
+            </value>
+            <value>
+                <fullName>3 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>3 Unit</label>
+            </value>
+            <value>
+                <fullName>3-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>3-Family</label>
+            </value>
+            <value>
+                <fullName>4 family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4 family</label>
+            </value>
+            <value>
+                <fullName>4-Plex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4-Plex</label>
+            </value>
+            <value>
+                <fullName>5</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5</label>
+            </value>
+            <value>
+                <fullName>5-Plex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5-Plex</label>
+            </value>
+            <value>
+                <fullName>5-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5-Unit</label>
+            </value>
+            <value>
+                <fullName>6 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>6 Unit</label>
+            </value>
+            <value>
+                <fullName>6-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>6-Family</label>
+            </value>
+            <value>
+                <fullName>6-Plex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>6-Plex</label>
+            </value>
+            <value>
+                <fullName>7 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>7 Unit</label>
+            </value>
+            <value>
+                <fullName>7-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>7-Unit</label>
+            </value>
+            <value>
+                <fullName>8 Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>8 Unit</label>
+            </value>
+            <value>
+                <fullName>8-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>8-Family</label>
+            </value>
+            <value>
+                <fullName>Apartment</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Apartment</label>
+            </value>
+            <value>
+                <fullName>BUN</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>BUN</label>
+            </value>
+            <value>
+                <fullName>CAP COD</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>CAP COD</label>
+            </value>
+            <value>
+                <fullName>COL</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>COL</label>
+            </value>
+            <value>
+                <fullName>Codo</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Codo</label>
+            </value>
+            <value>
+                <fullName>Duplex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Duplex</label>
+            </value>
+            <value>
+                <fullName>Escambia</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Escambia</label>
+            </value>
+            <value>
+                <fullName>Groud up contruction</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Groud up contruction</label>
+            </value>
+            <value>
+                <fullName>House</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>House</label>
+            </value>
+            <value>
+                <fullName>Land</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Land</label>
+            </value>
+            <value>
+                <fullName>MF</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MF</label>
+            </value>
+            <value>
+                <fullName>MFR</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MFR</label>
+            </value>
+            <value>
+                <fullName>MULTI- FAM</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>MULTI- FAM</label>
+            </value>
+            <value>
+                <fullName>Manufactured</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Manufactured</label>
+            </value>
+            <value>
+                <fullName>Mixed-Use</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mixed-Use</label>
+            </value>
+            <value>
+                <fullName>Mullti-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mullti-Unit</label>
+            </value>
+            <value>
+                <fullName>Multi</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi</label>
+            </value>
+            <value>
+                <fullName>Multi Fam</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi Fam</label>
+            </value>
+            <value>
+                <fullName>Multi Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi Family</label>
+            </value>
+            <value>
+                <fullName>Multi Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi Unit</label>
+            </value>
+            <value>
+                <fullName>Multi- Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi- Unit</label>
+            </value>
+            <value>
+                <fullName>Multi-Fam</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-Fam</label>
+            </value>
+            <value>
+                <fullName>Multi-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-Family</label>
+            </value>
+            <value>
+                <fullName>Multi-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-Unit</label>
+            </value>
+            <value>
+                <fullName>Multi-unit (1-4)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Multi-unit (1-4)</label>
+            </value>
+            <value>
+                <fullName>Muti Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Muti Unit</label>
+            </value>
+            <value>
+                <fullName>Muti-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Muti-Unit</label>
+            </value>
+            <value>
+                <fullName>Mutli-Unit</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mutli-Unit</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>N/A</label>
+            </value>
+            <value>
+                <fullName>Non Renovation</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non Renovation</label>
+            </value>
+            <value>
+                <fullName>Okaloosa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Okaloosa</label>
+            </value>
+            <value>
+                <fullName>Parent</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Parent</label>
+            </value>
+            <value>
+                <fullName>Property Type</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Property Type</label>
+            </value>
+            <value>
+                <fullName>Quadplex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Quadplex</label>
+            </value>
+            <value>
+                <fullName>RAN</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>RAN</label>
+            </value>
+            <value>
+                <fullName>Retial Condo</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Retial Condo</label>
+            </value>
+            <value>
+                <fullName>SF</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SF</label>
+            </value>
+            <value>
+                <fullName>SFA</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SFA</label>
+            </value>
+            <value>
+                <fullName>SFH</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SFH</label>
+            </value>
+            <value>
+                <fullName>SFRs</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SFRs</label>
+            </value>
+            <value>
+                <fullName>SFU</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SFU</label>
+            </value>
+            <value>
+                <fullName>SSFR</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>SSFR</label>
+            </value>
+            <value>
+                <fullName>Santa Rosa</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Santa Rosa</label>
+            </value>
+            <value>
+                <fullName>Sft</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Sft</label>
+            </value>
+            <value>
+                <fullName>Single</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single</label>
+            </value>
+            <value>
+                <fullName>Single Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single Family</label>
+            </value>
+            <value>
+                <fullName>Single Family Detached</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single Family Detached</label>
+            </value>
+            <value>
+                <fullName>Single Family Home</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single Family Home</label>
+            </value>
+            <value>
+                <fullName>Single-Family</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Single-Family</label>
+            </value>
+            <value>
+                <fullName>Studio</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Studio</label>
+            </value>
+            <value>
+                <fullName>TH</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TH</label>
+            </value>
+            <value>
+                <fullName>TRIPLEX</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TRIPLEX</label>
+            </value>
+            <value>
+                <fullName>TWN HOUSE</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>TWN HOUSE</label>
+            </value>
+            <value>
+                <fullName>Town House</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Town House</label>
+            </value>
+            <value>
+                <fullName>Tri-plex</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Tri-plex</label>
+            </value>
+            <value>
+                <fullName>asdf</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>asdf</label>
+            </value>
+            <value>
+                <fullName>townhouse</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>townhouse</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

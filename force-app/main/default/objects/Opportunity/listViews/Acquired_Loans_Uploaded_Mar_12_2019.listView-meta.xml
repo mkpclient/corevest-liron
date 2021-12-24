@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Acquired_Loans_Uploaded_Mar_12_2019</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Contact__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Product_Sub_Type__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.Single_Asset_Bridge_Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>3/12/2019 12:00 AM</value>
+    </filters>
+    <filters>
+        <field>Lender__c</field>
+        <operation>equals</operation>
+        <value>Third Party Originator</value>
+    </filters>
+    <label>Acquired Loans Uploaded Mar 12 2019</label>
+    <sharedTo>
+        <role>Bridge</role>
+        <role>Bridge_Manager</role>
+        <role>Capital_Markets</role>
+        <role>Operations</role>
+    </sharedTo>
+</ListView>

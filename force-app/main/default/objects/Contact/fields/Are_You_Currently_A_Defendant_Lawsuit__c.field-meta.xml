@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Are_You_Currently_A_Defendant_Lawsuit__c</fullName>
+    <description>Questionnaire page</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Are you currently a defendant in a lawsuit? If yes, please provide a separate signed written
+explanation.</inlineHelpText>
+    <label>Are You Currently A Defendant Lawsuit</label>
+    <length>3</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

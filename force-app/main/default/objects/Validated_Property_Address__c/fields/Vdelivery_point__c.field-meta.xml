@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vdelivery_point__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The last two digits of the house/box number, unless an &quot;H&quot; record is matched, in which case this is the secondary unit number representing the delivery point information to form the delivery point barcode (DPBC).</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The last two digits of the house/box number, unless an &quot;H&quot; record is matched, in which case this is the secondary unit number representing the delivery point information to form the delivery point barcode (DPBC).</inlineHelpText>
+    <label>Verified delivery point</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

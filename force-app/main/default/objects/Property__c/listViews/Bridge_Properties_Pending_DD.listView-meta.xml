@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bridge_Properties_Pending_DD</fullName>
+    <columns>Deal__c</columns>
+    <columns>NAME</columns>
+    <columns>Status__c</columns>
+    <columns>Requested_Funding_Date__c</columns>
+    <columns>Approved_Advance_Amount__c</columns>
+    <columns>Initial_Disbursement__c</columns>
+    <columns>Approved_Renovation_Holdback__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Property__c.Bridge_No_Renovation,Property__c.Bridge_Renovation,Property__c.Ground_Up_Construction</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Due Diligence,Pending,Closing</value>
+    </filters>
+    <label>Bridge Properties - Pending/DD/Closing</label>
+</ListView>

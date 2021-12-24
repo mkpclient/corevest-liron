@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>WhatIsAvgTimeRental_RPTRBP__c</fullName>
+    <description>RPTRBP = Rental Property Track Record and Business Plan</description>
+    <externalId>false</externalId>
+    <label>WhatIsAvgTimeRental</label>
+    <length>255</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

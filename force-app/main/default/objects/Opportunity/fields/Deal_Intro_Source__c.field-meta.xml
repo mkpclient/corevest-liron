@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Intro_Source__c</fullName>
+    <description>This is the introduction source at the deal if it is different from the original intro source</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter the introduction Source of the deal</inlineHelpText>
+    <label>Deal Intro Source</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Email Blast</fullName>
+                <default>false</default>
+                <label>Email Blast</label>
+            </value>
+            <value>
+                <fullName>Event</fullName>
+                <default>false</default>
+                <label>Event</label>
+            </value>
+            <value>
+                <fullName>Hotline</fullName>
+                <default>false</default>
+                <label>Hotline</label>
+            </value>
+            <value>
+                <fullName>Imported List</fullName>
+                <default>false</default>
+                <label>Imported List</label>
+            </value>
+            <value>
+                <fullName>Non-Database</fullName>
+                <default>false</default>
+                <label>Non-Database</label>
+            </value>
+            <value>
+                <fullName>Referral</fullName>
+                <default>false</default>
+                <label>Referral</label>
+            </value>
+            <value>
+                <fullName>Social Media</fullName>
+                <default>false</default>
+                <label>Social Media</label>
+            </value>
+            <value>
+                <fullName>Website</fullName>
+                <default>false</default>
+                <label>Website</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

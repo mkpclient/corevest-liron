@@ -1,0 +1,301 @@
+<template>
+  <lightning-record-view-form
+    record-id={recordId}
+    object-api-name="Loan_Version__c"
+  >
+    <lightning-layout multiple-rows="true">
+      <lightning-layout-item size="12">
+        <!-- <div class="slds-section slds-is-open"> -->
+        <h3 class="slds-section-title--divider slds-m-top_small">
+          <span class="slds-truncate" title="Borrower Section"
+            >Borrower Section</span
+          >
+        </h3>
+        <!-- </div> -->
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Deal_Loan_Number__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Borrower__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Final_Loan_Amount__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Deposit_Amount__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="CloseDate__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Deposit_Collected__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <!-- <lightning-layout-item padding="around-medium" size="6">
+      </lightning-layout-item> -->
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Final_Swap_Rate__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Final_Credit_Spread__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6">
+        <lightning-output-field
+          field-name="Interest_Rate_Type__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Final_Interest_Rate__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Holdback_Reserve__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <!-- <lightning-layout-item padding="around-medium" size="6">
+      </lightning-layout-item> -->
+
+      <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-output-field
+        field-name="Term__c"
+      ></lightning-output-field>
+    </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Total_Sources__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6">
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12">
+        <!-- <div class="slds-section slds-is-open"> -->
+        <h3 class="slds-section-title--divider">
+          <span class="slds-truncate" title="Total Lender Section"
+            >Total Lender Section</span
+          >
+        </h3>
+        <!-- </div> --></lightning-layout-item
+      >
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Origination_Fee_Percentage__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Origination_Fee__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Bridge_Payoff__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Stub_Interest__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Deposit_Lender_Out_of_Pocket__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="6"
+        ><lightning-output-field
+          field-name="Total_Lender__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider">
+          <lightning-output-field
+            field-name="Proceeds_Paid_To_Escrow__c"
+          ></lightning-output-field>
+        </h3>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider slds-m-top_small">
+          <span class="slds-truncate" title="Total Reserves Section"
+            >TOTAL RESERVES SECTION</span
+          >
+        </h3></lightning-layout-item
+      >
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Annual_Tax__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Monthly_Tax__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Reserve_Tax__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Reserve_Tax__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Annual_Insurance__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Monthly_Insurance__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Reserve_Insurance__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Reserve_Insurance__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Annual_Cap_Ex__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Monthly_Cap_Ex__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Reserve_Cap_Ex__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Reserve_Cap_Ex__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Holdback_Reserve_Override__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Holdback_Reserve__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Holdback_Reserve_Month_Multiplier__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Required_Holdback_Reserve__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="3">
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Monthly_Payment__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+      </lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="3">
+        <lightning-output-field
+          field-name="Total_Reserve_at_Closing__c"
+        ></lightning-output-field>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider">
+          <span class="slds-truncate" title="TOTAL THIRD PARTY SECTION"
+            >TOTAL THIRD PARTY SECTION</span
+          >
+        </h3></lightning-layout-item
+      >
+      <lightning-layout-item padding="around-medium" size="12">
+        <c-loan-fee-list
+          display-only="true"
+          loan-fees={loanFees}
+        ></c-loan-fee-list>
+      </lightning-layout-item>
+
+      <lightning-layout-item padding="around-medium" size="12"
+        ><lightning-output-field
+          field-name="Total_Third_Party__c"
+        ></lightning-output-field
+      ></lightning-layout-item>
+
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider">
+          <lightning-output-field
+            field-name="Installment_Comment__c"
+          ></lightning-output-field>
+        </h3>
+      </lightning-layout-item>
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider">
+          <lightning-output-field field-name="Net_Proceeds_to_Borrower__c">
+          </lightning-output-field></h3
+      ></lightning-layout-item>
+      <lightning-layout-item size="12">
+        <h3 class="slds-section-title--divider">
+          <lightning-output-field
+            field-name="Total_Uses__c"
+          ></lightning-output-field></h3
+      ></lightning-layout-item>
+      <lightning-layout-item padding="around-medium" size="12">
+        <lightning-output-field
+          field-name="Proceeds_Paid_To_Escrow__c"
+        ></lightning-output-field
+      ></lightning-layout-item>
+    </lightning-layout>
+  </lightning-record-view-form>
+</template>

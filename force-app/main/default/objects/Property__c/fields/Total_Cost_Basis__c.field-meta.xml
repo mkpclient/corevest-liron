@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Cost_Basis__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Purchase Price + Rehab Budget
+Bridge Use
+
+Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c, &apos;Yes&apos;), Approved_Completed_Rehab_Costs__c, Rehab_Budget__c)</description>
+    <externalId>false</externalId>
+    <formula>Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c, &quot;Yes&quot;), Approved_Completed_Rehab_Costs__c, 0) + Rehab_Budget__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Acquisition Cost + Approved Completed Rehab (if applicable) + Rehab Budget (if applicable)</inlineHelpText>
+    <label>Total Projected Cost Basis</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

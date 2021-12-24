@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Bridge_Clear_to_Close_Docs</fullName>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>Clear_To_Close_Setting__c</columns>
+    <columns>Required__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>RecordType__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Clear_To_Close_Setting__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>LOC_Loan</value>
+    </filters>
+    <label>Bridge Clear to Close Docs</label>
+</ListView>

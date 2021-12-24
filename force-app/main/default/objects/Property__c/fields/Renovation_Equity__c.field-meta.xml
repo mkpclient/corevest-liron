@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Renovation_Equity__c</fullName>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <formula>Rehab_Budget__c - Approved_Renovation_Holdback__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Reno Budget - Approved Reno Advance Amount</inlineHelpText>
+    <label>Renovation Equity</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

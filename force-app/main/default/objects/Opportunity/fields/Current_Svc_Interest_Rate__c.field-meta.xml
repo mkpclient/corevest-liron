@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current_Svc_Interest_Rate__c</fullName>
+    <description>Current Servicer Interest Rate</description>
+    <externalId>false</externalId>
+    <label>Current Interest Rate Servicer</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

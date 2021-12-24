@@ -1,0 +1,89 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  controller="CommunityController"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="recordType" type="String" />
+  <aura:attribute name="deal" type="Map" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <!-- This controls if the Funding Tab appears on the Deal Page. -->
+  <aura:if isTrue="{!v.deal.RecordType.DeveloperName != 'LOC_Loan'}">
+    <html tag="style">
+        b9ea3 { display:none !important; } .c1af6 {display:none !important; }
+    </html>
+  </aura:if>
+
+  <lightning:layout multipleRows="true">
+    <lightning:layoutItem size="12" padding="horizontal-small">
+      <div class="slds-page-header">
+        <div class="slds-page-header__row">
+          <div class="slds-page-header__col-title">
+            <div class="slds-media">
+              <div class="slds-media__body">
+                <div class="slds-page-header__name">
+                  <div class="slds-page-header__name-title">
+                    <h1>
+                      <span
+                        class="slds-page-header__title slds-truncate"
+                        title=""
+                      >
+                        {!v.deal.Name}
+                      </span>
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slds-page-header__col-actions">
+            <div class="slds-page-header__controls">
+              <div class="slds-page-header__control">
+                <ul class="slds-button-group-list">
+                  <aura:if
+                    isTrue="{!v.deal.RecordType.DeveloperName != 'LOC_Loan'}"
+                  >
+                    <li class="slds-m-right_medium">
+                      <button
+                        class="slds-button slds-button_neutral"
+                        onclick="{!c.navigateToDataTape}"
+                      >
+                        Navigate to Datatape
+                      </button>
+                    </li>
+                  </aura:if>
+
+                  <aura:if
+                    isTrue="{!or(v.deal.Product_Sub_Type__c == 'Renovation', v.deal.Product_Sub_Type__c == 'Construction', v.deal.Product_Sub_Type__c == 'Build-To-Rent')}"
+                  >
+                    <li class="slds-m-right_medium">
+                      <button
+                        class="requestButton slds-button slds-button_neutral"
+                        onclick="{!c.drawRequest}"
+                      >
+                        Renovation Funding
+                      </button>
+                    </li>
+                  </aura:if>
+
+                  <aura:if
+                    isTrue="{!v.deal.RecordType.DeveloperName == 'LOC_Loan'}"
+                  >
+                    <li>
+                      <button
+                        class="requestButton slds-button slds-button_neutral"
+                        onclick="{!c.newFunding}"
+                      >
+                        New Funding Request
+                      </button>
+                    </li>
+                  </aura:if>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

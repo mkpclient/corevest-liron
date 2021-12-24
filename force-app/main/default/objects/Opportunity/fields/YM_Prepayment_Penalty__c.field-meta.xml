@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>YM_Prepayment_Penalty__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Yield Maintenance Par Prepayment Period</inlineHelpText>
+    <label>YM Par Prepayment Period</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Term_Loan_Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>34 Months</fullName>
+                <default>false</default>
+                <label>34 Months</label>
+            </value>
+            <value>
+                <fullName>36 Months</fullName>
+                <default>false</default>
+                <label>36 Months</label>
+            </value>
+            <value>
+                <fullName>42 Months</fullName>
+                <default>false</default>
+                <label>42 Months</label>
+            </value>
+            <value>
+                <fullName>48 Months</fullName>
+                <default>false</default>
+                <label>48 Months</label>
+            </value>
+            <value>
+                <fullName>52 Months</fullName>
+                <default>false</default>
+                <label>52 Months</label>
+            </value>
+            <value>
+                <fullName>53 Months</fullName>
+                <default>false</default>
+                <label>53 Months</label>
+            </value>
+            <value>
+                <fullName>54 Months</fullName>
+                <default>false</default>
+                <label>54 Months</label>
+            </value>
+            <value>
+                <fullName>55 Months</fullName>
+                <default>false</default>
+                <label>55 Months</label>
+            </value>
+            <value>
+                <fullName>56 Months</fullName>
+                <default>false</default>
+                <label>56 Months</label>
+            </value>
+            <value>
+                <fullName>57 Months</fullName>
+                <default>false</default>
+                <label>57 Months</label>
+            </value>
+            <value>
+                <fullName>58 Months</fullName>
+                <default>false</default>
+                <label>58 Months</label>
+            </value>
+            <value>
+                <fullName>60 Months</fullName>
+                <default>false</default>
+                <label>60 Months</label>
+            </value>
+            <value>
+                <fullName>61 Months</fullName>
+                <default>false</default>
+                <label>61 Months</label>
+            </value>
+            <value>
+                <fullName>66 Months</fullName>
+                <default>false</default>
+                <label>66 Months</label>
+            </value>
+            <value>
+                <fullName>72 Months</fullName>
+                <default>false</default>
+                <label>72 Months</label>
+            </value>
+            <value>
+                <fullName>77 Months</fullName>
+                <default>false</default>
+                <label>77 Months</label>
+            </value>
+            <value>
+                <fullName>78 Months</fullName>
+                <default>false</default>
+                <label>78 Months</label>
+            </value>
+            <value>
+                <fullName>79 Months</fullName>
+                <default>false</default>
+                <label>79 Months</label>
+            </value>
+            <value>
+                <fullName>80 Months</fullName>
+                <default>false</default>
+                <label>80 Months</label>
+            </value>
+            <value>
+                <fullName>81 Months</fullName>
+                <default>false</default>
+                <label>81 Months</label>
+            </value>
+            <value>
+                <fullName>84 Months</fullName>
+                <default>false</default>
+                <label>84 Months</label>
+            </value>
+            <value>
+                <fullName>96 Months</fullName>
+                <default>false</default>
+                <label>96 Months</label>
+            </value>
+            <value>
+                <fullName>102 Months</fullName>
+                <default>false</default>
+                <label>102 Months</label>
+            </value>
+            <value>
+                <fullName>108 Months</fullName>
+                <default>false</default>
+                <label>108 Months</label>
+            </value>
+            <value>
+                <fullName>112 Months</fullName>
+                <default>false</default>
+                <label>112 Months</label>
+            </value>
+            <value>
+                <fullName>113 Months</fullName>
+                <default>false</default>
+                <label>113 Months</label>
+            </value>
+            <value>
+                <fullName>114 Months</fullName>
+                <default>false</default>
+                <label>114 Months</label>
+            </value>
+            <value>
+                <fullName>115 Months</fullName>
+                <default>false</default>
+                <label>115 Months</label>
+            </value>
+            <value>
+                <fullName>116 Months</fullName>
+                <default>false</default>
+                <label>116 Months</label>
+            </value>
+            <value>
+                <fullName>117 Months</fullName>
+                <default>false</default>
+                <label>117 Months</label>
+            </value>
+            <value>
+                <fullName>120 Months</fullName>
+                <default>false</default>
+                <label>120 Months</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>34 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>36 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>42 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>48 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>52 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>53 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>54 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>55 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>56 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>57 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>60 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <valueName>61 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>66 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>72 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>77 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>78 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>84 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>96 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>102 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>108 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>112 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>113 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>114 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>115 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>116 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>117 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>120 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>58 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>79 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>80 Months</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>81 Months</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

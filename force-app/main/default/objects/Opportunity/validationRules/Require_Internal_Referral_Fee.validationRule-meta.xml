@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Internal_Referral_Fee</fullName>
+    <active>false</active>
+    <description>This will require that a selection is made for Internal Referral Fee if there is an Internal Referral entered</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISCHANGED( Internal_Referral__c ),
+  ISCHANGED( Internal_Referral_Fee__c )),
+ ISBLANK(TEXT(Internal_Referral_Fee__c)),
+ NOT(ISBLANK( Internal_Referral__c ))
+)</errorConditionFormula>
+    <errorDisplayField>Internal_Referral_Fee__c</errorDisplayField>
+    <errorMessage>Internal Referral Fee is required</errorMessage>
+</ValidationRule>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Status__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Pricing Request Approval Status</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Pricing Request Approval Status</inlineHelpText>
+    <label>Pricing Approval Status</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Standard Pricing - Approval Not Needed</fullName>
+                <default>false</default>
+                <label>Standard Pricing - Approval Not Needed</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

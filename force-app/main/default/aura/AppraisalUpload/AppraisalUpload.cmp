@@ -1,0 +1,40 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="flexipage:availableForRecordHome,force:hasRecordId"
+>
+  <aura:attribute name="sessionId" type="String" />
+  <aura:attribute name="sfInstanceUrl" type="String" />
+  <aura:attribute
+    name="vfHost"
+    type="String"
+    default="caf--partial--c.cs62.visual.force.com"
+  />
+  <aura:attribute name="recordId" type="String" />
+
+  <ltng:require
+    scripts="{!join(',', 
+							$Resource.forcetk,
+							$Resource.jquery)
+						}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <lightning:card title="Appraisal XML Upload">
+    <div class="slds-is-relative">
+      <lightning:spinner
+        variant="brand"
+        class="slds-hide"
+        aura:id="spinner"
+      ></lightning:spinner>
+      <lightning:input
+        type="file"
+        name="fileUpload"
+        onchange="{!c.fileChanged}"
+        accept="text/xml"
+        label="Upload"
+        multiple="false"
+        variant="label-hidden"
+      />
+    </div>
+  </lightning:card>
+</aura:component>

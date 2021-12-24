@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>First_Funding_Request</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>First Funding Request</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>{!URLFOR(&apos;/apex/dsfs__DocuSign_CreateEnvelope&apos;, null, [SourceID=Advance__c.Id,
+RC=&apos;&apos;,RSL=&apos;&apos;,RSRO=&apos;&apos;,RROS=&apos;&apos;,CCRM=&apos;&apos;,CCTM=&apos;&apos;,CRCL=&apos;&apos;,CRL=&apos;&apos;,OCO=&apos;&apos;,DST=&apos;69099e11-9b92-4910-89e3-db56a9624484&apos;,CCNM=&apos;&apos;,LA=&apos;&apos;,CEM=&apos;Hi Team_COMMA_\\n \\n Attached, please find the following in connection with Funding Request for &apos; + Advance__c.Deal__c + &apos;– Draw #&apos; + Advance__c.Name + &apos;. Please route wire for today. \\n \\n * Originator is &apos; + Opportunity.OwnerFullName + &apos;\\n \\n 1. Funding Approval Checklist \\n 2. Borrowing Base \\n 3. Closing Statement with wire instructions \\n 4. Loan Agreement \\n 5. Promissory Note \\n \\nPlease let me know if you need anything else. \\n \\n&apos; +  $User.Full_Name__c + &apos;\\n&apos; + $User.Email + &apos;\\n&apos; + $User.Phone + &apos;\\n&apos; + $User.CompanyName ,CES=&apos;Bridge Funding Request for &apos; + Advance__c.Deal__c + &apos; -- Draw #&apos; + Advance__c.Name,RS=&apos;&apos;,STB=&apos;1&apos;,SSB=&apos;0&apos;,SES=&apos;1&apos;,SEM=&apos;1&apos;,SRS=&apos;0&apos;,SCS=&apos;0&apos;,RES=&apos;&apos; ])}</url>
+</WebLink>

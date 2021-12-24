@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Securitized__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicator of whether or not a property is part of a securitized portfolio.</description>
+    <externalId>false</externalId>
+    <label>Securitized?</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sent_to_Custodian__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if this Document has been sent to the Custodian</description>
+    <externalId>false</externalId>
+    <label>Sent to Custodian</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stepdown_Prepayment_Period__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The Stepdown Prepayment Period</description>
+    <externalId>false</externalId>
+    <label>Stepdown Prepayment Period</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Term_Loan_Type__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>3,2,1,0,0</fullName>
+                <default>false</default>
+                <label>3,2,1,0,0</label>
+            </value>
+            <value>
+                <fullName>3,2,1,1,1</fullName>
+                <default>false</default>
+                <label>3,2,1,1,1</label>
+            </value>
+            <value>
+                <fullName>4,3,2,1,0</fullName>
+                <default>false</default>
+                <label>4,3,2,1,0</label>
+            </value>
+            <value>
+                <fullName>5,4,2,2,1</fullName>
+                <default>false</default>
+                <label>5,4,2,2,1</label>
+            </value>
+            <value>
+                <fullName>5,4,3,2,1</fullName>
+                <default>false</default>
+                <label>5,4,3,2,1</label>
+            </value>
+            <value>
+                <fullName>5,4,3,2,1,0,0</fullName>
+                <default>false</default>
+                <label>5,4,3,2,1,0,0</label>
+            </value>
+            <value>
+                <fullName>5,4,3,2,1,1,1</fullName>
+                <default>false</default>
+                <label>5,4,3,2,1,1,1</label>
+            </value>
+            <value>
+                <fullName>5,4,3,2,2,1,1</fullName>
+                <default>false</default>
+                <label>5,4,3,2,2,1,1</label>
+            </value>
+            <value>
+                <fullName>5,4,4,3,3,2,1</fullName>
+                <default>false</default>
+                <label>5,4,4,3,3,2,1</label>
+            </value>
+            <value>
+                <fullName>5,5,4,3,2,1,0</fullName>
+                <default>false</default>
+                <label>5,5,4,3,2,1,0</label>
+            </value>
+            <value>
+                <fullName>5,5,5,4,3,2,1</fullName>
+                <default>false</default>
+                <label>5,5,5,4,3,2,1</label>
+            </value>
+            <value>
+                <fullName>7,6,5,4,3,2,1</fullName>
+                <default>false</default>
+                <label>7,6,5,4,3,2,1</label>
+            </value>
+            <value>
+                <fullName>5,5,4,4,3,3,2,2,1,1</fullName>
+                <default>false</default>
+                <label>5,5,4,4,3,3,2,2,1,1</label>
+            </value>
+            <value>
+                <fullName>5,5,5,5,5,4,3,2,0,0</fullName>
+                <default>false</default>
+                <label>5,5,5,5,5,4,3,2,0,0</label>
+            </value>
+            <value>
+                <fullName>5,5,5,5,5,5,4,3,2,0</fullName>
+                <default>false</default>
+                <label>5,5,5,5,5,5,4,3,2,0</label>
+            </value>
+            <value>
+                <fullName>5,5,5,5,5,4,3,2,1,1</fullName>
+                <default>false</default>
+                <label>5,5,5,5,5,4,3,2,1,1</label>
+            </value>
+            <value>
+                <fullName>5,5,5,5,5,5,4,3,2,1</fullName>
+                <default>false</default>
+                <label>5,5,5,5,5,5,4,3,2,1</label>
+            </value>
+            <value>
+                <fullName>10,9,8,7,6,5,4,3,2,1</fullName>
+                <default>false</default>
+                <label>10,9,8,7,6,5,4,3,2,1</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>3,2,1,0,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>3,2,1,1,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>4,3,2,1,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <valueName>5,4,2,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <valueName>5,4,3,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>N/A</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>5,5,4,4,3,3,2,2,1,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>5,5,5,5,5,4,3,2,0,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>5,5,5,5,5,5,4,3,2,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>5,5,5,5,5,4,3,2,1,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>5,5,5,5,5,5,4,3,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <valueName>10,9,8,7,6,5,4,3,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,4,3,2,1,0,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,4,3,2,1,1,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,4,3,2,2,1,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,4,4,3,3,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,5,4,3,2,1,0</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>5,5,5,4,3,2,1</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>7,6,5,4,3,2,1</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

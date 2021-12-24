@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Management_Merge_Field__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL( Property_Management__c , &quot;Self Managed&quot;), &quot;Managed agreement is attached, please review and provide executed copy to myself and CAF&quot;, &quot;Please provide the current property management agreement you in have in place for legal counsel review.&quot; )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Property Management Merge Field</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

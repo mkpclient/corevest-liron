@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Protected_Contact__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Prevent users from being able to update the owner of this record</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is a Protected Contact.  Only the Owner of the record, Originations Manager and System Administrator can change the Owner.</inlineHelpText>
+    <label>Protected Contact</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

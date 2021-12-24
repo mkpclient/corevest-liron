@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Advance_Amount_Used__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>The total that has been funded on Completed Advances</inlineHelpText>
+    <label>Approved Advance Amount Funded</label>
+    <summarizedField>Property_Advance__c.Approved_Advance_Amount_Calc__c</summarizedField>
+    <summaryFilterItems>
+        <field>Property_Advance__c.Advance_Status_text__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property_Advance__c.Property__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>I_Understand_Applying_NonOwner_Inv_Plan__c</fullName>
+    <description>Loan Details section - I understand that I am applying for a non-owner occupie, business purpose investment loan</description>
+    <externalId>false</externalId>
+    <inlineHelpText>I understand that I am applying for a non-owner occupie, business purpose investment loan</inlineHelpText>
+    <label>I Understand Applying NonOwner Inv Plan</label>
+    <length>3</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

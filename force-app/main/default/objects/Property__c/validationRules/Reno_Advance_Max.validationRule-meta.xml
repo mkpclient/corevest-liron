@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reno_Advance_Max</fullName>
+    <active>false</active>
+    <description>Prevent user from entering a Reno Advance Amount higher than the allowed amount</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Reno_Advance_Amount__c),
+ Reno_Advance_Amount__c &gt; Reno_Advance_Amount_Remaining__c 
+)</errorConditionFormula>
+    <errorDisplayField>Reno_Advance_Amount__c</errorDisplayField>
+    <errorMessage>Renovation Advance Amount can&apos;t be more than the remaining</errorMessage>
+</ValidationRule>

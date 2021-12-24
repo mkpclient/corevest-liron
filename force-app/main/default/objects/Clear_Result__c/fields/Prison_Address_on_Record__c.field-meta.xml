@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prison_Address_on_Record__c</fullName>
+    <defaultValue>false</defaultValue>
+    <externalId>false</externalId>
+    <label>Prison Address on Record</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

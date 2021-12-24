@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Calculated_ARV_LTV__c</fullName>
+    <description>Bridge Reno Use
+
+Was
+TEXT ( Approved_Advance_Amount__c / After_Repair_Value__c*100 ) + &apos;% (&apos; + IF( After_Repair_Value__c &lt; 0, &quot;(&quot;, &quot;&quot;) &amp; &quot;$&quot; &amp; 
+IF(ABS(After_Repair_Value__c) &gt;= 1000000, TEXT(FLOOR(ABS(After_Repair_Value__c) / 1000000)) &amp; &quot;,&quot;, &quot;&quot;) &amp; 
+IF(ABS(After_Repair_Value__c) &gt;= 1000, RIGHT(TEXT(FLOOR(ABS(After_Repair_Value__c) / 1000)), 3) &amp; &quot;,&quot;, &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(ABS(After_Repair_Value__c))), 3) &amp; &quot;.&quot; &amp; 
+IF(MOD(ABS(After_Repair_Value__c) , 1) * 100 &lt; 10, &quot;0&quot; &amp; TEXT(ROUND(MOD(ABS(After_Repair_Value__c) , 1), 2) * 100), TEXT(MIN(ROUND(MOD(ABS(After_Repair_Value__c) , 1), 2) * 100, 99))) &amp; 
+IF(After_Repair_Value__c &lt; 0, &quot;)&quot;, &quot;&quot;) + 
+&apos;)&apos;</description>
+    <externalId>false</externalId>
+    <formula>TEXT(ROUND(Approved_Advance_Amount_Max__c / After_Repair_Value__c*100,0)) + &apos;%&apos;</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Approved Advance Amount / After Repair Value</inlineHelpText>
+    <label>Calculated ARV LTV</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

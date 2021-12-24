@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reno_Funding_Type__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>&quot;Reserves&quot; - The Reno Advance is sent to the Servicer and disbursed.  Sometimes this is referred to as a Dutch Loan. || 
+&quot;Advances&quot; - CoreVest disburses the Reno Advance Fundings</inlineHelpText>
+    <label>Reno Funding Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Renovation_Funding__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Advances</fullName>
+                <default>false</default>
+                <label>Advances</label>
+            </value>
+            <value>
+                <fullName>Reserves</fullName>
+                <default>false</default>
+                <label>Reserves</label>
+            </value>
+            <value>
+                <fullName>Advances/Reserves</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Advances/Reserves</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Advances</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Reserves</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

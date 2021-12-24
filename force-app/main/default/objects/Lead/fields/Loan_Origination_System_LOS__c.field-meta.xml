@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Origination_System_LOS__c</fullName>
+    <description>Lender partnerships field</description>
+    <externalId>false</externalId>
+    <label>Loan Origination System (LOS)</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Proprietary</fullName>
+                <default>false</default>
+                <label>Proprietary</label>
+            </value>
+            <value>
+                <fullName>The Mortgage Office</fullName>
+                <default>false</default>
+                <label>The Mortgage Office</label>
+            </value>
+            <value>
+                <fullName>Alfred</fullName>
+                <default>false</default>
+                <label>Alfred</label>
+            </value>
+            <value>
+                <fullName>LendingWise</fullName>
+                <default>false</default>
+                <label>LendingWise</label>
+            </value>
+            <value>
+                <fullName>Mortgage Automator</fullName>
+                <default>false</default>
+                <label>Mortgage Automator</label>
+            </value>
+            <value>
+                <fullName>Liquid Logics</fullName>
+                <default>false</default>
+                <label>Liquid Logics</label>
+            </value>
+            <value>
+                <fullName>Compass</fullName>
+                <default>false</default>
+                <label>Compass</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

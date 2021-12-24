@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingOwnerRules>
+        <fullName>Share_with_Originations_Manager</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This will share all Commission Detail Records Owned by an Origination manager with other Managers</description>
+        <label>Share with Originations Manager</label>
+        <sharedTo>
+            <role>Origination_Manager</role>
+        </sharedTo>
+        <sharedFrom>
+            <role>Origination_Manager</role>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

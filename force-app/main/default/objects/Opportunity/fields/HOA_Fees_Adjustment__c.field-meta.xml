@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOA_Fees_Adjustment__c</fullName>
+    <defaultValue>IF($RecordType.Name == &apos;Term Loan&apos;, 0, NULL )</defaultValue>
+    <description>Term Use</description>
+    <externalId>false</externalId>
+    <inlineHelpText>As reported by Sponsor</inlineHelpText>
+    <label>HOA Fees Adjustment</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

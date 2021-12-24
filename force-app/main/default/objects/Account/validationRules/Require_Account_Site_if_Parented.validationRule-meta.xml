@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Account_Site_if_Parented</fullName>
+    <active>true</active>
+    <description>If a Parent Account is selected, then Account Site is required</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Site ),
+NOT(ISBLANK( ParentId )))</errorConditionFormula>
+    <errorDisplayField>Site</errorDisplayField>
+    <errorMessage>Please enter an Account Site.  This should be the location (city) of the child Account.</errorMessage>
+</ValidationRule>

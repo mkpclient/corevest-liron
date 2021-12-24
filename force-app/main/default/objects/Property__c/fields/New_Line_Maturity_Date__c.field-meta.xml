@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>New_Line_Maturity_Date__c</fullName>
+    <description>From Servicer</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Updated by Statebridge Servicer Integration.</inlineHelpText>
+    <label>New Line Maturity Date</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

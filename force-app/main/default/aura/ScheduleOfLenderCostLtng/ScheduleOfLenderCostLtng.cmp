@@ -1,0 +1,485 @@
+<aura:component controller="ScheduleOfLenderCostController" implements="force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="Deal" type="Opportunity" default="{'sobjectType':'Opportunity'}"/>
+    <aura:attribute name="unsavedObj" type="object" />
+    <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="iframeBaseURL" type="String" />
+    <!-- Deal Loan Fees -->
+    <aura:attribute name="title" type="String" default="Loan Fees" />
+    <aura:attribute name="editMode" type="Boolean" default="false"/>
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    
+    <!-- Print iFrame -->
+    <iframe style="height : 0; width : 0; position : absolute; z-index : -99999; visibility:hidden;" height="100%" id="vfFrame" aura:id="vfFrame"></iframe>
+    <!-- Print iFrame -->
+    <div class="slds slds-container--center" >
+                <!--section 1-->
+        <fieldset class="slds-form--compound">
+            <lightning:layoutItem class="slds-text-align--center">
+        <lightning:button variant="base" onclick="{!c.refresh}" >
+                <lightning:button aura:id="refresh" label="Refresh" />
+            </lightning:button>
+        </lightning:layoutItem>
+            <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                <span>Borrower Section</span>
+            </h3>
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Loan Number</label>   
+                        <!--   <lightning:helptext content=" Deal Loan Number"/> -->
+                        <lightning:input aura:id="Deal_Loan_Number" label="Loan Number" value="{!v.Deal.Deal_Loan_Number__c}" readonly="true" variant="label-hidden"/>
+                    </div>
+                    
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Borrower Name</label>   
+                        <!-- <lightning:helptext content="This is the Borrower name"/> -->
+                        <lightning:input aura:id="borrowername" label ="Borrower Name" value="{!v.Deal.Borrower_Entity__r.Name}" readonly="true" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Loan Amount</label>   
+                        <!--  <lightning:helptext content="Final Loan Amount"/> -->
+                        <lightning:input onchange="{!c.updateTotalSources}" aura:id="Final_Loan_Amount" type="number" formatter="currency" step="0.01" value="{!v.Deal.Final_Loan_Amount__c}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Deposit Amount</label>   
+                        <!--   <lightning:helptext content="Populates the Expense Deposit section of the Term Sheet"/> -->
+                        <lightning:input onchange="{!c.updateTotalSources}" aura:id="Deposit_Amount" type="number" formatter="currency" step="0.01" value="{!v.Deal.Deposit_Amount__c}" readonly="true" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Funding Date</label>   
+                        <!--    <lightning:helptext content="Close Date"/> -->
+                        <lightning:input readonly="true" onchange="{!c.updatestubInterestDayCount}" aura:id="fundingDate1" type="date" value="{!v.Deal.CloseDate}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Deposit Received</label>   
+                        <!--     <lightning:helptext content="Deposit Collected Date from the Deal Deposit Deatils"/> -->
+                        <lightning:input aura:id="Deposit_Collected" type="date" value="{!v.Deal.Deposit_Collected__c}" dateStyle="short" readonly="true" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Swap Rate [Term Sheet]</label>   
+                        <!--      <lightning:helptext content="Swap Rate [Term Sheet]"/> -->
+                        <lightning:input onchange="{!c.updatefinalInterestRate}" aura:id="Swap_Rate" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.Swap_Rate__c}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Final Swap Rate</label>   
+                        <!--     <lightning:helptext content="Final Swap Rate"/> -->
+                        <lightning:input onchange="{!c.updateInterestRateTermSheet}" aura:id="yearSwapRate" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.Final_Swap__c}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Credit Spread [Term Sheet]</label>   
+                        <!--       <lightning:helptext content="Credit Spread [Term Sheet]"/> -->
+                        <lightning:input onchange="{!c.updatefinalInterestRate}" aura:id="Credit_Spread" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.Spread_BPS__c}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Final Credit Spread</label>   
+                        <!--      <lightning:helptext content="Final Credit Spread"/> -->
+                        <lightning:input onchange="{!c.updateInterestRateTermSheet}" aura:id="creditSpread" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.Final_Spread__c}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Rate Type</label>   
+                        <!--       <lightning:helptext content="Rate Type"/> -->
+                        <lightning:select name="select" value="{!v.Deal.Interest_Rate_Type__c}" class="label-hidden" onchange="{!c.updateDebtService}">
+                            <option value=""></option>
+                            <option value="Fixed">Fixed</option>
+                            <option value="Interest Only">Interest Only</option>
+                        </lightning:select>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Final Interest Rate</label>   
+                        <!--      <lightning:helptext content="Final Interest Rate"/> -->
+                        <lightning:input onchange="{!c.finalInterestRateChange}" aura:id="InterestRateTermSheet" type="number" formatter="percent-fixed" step="0.01" value="{!v.unsavedObj.InterestRateTermSheet}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Holdback Reserve</label>   
+                        <!--    <lightning:helptext content="Debt Service"/> -->
+                        <lightning:input aura:id="DebtService" value="{!v.unsavedObj.DebtService}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+                
+                <!-- Manual/Unsaved Data-->
+                
+                <lightning:layoutItem padding="around-small" size="6"> 
+                    <div class="slds-hide">
+                        <lightning:input label="Funding Date2" readonly="true" aura:id="fundingDate2" type="date" value="{!v.unsavedObj.fundingDate2}"/>
+                    </div>
+                </lightning:layoutItem> 
+                
+                <!--Formula related Fields -->
+                
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div class="slds-hide">
+                        <lightning:input readonly="true" label="Stub Interest Day Count" onchange="{!c.updatestubInterest}" aura:id="stubInterestDayCount" type="number" value="{!v.unsavedObj.stubInterestDayCount}"/>
+                    </div>
+                    
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div class="slds-hide">
+                        <lightning:input readonly="true" aura:id="Indicative_Rate_Calc" label="Interest Rate [Term Sheet]" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.Indicative_Rate_Calc__c}" />
+                    </div>
+                </lightning:layoutItem>               
+                
+                <lightning:layoutItem padding="around-small" size="6">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Sources</label>   
+                        <!--   <lightning:helptext content="Total Sources"/> -->
+                        <lightning:input readonly="true" onchange="{!c.updatefieldswithtotallender}" aura:id="TotalSources" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.TotalSources}" variant="label-hidden"/>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <fieldset class="slds-form--compound">
+                <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                    <span>Total Lender Section</span>
+                </h3>
+                <lightning:layout multipleRows="true"> 
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Origination Fee Percentage</label>   
+                            <!--   <lightning:helptext content="Origination Fee Percentage"/> -->
+                            <lightning:input aura:id="originationfeepercentage" type="number" formatter="percent-fixed" step="0.01" value="{!v.Deal.CAF_Upfront_Fee__c}" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Origination Fee</label>   
+                            <!--      <lightning:helptext content="Origination Fee"/> -->
+                            <lightning:input onchange="{!c.updatetotalLender}" aura:id="Origination_Fee" type="number" formatter="currency" step="0.01" value="{!v.Deal.Calculated_Origination_Fee__c}" readonly="true" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Bridge Payoff</label>   
+                            <!--        <lightning:helptext content="Bridge Payoff"/> -->
+                            <lightning:input onchange="{!c.updatetotalLender}" aura:id="cfcorevestpurchaser" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.cfcorevestpurchaser}" variant="label-hidden" disabled="{!v.Deal.Are_Assets_Coming_Off_Bridge_Line__c !='Yes'}"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <!-- Formula Field here -->
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Stub Interest</label>   
+                            <!--         <lightning:helptext content="Stub Interest"/> -->
+                            <lightning:input readonly="true" onchange="{!c.updatetotalLender}" aura:id="stubInterest" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.stubInterest}" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Lender Diligence and Out of Pocket</label>   
+                            <!--      <lightning:helptext content="Lender Diligence and Out of Pocket"/> -->
+                            <lightning:input onchange="{!c.updatetotalLender}" aura:id="Lender_Diligence_Out_of_Pocket" type="number" formatter="currency" step="0.01" value="{!v.Deal.Deposit_Lender_Out_of_Pocket__c}" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Lender</label>   
+                            <!--    <lightning:helptext content="Total Lender"/> -->
+                            <lightning:input readonly="true" onchange="{!c.updatefieldswithtotallender}" aura:id="totalLender" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.totalLender}" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>             
+            </fieldset>
+            <fieldset class="slds-form--compound">
+                <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                    <div>
+                        <label class="slds-form-element__label" style="margin-right: 0.5rem;">CoreVest Proceeds Paid to (Escrow)</label>   
+                        <!--         <lightning:helptext content="CoreVest Proceeds Paid to (Escrow)"/> -->
+                        <lightning:input readonly="true" onchange="{!c.updatefieldswithtotallender}" aura:id="CorevestProceeds" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.CorevestProceeds}" variant="label-hidden"/>
+                    </div> 
+                </h3>
+            </fieldset>  
+            
+            <fieldset class="slds-form--compound">
+                <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                    <span>Total Reserves Section</span>
+                </h3>
+                <lightning:layout multipleRows="true">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Annual Tax</label>   
+                            <!--         <lightning:helptext content="Annual Tax"/> -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="taxentry" type="number" formatter="Currency" step="0.01" value="{!v.Deal.Total_Annual_Tax__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Monthly Tax</label>   
+                            <!--        <lightning:helptext content="Monthly Tax"/> -->
+                            <lightning:input  aura:id="tax" onchange="{!c.updatefieldswithtotalreserve}" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.tax}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Reserve Tax</label>   
+                            <!--       <lightning:helptext content="Reserve Tax"/> -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="reservetax"  value="{!v.Deal.Reserve_Tax__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Reserve Tax</label>   
+                            <!--      <lightning:helptext content="Total Reserve Tax"/> -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="totalreservetax" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.totalreservetax}" variant="label-hidden"/>
+                        </div>                  
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Annual Insurance</label>   
+                            <!--     <lightning:helptext content="Annual Insurance"/>  -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="insuranceentry" type="number" formatter="Currency" step="0.01" value="{!v.Deal.Total_Annual_Insurance__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Monthly Insurance</label>   
+                            <!--     <lightning:helptext content="Monthly Insurance"/> -->
+                            <lightning:input aura:id="insurence" onchange="{!c.updatefieldswithtotalreserve}" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.insurence}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Reserve Insurance</label>   
+                            <!--     <lightning:helptext content="Reserve Insurance"/> -->
+                            <lightning:input aura:id="reserveinsurance" onchange="{!c.updatefieldswithtotalreserve}" value="{!v.Deal.Reserve_Insurance__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Reserve Insurance</label>   
+                            <!--    <lightning:helptext content="Total Reserve Insurance"/> -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="totalreserveinsurance" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.totalreserveinsurance}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Annual Cap Ex</label>   
+                            <!--    <lightning:helptext content="Annual Cap Ex"/>  -->
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="capexentry" type="number" formatter="Currency" step="0.01" value="{!v.Deal.Total_Annual_Cap_Ex__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Monthly Cap Ex</label>   
+                            <!--   <lightning:helptext content="Monthly Cap Ex"/> -->                  
+                            <lightning:input aura:id="capex" onchange="{!c.updatefieldswithtotalreserve}" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.capex}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Reserve Cap Ex</label>   
+                            <!--    <lightning:helptext content="Reserve Cap Ex"/> -->
+                            <lightning:input aura:id="reservecapex" onchange="{!c.updatefieldswithtotalreserve}" value="{!v.Deal.Reserve_Cap_Ex__c}" variant="label-hidden"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Reserve Cap Ex</label>   
+                            <!--    <lightning:helptext content="Total Reserve Cap Ex"/>   -->                 
+                            <lightning:input onchange="{!c.updatefieldswithtotalreserve}" aura:id="totalreservecapex" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.totalreservecapex}" variant="label-hidden"/>
+                        </div>  
+                        
+                        <div  class="slds-col slds-size_1-of-4"/>
+                        <div  class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Monthly Payment</label>   
+                            <!--    <lightning:helptext content="Debt Reserve"/> -->
+                            <lightning:input readonly="true" onchange="{!c.updatetotalmonthlypayment}" aura:id="debtreserve" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.debtreserve}" variant="label-hidden"/>
+                        </div>
+                        <div  class="slds-col slds-size_1-of-4"/>
+                        <div  class="slds-col slds-size_1-of-4">
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Reserves at Closing</label>   
+                            <!--     <lightning:helptext content="Total Reserves"/> -->
+                            <lightning:input readonly="true" aura:id="totalreserves" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.totalreserves}" variant="label-hidden"/>
+                        </div>
+                    </div>
+                </lightning:layout>
+            </fieldset>
+            <fieldset class="slds-form-compound">
+                <h3 class="slds-section-title--divider slds-m-top--x--small slds-m-bottom--x-small">
+                    <span>Total Third Party Section</span>
+                </h3>
+                <!--      <div>
+                    <c:VendorEntityListContainer recordId="{!v.recordId}"/>
+                </div> -->
+                <lightning:layout multipleRows="true">             
+                    <lightning:card >
+                        <aura:set attribute="title" >
+                            <lightning:icon iconName="custom:custom17" size="medium" />
+                            <span class="slds-m-left--medium">
+                                {!v.title}
+                            </span>
+                        </aura:set>
+                        
+                        <aura:set attribute="actions">
+                            <lightning:layout horizontalAlign="end">
+                                <lightning:layoutItem >
+                                    <lightning:button variant="neutral" label="New" onclick="{!c.addRow}" />
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                            
+                            <lightning:layout horizontalAlign="end">
+                                <lightning:layoutItem padding="horizontal-medium">
+                                    <lightning:button variant="base" onclick="{!c.refresh}" >
+                                        <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+                                    </lightning:button>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem >
+                                    <lightning:button variant="base" onclick="{!c.delete}">
+                                        <lightning:buttonIcon iconName="utility:delete" variant="bare" alternativeText="Delete"/>
+                                    </lightning:button>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </aura:set>
+                        
+                        <div class="slds-table--edit_container slds-is-relative">
+                            <c:DataTable aura:id="dataTable">
+                                <aura:set attribute="columns">
+                                    <c:DataTableColumn label="Vendor Type"
+                                                       name="Vendor_Type__c"
+                                                       displayType="select"
+                                                       isEditable="true"
+                                                       selectOptions="[
+                                                                      {'label': '--Select One--', 'value': ''},
+                                                                      {'label': '3rd Party Title', 'value': '3rd Party Title'},
+                                                                      {'label': 'Architect', 'value': 'Architect'},
+                                                                      {'label': 'Contractor', 'value': 'Contractor'},
+                                                                      {'label': 'Engineer', 'value': 'Engineer'},
+                                                                      {'label': 'Escrow Agent', 'value': 'Escrow Agent'},
+                                                                      {'label': 'Flood Check', 'value': 'Flood Check'},
+                                                                      {'label': 'Insurance', 'value': 'Insurance'},
+                                                                      {'label': 'Rent Deposit Bank', 'value': 'Rent Deposit Bank'},
+                                                                      {'label': 'Servicer', 'value': 'Servicer'},
+                                                                      {'label': 'Tax Verification', 'value': 'Tax Verification'},
+                                                                      {'label': 'Title and Escrow', 'value': 'Title and Escrow'},
+                                                                      {'label': 'Title and Escrow 2', 'value': 'Title and Escrow 2'},
+                                                                      {'label': 'Title Company', 'value': 'Title Company'},
+                                                                      {'label': 'Lease/Purchase Review', 'value': 'Lease/Purchase Review'},
+                                                                      {'label': 'Cash Management', 'value': 'Cash Management'}, 
+                                                                      {'label': 'Insurance Review', 'value': 'Insurance Review' },
+                                                                      {'label': 'LexisNexis Risk Solutions', 'value':'LexisNexis Risk Solutions' },
+                                                                      {'label': 'Legal Counsel', 'value': 'Legal Counsel'},
+                                                                      {'label': 'Lender Diligence', 'value': 'Lender Diligence'},
+                                                                      {'label': 'Reserves', 'value': 'Reserves'},
+                                                                      {'label': 'Valuation', 'value': 'Valuation'},
+                                                                      
+                                                                      {'label': 'MISC', 'value': 'MISC'},
+                                                                      ]"
+                                                       
+                                                       />
+                                    
+                                    <c:DataTableColumn label="Name"
+                                                       name="Vendor__c"
+                                                       displayType="lookup"
+                                                       isEditable="true"
+                                                       
+                                                       lookup="{
+                                                               sobjectType : 'Account',
+                                                               whereClause : 'Account_Status__c  = \'Active CoreVest Vendor\'',
+                                                               sobjectLabel : 'Vendors',
+                                                               dependentField: 'Vendor_Type__c',
+                                                               }"
+                                                       />
+                                    
+                                    <!--  -->
+                                    <c:DataTableColumn label="Reference"
+                                                       name="Reference__c"
+                                                       displayType="text"
+                                                       isEditable="true"
+                                                       />
+                                    <c:DataTableColumn label="Fee Amount"
+                                                       name="Fee_Amount__c"
+                                                       displayType="currency"
+                                                       isEditable="true"
+                                                       />
+                                    
+                                </aura:set>
+                                
+                                <!-- optional -->
+                                
+                                <aura:set attribute="pageNumber" value="1"/>
+                                <aura:set attribute="pageSize" value="{!v.pageSize}"/>
+                                <aura:set attribute="sortColumnName" value="Vendor_Type__c"/>
+                                <aura:set attribute="sortDirection" value="desc"/>
+                                <aura:set attribute="editMode" value="{!v.editMode}" />
+                                <aura:set attribute="tableClass" value="slds-table  slds-table--bordered slds-table--fixed-layout slds-no-cell-focus" />
+                            </c:DataTable>
+                        </div>
+                        
+                        <aura:set attribute="footer">
+                            <div class="{!v.editMode ? '' : 'slds-hide' }">
+                                <lightning:button variant="neutral" label="Cancel" onclick="{!c.toggleEdit}" />
+                                <lightning:button variant="brand" label="Save" onclick="{!c.saveRows}" />
+                            </div>
+                        </aura:set>
+                        
+                    </lightning:card> 
+                    
+                    <!--Formula Field Here -->
+                    <fieldset class="slds-form--compound">
+                        <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                            <span>Total Third Party Section</span>
+                        </h3>
+                        <lightning:layoutItem padding="around-small" size="6">
+                            <div>
+                                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Third Party</label>   
+                                <!--   <lightning:helptext content="Total Third Party"/> -->
+                                <lightning:input readonly="true" onchange="{!c.updatefieldswithtotallender}" aura:id="totalthirdparty" type="number" formatter="Currency" step="0.01" value="{!v.unsavedObj.totalthirdparty}" variant="label-hidden"/>
+                            </div>
+                        </lightning:layoutItem>      
+                    </fieldset>
+                    <fieldset class="slds-form--compound">
+                        <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">          
+                            <div>
+                                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Installment Comment</label>   
+                                <!--       <lightning:helptext content="Installment Comment"/> -->
+                                <lightning:input aura:id="installmentcomment" type="text" value="{!v.unsavedObj.installmentcomment}" variant="label-hidden"/>
+                            </div>       
+                        </h3>
+                    </fieldset>
+                    <fieldset class="slds-form--compound">
+                        <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                            <div>
+                                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Net Proceeds to Borrower</label>   
+                                <!--       <lightning:helptext content="Net Proceeds to Borrower"/> -->
+                                <lightning:input onchange="{!c.updatefieldswithtotallender}" aura:id="netproceedstoborrower" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.netproceedstoborrower}" variant="label-hidden"/>
+                            </div> 
+                        </h3>
+                    </fieldset>
+                    <fieldset class="slds-form--compound">
+                        <h3 class="slds-section-title--divider slds-m-top--x-small slds-m-bottom--x-small">
+                            <div>
+                                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Total Uses</label>   
+                                <!--        <lightning:helptext content="Total Uses"/> -->
+                                <lightning:input aura:id="totaluses" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.totaluses}" readonly="true" variant="label-hidden"/>
+                            </div> 
+                        </h3>
+                    </fieldset>
+                    <!--   <fieldset class="slds-form-compound">
+                       <h3 class="slds-section-title-divider slds-m-top-x-small slds-m-bottom-x-small">
+                            <span>Wiring Instructions for CoreVest Section</span>
+                        </h3>
+                        <lightning:layoutItem padding="around-small" size="6">
+                            <div>
+                                <label class="slds-form-element__label" style="margin-right: 0.5rem;">Title Wiring Instructions</label>   
+                                <lightning:helptext content="Title Wiring Instructions"/>
+                                <lightning:input aura:id="titlewiringinstructions" type="text" value="{!v.unsavedObj.titlewiringinstructions}" variant="label-hidden"/>
+                            </div>
+                        </lightning:layoutItem> -->
+                    <lightning:layoutItem padding="around-small" size="6">
+                        <div>
+                            <label class="slds-form-element__label" style="margin-right: 0.5rem;">Amount</label>   
+                            <!--        <lightning:helptext content="Amount"/> -->
+                            <lightning:input aura:id="amount" type="number" formatter="currency" step="0.01" value="{!v.unsavedObj.CorevestProceeds}" readonly="true" variant="label-hidden"/>
+                        </div>
+                    </lightning:layoutItem>
+                    <!--   </fieldset>   -->     
+                    <lightning:layoutItem padding="around-large" class="slds-m-top--small slds-text-align--center">
+                        <lightning:button aura:id="saveBtn" variant="brand" label="Save" onclick="{!c.save}" />
+                        <lightning:button aura:id="printBtn" variant="brand" label="Print" onclick="{!c.saveAndPrint}" /> 
+                        
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </fieldset>
+        </fieldset>
+    </div>
+</aura:component>

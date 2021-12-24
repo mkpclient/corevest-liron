@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>The Status of this Property/Asset</description>
+    <externalId>false</externalId>
+    <label>Status</label>
+    <required>false</required>
+    <securityClassification>Public</securityClassification>
+    <trackHistory>true</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Due Diligence</fullName>
+                <default>false</default>
+                <label>Due Diligence</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Closing</fullName>
+                <default>false</default>
+                <label>Closing</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
+            </value>
+            <value>
+                <fullName>Inactive</fullName>
+                <default>false</default>
+                <label>Inactive</label>
+            </value>
+            <value>
+                <fullName>On Hold</fullName>
+                <default>false</default>
+                <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>In Foreclosure</fullName>
+                <default>false</default>
+                <label>In Foreclosure</label>
+            </value>
+            <value>
+                <fullName>Real Estate Owned</fullName>
+                <default>false</default>
+                <label>Real Estate Owned</label>
+            </value>
+            <value>
+                <fullName>Decision Required</fullName>
+                <default>false</default>
+                <label>Decision Required</label>
+            </value>
+            <value>
+                <fullName>Key Updates Available</fullName>
+                <default>false</default>
+                <label>Key Updates Available</label>
+            </value>
+            <value>
+                <fullName>On Active NOD List</fullName>
+                <default>false</default>
+                <label>On Active NOD List</label>
+            </value>
+            <value>
+                <fullName>On Pre-Foreclosure List</fullName>
+                <default>false</default>
+                <label>On Pre-Foreclosure List</label>
+            </value>
+            <value>
+                <fullName>Other Special Assets</fullName>
+                <default>false</default>
+                <label>Other Special Assets</label>
+            </value>
+            <value>
+                <fullName>Redemption Period</fullName>
+                <default>false</default>
+                <label>Redemption Period</label>
+            </value>
+            <value>
+                <fullName>Title Claim</fullName>
+                <default>false</default>
+                <label>Title Claim</label>
+            </value>
+            <value>
+                <fullName>Trustee&apos;s Sale Date Set</fullName>
+                <default>false</default>
+                <label>Trustee&apos;s Sale Date Set</label>
+            </value>
+            <value>
+                <fullName>Rescinded</fullName>
+                <default>false</default>
+                <label>Rescinded</label>
+            </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>Sold</fullName>
+                <default>false</default>
+                <label>Sold</label>
+            </value>
+            <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <label>Paid Off</label>
+            </value>
+            <value>
+                <fullName>Caancelled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Caancelled</label>
+            </value>
+            <value>
+                <fullName>Cancel</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancel</label>
+            </value>
+            <value>
+                <fullName>Canceled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Canceled</label>
+            </value>
+            <value>
+                <fullName>Cancelled`</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Cancelled`</label>
+            </value>
+            <value>
+                <fullName>Canelled</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Canelled</label>
+            </value>
+            <value>
+                <fullName>Due Dilligence</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Due Dilligence</label>
+            </value>
+            <value>
+                <fullName>In Process</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>In Process</label>
+            </value>
+            <value>
+                <fullName>REO</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>REO</label>
+            </value>
+            <value>
+                <fullName>Rent Deposit Bank</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Rent Deposit Bank</label>
+            </value>
+            <value>
+                <fullName>v</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>v</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

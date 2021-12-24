@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Internal_Referral_Fee__c</fullName>
+    <externalId>false</externalId>
+    <label>Internal Referral Fee</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>10%</fullName>
+                <default>false</default>
+                <label>10%</label>
+            </value>
+            <value>
+                <fullName>20%</fullName>
+                <default>false</default>
+                <label>20%</label>
+            </value>
+            <value>
+                <fullName>30%</fullName>
+                <default>false</default>
+                <label>30%</label>
+            </value>
+            <value>
+                <fullName>50%</fullName>
+                <default>false</default>
+                <label>50%</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

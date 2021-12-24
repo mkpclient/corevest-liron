@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pending_Status_Validation_Reno</fullName>
+    <active>true</active>
+    <description>This will prevent a Property from being updated to Pending Status if Renovation Budget or After Repair Value are missing.</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Status__c),
+ ISPICKVAL( Status__c , &apos;Pending&apos;),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+OR(
+ CONTAINS(RecordType.Name, &apos;Ground Up&apos;),
+ CONTAINS(RecordType.Name, &apos;Bridge Renovation&apos;)),
+OR(
+ ISBLANK(Rehab_Budget__c),
+ ISBLANK(After_Repair_Value__c)
+))</errorConditionFormula>
+    <errorMessage>Appraised After Repair Value and Renovation Budget are required before updating the Status to Pending</errorMessage>
+</ValidationRule>

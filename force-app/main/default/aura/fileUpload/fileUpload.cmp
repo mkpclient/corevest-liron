@@ -1,0 +1,69 @@
+<aura:component controller="lightning_Controller">
+  <aura:attribute name="format" type="String" default="dataURL" />
+  <aura:attribute name="files" type="Object[]" default="[]" />
+  <aura:attribute name="parentId" type="String" />
+  <aura:attribute name="sessionId" type="String" />
+  <aura:attribute name="sfInstanceUrl" type="String" />
+  <aura:attribute name="uploaderType" type="String" default="internal" />
+  <aura:attribute name="accountId" type="String" />
+  <aura:attribute name="randomId" type="String" />
+
+  <aura:attribute
+    name="vfHost"
+    type="String"
+    default="caf--partial--c.cs62.visual.force.com"
+  />
+
+  <ltng:require
+    scripts="{!join(',', 
+							$Resource.forcetk,
+							$Resource.jquery)
+						}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <div class="slds-form-element">
+    <lightning:spinner
+      variant="brand"
+      class="slds-hide"
+      aura:id="spinner"
+      alternativeText="Uploading Documents"
+    />
+
+    <div class="slds-form-element__control">
+      <div class="slds-file-selector slds-file-selector--files">
+        <div
+          class="slds-file-selector__dropzone"
+          ondragover="{!c.onDragOver}"
+          ondrop="{!c.onDrop}"
+        >
+          <input
+            aura:id="inputFile"
+            class="slds-file-selector__input slds-assistive-text"
+            multiple="true"
+            type="file"
+            id="{!v.randomId}"
+            aria-describedby="file-selector-id"
+            onchange="{!c.handleFilesPromise}"
+          />
+          <label class="slds-file-selector__body" for="{!v.randomId}">
+            <span
+              class="slds-file-selector__button slds-button slds-button--neutral"
+            >
+              <lightning:icon
+                class="slds-m-right--x-small"
+                iconName="utility:upload"
+                size="xx-small"
+                alternativeText="Upload File"
+              />
+              Upload Files
+            </span>
+            <span class="slds-file-selector__text slds-medium-show"
+              >or Drop Files</span
+            >
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</aura:component>

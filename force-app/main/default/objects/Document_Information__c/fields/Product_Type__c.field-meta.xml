@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Type__c</fullName>
+    <businessOwnerGroup>System_Admins</businessOwnerGroup>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Product Type from the Deal.  Used in Apex</description>
+    <externalId>false</externalId>
+    <formula>TEXT(Deal__r.LOC_Loan_Type__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Bridge Product Type from the Deal.  Used in Apex</inlineHelpText>
+    <label>Product Type</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approved_Third_Party_Originators__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Which Lender the Loan is purchased from</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Which Lender the Loan is purchased from</inlineHelpText>
+    <label>Approved Third Party Originator</label>
+    <referenceTo>Account</referenceTo>
+    <relationshipLabel>Deals (Approved Third Party Originators)</relationshipLabel>
+    <relationshipName>PurchasedDeals</relationshipName>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

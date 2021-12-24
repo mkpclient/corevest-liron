@@ -1,0 +1,14 @@
+<aura:component>
+    <ltng:require scripts="{!$Resource.chartjs}" />
+
+    <aura:method name="drawChart" action="{!c.drawChart}">
+        <aura:attribute name="payload" type="Map" />
+        <!-- <aura:attribute name="options" type="" -->
+    </aura:method>
+
+    <canvas id="myChart" width="400" height="400" aura:id="chart"></canvas>
+
+
+
+
+</aura:component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_ApprovedCommittee_Validations</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND($RecordType.Name == &apos;Term Loan&apos;, 
+AND(ISPICKVAL(PRIORVALUE(StageName), &apos;Underwriting&apos;),
+ISPICKVAL(StageName, &apos;Approved by Committee&apos;))
+, 
+OR(ISBLANK(Loan_Coordinator__c), ISBLANK( Kickoff_Date__c ), ISBLANK(Closer__c),
+ISBLANK(Underwriter__c) )
+)</errorConditionFormula>
+    <errorMessage>Key fields Loan Coordinator, Closer, Underwriter, and Kickoff Date must be filled in before moving to Approved by Committee</errorMessage>
+</ValidationRule>

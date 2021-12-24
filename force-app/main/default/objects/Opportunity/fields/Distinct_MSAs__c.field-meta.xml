@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Distinct_MSAs__c</fullName>
+    <description>Roll up of the MSAs from the Properties</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The MSAs from the Properties associated to this Deal</inlineHelpText>
+    <label>Distinct MSAs</label>
+    <length>10000</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

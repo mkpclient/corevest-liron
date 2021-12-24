@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Show_Inspection_Fee_Column__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Controls if the Inspection Fee column shows up in the Grid</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Controls if the Inspection Fee column shows up in the Grid</inlineHelpText>
+    <label>Show Inspection Fee Column</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

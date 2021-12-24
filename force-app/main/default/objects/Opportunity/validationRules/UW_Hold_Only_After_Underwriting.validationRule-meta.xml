@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>UW_Hold_Only_After_Underwriting</fullName>
+    <active>true</active>
+    <description>This will require that a Deal stage be in Underwriting before it can be put on UW Hold
+
+Previously
+AND (
+NOT ( ISPICKVAL(PRIORVALUE(StageName),&quot;Underwriting&quot;)),
+ Apex_Context__c = False,
+ISPICKVAL(StageName,&quot;UW Hold&quot;) 
+)</description>
+    <errorConditionFormula>AND (
+ NOT ( ISPICKVAL(PRIORVALUE(StageName),&quot;Underwriting&quot;)),
+ NOT ( ISPICKVAL(PRIORVALUE(StageName),&quot;Approved by Committee&quot;)),
+ NOT ( ISPICKVAL(PRIORVALUE(StageName),&quot;Loan Processing&quot;)),
+ ISPICKVAL(StageName,&quot;UW Hold&quot;),
+ ISCHANGED(StageName),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;)
+)</errorConditionFormula>
+    <errorMessage>A Deal must be in the Loan Processing/Underwriting Stage before it can be put on UW Hold</errorMessage>
+</ValidationRule>

@@ -1,0 +1,193 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Deal_Contact__c" />
+
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <!-- <aura:attribute name="s"
+ -->
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" />
+  <aura:attribute name="editMode" type="Boolean" default="false" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+
+  <aura:attribute name="title" type="String" default="Loan Entities" />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="pageSize" type="Integer" default="10" />
+
+  <aura:handler
+    name="pageChangeEvent"
+    event="c:DataTablePageChangeEvent"
+    action="{!c.handlePageChangeEvent}"
+    phase="capture"
+  />
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+
+  <aura:handler
+    name="newEntity"
+    event="c:NewRecordEvent"
+    action="{!c.addRecord}"
+  />
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon iconName="standard:home" size="medium" class="cmp-icon" />
+      <span class="slds-m-left--medium"> {!v.title} </span>
+    </aura:set>
+
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem padding="horizontal-medium">
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isDeletable : 'false'}"
+        >
+          <lightning:layoutItem>
+            <lightning:button variant="base" onclick="{!c.delete}">
+              <lightning:buttonIcon
+                iconName="utility:delete"
+                variant="bare"
+                alternativeText="Delete"
+              />
+            </lightning:button>
+          </lightning:layoutItem>
+        </aura:if>
+      </lightning:layout>
+    </aura:set>
+
+    <div class="slds-table--edit_container slds-is-relative">
+      <aura:if isTrue="{!!empty(v.permissionsMap)}">
+        <c:DataTable aura:id="dataTable">
+          <aura:set attribute="columns">
+            <!-- <c:DataTableColumn label="Name"
+               name="Name"
+               sortable="true"
+               displayType="text"
+               isEditable="false"
+           /> -->
+
+            <!-- selectOptions="[
+                {'label': '- -Select One- -', 'value': ''},
+                         {'label': 'Broker', 'value':'Broker' },
+                         {'label': 'Borrower', 'value': 'Borrower'},
+                         {'label': 'Applicant', 'value': 'Applicant'},
+                         {'label': 'Pledgor', 'value':'Pledgor' },
+                         {'label': 'Guarantor', 'value':'Guarantor' },
+                         {'label': 'Sponsor', 'value':'Sponsor' },
+
+                     ]" -->
+            <c:DataTableColumn
+              label="Entity Role"
+              name="Entity_Type__c"
+              sortable="true"
+              displayType="text"
+              isEditable="false"
+              columnWidth="7"
+            />
+
+            <c:DataTableColumn
+              label="Name"
+              name="Business_Entity__r.Name"
+              linkToRecord="Business_Entity__c"
+              sortable="true"
+              displayType="text"
+              isEditable="false"
+              columnWidth="10"
+            />
+
+            <!-- <c:DataTableColumn label="Company Name"
+               name="Contact__r.Account.Name"
+               sortable="true"
+               displayType="text"
+               isEditable="false"
+               linkToRecord="Contact__r.AccountId"
+
+           /> -->
+
+            <c:DataTableColumn
+              label="Entity Type"
+              name="Company_Type__c"
+              sortable="false"
+              displayType="select"
+              isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Company_Type__c.isUpdateable : 'false'}"
+              selectOptions="[
+                                                      {'label': '--Select One--', 'value': ''},
+                                                      {'label': 'Limited Liability Company', 'value': 'Limited Liability Company' },
+                                                      {'label': 'Corporation', 'value': 'Corporation'},
+                                                      {'label': 'Limited Partnership', 'value':'Limited Partnership' },
+                                                      {'label': 'General Partnership', 'value':'General Partnership' },
+                                                      {'label': 'Other', 'value': 'Other'}
+                                                      ]"
+            />
+
+            <c:DataTableColumn
+              label="Company Jurisdiction"
+              name="Company_Jurisdiction__c"
+              sortable="false"
+              displayType="text"
+              isEditable="false"
+            />
+
+            <c:DataTableColumn
+              label="Operating Agreement Date"
+              name="Operating_Agreement_Date__c"
+              sortable="false"
+              displayType="date"
+              isEditable="true"
+            />
+          </aura:set>
+
+          <!-- optional -->
+
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+          <aura:set
+            attribute="tableClass"
+            value="slds-table  slds-table--bordered slds-table--fixed-layout slds-no-cell-focus"
+          />
+        </c:DataTable>
+      </aura:if>
+    </div>
+
+    <aura:set attribute="footer">
+      <div class="{!v.editMode ? '' : 'slds-hide' }">
+        <lightning:button
+          variant="neutral"
+          label="Cancel"
+          onclick="{!c.toggleEdit}"
+        />
+        <lightning:button
+          variant="brand"
+          label="Save"
+          onclick="{!c.saveRows}"
+        />
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <c:util aura:id="util" />
+
+  <!-- <c:NewTermEntity aura:id="newEntity" defaults="{'Deal_Contact_Type__c': 'Entity', 'sobjectType': 'Deal_Contact__c'}" parentId="{!v.recordId}" parentFieldName="Deal__c" /> -->
+</aura:component>

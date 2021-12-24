@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>mcastillo@mkpartners.com</contactEmail>
+    <label>Alchemy Portal</label>
+    <oauthConfig>
+        <callbackUrl>https://test.salesforce.com</callbackUrl>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdMdcd1nyKSAp7Yx.0XoeWjLi1FPz1lq3kdhmDRn7WK2HTeCJQZoyzhq7sEk0</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

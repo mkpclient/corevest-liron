@@ -1,0 +1,512 @@
+<aura:component >
+    <aura:attribute name="record" type="Object" />
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Name
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <ui:outputURL value="{!'/lightning/r/Opportunity/' + v.record.Id + '/view'}" label="{!v.record.Name}" target="_blank" />
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Loan Number
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Deal_Loan_Number__c}
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Foreign National
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                    Yes
+                </aura:if>
+                <aura:if isTrue="{!v.record.Foreign_National__c != true}">
+                    No
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Foreign National Country
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                    {!v.record.Country__c}
+                </aura:if>
+                <aura:if isTrue="{!v.record.Foreign_National__c != true}">
+                    N/A
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Properties
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Total_Properties__c}
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Units
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Total_Units__c}
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Distinct States
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Distinct_States__c}
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Distinct Property Types
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Distinct_Property_Types__c}
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Acquisition Properties
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Acquisition_Property_Count__c) &amp;&amp; v.record.Acquisition_Property_Count__c != 0}">
+                    <ui:outputNumber value="{!v.record.Acquisition_Property_Count__c}" format="###,###,###,###"/>
+                    <aura:set attribute="else">
+                        <ui:outputNumber value="0" />
+                    </aura:set>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Acquisition Units
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Acquisition_Count__c) &amp;&amp; v.record.Acquisition_Count__c != 0}">
+                    <ui:outputNumber value="{!v.record.Acquisition_Count__c}" format="###,###,###,###"/>
+                    <aura:set attribute="else">
+                        <ui:outputNumber value="0" />
+                    </aura:set>
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Refinance Properties
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Refinance_Property_Count__c)}">
+                    <ui:outputNumber value="{!v.record.Refinance_Property_Count__c}" format="###,###,###,###"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Refinance Units
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Refinance_Count__c)}">
+                    <ui:outputNumber value="{!v.record.Refinance_Count__c}" format="###,###,###,###"/>
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Property Acquisition Date By Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Average_Acquisition_Date_By_Property__c)}">
+                    <ui:outputDate value="{!v.record.Average_Acquisition_Date_By_Property__c}" format="MM/dd/yyyy"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Acquisition Date By Unit
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Average_Acquisition_Date__c)}">
+                    <ui:outputDate value="{!v.record.Average_Acquisition_Date__c}" format="MM/dd/yyyy"/>
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Seasoning by Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Seasoning_By_Property__c}
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Seasoning by Unit
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Seasoning__c}
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                UW LTC
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <lightning:formattedNumber value="{!v.record.UW_LTC_Formula__c/100}" minimumFractionDigits="2" style="percent" />
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                UW LTV
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <lightning:formattedNumber value="{!v.record.UW_LTV_Formula__c/100}" minimumFractionDigits="2" style="percent" />
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Monthly Rent
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Monthly_Rent__c)}">
+                    <ui:outputCurrency value="{!v.record.Total_Monthly_Rent__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Average Rent Per Unit
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Average_Rent_Per_Unit__c)}">
+                    <ui:outputCurrency value="{!v.record.Average_Rent_Per_Unit__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Acquisition Cost
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Acquisition_Cost__c)}">
+                    <ui:outputCurrency value="{!v.record.Acquisition_Cost__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Acquisition By Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Properties__c) &amp;&amp; !empty(v.record.Acquisition_Cost__c) &amp;&amp; v.record.Total_Properties__c != 0 }">
+                    <ui:outputCurrency value="{!v.record.Acquisition_Cost__c / v.record.Total_Properties__c}" />
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Rehab Cost
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Rehab_Cost__c)}">
+                    $<ui:outputCurrency value="{!v.record.Total_Rehab_Cost__c}" format="###,###,###.00" />
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Rehab Cost Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Properties__c) &amp;&amp; !empty(v.record.Sum_of_Rehab_Cost__c) &amp;&amp; v.record.Total_Properties__c != 0 }">
+                    $<ui:outputCurrency value="{!v.record.Sum_of_Rehab_Cost__c / v.record.Total_Properties__c}" format="###,###,###.00"/>
+                </aura:if>
+                
+                <!-- <aura:if isTrue="{!!empty(v.record.Average_Rehab_Cost_Per_Property__c)}">
+                    {!v.record.Average_Rehab_Cost_Per_Property__c}
+                </aura:if> -->
+            </dd>
+        </div>
+    </div>
+    
+    <!-- new row -->
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Cost Basis
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Cost_Basis__c)}">
+                    <ui:outputCurrency value="{!v.record.Total_Cost_Basis__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Cost Basis Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Cost_Basis_Per_Property__c)}">
+                    <ui:outputCurrency value="{!v.record.Cost_Basis_Per_Property__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+                <!-- <aura:if isTrue="{!!empty(v.record.Number_of_Properties__c) &amp;&amp; !empty(v.record.Sum_of_Borrower_Estimated_Value__c)}">
+                    {!v.record.Sum_of_Borrower_Estimated_Value__c} / {!v.record.Total_Properties__c}
+                </aura:if> -->
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Annual HOA
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Annual_HOA_Sum__c)}">
+                    <ui:outputCurrency value="{!v.record.Annual_HOA_Sum__c}" />
+                </aura:if>
+                <!-- <ui:outputCurrency value="{!v.record.Annual_HOA__c}" /> -->
+            </dd>
+        </div>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Annual HOA Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <!-- <aura:if isTrue="{!!empty(v.record.Total_Properties__c) &amp;&amp; !empty(v.record.Annual_HOA__c)}">
+                      <ui:outputCurrency value="{!v.record.Annual_HOA__c / v.record.Total_Properties__c}" />
+                  </aura:if> -->
+                <aura:if isTrue="{!!empty(v.record.Annual_HOA_Per_Property__c)}">
+                    <ui:outputCurrency value="{!v.record.Annual_HOA_Per_Property__c}" />
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total NOI
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_NOI__c)}">
+                    <ui:outputCurrency value="{!v.record.Total_NOI__c}" />
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                NOI Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_NOI__c) &amp;&amp; !empty(v.record.Total_Properties__c) &amp;&amp; v.record.Total_Properties__c != 0}">
+                    <ui:outputCurrency value="{!v.record.Total_NOI__c / v.record.Total_Properties__c}" />
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total Borrower Estimated Value
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Borrower_Estimated_Value__c)}">
+                    <ui:outputCurrency value="{!v.record.Total_Borrower_Estimated_Value__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Borrower Estimated Value Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Borrower_Estimated_Value__c) &amp;&amp; !empty(v.record.Total_Properties__c) &amp;&amp; v.record.Total_Properties__c != 0}">
+                    <ui:outputCurrency value="{!v.record.Total_Borrower_Estimated_Value__c / v.record.Total_Properties__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+                
+                <!-- <aura:if isTrue="{!!empty(v.record.Number_of_Properties__c) &amp;&amp; !empty(v.record.Sum_of_Borrower_Estimated_Value__c)}">
+                    {!v.record.Sum_of_Borrower_Estimated_Value__c} / {!v.record.Total_Properties__c}
+                </aura:if> -->
+            </dd>
+        </div>
+    </div>
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Total 3rd Party Estimated Value
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Third_Party_Estimated_Values__c)}">
+                    <ui:outputCurrency value="{!v.record.Third_Party_Estimated_Values__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                3rd Party Estimated Value Per Property
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Total_Properties__c) &amp;&amp; !empty(v.record.Third_Party_Estimated_Values__c) &amp;&amp; v.record.Total_Properties__c != 0}">
+                    <ui:outputCurrency value="{!v.record.Third_Party_Estimated_Values__c / v.record.Total_Properties__c}" format="$###,###,###,###.00"/>
+                </aura:if>
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Implied Cap Rate
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Implied_Cap_Rate_Calc__c)}">
+                    {!v.record.Implied_Cap_Rate_Calc__c}%
+                </aura:if>
+            </dd>
+        </div>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Section 8
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Section_8_Count__c}
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Introduction Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Account_Introduction_Source__c}
+            </dd>
+        </div>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Introduction Subsource
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Account.Introduction_Subsource__c}
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Intro Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Deal_Intro_Source__c}
+            </dd>
+        </div>
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Deal Intro Sub-Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Deal_Intro_Sub_Source__c}
+            </dd>
+        </div>
+    </div>
+    
+    <div class="slds-grid">
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Lead Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                {!v.record.Account.LeadSource}
+            </dd>
+        </div>
+        
+        <div class="slds-col slds-wrap slds-p-around--small slds-size_1-of-2">
+            <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                Referral Source
+            </dt>
+            <dd class="slds-item_detail slds-truncate">
+                <aura:if isTrue="{!!empty(v.record.Account.Referral_Source__c) &amp;&amp; !empty(v.record.Account.Referral_Source__r.Name)}">
+                    <a href="{!'/lightning/r/Account/' + v.record.Account.Referral_Source__c + '/view'}">
+                        {!v.record.Account.Referral_Source__r.Name}
+                    </a>
+                </aura:if>
+            </dd>
+        </div>
+        
+    </div>
+    
+</aura:component>

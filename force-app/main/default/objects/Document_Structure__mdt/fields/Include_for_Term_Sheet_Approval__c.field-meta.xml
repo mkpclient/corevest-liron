@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Include_for_Term_Sheet_Approval__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>This will make this Deal Doc show as a doc that can be selected when submitting a Deal for Term Sheet approval</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This will make this Deal Doc show as a doc that can be selected when submitting a Deal for Term Sheet approval</inlineHelpText>
+    <label>Include for Term Sheet Approval</label>
+    <securityClassification>Internal</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

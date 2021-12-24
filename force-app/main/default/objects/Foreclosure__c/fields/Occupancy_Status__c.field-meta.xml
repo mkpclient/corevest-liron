@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Occupancy_Status__c</fullName>
+    <description>Occupancy Status of the Property at the time of this Foreclosure</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Occupancy Status of the Property at the time of this Foreclosure</inlineHelpText>
+    <label>Occupancy Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Occupancy_Status</valueSetName>
+    </valueSet>
+</CustomField>

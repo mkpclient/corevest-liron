@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Property_Documents_Uploaded__c</columns>
+    <columns>Property_Documents_Reviewed__c</columns>
+    <columns>Borrower_Documents_Uploaded__c</columns>
+    <columns>Borrower_Documents_Reviewed__c</columns>
+    <columns>Deal_Documents_Reviewed__c</columns>
+    <columns>Deal_Documents_Uploaded__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

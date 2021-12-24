@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>In_Foreclosure__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Asset Management will check this box to indicate the Deal is in foreclosure. Show Rich Text Banner for All Account, Deal, and Properties.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This Deal is in Foreclosure – Please refer to Asset Management</inlineHelpText>
+    <label>In Foreclosure</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

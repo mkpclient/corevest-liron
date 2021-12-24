@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vactive__c</fullName>
+    <description>Indicates whether the address is active, or &quot;in-service&quot; according to the USPS. Examples: New developments may have addresses but will be &quot;inactive&quot; until somebody moves in. Or, after Hurricane Katrina, addresses in the affected area were marked as inactive for a time. Residents may also mark their own mailboxes as inactive for privacy and other reasons.
+
+Y — Address is active.
+N — Address is inactive.
+[blank] — Activity status is not known by the USPS.</description>
+    <externalId>false</externalId>
+    <label>Verified active</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,284 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+  controller="ValidatedAddressController"
+  access="global"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="wrappers" type="List" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:handler event="force:refreshView" action="{!c.init}" />
+
+  <lightning:card title="Validated Address">
+    <aura:set attribute="actions">
+      <lightning:layout>
+        <lightning:layoutItem>
+          <lightning:button
+            label="Re-Validate Address"
+            onclick="{!c.revalidate}"
+            aura:id="revalidate"
+          />
+          <lightning:button
+            variant="brand"
+            label="Merge Data"
+            onclick="{!c.merge}"
+            aura:id="merge"
+          />
+        </lightning:layoutItem>
+      </lightning:layout>
+
+      <lightning:layout>
+        <lightning:layoutItem>
+          <lightning:buttonIcon
+            iconName="utility:refresh"
+            variant="bare"
+            alternativeText="refresh"
+            onclick="{!c.init}"
+          >
+          </lightning:buttonIcon>
+        </lightning:layoutItem>
+      </lightning:layout>
+      <!-- <lightning:button
+        variant="brand"
+        label="Export"
+        onclick="{!c.export}"
+        aura:id="export"
+      /> -->
+    </aura:set>
+
+    <div class="slds-is-relative">
+      <ui:scrollerWrapper class="scroller">
+        <lightning:spinner aura:id="spinner" variant="brand" />
+        <table class="slds-table slds-table_bordered" role="grid">
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th
+                class="slds-text-align_right"
+                scope="col"
+                style="width: 3.25rem"
+              >
+                <span id="check-group-header" class="slds-assistive-text"
+                  >Choose a row</span
+                >
+                <div class="slds-th__action slds-th__action_form">
+                  <lightning:input
+                    type="checkbox"
+                    aura:id="checkbox"
+                    name="checker"
+                    label="checker"
+                    variant="label-hidden"
+                    onchange="{!c.checkAll}"
+                  />
+                </div>
+              </th>
+
+              <aura:iteration
+                items="{!v.wrappers[0].merges[0].fields}"
+                var="column"
+              >
+                <th
+                  aria-sort="none"
+                  class="slds-is-sortable slds-text-title_caps"
+                  aria-label="Name"
+                  scope="col"
+                >
+                  <span class="slds-truncate" title="Name"
+                    >{!column.validatedAddressFieldLabel}</span
+                  >
+                </th>
+
+                <!-- <aura:if
+                  isTrue="{!column.validatedAddressFieldLabel == 'Property Address'}"
+                >
+                  <th class="slds-is-sortable slds-text-title_caps ">
+                    <span class="slds-hidden slds-truncate" title="Name"
+                      >{!column.validatedAddressFieldLabel}</span
+                    >
+                  </th>
+                </aura:if> -->
+              </aura:iteration>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:iteration
+              items="{!v.wrappers}"
+              var="wrapper"
+              indexVar="index"
+            >
+              <tr class="slds-hint-parent">
+                <td
+                  class="slds-text-align_right"
+                  role="gridcell"
+                  style="width: 3rem"
+                >
+                  <aura:if isTrue="{!!wrapper.merges[0].isEmpty}">
+                    <lightning:input
+                      type="checkbox"
+                      checked="{!wrapper.checked}"
+                      variant="label-hidden"
+                      label="checked"
+                    />
+                  </aura:if>
+
+                  <aura:if isTrue="{!wrapper.merges[0].isEmpty}">
+                    <lightning:input
+                      type="checkbox"
+                      checked="{!wrapper.rerunChecked}"
+                      variant="label-hidden"
+                      label="checked"
+                    />
+                  </aura:if>
+                </td>
+
+                <aura:iteration
+                  items="{!wrapper.merges[0].fields}"
+                  var="column"
+                >
+                  <th scope="row" tabindex="0">
+                    <aura:if
+                      isTrue="{!or(column.propertyFieldType == 'DATETIME', column.propertyFieldType == 'DATE')}"
+                    >
+                      <lightning:formattedDateTime
+                        value="{!column.propertyValue}"
+                      />
+                    </aura:if>
+                    <aura:if
+                      isTrue="{!and(column.propertyFieldType == 'STRING', column.validatedAddressFieldLabel != 'Verified First Address Line')}"
+                    >
+                      {!column.propertyValue}
+                    </aura:if>
+
+                    <aura:if isTrue="{!column.propertyFieldType == 'TEXTAREA'}">
+                      {!column.propertyValue}
+                    </aura:if>
+
+                    <aura:if isTrue="{!column.propertyFieldType == 'PICKLIST'}">
+                      {!column.propertyValue}
+                    </aura:if>
+
+                    <aura:if isTrue="{!column.propertyFieldType == 'DOUBLE'}">
+                      <lightning:formattedNumber
+                        value="{!column.propertyValue}"
+                      />
+                    </aura:if>
+
+                    <aura:if isTrue="{!column.propertyFieldType == 'CURRENCY'}">
+                      <lightning:formattedNumber
+                        style="currency"
+                        value="{!column.propertyValue}"
+                      />
+                    </aura:if>
+
+                    <aura:if
+                      isTrue="{!column.validatedAddressFieldLabel == 'Verified First Address Line'}"
+                    >
+                      <!-- <th scope="row" tabindex="0" class=""> -->
+                      <!-- <span class="slds-hidden">
+                        {!column.propertyValue}
+                      </span> -->
+                      <a
+                        href="{!'/lightning/r/Property__c/' + wrapper.merges[0].propertyId + '/view/'}"
+                        target="_blank"
+                        >{!column.propertyValue}</a
+                      >
+                      <!-- </th> -->
+                    </aura:if>
+                  </th>
+
+                  <!-- <aura:if isTrue={column.validatedAddressField == } -->
+                </aura:iteration>
+              </tr>
+
+              <aura:if isTrue="{!wrapper.merges[0].isEmpty}">
+                <tr class="validatedAddressColor">
+                  <td></td>
+                  <td colspan="5" class="slds-text-align_left">
+                    <lightning:formattedText
+                      value="The property address provided could not be validated.  Please verify with borrower/broker to confirm accuracy of this address."
+                    ></lightning:formattedText>
+                  </td>
+                </tr>
+              </aura:if>
+
+              <aura:if isTrue="{!!wrapper.merges[0].isEmpty}">
+                <aura:iteration items="{!wrapper.merges}" var="merge">
+                  <tr class="slds-hint-parent validatedAddressColor">
+                    <td class="slds-text-align_right" role="gridcell">
+                      <aura:if
+                        isTrue="{!and(wrapper.merges.length > 1, wrapper.checked)}"
+                      >
+                        <!-- radioBox -->
+                        <lightning:input
+                          aura:id="validatedAddressChecked"
+                          label="hide"
+                          variant="label-hidden"
+                          type="radio"
+                          onchange="{!c.radioChanged}"
+                          name="{!merge.propertyId}"
+                          title="{!merge.validatedAddressId}"
+                          checked="{!merge.checked}"
+                        />
+                      </aura:if>
+                    </td>
+
+                    <aura:iteration items="{!merge.fields}" var="column">
+                      <th scope="row" tabindex="0">
+                        <aura:if
+                          isTrue="{!or(column.validatedAddressFieldType == 'DATETIME', column.validatedAddressFieldType == 'DATE')}"
+                        >
+                          <lightning:formattedDateTime
+                            value="{!column.validatedAddressValue}"
+                          />
+                        </aura:if>
+                        <aura:if
+                          isTrue="{!column.validatedAddressFieldType == 'STRING'}"
+                        >
+                          {!column.validatedAddressValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.validatedAddressFieldType == 'TEXTAREA'}"
+                        >
+                          {!column.validatedAddressValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.validatedAddressFieldType == 'PICKLIST'}"
+                        >
+                          {!column.validatedAddressValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.validatedAddressFieldType == 'DOUBLE'}"
+                        >
+                          <lightning:formattedNumber
+                            value="{!column.validatedAddressValue}"
+                          />
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.validatedAddressFieldType == 'CURRENCY'}"
+                        >
+                          <lightning:formattedNumber
+                            style="currency"
+                            value="{!column.validatedAddressValue}"
+                          />
+                        </aura:if>
+
+                        <!-- <aura:if isTrue="{!column.validatedAddressFieldType == 'CURRENCY'}">
+                        <lightning:formattedDate style="currency" value="{!column.validatedAddressValue}" />
+                      </aura:if> -->
+                      </th>
+                    </aura:iteration>
+                  </tr>
+                </aura:iteration>
+              </aura:if>
+            </aura:iteration>
+          </tbody>
+        </table>
+      </ui:scrollerWrapper>
+    </div>
+  </lightning:card>
+
+  <c:util aura:id="util" />
+</aura:component>

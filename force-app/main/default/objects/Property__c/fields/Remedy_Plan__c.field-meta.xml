@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Remedy_Plan__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Related to the Maturity Date and resolution to the Maturity</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Resolution to the Maturity</inlineHelpText>
+    <label>Remedy Plan</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Bring Current</fullName>
+                <default>false</default>
+                <label>Bring Current</label>
+            </value>
+            <value>
+                <fullName>Deed in Lieu</fullName>
+                <default>false</default>
+                <label>Deed in Lieu</label>
+            </value>
+            <value>
+                <fullName>Discounted Payoff</fullName>
+                <default>false</default>
+                <label>Discounted Payoff</label>
+            </value>
+            <value>
+                <fullName>Extension</fullName>
+                <default>false</default>
+                <label>Extension</label>
+            </value>
+            <value>
+                <fullName>Extension Req</fullName>
+                <default>false</default>
+                <label>Extension Req</label>
+            </value>
+            <value>
+                <fullName>FC without Guarantee</fullName>
+                <default>false</default>
+                <label>FC without Guarantee</label>
+            </value>
+            <value>
+                <fullName>Forbearance</fullName>
+                <default>false</default>
+                <label>Forbearance</label>
+            </value>
+            <value>
+                <fullName>In House Refi</fullName>
+                <default>false</default>
+                <label>In House Refi</label>
+            </value>
+            <value>
+                <fullName>Mod/Assumption</fullName>
+                <default>false</default>
+                <label>Mod/Assumption</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Payoff Pending</fullName>
+                <default>false</default>
+                <label>Payoff Pending</label>
+            </value>
+            <value>
+                <fullName>Refinance</fullName>
+                <default>false</default>
+                <label>Refinance</label>
+            </value>
+            <value>
+                <fullName>Sale Pending</fullName>
+                <default>false</default>
+                <label>Sale Pending</label>
+            </value>
+            <value>
+                <fullName>Sell REO</fullName>
+                <default>false</default>
+                <label>Sell REO</label>
+            </value>
+            <value>
+                <fullName>Special Asset Assignment</fullName>
+                <default>false</default>
+                <label>Special Asset Assignment</label>
+            </value>
+            <value>
+                <fullName>Title Claim</fullName>
+                <default>false</default>
+                <label>Title Claim</label>
+            </value>
+            <value>
+                <fullName>2000</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2000</label>
+            </value>
+            <value>
+                <fullName>2100</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2100</label>
+            </value>
+            <value>
+                <fullName>2300</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2300</label>
+            </value>
+            <value>
+                <fullName>2400</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2400</label>
+            </value>
+            <value>
+                <fullName>2500</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>2500</label>
+            </value>
+            <value>
+                <fullName>3100</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>3100</label>
+            </value>
+            <value>
+                <fullName>4200</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4200</label>
+            </value>
+            <value>
+                <fullName>4300</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4300</label>
+            </value>
+            <value>
+                <fullName>4400</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4400</label>
+            </value>
+            <value>
+                <fullName>4500</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4500</label>
+            </value>
+            <value>
+                <fullName>4600</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4600</label>
+            </value>
+            <value>
+                <fullName>4700</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>4700</label>
+            </value>
+            <value>
+                <fullName>5100</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5100</label>
+            </value>
+            <value>
+                <fullName>5200</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5200</label>
+            </value>
+            <value>
+                <fullName>5300</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>5300</label>
+            </value>
+            <value>
+                <fullName>FC with Guarantee</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FC with Guarantee</label>
+            </value>
+            <value>
+                <fullName>Foreclosure</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Foreclosure</label>
+            </value>
+            <value>
+                <fullName>REO with Guarantee</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>REO with Guarantee</label>
+            </value>
+            <value>
+                <fullName>Reinstated</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Reinstated</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

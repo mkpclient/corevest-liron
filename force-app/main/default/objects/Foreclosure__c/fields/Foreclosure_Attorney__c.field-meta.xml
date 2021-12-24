@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Foreclosure_Attorney__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This is the Attorney Contact handling this Foreclosure</description>
+    <externalId>false</externalId>
+    <label>Foreclosure Attorney</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Foreclosures</relationshipLabel>
+    <relationshipName>Foreclosures</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

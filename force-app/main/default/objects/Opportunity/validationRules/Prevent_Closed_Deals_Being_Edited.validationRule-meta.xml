@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Closed_Deals_Being_Edited</fullName>
+    <active>false</active>
+    <description>This will prevent certain profiles from editing Deals that are Closed Won, Expired or Matured</description>
+    <errorConditionFormula>AND(
+PRIORVALUE( IsClosed ) = True,
+OR(
+$Profile.Name= &quot;Accounting&quot;,
+$Profile.Name= &quot;Executive&quot;,
+$Profile.Name= &quot;Origination Manager&quot;,
+$Profile.Name= &quot;Operations&quot;,
+$Profile.Name= &quot;Relationship Manager&quot;,
+$Profile.Name= &quot;Sales Analyst&quot;,
+$Profile.Name= &quot;Sales and Eblast&quot;))</errorConditionFormula>
+    <errorMessage>You are unable to modify a Closed Won Deal.  Please contact the Administrator if changes are needed.</errorMessage>
+</ValidationRule>

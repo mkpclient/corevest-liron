@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Data_Tape_Received</fullName>
+    <active>true</active>
+    <description>Prevent the User from selecting Data Tape Received as the Stage when the Deal does not have any Properties</description>
+    <errorConditionFormula>AND(
+ CONTAINS(RecordType.Name, &quot;Term Loan&quot;), 
+ ISCHANGED(StageName),
+ ISPICKVAL(StageName, &quot;Data Tape Received&quot;),
+ Total_Properties__c  &lt; 1
+)</errorConditionFormula>
+    <errorMessage>Invalid Stage selection.  A Data Tape has not been uploaded</errorMessage>
+</ValidationRule>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Strategic_Top_Account__c</fullName>
+    <description>Designates an account as a Top Account or Strategic Account.</description>
+    <externalId>false</externalId>
+    <label>Strategic Top Account</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Top Account</fullName>
+                <default>false</default>
+                <label>Top Account</label>
+            </value>
+            <value>
+                <fullName>Strategic Account 2018</fullName>
+                <default>false</default>
+                <label>Strategic Account 2018</label>
+            </value>
+            <value>
+                <fullName>Strategic Account 2019</fullName>
+                <default>false</default>
+                <label>Strategic Account 2019</label>
+            </value>
+            <value>
+                <fullName>Strategic Account 2020</fullName>
+                <default>false</default>
+                <label>Strategic Account 2020</label>
+            </value>
+            <value>
+                <fullName>Strategic Account 2021</fullName>
+                <default>false</default>
+                <label>Strategic Account 2021</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

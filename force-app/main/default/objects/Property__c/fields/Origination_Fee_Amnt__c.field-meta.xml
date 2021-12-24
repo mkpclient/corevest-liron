@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Origination_Fee_Amnt__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Use</description>
+    <externalId>false</externalId>
+    <formula>IF(
+ ISBLANK(Override_Origination_Fee__c),
+  IF(
+   NOT(ISPICKVAL( Deal__r.LOC_Loan_Type__c , &apos;Credit Line&apos;)),  
+   Deal__r.CAF_Upfront_Fee__c * Approved_Advance_Amount_Max__c,
+  0),
+Override_Origination_Fee__c)</formula>
+    <inlineHelpText>% of the Maximum Amount to be funded for this Property</inlineHelpText>
+    <label>Origination Fee $</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

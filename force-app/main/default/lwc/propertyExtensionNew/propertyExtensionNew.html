@@ -1,0 +1,177 @@
+<template>
+  <c-modal title="Create Property Extension">
+    <div slot="body">
+      <table
+        class="slds-table slds-no-cell-focus slds-table_bordered slds-table_edit slds-table_fixed-layout"
+      >
+        <thead>
+          <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Street Address">
+                Street Address
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Asset Maturity Date">
+                Asset Maturity Date
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="+ Days">+ Days</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="New Maturity Date">
+                New Maturity Date
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Current Interest Rate">
+                Current Interest Rate
+              </div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="New Interest Rate">
+                New Interest Rate
+              </div>
+            </th>
+            <!-- <th class="" scope="col">
+              <div class="slds-truncate" title="Fee %">Fee %</div>
+            </th> -->
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Fee $">Fee $</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Extension Reason">Reason</div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <template
+            for:each={extensionList}
+            for:item="extension"
+            for:index="index"
+          >
+            <tr key={extension.Property__c} class="slds-hint-parent">
+              <td>
+                <lightning-formatted-text
+                  value={extension.Property__r.Name}
+                ></lightning-formatted-text>
+              </td>
+              <td>
+                <lightning-formatted-date-time
+                  value={extension.Property__r.Asset_Maturity_Date__c}
+                ></lightning-formatted-date-time>
+              </td>
+              <td>
+                <lightning-input
+                  type="number"
+                  label="days"
+                  variant="label-hidden"
+                  step="1"
+                  value={extension.days}
+                  data-field="days"
+                  data-index={index}
+                  onchange={updateValue}
+                ></lightning-input>
+              </td>
+              <td>
+                <lightning-input
+                  type="date"
+                  label="new asset maturity date"
+                  value={extension.New_Asset_Maturity_Date__c}
+                  variant="label-hidden"
+                  data-field="New_Asset_Maturity_Date__c"
+                  data-index={index}
+                  onchange={updateValue}
+                ></lightning-input>
+              </td>
+              <td>
+                <!-- <lightning-formatted-number
+                  value={extension.Property__r.Original_Interest_Rate__c}
+                  format-style="percent"
+                  maximum-fraction-digits="3"
+                ></lightning-formatted-number> -->
+                <lightning-input
+                  label="Original_Asset_Interest_Rate__c"
+                  read-only
+                  value={extension.Property__r.Original_Interest_Rate__c}
+                  variant="label-hidden"
+                  formatter="percent-fixed"
+                  type="number"
+                  step="0.01"
+                ></lightning-input>
+              </td>
+              <td>
+                <lightning-input
+                  label="New_Asset_Interest_Rate__c"
+                  value={extension.New_Asset_Interest_Rate__c}
+                  variant="label-hidden"
+                  formatter="percent-fixed"
+                  type="number"
+                  step="0.01"
+                  data-field="New_Asset_Interest_Rate__c"
+                  data-index={index}
+                  onchange={updateValue}
+                ></lightning-input>
+              </td>
+              <!-- <td>
+                <lightning-input
+                  label="Extension_Fee_Percent__c"
+                  value={extension.Extension_Fee_Percent__c}
+                  variant="label-hidden"
+                  formatter="percent-fixed"
+                  type="number"
+                  step="0.01"
+                  data-field="Extension_Fee_Percent__c"
+                  data-index={index}
+                  onchange={updateValue}
+                ></lightning-input>
+              </td> -->
+              <td>
+                <lightning-input
+                  label="Extension_Fee__c"
+                  value={extension.Extension_Fee__c}
+                  variant="label-hidden"
+                  formatter="currency"
+                  type="number"
+                  step="0.01"
+                  data-field="Extension_Fee__c"
+                  data-index={index}
+                  onchange={updateValue}
+                ></lightning-input>
+              </td>
+              <td>
+                <lightning-combobox
+                  label="Extension_Reason__c"
+                  value={extension.Extension_Reason__c}
+                  placeholder="Select"
+                  variant="label-hidden"
+                  data-field="Extension_Reason__c"
+                  data-index={index}
+                  onchange={updateValue}
+                  options={reasonOptions}
+                ></lightning-combobox>
+              </td>
+              <!-- <td>
+                <lightning-formatted-number
+                  value={extension.fee$}
+                  format-style="currency"
+                  currency-code="USD"
+                ></lightning-formatted-number>
+              </td> -->
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+
+    <div slot="footer">
+      <lightning-button label="Cancel" onclick={closeModal}></lightning-button>
+      <lightning-button
+        label="Submit"
+        onclick={createExtensions}
+        disabled={isLoading}
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

@@ -1,0 +1,480 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes,force:hasRecordId"
+  controller="AppraisalMergeController"
+  access="global"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="wrappers" type="List" />
+  <aura:attribute name="bulkDelete" type="Boolean" />
+  <aura:attribute name="deletedIds" type="List" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <aura:attribute name="hasDeletePermission" type="Boolean" />
+  <aura:attribute name="profileName" type="Boolean" />
+  <aura:attribute name="appraisalPermissionsMap" type="Map" />
+  <aura:attribute name="propertyPermissionsMap" type="Map" />
+
+  <aura:handler event="force:refreshView" action="{!c.init}" />
+
+  <lightning:card title="Appraisals">
+    <aura:set attribute="actions">
+      <aura:if
+        isTrue="{!!empty(v.appraisalPermissionsMap) ? v.appraisalPermissionsMap.sobject.isDeletable : 'false'}"
+      >
+        <lightning:input
+          type="toggle"
+          aura:id="togglebulk"
+          label="Bulk Delete"
+          name="bulkdelete"
+          messageToggleActive="Enabled"
+          messageToggleInactive="Disabled"
+          onchange="{!c.toggleBulkDelete}"
+        />
+      </aura:if>
+      <aura:if
+        isTrue="{!!empty(v.propertyPermissionsMap) ? v.propertyPermissionsMap.sobject.isUpdateable : 'false'}"
+      >
+        <lightning:button
+          variant="brand"
+          label="Merge Data"
+          onclick="{!c.merge}"
+          aura:id="merge"
+        />
+      </aura:if>
+      <lightning:button
+        variant="brand"
+        label="Export"
+        onclick="{!c.export}"
+        aura:id="export"
+      />
+    </aura:set>
+
+    <div class="slds-is-relative">
+      <ui:scrollerWrapper class="scroller">
+        <lightning:spinner
+          aura:id="spinner"
+          variant="brand"
+          alternativeText="Loading"
+        />
+        <table class="slds-table slds-table_bordered" role="grid">
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th
+                class="slds-text-align_right"
+                scope="col"
+                style="width: 3.25rem; position: absolute; z-index: 1000"
+              >
+                <span id="check-group-header" class="slds-assistive-text"
+                  >Choose a row</span
+                >
+                <div class="slds-th__action slds-th__action_form">
+                  <lightning:input
+                    type="checkbox"
+                    aura:id="checkbox"
+                    name="checker"
+                    label="checker"
+                    variant="label-hidden"
+                    onchange="{!c.checkAll}"
+                  />
+                </div>
+              </th>
+
+              <th
+                class="slds-text-align_right"
+                scope="col"
+                style="width: 3.5rem"
+              >
+                <span id="check-group-header" class="slds-assistive-text"
+                  >Choose a row</span
+                >
+                <div class="slds-th__action slds-th__action_form">
+                  <!-- <lightning:input
+                    type="checkbox"
+                    class="slds-hidden"
+                    label="checker"
+                    variant="label-hidden"
+                  /> -->
+                </div>
+              </th>
+
+              <aura:iteration
+                items="{!v.wrappers[0].merges[0].fields}"
+                var="column"
+              >
+                <aura:if
+                  isTrue="{!column.appraisalFieldLabel != 'Property Address'}"
+                >
+                  <th
+                    aria-sort="none"
+                    class="slds-is-sortable slds-text-title_caps"
+                    aria-label="Name"
+                    scope="col"
+                  >
+                    <span class="slds-truncate" title="Name"
+                      >{!column.appraisalFieldLabel}</span
+                    >
+                  </th>
+                </aura:if>
+                <aura:if
+                  isTrue="{!column.appraisalFieldLabel == 'Property Address'}"
+                >
+                  <th
+                    aria-sort="none"
+                    class="slds-is-sortable slds-text-title_caps"
+                    aria-label="Name"
+                    scope="col"
+                    style="
+                      position: absolute;
+                      top: 0.75em;
+                      left: 3em;
+                      z-index: 100000;
+                    "
+                  >
+                    <span class="slds-truncate" title="Name"
+                      >{!column.appraisalFieldLabel}</span
+                    >
+                  </th>
+                  <th class="slds-is-sortable slds-text-title_caps">
+                    <span class="slds-hidden slds-truncate" title="Name"
+                      >{!column.appraisalFieldLabel}</span
+                    >
+                  </th>
+                </aura:if>
+              </aura:iteration>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:iteration
+              items="{!v.wrappers}"
+              var="wrapper"
+              indexVar="index"
+            >
+              <tr class="slds-hint-parent">
+                <td
+                  class="slds-text-align_right"
+                  role="gridcell"
+                  style="
+                    position: absolute;
+                    z-index: 1000;
+                    background: #fff;
+                    width: 3rem;
+                  "
+                >
+                  <aura:if isTrue="{!v.bulkDelete}">
+                    <aura:set attribute="else">
+                      <lightning:input
+                        type="checkbox"
+                        checked="{!wrapper.checked}"
+                        variant="label-hidden"
+                        label="checked"
+                      />
+                    </aura:set>
+                  </aura:if>
+                </td>
+                <td
+                  class="slds-text-align_right"
+                  role="gridcell"
+                  style="width: 3.25rem"
+                >
+                  <!-- <lightning:input class="slds-hidden" type="checkbox" variant="label-hidden" label="checked" /> -->
+                </td>
+
+                <aura:iteration
+                  items="{!wrapper.merges[0].fields}"
+                  var="column"
+                >
+                  <aura:if
+                    isTrue="{!column.appraisalFieldLabel != 'Property Address'}"
+                  >
+                    <th scope="row" tabindex="0">
+                      <aura:if
+                        isTrue="{!or(column.propertyFieldType == 'DATETIME', column.propertyFieldType == 'DATE')}"
+                      >
+                        <lightning:formattedDateTime
+                          value="{!column.propertyValue}"
+                        />
+                      </aura:if>
+                      <aura:if isTrue="{!column.propertyFieldType == 'STRING'}">
+                        {!column.propertyValue}
+                      </aura:if>
+
+                      <aura:if
+                        isTrue="{!column.propertyFieldType == 'TEXTAREA'}"
+                      >
+                        {!column.propertyValue}
+                      </aura:if>
+
+                      <aura:if
+                        isTrue="{!column.propertyFieldType == 'PICKLIST'}"
+                      >
+                        {!column.propertyValue}
+                      </aura:if>
+
+                      <aura:if isTrue="{!column.propertyFieldType == 'DOUBLE'}">
+                        <lightning:formattedNumber
+                          value="{!column.propertyValue}"
+                        />
+                      </aura:if>
+
+                      <aura:if
+                        isTrue="{!column.propertyFieldType == 'CURRENCY'}"
+                      >
+                        <lightning:formattedNumber
+                          style="currency"
+                          value="{!column.propertyValue}"
+                        />
+                      </aura:if>
+                    </th>
+                  </aura:if>
+                  <aura:if
+                    isTrue="{!column.appraisalFieldLabel == 'Property Address'}"
+                  >
+                    <th
+                      scope="row"
+                      tabindex="0"
+                      style="
+                        position: absolute;
+                        z-index: 100000;
+                        background: #fff;
+                      "
+                    >
+                      <a
+                        href="{!'/lightning/r/Property__c/' + wrapper.merges[0].propertyId + '/view'}"
+                        target="_blank"
+                        >{!column.propertyValue}</a
+                      >
+                    </th>
+
+                    <th scope="row" tabindex="0" class="">
+                      <span class="slds-hidden">
+                        <a
+                          href="{!'/lightning/r/Property__c/' + wrapper.merges[0].propertyId + '/view'}"
+                          target="_blank"
+                          >{!column.propertyValue}</a
+                        >
+                      </span>
+                    </th>
+                  </aura:if>
+                </aura:iteration>
+              </tr>
+
+              <aura:iteration items="{!wrapper.merges}" var="merge">
+                <tr class="slds-hint-parent appraisalColor">
+                  <td
+                    class="slds-text-align_right"
+                    role="gridcell"
+                    style="
+                      position: absolute;
+                      z-index: 1000;
+                      background: #e3e5ed;
+                      width: 2.53rem;
+                      height: 1.75rem;
+                    "
+                  >
+                    <aura:if
+                      isTrue="{!and(wrapper.merges.length > 0, wrapper.checked)}"
+                    >
+                      <!-- radioBox -->
+                      <!-- <lightning:buttonIcon
+                        iconName="utility:delete"
+                        variant="bare"
+                        title="{!merge.appraisalId}"
+                        class="slds-m-right_small"
+                        onclick="{!c.delete}"
+                      ></lightning:buttonIcon> -->
+                      <lightning:input
+                        aura:id="appraisalChecked"
+                        label="hide"
+                        variant="label-hidden"
+                        type="radio"
+                        onchange="{!c.radioChanged}"
+                        name="{!merge.propertyId}"
+                        title="{!merge.appraisalId}"
+                        checked="{!merge.checked}"
+                      />
+                    </aura:if>
+                  </td>
+
+                  <td
+                    class="slds-text-align_right"
+                    role="gridcell"
+                    style="background: #e3e5ed; width: 3.25rem"
+                  >
+                    <aura:if
+                      isTrue="{!and(wrapper.merges.length > 1, wrapper.checked)}"
+                    >
+                      <!-- radioBox -->
+                      <!-- <lightning:input
+                        class="slds-hidden"
+                        label="hide"
+                        variant="label-hidden"
+                        type="radio"
+                        title="{!merge.appraisalId}"
+                      /> -->
+                    </aura:if>
+                  </td>
+
+                  <aura:iteration items="{!merge.fields}" var="column">
+                    <aura:if
+                      isTrue="{!column.appraisalFieldLabel != 'Property Address'}"
+                    >
+                      <th scope="row" tabindex="0">
+                        <aura:if
+                          isTrue="{!or(column.appraisalFieldType == 'DATETIME', column.appraisalFieldType == 'DATE')}"
+                        >
+                          <lightning:formattedDateTime
+                            value="{!column.appraisalValue}"
+                          />
+                        </aura:if>
+                        <aura:if
+                          isTrue="{!column.appraisalFieldType == 'STRING'}"
+                        >
+                          {!column.appraisalValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.appraisalFieldType == 'TEXTAREA'}"
+                        >
+                          {!column.appraisalValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.appraisalFieldType == 'PICKLIST'}"
+                        >
+                          {!column.appraisalValue}
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.appraisalFieldType == 'DOUBLE'}"
+                        >
+                          <lightning:formattedNumber
+                            value="{!column.appraisalValue}"
+                          />
+                        </aura:if>
+
+                        <aura:if
+                          isTrue="{!column.appraisalFieldType == 'CURRENCY'}"
+                        >
+                          <lightning:formattedNumber
+                            style="currency"
+                            value="{!column.appraisalValue}"
+                          />
+                        </aura:if>
+
+                        <!-- <aura:if isTrue="{!column.appraisalFieldType == 'CURRENCY'}">
+                        <lightning:formattedDate style="currency" value="{!column.appraisalValue}" />
+                      </aura:if> -->
+                      </th>
+                    </aura:if>
+                    <aura:if
+                      isTrue="{!column.appraisalFieldLabel == 'Property Address'}"
+                    >
+                      <th
+                        scope="row"
+                        tabindex="0"
+                        style="
+                          position: absolute;
+                          z-index: 100000;
+                          background: #e3e5ed;
+                        "
+                      >
+                        <aura:if
+                          isTrue="{!and(wrapper.merges.length > 0, or(v.bulkDelete, wrapper.checked))}"
+                        >
+                          <aura:if
+                            isTrue="{!!empty(v.appraisalPermissionsMap) ? v.appraisalPermissionsMap.sobject.isDeletable : 'false'}"
+                          >
+                            <lightning:buttonIcon
+                              iconName="utility:delete"
+                              variant="bare"
+                              title="{!merge.appraisalId}"
+                              class="slds-var-m-right_small"
+                              onclick="{!c.openDeleteModal}"
+                            ></lightning:buttonIcon>
+                          </aura:if>
+                        </aura:if>
+                        <a
+                          href="{!'/lightning/r/Appraisal__c/' + merge.appraisalId + '/view'}"
+                          target="_blank"
+                          >{!column.appraisalValue}</a
+                        >
+                      </th>
+                      <th scope="row" tabindex="0" style="background: #e3e5ed">
+                        <span class="slds-hidden">
+                          <aura:if
+                            isTrue="{!and(wrapper.merges.length > 1, wrapper.checked)}"
+                          >
+                            <aura:if
+                              isTrue="{!!empty(v.appraisalPermissionsMap) ? v.appraisalPermissionsMap.sobject.isDeletable : 'false'}"
+                            >
+                              <lightning:buttonIcon
+                                iconName="utility:delete"
+                                variant="bare"
+                                title="{!merge.appraisalId}"
+                                class="slds-m-right_small"
+                              ></lightning:buttonIcon>
+                            </aura:if>
+                          </aura:if>
+                          <a
+                            href="{!'/lightning/r/Appraisal__c/' + merge.appraisalId + '/view'}"
+                            target="_blank"
+                            >{!column.appraisalValue}</a
+                          >
+                        </span>
+                      </th>
+                    </aura:if>
+                  </aura:iteration>
+                </tr>
+              </aura:iteration>
+            </aura:iteration>
+          </tbody>
+        </table>
+      </ui:scrollerWrapper>
+    </div>
+  </lightning:card>
+
+  <div
+    role="dialog"
+    aura:id="modal"
+    tabindex="-1"
+    aria-labelledby="header43"
+    class="slds-modal"
+    style="z-index: 100001"
+  >
+    <div class="slds-modal__container">
+      <div class="slds-modal__header">
+        <!-- <button
+          class="slds-button slds-modal__close slds-button- -icon-inverse"
+          title="Close"
+        >
+          <span class="slds-assistive-text">Close</span>
+        </button> -->
+        Delete
+      </div>
+      <div class="slds-modal__content slds-var-p-around_medium">
+        <p>Delete this Appraisal?</p>
+      </div>
+      <div class="slds-modal__footer">
+        <button
+          class="slds-button slds-button--neutral"
+          onclick="{!c.closeDeleteModal}"
+        >
+          Cancel
+        </button>
+        <lightning:button
+          label="Continue"
+          variant="brand"
+          aura:id="deleteButton"
+          onclick="{!c.delete}"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="slds-backdrop"
+    style="z-index: 100000"
+    aura:id="modal-backdrop"
+  ></div>
+
+  <c:util aura:id="util" />
+</aura:component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Do_Not_Lend_from_Account__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <formula>Account.Do_Not_Lend__c = TRUE</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This comes from the parent Account, please flag as &quot;Do Not Lend&quot; on the Account level</inlineHelpText>
+    <label>Do Not Lend (from Account)</label>
+    <securityClassification>Confidential</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

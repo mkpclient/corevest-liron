@@ -1,0 +1,275 @@
+<aura:component controller="ApprovalAttachments_lightningController" implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable">
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="record" type="Object" />
+    <aura:attribute name="properties" type="Object[]" />
+
+    <aura:attribute name="Name" type="String" default="down" />
+    <aura:attribute name="City__c" type="String" default="down" />
+    <aura:attribute name="State__c" type="String" default="down" />
+    <aura:attribute name="ZipCode__c" type="String" default="down" />
+    <aura:attribute name="Property_Type__c" type="String" default="down" />
+    <aura:attribute name="Number_of_Beds__c" type="String" default="down" />
+    <aura:attribute name="Number_of_Bath__c" type="String" default="down" />
+    <aura:attribute name="Square_Feet__c" type="String" default="down" />
+    <aura:attribute name="Acquisition_Price__c" type="String" default="down" />
+    <aura:attribute name="Total_Basis__c" type="String" default="down" />
+    <!-- <aura:attribute name="Property_Listing__c" type="String" default="down" /> -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <div class="header">
+        Approval Details
+    </div>
+
+    <div class="dashboard-section">
+      <button class="section" onclick="{!c.showSection}">
+        <span class="marker">
+          +
+        </span>
+          &nbsp; Portfolio Summary
+      </button>
+      <div class="hide" data-state="hidden" style="display:block;">
+          <!-- new row -->
+          <aura:if isTrue="{!v.record.Record_Type_Name__c == 'Term_Loan'}">
+              <c:ApprovalDetails record="{!v.record}" />
+          </aura:if>
+          <aura:if isTrue="{!v.record.Record_Type_Name__c == 'LOC_Loan' || v.record.Record_Type_Name__c == 'Single_Asset_Bridge_Loan'}">
+              <c:ApprovalDetailsLOC record="{!v.record}" />
+          </aura:if>
+      </div>
+  </div>
+  <aura:if isTrue="{!v.record.Record_Type_Name__c == 'Term_Loan'}">
+      <div class="dashboard-section">
+            <button class="section" onclick="{!c.showSection}">
+              <span class="marker">
+                +
+              </span>
+                &nbsp; Underwriting Assumptions
+            </button>
+            <div class="hide" data-state="hidden" style="display:block;">
+                <c:UnderwritingAssumptions record="{!v.record}" />
+            </div>
+        </div>
+    </aura:if>
+
+    <div class="dashboard-section">
+          <button class="section" onclick="{!c.showSection}">
+            <span class="marker">
+              +
+            </span>
+              &nbsp; Proposed Pricing
+          </button>
+          <div class="hide" data-state="hidden" style="display:block;">
+              <c:ProposedPricing record="{!v.record}" />
+          </div>
+      </div>
+
+        <aura:if isTrue="{!!empty(v.properties)}">
+            <div class="properties-table">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+              <thead>
+                <tr class="slds-text-title_caps">
+                      <th scope="col">
+                        <div title="Address">
+                            Address
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Name}" size="xx-small" title="Name-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="City">
+                            City
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.City__c}" size="xx-small" title="City__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="State">
+                            State
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.State__c}" size="xx-small" title="State__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Zip">
+                            Zip
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.ZipCode__c}" size="xx-small" title="ZipCode__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Property Type">
+                            Property Type
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Property_Type__c}" size="xx-small" title="Property_Type__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Bed">
+                            Bed
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Number_of_Beds__c}" size="xx-small" title="Number_of_Beds__c-down-number" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Bath">
+                            Bath
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Number_of_Bath__c}" size="xx-small" title="Number_of_Bath__c-down-number" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Square Feet">
+                            Square Feet
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Square_Feet__c}" size="xx-small" title="Square_Feet__c-down-number" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Acquisition Cost">
+                            Acquisition Cost
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Acquisition_Price__c}" size="xx-small" title="Acquisition_Price__c-down-number" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Estimated Value">
+                            Estimated Value
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Total_Basis__c}" size="xx-small" title="Total_Basis__c-down-number" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Estimated Value">
+                            Property Listing
+                            <!-- <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Property_Listing__c}" size="xx-small" title="Property_Listing__c-down" />
+                            </span> -->
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Estimated Value">
+                            Picture
+                            <!-- <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Total_Basis__c}" size="xx-small" title="Total_Basis__c-down-number" />
+                            </span> -->
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Estimated Value">
+                            Google Street View
+                        </div>
+                      </th>
+                </tr>
+              </thead>
+              <tbody>
+                  <aura:iteration items="{!v.properties}" var="property">
+                      <tr>
+                          <th scope="col">
+                            <div title="Address"> 
+                                <a href="{!'/lightning/r/Property__c/' + property.Id + '/view'}">{!property.Name}</a>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="City">
+                                {!property.City__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="State">
+                                {!property.State__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Zip">
+                                {!property.ZipCode__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Property Type">
+                                {!property.Property_Type__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Bed">
+                                {!property.Number_of_Beds__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Bath">
+                                {!property.Number_of_Bath__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Square Feet">
+                                <ui:outputNumber value="{!property.Square_Feet__c}" format="###,###,###,###" />
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Acquisition Cost">
+                                <aura:if isTrue="{!property.Total_Basis__c == 0}">
+                                    $0
+                                    <aura:set attribute="else">
+                                        <ui:outputCurrency value="{!property.Acquisition_Price__c}" format="$###,###,###,###.##" />
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Estimated Value">
+                                <aura:if isTrue="{!property.Total_Basis__c == 0}">
+                                    $0
+                                    <aura:set attribute="else">
+                                        <ui:outputCurrency value="{!property.Total_Basis__c}" format="$###,###,###,###.##" />
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Property Listing">
+                                <aura:if isTrue="{!!empty(property.Zillow_URL__c)}">
+                                    <a href="{!property.Zillow_URL__c}" target="_blank">Link to Listing</a>
+                                    <aura:set attribute="else">
+                                        No Link Yet
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Picture">
+                                <aura:if isTrue="{!!empty(property.Picture__c)}">
+                                    <a href="{!property.Picture__c}" target="_blank">Link to Picture</a>
+                                    <aura:set attribute="else">
+                                        No Link Yet
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Picture">
+                                <aura:if isTrue="{!!empty(property.Google_Map_URL__c)}">
+                                    <a href="{!property.Google_Map_URL__c}" target="_blank">Google Street View</a>
+                                    <aura:set attribute="else">
+                                        No Link Yet
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                      </tr>
+                </aura:iteration>
+              </tbody>
+            </table>
+            </div>
+        </aura:if>
+
+</aura:component>

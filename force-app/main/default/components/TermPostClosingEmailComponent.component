@@ -1,0 +1,224 @@
+<apex:component controller="TermPostClosingEmailController" access="global">
+  <apex:attribute name="deal" description="" type="Opportunity" />
+  <apex:attribute type="Id" name="recordId" description="Record ID" assignTo="{!recId}" />
+  <p>Hi {!deal.Underwriter__r.FirstName}, in reference to the subject deal, please confirm monthly payments:</p>
+  <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+    <colgroup>
+      <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+      <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td style="border:1px solid black;">
+          Monthly Payment
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{0, Number, Currency}">
+            <apex:param value="{!loanVersion.Holdback_Reserve__c}" />
+          </apex:outputtext>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          Monthly Tax Constants
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{0, Number, Currency}">
+            <apex:param value="{!loanVersion.Monthly_Tax__c}" />
+          </apex:outputtext>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          Monthly CapEx Constants
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{0, Number, Currency}">
+            <apex:param value="{!loanVersion.Monthly_Cap_Ex__c}" />
+          </apex:outputtext>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;font-weight:bold">
+          Total
+        </td>
+        <td style="border:1px solid black;text-align:right;font-weight:bold">
+          <apex:outputtext value="{0, Number, Currency}">
+            <apex:param value="{!loanVersion.Monthly_Payment__c}" />
+          </apex:outputtext>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+    <colgroup>
+      <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+      <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td style="border:1px solid black;">
+          Hold Back Reserve collected at Closing
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{0, Number, Currency}">
+            <apex:param value="{!loanVersion.Required_Holdback_Reserve__c}" />
+          </apex:outputtext>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <p>Hi {!deal.Owner.FirstName}, in reference to the subject deal, please&nbsp;
+    <span style="font-style:italic;text-decoration:underline;font-weight:bold;">confirm</span>
+    &nbsp;the Servicing Contact Information:
+  </p>
+  <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+    <colgroup>
+      <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+      <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td style="border:1px solid black;">
+          Name
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+            <span>
+              <apex:outputtext value="{!deal.Contact__r.FirstName}" />&nbsp;
+              <apex:outputtext value="{!deal.Contact__r.LastName}" />
+            </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          Phone Number
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{!deal.Contact__r.Phone}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          Address
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+            <apex:outputtext value="{!deal.Contact__r.MailingStreet}" />
+            <span>
+              <apex:outputtext value="{!deal.Contact__r.MailingCity}" />,&nbsp;
+              <apex:outputtext value="{!deal.Contact__r.MailingState}" />&nbsp;
+              <apex:outputtext value="{!deal.Contact__r.MailingPostalCode}" />
+            </span>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          Email
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{!deal.Contact__r.Email}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          CAF Originator
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{!deal.Owner.Name}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          CAF Closer
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{!deal.CLoser__r.Name}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          CAF Underwriter
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputtext value="{!deal.Underwriter__r.Name}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br /> 
+  Hi {!deal.Closer__r.FirstName}, can you confirm taxes paid at closing below? Please pick 1, 2, or 3.
+  <ol>
+    <li>Paid at closing</li>
+    <li>Due outside of 90 days</li>
+    <li>URGENT: due within 90 days and funds sent to Berkadia for payment</li>
+  </ol>
+  <br />
+  <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+    <colgroup>
+      <col class="one" style="width:4%;border:1px solid black;padding:6px;" />
+      <col class="two" style="width:48%;border:1px solid black;padding:6px;" />
+      <col class="three" style="width:48%;border:1px solid black;padding:6px;text-align:right;" />
+    </colgroup>
+    <tbody>
+      <tr>
+        <td style="border:1px solid black;">
+          1
+        </td>
+        <td style="border:1px solid black;">
+          Close of Escrow (COE)
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputText value="{0,date,MM'/'dd'/'yyyy}">
+            <apex:param value="{!deal.CloseDate}" />
+          </apex:outputText>
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          2
+        </td>
+        <td style="border:1px solid black;">
+          Debt Type
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputText value="{!loanVersion.Recourse__c}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          3
+        </td>
+        <td style="border:1px solid black;">
+          Tax Payment Recurrence
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputText value="{!loanVersion.Tax_Payment_Recurrence__c}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          4
+        </td>
+        <td style="border:1px solid black;">
+          1st Tax Installment Due
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputText value="{!loanVersion.First_Tax_Installment_Due__c}" />
+        </td>
+      </tr>
+      <tr>
+        <td style="border:1px solid black;">
+          5
+        </td>
+        <td style="border:1px solid black;">
+          Taxes Paid at Closing
+        </td>
+        <td style="border:1px solid black;text-align:right;">
+          <apex:outputText value="{!loanVersion.Taxes_Paid_at_Closing__c}" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</apex:component>

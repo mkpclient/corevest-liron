@@ -1,0 +1,44 @@
+<aura:component
+  controller="UnderwritingApproval_LightningController"
+  implements="force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,force:lightningQuickAction"
+>
+  <aura:attribute name="recordId" type="Id" />
+  <aura:attribute name="recordName" type="String" />
+  <aura:attribute name="recordType" type="String" />
+  <aura:attribute name="comments" type="String" />
+  <aura:attribute name="errorMessage" type="String" />
+  <aura:attribute name="errorMessages" type="List" />
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <div aura:id="errorMessage" class="errorMessage">
+    <!-- <span id="missing-fields"> -->
+    <!-- <aura: -->
+    <!-- {!v.errorMessage} -->
+    <!-- </span> -->
+    <aura:iteration items="{!v.errorMessages}" var="errorMsg">
+      <div>
+        {!errorMsg}
+      </div>
+    </aura:iteration>
+  </div>
+
+  <div aura:id="successMessage" class="slds-hide">
+    Comments for Underwriting Approval:
+    <br />
+    <div style="margin:12px 0;">
+      <ui:inputTextArea value="{!v.comments}" rows="5" />
+    </div>
+    <div style="float:right;">
+      <ui:button label="Submit" press="{!c.submitApproval}" />
+    </div>
+  </div>
+
+  <div aura:id="result" class="slds-hide">
+    <div style="text-align:center;">
+      <span id="result-message"></span>
+    </div>
+    <div style="text-align:center;margin-top:20px;">
+      <ui:button label="OK" press="{!c.closeModal}" />
+    </div>
+  </div>
+</aura:component>

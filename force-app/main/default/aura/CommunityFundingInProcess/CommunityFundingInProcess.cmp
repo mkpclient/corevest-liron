@@ -1,0 +1,434 @@
+<aura:component controller="CommunityFundingController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="properties" type="List" />
+
+    <aura:attribute name="selectedPropertyId" type="String" />
+    <aura:attribute name="modalOpen" type="Boolean" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <ui:scrollerWrapper>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Street Address">Street Address</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="City">City</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="State">State</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Zip">Zip</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Status">
+                            Status
+                        </div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Submitted Date">Submitted Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Funded Date">Requested Funding Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Transaction Type">Transaction Type</div>
+                    </th>
+
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="County">County</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Property Record Type">Property Record Type</div>
+                    </th>
+
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Property Type">Property Type</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="# of Units"># of Units</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Bedrooms">Bedrooms</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Bath">Bath</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Square Footage">Square Footage</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Contract Close Date">Contract Close Date</div>
+                    </th>
+
+
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Funded Date">Funded Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="LOC Commitment">LOC Commitment</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Available Facility Amount">Available Facility Amount</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Days Remaining">Days Remaining</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Expired (Y/N)">Expired (Y/N)</div>
+                    </th>
+
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Advance Fee $">Advance Fee $</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Broker Advance Fee $">Broker Advance Fee $</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Doc Prep Fee">Doc Prep Fee</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Appraisal Fee">Appraisal Fee</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Appraisal Date">Appraisal Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="As Is Value">As Is Value</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Asset Maturity Date">Asset Maturity Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Current Outstanding Loan Amount">Current Outstanding Loan
+                            Amount</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Partial Paydown">Partial Paydown</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Partial Paydown Date">Partial Paydown Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Payoff Request Date">Payoff Request Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Payoff Request Sent Date">Payoff Request Sent Date</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Payoff Received Date">Payoff Received Date</div>
+                    </th>
+
+
+
+
+
+
+
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Title Company">Title Company</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Title Contact Name">Title Contact Name</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Title Contact Phone">Title Contact Phone</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Title Contact Email Address">Title Contact Email
+                            Address</div>
+                    </th>
+                    <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Point of Contact for Interior Access">Point of
+                            Contact
+                            for
+                            Interior Access
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.properties}" var="property" indexVar="index">
+                    <tr class="slds-hint-parent">
+                        <!-- <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <a href="javascript:void(0);" title="{!property.Id}" onclick="{!c.openModal}">Click</a>
+                            </div>
+                        </th> -->
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- <lightning:formattedText value="{!property.Name}" /> -->
+                                <a href="javascript:void(0);" title="{!property.Id}" onclick="{!c.openModal}">{!property.Name}</a>
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.City__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.State__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.ZipCode__c}" />
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Status__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.CreatedDate}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.Requested_Funding_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Transaction_Type__c}" />
+                            </div>
+                        </th>
+
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.County__c}" />
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+
+
+                                <lightning:formattedText value="{!property.Is_Renovation__c ? 'Renovation' : 'Non-Renovation'}" />
+
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Property_Type__c}" />
+                            </div>
+                        </th>
+
+
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Number_of_Units__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Number_of_Beds__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Number_of_Bath__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Square_Feet__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Contract_Close_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- <lightning:formattedText value="{!property.Name}" /> -->
+
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- <lightning:formattedText value="{!property.Name}" /> -->
+                                <lightning:formattedNumber value="{!property.Deal__r.LOC_Commitment__c}" style="currency" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.Outstanding_Facility_Amount__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.Days_Remaining__c}" />
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Deal__r.Expired__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber style="currency" value="{!property.Advance_Fee_formula__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Broker_Adv_Fee_Amnt__c}" />
+
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.Doc_Prep_Fee__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber value="{!property.BPO_Appraisal_Fee__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.BPO_Appraisal_Date__c}" />
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber style="currency" value="{!property.BPO_Appraisal_Value__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Asset_Maturity_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber style="currency" value="{!property.Current_Outstanding_Loan_Amount__c}" />
+                            </div>
+                        </th>
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedNumber style="currency" value="{!property.Partial_Paydown__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- <lightning:formattedText value="{!property.Name}" /> -->
+                                <lightning:formattedDateTime value="{!property.Partial_Paydown_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Payoff_Request_Date__c}" />
+                            </div>
+                        </th>
+
+
+
+
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Payoff_Request_Sent_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedDateTime value="{!property.Payoff_Received_Date__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Title_Company_text__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <lightning:formattedText value="{!property.Title_Contact_Phone__c}" />
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- Title Contact Phone-->
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- Title Contact Phone -->
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- TitleContact Email Address-->
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+                                <!-- Interior COntaxt -->
+                            </div>
+                        </th>
+
+
+
+
+
+                        <!-- <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+
+                            </div>
+                        </th>
+
+                        <th data-label="" scope="row">
+                            <div class="slds-truncate" title="">
+
+                            </div>
+                        </th> -->
+
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </ui:scrollerWrapper>
+
+    <aura:if isTrue="{!v.modalOpen}">
+        <c:CommunityFundingMatrix recordId="{!v.selectedPropertyId}" modalOpen="{!v.modalOpen}" />
+    </aura:if>
+
+</aura:component>

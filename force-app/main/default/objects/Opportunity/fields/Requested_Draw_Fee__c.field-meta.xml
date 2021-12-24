@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Draw_Fee__c</fullName>
+    <description>Bridge model pricing request field for Draw Fee
+Requested Advance Fee = &apos;Draw Fee&apos; in Pricing Model</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the Advance Fee reflected in a Term Sheet</inlineHelpText>
+    <label>Requested Advance Fee</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

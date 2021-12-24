@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FixFlip_Investor__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Fix/Flip Investor (Updated Monthly with 3rd Party Data)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Fix/Flip Investor (Updated Monthly with 3rd Party Data)</inlineHelpText>
+    <label>Fix/Flip Investor</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

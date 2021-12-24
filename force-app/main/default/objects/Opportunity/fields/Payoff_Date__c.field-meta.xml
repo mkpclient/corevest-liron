@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payoff_Date__c</fullName>
+    <description>Date Drawn Amount was repaid in full (blank for Draw Amounts still outstanding)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date Drawn Amount was repaid in full</inlineHelpText>
+    <label>Payoff Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

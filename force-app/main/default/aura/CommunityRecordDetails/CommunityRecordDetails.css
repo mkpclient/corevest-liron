@@ -1,0 +1,23 @@
+/* .THIS .slds-section.slds-is-open .slds-section__content {
+  padding-top: 0px;
+}
+
+.THIS .sectionHeader {
+  display: flex;
+  align-items: center;
+  background: rgb(243, 242, 242);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  color: currentColor;
+  font-size: inherit;
+  padding: 0 0.5rem;
+} */
+
+.THIS .slds-accordion__summary-heading {
+  background: rgb(243, 242, 242);
+}
+
+.THIS .slds-accordion__list-item {
+  border-top: 0px solid white;
+}

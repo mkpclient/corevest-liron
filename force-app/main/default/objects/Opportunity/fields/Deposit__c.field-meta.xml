@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deposit__c</fullName>
+    <description>Removed Deposit_Insurance_Review__c per request by ML on 2/27/2018</description>
+    <externalId>false</externalId>
+    <formula>Deposit_Broker_Price_Opinions_Appraisal__c + Deposit_Legal_Counsel_Diligence__c +  Deposit_Lender_Out_of_Pocket__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Total Deposit Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

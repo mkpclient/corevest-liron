@@ -1,0 +1,12 @@
+.changed {
+  background-color: black;
+}
+
+.horizontalLabel {
+  padding-left: 15%;
+  clear: none;
+}
+
+.slds-dropdown {
+  position: inherit !important;
+}

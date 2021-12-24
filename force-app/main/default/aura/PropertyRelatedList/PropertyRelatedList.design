@@ -1,0 +1,12 @@
+<design:component >
+    <design:attribute name="title" label="Title" />
+    <design:attribute name="sobjectType" label="sObject API Name" />
+    <design:attribute name="parentFieldName" label="Parent API Field Name" />
+    <design:attribute name="whereClause" label="Where Clause" />
+    <design:attribute name="appName" label="App Name" />
+    <design:attribute name="pageSize" label="Page Size" />
+    <design:attribute name="toggleActive" label="Show Toggle Active Button" />
+    <design:attribute name="toggleInactive" label="Show Toggle Inactive Button" />
+    <design:attribute name="showDupeDataTapeButton" label="Show Duplicate Data Tape Button" />
+    <design:attribute name="showAssignRefinanceDeal" label="Show Assign Refinance Deal Button" />
+</design:component>

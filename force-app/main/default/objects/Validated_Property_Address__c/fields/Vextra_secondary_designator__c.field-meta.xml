@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vextra_secondary_designator__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Description of the location type within a campus
+(e.g., Bldg, Unit, Lot, etc.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Description of the location type within a campus
+(e.g., Bldg, Unit, Lot, etc.)</inlineHelpText>
+    <label>Verified extra secondary designator</label>
+    <length>255</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

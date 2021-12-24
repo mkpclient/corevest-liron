@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Pipeline_View</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Deal_Loan_Number__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>Anticipated_Closing_Date__c</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>Current_Loan_Amount__c</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
+    <columns>Loan_Coordinator__c</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Closer__c</columns>
+    <columns>OPPORTUNITY.RECORDTYPE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.Term_Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Term Sheet Signed/Deposit Collected,Submitted to Underwriting,Loan Processing,Underwriting,Approved by Committee</value>
+    </filters>
+    <label>Term - Pipeline View</label>
+</ListView>

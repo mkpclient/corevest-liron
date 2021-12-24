@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rent_Must_Be_Above_400</fullName>
+    <active>false</active>
+    <description>Verified rent and monthly rent must be at least $400.</description>
+    <errorConditionFormula>OR(
+AND(
+  NOT(ISNULL(Monthly_Rent__c)), 
+  Monthly_Rent__c &lt; 400 ,
+  OR(
+   ISCHANGED(Monthly_Rent__c),
+   ISNEW()) ),
+AND(
+  NOT(ISNULL(Verified_Rent__c)), 
+  Verified_Rent__c &lt; 400 ),
+  OR(
+   ISCHANGED(Verified_Rent__c),
+   ISNEW())
+)</errorConditionFormula>
+    <errorMessage>If a value is entered for the Monthly Rent or Verified Rent, the value must be at least $400.</errorMessage>
+</ValidationRule>

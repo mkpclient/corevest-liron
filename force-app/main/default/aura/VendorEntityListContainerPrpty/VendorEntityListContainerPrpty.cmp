@@ -1,0 +1,15 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="templates" type="List" />
+    <aura:attribute name="whoId" type="String" />
+    <aura:attribute name="dealId" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div>
+        <aura:if isTrue="{! not(empty(v.dealId))}">
+            <c:vendorEntityList recordId="{!v.dealId}" parentComp ="Property" aura:id="vendors" onopenemail="{!c.openEmailModal}" />
+        </aura:if>
+    </div>
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+</aura:component>

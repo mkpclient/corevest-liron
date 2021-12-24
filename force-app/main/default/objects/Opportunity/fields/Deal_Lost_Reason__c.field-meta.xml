@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deal_Lost_Reason__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>When a deal is marked as Lost (Cancelled, Withdrawn, or Rejected).  A lost reason is needed.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Select a Deal Lost Reason, if a deal is moved to Cancelled, Withdrawn, or Rejected.</inlineHelpText>
+    <label>Deal Lost Reason</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>StageName</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Background</fullName>
+                <default>false</default>
+                <label>Background</label>
+            </value>
+            <value>
+                <fullName>Borrower Requested</fullName>
+                <default>false</default>
+                <label>Borrower Requested</label>
+            </value>
+            <value>
+                <fullName>Borrower Unresponsive</fullName>
+                <default>false</default>
+                <label>Borrower Unresponsive</label>
+            </value>
+            <value>
+                <fullName>Broker Requested</fullName>
+                <default>false</default>
+                <label>Broker Requested</label>
+            </value>
+            <value>
+                <fullName>Business Plan</fullName>
+                <default>false</default>
+                <label>Business Plan</label>
+            </value>
+            <value>
+                <fullName>Cost Too High</fullName>
+                <default>false</default>
+                <label>Cost Too High</label>
+            </value>
+            <value>
+                <fullName>Credit</fullName>
+                <default>false</default>
+                <label>Credit</label>
+            </value>
+            <value>
+                <fullName>Economic Downturn</fullName>
+                <default>false</default>
+                <label>Economic Downturn</label>
+            </value>
+            <value>
+                <fullName>Existing Rate Lower</fullName>
+                <default>false</default>
+                <label>Existing Rate Lower</label>
+            </value>
+            <value>
+                <fullName>Failed to Close</fullName>
+                <default>false</default>
+                <label>Failed to Close</label>
+            </value>
+            <value>
+                <fullName>Failed to Qualify</fullName>
+                <default>false</default>
+                <label>Failed to Qualify</label>
+            </value>
+            <value>
+                <fullName>Insufficient Income</fullName>
+                <default>false</default>
+                <label>Insufficient Income</label>
+            </value>
+            <value>
+                <fullName>Insufficient Track Record Experience</fullName>
+                <default>false</default>
+                <label>Insufficient Track Record Experience</label>
+            </value>
+            <value>
+                <fullName>Litigation</fullName>
+                <default>false</default>
+                <label>Litigation</label>
+            </value>
+            <value>
+                <fullName>Lost to Competitor</fullName>
+                <default>false</default>
+                <label>Lost to Competitor</label>
+            </value>
+            <value>
+                <fullName>Money Laundering</fullName>
+                <default>false</default>
+                <label>Money Laundering</label>
+            </value>
+            <value>
+                <fullName>Portfolio Leveraged</fullName>
+                <default>false</default>
+                <label>Portfolio Leveraged</label>
+            </value>
+            <value>
+                <fullName>Prior to Reason Requirement</fullName>
+                <default>false</default>
+                <label>Prior to Reason Requirement</label>
+            </value>
+            <value>
+                <fullName>Split Up Deal</fullName>
+                <default>false</default>
+                <label>Split Up Deal</label>
+            </value>
+            <value>
+                <fullName>Terms Not Accepted</fullName>
+                <default>false</default>
+                <label>Terms Not Accepted</label>
+            </value>
+            <value>
+                <fullName>Other – See Deal Notes</fullName>
+                <default>false</default>
+                <label>Other – See Deal Notes</label>
+            </value>
+            <value>
+                <fullName>Won through another broker</fullName>
+                <default>false</default>
+                <label>Won through another broker</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Background</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Business Plan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Credit</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Economic Downturn</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Insufficient Income</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Insufficient Track Record Experience</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Litigation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Lost to Competitor</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Terms Not Accepted</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Other – See Deal Notes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rejected</controllingFieldValue>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Won through another broker</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Borrower Requested</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Borrower Unresponsive</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Broker Requested</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Cost Too High</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Existing Rate Lower</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Failed to Close</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Failed to Qualify</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Money Laundering</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Portfolio Leveraged</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Withdrawn</controllingFieldValue>
+            <valueName>Split Up Deal</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,4 @@
+<design:component >
+	<design:attribute name="whereClause" label="Where Clause" />
+    <design:attribute name="parentFieldName" label="Parent Field Name" default="Deal__c" />
+</design:component>

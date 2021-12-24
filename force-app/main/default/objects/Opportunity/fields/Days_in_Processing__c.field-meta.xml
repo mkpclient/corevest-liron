@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_in_Processing__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF( ISBLANK(Date_Change_From_Loan_Processing_to_UW__c),  TODAY() - Date_Stage_Changed_To_UW__c, Date_Change_From_Loan_Processing_to_UW__c - Date_Stage_Changed_To_UW__c)</formula>
+    <label>Days in Processing</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

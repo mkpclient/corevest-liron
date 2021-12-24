@@ -1,0 +1,13 @@
+/*.THIS .slds-form-element__static{
+	border-bottom: 1px solid #aaa;
+}
+*/
+
+.THIS .slds-box{
+    border: 0px;
+}
+
+.THIS .slds-form-element__label{
+    white-space: nowrap;
+  	overflow: hidden;
+}

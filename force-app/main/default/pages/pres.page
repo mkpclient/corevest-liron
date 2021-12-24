@@ -1,0 +1,15 @@
+<apex:page showHeader="false" sidebar="false" standardController="Opportunity" extensions="pres_Extension" action="{!sendToPres}" >
+	<apex:form >
+
+		<apex:pageBlock title="Precise RES">
+			<apex:pageBlockButtons location="top">
+				<apex:commandButton action="{!cancel}" value="Go back"  />
+			</apex:pageBlockButtons>
+			<apex:pageBlockSection >
+				<apex:outputText id="message" escape="false" value="{!pageMessage}"></apex:outputText>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+
+	</apex:form>
+
+</apex:page>

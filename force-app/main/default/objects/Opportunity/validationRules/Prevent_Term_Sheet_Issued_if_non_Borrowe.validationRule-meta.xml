@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Term_Sheet_Issued_if_non_Borrowe</fullName>
+    <active>false</active>
+    <description>This will prevent users from moving a Deal into Term Sheet Issued if the Account type is Non-Borrower</description>
+    <errorConditionFormula>AND(
+ Apex_Context__c = FALSE,
+Account.RecordType.Name  = &quot;Non-Borrower&quot;,
+NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ISPICKVAL(StageName,&quot;Term Sheet Issued&quot;))</errorConditionFormula>
+    <errorMessage>This Deal cannot be moved to Term Sheet Issued if Account Type is Non-Borrower</errorMessage>
+</ValidationRule>

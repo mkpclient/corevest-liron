@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Funding_Vehicle__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Funding Vehicle</label>
+    <referenceTo>Funding_Vehicle__c</referenceTo>
+    <relationshipLabel>Deal to Funding Vehicle Connections</relationshipLabel>
+    <relationshipName>Deal_to_Funding_Vehicle_Connections</relationshipName>
+    <required>false</required>
+    <trackHistory>true</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

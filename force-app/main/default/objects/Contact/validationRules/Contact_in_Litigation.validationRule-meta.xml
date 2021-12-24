@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Contact_in_Litigation</fullName>
+    <active>true</active>
+    <description>Contact is currently in litigation, cannot edit content.</description>
+    <errorConditionFormula>AND(
+
+(In_Litigation__c = TRUE), 
+($Profile.Name != &quot;Integration&quot;),
+($Profile.Name != &quot;System Administrator&quot;) 
+
+)</errorConditionFormula>
+    <errorMessage>This contact is in Litigation, cannot make edits</errorMessage>
+</ValidationRule>

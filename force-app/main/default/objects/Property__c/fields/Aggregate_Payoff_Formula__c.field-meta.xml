@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Aggregate_Payoff_Formula__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Bridge Use
+Previous formula:
+IF(!ISNULL(  Payoff_Received_Date__c  ), 
+        Approved_Advance_Amount__c,
+       Partial_Paydown__c)</description>
+    <externalId>false</externalId>
+    <formula>IF(AND(
+!ISNULL(  Payoff_Received_Date__c  ), 
+ ISPICKVAL(Status__c, &apos;Paid off&apos;)),
+         Approved_Advance_Amount_Used__c,
+       Partial_Paydown__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Aggregate Payoff Formula</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

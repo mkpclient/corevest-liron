@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Deposit_Collected_Date_Validation</fullName>
+    <active>false</active>
+    <description>Deposit Collected Date can be updated only if Term Sheet Signed is not Null.</description>
+    <errorConditionFormula>AND(NOT(ISNULL(Deposit_Collected__c)),ISNULL(Term_Sheet_Signed__c  ) )</errorConditionFormula>
+    <errorDisplayField>Term_Sheet_Signed__c</errorDisplayField>
+    <errorMessage>Term Sheet Signed is required to update value for Deposit Collected Date.</errorMessage>
+</ValidationRule>

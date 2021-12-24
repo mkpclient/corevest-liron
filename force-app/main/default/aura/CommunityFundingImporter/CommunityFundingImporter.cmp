@@ -1,0 +1,7 @@
+<aura:component>
+    <aura:attribute name="properties" type="List" />
+    <ltng:require scripts="{!$Resource.sheetJS + '/dist/xlsx.core.min.js'}" />
+
+
+    <lightning:input class="{!empty(v.properties) ? '' : 'slds-hide'}" type="file" label="Import Datatape" multiple="false" aura:id="fileUpload" accept=".xlsx" onchange="{!c.handleImport}" />
+</aura:component>

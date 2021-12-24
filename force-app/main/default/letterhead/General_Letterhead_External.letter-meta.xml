@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Letterhead xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <backgroundColor>#F5F5F5</backgroundColor>
+    <bodyColor>#FFFFFF</bodyColor>
+    <bottomLine>
+        <color>#005486</color>
+        <height>5</height>
+    </bottomLine>
+    <description>Letterhead for external facing email that needs to have disclaimer footer.</description>
+    <footer>
+        <backgroundColor>#FFFFFF</backgroundColor>
+        <height>100</height>
+        <horizontalAlignment>Left</horizontalAlignment>
+        <logo>CoreVest_Images/CoreVest_Footer_v1_2.png</logo>
+        <verticalAlignment>Top</verticalAlignment>
+    </footer>
+    <header>
+        <backgroundColor>#FFFFFF</backgroundColor>
+        <height>100</height>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <logo>CoreVest_Logos/corevest_redwood_logo3x.png</logo>
+        <verticalAlignment>Middle</verticalAlignment>
+    </header>
+    <middleLine>
+        <color>#005486</color>
+        <height>5</height>
+    </middleLine>
+    <name>General Letterhead - External</name>
+    <topLine>
+        <color>#005486</color>
+        <height>10</height>
+    </topLine>
+</Letterhead>

@@ -1,0 +1,2128 @@
+<apex:page renderAs="pdf" applyBodyTag="false" standardController="Advance__c" extensions="advancePrint_Extension">
+
+    <head>
+        <style>
+            @page {
+                size: legal landscape;
+                margin-right: 5px;
+                margin-left: 5px;
+            }
+
+            body {
+                font-family: 'Salesforce Sans', Arial, sans-serif;
+                font-size: 10px;
+            }
+
+            tr,
+            td,
+            th,
+            tbody,
+            thead,
+            tfoot {
+                page-break-inside: avoid !important;
+            }
+
+
+            h4 {
+                font-weight: normal;
+                text-align: center;
+                font-size: 18px;
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .text-blue {
+                color: rgb(61, 148, 243);
+            }
+
+            .subheading {
+                color: rgb(126, 126, 126);
+                display: block;
+                margin-top: -16px;
+                font-size: 13px;
+            }
+
+            .strong {
+                font-weight: bold;
+            }
+
+            div.left-35 {
+                display: inline-block;
+                border: 1px red;
+                width: 35%;
+                margin-right: 5%;
+                margin-top: 20px;
+            }
+
+            div.right-55 {
+                display: inline-block;
+                border: 1px blue;
+                width: 55%;
+                margin-top: 20px;
+                vertical-align: top;
+            }
+
+            div.left-45 {
+                display: inline-block;
+                border: 1px red;
+                width: 45%;
+                margin-right: 10%;
+                margin-top: 20px;
+            }
+
+            div.right-40 {
+                display: inline-block;
+                border: 1px blue;
+                width: 40%;
+                margin-top: 20px;
+                vertical-align: top;
+            }
+
+            div.left-table {
+                display: inline-block;
+                width: 60%;
+                text-align: left;
+                padding: 1px;
+                padding-left: 5px;
+                /*letter-spacing: 5px;*/
+            }
+
+            div.mini-table {
+                border: 1px solid black;
+                margin-top: 20px;
+                border-bottom: 1px solid black;
+                margin-left: 2px;
+            }
+
+            div.grayscale {
+                background-color: rgb(239, 239, 239);
+            }
+
+            div.right-table {
+                display: inline-block;
+                width: 30%;
+                text-align: right;
+                /*padding-right: 5px;*/
+                padding: 1px;
+                /*letter-spacing: 5px;*/
+            }
+
+            div.table-header {
+                padding: 5px;
+                border-bottom: 2px solid rgb(176, 176, 176);
+                height: 40px;
+                margin: -2px;
+                display: flex;
+                align-items: center;
+                font-size: 10px;
+            }
+
+            div.table-sum {
+                padding: 5px;
+                border-bottom: 2px solid rgb(176, 176, 176) !important;
+                height: 20px;
+                margin: -2px;
+                display: flex;
+                align-items: center;
+                font-size: 11px;
+            }
+
+            div.thin-line {
+                border-bottom: 1px solid rgb(176, 176, 176);
+            }
+
+            .margin-top {
+                margin-top: 30px;
+            }
+
+            .margin-bottom {
+                margin-bottom: 20px;
+            }
+
+            div.last-column {
+                border-left: 1px solid rgb(206, 206, 206);
+                border-right: 1px solid rgb(206, 206, 206);
+            }
+
+            .checkbox {
+                display: inline-block;
+                width: 15%;
+            }
+
+            .inline-block {
+                display: inline-block;
+            }
+
+            .full-width {
+                width: 100%;
+            }
+
+            .table-fixed {
+                table-layout: fixed;
+                width: 100%;
+                border-collapse: collapse;
+                
+            }
+
+            .table-fixed td,
+            .table-fixed th {
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .cell-large {
+                width: 60px;
+            }
+
+            .cell-medium {
+                width: 40px;
+            }
+
+            .cell-small {
+                width: 28px;
+            }
+        </style>
+    </head>
+
+    <html>
+
+    <body>
+
+        <!-- <apex:outputPanel rendered="{!!approvedAdvanceAmountCondition}">
+                <div style="text-align: center">Approved Advance Amount Max on the properties does not match the Approved Advance Amount</div>
+            </apex:outputPanel> -->
+
+        <!-- <apex:outputPanel rendered="{!approvedAdvanceAmountCondition}"> -->
+
+        <!-- Checklist Page -->
+        <h4>
+            <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" />
+        </h4>
+        <div class="subheading text-center">Bridge Loan Funding Approval Checklist</div>
+
+        <div class="left-45">
+            <div class="row">
+                <div class="left-table">
+                    Date:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{0, date, M/d/YYYY}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="left-table">
+                    Funding Entity:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="left-table">
+                    Deal Name:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{!Advance__c.Deal__r.Name}" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="left-table">
+                    Deal Number:
+                </div>
+                <div class="right-table">
+                    <apex:outputText style="color:rgb(61,148,243);" value="{!Advance__c.Deal__r.Deal_Loan_Number__c}" />
+                </div>
+            </div>
+
+            <div class="mini-table">
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Total LOC Commitment
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.LOC_Commitment__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Previous Fundings
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="$0.00" rendered="{!ISBLANK(Advance__c.Aggregate_Funding__c)}" />
+                        <apex:outputText value="{0, number, Currency}" rendered="{!!ISBLANK(Advance__c.Aggregate_Funding__c)}">
+                            <apex:param value="{!Advance__c.Aggregate_Funding__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Current Draw
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Approved_Advance_Amount_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Payoffs to Date
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Aggregate_Payoffs__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Remaining LOC Commitment
+                    </div>
+                    <div class="right-table">
+
+                        <!-- <apex:outputText style="font-weight:bold" value="{0, number, Currency}" rendered="{!ISBLANK(Advance__c.Aggregate_Funding__c)}">
+<apex:param value="{!Advance__c.LOC_Commitment__c - Advance__c.Approved_Advance_Amount_Total__c}" />
+</apex:outputText>
+
+<apex:outputText style="font-weight:bold" value="{0, number, Currency}" rendered="{!ISBLANK(Advance__c.Approved_Advance_Amount_Total__c)}">
+<apex:param value="{!Advance__c.LOC_Commitment__c - Advance__c.Aggregate_Funding__c}" />
+</apex:outputText>
+
+<apex:outputText style="font-weight:bold" value="{0, number, Currency}" rendered="{!AND(ISBLANK(Advance__c.Approved_Advance_Amount_Total__c), ISBLANK(Advance__c.LOC_Commitment__c))}">
+<apex:param value="{!Advance__c.LOC_Commitment__c}" />
+</apex:outputText>
+
+<apex:outputText style="font-weight:bold" value="{0, number, Currency}" rendered="{!AND(!ISBLANK(Advance__c.Approved_Advance_Amount_Total__c), !ISBLANK(Advance__c.Aggregate_Funding__c))}">
+<apex:param value="{!Advance__c.LOC_Commitment__c - Advance__c.Aggregate_Funding__c - Advance__c.Approved_Advance_Amount_Total__c}" />
+</apex:outputText> -->
+
+                        <apex:outputText style="font-weight:bold" value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Outstanding_Facility_Amount__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+            </div>
+            <!-- closes mini-table -->
+
+        </div>
+        <!-- closes left column-->
+
+        <!-- Begin Checkbox Section -->
+        <div class="right-40">
+            <div class="margin-bottom">
+                <div class="checkbox">
+                    <apex:image url="{!$Resource.checkbox}" height="20" />
+                </div>
+                <div class="inline-block">
+                    Property Underwriting and Sizing Analysis
+                </div>
+            </div>
+            <div class="margin-bottom">
+                <div class="checkbox">
+                    <apex:image url="{!$Resource.checkbox}" height="20" />
+                </div>
+                <div class="inline-block">
+                    Loan Agreement
+                </div>
+            </div>
+            <div class="margin-bottom">
+                <div class="checkbox">
+                    <apex:image url="{!$Resource.checkbox}" height="20" />
+                </div>
+                <div class="inline-block">
+                    CEO Approval
+                </div>
+            </div>
+            <div class="margin-bottom">
+                <div class="checkbox">
+                    <apex:image url="{!$Resource.checkbox}" height="20" />
+                </div>
+                <div class="inline-block">
+                    Writing Instructions, with Funding amount
+                    <br /> Signed by Deal Principal and / or President of CAF
+                </div>
+            </div>
+            <div class="margin-bottom">
+                <div class="checkbox">
+                    <apex:image url="{!$Resource.checkbox}" height="20" />
+                </div>
+                <div class="inline-block">
+                    Bridge Loan Funding Approval Checklist
+                </div>
+            </div>
+        </div>
+        <!-- End Checkbox Section -->
+
+        <!-- Begin Table -->
+        <table class="margin-top full-width margin-bottom">
+            <tr class="grayscale strong">
+                <th>
+                    <div class="table-sum grayscale">
+                        Wire Number
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-sum grayscale">
+                        Escrow Company
+                    </div>
+                </th>
+                <th>
+                    <div class="table-sum grayscale">
+                        Approved Advance Amount
+                    </div>
+                </th>
+                <th style="{!IF(Advance__c.Advance_Fee_Total__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        Advance Fee $
+                    </div>
+                </th>
+                <th style="{!IF(Advance__c.Origination_Fee_Subtotal__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        Origination Fee $
+                    </div>
+                </th>
+                <th style="{!IF(Advance__c.Daily_Interest_Rate_Total__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        Daily Interest Rate
+                    </div>
+                </th>
+                <th style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="Onboarding Fee" />
+                    </div>
+                </th>
+                <th>
+                    <div class="table-sum grayscale">
+                        Appraisal Fee
+                    </div>
+                </th>
+                <th style="{!IF(Advance__c.Inspection_Fee_Subtotal__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        Inspection Fee
+                    </div>
+                </th>
+                <th>
+                    <div class="table-sum grayscale">
+                        Doc Fee
+                    </div>
+                </th>
+                <th>
+                    <div class="table-sum grayscale last-column">
+                        Net Funding
+                    </div>
+                </th>
+            </tr>
+            <!-- End Checklist page Table - Headers -->
+
+            <!-- Begin Checklist page Table - Data Rows -->
+            <apex:repeat value="{!wires}" var="wire">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!wire.Wire_Number__c}" />
+                    </td>
+                    <td style="overflow-wrap: break-word;word-break: break-all;">
+                        <apex:outputText value="{!wire.Escrow_Agent__r.Name}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!wire.Approved_Advance_Amount__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(Advance__c.Advance_Fee_Total__c != 0, '', 'display:none;')}">
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.Advance_Fee__c), ISBLANK(wire.Advance_Fee_Adjustment__c))}" />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.Advance_Fee__c), !ISBLANK(wire.Advance_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Advance_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Advance_Fee__c), ISBLANK(wire.Advance_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Advance_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Advance_Fee__c), !ISBLANK(wire.Advance_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Advance_Fee__c + wire.Advance_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(Advance__c.Origination_Fee_Subtotal__c != 0, '', 'display:none;')}">
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.Origination_Fee__c), ISBLANK(wire.Origination_Fee_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.Origination_Fee__c), !ISBLANK(wire.Origination_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Origination_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Origination_Fee__c), ISBLANK(wire.Origination_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Origination_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Origination_Fee__c), !ISBLANK(wire.Origination_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Origination_Fee__c + wire.Origination_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(Advance__c.Daily_Interest_Rate_Total__c != 0, '', 'display:none;')}">
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.Daily_Interest_Rate__c), ISBLANK(wire.Daily_Interest_Rate_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.Daily_Interest_Rate__c), !ISBLANK(wire.Daily_Interest_Rate_Adjustment__c))}">
+                            <apex:param value="{!wire.Daily_Interest_Rate_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Daily_Interest_Rate__c), ISBLANK(wire.Daily_Interest_Rate_Adjustment__c))}">
+                            <apex:param value="{!wire.Daily_Interest_Rate__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Daily_Interest_Rate__c), !ISBLANK(wire.Daily_Interest_Rate_Adjustment__c))}">
+                            <apex:param value="{!wire.Daily_Interest_Rate__c + wire.Daily_Interest_Rate_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '', 'display:none;')}">
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.BlackSquare_Fee__c), ISBLANK(wire.BlackSquare_Fee_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.BlackSquare_Fee__c), !ISBLANK(wire.BlackSquare_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BlackSquare_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.BlackSquare_Fee__c), ISBLANK(wire.BlackSquare_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BlackSquare_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.BlackSquare_Fee__c), !ISBLANK(wire.BlackSquare_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BlackSquare_Fee__c + wire.BlackSquare_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.BPO_Appraisal_Fee__c), ISBLANK(wire.BPO_Appraisal_Fee_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.BPO_Appraisal_Fee__c), !ISBLANK(wire.BPO_Appraisal_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.BPO_Appraisal_Fee__c), ISBLANK(wire.BPO_Appraisal_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BPO_Appraisal_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.BPO_Appraisal_Fee__c), !ISBLANK(wire.BPO_Appraisal_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.BPO_Appraisal_Fee__c + wire.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(Advance__c.Inspection_Fee_Total__c != 0, '', 'display:none;')}">
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.Inspection_Fee__c), ISBLANK(wire.Inspection_Fee_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.Inspection_Fee__c), !ISBLANK(wire.Inspection_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Inspection_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Inspection_Fee__c), ISBLANK(wire.Inspection_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Inspection_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Daily_Interest_Rate__c), !ISBLANK(wire.Inspection_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Inspection_Fee__c + wire.Inspection_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="$0.00" rendered="{!AND(ISBLANK(wire.Doc_Prep_Fee__c), ISBLANK(wire.Doc_Prep_Fee_Adjustment__c))}"
+                        />
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(ISBLANK(wire.Doc_Prep_Fee__c), !ISBLANK(wire.Doc_Prep_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Doc_Prep_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Doc_Prep_Fee__c), ISBLANK(wire.Doc_Prep_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Doc_Prep_Fee__c}" />
+                        </apex:outputText>
+
+                        <apex:outputText value="{0, number, Currency}" rendered="{!AND(!ISBLANK(wire.Doc_Prep_Fee__c), !ISBLANK(wire.Doc_Prep_Fee_Adjustment__c))}">
+                            <apex:param value="{!wire.Doc_Prep_Fee__c + wire.Doc_Prep_Fee_Adjustment__c}" />
+                        </apex:outputText>
+
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!wire.Net_Funding__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+            </apex:repeat>
+            <!-- End Checklist page Table - Data Rows -->
+            <!-- <tr>
+<td colspan="17" style="border-bottom:2px solid rgb(205, 205, 205);">
+</td>
+</tr> -->
+            <!-- Begin Checklist page Table - Total Row -->
+            <tr class="grayscale strong">
+                <td>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Approved_Advance_Amount_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(Advance__c.Advance_Fee_Total__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(Advance__c.Origination_Fee_Subtotal__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(Advance__c.Daily_Interest_Rate_Total__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BlackSquare_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(Advance__c.Inspection_Fee_Total__c != 0, '', 'display:none;')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Inspection_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale last-column">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Net_Funding_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- End Checklist page Table - Total Row -->
+
+        <div style="page-break-after:always;"></div>
+
+        <!-- Begin Page 2 -->
+        <!-- Begin Page 2 Upper Left Table -->
+        <h4>
+            <apex:outputText value="{!Advance__c.Deal__r.Lender__c}" />
+        </h4>
+        <div class="subheading text-center">Bridge Loan Funding Asset Detail</div>
+
+        <div class="left-35">
+            <div class="row">
+                <div class="left-table">
+                    Date:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{0, date, M/d/YYYY}">
+                        <apex:param value="{!TODAY()}" />
+                    </apex:outputText>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="left-table">
+                    Deal Name:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{!Advance__c.Deal__r.Name}" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="left-table">
+                    Deal Number:
+                </div>
+                <div class="right-table">
+                    <apex:outputText value="{!Advance__c.Deal__r.Deal_Loan_Number__c}" />
+                </div>
+            </div>
+
+            <div class="mini-table">
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Total LOC Commitment
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.LOC_Commitment__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Previous Fundings
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="$0.00" rendered="{!ISBLANK(Advance__c.Aggregate_Funding__c)}" />
+                        <apex:outputText value="{0, number, Currency}" rendered="{!!ISBLANK(Advance__c.Aggregate_Funding__c)}">
+                            <apex:param value="{!Advance__c.Aggregate_Funding__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Current Draw
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Approved_Advance_Amount_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Payoffs to Date
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText style="font-weight:bold" value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Aggregate_Payoffs__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Remaining LOC Commitment
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText style="font-weight:bold" value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Outstanding_Facility_Amount__c}" />
+                        </apex:outputText>
+
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Interest Rate
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, 0.000}%">
+                            <apex:param value="{!Advance__c.Deal__r.Rate__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Term
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Asset_Maturity_Days__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Max Initial LTC
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Max_LTC__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Max Initial LTV
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Max_LTV__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Total Max Loan LTC
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!Advance__c.Total_Loan_LTC__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Total Max ARV LTV
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!Advance__c.ARV_LTV_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name != 'Renovation Initial', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Max LTC
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Max_LTC__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name != 'Renovation Initial', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Max LTV
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Max_LTV__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Recourse
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Over_LOC_Commitment__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+                    <div class="left-table strong">
+                        Revolving
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{!Advance__c.Revolving_Y_N__c}" />
+                    </div>
+                </div>
+
+                <div class="row grayscale" style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="left-table strong">
+                        Draw Fee
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Max_Advance_Fee__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+                <div class="row grayscale">
+                    <div class="left-table strong">
+                        Exit Fee
+                    </div>
+                    <div class="right-table">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!Advance__c.Deal__r.Exit_Fee__c}" />
+                        </apex:outputText>
+                    </div>
+                </div>
+
+            </div>
+            <!-- closes mini-table -->
+
+        </div>
+        <!-- closes left column-->
+
+        <div class="right-55" style="border:1px solid black;height:200px;width:50%;">
+        </div>
+
+        <!-- Begin Non Renovation Table - Header Row -->
+        <table class="margin-top table-fixed" style="{!IF(Advance__c.RecordType.Name != 'Renovation Initial', '' , 'display:none;')}">
+            <tr class="grayscale strong">
+                <th class="cell-medium">
+                    <div class="table-header grayscale">
+                        Property #
+                    </div>
+                </th>
+                <th class="cell-medium">
+                    <div class="table-header grayscale">
+                        Yardi ID
+                    </div>
+                </th>
+
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        Wire #
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Address
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        City
+                    </div>
+                </th>
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        State
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Zip
+                    </div>
+                </th>
+                <th class="cell-medium">
+                    <div class="table-header grayscale" style="overflow-wrap: break-word;word-break: break-all;">
+                        Escrow Company
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Purchase Price
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        BPO/Appraisal Value
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Max LTC$
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Max LTV$
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Approved Advance Amount
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Advance Fee
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Origination Fee
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c  == null, Advance__c.Broker_Advance_Fee_Subtotal__c  == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Broker Fee&nbsp;
+                        <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'COREVEST'), TRUE, FALSE)}">
+                            Paid by CoreVest
+                        </apex:outputPanel>
+                        <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'ESCROW'), TRUE, FALSE)}">
+                            Paid on HUD
+                        </apex:outputPanel>
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Daily Interest Rate
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        BPO/Appraisal Fee
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Doc Fee
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale last-column">
+                        Net Funding
+                    </div>
+                </th>
+            </tr>
+            <!-- End Non Renovation Table - Header Row -->
+
+            <!-- Begin Non Renovation Table - Data Rows -->
+            <apex:repeat value="{!properties}" var="property">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.Asset_ID__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.Yardi_Id__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Wire__r.Wire_Number__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText style="color:rgb(61,148,243);" value="{!property.Property__r.Name}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.City__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.State__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.ZipCode__c}" />
+                    </td>
+                    <td style="overflow-wrap: break-word;word-break: break-all;">
+                        <apex:outputText value="{!property.Escrow_Agent__r.Name}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Purchase_Price__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.BPO_Appraisal_Value__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Max_LTC_Dollar__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Max_LTV_Dollar__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Approved_Advance_Amount_Calc__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Advance_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Origination_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Broker_Advance_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Daily_Interest_Rate_Total__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.BPO_Appraisal_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Doc_Prep_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Net_Funding__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="{!nonRenocolspan}" style="border-bottom:1px solid rgb(205, 205, 205); padding-bottom:10px">
+                        <b>
+                            Lender Comments:
+                        </b>
+                        <apex:outputText value="{!property.Property__r.Lender_Comments__c}" />
+                    </td>
+                </tr>
+            </apex:repeat>
+            
+            <!-- End Non Renovation Table - Data Rows -->
+
+            <!-- Begin Non Renovation Table - Sub-Total Row -->
+            <tr>
+                <td colspan="{!nonRenocolspan}" style="border-bottom:1px solid rgb(205, 205, 205);">
+                </td>
+            </tr>
+            <tr class="grayscale strong">
+                <td colspan="6">
+                </td>
+                <td>
+                    <div class="table-sum grayscale" style="overflow-wrap: normal;">
+                        Sub-Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Broker_Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale last-column">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Net_Funding_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+            <!-- End Non Renovation Table - Sub-Total Row -->
+
+            <!-- Begin Non Renovation Table - Adjustments Row -->
+            <tr class="grayscale strong">
+                <td colspan="6">
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale" style="overflow-wrap: normal;">
+                        Adjustments
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale last-column">
+                    </div>
+                </td>
+            </tr>
+            <!-- End Non Renovation Table - Adjustments Row -->
+
+            <!-- Begin Non Renovation Table - Totals Row -->
+            <tr class="grayscale strong">
+                <td colspan="6">
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Purchase_Price_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Value_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Max_LTC_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Max_LTV_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Approved_Advance_Amount_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Broker_Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale last-column">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Net_Funding_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- End Non Renovation Table - Totals Row -->
+
+        <!-- Begin Renovation Table - Header Row -->
+        <table class="margin-top table-fixed" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+            <tr class="grayscale strong">
+                <th class="cell-medium">
+                    <div class="table-header grayscale">
+                        Property #
+                    </div>
+                </th>
+                <th class="cell-medium">
+                    <div class="table-header grayscale">
+                        Yardi ID
+                    </div>
+                </th>
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        Wire #
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Address
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        City
+                    </div>
+                </th>
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        State
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Zip
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Initial Disbursement
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Approved Reno Advance
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Approved Advance Amount
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Advance Fee
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Origination Fee
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        <div class="table-header grayscale">
+                            Broker Fee&nbsp;
+                            <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'COREVEST'), TRUE, FALSE)}">
+                                Paid by CoreVest
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'ESCROW'), TRUE, FALSE)}">
+                                Paid on HUD
+                            </apex:outputPanel>
+                        </div>
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Daily Interest Rate
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Onboarding Fee
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Appraisal Fee
+                    </div>
+                </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Inspection Fee
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Doc Fee
+                    </div>
+                </th >
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Net Funding
+                    </div>
+                </th>
+            </tr>
+            <!-- End Renovation Table - Header Row -->
+
+            <!-- Begin Renovation Table - Data Rows -->
+            <apex:repeat value="{!properties}" var="property">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.Asset_ID__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.Yardi_Id__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Wire__r.Wire_Number__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText style="color:rgb(61,148,243);" value="{!property.Property__r.Name}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.City__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.State__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.ZipCode__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Initial_Disbursement__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Renovation_Reserve__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Approved_Advance_Amount_Calc__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Advance_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Origination_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Broker_Advance_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Daily_Interest_Rate_Total__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.BlackSquare_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.BPO_Appraisal_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Inspection_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Doc_Prep_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Net_Funding__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="{!renoColspan}" style="border-bottom:1px solid rgb(205, 205, 205); padding-bottom:10px">
+                        <b>
+                            Lender Comments:
+                        </b>
+                        <apex:outputText value="{!property.Property__r.Lender_Comments__c}" />
+                    </td>
+                </tr>
+            </apex:repeat>
+            <!-- End Renovation Table - Data Rows -->
+
+            <!-- Begin Renovation Table - Sub-Total Row -->
+            <tr>
+                <td colspan="{!renoColspan}" style="border-bottom:1px solid rgb(205, 205, 205);">
+                </td>
+            </tr>
+            <tr class="grayscale strong">
+                <td colspan="3">
+                </td>
+                <td colspan="3">
+                    <div class="table-sum grayscale">
+                        Sub-Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Broker_Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BlackSquare_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Inspection_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale last-column">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Net_Funding_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+            <!-- End Renovation Table - Sub-Total Row -->
+
+            <!-- Begin Renovation Table - Adjustments Row -->
+            <tr class="grayscale strong">
+                <td colspan="3">
+                </td>
+                <td colspan="3">
+                    <div class="table-sum thin-line grayscale" style="overflow-wrap: break-word;word-break: break-all;">
+                        Adjustments
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Subtotal__c == null, Advance__c.Origination_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BlackSquare_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Inspection_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale last-column">
+                    </div>
+                </td>
+            </tr>
+            <!-- End Renovation Table - Adjustments Row -->
+
+            <!-- Begin Renovation Table - Totals Row -->
+            <tr class="grayscale strong">
+                <td colspan="3">
+                </td>
+                <td colspan="3">
+                    <div class="table-sum grayscale">
+                        Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Initial_Disbursement_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Renovation_Reserve_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Approved_Advance_Amount_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Advance_Fee_Total__c == null, Advance__c.Advance_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Advance_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Origination_Fee_Total__c == null, Advance__c.Origination_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Origination_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Broker_Advance_Fee_Subtotal__c == null, Advance__c.Broker_Advance_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Broker_Advance_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Daily_Interest_Rate_Total__c == null, Advance__c.Daily_Interest_Rate_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Daily_Interest_Rate_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BlackSquare_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Inspection_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Doc_Prep_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale last-column">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Net_Funding_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- End Renovation Table - Totals Row -->
+
+        <!-- Begin 2nd Renovation Table - Header Row -->
+        <table class="margin-top table-fixed" style="{!IF(Advance__c.RecordType.Name == 'Renovation Initial' || Advance__c.RecordType.Name == 'Construction Advance', '' , 'display:none;')}">
+            <tr class="grayscale strong">
+                <th class="cell-medium">
+                    <div class="table-header grayscale">
+                        Property #
+                    </div>
+                </th>
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        Wire #
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Address
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        City
+                    </div>
+                </th>
+                <th class="cell-small">
+                    <div class="table-header grayscale">
+                        State
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Zip
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Initial Cost Basis
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Total Cost Basis
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        As-Is Value
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        After Rehab Value
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        % of Rehab Budget
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Initial LTC
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        Total LTC
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        As-Is LTV
+                    </div>
+                </th>
+                <th class="cell-large">
+                    <div class="table-header grayscale">
+                        ARV LTV
+                    </div>
+                </th>
+            </tr>
+            <!-- End 2nd Renovation Table - Header Row -->
+
+            <!-- Begin 2nd Renovation Table - Data Rows -->
+            <apex:repeat value="{!properties}" var="property">
+                <tr>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.Asset_ID__c}" />
+                    </td>
+
+                    <td>
+                        <apex:outputText value="{!property.Wire__r.Wire_Number__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText style="color:rgb(61,148,243);" value="{!property.Property__r.Name}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.City__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.State__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{!property.Property__r.ZipCode__c}" />
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(property.Purchase_Price__c == null, 0, property.Purchase_Price__c)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(property.Total_Cost_Basis__c == null, 0, property.Total_Cost_Basis__c)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(property.BPO_Appraisal_Value__c == null, 0, property.BPO_Appraisal_Value__c)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(property.After_Repair_Value__c == null, 0, property.After_Repair_Value__c)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(property.Perc_of_Rehab_Budget__c == null, 0, property.Perc_of_Rehab_Budget__c * 100)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(property.Initial_LTC_percent__c == null, 0, property.Initial_LTC_percent__c * 100)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(property.Total_LTC_percent__c == null, 0, property.Total_LTC_percent__c * 100)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(property.As_Is_LTV_Percent__c == null, 0, property.As_Is_LTV_Percent__c*100)}" />
+                        </apex:outputText>
+                    </td>
+                    <td>
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(property.ARV_LTV_percent__c == null, 0, property.ARV_LTV_percent__c*100)}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="15" style="border-bottom:1px solid rgb(205, 205, 205);">
+                    </td>
+                </tr>
+            </apex:repeat>
+            <!-- End 2nd Renovation Table - Data Rows -->
+
+            <!-- Begin 2nd Renovation Table - Totals Row -->
+            <tr>
+                <td colspan="14" style="border-bottom:1px solid rgb(205, 205, 205);">
+                </td>
+            </tr>
+
+            <tr class="grayscale strong">
+                <td colspan="3">
+                </td>
+                <td colspan="3">
+                    <div class="table-sum grayscale">
+                        Total
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(Advance__c.Purchase_Price_Total__c == null, 0, Advance__c.Purchase_Price_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(Advance__c.Total_Cost_Basis_Total__c == null, 0, Advance__c.Total_Cost_Basis_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(Advance__c.BPO_Appraisal_Value_Total__c == null, 0, Advance__c.BPO_Appraisal_Value_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!IF(Advance__c.After_Repair_Value_Total__c == null, 0, Advance__c.After_Repair_Value_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(Advance__c.Total_Initial_LTC__c == null, 0, Advance__c.Total_Initial_LTC__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(Advance__c.Total_LTC_Total__c == null, 0, Advance__c.Total_LTC_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(Advance__c.As_Is_LTV_Total__c == null, 0, Advance__c.As_Is_LTV_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td>
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, 0}%">
+                            <apex:param value="{!IF(Advance__c.ARV_LTV_Total__c == null, 0, Advance__c.ARV_LTV_Total__c)}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!--<div class="full-width margin-top margin-bottom">
+<div style="display:inline-block;width:65%;text-align:left;">
+<div class="margin-bottom strong">
+Reviewed by:
+</div>
+<div>
+<span>____________________________________________________</span>
+<br />
+<span>Beth O'Brien</span>
+</div>
+</div>
+
+<div style="display:inline-block;text-align:left;">
+<div class="margin-bottom strong">
+Certified by:
+</div>
+<div style="whitespace:no-wrap">
+<span>____________________________________________________</span>
+<br />
+<span>Christopher Hoeffel or Ryan McBride</span>
+</div>
+</div>
+</div>
+
+<div class="full-width margin-top margin-bottom" style="border:1px solid black;padding:3px 3px 20px 3px;">
+<div style="display:inline-block;width:65%;text-align:left;">
+<div class="margin-bottom strong">
+Funding Approval:
+</div>
+<div>
+<span>____________________________________________________</span>
+<br />
+<span>Mark Hedstrom (for funding requests over $5MM)</span>
+</div>
+</div>
+
+<div style="display:inline-block;text-align:left;">
+<div class="margin-bottom strong">
+Certified by:
+</div>
+<div style="whitespace:no-wrap">
+<span>____________________________________________________</span>
+<br />
+<span>Neale Redington or Leon Schartzman (for funding requests over $3MM)</span>
+</div>
+</div>
+</div>-->
+        <!-- </apex:outputPanel> -->
+        <apex:outputText value="{!Advance__c.Approved_Advance_Amount_Max_Total__c}" rendered="false"></apex:outputText>
+    
+        
+    </body>
+
+    </html>
+
+</apex:page>

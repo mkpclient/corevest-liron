@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recent_Appraisals_Uploaded</fullName>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Property__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Units__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>equals</operation>
+        <value>Complete-Delivered</value>
+    </filters>
+    <label>Recent Appraisals Uploaded</label>
+</ListView>

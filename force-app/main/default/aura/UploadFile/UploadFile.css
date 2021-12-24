@@ -1,0 +1,38 @@
+/* fileUpload2.css is identical */
+.THIS .notUploading {
+    visibility: hidden;
+}
+
+.THIS .uploading {
+    visibility: visible;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.THIS .small-spinner {
+    height: 20px;
+    width: 20px;
+}
+
+.THIS .file {
+    margin-bottom: 5px;
+    display: inline;
+    border: 1px solid rgb(216,221,230);
+    margin-right: 5px;
+}
+
+.THIS button {
+    -webkit-appearance: initial;
+    background-color: initial;
+    padding: initial;
+    border: initial;
+    background: white;
+    padding: 2px 10px;
+    font-size: 11px;
+    border-radius: 10%;
+    border: 1px solid lightgray;
+}
+
+.THIS {
+background-color: #fff;
+}

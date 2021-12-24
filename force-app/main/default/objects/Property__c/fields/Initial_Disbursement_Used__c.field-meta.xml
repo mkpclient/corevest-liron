@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Initial_Disbursement_Used__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount of the Initial Disbursement that has been funded</inlineHelpText>
+    <label>Initial Disbursement Funded</label>
+    <summarizedField>Property_Advance__c.Initial_Disbursement__c</summarizedField>
+    <summaryFilterItems>
+        <field>Property_Advance__c.Advance_Status_text__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property_Advance__c.Property__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

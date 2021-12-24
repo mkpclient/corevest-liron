@@ -1,0 +1,46 @@
+.THIS.gray, .THIS .gray {
+    color: rgb(85, 103, 142);
+    padding-right: 20px;
+}
+
+/*.THIS * {
+    border: 1px solid red;
+}*/
+
+.THIS table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    width: 80%;
+    margin-bottom: 20px;
+    /*margin: 0 auto 20px;*/
+}
+
+.THIS .left {
+    width: 25%;
+}
+
+.THIS .right {
+    width: 40%;
+}
+
+.THIS .buttons{
+    width: 25%;
+}
+
+.THIS td {
+    vertical-align: top;
+    padding: 1px 0;
+}
+
+.THIS .slds-button{
+    line-height: 1.65rem;
+}
+
+/*@media(min-width:500px){
+
+}*/
+
+/*.THIS td {
+    width: 20%;
+}*/

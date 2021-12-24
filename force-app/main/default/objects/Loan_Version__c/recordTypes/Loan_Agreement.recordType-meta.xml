@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loan_Agreement</fullName>
+    <active>true</active>
+    <label>Loan Agreement</label>
+    <picklistValues>
+        <picklist>Recourse__c</picklist>
+        <values>
+            <fullName>Non-Recourse</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Recourse %28No Cash Management%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-Recourse %28Springing Cash Management%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recourse</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Tax_Payment_Recurrence__c</picklist>
+        <values>
+            <fullName>Annual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bi-annual</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bi-monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Monthly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Quarterly</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tri-annual</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Taxes_Paid_at_Closing__c</picklist>
+        <values>
+            <fullName>Due outside of 90 days</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid at closing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>URGENT%3A Due within 90 days and funds sent to Berkadia for payment</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Term__c</picklist>
+        <values>
+            <fullName>10 Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>30 Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5 Year</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7 Year</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

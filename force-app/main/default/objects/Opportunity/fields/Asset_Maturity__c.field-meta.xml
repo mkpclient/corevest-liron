@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Asset_Maturity__c</fullName>
+    <externalId>false</externalId>
+    <label>Asset Maturity Days</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>180 day</fullName>
+                <default>false</default>
+                <label>180 day</label>
+            </value>
+            <value>
+                <fullName>210 day</fullName>
+                <default>false</default>
+                <label>210 day</label>
+            </value>
+            <value>
+                <fullName>240 day</fullName>
+                <default>false</default>
+                <label>240 day</label>
+            </value>
+            <value>
+                <fullName>270 day</fullName>
+                <default>false</default>
+                <label>270 day</label>
+            </value>
+            <value>
+                <fullName>360 day</fullName>
+                <default>false</default>
+                <label>360 day</label>
+            </value>
+            <value>
+                <fullName>365 day</fullName>
+                <default>false</default>
+                <label>365 day</label>
+            </value>
+            <value>
+                <fullName>450 day</fullName>
+                <default>false</default>
+                <label>450 day</label>
+            </value>
+            <value>
+                <fullName>455 day</fullName>
+                <default>false</default>
+                <label>455 day</label>
+            </value>
+            <value>
+                <fullName>540 day</fullName>
+                <default>false</default>
+                <label>540 day</label>
+            </value>
+            <value>
+                <fullName>720 day</fullName>
+                <default>false</default>
+                <label>720 day</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

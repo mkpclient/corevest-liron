@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Letterhead xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <backgroundColor>#F5F5F5</backgroundColor>
+    <bodyColor>#FFFFFF</bodyColor>
+    <bottomLine>
+        <color>#005486</color>
+        <height>5</height>
+    </bottomLine>
+    <description>For internal emails which does not need the disclaimer.</description>
+    <footer>
+        <backgroundColor>#005486</backgroundColor>
+        <height>0</height>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <verticalAlignment>Top</verticalAlignment>
+    </footer>
+    <header>
+        <backgroundColor>#FFFFFF</backgroundColor>
+        <height>100</height>
+        <horizontalAlignment>Center</horizontalAlignment>
+        <logo>CoreVest_Logos/corevest_redwood_logo3x.png</logo>
+        <verticalAlignment>Middle</verticalAlignment>
+    </header>
+    <middleLine>
+        <color>#005486</color>
+        <height>5</height>
+    </middleLine>
+    <name>General Letterhead</name>
+    <topLine>
+        <color>#005486</color>
+        <height>10</height>
+    </topLine>
+</Letterhead>

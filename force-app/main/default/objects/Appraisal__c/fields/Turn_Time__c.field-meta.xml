@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Turn_Time__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Requested turn time for the Appraisal Report</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Requested turn time for the Appraisal Report</inlineHelpText>
+    <label>Turn Time</label>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>2 day</fullName>
+                <default>false</default>
+                <label>2 day</label>
+            </value>
+            <value>
+                <fullName>3 day</fullName>
+                <default>false</default>
+                <label>3 day</label>
+            </value>
+            <value>
+                <fullName>5 day</fullName>
+                <default>false</default>
+                <label>5 day</label>
+            </value>
+            <value>
+                <fullName>7 day</fullName>
+                <default>false</default>
+                <label>7 day</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

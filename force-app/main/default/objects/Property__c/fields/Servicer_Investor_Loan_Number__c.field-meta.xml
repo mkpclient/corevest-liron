@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Servicer_Investor_Loan_Number__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>From Servicer.  This is the Yardi ID</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the Yardi ID.  Updated by Statebridge Servicer Integration.</inlineHelpText>
+    <label>Servicer Investor Loan Number</label>
+    <length>50</length>
+    <required>false</required>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,100 @@
+<aura:component controller="CommunityFundingController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="properties" type="List" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem size="4">
+            <c:CommunityFundingChart aura:id="fundingChart" />
+        </lightning:layoutItem>
+
+        <lightning:layoutItem size="8" padding="horizontal-small">
+            <ui:scrollerWrapper>
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-left_medium">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <!-- <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Opportunity Name">Deal Name</div>
+                            </th> -->
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Account Name">Property Address</div>
+                            </th>
+                            <!-- <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Close Date">Submitted Date</div>
+                            </th> -->
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Stage">Most Recent Funding</div>
+                            </th>
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Confidence">Outstanding Loan Amount</div>
+                            </th>
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Confidence">Asset Maturity Date</div>
+                            </th>
+                            <th class="slds-text-title_caps" scope="col">
+                                <div class="slds-truncate" title="Confidence">Product Sub Types</div>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.properties}" var="property" indexVar="index">
+                            <tr class="slds-hint-parent">
+                                <!-- <th data-label="Opportunity Name" scope="row">
+                                    <div class="slds-truncate" title="Cloudhub">
+                                        <a href="{!'/portal/s/deal#!' + property.Deal__c}" tabindex="-1">
+                                            {!property.Deal__r.Name}
+                                        </a>
+                                    </div>
+                                </th> -->
+                                <td data-label="Account Name">
+                                    <div class="slds-truncate" title="Cloudhub">
+                                        <a href="{!'/portal/s/property?id=' + property.Id}" tabindex="-1">
+                                            {!property.Name}
+                                        </a>
+                                    </div>
+                                </td>
+                                <!-- <td data-label="Close Date">
+                                    <div class="slds-truncate" title="4/14/2015">
+                                        <ui:outputDate value="{!property.CreatedDate}" format="M/dd/YYYY" />
+                                    </div>
+                                </td> -->
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">
+                                        <!-- <ui:outputCheckbox value="{!property.Status__c == 'Active'}" /> -->
+                                        <ui:outputDate value="{!property.Funding_Date__c}" format="M/dd/YYYY" />
+                                    </div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">
+                                        <!-- <ui:outputCheckbox value="{!property.Status__c == 'Active'}" /> -->
+                                        <lightning:formattedNumber style="currency" value="{!property.Approved_Advance_Amount_Used__c}" />
+                                    </div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">
+                                        <!-- <ui:outputCheckbox value="{!property.Status__c == 'Active'}" /> -->
+                                        <ui:outputDate format="M/dd/YYYY" value="{!property.Asset_Maturity_Date__c}" />
+                                    </div>
+                                </td>
+                                <td data-label="Prospecting">
+                                    <div class="slds-truncate" title="Prospecting">
+                                        <!-- <ui:outputCheckbox value="{!property.Status__c == 'Active'}" /> -->
+                                        <lightning:formattedText value="{!property.Deal__r.Product_Sub_Type__c}" />
+                                    </div>
+                                </td>
+                                <!-- <td data-label="Confidence">
+                                <div class="slds-truncate" title="20%">
+
+                                </div>
+                            </td> -->
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </ui:scrollerWrapper>
+        </lightning:layoutItem>
+
+    </lightning:layout>
+
+</aura:component>

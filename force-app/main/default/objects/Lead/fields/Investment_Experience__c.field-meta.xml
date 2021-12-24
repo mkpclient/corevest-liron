@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Investment_Experience__c</fullName>
+    <description>This is the total number of properties or projects the investor has completed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the total number of properties or projects the investor has completed</inlineHelpText>
+    <label>Investment Experience</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Loan_Product_s__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>0 Properties</fullName>
+                <default>false</default>
+                <label>0 Properties</label>
+            </value>
+            <value>
+                <fullName>100+ Properties</fullName>
+                <default>false</default>
+                <label>100+ Properties</label>
+            </value>
+            <value>
+                <fullName>11-20 Properties</fullName>
+                <default>false</default>
+                <label>11-20 Properties</label>
+            </value>
+            <value>
+                <fullName>1-4 Properties</fullName>
+                <default>false</default>
+                <label>1-4 Properties</label>
+            </value>
+            <value>
+                <fullName>20+ Properties</fullName>
+                <default>false</default>
+                <label>20+ Properties</label>
+            </value>
+            <value>
+                <fullName>3-10 Properties</fullName>
+                <default>false</default>
+                <label>3-10 Properties</label>
+            </value>
+            <value>
+                <fullName>3-50 Properties</fullName>
+                <default>false</default>
+                <label>3-50 Properties</label>
+            </value>
+            <value>
+                <fullName>51-100 Properties</fullName>
+                <default>false</default>
+                <label>51-100 Properties</label>
+            </value>
+            <value>
+                <fullName>5-19 Properties</fullName>
+                <default>false</default>
+                <label>5-19 Properties</label>
+            </value>
+            <value>
+                <fullName>Under 3 Properties</fullName>
+                <default>false</default>
+                <label>Under 3 Properties</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>100+ Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>3-50 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>51-100 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>Under 3 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <valueName>11-20 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>20+ Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <valueName>3-10 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>0 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>1-4 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
+            <valueName>5-19 Properties</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

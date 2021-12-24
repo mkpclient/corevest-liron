@@ -1,0 +1,253 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId">
+
+	<aura:attribute name="properties" type="Object[]" />
+	<aura:attribute name="recordId" type="String" />
+	<!-- <aura:attribute name="advance" type="Object" /> -->
+	<aura:attribute name="deal" type="Object" />
+	<aura:attribute name="selectedProperties" type="Object[]" />
+	<aura:attribute name="inputScreen" type="Boolean" default="false" />
+	<aura:attribute name="data" type="Object" />
+
+	<aura:attribute name="modalOpen" type="Boolean" default="false" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+
+	
+	<c:util aura:id="util" />
+		<div class="{!v.modalOpen ? 'slds-modal slds-fade-in-open' : 'slds-modal'}">
+			<div class="slds-modal__container">
+
+				<div class="slds-modal__header">
+			        <lightning:buttonIcon size="large" iconName="utility:close" variant="bare-inverse" onclick="{!c.closeModal}" alternativeText="Close window." class="slds-modal__close" />
+			        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Property Extension</h2>
+			      </div>
+
+				<div class="slds-modal__content slds-p-around_medium">
+					<div class="{!v.deal.StageName != 'Closed Won' &amp;&amp; v.deal.StageName != 'Expired' &amp;&amp; v.deal.StageName != 'Matured' ? 'slds-text-heading_small slds-text-align_center' : 'slds-hide'}">
+						Unable to create an Extension for a Deal not Closed Won.
+					</div>
+
+					<div class="{!v.deal.StageName == 'Closed Won' &amp;&amp; v.deal.StageName == 'Expired' &amp;&amp; v.deal.StageName == 'Matured' ? 'slds-hide' : ''}">
+
+						<aura:if isTrue="{!!v.inputScreen}">
+							<div aura:id="content">
+								<lightning:layout class="slds-m-bottom_medium slds-m-top_medium" horizontalAlign="end">
+
+							      	</lightning:layout>
+							      <div class="slds- modal__content slds-grid slds-grow" id="modal-content-id-1">
+
+							        <div class="slds-grid slds-grid_vertical">
+							       
+							          <div class="slds-scrollable slds-grow">
+							            <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
+							              <thead>
+							                <tr class="slds-line-height_reset">
+							                  <th scope="col" style="width: 3.75rem;"></th>
+							                  <th aria-label="Name" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+							                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
+							                      <span class="slds-assistive-text">Sort </span>
+							                      <span class="slds-truncate" title="Name">Name</span>
+							                      <div class="slds-icon_container">
+							                        <!-- <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+							                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+							                        </svg> -->
+							                      </div>
+							                      <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+							                    </a>
+							                    <div class="slds-resizable">
+							                      <label for="cell-resize-handle-1" class="slds-assistive-text">Name column width</label>
+							                      <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-1" tabindex="-1" />
+							                      <span class="slds-resizable__handle"> 
+							                        <span class="slds-resizable__divider"></span>
+							                      </span>
+							                    </div>
+							                  </th>
+							                  <th aria-label="Product Code" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+							                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
+							                      <span class="slds-assistive-text">Sort </span>
+							                      <span class="slds-truncate" title="Product Code">City</span>
+							                      <div class="slds-icon_container">
+							                        <!-- <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+							                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+							                        </svg> -->
+							                      </div>
+							                      <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+							                    </a>
+							                    <div class="slds-resizable">
+							                      <label for="cell-resize-handle-2" class="slds-assistive-text">Product Code column width</label>
+							                      <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-2" tabindex="-1" />
+							                      <span class="slds-resizable__handle">
+							                        <span class="slds-resizable__divider"></span>
+							                      </span>
+							                    </div>
+							                  </th>
+							                  <th aria-label="List Price" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+							                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
+							                      <span class="slds-assistive-text">Sort </span>
+							                      <span class="slds-truncate" title="List Price">State</span>
+							                      <div class="slds-icon_container">
+							                        <!-- <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+							                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+							                        </svg> -->
+							                      </div>
+							                      <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+							                    </a>
+							                    <div class="slds-resizable">
+							                      <label for="cell-resize-handle-3" class="slds-assistive-text">List Price column width</label>
+							                      <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-3" tabindex="-1" />
+							                      <span class="slds-resizable__handle">
+							                        <span class="slds-resizable__divider"></span>
+							                      </span>
+							                    </div>
+							                  </th>
+							                  <th aria-label="Product Family" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+							                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
+							                      <span class="slds-assistive-text">Sort </span>
+							                      <span class="slds-truncate" title="Product Family">Status</span>
+							                      <div class="slds-icon_container">
+							                        <!-- <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+							                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+							                        </svg> -->
+							                      </div>
+							                      <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+							                    </a>
+							                    <div class="slds-resizable">
+							                      <label for="cell-resize-handle-4" class="slds-assistive-text">Product Family column width</label>
+							                      <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-4" tabindex="-1" />
+							                      <span class="slds-resizable__handle">
+							                        <span class="slds-resizable__divider"></span>
+							                      </span>
+							                    </div>
+							                  </th>
+
+							                  <th aria-label="Product Family" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
+							                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
+							                      <span class="slds-assistive-text">Sort </span>
+							                      <span class="slds-truncate" title="Product Family">Approved Advance Amount</span>
+							                      <div class="slds-icon_container">
+							                        <!-- <svg class="slds-icon slds-icon_x-small slds-icon-text-default slds-is-sortable__icon" aria-hidden="true">
+							                          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#arrowdown"></use>
+							                        </svg> -->
+							                      </div>
+							                      <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+							                    </a>
+							                    <div class="slds-resizable">
+							                      <label for="cell-resize-handle-4" class="slds-assistive-text">Product Family column width</label>
+							                      <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-4" tabindex="-1" />
+							                      <span class="slds-resizable__handle">
+							                        <span class="slds-resizable__divider"></span>
+							                      </span>
+							                    </div>
+							                  </th>
+
+							                </tr>
+							              </thead>
+							              <tbody>
+							              	<aura:iteration items="{!v.properties}" var="property" indexVar="index">
+							              		<tr class="slds-hint-parent">
+							              		  <td role="gridcell" tabindex="0" class="slds-text-align_right" style="width: 3.75rem;">
+							              		    <div class="slds-checkbox_add-button">
+							              		      <input aura:id="checkbox" type="checkbox" class="slds-assistive-text" id="{!property.Id}" tabindex="-1" value="on" />
+							              		      <label for="{!property.Id}" class="slds-checkbox_faux">
+							              		        <span class="slds-assistive-text">Select item 1</span>
+							              		      </label>
+							              		    </div>
+							              		    <!-- <lightning:input type="checkbox" aura:id="checkbox" label="checkbox" name="{!'add-checkbox-' + index}" variant="label-hidden" /> -->
+							              		  </td>
+							              		  <th scope="row">
+							              		    <div class="slds-truncate" title="{!property.Name}">{!property.Name}</div>
+							              		  </th>
+							              		  <td role="gridcell">
+							              		    <div class="slds-truncate" title="{!property.City__c}">{!property.City__c}</div>
+							              		  </td>
+							              		  <td role="gridcell">
+							              		    <div class="slds-truncate" title="{!property.State__c}">{!property.State__c}</div>
+							              		  </td>
+							              		  <td role="gridcell">
+							              		    <div class="slds-truncate" title="{!property.Status__c}">{!property.Status__c}</div>
+							              		  </td>
+							              		  <td role="gridcell">
+							              		  	<lightning:formattedNumber value="{!property.Approved_Advance_Amount__c}" style="currency" currencyCode="USD" />
+							              		  </td>
+							              		</tr>
+							              	</aura:iteration>
+
+							              </tbody>
+							            </table>
+							          </div>
+							        </div>
+							      </div>
+							</div>
+
+							<aura:set attribute="else">
+								<div class="slds-form slds-form-element">
+									<div class="slds-grid slds-gutters slds-wrap">
+										<div class="slds-col slds-size_1-of-1 slds-m-top_small">
+											<label class="slds-form-element__label">Deal Name</label>
+											<div class="slds-form-element__control">
+												{!v.deal.Name}
+											</div>
+										</div>
+
+  										<!-- <dt class="slds-item_label slds-text-color_weak slds-truncate" title="First Label">
+											Extension
+										</dt>
+  										<dd class="slds-item_detail slds-truncate slds-m-bottom_medium" title="Description for first label">
+  											{!v.deal.Num_of_Property_Extensions__c}
+  										</dd> -->
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">Original Line Maturity Date</label>
+											<div class="slds-form-element__control">
+												<ui:outputDate value="{!v.deal.Original_Line_Maturity_Date__c}" format="MM/dd/yy" />
+											</div>
+										</div>
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">Current Line Maturity Date</label>
+											<div class="slds-form-element__control">
+												<ui:outputDate value="{!v.deal.Current_Line_Maturity_Date__c}" format="MM/dd/yy" />
+											</div>
+										</div>
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">Original Asset Maturity Date</label>
+											<div class="slds-form-element__control">
+												{!v.data.currentMaturityDate}
+											</div>
+										</div>
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">New Asset Maturity Date</label>
+											<div class="slds-form-element__control">
+												<ui:inputDate aura:id="maturdate" class="slds-m-bottom_medium" displayDatePicker="true" />
+											</div>
+										</div>
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">Original Asset Interest Rate</label>
+											<div class="slds-form-element__control">
+												{!v.data.currentInterestRate}
+											</div>
+										</div>
+										<div class="slds-col slds-size_1-of-2 slds-m-top_small">
+											<label class="slds-form-element__label">New Asset Interest Rate</label>
+											<div class="slds-form-element__control">
+												<ui:inputNumber aura:id="rate" format="#.##%" />
+											</div>
+										</div>			
+									</div>
+								</div>
+							</aura:set>
+
+						</aura:if>
+
+				</div>
+			</div>
+			<div class="slds-modal__footer">
+	        	<lightning:button onclick="{!c.closeModal}" label="Cancel"></lightning:button>
+	        	<lightning:button variant="brand" onclick="{!c.add}" label="Add" class="{!v.inputScreen &amp;&amp; (v.deal.StageName == 'Closed Won' || v.deal.StageName == 'Expired' || v.deal.StageName == 'Matured') ? 'slds-hide' : ''}" />
+	        	<lightning:button variant="brand" onclick="{!c.createExtension}" label="Create" class="{!v.inputScreen ? '' : 'slds-hide'}" />
+	      	</div>
+		</div>
+	</div>
+	<div class="slds-backdrop slds-backdrop_open" />
+		 <!-- </div> -->
+
+</aura:component>

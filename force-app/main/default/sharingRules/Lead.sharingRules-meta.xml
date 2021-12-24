@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>House_Leads</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>Grants access to Leads owned by the House Account</description>
+        <label>House Leads</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Origination_Manager</roleAndSubordinatesInternal>
+        </sharedTo>
+        <criteriaItems>
+            <field>OwnerId</field>
+            <operation>equals</operation>
+            <value>0050a00000LMH2UAAX</value>
+        </criteriaItems>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>Share_with_Operations</fullName>
+        <accessLevel>Edit</accessLevel>
+        <description>This will share Leads with Operations Users</description>
+        <label>Share with Operations</label>
+        <sharedTo>
+            <role>Operations</role>
+        </sharedTo>
+        <sharedFrom>
+            <roleAndSubordinatesInternal>Origination_Manager</roleAndSubordinatesInternal>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Lock_Deal_When_Trade_is_Completed</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL( Trade__r.Status__c , &apos;Completed&apos;) &amp;&amp;  $Profile.Name != &apos;System Administrator&apos;</errorConditionFormula>
+    <errorMessage>Can not modify a deal once the Trade is completed.</errorMessage>
+</ValidationRule>

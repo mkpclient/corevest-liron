@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>CURTIS.MAYBIN@5ARCH.COM</contactEmail>
+    <contactPhone>9493877915</contactPhone>
+    <label>Saleforce2QradarLogs</label>
+    <oauthConfig>
+        <callbackUrl>https://cvest.my.salesforce.com/</callbackUrl>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdCXZar3sleLSQVyt72c9w.h_xACD0l6H312uAuqsypJxtoN.Cq6hViQE_3aA</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Api</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>BYPASS</ipRelaxation>
+        <refreshTokenPolicy>zero</refreshTokenPolicy>
+    </oauthPolicy>
+    <profileName>B2BMA Integration User</profileName>
+    <profileName>Analytics Cloud Security User</profileName>
+    <profileName>Analytics Cloud Integration User</profileName>
+    <profileName>Integration</profileName>
+</ConnectedApp>

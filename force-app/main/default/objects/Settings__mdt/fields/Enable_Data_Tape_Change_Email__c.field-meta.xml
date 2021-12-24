@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Data_Tape_Change_Email__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Disables or Enables the Email Alert that is sent out when a Property is added/removed from a Data Tape</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Disables or Enables the Email Alert that is sent out when a Property is added/removed from a Data Tape</inlineHelpText>
+    <label>Enable Data Tape Change Email</label>
+    <securityClassification>Internal</securityClassification>
+    <type>Checkbox</type>
+</CustomField>

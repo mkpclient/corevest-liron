@@ -1,0 +1,98 @@
+<aura:component controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickAction">
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Property__c" />
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="stageName" type="String" default="" />
+  <aura:attribute name="propertyList" type="Object[]" />
+
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="allowDelete" type="Boolean" default="false" />
+  <aura:attribute name="dateCols" type="String[]" />
+  <aura:attribute name="errorMessages" type="List" />
+  <aura:attribute name="errorTitle" type="String" /> 
+
+  <ltng:require scripts="{!join(',',
+							$Resource.handsontable + '/handsontable/handsontable.full.min.js',
+							$Resource.xlsx_populate)
+						}" styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+    afterScriptsLoaded="{!c.init}" />
+
+  <div class="row">
+    <div>
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+            </span>
+          </div>
+          <div class="slds-media__body"> </div>
+          <div>
+            <lightning:buttonGroup>
+              <lightning:button label="Return to Deal" onclick="{!c.navigateToRecord}" />
+              <lightning:button label="Export" onclick="{!c.openExportModal}" />
+            </lightning:buttonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <aura:if isTrue="{!!empty(v.errorMessages)}">
+        <div>
+          <ui:message title="{!v.errorTitle}" severity="error" closable="false">
+            <aura:iteration items="{!v.errorMessages}" var="msg">
+              <p>{!msg}</p>
+            </aura:iteration>
+          </ui:message>
+        </div>
+      </aura:if>
+    </div>
+    <div class="flex">
+      <div style="height: 100%">
+        <lightning:spinner variant="brand" alternativeText="Loading" aura:id="spinner" class="slds-hide" />
+        <div style="height: 100%">
+          <ui:scrollerWrapper class="scrollerSize">
+            <c:hotTable data="{!v.propertyList}" aura:id="hot-table" readOnly="{!v.readOnly}"
+              allowDelete="{!v.allowDelete}" fixedColumnsLeft="3">
+              <aura:set attribute="columns">
+                  <!--related propert record start here -->
+                  
+                  <c:hotColumn data="_" title=" " />
+                  
+                  <c:hotColumn data="propertyType" title="Property Type" type="text" readOnly="true" />
+                  <c:hotColumn data="propertyName" title="Address" type="text" readOnly="true" />
+                  <c:hotColumn data="propertyCity" title="City" type="text" readOnly="true" />
+                  <c:hotColumn data="propertyState" title="State" type="text" readOnly="true" />
+                  <c:hotColumn data="propertyZip" title="Zip" type="text" readOnly="true" />
+             
+                  <!-- dupe record start here -->
+                  <c:hotColumn data="active" title="Active" type="text" readOnly="true" />
+                  <!--<c:hotColumn data="possibleDuplicate" title="Possible Duplicate" type="text" readOnly="true" />--> 
+                  <c:hotColumn data="score" title="Score" type="text" readOnly="true" /> 
+                  
+                  <c:hotColumn data="_" title=" " />
+                  
+                  <c:hotColumn data="recordType" title="Record Type" type="text" readOnly="true" /> 
+                  <c:hotColumn data="dealStage" title="Deal Stage" type="text" readOnly="true" />                  
+                  <!--<c:hotColumn data="propName" title="Property Name" type="text" readOnly="true" />--> 
+                  <c:hotColumn data="address" title="Address" type="text" readOnly="true" />
+                  <c:hotColumn data="city" title="City" type="text" readOnly="true" />
+                  <c:hotColumn data="state" title="State" type="text" readOnly="true" />
+                  <c:hotColumn data="zip" title="ZIP" type="text" readOnly="true" />
+                  <c:hotColumn data="APN" title="APN" type="text" readOnly="true" />
+                  <c:hotColumn data="Status" title="Status" type="text" readOnly="true" />
+                  
+                  <!--   <c:hotColumn data="_" title=" " /> -->
+                  <c:hotColumn data="LoanType" title="Loan Type" type="text" readOnly="true" />
+                  <c:hotColumn data="servicerLoanNumber" title="Servicer Loan Number" type="text" readOnly="true" />
+                  <c:hotColumn data="servicerInvestorLoanNumber" title="Servicer Investor Loan Number (Yardi)" type="text" readOnly="true" />
+                  <c:hotColumn data="projectedPayoffDate" title="Projected Payoff Date" type="text" readOnly="true" />
+              </aura:set>
+            </c:hotTable>
+          </ui:scrollerWrapper>
+        </div>
+      </div>
+    </div>
+  </div>
+  <c:DupeCheckPropertyExport aura:id="export" recordId="{!v.recordId}" exportAction="{!c.export}" />
+</aura:component>

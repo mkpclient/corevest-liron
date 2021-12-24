@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Owner_Change_when_Protected</fullName>
+    <active>true</active>
+    <description>This will prevent users form changing the Owner when the Contact is Protected</description>
+    <errorConditionFormula>AND( ISCHANGED( OwnerId ) , 
+Protected_Contact__c = true,
+PRIORVALUE(OwnerId ) &lt;&gt;  $User.Id ,
+NOT($Profile.Name= &quot;System Administrator&quot;),
+NOT($Profile.Name= &quot;Origination Manager&quot;))</errorConditionFormula>
+    <errorMessage>The Owner cannot be changed on a Protected Contact.  Only the current Owner or Originations Manager can update the Owner of this record.</errorMessage>
+</ValidationRule>

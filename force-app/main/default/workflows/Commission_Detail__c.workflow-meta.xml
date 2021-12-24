@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Commission_Approval_Email_Alert</fullName>
+        <description>Commission Approval Email Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Commission_Email_Templates/Commission_Type_Approval_HTML</template>
+    </alerts>
+    <alerts>
+        <fullName>Commission_Details_Type_Approved</fullName>
+        <description>Commission Details Type Approved</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>brad.chmura@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Commission_Email_Templates/Commission_Detail_Type_Approved</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Pending_Approval_Status</fullName>
+        <description>Updates the Approval Status to Pending</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Pending</literalValue>
+        <name>Pending Approval Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Approval_Status</fullName>
+        <description>Updates the Approval Status on the Commission Detail Record</description>
+        <field>Approval_Status__c</field>
+        <literalValue>Approved</literalValue>
+        <name>Update Approval Status</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

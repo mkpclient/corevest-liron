@@ -1,0 +1,64 @@
+<aura:component>
+  <aura:attribute name="possibilities" type="Object[]" />
+  <aura:attribute name="selectedAttachments" type="Object[]" />
+
+  <label class="slds-form-element__label">Selected Attachments</label>
+  <div class="possibleAttachments">
+    <table
+      role="grid"
+      class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none"
+    >
+      <tbody>
+        <aura:iteration
+          items="{!v.possibilities}"
+          var="attachment"
+          indexVar="idx"
+        >
+          <tr class="slds-hint-parent">
+            <td
+              role="gridcell"
+              tabindex="0"
+              class="slds-text-align_right"
+              style="width: 3.75rem;"
+            >
+              <div class="slds-checkbox_add-button">
+                <input
+                  type="checkbox"
+                  class="slds-assistive-text"
+                  id="{!'add-checkbox-' + idx}"
+                  tabindex="-1"
+                  value="on"
+                  onclick="{!c.selectAttachment}"
+                  data-recordid="{!attachment.Id}"
+                  data-type="{!attachment.Type}"
+                  data-record="{!attachment.Name}"
+                  data-description="{!attachment.Description}"
+                  data-state="unselected"
+                />
+                <label
+                  for="{!'add-checkbox-' + idx}"
+                  class="slds-checkbox_faux"
+                >
+                  <span class="slds-assistive-text">Select item {!idx}</span>
+                </label>
+              </div>
+            </td>
+            <th scope="row">
+              <div
+                class="slds-truncate"
+                title="{!attachment.Name}"
+                data-description="{!attachment.Description}"
+                data-recordid="{!attachment.Id}"
+                ><a
+                  href="{!'#/sObject/' + attachment.Id + '/view'}"
+                  target="_blank"
+                  >{!attachment.Name}</a
+                ></div
+              >
+            </th>
+          </tr>
+        </aura:iteration>
+      </tbody>
+    </table>
+  </div>
+</aura:component>

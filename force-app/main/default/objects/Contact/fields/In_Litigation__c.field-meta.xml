@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>In_Litigation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Contact is associated to a litigation case</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please make sure the &quot;In Litigation&quot; field on related contacts are unchecked.</inlineHelpText>
+    <label>In Litigation</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>true</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

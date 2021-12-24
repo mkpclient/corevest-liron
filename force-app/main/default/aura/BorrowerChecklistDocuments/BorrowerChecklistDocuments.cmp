@@ -1,0 +1,521 @@
+<aura:component
+  controller="BorrowerChecklistController"
+  implements="forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="wrappers" type="List" />
+  <aura:attribute name="userId" type="String" />
+  <aura:attribute name="selectedDocId" type="String" />
+  <aura:attribute name="selectedDocIdList" type="String" />
+  <aura:attribute name="docInfo" type="Map" />
+  <aura:attribute name="isCommunity" type="Boolean" />
+
+  <aura:attribute name="documentList" type="List" />
+  <aura:attribute name="initAction" type="Aura.Action" />
+  <aura:attribute name="paginationEnabled" type="Boolean" default="false" />
+  <aura:attribute name="pageSize" type="Integer" default="10" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+
+  <aura:attribute name="selectedWrappers" type="List" />
+  <aura:method name="refreshChecklists" action="{!c.init}" access="PUBLIC" />  
+  <!-- <aura:handler name="" -->
+
+  <aura:handler
+    name="onSaveSuccess"
+    event="force:recordSaveSuccess"
+    action="{!c.handleSaveSuccess}"
+  />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+  <aura:if isTrue="{!v.paginationEnabled}">
+    <div class="slds-text-align_center slds-m-bottom_medium">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div
+        >{!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.wrappers.length ?
+        (v.currentPage)*v.pageSize : v.wrappers.length) + ' of ' +
+        v.wrappers.length}
+      </div>
+    </div>
+  </aura:if>
+
+  <ui:scrollerWrapper class="scroller">
+    <table
+      class="slds-table slds-table_cell-buffer slds-table_bordered"
+      style=""
+    >
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th class="slds-text-title_caps" scope="col">
+            <div class="wrapText" title="Document Type"
+              >Document/ Deliverable</div
+            >
+          </th>
+          <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Uploaded Status">Uploaded Status</div>
+          </th>
+          <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Uploaded Date">Uploaded Date</div>
+          </th>
+          <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Reviewed Status">Reviewed Status</div>
+          </th>
+          <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Reviewed Date">Reviewed Date</div>
+          </th>
+
+          <th
+            class="slds-text-title_caps slds-text-align_center"
+            scope="col"
+            style="width:50px;"
+          >
+            <div class="wrapText" title="Comments">Comments</div>
+          </th>
+          <aura:if isTrue="{!!v.isCommunity}">
+            <th class="slds-text-title_caps slds-text-align_center" scope="col">
+              <div class="wrapText" title="Intenal Comments"
+                >Internal Comments</div
+              >
+            </th>
+          </aura:if>
+
+          <th class="slds-text-title_caps slds-text-align_center" scope="col">
+            <div class="wrapText" title="Upload Document">Upload Document</div>
+          </th>
+          <th class="" scope="col" style="width: 100px">
+            <div class="wrapText slds-assistive-text" title="Actions"
+              >Actions</div
+            >
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <aura:iteration items="{!v.selectedWrappers}" var="wrapper">
+          <aura:if
+            isTrue="{! and(wrapper.documentWrappers.length > 0, !and(v.isCommunity, wrapper.excludeSection))}"
+          >
+            <tr style="background: rgb(243, 242, 242);">
+              <td
+                colspan="{!v.isCommunity ? 8 : 9}"
+                style="padding-left: .75rem"
+              >
+                <div class="slds-accordion__summary">
+                  <h2 class="{!v.isCommunity ? 'slds-accordion__summary-heading slds-p-top_small slds-p-bottom_small' : 'slds-accordion__summary-heading'}">
+                    <button
+                      class="slds-button slds-button_reset slds-accordion__summary-action"
+                      type="button"
+                    >
+                      <lightning:icon
+                        class="slds-m-right_small"
+                        iconName="utility:chevrondown"
+                        size="x-small"
+                      />
+                      <span class="" title="{!wrapper.section}">
+                        {!wrapper.section}
+                      </span>
+                    </button>
+                  </h2>
+                </div>
+              </td>
+            </tr>
+          </aura:if>
+
+          <aura:iteration items="{!wrapper.documentWrappers}" var="document">
+            <aura:if
+              isTrue="{! !and(v.isCommunity, document.excludeFromLoanStatus)}"
+            >
+              <tr
+                class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'excludeRow' :''}"
+              >
+                <th
+                  data-label="Document Type"
+                  scope="row"
+                  class="slds-text-align_left"
+                >
+                  <aura:if isTrue="{!empty(document.documentId)}">
+                    <lightning:formattedText
+                      class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'strikeThrough wrapText' :'wrapText '}"
+                      value="{!document.documentType}"
+                    />
+                    <aura:if isTrue="{!document.isConfidential}">
+                      <lightning:helptext
+                        content="This Document is Confidential, it can only be viewed by the uploader"
+                      />
+                    </aura:if>
+
+                    <aura:set attribute="else">
+                      <a
+                        href="javascript:void()"
+                        title="{!document.docInfoId}"
+                        class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'strikeThrough wrapText' :'wrapText'}"
+                        onclick="{!c.viewFiles}"
+                        >{!document.documentType} ({!document.documentCount})</a
+                      >
+                    </aura:set>
+                  </aura:if>
+                </th>
+
+                <td data-label="Confidence" class="slds-text-align_center">
+                  <lightning:icon
+                    class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'slds-hide' :'slds-m-right_small'}"
+                    iconName="{!!empty(document.addedOn) ? 'action:approval' : 'action:close'}"
+                    size="x-small"
+                  />
+                </td>
+                <td data-label="">
+                  <ui:outputDate value="{!document.addedOn}" />
+                </td>
+                <td data-label="Confidence" class="slds-text-align_center">
+                  <lightning:icon
+                    class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'slds-hide' :'slds-m-right_small'}"
+                    iconName="{!!empty(document.reviewedOn) ? 'action:approval' : 'action:close'}"
+                    size="x-small"
+                  />
+                </td>
+                <td data-label="">
+                  <ui:outputDate value="{!document.reviewedOn}" />
+                </td>
+
+                <td data-label="" style="width:300px">
+                  <div
+                    class="breakWord"
+                    style="white-space: normal; word-break: break-word;"
+                    title=""
+                    >{!document.comments}</div
+                  >
+                </td>
+                <aura:if isTrue="{!!v.isCommunity}">
+                  <td data-label="" style="width:300px">
+                    <div
+                      class="breakWord"
+                      style="white-space: normal; word-break: break-word;"
+                      title=""
+                      >{!document.internalComments}</div
+                    >
+                  </td>
+                </aura:if>
+
+                <td data-label="">
+                  <lightning:fileUpload
+                    class="{!and(!v.isCommunity, document.excludeFromLoanStatus) ? 'slds-hide' :'slds-m-right_small slds-truncate'}"
+                    name="{!document.propertyId}"
+                    onuploadfinished="{!c.handleUpload}"
+                    title="{!document.structureString + '|' + document.documentType}"
+                    recordId="{!v.userId}"
+                    label="test label"
+                  />
+                </td>
+
+                <td style="width: 100px; text-align:right;">
+                  <!-- <aura:if -->
+                  <lightning:buttonMenu
+                    aura:id="menu"
+                    onselect="{!c.openEditModal}"
+                  >
+                    <lightning:menuItem
+                      value="{!document.docInfoId}"
+                      label="Edit"
+                      disabled="{!empty(document.docInfoId)}"
+                    >
+                    </lightning:menuItem>
+                  </lightning:buttonMenu>
+                </td>
+              </tr>
+            </aura:if>
+          </aura:iteration>
+        </aura:iteration>
+      </tbody>
+    </table>
+  </ui:scrollerWrapper>
+
+  <aura:if isTrue="{!v.paginationEnabled}">
+    <div class="slds-text-align_center slds-m-bottom_medium">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div
+        >{!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.wrappers.length ?
+        (v.currentPage)*v.pageSize : v.wrappers.length) + ' of ' +
+        v.wrappers.length}
+      </div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.selectedDocId)}">
+    <div class="demo-only" style="height: 640px;">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+              >Edit Document</h2
+            >
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium"
+            id="modal-content-id-1"
+          >
+            <div class="slds-section slds-is-open">
+              <!-- <h3 class="slds-section__title slds-theme_shade">
+                        <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Section Title</span>
+                      </h3> -->
+              <!-- <div aria-hidden="false" class="slds-section__content">
+                        <lightning:textarea value="{!v.docInfo.External_Comments__c}" class="edit" label="Comments" name="comments"></lightning:textarea>
+                      </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                          <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Internal Only</span>
+                        </h3>
+                        <div aria-hidden="false" class="slds-section__content">
+                          <lightning:input class="edit" type="checkbox" checked="{!v.docInfo.Required_for_Borrower_Checklist__c}" label="Include In Borrower Checklist" name="includeInBorrowerChecklist" />
+                        </div>
+                      </div> -->
+
+              <force:recordEdit aura:id="edit" recordId="{!v.selectedDocId}" />
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModal}"
+              >Cancel</button
+            >
+            <button class="slds-button slds-button_brand" onclick="{!c.save}"
+              >Save</button
+            >
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{! !empty(v.selectedDocIdList)}">
+    <div class="demo-only" style="height: 640px;">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+              >Document List</h2
+            >
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_medium slds-is-relative"
+            id="modal-content-id-1"
+            style="    min-height: 100px;"
+          >
+            <div class="slds-section slds-is-open">
+              <lightning:spinner
+                aura:id="listSpinner"
+                variant="brand"
+              ></lightning:spinner>
+
+              <table
+                class="slds-table slds-table_cell-buffer slds-table_bordered"
+              >
+                <thead>
+                  <tr class="slds-line-height_reset">
+                    <th
+                      class="slds-text-align_right"
+                      scope="col"
+                      style="width:3.25rem"
+                    >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="File Name"
+                        >File Name</div
+                      >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Reviewed On"
+                        >Reviewed On</div
+                      >
+                    </th>
+                    <th class="" scope="col">
+                      <div class="slds-truncate" title="Reviewed By"
+                        >Reviewed By</div
+                      >
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <aura:iteration items="{!v.documentList}" var="doc">
+                    <tr class="slds-hint-parent">
+                      <td>
+                        <lightning:input
+                          type="checkbox"
+                          label="hidden"
+                          variant="label-hidden"
+                          checked="{!doc.checked}"
+                        ></lightning:input>
+                      </td>
+                      <td title="{!doc.Attachment_Id__c}" scope="row">
+                        <div class="" title="{!doc.Attachment_Id__c}">
+                          <a
+                            href="javascript:void(0);"
+                            onclick="{!c.viewFile}"
+                            title="{!doc.Attachment_Id__c}"
+                            >{!doc.File_Name__c}</a
+                          >
+                        </div>
+                      </td>
+
+                      <td>
+                        <ui:outputDate value="{!doc.Reviewed_On__c}" />
+                      </td>
+                      <td>
+                        <div class="" title="{!doc.Reviewed_By__c}"
+                          >{!doc.Reviewed_By__r.Name}</div
+                        >
+                      </td>
+                    </tr>
+                  </aura:iteration>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <footer class="slds-modal__footer">
+            <button
+              class="slds-button slds-button_neutral"
+              onclick="{!c.closeEditModalList}"
+              >Close</button
+            >
+            <aura:if isTrue="{!!v.isCommunity}">
+              <lightning:button
+                variant="brand"
+                label="Review"
+                onclick="{!c.review}"
+                aura:id="reviewBtn"
+              ></lightning:button>
+            </aura:if>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+</aura:component>

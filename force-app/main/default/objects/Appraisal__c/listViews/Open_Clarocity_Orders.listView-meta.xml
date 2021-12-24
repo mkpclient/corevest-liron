@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Open_Clarocity_Orders</fullName>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Property__c</columns>
+    <columns>Appraisal_Product_Ordered__c</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Status__c</columns>
+    <columns>Appraisal_Due_Date_Time__c</columns>
+    <columns>Estimated_Completion_Date__c</columns>
+    <columns>UPDATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Appraisal_Firm_Transaction_ID__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <filters>
+        <field>Vendor_Ordered_From__c</field>
+        <operation>equals</operation>
+        <value>Clarocity Valuation Services</value>
+    </filters>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Complete-Delivered</value>
+    </filters>
+    <label>Open Clarocity Orders</label>
+</ListView>

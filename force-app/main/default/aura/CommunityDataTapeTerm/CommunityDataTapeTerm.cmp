@@ -1,0 +1,162 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  controller="CommunityController"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="propertyList" type="Object[]" />
+
+  <aura:attribute name="readOnly" type="Boolean" default="false" />
+  <aura:attribute name="allowDelete" type="Boolean" default="false" />
+
+  <ltng:require scripts="{!join(',',
+              $Resource.handsontable + '/handsontable/handsontable.full.min.js',
+              $Resource.xlsx_populate)
+            }" styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+    afterScriptsLoaded="{!c.init}" />
+
+  <div class="row">
+    <div>
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+            </span>
+          </div>
+          <div class="slds-media__body"> </div>
+          <div>
+            <lightning:buttonGroup>
+              <lightning:button label="Return to Deal" onclick="{!c.navigateToRecord}" />
+              <lightning:button label="Export" onclick="{!c.openExportModal}" />
+            </lightning:buttonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex slds-m-top_small">
+      <div style="height: 100%">
+        <lightning:spinner variant="brand" alternativeText="Loading" aura:id="spinner" class="slds-hide" />
+        <div style="height: 100%">
+          <ui:scrollerWrapper class="scrollerSize">
+            <c:hotTable data="{!v.propertyList}" aura:id="hot-table" readOnly="true" fixedColumnsLeft="3">
+              <aura:set attribute="columns">
+                <c:hotColumn readOnly="true" data="Asset_ID__c" title="Asset Id"  />
+                <c:hotColumn readOnly="true" data="_" title=""  />
+                <c:hotColumn readOnly="true" data="Property_Name__c" title="Property Name (Parent Property)" />
+                <c:hotColumn readOnly="true" data="APN__c" title="APN" />
+                <c:hotColumn readOnly="true" data="Property_Type__c" title="Property Type" type="dropdown"
+                  source="['2-4 Unit','Condo','Mixed Use','Multi-Unit','SFR','Townhome']" />
+                <c:hotColumn readOnly="true" data="Name" title="Address" />
+                <c:hotColumn readOnly="true" data="City__c" title="City" />
+                <c:hotColumn readOnly="true" data="State__c" title="State" />
+                <c:hotColumn readOnly="true" data="ZipCode__c" title="ZIP" />
+                <c:hotColumn readOnly="true" data="County__c" title="County" />
+                <c:hotColumn readOnly="true" data="Number_of_Units__c" title="# of Units" type="numeric"
+                  notRequiredForChildren="true" />
+                <c:hotColumn readOnly="true" data="Number_of_Beds__c" title="BD" type="numeric" />
+                <c:hotColumn readOnly="true" data="Number_of_Bath__c" title="BA" type="numeric" format="0.0" />
+                <c:hotColumn readOnly="true" data="Square_Feet__c" title="SF" type="text" />
+                <c:hotColumn readOnly="true" data="Year_Built__c" title="Year Built" type="text" />
+                <c:hotColumn readOnly="true" data="Air_Conditioning__c" title="A/C" type="dropdown" source="['Y', 'N']" />
+                <c:hotColumn readOnly="true" data="Pool__c" title="Pool" type="dropdown" source="['Y', 'N']" />
+                <c:hotColumn readOnly="true" data="Section_8__c" title="Section 8" type="dropdown" source="['Y', 'N']"
+                 />
+                <c:hotColumn readOnly="true" data="Condition__c" title="Condition" type="text" />
+                <c:hotColumn readOnly="true" data="Zoning_Compliance__c" title="Legally Conforming" type="text"/>
+
+                <c:hotColumn readOnly="true" data="_" title=" " />
+
+                <c:hotColumn readOnly="true" data="Acquisition_Date__c" title="Acquisition Date" type="date" dateFormat="MM/DD/YYYY"
+                  correctFormat="true" notRequiredForChildren="true" />
+                <c:hotColumn readOnly="true" data="Acquisition_Price__c" title="Acquisition Price" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Acquisition_Type__c" title="Acquisition Type" type="text" />
+                <c:hotColumn readOnly="true" data="Transaction_Costs__c" title="Transaction Costs" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Rehab_Costs__c" title="Rehab Costs" type="numeric" format="$0,0.00"
+                 />
+                <c:hotColumn readOnly="true" data="Rehab_Completion_Date__c" title="Rehab Completion Date" type="date"
+                  dateFormat="MM/DD/YYYY" correctFormat="true" />
+                <c:hotColumn readOnly="true" data="Total_Basis__c" title="Total Basis" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Borrower_Opinion_of_Current_Value__c"
+                  title="Borrower Opinion of Current Market Value" type="numeric" format="$0,0.00"
+                  notRequiredForChildren="true" />
+                <c:hotColumn readOnly="true" data="Calc_AveValue__c" title="Calculated Value" type="numeric"
+                  format="$0,0.00" allowEmpty="true" />
+                <c:hotColumn readOnly="true" data="Appraisal_Form__c" title="Appraisal Form" type="text" allowEmpty="true" />
+                <c:hotColumn readOnly="true" data="BPO_Appraisal_Date__c" title="Effective Date" type="date" dateFormat="MM/DD/YYYY"
+                  correctFormat="true" allowEmpty="true" />
+                <c:hotColumn readOnly="true" data="Appraised_Value_Amount__c" title="Appraisal Value" type="numeric" format="$0,0.00"
+                  allowEmpty="true" />
+                <c:hotColumn readOnly="true" data="ALA__c" title="ALA" type="numeric" format="$0,0.00" />
+
+                <c:hotColumn readOnly="true" data="_" title=" " />
+
+                <c:hotColumn readOnly="true" data="Currently_Leased__c" title="Currently Leased? (Y/N)" type="dropdown"
+                  source="['Y', 'N']" />
+                <c:hotColumn readOnly="true" data="Lease_Ready__c" title="Lease Ready" type="dropdown" source="['Y', 'N']"
+                 />
+                <c:hotColumn readOnly="true" data="Lease_Start_Date__c" title="Lease Start Date" type="date" dateFormat="MM/DD/YYYY"
+                  correctFormat="true" />
+                <c:hotColumn readOnly="true" data="Lease_End_Date__c" title="Lease End Date" type="date" dateFormat="MM/DD/YYYY"
+                  correctFormat="true" />
+                <c:hotColumn readOnly="true" data="Lease_Term__c" title="Lease Term" />
+
+                <c:hotColumn readOnly="true" data="_" title=" " />
+
+                <c:hotColumn readOnly="true" data="Monthly_Rent__c" title="Monthly Rent" type="numeric" format="$0,0.00"
+                 />
+                <c:hotColumn readOnly="true" data="Security_Deposit__c" title="Security Deposit" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Other_Income__c" title="Other Income" type="numeric" format="$0,0.00" />
+
+                <c:hotColumn readOnly="true" data="_" title=" " />
+
+                <!--<c:hotColumn readOnly="true" data="Annual_HOA_Fee__c" title="HOA" type="numeric" format="$0,0.00"
+                  notRequiredForChildren="true" />
+                <c:hotColumn readOnly="true" data="Special_Assesments_CFD_Mello_Roos_etc__c" title="Special Assessments" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Annual_Taxes__c" title="Taxes" type="numeric" format="$0,0.00"
+                  notRequiredForChildren="true" />
+                <c:hotColumn readOnly="true" data="Annual_Insurance__c" title="Insurance" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Annual_Managment_Fee__c" title="Property Management" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Maintenance_Repairs__c" title="Maintenance/ Repairs" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Owner_Paid_Utilities__c" title="Owner Paid Utilities" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Annual_Landscaping_Expense__c" title="Landscaping Expense" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Other_Expenses__c" title="Other Expenses" type="numeric" format="$0,0.00" />
+
+                  <c:hotColumn readOnly="true" data="_" title="" />
+
+                <c:hotColumn readOnly="true" data="Lease_Up_Marketing__c" title="Lease Up/Marketing" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Vacancy_Repairs__c" title="Vacancy Repairs/Maintenance" type="numeric"
+                  format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Credit_Loss__c" title="Credit Loss" type="numeric" format="$0,0.00" />
+
+                <c:hotColumn readOnly="true" data="_" title="" />
+                <c:hotColumn readOnly="true" title="Total Expenses" data="Annual_Total_Expenses__c" type="numeric" format="$0,0.00"
+                  correctFormat="true"  />
+                <c:hotColumn readOnly="true" data="_" title="" />
+
+                <c:hotColumn readOnly="true" data="Cap_Ex_Reserves__c" title="CapEx Reserves" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Other_Reserves__c" title="Other Reserves" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="_" title="" />
+                <c:hotColumn readOnly="true" data="Annual_NOI__c" title="NOI" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="_" title="" />-->
+                <c:hotColumn readOnly="true" data="Property_Manager__c" title="Assigned PM Company (By property)" type="text" />
+                <c:hotColumn readOnly="true" data="Existing_Debt__c" title="Existing Debt" type="numeric" format="$0,0.00" />
+                <c:hotColumn readOnly="true" data="Asset_Maturity_Date_Override__c" title="Date of Maturity" type="date"
+                  dateFormat="MM/DD/YYYY" correctFormat="true" />
+                <c:hotColumn readOnly="true" data="Current_Interest_Rate__c" title="Interest Rate" type="numeric" format="0.000" />
+                <c:hotColumn readOnly="true" data="Are_Payments_Current__c" title="Are payments current" type="dropdown"
+                  source="['Y', 'N']" />
+                <c:hotColumn readOnly="true" data="Refinance_Acquisition__c" title="Refinance / Acquisition" type="dropdown"
+                  source="['Refinance', 'Acquisition']" notRequiredForChildren="true" />
+              </aura:set>
+            </c:hotTable>
+          </ui:scrollerWrapper>
+        </div>
+      </div>
+    </div>
+  </div>
+  <c:TermPropertyExport aura:id="export" recordId="{!v.recordId}" exportAction="{!c.export}" />
+</aura:component>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Loss_Mitigation_Associate__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The Loss Mitigation Associate working with the Borrower</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The Loss Mitigation Associate working with the Borrower</inlineHelpText>
+    <label>Loss Mitigation Associate</label>
+    <lookupFilter>
+        <active>false</active>
+        <filterItems>
+            <field>User.For_Lookup_Filters__c</field>
+            <operation>contains</operation>
+            <value>Loss Mitigation</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Deals3</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

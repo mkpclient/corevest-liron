@@ -1,0 +1,12 @@
+<design:component >
+    <design:attribute name="title" label="Title" />
+    <design:attribute name="sobjectType" label="sObject API Name" />
+    <design:attribute name="parentFieldName" label="Parent API Field Name" />
+    <design:attribute name="whereClause" label="Where Clause" />
+    <design:attribute name="appName" label="App Name" datasource="Asset Management,Bridge Pending,Bridge Active,Bridge Reno Funding,Bridge Paid Off,Bridge Cancelled,Bridge On Hold"/>
+    <design:attribute name="pageSize" label="Page Size" />
+    <design:attribute name="createAdvance" label="Show Create Advance Button" default="true" />
+    <design:attribute name="showGenerateDocsButton" label= "Show Generate Doc Button" default="true" />
+    <design:attribute name="showCreatePropertyButton" label= "Show Create Property Button" default="true" />
+    <design:attribute name="showAssignRefinanceDeal" label="Show Assign Refinance Deal Button" />
+</design:component>

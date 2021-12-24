@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Projected_Reno_Advance_Amount__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Deal__r.Renovation_Funding__c, &apos;No&apos;), 0,
+  MIN(
+    IF(NOT(ISPICKVAL(Deal__r.LOC_Loan_Type__c, &quot;Single Asset (1-4 Unit)&quot;)) &amp;&amp; NOT(ISPICKVAL(Deal__r.LOC_Loan_Type__c, &quot;Single Asset (5-10 Unit)&quot;)),
+    MIN(
+      Borrower_Opinion_of_ARV__c*Deal__r.Total_ARV_LTV__c, 
+      Total_Cost_Basis__c*Deal__r.Total_Loan_LTC__c) - 
+      MIN(
+        Borrower_Opinion_of_Current_Value__c*Deal__r.LTV__c,
+        (Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c,&apos;Yes&apos;),Approved_Completed_Rehab_Costs__c,0))*Deal__r.LTC__c),
+      Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c),
+      Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c,
+      Acquisition_Price__c * Deal__r.Renovation_Limit__c,
+      Rehab_Budget__c
+))</formula>
+    <label>Projected Reno Advance Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

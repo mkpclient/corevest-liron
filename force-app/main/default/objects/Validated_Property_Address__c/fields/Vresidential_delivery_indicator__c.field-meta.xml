@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vresidential_delivery_indicator__c</fullName>
+    <description>Residential Delivery Indicator (residential or commercial)
+
+Residential — The address is a residential address.
+Commercial — The address is a commercial address.
+[blank] — This happens when the address is invalid or we don&apos;t have enough information to ascertain RDI status. The SmartyList tools translate a [blank] RDI value to &quot;Unknown&quot;.
+Note: For some reason, known only to the US Postal Service, PO Boxes are always marked as &quot;Residential&quot;.</description>
+    <externalId>false</externalId>
+    <label>Verified residential delivery indicator</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

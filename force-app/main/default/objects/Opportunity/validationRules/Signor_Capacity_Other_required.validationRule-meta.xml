@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Signor_Capacity_Other_required</fullName>
+    <active>true</active>
+    <description>This validation rule will check whether the Signor_Capacity_Other field is blank or not when the Signor_Capacity field value is &quot;Other&quot;</description>
+    <errorConditionFormula>AND
+( 
+ISPICKVAL(Signor_Capacity__c, &quot;Other&quot;), 
+ISBLANK(Signor_Capacity_Other__c )
+)</errorConditionFormula>
+    <errorDisplayField>Signor_Capacity_Other__c</errorDisplayField>
+    <errorMessage>Field is required.</errorMessage>
+</ValidationRule>

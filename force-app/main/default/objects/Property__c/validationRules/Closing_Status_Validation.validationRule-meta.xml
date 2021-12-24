@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Closing_Status_Validation</fullName>
+    <active>true</active>
+    <description>This will prevent a Closing Status if certain fields are missing data</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Status__c),
+ ISPICKVAL( Status__c , &apos;Closing&apos;),
+ PRIORVALUE(Status__c) != &apos;Pending&apos;, 
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ OR(
+  CONTAINS(RecordType.Name, &apos;Ground Up&apos;),
+  CONTAINS(RecordType.Name, &apos;Bridge&apos;)),
+OR(
+ ISBLANK( BPO_Appraisal_Fee__c ),
+ ISBLANK( Doc_Prep_Fee__c )
+))</errorConditionFormula>
+    <errorMessage>Status must be Pending before moving to Closing.  Appraisal Fee and Doc Prep Fee are required before updating the Status to Closing</errorMessage>
+</ValidationRule>

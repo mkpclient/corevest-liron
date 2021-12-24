@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Properties__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>Count of all Active Properties that are not Sub Units</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Roll Up of Active Properties that are not Sub Units</inlineHelpText>
+    <label># of Active Properties</label>
+    <securityClassification>Internal</securityClassification>
+    <summaryFilterItems>
+        <field>Property__c.Status__c</field>
+        <operation>equals</operation>
+        <value>In Process, Active</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>Property__c.Is_Sub_Unit__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property__c.Deal__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

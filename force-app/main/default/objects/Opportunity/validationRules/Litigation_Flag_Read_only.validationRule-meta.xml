@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Litigation_Flag_Read_only</fullName>
+    <active>true</active>
+    <description>If checked, prevent edits by all users except for System Admins</description>
+    <errorConditionFormula>AND( 
+ $Profile.Name != &quot;System Administrator&quot;,
+ $Profile.Name != &quot;Integration&quot;,
+ OR(
+  Account.In_Litigation__c = TRUE,
+  Contact__r.In_Litigation__c  = TRUE
+ ),
+ OR(
+  ISCHANGED( Current_Loan_Amount__c ),
+  ISCHANGED( Final_Loan_Amount__c ),
+  ISCHANGED( Loan_Size__c ),
+  ISCHANGED( StageName ),
+  ISCHANGED( Name ),
+  ISCHANGED( Requested_ARV_LTV__c ),
+  ISCHANGED( Requested_Index__c ),
+  ISCHANGED( Requested_Interest_Type__c ),
+  ISCHANGED( Requested_LTV_Max__c ),
+  ISCHANGED( Requested_LTC_Max__c ),
+  ISCHANGED( Requested_Reno_Limit__c ),
+  ISCHANGED( Repayment_Period__c ),
+  ISCHANGED( Requested_Revolving__c ),
+  ISCHANGED( Revolving1__c ),
+  ISCHANGED( Cash_Management__c ),
+  ISCHANGED( Deal_Intro_Source__c ),
+  ISCHANGED( Deal_Intro_Sub_Source__c ),
+  ISCHANGED( CAF_Upfront_Fee__c ),
+  ISCHANGED( Fee__c ),
+  ISCHANGED( LOC_Commitment__c )
+ )
+)</errorConditionFormula>
+    <errorMessage>This Account is in Litigation, edits cannot be made at this time</errorMessage>
+</ValidationRule>

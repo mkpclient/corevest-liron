@@ -1,0 +1,46 @@
+<template>
+  <div style="display: none">{recordId}</div>
+
+  <template if:true={validated}>
+    <!-- <div class="slds-is-relative">
+        
+      </div> -->
+    <lightning-quick-action-panel class="slds-is-relative">
+      <div class="slds-is-relative">
+        <lightning-spinner
+          class={spinnerClass}
+          variant="brand"
+        ></lightning-spinner>
+        <lightning-input
+          required
+          label="Deal Name"
+          name="Name"
+        ></lightning-input>
+        <template if:true={showRecordTypeSelection}>
+          <lightning-checkbox-group
+            label="Select Record Type"
+            options={options}
+            required
+            value={value}
+            name="recordtype"
+          ></lightning-checkbox-group>
+        </template>
+      </div>
+
+      <div slot="footer">
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          onclick={cancel}
+        ></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Convert"
+          class="slds-m-left_x-small"
+          onclick={convert}
+          disabled={isSaving}
+        ></lightning-button>
+      </div>
+    </lightning-quick-action-panel>
+  </template>
+</template>

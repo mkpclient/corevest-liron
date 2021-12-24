@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_UW_Model_Saved_via_X_Author__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <defaultValue>false</defaultValue>
+    <description>Indicates if the data was saved using the X-Author Term UW Model</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if the data was saved using the X-Author Term UW Model</inlineHelpText>
+    <label>Term UW Model Saved via X-Author</label>
+    <securityClassification>Internal</securityClassification>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

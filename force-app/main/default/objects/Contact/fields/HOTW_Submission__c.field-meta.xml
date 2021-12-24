@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>HOTW_Submission__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Has this contact submitted for House of the Week?</description>
+    <externalId>false</externalId>
+    <label>HOTW Submission</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

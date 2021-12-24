@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vcandidate_Index__c</fullName>
+    <businessStatus>Active</businessStatus>
+    <description>An input address can match multiple valid addresses. This ties the candidates to the input index.
+(e.g., &quot;1 Rosedale Street Baltimore Maryland&quot; will return multiple candidates.)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>An input address can match multiple valid addresses. This ties the candidates to the input index.
+(e.g., &quot;1 Rosedale Street Baltimore Maryland&quot; will return multiple candidates.)</inlineHelpText>
+    <label>Verified Candidate Index</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <securityClassification>Internal</securityClassification>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

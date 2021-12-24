@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Listing__c</fullName>
+    <description>A place to put a URL link for the property listing.  Can be link from Zillow, Redbell, Trulia, or other listing services.</description>
+    <externalId>false</externalId>
+    <label>Property Listing</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Url</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Operations_stage_updated_to_UW</fullName>
+    <active>true</active>
+    <description>This will prevent an Operations user from changing the Deal to the Underwriting stage without approving the Deal</description>
+    <errorConditionFormula>AND (
+ISPICKVAL(PRIORVALUE(StageName),&quot;Submitted to Underwriting&quot;),
+ISPICKVAL(StageName,&quot;Underwriting&quot;),
+ISCHANGED(StageName),
+NOT ( $Profile.Name= &quot;System Administrator&quot;)
+)</errorConditionFormula>
+    <errorMessage>You have chosen an invalid Stage.  If you are trying to approve this Deal into Underwriting, please go to the &quot;Approval&quot; tab to approve the Deal</errorMessage>
+</ValidationRule>

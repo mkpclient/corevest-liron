@@ -1,0 +1,783 @@
+<aura:component implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName">
+
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="sObjectName" type="String" />
+
+	<aura:attribute name="calculatorFields" type="Map" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<div class="slds-section slds-is-open" aura:id="constructionDataInput">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="constructionDataInput" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="constructionDataInput-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="constructionDataInput">Construction Data Input</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-Is Value
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="As-Is Value" value="{!v.calculatorFields.asIsValue}" variant="label-hidden" name="asIsValue"
+									 type="number" formatter="currency" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Max Initial LTV/LTC
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="maxInitialLTVLTC" value="{!v.calculatorFields.maxInitialLTVLTC}" variant="label-hidden"
+									 name="maxLTV/LTC" type="number" formatter="percent-fixed" step="0.01" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									After Rehab Value
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="After Rehab Value" value="{!v.calculatorFields.afterRehabValue}" variant="label-hidden"
+									 name="afterRehabValue" type="number" formatter="currency" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Loan LTC
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="Total Loan LTC" value="{!v.calculatorFields.totalLoanLTC}" variant="label-hidden" name="totalLoanLTC"
+									 type="number" formatter="percent-fixed" step="0.01" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Purchase Price
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="Purchase Price" value="{!v.calculatorFields.purchasePrice}" variant="label-hidden"
+									 name="purchasePrice" type="number" formatter="currency" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total ARV LTV
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="totalARVLTV" value="{!v.calculatorFields.totalARVLTV}" variant="label-hidden" name="totalARVLTV"
+									 type="number" formatter="percent-fixed" step="0.01" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Rehab Budget
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="Rehab Budget" value="{!v.calculatorFields.rehabBudget}" variant="label-hidden" name="rehabBudget"
+									 type="number" formatter="currency" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Rehab Holdback Limit
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<!-- <lightning:input label="rehabHoldbackLimit" value="{!v.calculatorFields.rehabHoldbackLimit}" variant="label-hidden" name="rehabHoldbackLimit" type="number" formatter="currency" onchange="{!c.calculateFields}" /> -->
+									<lightning:input label="totalARVLTV" value="{!v.calculatorFields.rehabHoldbackLimit}" variant="label-hidden"
+									 name="totalARVLTV" type="number" formatter="percent-fixed" step="0.01" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Interest Rate
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:input label="Interest Rate" value="{!v.calculatorFields.interestRate}" variant="label-hidden" name="Interest Rate"
+									 type="number" formatter="percent-fixed" step="0.01" onchange="{!c.calculateFields}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<div class="slds-section slds-is-open" aura:id="initialAdvance">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="initialAdvance" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="initialAdvance-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="initialAdvance">Initial Advance</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-Is Value
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.asIsValue}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Purchase Price
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.purchasePrice}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-Is Limitor
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.asIsLimitor}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Purchase Limitor
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.purchaseLimitor}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-Is Max Potential Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.asIsMaxPotentialAdvance}" />
+
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Purchase Potential Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.purchasePotentialAdvance}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_default slds-truncate bold">
+									Max Initial Loan Amount
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency class="bold" value="{!v.calculatorFields.maxInitialLoanAmount}" />
+
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<div class="slds-section slds-is-open" aura:id="totalLoanAdvance">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="totalLoanAdvance" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="totalLoanAdvance-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="totalLoanAdvance">Total Loan Advance</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									After Repair Value
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.afterRepairValue}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Cost Basis Value
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.totalCostBasisValue}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									After Repair Limitors
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.afterRepairLimitors}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Cost Basis Limitors
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.totalCostBasisLimitors}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									After Repair Potential Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.afterRepairPotentialAdvance}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Cost Basis Potential Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.totalCostBasisPotentialAdvance}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_default slds-truncate bold">
+									Max Total Loan Amount
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency class="bold" value="{!v.calculatorFields.maxTotalLoanAmount}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<div class="slds-section slds-is-open" aura:id="holdBackAdvance">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="holdBackAdvance" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="holdBackAdvance-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="holdBackAdvance">Holdback Advance</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Max Available for Rehab based on ARV/LTC Limitors
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.maxAvailableForRehabBasedOnARVLTCLimitors}" />
+
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Loan Amount Limitor
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.totalLoanAmountLimitor}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Max Allowable Rehab based on holdback limit
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.maxAllowableRehabBasedOnHoldbackLimit}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Borrower Rehab Budget
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.borrowerRehabBudget}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_default bold slds-truncate">
+									Approved Holdback
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency class="bold" value="{!v.calculatorFields.approvedHoldback}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<div class="slds-section slds-is-open" aura:id="Final Output">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="Final Output" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="Final Output-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="Final Output">Final Output</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Initial Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.initialAdvance}" />
+									<aura:if isTrue="{!v.sObjectName == 'Property__c'}">
+										<div class="slds-float_right slds-is-relative">
+											<lightning:spinner variant="brand" size="small" aura:id="saveSpinner" class="slds-hide" />
+											<lightning:button label="Save" class="slds-float_right" variant="brand" name="Override_Initial_Disbursement__c"
+											 onclick="{!c.saveField}" />
+										</div>
+									</aura:if>
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Calculated Initial Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.initialDisbursement}" />
+									<aura:if isTrue="{!v.sObjectName == 'Property__c'}">
+										<div class="slds-float_right slds-is-relative">
+
+											<lightning:button label="Save" class="slds-float_right slds-hidden" />
+										</div>
+									</aura:if>
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Holdback Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.holdbackAdvance}" />
+									<aura:if isTrue="{!v.sObjectName == 'Property__c'}">
+										<div class="slds-float_right slds-is-relative">
+											<lightning:spinner variant="brand" size="small" class="slds-hide" aura:id="saveSpinner" />
+											<lightning:button label="Save" class="slds-float_right" variant="brand" name="Override_Reno_Advance_Amount__c"
+											 onclick="{!c.saveField}" />
+										</div>
+									</aura:if>
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Calculated Approved Reno Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.approvedRenoAdvance}" />
+									<aura:if isTrue="{!v.sObjectName == 'Property__c'}">
+										<div class="slds-float_right slds-is-relative">
+
+											<lightning:button label="Save" class="slds-float_right slds-hidden" />
+										</div>
+									</aura:if>
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Loan Amount
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.totalLoanAmount}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<div class="slds-section slds-is-open" aura:id="summaryLoanMetrics">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="summaryLoanMetrics" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="summaryLoanMetrics-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="summaryLoanMetrics">Summary Loan Metrics</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-Is LTV
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.asIsLTV}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									As-is LTC
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.asIsLTC}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Loan ARV LTV
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.totalLoanARVLTV}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Loan LTC
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.totalLoanLTCSummary}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									% Initial Advance
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.perInitialAdvance}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									% Holdback
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<lightning:formattedNumber value="{!v.calculatorFields.perHoldback}" style="percent" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+
+	<div class="slds-section slds-is-open" aura:id="liquidityTest">
+		<h3 class="slds-section__title">
+			<button class="slds-button slds-section__title-action" data-id="liquidityTest" onclick="{!c.toggleSection}">
+				<lightning:icon iconName="utility:switch" aura:id="liquidityTest-icon" class="slds-icon slds-icon-text-default slds-icon--x-small slds-button__icon slds-button__icon--left"
+				 size="x-small" />
+				<span class="slds-truncate" title="Section Title" data-id="liquidityTest">Liquidity Test - For Single Assets Only</span>
+			</button>
+		</h3>
+
+		<div class="slds-section__content">
+			<lightning:layout horizontalAlign="spread" multipleRows="true">
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Unfunded Acquisition
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.unfundedAcquisition}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									20% of Rehab
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.twentyOfRehab}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									3 Months Interest
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.threeMonthsInterest}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+				</lightning:layoutItem>
+				<lightning:layoutItem size="6">
+					<ul class="slds-has-dividers_bottom-space">
+						<li class="slds-item">
+							<div aria-hidden="false" class="slds-section__content slds-has-dividers--bottom-space" id="expando-unique-id">
+								<dt class="slds-item_label slds-text-color_weak slds-truncate">
+									Total Current Liquidity Needed
+								</dt>
+								<dd class="slds-item_detail slds-truncate">
+									<ui:outputCurrency value="{!v.calculatorFields.totalCurrentLiquidityNeeded}" />
+								</dd>
+							</div>
+						</li>
+					</ul>
+				</lightning:layoutItem>
+			</lightning:layout>
+		</div>
+
+	</div>
+
+	<c:util aura:id="util" />
+
+
+</aura:component>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Final_Loan_Amount_Swap_Spread</fullName>
+    <active>true</active>
+    <description>This require that the Final Loan Amount, Final Swap Rate and Final Spread are all populated before closing a Deal</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISBLANK( Final_Loan_Amount__c ),
+  ISBLANK( Final_Spread__c ),
+  ISBLANK( Final_Swap__c )) ,
+ ISPICKVAL(StageName, &apos;Closed Won&apos;),
+ ISCHANGED(StageName),
+ CONTAINS( RecordType.Name , &apos;Term Loan&apos;) 
+)</errorConditionFormula>
+    <errorMessage>Final Loan Amount, Final Swap Rate and Final Spread are required to update the Stage to Closed Won</errorMessage>
+</ValidationRule>

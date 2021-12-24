@@ -1,0 +1,146 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" controller="ApprovalHistory_lightningController">
+    <aura:attribute name="records" type="Object[]" />
+    <aura:attribute name="oppName" type="String" default="down" />
+    <aura:attribute name="oppOwner" type="String" default="down" />
+    <aura:attribute name="oppLoanSize" type="String" default="down" />
+    <aura:attribute name="dateSubmitted" type="String" default="down" />
+    <aura:attribute name="timeSinceSubmission" type="String" default="down" />
+    <aura:attribute name="submissionStatus" type="String" default="down" />
+    <aura:attribute name="recordType" type="String" default="down" />
+    <aura:attribute name="loanType" type="String" default="down" />
+    <aura:attribute name="productType" type="String" default="down" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <span>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div title="oppName">
+                            Opportunity
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.oppName}" size="xx-small" title="oppName-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="oppOwner">
+                            Originator
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.oppOwner}" size="xx-small" title="oppOwner-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="oppLoanSize">
+                            Loan Amount
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.oppLoanSize}" size="xx-small" title="oppLoanSize-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="recordType">
+                            Loan Type
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.recordType}" size="xx-small" title="recordType-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="productType">
+                            Product Type
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.productType}" size="xx-small" title="productType-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        Stage Time of Submission
+                    </th>
+                    <th scope="col">
+                        <div title="dateSubmitted">
+                            Date Submitted
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.dateSubmitted}" size="xx-small" title="dateSubmitted-down-date" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="timeSinceSubmission">
+                            Time Since Submitted
+                            <lightning:icon iconName="{!'utility:' + v.timeSinceSubmission}" size="xx-small" title="timeSinceSubmission-down-date" />
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="submissionStatus">
+                            Submission Status
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.submissionStatus}" size="xx-small" title="submissionStatus-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        Link to Approval
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.records}" var="record">
+                    <tr>
+                        <td>
+                            <aura:if isTrue="{!record.submissionStatus == 'Re-submitted'}">
+                                <lightning:icon iconName="utility:lower_flag" size="xx-small" class="flag-icon" />
+                                &nbsp;
+                            </aura:if>
+                            <aura:if isTrue="{!record.pricingType == 'Custom'}">
+                                <img src="{!$Resource.CustomPricing}" />
+                                &nbsp;
+                            </aura:if>
+                            <aura:if isTrue="{!record.pricingType == 'Standard'}">
+                                <img src="{!$Resource.StandardPricing}" />
+                                &nbsp;
+                            </aura:if>                            
+                            {!record.oppName}
+                        </td>
+                        <td>
+                            {!record.oppOwner}
+                        </td>
+                        <td>
+                            ${!record.oppLoanSize}
+                        </td>
+                        <td>
+                            {!record.loanType}
+                        </td>
+                        <td>
+                            <aura:if isTrue="{!record.loanType == 'Bridge Loan' || record.loanType == 'SAB Loan'}">
+                            {!record.productType} w/ {!record.productSubType}
+                            </aura:if>
+                        </td>
+                        <td>
+                            {!record.loanStage}
+                        </td>
+                        <td>
+                            {!record.dateSubmittedFormat}
+                        </td>
+                        <td>
+                            {!record.timeSinceSubmission}
+                        </td>
+                        <td>
+                            {!record.submissionStatus}
+                        </td>
+                        <td>
+                            <aura:iteration items="{!record.approvalInstancesWrapper}" var="approval" indexVar="idx">
+                                <div>
+                                    <!-- <a href="{! '/one/one.app#/sObject/' + approval + '/view'}">Approval Page {!idx + 1}</a> -->
+                                    <a href="{! '/lightning/r/ProcessInstanceWorkitem/' + approval[0] + '/view'}">{!approval[1]}</a>
+                                </div>
+                            </aura:iteration>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </span>
+</aura:component>

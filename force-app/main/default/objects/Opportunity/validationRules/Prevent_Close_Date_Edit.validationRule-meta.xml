@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Close_Date_Edit</fullName>
+    <active>true</active>
+    <description>This will prevent Production Users from editing the Close Date and Anticipated Closing Date when Deal Stage is in Loan Processing, Underwriting, Approved by Committee, Closed Won, Expired or Matured</description>
+    <errorConditionFormula>AND(
+ OR(
+  ISCHANGED( CloseDate ),
+  ISCHANGED( Anticipated_Closing_Date__c )
+ ),
+ OR(
+  ISPICKVAL( StageName , &apos;Loan Processing&apos; ),
+  ISPICKVAL( StageName , &apos;Underwriting&apos; ),
+  ISPICKVAL( StageName , &apos;Approved by Committee&apos; )
+ ),
+ OR(
+  $Profile.Name= &apos;Origination Manager&apos;,
+  $Profile.Name= &apos;Relationship Manager&apos;,
+  $Profile.Name= &apos;Sales Analyst&apos;,
+  $Profile.Name= &apos;Sales Analyst Term Operations Hybrid&apos;,
+  $Profile.Name= &apos;Sales Analyst Bridge Operations Hybrid&apos;
+ )
+)</errorConditionFormula>
+    <errorMessage>The Close Date or Anticipated Closing Date can only be changed by an Operations Team Member in this Stage</errorMessage>
+</ValidationRule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Advances__c</fullName>
+    <description>Number of Completed Property Advances</description>
+    <externalId>false</externalId>
+    <label>Number of Advances</label>
+    <summaryFilterItems>
+        <field>Property_Advance__c.Advance_Status_text__c</field>
+        <operation>equals</operation>
+        <value>Completed</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property_Advance__c.Property__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

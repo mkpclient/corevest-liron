@@ -1,0 +1,11 @@
+<aura:component controller="lightning_Controller" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="templates" type="List" />
+  <aura:attribute name="whoId" type="String" />
+
+  <div>
+    <c:vendorEntityList recordId="{!v.recordId}" aura:id="vendors" onopenemail="{!c.openEmailModal}" />
+  </div>
+
+  <lightning:quickActionAPI aura:id="quickActionAPI" />
+</aura:component>

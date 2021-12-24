@@ -1,0 +1,238 @@
+@media print
+{
+    .THIS.no-print, .THIS .no-print {
+        display: none;
+    }
+
+    .THIS .logo, .THIS.logo {
+        /*background: rgb(0, 7, 77) !important;*/
+        background: rgb(0, 50, 83) !important;
+        -webkit-print-color-adjust: exact;
+        color: #fff !important;
+    }
+
+    .THIS.header, .THIS .header {
+      /*background-color: rgb(6, 106, 161) !important;*/
+      background-color: rgb(74, 130, 189) !important;
+      -webkit-print-color-adjust: exact;
+      color: #fff !important;
+    }
+
+    .THIS .caption, .THIS.caption, .THIS .table caption, .THIS.table caption, .THIS caption {
+      /*background-color: rgb(9, 2, 81) !important;*/
+      background-color: rgb(0, 50, 83) !important;
+      -webkit-print-color-adjust: exact;
+      color: #fff !important;
+    }
+
+    .THIS .white, .THIS.white {
+      background-color: black !important;
+      -webkit-print-color-adjust: exact;
+      color: #fff !important;
+    }
+
+    .THIS .logo img, .THIS.logo img {
+      max-width: 72% !important;
+    }
+}
+
+.THIS body {
+    font: 12px Helvetica;
+}
+
+.THIS .nav-box, .THIS.nav-box {
+  height: 42px;
+  margin-bottom: 28px;
+}
+
+.THIS.printbar, .THIS .printbar {
+  background: #535861;
+  height: 42px;
+  position: fixed;
+  z-index: 999;
+  width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.THIS .printbar button {
+  margin-right: 20px;
+  background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+  background-color:#ffffff;
+  border-radius:6px;
+  border:1px solid #dcdcdc;
+  cursor:pointer;
+  color:#666666;
+  font-size:14px;
+  font-weight:bold;
+  padding: 2px 10px;
+  text-shadow: 0px 0px 0px #ffffff;
+}
+
+.THIS .printbar button:hover {
+	background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+	background-color:#f6f6f6;
+}
+
+.THIS .logo, .THIS.logo {
+    height:60px;
+    /*background: rgb(0, 7, 77);*/
+    background: rgb(0, 50, 83);
+    color: #fff;
+    position:relative;
+    width: 260px;
+    text-align: center;
+    line-height: 60px;
+    display: inline-block;
+}
+
+.THIS.hide, .THIS .hide {
+  display: none;
+}
+
+.THIS .logo:after, .THIS.logo:after {
+    content: "";
+    position:absolute;
+    height:0;
+    width:0;
+    left:100%;
+    top:0;
+    border:30px dotted transparent;
+    /*border-left: 30px dotted rgb(0, 7, 77);*/
+    border-left: 30px dotted rgb(0, 50, 83)
+}
+
+.THIS .logo img, .THIS.logo img {
+  max-width: 72%;
+}
+
+.THIS.margin-bottom, .THIS .margin-bottom {
+  margin-bottom: 20px;
+}
+
+.THIS.header, .THIS .header {
+  background-color: rgb(74, 130, 189);
+  line-height: 51px;
+  text-align: left;
+  color: white;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.THIS div.title {
+  display: inline-block;
+  position: relative;
+  left: 60px;
+}
+
+.THIS div.mid-title {
+  display: inline-block;
+  line-height: 18px;
+  position: relative;
+  top: 10px;
+  left: 60px;
+}
+
+.THIS.table {
+	width: 100%;
+	table-layout: fixed;
+	display: table;
+  margin-bottom: 20px;
+}
+
+.THIS td {
+  padding: 6px;
+}
+
+.THIS caption {
+  padding-left: 8px;
+	text-align: left;
+	/*background-color: rgb(9, 2, 81);*/
+  /*background-color: rgb(9, 2, 81) !important;*/
+  background-color: rgb(0, 50, 83);
+  color: white;
+  text-transform: uppercase;
+  height: 26px;
+  line-height: 26px;
+}
+
+.THIS input[type="text"]{
+	box-shadow: none;
+	padding-top: 5px;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.THIS input:focus{
+	background-color: #FFF;
+}
+
+.THIS span.state input[type="text"]{
+  width: 40%;
+}
+
+.THIS textarea {
+  width: 98%;
+}
+
+.THIS.warning {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 20px auto 90px;
+  padding: 10px;
+}
+
+.THIS td label em {
+  font-size: 10px;
+}
+
+.THIS div.fineprint, .THIS.fineprint, .THIS .fineprint {
+  font-size: 10px;
+}
+
+/*.THIS .email-notice, .THIS.email-notice {
+  display: inline-block;
+  height: 10px;
+}*/
+
+.THIS.center, .THIS .center {
+  text-align: center !important;
+}
+
+.THIS.superfineprint {
+  font-size: 6px;
+}
+
+.THIS.padding-bottom {
+  padding-bottom: 30px;
+}
+
+.THIS.padding-top {
+  padding-top: 6px;
+}
+
+.THIS .push-right, .THIS.push-right {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.THIS .medium-size {
+  height: 65px;
+}
+
+.THIS.table.questionnaire span {
+  width: 40px;
+  display: inline-block;
+}
+
+.THIS.table input, .THIS.table textarea {
+  background-color: rgb(217, 230, 252);
+  border: 2px solid #C4C4C4;
+  line-height: 24px;
+}
+
+.THIS .input-white, .THIS.input-white {
+  background-color: white;
+}

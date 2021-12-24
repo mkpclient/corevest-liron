@@ -1,0 +1,20 @@
+<aura:component controller="community_Controller" implements="forceCommunity:availableForAllPageTypes">
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="sobjectType" type="String" default="Deal_Document__c" />
+	<aura:attribute name="recordTypeName" type="String" />
+	<aura:attribute name="user" type="Object" />
+
+	<aura:attribute name="ready" type="Boolean" default="false" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+	<!-- <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="refresh" /> -->
+	<aura:if isTrue="{!v.ready}">
+		<c:fileDownloader recordId="{!v.recordId}" userType="{!v.user.userType}" accountId="{!v.user.accountId}" accountType="{!v.user.accountType}" />
+
+		<aura:set attribute="else">
+			<lightning:spinner variant="brand" size="medium" />
+		</aura:set>
+	</aura:if>
+
+</aura:component>

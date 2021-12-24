@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vews_match__c</fullName>
+    <description>Early warning system flag; a positive result indicates the street of the address is not yet ready for mail delivery and that the address will soon be added to the master ZIP+4 file in the coming weeks or months. This commonly occurs for new streets or streets undergoing a name change.
+
+true — The address was flagged by EWS, preventing a ZIP+4 match.
+[blank] — Address was not flagged by EWS</description>
+    <externalId>false</externalId>
+    <label>Verified Readiness for mail delivery</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

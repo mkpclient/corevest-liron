@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Team_s_Open_Tasks_New</fullName>
+    <columns>SUBJECT</columns>
+    <columns>WHO_NAME</columns>
+    <columns>WHAT_NAME</columns>
+    <columns>DUE_DATE</columns>
+    <columns>STATUS</columns>
+    <columns>PRIORITY</columns>
+    <columns>CORE.USERS.FULL_NAME</columns>
+    <filterScope>Team</filterScope>
+    <filters>
+        <field>STATUS</field>
+        <operation>equals</operation>
+        <value>Open</value>
+    </filters>
+    <label>My Team&apos;s Open Tasks</label>
+    <sharedTo>
+        <role>Bridge_Manager</role>
+        <role>Manager</role>
+        <role>Origination_Manager</role>
+        <role>Post_Closing_Manager</role>
+    </sharedTo>
+</ListView>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Vdpv_cmra__c</fullName>
+    <description>Indicates whether the address is associated with a Commercial Mail Receiving Agency (CMRA), also known as a private mailbox (PMB) operator. A CMRA is a business through which USPS mail may be sent or received, for example the UPS Store and Mailboxes Etc.
+
+Y — Address is associated with a valid CMRA.
+N — Address is not associated with a valid CMRA.
+[blank] — Address was not submitted for CMRA verification.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates whether the address is associated with a Commercial Mail Receiving Agency (CMRA), also known as a private mailbox (PMB) operator. A CMRA is a business through which USPS mail may be sent or received, for example the UPS Store and Mailboxes Etc.</inlineHelpText>
+    <label>Verified dpv_cmra</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

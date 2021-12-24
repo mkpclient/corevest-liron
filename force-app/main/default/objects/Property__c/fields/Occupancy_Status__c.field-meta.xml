@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Occupancy_Status__c</fullName>
+    <description>Occupancy Status of this Property</description>
+    <externalId>false</externalId>
+    <label>Occupancy Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Occupancy_Status</valueSetName>
+    </valueSet>
+</CustomField>

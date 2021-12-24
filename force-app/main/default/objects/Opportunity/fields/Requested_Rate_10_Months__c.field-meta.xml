@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Rate_10_Months__c</fullName>
+    <description>Bridge model pricing request values for Requested Interest Rate for 10+ Months
+Bridge Use</description>
+    <externalId>false</externalId>
+    <label>Requested Rate 10+ Months</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

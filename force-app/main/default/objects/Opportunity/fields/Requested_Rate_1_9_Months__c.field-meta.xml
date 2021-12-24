@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Requested_Rate_1_9_Months__c</fullName>
+    <description>Bridge model pricing request values for Requested Rates</description>
+    <externalId>false</externalId>
+    <label>Requested Rate</label>
+    <precision>7</precision>
+    <required>false</required>
+    <scale>3</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Third_Party_Estimated_Values__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Total estimated portfolio values from 3rd party (Zillow, Trulia, Red Bell, etc.) vendors.</inlineHelpText>
+    <label>Third Party Estimated Values</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,335 @@
+<template>
+  <!-- <lightning-card title="Documents"> -->
+  <!-- <lightning-layout slot="actions" horizontal-align="end">
+      <lightning-layout-item>
+        <lightning-button
+          variant="neutral"
+          label="New"
+          onclick={addVendor}
+        ></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout> -->
+
+  <lightning-layout slot="actions" horizontal-align="end">
+    <lightning-layout-item padding="horizontal-medium">
+      <lightning-button-icon
+        icon-name="utility:refresh"
+        variant="bare"
+        alternative-text="Refresh"
+        onclick={refresh}
+      >
+      </lightning-button-icon>
+    </lightning-layout-item>
+  </lightning-layout>
+
+  <div class="slds-table_edit_container slds-is-relative">
+    <template if:true={isLoading}>
+      <lightning-spinner variant="brand"></lightning-spinner>
+    </template>
+
+    <table
+      class="slds-table slds-no-cell-focus slds-table_bordered slds-table_edit slds-table_fixed-layout"
+    >
+      <thead>
+        <tr class="slds-line-height_reset">
+          <th style="width: 3.25rem;"></th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="File Name">
+              File Name
+            </div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Recorded Date">Reviewed On</div>
+          </th>
+          <th class="" scope="col">
+            <div class="slds-truncate" title="Recorded Date">
+              Reviewed By
+            </div>
+          </th>
+          <template if:true={recordedDocument}>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Recorded Date">
+                Recorded Date
+              </div>
+            </th>
+            <!-- <th class="" scope="col">
+              <div class="slds-truncate" title="Book">Book</div>
+            </th> -->
+            <!-- <th class="" scope="col">
+              <div class="slds-truncate" title="Page">Page</div>
+            </th>
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Instrument Number">
+                Instrument Number
+              </div>
+            </th> -->
+            <th class="" scope="col">
+              <div class="slds-truncate" title="Instrument Number">
+                Recording Info
+              </div>
+            </th>
+          </template>
+          <!-- <th class="" scope="col" style="width: 3.25rem;">
+              <div class="slds-truncate slds-assistive-text" title="Actions">
+                Actions
+              </div>
+            </th> -->
+        </tr>
+      </thead>
+      <tbody>
+        <template if:true={documents}>
+          <template
+            for:each={documentList}
+            for:item="document"
+            for:index="index"
+          >
+            <template if:true={isViewMode}>
+              <tr key={document.original.Id} class="slds-hint-parent">
+                <td>
+                  <lightning-input
+                    class="checkbox"
+                    data-index={index}
+                    type="checkbox"
+                  ></lightning-input>
+                </td>
+                <td class={document.styleClass.File_Name__c}>
+                  <!-- <lightning-formatted-text
+                      value={document.Vendor_Type__c}
+                    ></lightning-formatted-text> -->
+                  <a
+                    href="javascript:void(0);"
+                    title={document.Attachment_Id__c}
+                    >{document.File_Name__c}</a
+                  >
+                  <!-- <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right slds-cell-edit__button"
+                      icon-class="slds-text-color_inverse slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon> -->
+                </td>
+                <td class={document.styleClass.Reviewed_On__c}>
+                  <!-- <template if:true={document.Account__r}>
+                      <lightning-formatted-url
+                        target="_blank"
+                        value={document.urls.Account__c}
+                        label={document.Account__r.Name}
+                      >
+                      </lightning-formatted-url>
+                    </template> -->
+                  <lightning-formatted-date-time
+                    value={document.Reviewed_On__c}
+                  ></lightning-formatted-date-time>
+
+                  <!-- reviewed on -->
+
+                  <!-- <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon> -->
+                </td>
+                <td class={document.styleClass.Reviewed_By__c}>
+                  <!-- <template if:true={document.Contact__r}>
+                      <lightning-formatted-url
+                        target="_blank"
+                        value={document.urls.Contact__c}
+                        label={document.Contact__r.Name}
+                      >
+                      </lightning-formatted-url>
+                    </template> -->
+                  <!-- reviewed by -->
+                  <lightning-formatted-text
+                    value={document.Reviewed_By__r.Name}
+                  ></lightning-formatted-text>
+                </td>
+                <template if:true={recordedDocument}>
+                  <td class={document.styleClass.Recorded_Date__c}>
+                    <!-- Recorded Date -->
+                    <!-- <lightning-formatted-date-time
+                      value={document.Order_Date__c}
+                    ></lightning-formatted-date-time> -->
+                    <lightning-formatted-date-time
+                      value={document.Recorded_Date__c}
+                    ></lightning-formatted-date-time>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <!-- <td class={document.styleClass.Book__c}>
+                    <lightning-formatted-text
+                      value={document.Book__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <td class={document.styleClass.Page__c}> -->
+                    <!-- Page__c -->
+                    <!-- <lightning-formatted-date-time
+                      value={document.Completed_Date__c}
+                    ></lightning-formatted-date-time> -->
+                    <!-- <lightning-formatted-text
+                      value={document.Page__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                  <td class={document.styleClass.Instrument_Number__c}> -->
+                    <!-- Instrument_Number__c -->
+                    <!-- <lightning-formatted-date-time
+                      value={document.Completed_Date__c}
+                    ></lightning-formatted-date-time> -->
+                    <!-- <lightning-formatted-text
+                      value={document.Instrument_Number__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td> -->
+                  <td class={document.styleClass.Recording_Info__c}>
+                    <lightning-formatted-text
+                      value={document.Recording_Info__c}
+                    ></lightning-formatted-text>
+                    <lightning-button-icon
+                      icon-name="utility:edit"
+                      class="slds-float_right"
+                      icon-class="slds-button__icon_hint slds-button__icon_edit"
+                      variant="bare"
+                      onclick={toggleEdit}
+                    >
+                    </lightning-button-icon>
+                  </td>
+                </template>
+              </tr>
+            </template>
+
+            <template if:true={isEditMode}>
+              <tr key={document.original.Id}>
+                <td>
+                  <lightning-input
+                    class="checkbox"
+                    data-index={index}
+                    type="checkbox"
+                  ></lightning-input>
+                </td>
+                <td>
+                  <!-- File Name non edit -->
+                  <a
+                    href="javascript:void(0);"
+                    title={document.Attachment_Id__c}
+                    >{document.File_Name__c}</a
+                  >
+                </td>
+                <td>
+                  <!-- Reviewed On non edit -->
+                  <lightning-formatted-date-time
+                    value={document.Reviewed_On__c}
+                  ></lightning-formatted-date-time>
+                </td>
+                <td>
+                  <!-- Reviewed By non edit -->
+                  <lightning-formatted-text
+                    value={document.Reviewed_By__r.Name}
+                  ></lightning-formatted-text>
+                </td>
+                <template if:true={recordedDocument}>
+                  <td>
+                    <input
+                      type="date"
+                      value={document.Recorded_Date__c}
+                      onchange={updateValue}
+                      data-name="Recorded_Date__c"
+                      data-index={index}
+                    />
+                  </td>
+                  <!-- <td>
+                    <lightning-input
+                      label="text"
+                      variant="label-hidden"
+                      value={document.Book__c}
+                      onchange={updateValue}
+                      data-name="Book__c"
+                      data-index={index}
+                    >
+                    </lightning-input>
+                  </td>
+                  <td>
+                    <lightning-input
+                      label="text"
+                      variant="label-hidden"
+                      value={document.Page__c}
+                      onchange={updateValue}
+                      data-name="Page__c"
+                      data-index={index}
+                    >
+                    </lightning-input>
+                  </td>
+                  <td>
+                    <lightning-input
+                      label="text"
+                      variant="label-hidden"
+                      value={document.Instrument_Number__c}
+                      onchange={updateValue}
+                      data-name="Instrument_Number__c"
+                      data-index={index}
+                    >
+                    </lightning-input>
+                  </td> -->
+                  <td>
+                    <lightning-input
+                      label="text"
+                      variant="label-hidden"
+                      value={document.Recording_Info__c}
+                      onchange={updateValue}
+                      data-name="Recording_Info__c"
+                      data-index={index}
+                    >
+                    </lightning-input>
+                  </td>
+                </template>
+              </tr>
+            </template>
+          </template>
+        </template>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer slds-text-align_center slds-m-top_medium">
+    <template if:true={isEditMode}>
+      <lightning-button label="Cancel" onclick={cancel}></lightning-button>
+      <lightning-button
+        variant="brand"
+        label="Save"
+        onclick={save}
+      ></lightning-button>
+    </template>
+  </div>
+  <!-- </lightning-card> -->
+</template>
