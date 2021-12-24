@@ -8,6 +8,14 @@
     {
       "files": "*.{cmp,page,component}",
       "options": { "parser": "html" }
+    },
+    {
+      "files": "*.{cls,trigger}",
+      "options": { "parser": "apex" }
+    },
+    {
+      "files": "*.{apex}",
+      "options": { "parser": "apex-anonymous" }
     }
   ]
 }

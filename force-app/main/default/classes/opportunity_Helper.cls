@@ -2807,14 +2807,15 @@ public class opportunity_Helper {
         Deal__c,
         Funding_Vehicle__c,
         Funding_Vehicle__r.Name,
-        End_Date__c
+        End_Date__c,
+        Deal__r.Securitization__r.Close_Date__c
       FROM Deal_x_Funding_Vehicle__c
       WHERE Deal__c IN :dealMap.keySet() AND End_Date__c = NULL
     ];
 
     for (Deal_x_Funding_Vehicle__c d : dfvs) {
-      if (dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name) {
-        d.End_Date__c = (Date) system.today();
+      if (dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name && d.Deal__r.Securitization__r.Close_Date__c != null) {
+        d.End_Date__c = d.Deal__r.Securitization__r.Close_Date__c;
       }
     }
 
