@@ -47,26 +47,6 @@ public without sharing class TermSheetBypassController {
     // public static final String RYAN = userRyan.Email;
 
     public static List<String> fields = new List<String>{
-        // 'Opportunity.OwnerId',
-        // 'Opportunity.Closer__c',
-        // 'Opportunity.Internal_Referral__c',
-        // 'Opportunity.Loan_Coordinator__c',
-        // 'Opportunity.Contact__c',
-        // 'Opportunity.Underwriter__c',
-
-        // 'Opportunity.Owner.Email',
-        // 'Opportunity.Closer__r.Email',
-        // 'Opportunity.Internal_Referral__r.Email',
-        // 'Opportunity.Loan_Coordinator__r.Email',
-        // 'Opportunity.Contact__r.Email',
-        // 'Opportunity.Underwriter__r.Email',
-
-        // 'Opportunity.Owner.Name',
-        // 'Opportunity.Closer__r.Name',
-        // 'Opportunity.Internal_Referral__r.Name',
-        // 'Opportunity.Loan_Coordinator__r.Name',
-        // 'Opportunity.Contact__r.Name',
-        // 'Opportunity.Underwriter__r.Name',
         'Account.Repeat_Borrower__c',
         'Loan_Size__c',
         'Exception__c',
@@ -87,9 +67,9 @@ public without sharing class TermSheetBypassController {
         qs += String.join(fields,', ');
         qs += ' FROM Opportunity WHERE Id = :recordId';
 
-        List<sObject> oList = Database.query(qs);
-        Opportunity o;
-
+        List<Opportunity> oList = Database.query(qs);
+        Opportunity o = oList[0];
+        
 
         Integer versionNumber = 0;
         List<Deal_Document__c> ddList = [
@@ -132,6 +112,20 @@ public without sharing class TermSheetBypassController {
         if (versionNumber == 0){
             // m.put('Error', new List<String>{'true'});
             m.put('TermSheetError', new List<String>{'true'});
+            return JSON.serialize(m, true);
+        }
+
+        if(o.Account.Repeat_Borrower__c != true) {
+            m.put('ValidationError', new List<String>{'This Account is not a repeat Borrower, Term Sheet approval cannot be bypassed.'});
+        } else if (o.Loan_Size__c >= 3000000) {
+            m.put('ValidationError', new List<String>{'Requested Loan Amount is equal or greater than $3M, Term Sheet approval cannot be bypassed.'});
+        } else if (o.Exception__c == true) {
+            m.put('ValidationError', new List<String>{'This Deal has an Exception, Term Sheet approval cannot be bypassed.'});
+        } else if (o.GLC_Approved__c == true) {
+            m.put('ValidationError', new List<String>{'This Deal went through GLC Approval, Term Sheet approval cannot be bypassed.'});
+        }
+
+        if(m.containsKey('ValidationError')){
             return JSON.serialize(m, true);
         }
 
