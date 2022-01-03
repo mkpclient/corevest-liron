@@ -298,9 +298,10 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
 
   public static void sendExceptionEmails(
     Exception ex,
-    String senderAddress,
-    String subject
+    String subject,
+    String senderAddress
   ) {
+    
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
     email.setToAddresses(
