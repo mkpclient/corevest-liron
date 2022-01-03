@@ -125,11 +125,14 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
 
       emailMessage.Subject = subject;
       if (String.isNotEmpty(email.htmlBody)) {
-        emailMessage.HtmlBody = email.htmlBody;
+        emailMessage.HtmlBody = email.htmlBody.substring(
+          0,
+          email.htmlBody.length() <= 32768 ? email.htmlBody.length() : 32768
+        );
       }
       emailMessage.MessageDate = System.now();
       if (String.isNotEmpty(email.plainTextBody)) {
-        emailMessage.TextBody = email.plainTextBody;
+        emailMessage.TextBody = email.plainTextBody.substring(0, contentLim);
       }
       emailMessage.RelatedToId = deal.Id;
       emailMessage.ToAddress = String.join(toAddresses, ';');
