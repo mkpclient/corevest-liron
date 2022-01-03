@@ -54,7 +54,7 @@ public without sharing class TermSheetBypassController {
         // 'Opportunity.Contact__c',
         // 'Opportunity.Underwriter__c',
 
-        'Opportunity.Owner.Email',
+        // 'Opportunity.Owner.Email',
         // 'Opportunity.Closer__r.Email',
         // 'Opportunity.Internal_Referral__r.Email',
         // 'Opportunity.Loan_Coordinator__r.Email',
@@ -67,10 +67,10 @@ public without sharing class TermSheetBypassController {
         // 'Opportunity.Loan_Coordinator__r.Name',
         // 'Opportunity.Contact__r.Name',
         // 'Opportunity.Underwriter__r.Name',
-        'Name',
-        'Record_Type_Name__c',
-        'LOC_Program_Type__c',
-        'Product_Sub_Type__c'
+        'Account.Repeat_Borrower__c',
+        'Loan_Size__c',
+        'Exception__c',
+        'GLC_Approved__c'
     };
 
     // public static Map<String,String> loansToTemplate = new Map<String,String>{
