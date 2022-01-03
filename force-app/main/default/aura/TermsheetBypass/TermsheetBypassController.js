@@ -14,6 +14,7 @@
 					helper.toggleHide(component, 'noTermSheet');
 
 				} else if (returnVal.ValidationError && returnVal.ValidationError.length > 0){
+                    component.set("v.validationErrorMessage", returnVal.ValidationError[0]);
 					helper.toggleHide(component, 'validationError');
 				} else {
                     helper.toggleHide(component, 'allowed');
