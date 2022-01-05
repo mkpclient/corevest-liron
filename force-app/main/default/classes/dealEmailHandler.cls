@@ -6,14 +6,19 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     String subject = email.Subject;
     String parsedSubject = subject.substringAfter('#');
 
-    while(parsedSubject.startsWith(' ')) {
+    while (parsedSubject.startsWith(' ')) {
       parsedSubject = parsedSubject.substringAfter(' ');
-    
     }
-    
-    String dealLoanNumber = parsedSubject.contains(' ') ? parsedSubject.substringBefore(' ') : parsedSubject;
 
-    System.debug(subject + ' is the subject and loan number is ' + dealLoanNumber);
+    String dealLoanNumber = parsedSubject.contains(' ')
+      ? parsedSubject.substringBefore(' ')
+      : parsedSubject;
+
+    System.debug(
+      subject +
+      ' is the subject and loan number is ' +
+      dealLoanNumber
+    );
     List<Opportunity> dealRecord = [
       SELECT Id
       FROM Opportunity
@@ -26,13 +31,23 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
         saveEmailMessage(email, dealRecord[0]);
       } catch (Exception e) {
         sendExceptionEmails(e);
-        System.debug('Error in handler while sending email message ' + e.getMessage() + ' on line ' + e.getLineNumber());
+        System.debug(
+          'Error in handler while sending email message ' +
+          e.getMessage() +
+          ' on line ' +
+          e.getLineNumber()
+        );
       }
     } else {
       CalloutException e = new CallOutException();
       e.setMessage('Deal not found for loan number: ' + dealLoanNumber);
       sendExceptionEmails(e);
-      System.debug('Error in handler and skipped sending email message ' + e.getMessage() + ' on line ' + e.getLineNumber());
+      System.debug(
+        'Error in handler and skipped sending email message ' +
+        e.getMessage() +
+        ' on line ' +
+        e.getLineNumber()
+      );
     }
 
     return new Messaging.InboundEmailResult();
@@ -45,14 +60,20 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     String subject = email.Subject;
 
     String fromAddress = email.fromAddress;
-    List<String> toAddresses = email.toAddresses != null ? email.toAddresses : new List<String>();
+    List<String> toAddresses = email.toAddresses != null
+      ? email.toAddresses
+      : new List<String>();
 
-    if(toAddresses.size() == 0) {
-      toAddresses = email.ccAddresses != null ? email.ccAddresses : new List<String>();
+    if (toAddresses.size() == 0) {
+      toAddresses = email.ccAddresses != null
+        ? email.ccAddresses
+        : new List<String>();
     }
 
-    List<String> ccAddresses = email.ccAddresses != null && email.toAddresses != null ? email.ccAddresses : new List<String>();
-    
+    List<String> ccAddresses = email.ccAddresses != null &&
+      email.toAddresses != null
+      ? email.ccAddresses
+      : new List<String>();
 
     Id senderId = null;
     List<Id> recipientIds = new List<Id>();
@@ -73,10 +94,13 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       WHERE Email IN :toAddresses
     ]) {
       recipientIds.add(recipient.Id);
-      toAddresses.remove(toAddresses.indexOf(recipient.Email));
+
+      if(toAddresses.contains(recipient.Email)) {
+        toAddresses.remove(toAddresses.indexOf(recipient.Email));
+      }
     }
 
-    if(ccAddresses.size() > 0) {
+    if (ccAddresses.size() > 0) {
       for (User ccRecipient : [
         SELECT Id, Email
         FROM User
@@ -86,7 +110,6 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
         ccAddresses.remove(ccAddresses.indexOf(ccRecipient.Email));
       }
     }
-    
 
     Integer characterLim = subject.length() <= 80 ? subject.length() : 80;
     Integer contentLim = email.plainTextBody.length() <= 32768
@@ -114,8 +137,8 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       emailMessage.RelatedToId = deal.Id;
       emailMessage.ToAddress = String.join(toAddresses, ';');
       emailMessage.ToIds = recipientIds;
-      
-      if(Test.isRunningTest()) {
+
+      if (Test.isRunningTest()) {
         System.debug('Saving email message');
         System.debug(emailMessage);
       }
@@ -203,21 +226,24 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
           'relationIds' => (List<String>) ccRecipientIds
         },
         'FromAddress' => new Map<String, List<String>>{
-          'relationAddresses' => senderId != null ? new List<String>() : new List<String>{ fromAddress },
-          'relationIds' => new List<String>{ senderId != null ? String.valueOf(senderId) : 'none' }
+          'relationAddresses' => senderId != null
+            ? new List<String>()
+            : new List<String>{ fromAddress },
+          'relationIds' => new List<String>{
+            senderId != null ? String.valueOf(senderId) : 'none'
+          }
         }
       };
 
       for (String relationType : emailRelationsMap.keySet()) {
-        List<String> relationAddresses = emailRelationsMap.get(
-            relationType
-          )
+        List<String> relationAddresses = emailRelationsMap.get(relationType)
           .get('relationAddresses');
 
         List<String> relationIds = !emailRelationsMap.get(relationType)
-          .get('relationIds').contains('none')
-            ? (List<Id>) emailRelationsMap.get(relationType).get('relationIds')
-            : new List<Id>();
+            .get('relationIds')
+            .contains('none')
+          ? (List<Id>) emailRelationsMap.get(relationType).get('relationIds')
+          : new List<Id>();
 
         createEmailMessageRelations(
           emailMessage.Id,
@@ -228,7 +254,12 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       }
     } catch (Exception e) {
       Database.rollback(sp);
-      System.debug('Error saving email message ' + e.getMessage() + ' at ' + e.getLineNumber());
+      System.debug(
+        'Error saving email message ' +
+        e.getMessage() +
+        ' at ' +
+        e.getLineNumber()
+      );
       throw e;
     }
   }
@@ -266,7 +297,8 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     email.setToAddresses(
       new List<String>{
         'ldecastro@mkpartners.com',
-        'logins+cvest@mkpartners.com'
+        'logins+cvest@mkpartners.com',
+        'bryon.harland@cvest.com'
       }
     );
 
