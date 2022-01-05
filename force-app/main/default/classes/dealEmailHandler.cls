@@ -30,7 +30,7 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       try {
         saveEmailMessage(email, dealRecord[0]);
       } catch (Exception e) {
-        sendExceptionEmails(e);
+        sendExceptionEmails(e, subject, email.fromAddress);
         System.debug(
           'Error in handler while sending email message ' +
           e.getMessage() +
@@ -41,7 +41,7 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     } else {
       CalloutException e = new CallOutException();
       e.setMessage('Deal not found for loan number: ' + dealLoanNumber);
-      sendExceptionEmails(e);
+      sendExceptionEmails(e, subject, email.fromAddress);
       System.debug(
         'Error in handler and skipped sending email message ' +
         e.getMessage() +
@@ -94,7 +94,6 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       WHERE Email IN :toAddresses
     ]) {
       recipientIds.add(recipient.Id);
-
       if(toAddresses.contains(recipient.Email)) {
         toAddresses.remove(toAddresses.indexOf(recipient.Email));
       }
@@ -111,7 +110,7 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       }
     }
 
-    Integer characterLim = subject.length() <= 80 ? subject.length() : 80;
+    Integer characterLim = subject.length() <= 50 ? subject.length() : 50;
     Integer contentLim = email.plainTextBody.length() <= 32768
       ? email.plainTextBody.length()
       : 32768;
@@ -126,13 +125,21 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       emailMessage.FromAddress = fromAddress;
       emailMessage.FromName = email.FromName;
 
-      emailMessage.Subject = subject;
+      emailMessage.Subject = subject.substring(0, characterLim);
+
+      System.debug(
+        'EMAIL SUBJECT CHARACTER COUNT: ' + emailMessage.Subject.length()
+      );
+
       if (String.isNotEmpty(email.htmlBody)) {
-        emailMessage.HtmlBody = email.htmlBody;
+        emailMessage.HtmlBody = email.htmlBody.substring(
+          0,
+          email.htmlBody.length() <= 32768 ? email.htmlBody.length() : 32768
+        );
       }
       emailMessage.MessageDate = System.now();
       if (String.isNotEmpty(email.plainTextBody)) {
-        emailMessage.TextBody = email.plainTextBody;
+        emailMessage.TextBody = email.plainTextBody.substring(0, contentLim);
       }
       emailMessage.RelatedToId = deal.Id;
       emailMessage.ToAddress = String.join(toAddresses, ';');
@@ -291,7 +298,12 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     insert emailMessageRelations;
   }
 
-  public static void sendExceptionEmails(Exception ex) {
+  public static void sendExceptionEmails(
+    Exception ex,
+    String subject,
+    String senderAddress
+  ) {
+    
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
     email.setToAddresses(
@@ -307,6 +319,8 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     body += '\nStacktrace: ' + ex.getStackTraceString();
     body += '\nType: ' + ex.getTypeName();
     body += '\nMessage:  ' + ex.getMessage();
+    body += '\nSubject: ' + subject;
+    body += '\nSender: ' + senderAddress;
     email.setPlainTextbody(body);
     email.setSubject('Deal Approval Handler Error');
 

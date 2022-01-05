@@ -520,6 +520,7 @@ public class opportunity_Helper {
     Map<Id, Opportunity> oldMap
   ) {
     //Map<String,Id> userMap = new Map<String,Id>();
+    Map<Id, Opportunity> reveresedIcDeals = new Map<Id, Opportunity>();
 
     Map<Id, Opportunity> closedWonMap = new Map<Id, Opportunity>();
     List<Opportunity> oppsNeedLoanIds = new List<Opportunity>();
@@ -572,7 +573,12 @@ public class opportunity_Helper {
         currOpp.IC_Approval__c = null;
         currOpp.IC_Approval_Date__c = null;
         currOpp.StageName = 'Underwriting';
+        reveresedIcDeals.put(currOpp.Id, currOpp);
       }
+    }
+
+    if (reveresedIcDeals.size() > 0) {
+      emailReversedIcApprovalAlert(reveresedIcDeals);
     }
 
     Map<String, String> fieldNames = new Map<String, String>{
@@ -1321,7 +1327,6 @@ public class opportunity_Helper {
     Map<Id, Opportunity> closedWonIds = new Map<Id, Opportunity>();
     Map<Id, Contact> contacts = new Map<Id, Contact>();
     Map<Id, Opportunity> approvedIcDeals = new Map<Id, Opportunity>();
-    Map<Id, Opportunity> reveresedIcDeals = new Map<Id, Opportunity>();
 
     //Set<Id> populateUnique = new Set<Id>();
     //Set<Id> removeUnique = new Set<Id>();
@@ -1412,12 +1417,6 @@ public class opportunity_Helper {
         approvedIcDeals.put(o.Id, o);
       }
 
-      if (
-        o.IC_Approval_Date__c == null &&
-        oldMap.get(o.Id).IC_Approval_Date__c != null
-      ) {
-        reveresedIcDeals.put(o.Id, o);
-      }
 
       // if((o.Record_Type_Name__c == 'LOC_Loan' || o.Record_Type_Name__c.contains('Bridge')) && o.Parent_Deal__c != null){
       //     locParentIds.add(o.Parent_Deal__c);
@@ -1761,10 +1760,6 @@ public class opportunity_Helper {
 
     if (oppsServiceDate.size() > 0) {
       updateOppLineItems(oppsServiceDate, 'ServiceDate', 'CloseDate');
-    }
-
-    if (reveresedIcDeals.size() > 0) {
-      emailReversedIcApprovalAlert(reveresedIcDeals);
     }
 
     if (approvedIcDeals.size() > 0) {
