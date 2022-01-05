@@ -152,7 +152,8 @@ public without sharing class IcRejectionLinkController {
       }
     }
 
-    if (messages.size() > 0) {
+    if (messages.size() > 0 && !Test.isRunningTest()) {
+      
       List<Messaging.SendEmailResult> results = Messaging.sendEmail(messages);
 
       if (results[0].success) {
