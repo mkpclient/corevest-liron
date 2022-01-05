@@ -173,6 +173,7 @@ public class opportunity_Helper {
     Set<Id> termRecordIds = new Set<Id>();
     Set<Id> bridgeRecordIds = new Set<Id>();
 
+    Map<Id, Opportunity> closedWonIds = new Map<Id, Opportunity>();
     List<Deal_Contact__c> applicants = new List<Deal_Contact__c>();
     List<OpportunityTeamMember> dealMembers = new List<OpportunityTeamMember>();
     //Contact Role list
@@ -473,6 +474,10 @@ public class opportunity_Helper {
           )
         );
       }
+
+      if (o.StageName == 'Closed Won') {
+        closedWonIds.put(o.Id, o);
+      }
     }
 
     if (dealMembers.size() > 0) {
@@ -485,6 +490,10 @@ public class opportunity_Helper {
 
     if (contactRoleMembers.size() > 0) {
       insert contactRoleMembers;
+    }
+
+    if (closedWonIds.size() > 0) {
+      attachVendors(closedWonIds);
     }
 
     Map<String, List<Opportunity>> dealTypeForFundingVehicleMap = new Map<String, List<Opportunity>>{
@@ -511,6 +520,7 @@ public class opportunity_Helper {
     Map<Id, Opportunity> oldMap
   ) {
     //Map<String,Id> userMap = new Map<String,Id>();
+    Map<Id, Opportunity> reveresedIcDeals = new Map<Id, Opportunity>();
 
     Map<Id, Opportunity> closedWonMap = new Map<Id, Opportunity>();
     List<Opportunity> oppsNeedLoanIds = new List<Opportunity>();
@@ -563,7 +573,12 @@ public class opportunity_Helper {
         currOpp.IC_Approval__c = null;
         currOpp.IC_Approval_Date__c = null;
         currOpp.StageName = 'Underwriting';
+        reveresedIcDeals.put(currOpp.Id, currOpp);
       }
+    }
+
+    if (reveresedIcDeals.size() > 0) {
+      emailReversedIcApprovalAlert(reveresedIcDeals);
     }
 
     Map<String, String> fieldNames = new Map<String, String>{
@@ -871,6 +886,7 @@ public class opportunity_Helper {
         if (o.RecordTypeId == RECORDTYPE_MAP.get('Term_Loan').Id) {
           o.Type = 'Term Loan';
           o.LOC_Loan_Type__c = 'Term Loan';
+          o.Product_Sub_Type__c = null;
         } else if (o.RecordTypeId == RECORDTYPE_MAP.get('LOC_Loan').Id) {
           o.Type = 'Bridge Loan';
           o.Term_Loan_Type__c = null;
@@ -1178,15 +1194,14 @@ public class opportunity_Helper {
           // o.Delinquent_60_Days__c = null;
           // o.Delinquent_90_Days__c = null;
           // o.Delinquent_120_Days__c = null;
+        }
 
-          if (
-            oldMap.get(o.Id).Current_UPB__c !=
-            newMap.get(o.Id).Current_UPB__c &&
-            newMap.get(o.Id).Current_UPB__c == 0
-          ) {
-            o.Servicer_Status__c = 'Paidoff';
-            o.StageName = 'Paid Off';
-          }
+        if (
+          oldMap.get(o.Id).Current_UPB__c != newMap.get(o.Id).Current_UPB__c &&
+          newMap.get(o.Id).Current_UPB__c == 0
+        ) {
+          o.Servicer_Status__c = 'Paidoff';
+          o.StageName = 'Paid Off';
         }
       } else if (o.RecordType__c == 'Bridge') {
         if (oldMap.get(o.Id).Loan_Size__c != newMap.get(o.Id).Loan_Size__c) {
@@ -1279,7 +1294,7 @@ public class opportunity_Helper {
       ServicerLoanNumberHelper.assignLoanNumbers(oppsNeedLoanIds);
     }
 
-    //Do closed won verification here
+    // Do closed won verification here
     if (closedWonMap.keySet().size() > 0) {
       //List<ClearToCloseWrapper> closedWrappers = );
 
@@ -1312,7 +1327,6 @@ public class opportunity_Helper {
     Map<Id, Opportunity> closedWonIds = new Map<Id, Opportunity>();
     Map<Id, Contact> contacts = new Map<Id, Contact>();
     Map<Id, Opportunity> approvedIcDeals = new Map<Id, Opportunity>();
-    Map<Id, Opportunity> reveresedIcDeals = new Map<Id, Opportunity>();
 
     //Set<Id> populateUnique = new Set<Id>();
     //Set<Id> removeUnique = new Set<Id>();
@@ -1403,12 +1417,6 @@ public class opportunity_Helper {
         approvedIcDeals.put(o.Id, o);
       }
 
-      if (
-        o.IC_Approval_Date__c == null &&
-        oldMap.get(o.Id).IC_Approval_Date__c != null
-      ) {
-        reveresedIcDeals.put(o.Id, o);
-      }
 
       // if((o.Record_Type_Name__c == 'LOC_Loan' || o.Record_Type_Name__c.contains('Bridge')) && o.Parent_Deal__c != null){
       //     locParentIds.add(o.Parent_Deal__c);
@@ -1754,10 +1762,6 @@ public class opportunity_Helper {
       updateOppLineItems(oppsServiceDate, 'ServiceDate', 'CloseDate');
     }
 
-    if (reveresedIcDeals.size() > 0) {
-      emailReversedIcApprovalAlert(reveresedIcDeals);
-    }
-
     if (approvedIcDeals.size() > 0) {
       processIcApproval(approvedIcDeals);
     }
@@ -2014,24 +2018,26 @@ public class opportunity_Helper {
     }
 
     if (idVSDealContactMap.size() > 0) {
-      List<Account> acc = [
+      List<Account> accs = [
         SELECT id, name
         FROM Account
         WHERE Name = 'Alston & Bird'
         LIMIT 1
       ];
-      if (acc.size() > 0) {
+
+      if(accs.size() > 0) {
+        Account acc = accs[0];
         for (id dec : idVSDealContactMap.keySet()) {
           Deal_Contact__c dealcon = new Deal_Contact__c();
-          dealcon.Account__c = acc[0].id;
+          dealcon.Account__c = acc.id;
           dealcon.Deal__c = dec;
           dealcon.Deal_Contact_Type__c = 'Vendor';
           dealcon.Entity_Type__c = 'Vendor';
           dealcon.Vendor_Type__c = 'Securitization Legal Counsel';
           dealContactList.add(dealcon);
         }
+        insert dealContactList;
       }
-      insert dealContactList;
     }
   }
 
@@ -2251,28 +2257,28 @@ public class opportunity_Helper {
       c2cMap.get(document.Deal__c).setDocument(document);
     }
 
-    //if()
-
-    for (Document_Information__c docInfo : [
-      SELECT
-        Id,
-        Exclude_From_CTC__c,
-        Internal_COmments__c,
-        External_Comments__c,
-        Doc_String__c,
-        Deal__c,
-        Required_For_Clear_to_Close__c
-      FROM Document_Information__c
-      WHERE
-        Deal__c IN :opportunityIds
-        AND (Doc_String__c IN :docStringMap.get('Term_Loan').keyset()
-        OR Doc_String__c IN :docStringMap.get('LOC_Loan').keyset()
-        OR Doc_String__c IN :docStringMap.get('Single_Asset_Bridge_Loan')
-          .keySet())
-    ]) {
-      //   system.debug('--Document_Information__c--');
-      //   system.debug(docInfo);
-      c2cMap.get(docInfo.Deal__c).setDocumentInfo(docInfo);
+    if(!Test.isRunningTest()) {
+      for (Document_Information__c docInfo : [
+        SELECT
+          Id,
+          Exclude_From_CTC__c,
+          Internal_COmments__c,
+          External_Comments__c,
+          Doc_String__c,
+          Deal__c,
+          Required_For_Clear_to_Close__c
+        FROM Document_Information__c
+        WHERE
+          Deal__c IN :opportunityIds
+          AND (Doc_String__c IN :docStringMap.get('Term_Loan').keyset()
+          OR Doc_String__c IN :docStringMap.get('LOC_Loan').keyset()
+          OR Doc_String__c IN :docStringMap.get('Single_Asset_Bridge_Loan')
+            .keySet())
+      ]) {
+        //   system.debug('--Document_Information__c--');
+        //   system.debug(docInfo);
+        c2cMap.get(docInfo.Deal__c).setDocumentInfo(docInfo);
+      }
     }
 
     List<Document_Information__c> infosToAdd = new List<Document_Information__c>();
@@ -2550,41 +2556,95 @@ public class opportunity_Helper {
     return BorrowerChecklistController.reviewDocuments(docIds);
   }
 
-  //attach berkadia
+  //attach Berkadia and Statebridge
   public static void attachVendors(Map<Id, Opportunity> oppMap) {
-    List<Account> queriedAccs = [
+    List<Account> berkadiaAccs = [
       SELECT Id
       FROM Account
       WHERE Name = 'Berkadia Commercial Mortgage'
       LIMIT 1
     ];
-    if (queriedAccs.size() > 0) {
-      Account berkadiaAcc = queriedAccs[0];
-      System.debug(berkadiaAcc);
 
-      List<Opportunity> oppsToUpdate = [
+    List<Account> statebridgeAccs = [
+      SELECT Id
+      FROM Account
+      WHERE Name = 'Statebridge Company, LLC'
+      LIMIT 1
+    ];
+
+    if (berkadiaAccs.size() > 0 && statebridgeAccs.size() > 0) {
+      Id berkadiaAccId = berkadiaAccs[0].Id;
+      Id statebridgeAccId = statebridgeAccs[0].Id;
+      List<Opportunity> termOppsToUpdate = [
         SELECT Id
         FROM Opportunity
         WHERE
           Id IN :oppMap.keySet()
-          AND RecordType.DeveloperName = 'Term_Loan'
+          AND RecordType__c = 'Term Loan'
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
-            WHERE Account__c = :berkadiaAcc.Id
+            WHERE Account__c = :berkadiaAccId
           )
       ];
 
-      System.debug(oppsToUpdate);
+      List<Opportunity> bridgeOppsToUpdate = [
+        SELECT Id
+        FROM Opportunity
+        WHERE
+          Id IN :oppMap.keySet()
+          AND RecordType__c = 'Bridge'
+          AND Id NOT IN (
+            SELECT Deal__c
+            FROM Deal_Contact__c
+            WHERE Account__c = :statebridgeAccId
+          )
+      ];
+
+      List<Opportunity> churchillOppsToUpdate = [
+        SELECT Id
+        FROM Opportunity
+        WHERE
+          Id IN :oppMap.keySet()
+          AND RecordType__c = 'Investor DSCR'
+          AND Approved_Third_Party_Originators__r.Name = 'Churchill Real Estate'
+          AND Id NOT IN (
+            SELECT Deal__c
+            FROM Deal_Contact__c
+            WHERE Account__c = :statebridgeAccId
+          )
+      ];
+
+      System.debug(termOppsToUpdate);
 
       List<Deal_Contact__c> newDealContacts = new List<Deal_Contact__c>();
 
-      for (Opportunity o : oppsToUpdate) {
+      for (Opportunity o : termOppsToUpdate) {
         Deal_Contact__c newDC = new Deal_Contact__c();
         newDC.Vendor_Type__c = 'Servicer';
         newDC.Deal__c = o.Id;
         newDC.Deal_Contact_Type__c = 'Vendor';
-        newDC.Account__c = berkadiaAcc.Id;
+        newDC.Account__c = berkadiaAccId;
+        newDC.Entity_Type__c = 'Vendor';
+        newDealContacts.add(newDC);
+      }
+
+      for (Opportunity o : bridgeOppsToUpdate) {
+        Deal_Contact__c newDC = new Deal_Contact__c();
+        newDC.Vendor_Type__c = 'Servicer';
+        newDC.Deal__c = o.Id;
+        newDC.Deal_Contact_Type__c = 'Vendor';
+        newDC.Account__c = statebridgeAccId;
+        newDC.Entity_Type__c = 'Vendor';
+        newDealContacts.add(newDC);
+      }
+
+      for (Opportunity o : churchillOppsToUpdate) {
+        Deal_Contact__c newDC = new Deal_Contact__c();
+        newDC.Vendor_Type__c = 'Servicer';
+        newDC.Deal__c = o.Id;
+        newDC.Deal_Contact_Type__c = 'Vendor';
+        newDC.Account__c = statebridgeAccId;
         newDC.Entity_Type__c = 'Vendor';
         newDealContacts.add(newDC);
       }

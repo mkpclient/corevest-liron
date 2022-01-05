@@ -1,0 +1,24 @@
+<apex:page controller="IcRejectionLinkController" action="{!rejectDeal}" lightningStylesheets="true">
+  <script src="/soap/ajax/32.0/connection.js" type="text/javascript" />
+  <script src="/soap/ajax/32.0/apex.js" type="text/javascript" />
+
+  <script>
+
+    function doToast() {
+
+      sforce.one.showToast({
+        "title": "{!toastTitle}",
+        "message": "{!toastMessage}",
+        "type": "{!toastVariant}"
+      });
+    }
+
+    if (eval("{!unhideToast}")) {
+
+      doToast();
+      sforce.one.navigateToSObject("{!deal.Id}", "view");
+
+    }
+
+  </script>
+</apex:page>
