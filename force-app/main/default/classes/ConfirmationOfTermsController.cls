@@ -81,7 +81,6 @@ public without sharing class ConfirmationOfTermsController {
       FROM Approval_History__c
       WHERE
         Deal__c = :oppRecordID
-        AND Status__c = 'Submitted'
         AND Approval_Type__c = 'Confirmation Of Terms'
         AND Tracking_Status__c = 'Closer'
         AND Role__c = 'Submitter'
@@ -110,7 +109,7 @@ public without sharing class ConfirmationOfTermsController {
       // toEmailAddressList.add(opp.Closer__r.Email);
       // toEmailAddressList.add(opp.Owner.Email);
       if (opp.CAF_Analyst__r.Email != null && opp.CAF_Analyst__r.Email != '') {
-        // toEmailAddressList.add(opp.CAF_Analyst__r.Email);
+        // toEmailAddressList.add(opp.CAF_Analyst__r.Email); Matthew John Tanner Ryan Bryon
         emailAddressSet.add(opp.CAF_Analyst__r.Email);
         recipientIds.add(opp.CAF_Analyst__c);
       }
