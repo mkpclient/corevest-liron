@@ -2826,7 +2826,7 @@ public class opportunity_Helper {
       }
     }
 
-    if (messages.size() > 0) {
+    if (messages.size() > 0 && !Test.isRunningTest()) {
       List<Messaging.SendEmailResult> results = Messaging.sendEmail(messages);
 
       if (results[0].success) {
@@ -2868,14 +2868,17 @@ public class opportunity_Helper {
         Funding_Vehicle__c,
         Funding_Vehicle__r.Name,
         End_Date__c,
-        Deal__r.Securitization__r.Close_Date__c
+        Deal__r.Securitization__r.Close_Date__c,
+        Deal__r.Securitization__c
       FROM Deal_x_Funding_Vehicle__c
       WHERE Deal__c IN :dealMap.keySet() AND End_Date__c = NULL
     ];
 
     for (Deal_x_Funding_Vehicle__c d : dfvs) {
-      if (dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name && d.Deal__r.Securitization__r.Close_Date__c != null) {
+      if (d.Deal__r.Securitization__c != null && dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name && d.Deal__r.Securitization__r.Close_Date__c != null) {
         d.End_Date__c = d.Deal__r.Securitization__r.Close_Date__c;
+      } else if (d.Deal__r.Securitization__c == null && d.Funding_Vehicle__r.Name == dealMap.get(d.Deal__c)) {
+        d.End_Date__c = (Date) System.today();
       }
     }
 
