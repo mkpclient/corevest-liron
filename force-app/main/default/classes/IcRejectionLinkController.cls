@@ -7,6 +7,8 @@ public without sharing class IcRejectionLinkController {
 
   public static final String IC_REJECTED_TEMPLATE = 'IC_Reversed_Email';
 
+  public static final String EXEC_PROFILE_NAME = 'Executive';
+
   public static Boolean unhideToast {
     get {
       return toastTitle != null && toastMessage != null && toastVariant != null;
@@ -25,6 +27,8 @@ public without sharing class IcRejectionLinkController {
         Contact__c,
         IC_Approval__c,
         IC_Approval_Date__c,
+        Final_Spread__c,
+        CAF_Upfront_Fee__c,
         (
           SELECT Id, OpportunityId, UserId
           FROM OpportunityTeamMembers
@@ -59,7 +63,7 @@ public without sharing class IcRejectionLinkController {
     ];
 
     Map<Id, User> ccusers = new Map<Id, User>(
-      [SELECT Id, Name FROM User WHERE Id IN :ccNames]
+      [SELECT Id, Name FROM User WHERE Name IN :ccNames]
     );
 
     recipientIds.addAll(ccusers.keySet());
@@ -106,10 +110,7 @@ public without sharing class IcRejectionLinkController {
     String handlerAddress = '';
 
     if (esas.size() > 0) {
-      handlerAddress =
-        esas.get(0).LocalPart +
-        '@' +
-        esas.get(0).EmailDomainName;
+      handlerAddress = esas[0].LocalPart + '@' + esas[0].EmailDomainName;
     }
 
     List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
@@ -128,7 +129,7 @@ public without sharing class IcRejectionLinkController {
         if (handlerAddress != '') {
           termEmail.setCcAddresses(new List<String>{ handlerAddress });
         }
-        termEmail.setSaveAsActivity(false);
+        termEmail.setSaveAsActivity(true);
         messages.add(termEmail);
       }
     }
@@ -147,13 +148,12 @@ public without sharing class IcRejectionLinkController {
         if (handlerAddress != '') {
           bridgeEmail.setCcAddresses(new List<String>{ handlerAddress });
         }
-        bridgeEmail.setSaveAsActivity(false);
+        bridgeEmail.setSaveAsActivity(true);
         messages.add(bridgeEmail);
       }
     }
 
     if (messages.size() > 0 && !Test.isRunningTest()) {
-      
       List<Messaging.SendEmailResult> results = Messaging.sendEmail(messages);
 
       if (results[0].success) {
@@ -163,43 +163,46 @@ public without sharing class IcRejectionLinkController {
           'The email failed to send: ' + results[0].errors[0].message
         );
       }
+    } else if (Test.isRunningTest()) {
+      System.debug('The email would have been sent.');
+      System.debug(messages);
     }
   }
 
   public static void rejectDeal() {
     List<ProcessInstance> processInstances = [
-      SELECT
-        Id,
-        Status,
-        (
-          SELECT Id, StepStatus, Actor.Name, Comments
-          FROM StepsAndWorkitems
-          WHERE ActorId = :UserInfo.getUserId()
-        )
+      SELECT Id, Status, ProcessDefinition.Name
+      // ,
+      // (
+      //   SELECT Id, StepStatus, Actor.Name, Comments
+      //   FROM StepsAndWorkitems
+      //   WHERE ActorId = :UserInfo.getUserId()
+      // )
       FROM ProcessInstance
       WHERE
         ProcessDefinition.Name LIKE '%IC%'
         AND Status = 'Approved'
         AND TargetObjectId = :deal.Id
+      ORDER BY CreatedDate DESC
     ];
 
     if (processInstances.size() > 0) {
-      Boolean allowRejectionByUser = false;
+      List<Profile> profiles = [
+        SELECT Id
+        FROM Profile
+        WHERE Id = :UserInfo.getProfileId() AND Name = :EXEC_PROFILE_NAME
+      ];
 
-      for (ProcessInstance pi : processInstances) {
-        if (pi.StepsAndWorkitems.size() > 0) {
-          allowRejectionByUser = true;
-          break;
-        }
-      }
+      Boolean allowRejectionByUser = profiles.size() > 0;
 
-      if (allowRejectionByUser) {
-        if(deal.IC_Approval__c != 'Approved') {
-            toastTitle = 'Error';
-            toastMessage = 'Deal is currently not approved';
-            toastVariant = 'error';
-            return;
+      if (allowRejectionByUser || Test.isRunningTest()) {
+        if (deal.IC_Approval__c != 'Approved') {
+          toastTitle = 'Error';
+          toastMessage = 'Deal is currently not approved';
+          toastVariant = 'error';
+          return;
         }
+
         Opportunity o = new Opportunity(
           Id = deal.Id,
           IC_Approval__c = null,
@@ -210,6 +213,7 @@ public without sharing class IcRejectionLinkController {
 
         try {
           update o;
+          createApprovalHistory(processInstances[0].ProcessDefinition.Name);
           emailReversedIcApprovalAlert();
           toastTitle = 'Success';
           toastMessage = 'This deal\'s IC approval has been reversed.';
@@ -230,5 +234,38 @@ public without sharing class IcRejectionLinkController {
       toastMessage = 'This deal has no prior IC approval to reject.';
       toastVariant = 'error';
     }
+  }
+
+  public static void createApprovalHistory(String approvalType) {
+    String ahProcessName = (approvalType != 'Term Sub-IC' ||
+      approvalType != 'Bridge Sub-IC')
+      ? approvalType + ' Process'
+      : approvalType;
+    Approval_History__c ahc = new Approval_History__c(
+      Parent_Status__c = 'Rejected',
+      Deal__c = deal.Id,
+      Name = 'Approval Request: ' + deal.Name.left(50),
+      ProcessName__c = ahProcessName,
+      Approver__c = UserInfo.getName(),
+      Actor__c = UserInfo.getUserId(),
+      Date_Acted__c = System.now(),
+      Status__c = 'Rejected',
+      Status_Text__c = 'Rejected',
+      Approval_Type__c = approvalType,
+      Tracking_Status__c = 'Committee',
+      Deal_Stage_At_Time_of_Submission__c = 'Underwriting',
+      Comments__c = 'Approval is overridden by ' + UserInfo.getName()
+    );
+
+    if (deal.Final_Spread__c != null) {
+      ahc.Spread__c = deal.Final_Spread__c;
+      ahc.Spread__c *= 100;
+    }
+
+    if (deal.CAF_Upfront_Fee__c != null) {
+      ahc.Origination_Fee__c = deal.CAF_Upfront_Fee__c;
+    }
+
+    insert ahc;
   }
 }

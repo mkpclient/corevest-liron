@@ -94,7 +94,7 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
       WHERE Email IN :toAddresses
     ]) {
       recipientIds.add(recipient.Id);
-      if(toAddresses.contains(recipient.Email)) {
+      if (toAddresses.contains(recipient.Email)) {
         toAddresses.remove(toAddresses.indexOf(recipient.Email));
       }
     }
@@ -106,7 +106,9 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
         WHERE Email IN :ccAddresses
       ]) {
         ccRecipientIds.add(ccRecipient.Id);
-        ccAddresses.remove(ccAddresses.indexOf(ccRecipient.Email));
+        if (ccAddresses.contains(ccRecipient.Email)) {
+          ccAddresses.remove(ccAddresses.indexOf(ccRecipient.Email));
+        }
       }
     }
 
@@ -303,7 +305,6 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     String subject,
     String senderAddress
   ) {
-    
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
     email.setToAddresses(
