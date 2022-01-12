@@ -2,9 +2,12 @@ public without sharing class IcApprovalController {
   // ! change in prod
   static final String HANDLERADDRESS = 'icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com';
 
-  static final List<String> DEAL_TYPES = new List<String>{'Term Loan', 'Bridge Loan'};
+  static final List<String> DEAL_TYPES = new List<String>{
+    'Term Loan',
+    'Bridge Loan'
+  };
 
-  // ? Setting the same group for both Bridge and Term sub IC processes because they're identical 
+  // ? Setting the same group for both Bridge and Term sub IC processes because they're identical
 
   public static final Map<String, List<String>> EMAILSMAP = new Map<String, List<String>>{
     'Bridge IC' => queryEmailAddresses('Bridge_IC_Approval', 'group'),
@@ -40,13 +43,11 @@ public without sharing class IcApprovalController {
 
   public static Boolean verifyPermission() {
     List<PermissionSetAssignment> permSets = [
-      SELECT
-        Id,
-        PermissionSet.Name,
-        AssigneeId
+      SELECT Id, PermissionSet.Name, AssigneeId
       FROM PermissionSetAssignment
-      WHERE PermissionSet.Name = 'IC_Approval_Submitters'
-      AND AssigneeId=:UserInfo.getUserId()
+      WHERE
+        PermissionSet.Name = 'IC_Approval_Submitters'
+        AND AssigneeId = :UserInfo.getUserId()
     ];
 
     return permSets.size() > 0;
@@ -128,13 +129,21 @@ public without sharing class IcApprovalController {
   @AuraEnabled
   public static String returnDeal(Id recordId) {
     Map<String, Object> m = new Map<String, List<Object>>();
-    if(!verifyPermission()) {
-      m.put('Error', new List<Object>{ 'You do not have the sufficient role to start this process.' });
+    if (!verifyPermission()) {
+      m.put(
+        'Error',
+        new List<Object>{
+          'You do not have the sufficient role to start this process.'
+        }
+      );
       return JSON.serialize(m);
     }
     String qs = 'SELECT ';
     qs += String.join(fields, ', ');
-    qs += ' FROM Opportunity WHERE Id = :recordId AND TYPE IN (\''+ String.join(DEAL_TYPES, '\',\'') + '\') AND (NOT record_type_name__c LIKE \'%Closed_Lost%\')  LIMIT 1';
+    qs +=
+      ' FROM Opportunity WHERE Id = :recordId AND TYPE IN (\'' +
+      String.join(DEAL_TYPES, '\',\'') +
+      '\') AND (NOT record_type_name__c LIKE \'%Closed_Lost%\')  LIMIT 1';
     List<Opportunity> deal;
     try {
       deal = Database.query(qs);
@@ -153,11 +162,14 @@ public without sharing class IcApprovalController {
         WHERE TargetObjectId = :dealId AND Status = 'Pending'
         LIMIT 1
       ];
-      if(deal[0].StageName != 'Underwriting') {
+      if (deal[0].StageName != 'Underwriting') {
         m.put('Error', new List<Object>{ 'Deal needs to be in Underwriting.' });
         return JSON.serialize(m);
       } else if (deal[0].IC_Approval__C == 'Approved') {
-        m.put('Error', new List<Object>{ 'Deal has already been approved by committee.' });
+        m.put(
+          'Error',
+          new List<Object>{ 'Deal has already been approved by committee.' }
+        );
         return JSON.serialize(m);
       } else if (pi.size() > 0) {
         m.put(
@@ -403,9 +415,9 @@ public without sharing class IcApprovalController {
       req.setSubmitterId(userId);
       req.setSkipEntryCriteria(true);
       req.setProcessDefinitionNameOrId(processName);
-      req.setNextApproverIds(
-        queryApproverIds(APPROVALPROCESSES.get(approvalType))
-      );
+      // req.setNextApproverIds(
+      //   queryApproverIds(APPROVALPROCESSES.get(approvalType))
+      // );
       Approval.ProcessResult result = Approval.process(req);
       Id processInstanceId = result.getInstanceId();
       String status = result.getInstanceStatus();
@@ -415,7 +427,8 @@ public without sharing class IcApprovalController {
 
       String dealStage = deal.StageName;
 
-      String ahProcessName = (approvalType != 'Term Sub-IC' || approvalType != 'Bridge Sub-IC')
+      String ahProcessName = (approvalType != 'Term Sub-IC' ||
+        approvalType != 'Bridge Sub-IC')
         ? approvalType + ' Process'
         : approvalType;
       List<Approval_History__c> ahList = new List<Approval_History__c>();
@@ -447,10 +460,7 @@ public without sharing class IcApprovalController {
 
       // TODO: loop through the actual work items
       for (ProcessInstanceWorkitem workItem : [
-        SELECT
-          Id,
-          ActorId,
-          Actor.Name
+        SELECT Id, ActorId, Actor.Name
         FROM ProcessInstanceWorkItem
         WHERE Id IN :workItemIds
       ]) {
@@ -480,7 +490,7 @@ public without sharing class IcApprovalController {
       }
       insert ahList;
     } catch (Exception e) {
-      Database.rollback(sp); 
+      Database.rollback(sp);
       throw new AuraHandledException(e.getMessage());
     }
   }
