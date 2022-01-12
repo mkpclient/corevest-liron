@@ -4070,6 +4070,8 @@ public with sharing class opportunity_Tests {
     system.debug('a id ' + a.recordTypeId);
     Account acc = [SELECT Id FROM Account ORDER BY CreatedDate DESC LIMIT 1];
     Contact cont = [SELECT Id FROM Contact ORDER BY CreatedDate DESC LIMIT 1];
+    cont.AccountId = acc.Id;
+    update cont;
 
 
     Opportunity opp = new Opportunity();
