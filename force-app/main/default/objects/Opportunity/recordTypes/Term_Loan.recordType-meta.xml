@@ -315,6 +315,10 @@
     <picklistValues>
         <picklist>Asset_Maturity__c</picklist>
         <values>
+            <fullName>600 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
@@ -336,11 +340,19 @@
             <fullName>Escrow</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
             <fullName>Each Initial Advance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2037,6 +2049,10 @@
     <picklistValues>
         <picklist>Draw_Period__c</picklist>
         <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>540 Days</fullName>
             <default>false</default>
         </values>
@@ -2295,6 +2311,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>IC_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>IO_Term__c</picklist>
         <values>
             <fullName>0 months</fullName>
@@ -2452,6 +2483,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Line_Expiration__c</picklist>
+        <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>540 Days</fullName>
             <default>false</default>
@@ -2801,6 +2836,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Repayment_Period__c</picklist>
+        <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>540 Days</fullName>
             <default>false</default>

@@ -314,10 +314,11 @@ public class CTMtoLead {
 		List<Lead> leadsToUpdate = new List<Lead>();
 		List<Contact> contactsToUpdate = new List<Contact>();
 		Set<Id> convertedContactIdSet = new Set<Id>();
+		Map<Id, Lead> leadMapForSource = new Map<Id, Lead>();
 
-		for (Lead l : [SELECT Id, CreatedDate, ConvertedContactId, Formatted_Phone__c, Updated_By_CTM__c, Updated_UTM_by_CTM__c, Updated_Referrer_by_CTM__c, utm_Campaign_Content__c, utm_Campaign_Medium__c, utm_Campaign_Name__c, utm_Campaign_Source__c, utm_Campaign_Term__c, Referring_URL_Text__c, CTM_Ring_Time__c,
+		for (Lead l : [SELECT Id, CreatedDate, Introduction_Source__c, ConvertedContactId, Formatted_Phone__c, Updated_By_CTM__c, Updated_UTM_by_CTM__c, Updated_Referrer_by_CTM__c, utm_Campaign_Content__c, utm_Campaign_Medium__c, utm_Campaign_Name__c, utm_Campaign_Source__c, utm_Campaign_Term__c, Referring_URL_Text__c, CTM_Ring_Time__c,
 		                      ConvertedContact.Id, ConvertedContact.Updated_By_CTM__c, ConvertedContact.Updated_UTM_by_CTM__c, ConvertedContact.Updated_Referrer_by_CTM__c, ConvertedContact.utm_Campaign_Content__c, ConvertedContact.utm_Campaign_Medium__c, ConvertedContact.utm_Campaign_Name__c,
-													ConvertedContact.utm_Campaign_Source__c, ConvertedContact.utm_Campaign_Term__c, ConvertedContact.Referring_URL_Text__c
+													Referring_URL__c, ConvertedContact.utm_Campaign_Source__c, ConvertedContact.utm_Campaign_Term__c, ConvertedContact.Referring_URL_Text__c
 									 FROM Lead
 									 WHERE
 									   Formatted_Phone__c != null
@@ -381,6 +382,9 @@ public class CTMtoLead {
 			}
 			if (l.Updated_By_CTM__c) {
 				leadsToUpdate.add(l);
+				if(l.Introduction_Source__c == 'Hotline') {
+					leadMapForSource.put(l.Id, l);
+				}
 				if (c.Id != null && !convertedContactIdSet.contains(c.Id)) {
 					contactsToUpdate.add(c);
 					convertedContactIdSet.add(c.Id);
@@ -395,6 +399,43 @@ public class CTMtoLead {
 		System.debug(999992);
 		Database.update(contactsToUpdate, false);
 
+		if(leadMapForSource.size() > 0) {
+			updateSources(leadMapForSource);
+		}
+
+
+	}
+
+	public static void updateSources(Map<Id, Lead> leadMap) {
+		List<Source__c> sourcesToUpdate = new List<Source__c>();
+
+		for(Source__c s: [
+			SELECT Id, Lead__c
+			FROM Source__c
+			WHERE Lead__c IN :leadMap.keySet()
+		]) {
+			Lead sourceLead = leadMap.get(s.Lead__c);
+			s.utm_Campaign_Content__c = sourceLead.utm_Campaign_Content__c != null ? sourceLead.utm_Campaign_Content__c : null;
+			s.utm_Campaign_Medium__c = sourceLead.utm_Campaign_Medium__c != null ? sourceLead.utm_Campaign_Medium__c : null;
+			s.utm_Campaign_Name__c = sourceLead.utm_Campaign_Name__c != null ? sourceLead.utm_Campaign_Name__c : null;
+			s.utm_Campaign_Source__c = sourceLead.utm_Campaign_Source__c != null ? sourceLead.utm_Campaign_Source__c : null;
+			s.utm_Campaign_Term__c = sourceLead.utm_Campaign_Term__c != null ? sourceLead.utm_Campaign_Term__c : null;
+			s.CTM_Ring_Time__c = sourceLead.CTM_Ring_Time__c != null ? sourceLead.CTM_Ring_Time__c : null;
+			s.Referring_URL__c = sourceLead.Referring_URL__c != null ? sourceLead.Referring_URL__c : null;
+			sourcesToUpdate.add(s);
+		}
+
+		List<Database.SaveResult> saveResults = Database.update(sourcesToUpdate, false);
+
+		for(Database.SaveResult s : saveResults) {
+			if(!s.isSuccess()) {
+				for(Database.Error err : s.getErrors()) {
+					System.debug('The following error has occurred.');                    
+					System.debug(err.getStatusCode() + ': ' + err.getMessage());
+					System.debug('Source__c fields that affected this error: ' + err.getFields());
+				}
+			}
+		}
 	}
 
 

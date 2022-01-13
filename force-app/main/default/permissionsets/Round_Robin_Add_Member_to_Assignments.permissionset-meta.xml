@@ -1263,11 +1263,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Advance__c.Advance_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Advance__c.Advance__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2233,6 +2228,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Applying_Purpose_Investment_Loan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Attorney_Contact_Address__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2363,6 +2363,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.CRE_Loan_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Construction_Projects_Completed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Contact__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2394,6 +2404,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Application__c.Current_Date__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Current_Payoff_Amount__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2434,6 +2449,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Application__c.Email__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Estimated_As_Is_Value__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Estimated_As_Repaired_Value__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Estimated_Closing_Date__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2578,7 +2608,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Intend_To_Pay_Loan__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Interest_Rate_Checkbox__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Investment_Properties_Sold__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2658,6 +2698,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Long_Loan_Needed__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Long_Properties_Hold__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Lost_Money_Or_Fix_and_Flip__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2688,6 +2738,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Number_of_Units__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Obtain_Title_Insurance__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2709,6 +2764,36 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Application__c.Opt_for_CoreVest_Insurance_Agent__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Exit_Strategy__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Loan_Purpose__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Loan_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Project_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Refinance_Strategy__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Other_Type_of_Properties__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2739,6 +2824,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Application__c.Pending_Litigations__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Perform_Rehab_Work__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Plan_Rehab_on_Property__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2793,7 +2888,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Project_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Properties_Owned_Operated_as_Principal__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Properties_Owned_as_Principal__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Properties_To_Purchase__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Property_City__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2803,7 +2918,32 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Property_State__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Property_Street_Address__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Property_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Property_Violations_Investigations_5yr__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Property_Zip_Code__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Purchase_Price__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2833,7 +2973,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Refinance_Strategy__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Renovation_Principal_Rental__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Renovation_Principal_Sale__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Renovation_Work_Performer__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Rental_Properties_Owned__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2913,6 +3073,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Application__c.Summary_of_Rehab_Work__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Application__c.Target_Cities__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -2924,6 +3089,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Application__c.Title__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Application__c.Transaction_Type__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3644,6 +3814,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Approval_History__c.Recourse__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Approval_History__c.Rejection_Link__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4519,6 +4694,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Checklist_Item__c.Document_Type__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Checklist_Item__c.External_Comments__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5834,6 +6014,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.HasOptedOutOfFax</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Has_Phone_Number__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -12003,6 +12188,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Opportunity.IC_Approval__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Opportunity.IO_Term__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -15478,6 +15668,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Property__c.Gross_Yield_per_Property__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Property__c.HOA_Frequency__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -15889,6 +16084,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Property__c.Monthly_Total_Expenses__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Property__c.Net_Yield_per_Property__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -17294,6 +17494,36 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Special_Asset__c.Title_Policy_Number__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.Five_Year_Swap__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.OneM_LIBOR__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.OneM_SOFR__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.Seven_Year_Swap__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.Ten_Year_Swap__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Swap_Rate__c.Thirty_Year_Swap__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

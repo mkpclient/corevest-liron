@@ -17,7 +17,7 @@ public class UnderwritingApproval_LightningController {
     'Contact__r.MailingStreet' => 'Primary Contact Mailing Street',
     'Contact__r.MailingCity' => 'Primary Contact Mailing City',
     'Contact__r.MailingPostalCode' => 'Primary Contact Mailing Zipcode',
-    'Contact__r.Phone' => 'Primary Contact Phone Number',
+    'Contact__r.Phone' => 'Primary Contact Business Phone Number',
     'Contact__r.Email' => 'Primary Contact Email Address'
   };
 
@@ -41,7 +41,7 @@ public class UnderwritingApproval_LightningController {
     'Contact__r.MailingStreet' => 'Primary Contact Mailing Street',
     'Contact__r.MailingCity' => 'Primary Contact Mailing City',
     'Contact__r.MailingPostalCode' => 'Primary Contact Mailing Zipcode',
-    'Contact__r.Phone' => 'Primary Contact Phone Number',
+    'Contact__r.Phone' => 'Primary Contact Business Phone Number',
     'Contact__r.Email' => 'Primary Contact Email Address'
   };
 

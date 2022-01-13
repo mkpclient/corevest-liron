@@ -2,6 +2,91 @@ public without sharing class ChecklistController {
   public static Map<Id, List<Deal_Document__c>> itemDocMap;
 
   @AuraEnabled
+  public static List<Map<String, String>> queryDocumentTypes(Id sectionId) {
+    try {
+      Checklist_Section__c section = [
+        SELECT
+          Id,
+          Type__c,
+          Deal__c,
+          Checklist__r.Deal__c,
+          Checklist__r.Account__c,
+          Property__c,
+          Deal_Contact__c
+        FROM Checklist_Section__c
+        WHERE Id = :sectionId
+      ];
+
+      String recordType = '';
+
+      String sobjectType = '';
+
+      if (
+        section.Type__c == 'Opportunity' ||
+        section.Type__c == 'Sponsor' ||
+        section.Type__c == 'Applicant' ||
+        section.Type__c == 'Borrower'
+      ) {
+        sobjectType = 'Opportunity';
+      } else if (section.Type__c == 'Account') {
+        sobjectType = 'Account';
+      } else if (section.Type__c == 'Property') {
+        sobjectType = 'Property__c';
+      } else if (section.Type__c == 'Advance') {
+        sobjectType = 'Advance__c';
+      }
+
+      recordType = [
+        SELECT Id, RecordType.DeveloperName
+        FROM Opportunity
+        WHERE Id = :section.Checklist__r.Deal__c
+      ]
+      .RecordType.DeveloperName;
+
+      List<Map<String, String>> documentTypes = new List<Map<String, String>>();
+
+      for (Document_Structure__mdt structure : [
+        SELECT Id, Document_Type__c
+        FROM Document_Structure__mdt
+        WHERE sObject__c = :sobjectType AND RecordType__c = :recordType
+        ORDER BY Document_Type__c ASC
+      ]) {
+        documentTypes.add(
+          new Map<String, String>{
+            'label' => structure.Document_Type__c,
+            'value' => structure.Id
+          }
+        );
+      }
+
+      return documentTypes;
+
+      // if(section.Type__c == 'Property' || )
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static void deleteItem(Id itemId) {
+    try {
+      delete new Checklist_Item__c(Id = itemId);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static Checklist_Item__c upsertItem(Checklist_Item__c item) {
+    try {
+      upsert item;
+      return item;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static void handleUpload(Id itemId, List<Id> contentVersionIds) {
     try {
       Checklist_Item__c item = [
@@ -117,7 +202,8 @@ public without sharing class ChecklistController {
             Deal_Contact__r.Contact__r.Name,
             Deal_Contact__r.Contact__c,
             RecordType.Name,
-            Comments__c
+            Comments__c,
+            External_Comments__c
           FROM Checklist_Items__r
         )
       FROM Checklist_Section__c
@@ -246,6 +332,7 @@ public without sharing class ChecklistController {
       } else if (this.sectionType == 'Account') {
         // this.recordId = section.Account
       } else if (this.sectionType == 'Opportunity') {
+        this.sectionType = 'Deal';
         this.recordId = section.Deal__c;
         this.recordName = section.Deal__r.Name;
         this.name = section.Deal__r.Name;
@@ -302,6 +389,7 @@ public without sharing class ChecklistController {
     public String comments;
     public List<Deal_Document__c> documents;
     public Boolean showDocuments;
+    public String externalComments;
 
     public String responsibleParty;
 
@@ -320,6 +408,7 @@ public without sharing class ChecklistController {
       this.status = item.Status__c;
       this.isPropertyLevel = item.Is_Property_Level__c;
       this.comments = item.Comments__c;
+      this.externalComments = item.External_Comments__c;
       this.responsibleParty = item.Responsible_Party__c;
       //this.documents = new List<Deal_Document__c>();
       this.documents = itemDocMap.get(item.Id);

@@ -354,6 +354,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>600 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>720 day</fullName>
             <default>false</default>
         </values>
@@ -2071,6 +2075,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>21 Months</fullName>
             <default>false</default>
         </values>
@@ -2341,6 +2349,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>IC_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>IO_Term__c</picklist>
         <values>
             <fullName>0 months</fullName>
@@ -2363,6 +2386,10 @@
         <picklist>Index_Floor__c</picklist>
         <values>
             <fullName>0%2E00%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0%2E15%25</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2665,6 +2692,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3114,6 +3145,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>21 Months</fullName>
             <default>false</default>
         </values>
@@ -3165,6 +3200,10 @@
         <picklist>Requested_Index_Floor__c</picklist>
         <values>
             <fullName>0%2E00%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0%2E15%25</fullName>
             <default>false</default>
         </values>
         <values>

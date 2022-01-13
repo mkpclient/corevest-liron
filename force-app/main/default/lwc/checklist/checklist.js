@@ -1,6 +1,8 @@
 import { LightningElement, api } from "lwc";
 import init from "@salesforce/apex/ChecklistController.init";
 import handleUpload from "@salesforce/apex/ChecklistController.handleUpload";
+import deleteItem from "@salesforce/apex/ChecklistController.deleteItem";
+
 export default class Checklist extends LightningElement {
   @api recordId = "0065b00000sY3YgAAK";
   @api objectApiName;
@@ -13,7 +15,11 @@ export default class Checklist extends LightningElement {
   activeSection = ["uploads"];
 
   connectedCallback() {
-    //query checklist
+    this.init();
+  }
+
+  init() {
+    console.log("fire this");
     init({ recordId: this.recordId })
       .then((results) => {
         const checklist = JSON.parse(results);
@@ -121,5 +127,36 @@ export default class Checklist extends LightningElement {
     console.log(itemId);
 
     this.template.querySelector("c-checklist-documents").openModal(itemId);
+  }
+
+  menuItemSelect(event) {
+    // console.log(event);
+
+    const itemId = event.target.getAttribute("data-id");
+    console.log(itemId);
+    console.log(event.detail.value);
+
+    const value = event.detail.value;
+
+    if (value === "edit") {
+      //
+      this.template.querySelector("c-checklist-item-edit").open(itemId);
+    } else if (value === "delete") {
+      deleteItem({ itemId })
+        .then(() => {
+          this.init();
+        })
+        .catch((error) => {
+          console.log("delete error");
+          console.log(error);
+        });
+    }
+  }
+
+  newItem(event) {
+    const sectionId = event.target.getAttribute("data-id");
+    console.log(sectionId);
+
+    this.template.querySelector("c-checklist-item-new").open(sectionId);
   }
 }

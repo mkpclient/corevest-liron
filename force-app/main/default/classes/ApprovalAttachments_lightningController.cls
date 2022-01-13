@@ -12,6 +12,24 @@ public without sharing class ApprovalAttachments_lightningController {
 
   public static final String CAPITAL_MARKET = 'Capital Markets';
   public static final String EXECUTIVE = 'Executive';
+  public static final List<String> IC_APPROVAL_NAMES = new List<String>{
+    'Term_IC_Approval',
+    'Bridge_IC_Approval',
+    'Term_Sub_IC',
+    'Bridge_Sub_IC'
+  };
+  public static final List<String> BRIDGE_IC_APPROVAL_NAMES = new List<String>{
+    'Bridge_IC_Approval',
+    'Bridge_Sub_IC'
+  };
+
+  public static string BRIDGE_IC_APPROVAL = 'Bridge_IC_Approval';
+  public static final List<String> IC_PROCESS_NAMES = new List<String>{
+    'Bridge IC Process',
+    'Term IC Process',
+    'Term Sub-IC',
+    'Bridge Sub-IC'
+  };
 
   public static Opportunity modifyOpportunity(Opportunity o) {
     o.Approval_Status__c = 'Pending';
@@ -131,7 +149,8 @@ public without sharing class ApprovalAttachments_lightningController {
         ProcessInstance.TargetObjectId,
         ProcessInstance.Status,
         ProcessInstance.ProcessDefinition.DeveloperName,
-        CreatedDate
+        CreatedDate,
+        ActorId
       FROM ProcessInstanceWorkItem
       WHERE Id = :recordId
       LIMIT 1
@@ -191,7 +210,8 @@ public without sharing class ApprovalAttachments_lightningController {
                 */
 
         m.put('Verified', 'false');
-
+        m.put('User', UserInfo.getUserId());
+        m.put('ActorId', piw.ActorId);
         if (processName == 'Submit_Term_Deal_to_UW_Approval') {
           if (termEntryIntoUWApprover) {
             m.put('Verified', 'true');
@@ -211,13 +231,13 @@ public without sharing class ApprovalAttachments_lightningController {
           }
           roleName = 'Capital Markets';
         } else if (processName == 'Term_Pricing_Review_Capital_Markets') {
-            if (capitalMarketsPricingApprover) {
-              m.put('Verified', 'true');
-            }
+          if (capitalMarketsPricingApprover) {
+            m.put('Verified', 'true');
+          }
         } else if (processName == 'Bridge_LOC_Pricing_Review_Capital_Market') {
-            if (capitalMarketsPricingApprover) {
-              m.put('Verified', 'true');
-            }
+          if (capitalMarketsPricingApprover) {
+            m.put('Verified', 'true');
+          }
         } else if (processName == 'Bridge_LOC_Pricing_Review') {
           if (bridgePricingApprover) {
             if (null != o.Approved_by_Underwriter__c) {
@@ -267,10 +287,23 @@ public without sharing class ApprovalAttachments_lightningController {
           }
           roleName = 'Underwriter';
         }
+        if (
+          IC_APPROVAL_NAMES.contains(processName) &&
+          UserInfo.getUserId() == piw.ActorId
+        ) {
+          m.put('Verified', 'true');
+        }
 
         m.put('Submitter', o.Owner.Name);
         m.put('oppId', o.Id);
-        update o;
+
+        // !! commented this out because i am not sure why we are even updating the opportunity? it's causing an error
+        // try {
+        //   System.debug(JSON.serializePretty(o));
+        //   update o;
+        // } catch(DmlException err) {
+        //   System.debug(err.getMessage() + ' on LINE ' + err.getLineNumber());
+        // }
       } else {
         m.put('Verified', 'false');
       }
@@ -370,9 +403,51 @@ public without sharing class ApprovalAttachments_lightningController {
     Opportunity opp,
     String approvalName
   ) {
-    // make new Approval History object
-    update opp; //update Opp since we update a few fields via client side
 
+    Savepoint sp = Database.setSavepoint();
+
+    try {
+
+      List<ProcessInstanceWorkItem> initialWrkItem = [
+          SELECT Id
+          FROM ProcessInstanceWorkItem
+          WHERE ProcessInstance.TargetObjectId = :oppId
+        ];
+
+      handleApproval(recordId, userRole, oppId, comments, opp, approvalName, false, initialWrkItem.size() == 1);
+
+      // go approve the remaining approval step if it is a bridge ic process and we have 2 of 3 approved steps.
+      if(BRIDGE_IC_APPROVAL_NAMES.contains(approvalName)){
+        List<ProcessInstanceWorkItem> updatedWrkItem = [
+          SELECT Id
+          FROM ProcessInstanceWorkItem
+          WHERE ProcessInstance.TargetObjectId = :oppId
+        ];
+  
+        if(updatedWrkItem.size() == 1) {
+          handleApproval(updatedWrkItem[0].Id, userRole, oppId, comments, opp, approvalName, true, true);
+        }
+      }
+    } catch (Exception e) {
+      Database.rollback( sp );
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  public static void handleApproval(
+    Id recordId,
+    String userRole,
+    Id oppId,
+    String comments,
+    Opportunity opp,
+    String approvalName,
+    Boolean isTwoOfThree,
+    Boolean isFinalIC
+  ) {
+    // make new Approval History object
+    if(isTwoOfThree) {
+      comments = 'Criteria for 2 of 3 approvals met.';
+    }
     //immediately approve the ProcessInstanceWorkItem record then query the resulting ProcessInstanceStep
     Approval.ProcessWorkitemRequest pwr = new Approval.ProcessWorkitemRequest();
     pwr.setComments(comments);
@@ -382,6 +457,7 @@ public without sharing class ApprovalAttachments_lightningController {
     // System.debug(result.getInstanceStatus());
     Id processInstanceId = result.getInstanceId();
 
+    update opp; //update Opp since we update a few fields via client side, moved it here because record edit is disabled in processes
     List<ProcessInstanceStep> pis = [
       SELECT Id, ProcessInstance.ProcessDefinition.DeveloperName
       FROM ProcessInstanceStep
@@ -539,7 +615,10 @@ public without sharing class ApprovalAttachments_lightningController {
       System.debug(userRole);
       if (null != o && null != ah) {
         ah.Deal__c = o.Id;
-        if (userRole == 'Capital Markets') {
+        if (
+          userRole == 'Capital Markets' &&
+          !IC_APPROVAL_NAMES.contains(approvalName)
+        ) {
           o.Approved_by_Capital_Markets__c = UserInfo.getUserId();
           o.Approved_by_Capital_Markets_Date__c = System.today();
           ah.Status_Text__c = 'Approved by Capital Markets';
@@ -569,7 +648,9 @@ public without sharing class ApprovalAttachments_lightningController {
               null
             );
           }
-        } else if (userRole == 'Underwriter') {
+        } else if (
+          userRole == 'Underwriter' && !IC_APPROVAL_NAMES.contains(approvalName)
+        ) {
           System.debug('this is inside here acceptableRoles');
 
           if (
@@ -609,6 +690,20 @@ public without sharing class ApprovalAttachments_lightningController {
           }
         }
         update o;
+        System.debug('this is inside');
+        if (IC_APPROVAL_NAMES.contains(approvalName) && isFinalIC) {
+          ah.Status_Text__c = 'Approved by Committee.';
+          ah.Name = 'Approved by Committee: ' + o.Name.left(50);
+          createNotification(
+            o,
+            submitterId,
+            'all',
+            ' IC Approval Request for Deal ' +
+            o.Name +
+            ' has been approved.',
+            null
+          );
+        }
       }
       update ah;
       if (null != otherAh && otherAh.size() > 0) {
@@ -821,7 +916,8 @@ public without sharing class ApprovalAttachments_lightningController {
         Status__c,
         Comments__c,
         Parent_Status__c,
-        Process_Instance_Id__c
+        Process_Instance_Id__c,
+        ProcessName__c
       FROM Approval_History__c
       WHERE Process_Id__c = :recordId
       LIMIT 1
@@ -911,10 +1007,26 @@ public without sharing class ApprovalAttachments_lightningController {
     // sendRejectionEmail(o, emailAddresses);
     if (null != o && null != ah) {
       ah.Deal__c = o.Id;
-      if (userRole == 'Capital Markets') {
+      if (
+        userRole == 'Capital Markets' &&
+        !(String.isNotEmpty(ah.ProcessName__c) &&
+        IC_PROCESS_NAMES.contains(ah.ProcessName__c))
+      ) {
         ah.Name = 'Rejected by Capital Market: ' + o.Name;
-      } else if (userRole == 'Underwriter') {
+      } else if (
+        userRole == 'Underwriter' &&
+        !(String.isNotEmpty(ah.ProcessName__c) &&
+        IC_PROCESS_NAMES.contains(ah.ProcessName__c))
+      ) {
         ah.Name = 'Rejected by Underwriter: ' + o.Name;
+      }
+      String messageText = ' Pricing Review Request has been rejected.';
+
+      if (
+        String.isNotEmpty(ah.ProcessName__c) &&
+        IC_PROCESS_NAMES.contains(ah.ProcessName__c)
+      ) {
+        messageText = ah.ProcessName__c + ' has been rejected.';
       }
       createNotification(
         o,
@@ -922,7 +1034,7 @@ public without sharing class ApprovalAttachments_lightningController {
         'all',
         ' ' +
         o.Name +
-        ' Pricing Review Request has been rejected.',
+        messageText,
         null
       );
       o.Approved_by_Capital_Markets__c = null;
@@ -1051,6 +1163,8 @@ public without sharing class ApprovalAttachments_lightningController {
     // sendRejectionEmail(o, emailAddresses);
     if (null != o && null != ah) {
       ah.Deal__c = o.Id;
+      String messageText = ' Pricing Review Request has been rejected.';
+
       if (userRole == 'Capital Markets') {
         ah.Name = 'Rejected by Capital Market: ' + o.Name;
       } else if (userRole == 'Underwriter') {
@@ -1062,7 +1176,7 @@ public without sharing class ApprovalAttachments_lightningController {
         'all',
         ' ' +
         o.Name +
-        ' Pricing Review Request has been rejected.',
+        messageText,
         null
       );
       o.Approved_by_Capital_Markets__c = null;
@@ -1110,7 +1224,10 @@ public without sharing class ApprovalAttachments_lightningController {
 
     if (sobjType == 'ProcessInstanceStep') {
       List<ProcessInstanceStep> pisList = [
-        SELECT Id, ProcessInstance.TargetObjectId
+        SELECT
+          Id,
+          ProcessInstance.TargetObjectId,
+          ProcessInstance.ProcessDefinition.DeveloperName
         FROM ProcessInstanceStep
         WHERE Id = :recordId
       ];
@@ -1119,7 +1236,10 @@ public without sharing class ApprovalAttachments_lightningController {
       }
     } else if (sobjType == 'ProcessInstanceWorkitem') {
       List<ProcessInstanceWorkItem> piwiList = [
-        SELECT Id, ProcessInstance.TargetObjectId
+        SELECT
+          Id,
+          ProcessInstance.TargetObjectId,
+          ProcessInstance.ProcessDefinition.DeveloperName
         FROM ProcessInstanceWorkItem
         WHERE Id = :recordId
       ];
@@ -1140,9 +1260,14 @@ public without sharing class ApprovalAttachments_lightningController {
     Id oppId;
     if (null != pis) {
       oppId = pis.ProcessInstance.TargetObjectId;
+      m.put('ProcessName', pis.ProcessInstance.ProcessDefinition.DeveloperName);
     }
     if (null != piwi) {
       oppId = piwi.ProcessInstance.TargetObjectId;
+      m.put(
+        'ProcessName',
+        piwi.ProcessInstance.ProcessDefinition.DeveloperName
+      );
     }
 
     if (null != oppId) {
@@ -1155,6 +1280,7 @@ public without sharing class ApprovalAttachments_lightningController {
 
       if (null != o) {
         m.put('Deal', o);
+
         // System.debug('this is the map we are sending');
         // System.debug(m);
         return JSON.serialize(m, true);

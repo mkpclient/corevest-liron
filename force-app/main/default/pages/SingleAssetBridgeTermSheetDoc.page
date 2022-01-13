@@ -311,40 +311,90 @@ Equity Pledge:
                     </apex:outputText>
                 </td>
             </tr>
-            <apex:outputText rendered="{! If(Opportunity.Requested_Origination_Fee__c != 0.00, true, false)}">
-                <tr style="page-break-inside:avoid;">
-                    <td style="font-family: Times; font-size: 10pt; width:30%; font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                        <strong>
+            <apex:outputText rendered="{! If(Opportunity.Requested_Origination_Fee__c != 0.00 && Opportunity.Requested_Origination_Fee__c != null, true, false)}">
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c == 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
                             Origination Fee:
-                        </strong>
-                    </td>
-                    <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                        <apex:outputText value="{0, number, 0.00}%">
-                            <apex:param value="{! Opportunity.Requested_Origination_Fee__c}" /></apex:outputText> of the Maximum Loan Amount Payable at Closing
-                    </td>
-                </tr>
+                        </td>
+                        <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee != true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                </apex:outputText>
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c != 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            Origination Fee:
+                        </td>
+                        <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            <apex:outputText value="{0, number, 0.00}%">
+                                <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText> of the Maximum Loan Amount Payable at Closing
+                        </td>
+                    </tr>
+                </apex:outputText>
             </apex:outputText>
-            <apex:outputText rendered="{! If(Opportunity.Requested_Draw_Fee__c != 0.00, true, false)}">
-                <tr style="page-break-inside:avoid;">
-                    <td style="font-family: Times; font-size: 10pt; width:30%; font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                        <strong>
+            <apex:outputText rendered="{! If(Opportunity.Requested_Draw_Fee__c != 0.00 && Opportunity.Requested_Draw_Fee__c != null, true, false)}">
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c == 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
                             Advance Fee:
-                        </strong>
-                    </td>
-                    <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                        <span style="{!IF(includeBrokerFee = false, 'page-break-inside:avoid;', 'display:none;')}">
+                        </td>
+                        <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
                             <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
                                 <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
-                        </span>
-                        <span style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
-                            <apex:outputText value="{0, number, 0.00}%">
-                                <apex:param value="{! Opportunity.Requested_Draw_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText> paid to CoreVest and
-                            <apex:outputText value="{0, number, 0.00}%">
-                                <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText> paid to the broker
-                        </span>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </apex:outputText>
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c != 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            Advance Fee:
+                        </td>
+                        <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee != true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                </apex:outputText>
             </apex:outputText>
+            <tr style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                    Broker Fee: 
+                </td>
+                <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                    <apex:outputText value="{0, number, 0.00}% paid by ">
+                        <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText>
+                        <apex:outputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" />
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Each Initial Advance', 'page-break-inside:avoid;', 'display:none;')}">
+                            on each Advance approved by Lender
+                        </span>
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Origination', 'page-break-inside:avoid;', 'display:none;')}">
+                            at Closing
+                        </span>
+                </td>
+            </tr>
             <apex:outputText rendered="{! If(Opportunity.Requested_Exit_Fee__c != 0.00 && Opportunity.Requested_Exit_Fee__c != null, true, false)}">
                 <tr style="page-break-inside:avoid;">
                     <td style="font-family: Times; font-size: 10pt; width:30%; font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
@@ -773,12 +823,11 @@ Sponsor Initials ________
 </table>
 </div>-->
     <!-- <br clear="all" style="page-break-before:always" />-->
-
-
-
     <apex:form >
         <apex:inputField value="{!Opportunity.Requested_Rate_10_Months__c}" rendered="false" />
         <apex:inputField value="{!Opportunity.Requested_Draw_Fee_Cap__c}" rendered="false" />
         <apex:inputField value="{!Opportunity.Include_3_Months_Min_Interest__c}" rendered="false" />
+        <apex:inputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" rendered="false" />
+        <apex:inputField value="{!Opportunity.Broker_Fee_Paid_When__c}" rendered="false" />
     </apex:form>
 </apex:page>

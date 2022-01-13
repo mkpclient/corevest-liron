@@ -35,6 +35,8 @@
               d.Closer = "Jenna Taylor";
             } else if (d.Closer__c == "0050a00000MCQ1jAAH") {
               d.Closer = "Jessica Lievanos";
+            } else if (d.Closer__c == "0055b00000P8BrKAAV") {
+              d.Closer = "Joseph Felice";
             } else if (d.Closer__c == "005j000000FXxrDAAT") {
               d.Closer = "Gina Lambis";
             } else if (d.Closer__c == "0050a00000L853XAAR") {
@@ -136,6 +138,8 @@
           el.Closer__c = "0055b00000OGpKXAA1";
         } else if (el.Closer == "Jessica Lievanos") {
           el.Closer__c = "0050a00000MCQ1jAAH";
+        } else if (el.Closer == "Joseph Felice") {
+          el.Closer__c = "0055b00000P8BrKAAV";
         } else if (el.Closer == "Gina Lambis") {
           el.Closer__c = "005j000000FXxrDAAT";
         } else if (el.Closer == "Nate Valline") {
@@ -256,6 +260,8 @@
                 d.Closer = "Jenna Taylor";
               } else if (d.Closer__c == "0050a00000MCQ1jAAH") {
                 d.Closer = "Jessica Lievanos";
+              } else if (d.Closer__c == "0055b00000P8BrKAAV") {
+                d.Closer = "Joseph Felice";
               } else if (d.Closer__c == "005j000000FXxrDAAT") {
                 d.Closer = "Gina Lambis";
               } else if (d.Closer__c == "0050a00000L853XAAR") {
@@ -526,6 +532,8 @@
               property.Closer = "Jenna Taylor";
             } else if (property.Closer__c == "0050a00000MCQ1jAAH") {
               property.Closer = "Jessica Lievanos";
+            } else if (property.Closer__c == "0055b00000P8BrKAAV") {
+              property.Closer = "Joseph Felice";
             } else if (property.Closer__c == "005j000000FXxrDAAT") {
               property.Closer = "Gina Lambis";
             } else if (property.Closer__c == "0050a00000L853XAAR") {

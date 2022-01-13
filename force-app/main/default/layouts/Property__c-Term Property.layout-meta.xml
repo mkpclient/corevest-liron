@@ -279,6 +279,14 @@
                 <behavior>Edit</behavior>
                 <field>Other_Income_2__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Gross_Yield_per_Property__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_Yield_per_Property__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

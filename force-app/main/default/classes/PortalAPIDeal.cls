@@ -310,7 +310,7 @@ global with sharing class PortalAPIDeal {
       }
       if (
         o.LOC_Loan_Type__c == 'Credit Line' &&
-        o.Project_Strategy__c == 'Fix and Fliup'
+        o.Project_Strategy__c == 'Fix and Flip'
       ) {
         this.loanType = 'Credit Line';
       }
@@ -319,11 +319,11 @@ global with sharing class PortalAPIDeal {
         o.LOC_Loan_Type__c == 'Credit Line' &&
         o.Product_Sub_Type__c == 'Build to Rent'
       ) {
-        this.loanType = 'Build For Rent';
+        this.loanType = 'Build for Rent';
       }
 
       if (o.LOC_Loan_Type__c == 'Build to Rent') {
-        this.loanType = 'Build For Rent';
+        this.loanType = 'Build for Rent';
       }
 
       if (

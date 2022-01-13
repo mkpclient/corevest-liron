@@ -607,7 +607,7 @@
                   title="Closer"
                   type="dropdown"
                   width="50"
-                  source="['David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Kathy Perez', 'Nate Valline']"
+                  source="['David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Joseph Felice', 'Kathy Perez', 'Nate Valline']"
                 />
                 <c:hotColumn
                   data="Funding_Status__c"

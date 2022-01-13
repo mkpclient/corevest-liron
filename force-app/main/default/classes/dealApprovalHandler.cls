@@ -500,7 +500,19 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             setEmails.add(BETH);
           }
           // cc.add(BETH);
-          toId = ryanUser.Id;
+          
+          if(fromAddress == RYAN || alternateFromAddress == RYAN) {
+            toId = ryanUser.Id;
+          } else if(fromAddress == CHRIS || alternateFromAddress == CHRIS) {
+            toId = chrisUser.Id;
+          } else if (fromAddress == BRAD || alternateFromAddress == BRAD) {
+            toId = bradUser.Id;
+          } else if (fromAddress == MICAELA || alternateFromAddress == MICAELA) {
+            toId = micaelaUser.Id;
+          } else  if (fromAddress == MATT || alternateFromAddress == MATT) {
+            toId = mattUser.Id;
+          }
+
           if (
             (null != RYAN_CODE && htmlBody.toLowerCase().contains(RYAN_CODE)) ||
             (null != CHRIS_CODE &&

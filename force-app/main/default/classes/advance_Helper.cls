@@ -135,7 +135,7 @@ public class advance_Helper {
 
         if (String.isBlank(adv.Name)) {
           if (o.Advances__r.size() > 0) {
-            adv.Name = 'IR-' + o.Advances__r.size() + 1; //String.valueOf(o.Advances__r[0].Advance_Number__c + 1);
+            adv.Name = 'IR-' + o.Advances__r.size() + 1;
           } else {
             adv.name = 'IR-1';
           }

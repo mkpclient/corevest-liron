@@ -6,7 +6,7 @@ global without sharing class PortalAPIDocumentVault {
   public static Integer paginationStart;
   public static Integer paginationEnd;
   public static Boolean usePagination;
-
+  public static PortalAPIUser.PortalUser user;
   static Id recordId;
 
   static Map<Id, ContentVersion> contentVersionMap;
@@ -43,7 +43,7 @@ global without sharing class PortalAPIDocumentVault {
 
     portalId = params[3];
     system.debug(params);
-    PortalAPIUser.PortalUser user = new PortalAPIUser.PortalUser(portalId);
+    user = new PortalAPIUser.PortalUser(portalId);
     if (user.id != null) {
       contactId = user.contactId;
       if (params[4] == 'uncategorized') {
@@ -274,7 +274,7 @@ global without sharing class PortalAPIDocumentVault {
     return vault;
   }
 
-  public static DocumentVault createLoanVault() {
+  public static DocumentVault createLoanVaultVendor() {
     Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
     DocumentVault vault = new DocumentVault();
     vault.id = deal.Id;
@@ -282,6 +282,7 @@ global without sharing class PortalAPIDocumentVault {
 
     List<Checklist_Item__c> items = new List<Checklist_Item__c>();
     contentVersionMap = new Map<Id, ContentVersion>();
+
     for (Checklist_Item__c item : [
       SELECT
         Id,
@@ -327,8 +328,6 @@ global without sharing class PortalAPIDocumentVault {
           contentVersionMap.put(doc.ContentVersion_Id__c, null);
         }
       }
-
-      //vault.addItem(item);
     }
 
     for (ContentVersion cv : [
@@ -392,7 +391,6 @@ global without sharing class PortalAPIDocumentVault {
           contentVersionMap.put(doc.ContentVersion_Id__c, null);
         }
       }
-      //vault.addItem(item);
     }
 
     for (ContentVersion cv : [
@@ -407,10 +405,139 @@ global without sharing class PortalAPIDocumentVault {
       vault.addPropertyItem(item);
     }
     vault.propertyLevelDocuments.sort();
+    return vault;
+  }
 
-    // for (DocumentFolder folder : vault.loanLeve) {
-    //   folder.documents.sort();
-    // }
+  public static DocumentVault createLoanVault() {
+    Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
+    DocumentVault vault = new DocumentVault();
+    vault.id = deal.Id;
+    vault.Name = deal.Name;
+
+    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
+    contentVersionMap = new Map<Id, ContentVersion>();
+    for (Checklist_Item__c item : [
+      SELECT
+        Id,
+        Property__c,
+        Deal__c,
+        Doc_Structure_Id__c,
+        Document_Type__c,
+        Folder_String__c,
+        Status__c,
+        (
+          SELECT
+            Id,
+            Added_On__c,
+            Added_By__r.Name,
+            Document_Type__c,
+            Reviewed_By__r.Name,
+            Reviewed_On__c,
+            File_Name__c,
+            ContentVersion_Id__c,
+            Status__c,
+            Comments__c,
+            Reviewed__c
+          FROM Deal_Documents__r
+        )
+      FROM Checklist_Item__c
+      WHERE
+        Is_Property_Level__c = FALSE
+        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        AND RecordType.DeveloperName = 'Document_Upload'
+        AND (Checklist_Section__r.Type__c = 'Opportunity'
+        OR Checklist_Section__r.Type__c = 'Sponsor')
+    ]) {
+      if (isVault) {
+        if (item.Status__c == 'Pending') {
+          items.add(item);
+          for (Deal_Document__c doc : item.Deal_Documents__r) {
+            contentVersionMap.put(doc.ContentVersion_Id__c, null);
+          }
+        }
+      } else {
+        items.add(item);
+        for (Deal_Document__c doc : item.Deal_Documents__r) {
+          contentVersionMap.put(doc.ContentVersion_Id__c, null);
+        }
+      }
+    }
+
+    for (ContentVersion cv : [
+      SELECT Id, FileExtension
+      FROM ContentVersion
+      WHERE Id IN :contentVersionMap.keySet()
+    ]) {
+      contentVersionMap.put(cv.Id, cv);
+    }
+
+    for (Checklist_Item__c item : items) {
+      vault.addItem(item);
+    }
+    vault.loanLevelDocuments.sort();
+
+    items = new List<Checklist_Item__c>();
+    contentVersionMap = new Map<Id, ContentVersion>();
+    for (Checklist_Item__c item : [
+      SELECT
+        Id,
+        Property__c,
+        Deal__c,
+        Doc_Structure_Id__c,
+        Document_Type__c,
+        Folder_String__c,
+        Reviewed__c,
+        Status__c,
+        (
+          SELECT
+            Id,
+            Added_On__c,
+            Added_By__r.Name,
+            Document_Type__c,
+            Reviewed_By__r.Name,
+            Reviewed_On__c,
+            File_Name__c,
+            ContentVersion_Id__c,
+            Status__c,
+            Comments__c,
+            Reviewed__c
+          FROM Deal_Documents__r
+        )
+      FROM Checklist_Item__c
+      WHERE
+        Is_Property_Level__c = TRUE
+        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        AND RecordType.DeveloperName = 'Document_Upload'
+        AND (Checklist_Section__r.Type__c = 'Opportunity'
+        OR Checklist_Section__r.Type__c = 'Applicant')
+    ]) {
+      if (isVault) {
+        if (item.Status__c == 'Pending') {
+          items.add(item);
+          for (Deal_Document__c doc : item.Deal_Documents__r) {
+            contentVersionMap.put(doc.ContentVersion_Id__c, null);
+          }
+        }
+      } else {
+        items.add(item);
+        for (Deal_Document__c doc : item.Deal_Documents__r) {
+          contentVersionMap.put(doc.ContentVersion_Id__c, null);
+        }
+      }
+    }
+
+    for (ContentVersion cv : [
+      SELECT Id, FileExtension
+      FROM ContentVersion
+      WHERE Id IN :contentVersionMap.keySet()
+    ]) {
+      contentVersionMap.put(cv.Id, cv);
+    }
+
+    for (Checklist_Item__c item : items) {
+      vault.addPropertyItem(item);
+    }
+    vault.propertyLevelDocuments.sort();
     return vault;
   }
 
@@ -708,6 +835,10 @@ global without sharing class PortalAPIDocumentVault {
         status = 'Pending';
       }
 
+      if (fileName.contains('.')) {
+        fileName = fileName.substringBefore('.');
+      }
+
       reviewedBy = doc.Reviewed_By__c;
       if (doc.Reviewed_On__c != null) {
         reviewedDate = Date.newInstance(
@@ -809,9 +940,8 @@ global without sharing class PortalAPIDocumentVault {
           dealDoc.Property__c = item.Property__c;
           dealDoc.Deal__c = item.Deal__c;
         }
-
         dealDoc.Checklist_Item__c = itemId;
-
+        dealDoc.Document_Loaded__c = true;
         dealDoc.Added_By__c = UserInfo.getUserId();
         dealDoc.Added_On__c = system.now();
 

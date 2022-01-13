@@ -2,7 +2,6 @@
     <aura:attribute name="recordId" type="Id" />
     <aura:attribute name="record" type="Object" />
     <aura:attribute name="properties" type="Object[]" />
-
     <aura:attribute name="Name" type="String" default="down" />
     <aura:attribute name="City__c" type="String" default="down" />
     <aura:attribute name="State__c" type="String" default="down" />
@@ -21,6 +20,19 @@
         Approval Details
     </div>
 
+      <div class="dashboard-section">
+        <button class="section" onclick="{!c.showSection}">
+          <span class="marker">
+            +
+          </span>
+            &nbsp; Executive Summary
+        </button>
+      <div class="hide" data-state="hidden" style="display:block;">
+        <aura:if isTrue="{!v.record.Id != null}">
+          <c:ExecutiveSummary record="{!v.record}" />
+        </aura:if>
+      </div>
+    </div>
     <div class="dashboard-section">
       <button class="section" onclick="{!c.showSection}">
         <span class="marker">
@@ -53,6 +65,7 @@
     </aura:if>
 
     <div class="dashboard-section">
+
           <button class="section" onclick="{!c.showSection}">
             <span class="marker">
               +

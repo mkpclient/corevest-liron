@@ -83,7 +83,9 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
-    'Deposit_Amount_Requested__c'
+    'Deposit_Amount_Requested__c',
+    'Broker_Fee_Paid_By_Whom__c',
+    'Broker_Fee_Paid_When__c'
   };
 
   public static List<String> sabFields = new List<String>{
@@ -118,7 +120,9 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
-    'Deposit_Amount_Requested__c'
+    'Deposit_Amount_Requested__c',
+    'Broker_Fee_Paid_By_Whom__c',
+    'Broker_Fee_Paid_When__c'
   };
 
   public static Map<String, String> fieldLabels = new Map<String, String>{
@@ -189,7 +193,9 @@ public without sharing class TermSheetInput_LightningController {
     'Deal_Intro_Source__c' => 'Deal Intro Source',
     'Deal_Intro_Sub_Source__c' => 'Deal Intro Sub Source',
     'Deposit_Amount_Requested__c' => 'Deposit Amount Requested',
-    'YSP_perc__c' => 'Broker YSP %'
+    'YSP_perc__c' => 'Broker YSP %',
+    'Broker_Fee_Paid_By_Whom__c' => 'Broker Fee Paid By Whom',
+    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When'
   };
 
   @AuraEnabled

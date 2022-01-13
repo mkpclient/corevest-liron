@@ -27,7 +27,8 @@ private class DealSchedulerTest {
           MailingState = 'Wisconsin',
           MailingCity = 'Eau Claire',
           MailingStreet = '111 Main St.',
-          Email = 'logins+cvest@mkpartners.com'
+          Email = 'logins+cvest@mkpartners.com',
+          AccountId = testAccts[i].Id
         )
       );
     }

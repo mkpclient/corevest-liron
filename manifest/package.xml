@@ -36,26 +36,6 @@
 		<members>*</members>
 		<name>AutoResponseRules</name>
 	</types>
-	<types>
-		<members>*</members>
-		<name>Community</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CommunityThemeDefinition</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CommunityTemplateDefinition</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ConnectedApp</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>CorsWhitelistOrigin</name>
-	</types>
     <types>
         <members>*</members>
         <name>CustomApplication</name>
@@ -87,23 +67,11 @@
     </types>
     <types>
         <members>*</members>
-        <name>CustomPageWebLink</name>
-    </types>
-    <types>
-        <members>*</members>
         <name>CustomPermission</name>
     </types>
-	<types>
-		<members>*</members>
-		<name>CustomSite</name>
-	</types>
     <types>
         <members>*</members>
         <name>CustomTab</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>Dashboard</name>
     </types>
     <types>
         <members>*</members>
@@ -119,28 +87,8 @@
     </types>
     <types>
         <members>*</members>
-        <name>ExternalDataSource</name>
-    </types>
-	<types>
-		<members>*</members>
-		<name>EventDelivery</name>
-	</types>
-    <types>
-        <members>*</members>
         <name>FlexiPage</name>
     </types>
-    <types>
-        <members>*</members>
-        <name>Flow</name>
-    </types>
-	<types>
-		<members>*</members>
-		<name>FlowCategory</name>
-	</types>
-    <types>
-		<members>*</members>
-		<name>FlowDefinition</name>
-	</types>
 	<types>
 		<members>*</members>
 		<name>HomePageComponent</name>
@@ -169,37 +117,13 @@
         <members>*</members>
         <name>NamedCredential</name>
     </types>
-	<types>
-		<members>*</members>
-		<name>Network</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>NetworkBranding</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>PathAssistant</name>
-	</types>
     <types>
         <members>*</members>
         <name>PermissionSet</name>
     </types>
-	<types>
-		<members>*</members>
-		<name>PostTemplate</name>
-	</types>
     <types>
         <members>*</members>
         <name>Profile</name>
-    </types>
-	<types>
-		<members>*</members>
-		<name>ProfilePasswordPolicy</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ProfileSessionSetting</name>
     </types>
     <types>
         <members>*</members>
@@ -209,39 +133,14 @@
         <members>*</members>
         <name>QuickAction</name>
     </types>
-	<types>
-		<members>*</members>
-		<name>RemoteSiteSetting</name>
-	</types>
-    <types>
-        <members>*</members>
-        <name>ReportType</name>
-    </types>
     <types>
         <members>*</members>
         <name>Role</name>
     </types>
 	<types>
 		<members>*</members>
-		<name>SamlSsoConfig</name>
-	</types>
-	<types>
-		<members>*</members>
 		<name>SharingRules</name>
 	</types>
-    <types>
-        <members>*</members>
-        <name>SiteDotCom</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
-    </types>
-	<types>
-		<members>*</members>
-		<name>Workflow</name>
-	</types>
-    <types><members>*</members><name>Group</name></types>
 
     <version>53.0</version>
 </Package>

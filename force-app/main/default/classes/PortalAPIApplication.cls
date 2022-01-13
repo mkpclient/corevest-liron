@@ -257,8 +257,6 @@ global without sharing class PortalAPIApplication {
       this.loanType = applicationFull.loanType;
       this.createdDate = application.createdDate;
       this.leadId = application.Lead__c;
-
-      
     }
   }
 
@@ -373,7 +371,7 @@ global without sharing class PortalAPIApplication {
     public String rangeOfProperties; //Range_of_Properties__c string,
     public String underwritedAcquisitions; // underwritedAcquisitions string,
     public String fairMarketValue; // Fair_Market_Value__c string,
-    public String estimatedRenovationCosts; // Estimated_Renovation_Costs__c string,
+    public Decimal estimatedRenovationCosts; // Estimated_Renovation_Costs__c string,
     public List<String> costForAcquiredProperties; //Cost_for_Acquired_Properties__c [string],
     public String renovationWorkPerformer; // Renovation_Work_Performer__c string,
     public String exitStrategy; // string,
@@ -396,6 +394,49 @@ global without sharing class PortalAPIApplication {
     public String isPermanentResidentAlienComments;
     public String isForeignNationalComments;
     public Boolean optForCorevestInsuranceAgent;
+
+    public String spbTransactionType; //Transaction_Type__c
+    public Decimal spbPurchasePrice; //
+    public Date spbEstimatedClosingDate; //
+    public Decimal spbEstimatedAsIsValue; //
+    public String spbStreetAddress; //
+    public String spbCity; //
+    public String spbState; //
+    public String spbZipCode; //
+    public String spbPropertyType; //
+    public Decimal spbNoUnits; //
+    public Boolean spbPlanRehabProperty; //
+    public String spbSummaryRehabWork; //
+    public String spbPerformRehabWork; //
+    // public Decimal spbEstimatedRehabCost; //Estimated_Renovation_Costs__c
+    public Decimal spbEstimatedAsRepairedValue; //
+    public Boolean spbApplyingPurposeInvestmentLoan; //
+    // public Decimal spbTotalLoanAmountRequested; //
+    public String spbLongLoanNeeded; //
+    public Decimal spbCurrentPayoffAmount; //
+    public String spbIntendToPayLoan; //
+    public String spbInvestmentPropertiesSold; //
+    public String spbRentalPropertiesOwned; //
+    public Decimal propertiesOwnedAndOperatedAsPrincipal; //
+    public Decimal propertiesOwnedAsPrincipal; //
+    public Decimal constructionProjectsCompleted; //
+    public Decimal renovationPrincipalRental; //
+    public Decimal renovationPrincipalSale; //
+    public String creOtherLoanPurpose; //
+    public List<String> creLoanType; //
+    public String creOtherLoanType; //
+    public String projectType; //
+    public String otherProjectType; //
+    // public String creExitStrategy; //
+    public String otherCreExitStrategy; //
+    public List<String> refinanceStrategy; //
+    public String otherRefinanceStrategy; //
+    public String longPropertiesHold; //
+    // public String handlePropertiesManagement; //
+    // public String thirdPartyPropertiesManagement; //
+    // public Decimal creYearsOfExperience; //
+    // public Decimal creNumberOfPropertiesSelfManaged; //
+    public String otherTypeOfProperties; //
 
     Application() {
     }
@@ -587,6 +628,53 @@ global without sharing class PortalAPIApplication {
       this.reasonForLosses = application.Reason_For_Losses__c;
 
       this.optForCorevestInsuranceAgent = application.Opt_for_CoreVest_Insurance_Agent__c;
+
+      this.spbTransactionType = application.Transaction_Type__c;
+      this.spbPurchasePrice = application.Purchase_Price__c;
+      this.spbEstimatedClosingDate = application.Estimated_Closing_Date__c;
+      this.spbEstimatedAsIsValue = application.Estimated_As_Is_Value__c;
+      this.spbStreetAddress = application.Property_Street_Address__c;
+      this.spbCity = application.Property_City__c;
+      this.spbState = application.Property_State__c;
+      this.spbZipCode = application.Property_Zip_Code__c;
+      this.spbPropertyType = application.Property_Type__c;
+      this.spbNoUnits = application.Number_of_Units__c;
+      this.spbPlanRehabProperty = application.Plan_Rehab_on_Property__c;
+      this.spbSummaryRehabWork = application.Summary_of_Rehab_Work__c;
+      this.spbPerformRehabWork = application.Perform_Rehab_Work__c;
+      // this.spbEstimatedRehabCost = application.Estimated_Renovation_Costs__c;
+      this.spbEstimatedAsRepairedValue = application.Estimated_As_Repaired_Value__c;
+      this.spbApplyingPurposeInvestmentLoan = application.Applying_Purpose_Investment_Loan__c;
+      // this.spbTotalLoanAmountRequested = application.Loan_Desired_Amount__c;
+      this.spbLongLoanNeeded = application.Long_Loan_Needed__c;
+      this.spbCurrentPayoffAmount = application.Current_Payoff_Amount__c;
+      this.spbIntendToPayLoan = application.Intend_To_Pay_Loan__c;
+      this.spbInvestmentPropertiesSold = application.Investment_Properties_Sold__c;
+      this.spbRentalPropertiesOwned = application.Rental_Properties_Owned__c;
+      this.propertiesOwnedAndOperatedAsPrincipal = application.Properties_Owned_Operated_as_Principal__c;
+      this.propertiesOwnedAsPrincipal = application.Properties_Owned_as_Principal__c;
+      this.constructionProjectsCompleted = application.Construction_Projects_Completed__c;
+      this.renovationPrincipalRental = application.Renovation_Principal_Rental__c;
+      this.renovationPrincipalSale = application.Renovation_Principal_Sale__c;
+      this.creOtherLoanPurpose = application.Other_Loan_Purpose__c;
+      if (String.isNotBlank(application.CRE_Loan_Type__c)) {
+        this.typeOfProperties = application.CRE_Loan_Type__c.split(';');
+      }
+      this.creOtherLoanType = application.Other_Loan_Type__c;
+      this.projectType = application.Project_Type__c;
+      this.otherProjectType = application.Other_Project_Type__c;
+      // this.creExitStrategy = application.Exit_Strategy__c;
+      this.otherCreExitStrategy = application.Other_Exit_Strategy__c;
+      if (String.isNotBlank(application.Refinance_Strategy__c)) {
+        this.refinanceStrategy = application.Refinance_Strategy__c.split(';');
+      }
+      this.otherRefinanceStrategy = application.Other_Refinance_Strategy__c;
+      this.longPropertiesHold = application.Long_Properties_Hold__c;
+      // this.handlePropertiesManagement = application.How_is_Property_Management_Handled__c;
+      // this.thirdPartyPropertiesManagement = application.Property_Management_Companies__c;
+      // this.creYearsOfExperience = application.Years_Experience__c;
+      // this.creNumberOfPropertiesSelfManaged = application.Number_of_Properties_Self_Managed__c;
+      this.otherTypeOfProperties = application.Other_Type_of_Properties__c;
     }
 
     public Application__c getRecord() {
@@ -836,6 +924,56 @@ global without sharing class PortalAPIApplication {
       application.Plan_To_Purchase_Refinacing_Properties__c = this.planToPurchaseRefinancingProperties;
       application.Lost_Money_Or_Fix_and_Flip__c = this.lostMoneyOrFixAndFlip;
       application.Reason_For_Losses__c = this.reasonForLosses;
+
+      application.Transaction_Type__c = this.spbTransactionType;
+      application.Purchase_Price__c = this.spbPurchasePrice;
+      application.Estimated_Closing_Date__c = this.spbEstimatedClosingDate;
+      application.Estimated_As_Is_Value__c = this.spbEstimatedAsIsValue;
+      application.Property_Street_Address__c = this.spbStreetAddress;
+      application.Property_City__c = this.spbCity;
+      application.Property_State__c = this.spbState;
+      application.Property_Zip_Code__c = this.spbZipCode;
+      application.Property_Type__c = this.spbPropertyType;
+      application.Number_of_Units__c = this.spbNoUnits;
+      application.Plan_Rehab_on_Property__c = this.spbPlanRehabProperty;
+      application.Summary_of_Rehab_Work__c = this.spbSummaryRehabWork;
+      application.Perform_Rehab_Work__c = this.spbPerformRehabWork;
+      // application.Estimated_Renovation_Costs__c = this.spbEstimatedRehabCost;
+      application.Estimated_As_Repaired_Value__c = this.spbEstimatedAsRepairedValue;
+      application.Applying_Purpose_Investment_Loan__c = this.spbApplyingPurposeInvestmentLoan;
+      // application.Loan_Desired_Amount__c = this.spbTotalLoanAmountRequested;
+      application.Long_Loan_Needed__c = this.spbLongLoanNeeded;
+      application.Current_Payoff_Amount__c = this.spbCurrentPayoffAmount;
+      application.Intend_To_Pay_Loan__c = this.spbIntendToPayLoan;
+      application.Investment_Properties_Sold__c = this.spbInvestmentPropertiesSold;
+      application.Rental_Properties_Owned__c = this.spbRentalPropertiesOwned;
+      application.Properties_Owned_Operated_as_Principal__c = this.propertiesOwnedAndOperatedAsPrincipal;
+      application.Properties_Owned_as_Principal__c = this.propertiesOwnedAsPrincipal;
+      application.Construction_Projects_Completed__c = this.constructionProjectsCompleted;
+      application.Renovation_Principal_Rental__c = this.renovationPrincipalRental;
+      application.Renovation_Principal_Sale__c = this.renovationPrincipalSale;
+      application.Other_Loan_Purpose__c = this.creOtherLoanPurpose;
+      if (this.creLoanType != null) {
+        application.CRE_Loan_Type__c = String.join(this.creLoanType, ';');
+      }
+      application.Other_Loan_Type__c = this.creOtherLoanType;
+      application.Project_Type__c = this.projectType;
+      application.Other_Project_Type__c = this.otherProjectType;
+      // application.Exit_Strategy__c = this.creExitStrategy;
+      application.Other_Exit_Strategy__c = this.otherCreExitStrategy;
+      if (this.refinanceStrategy != null) {
+        application.Refinance_Strategy__c = String.join(
+          this.refinanceStrategy,
+          ';'
+        );
+      }
+      application.Other_Refinance_Strategy__c = this.otherRefinanceStrategy;
+      application.Long_Properties_Hold__c = this.longPropertiesHold;
+      // application.How_is_Property_Management_Handled__c = this.handlePropertiesManagement;
+      // application.Property_Management_Companies__c = this.thirdPartyPropertiesManagement;
+      // application.Years_Experience__c = this.creYearsOfExperience;
+      // application.Number_of_Properties_Self_Managed__c = this.creNumberOfPropertiesSelfManaged;
+      application.Other_Type_of_Properties__c = this.otherTypeOfProperties;
 
       return application;
     }

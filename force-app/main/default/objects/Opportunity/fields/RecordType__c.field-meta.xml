@@ -19,10 +19,10 @@ IF(
  &apos;Investor DSCR&apos;, 
 IF(
  CONTAINS(RecordType.DeveloperName, &apos;Single_Asset_Bridge&apos;), 
- &apos;Bridge&apos;, 
+ &apos;Single Asset Bridge&apos;, 
 IF(
  CONTAINS(RecordType.DeveloperName, &apos;Acquired_Bridge_Loan&apos;), 
- &apos;Acquired Bridge Loan&apos;, 
+ &apos;Acquired Bridge&apos;, 
  &apos;&apos;
  ) 
 )))))</formula>

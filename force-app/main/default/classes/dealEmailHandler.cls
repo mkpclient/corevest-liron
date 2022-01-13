@@ -301,7 +301,6 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
     String subject,
     String senderAddress
   ) {
-    
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
     email.setToAddresses(

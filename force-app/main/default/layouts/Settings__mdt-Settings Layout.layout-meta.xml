@@ -30,6 +30,14 @@
                 <behavior>Edit</behavior>
                 <field>Duplicate_Property_Alert_Email__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Construction_Manager_CV_Originated__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Construction_Manager_Acquired_Loans__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -55,6 +63,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>SecuritizationReview_Email_CC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Send_Email_for_Bridge_Securitization_Rev__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Bridge_Sec_Diligence_Review_Email_To__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

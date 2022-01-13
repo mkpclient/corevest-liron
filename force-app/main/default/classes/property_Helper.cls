@@ -101,6 +101,10 @@ public without sharing class property_Helper {
 
     for (Property__c p : newList) {
       p.Name = standardizePropertyName(p.Name);
+      if (p.Verified_Rent__c == 0) {
+        p.Verified_Rent__c = null;
+      }
+
       if (p.Property_Name__c != null) {
         p.Property_Name__c = standardizePropertyName(p.Property_Name__c);
       }
@@ -1118,6 +1122,10 @@ public without sharing class property_Helper {
       //     newList[i].Active_Last_Changed__c = system.today();
       // }
       //}
+
+      if (newList[i].Verified_Rent__c == 0) {
+        newList[i].Verified_Rent__c = null;
+      }
 
       if (
         (newList[i].Status__c == 'Closing' &&

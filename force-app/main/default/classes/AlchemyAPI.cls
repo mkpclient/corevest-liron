@@ -103,9 +103,10 @@ public without sharing class AlchemyAPI {
     requestBody.put('email', l.Email);
     requestBody.put('lead_id', l.Id);
     requestBody.put('entry_id', l.Entry_Id__c);
+    requestBody.put('role', 'user');
     //system.debug(requestBody);
-    String url = base_url + create_user_endpoint;
-
+    String url = getBaseURL() + create_user_endpoint;
+    system.debug(url);
     HttpRequest req = new HttpRequest();
     req.setBody(JSON.serialize(requestBody, true));
     req.setEndpoint(url);
@@ -157,7 +158,7 @@ public without sharing class AlchemyAPI {
 
     Map<String, String> requestBody = new Map<String, String>();
 
-    String role = 'borrower';
+    String role = 'user';
     String nonBorrowerAccType = '';
     if (c.Account.RecordType.DeveloperName == 'Vendor') {
       role = 'vendor';

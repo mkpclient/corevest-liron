@@ -322,6 +322,10 @@
     <picklistValues>
         <picklist>Asset_Maturity__c</picklist>
         <values>
+            <fullName>600 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
@@ -2035,6 +2039,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>21 Months</fullName>
             <default>false</default>
         </values>
@@ -2305,6 +2313,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>IC_Approval__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>IO_Term__c</picklist>
         <values>
             <fullName>0 months</fullName>
@@ -2513,6 +2536,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2987,6 +3014,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>

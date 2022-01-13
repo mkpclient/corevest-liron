@@ -19,6 +19,22 @@
         <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
     </values>
     <values>
+        <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bridge_Sec_Diligence_Review_Email_To__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Construction_Manager_Acquired_Loans__c</field>
+        <value xsi:type="xsd:string">0050a00000LVh0GAAT</value>
+    </values>
+    <values>
+        <field>Construction_Manager_CV_Originated__c</field>
+        <value xsi:type="xsd:string">0050a00000L854aAAB</value>
+    </values>
+    <values>
         <field>Disable_Advance_Trigger__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -84,7 +100,7 @@
     </values>
     <values>
         <field>Require_Address_Val_on_UW_Submit__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_Address_Valid_on_Pricing__c</field>
@@ -92,11 +108,11 @@
     </values>
     <values>
         <field>Require_X_Author_Validation_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_X_Author_Validation_on_UW_Submis__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>SecuritizationReview_Email_CC__c</field>
@@ -105,6 +121,10 @@
     <values>
         <field>SecuritizationReview_Email_To__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Send_Email_for_Bridge_Securitization_Rev__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Validated_Address_Threshold__c</field>

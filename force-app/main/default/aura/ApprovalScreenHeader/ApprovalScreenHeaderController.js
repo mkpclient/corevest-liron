@@ -22,7 +22,7 @@
           helper.toggleHide(component, "approval-buttons");
         }
       } else {
-        console.log(response.getError());
+        console.error(response.getError());
       }
     });
     $A.enqueueAction(action);
@@ -98,12 +98,16 @@
         // display success message
         component.set("v.response", "You have approved the deal.");
       } else {
-        console.log(response.getError());
+        console.error(JSON.stringify(response.getError()));
         // display error message
+        let errorMessage = response.getError()[0];
+        if(errorMessage.pageErrors) {
+          errorMessage = errorMessage.pageErrors[0]
+        };
         component.set(
           "v.response",
           "There has been an error. " +
-            response.getError() +
+            errorMessage.message +
             " Please contact your administrator with this error message."
         );
       }
@@ -130,12 +134,16 @@
         // display success message
         component.set("v.response", "You have rejected the deal.");
       } else {
-        console.log(response.getError());
+        console.error(JSON.stringify(response.getError()));
         // display error message
+        let errorMessage = response.getError()[0];
+        if(errorMessage.pageErrors) {
+          errorMessage = errorMessage.pageErrors[0]
+        };
         component.set(
           "v.response",
           "There has been an error. " +
-            response.getError() +
+            errorMessage.message +
             " Please contact your administrator with this error message."
         );
       }
@@ -179,12 +187,16 @@
         component.find("glcApprovalButton").set("v.disabled", false);
         window.location.href = "/lightning/n/Pricing_Reviews_In_Progress";
       } else {
-        console.log(response.getError());
+        console.error(JSON.stringify(response.getError()));
+        let errorMessage = response.getError()[0];
+        if(errorMessage.pageErrors) {
+          errorMessage = errorMessage.pageErrors[0]
+        };
         // display error message
         component.set(
           "v.response",
           "There has been an error. " +
-            response.getError() +
+            errorMessage.message +
             " Please contact your administrator with this error message."
         );
 
@@ -211,4 +223,6 @@
         "/lightning/r/Opportunity/" + component.get("v.oppId") + "/view";
     }
   }
+
+  
 });

@@ -1,0 +1,49 @@
+<template>
+  <lightning-card>
+    <div slot="title">
+      <p>
+        <lightning-formatted-url
+          value={tabUrl}
+          label="IC Approvals in Progress"
+          tooltip="IC Approvals in Progress"
+          target="_blank"
+        ></lightning-formatted-url>
+      </p>
+    </div>
+    <div class="slds-p-horizontal_small">
+      <lightning-accordion allow-multiple-sections-open>
+        <template for:each={approvalData} for:item="approval">
+          <lightning-accordion-section
+            key={approval.id}
+            name={approval.id}
+            label={approval.approvalName}
+          >
+            <p><strong>Status: </strong> {approval.subStatus}</p>
+            <p>
+              <strong>Date Submitted: </strong>
+              <lightning-formatted-date-time
+                value={approval.dateSubmitted}
+              ></lightning-formatted-date-time>
+            </p>
+            <p>
+              <strong>Time since submission: </strong> {approval.timeSinceSub}
+            </p>
+            <p>
+              <strong>Approver Name: </strong> {approval.approverName}
+            </p>
+            <p>
+              <strong>
+                <lightning-formatted-url
+                  value={approval.approvalUrl}
+                  label="Link to Approval Page"
+                  tooltip="Link to Approval Page"
+                  target="_blank"
+                ></lightning-formatted-url>
+              </strong>
+            </p>
+          </lightning-accordion-section>
+        </template>
+      </lightning-accordion>
+    </div>
+  </lightning-card>
+</template>

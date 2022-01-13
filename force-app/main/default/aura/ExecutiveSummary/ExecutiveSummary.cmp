@@ -1,0 +1,12 @@
+<aura:component controller="ExecSummaryController">
+  <aura:attribute name="record" type="Object" />
+    <aura:attribute name="fileId" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <aura:attribute name="isLoaded" type="Boolean" default="false" />
+
+    <aura:if isTrue="{!v.isLoaded}">
+        <c:renderPdf fileId="{!v.fileId}" heightInRem="800" pageNumber="2" />
+    </aura:if>
+</aura:component>

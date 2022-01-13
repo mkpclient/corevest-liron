@@ -1365,32 +1365,6 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
-                    <name>appName</name>
-                    <value>Bridge</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>parentFieldName</name>
-                    <value>Deal__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>sobjectType</name>
-                    <value>Deal_Document__c</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>title</name>
-                    <value>Term Sheets</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>whereClause</name>
-                    <value>Document_Type__c LIKE &apos;%Term Sheet%&apos; AND Is_Deleted__c = false</value>
-                </componentInstanceProperties>
-                <componentName>BridgeDocumentList</componentName>
-                <identifier>BridgeDocumentList</identifier>
-            </componentInstance>
-        </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentInstanceProperties>
                     <name>parentFieldName</name>
                     <value>Deal__c</value>
                 </componentInstanceProperties>
@@ -1404,7 +1378,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
-                    <value>Title</value>
+                    <value>Term Sheets</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>typeName</name>

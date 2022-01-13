@@ -9,6 +9,14 @@ public without sharing class ApprovalHistory_lightningController {
     'Term'
   };
 
+  public static final List<String> IC_APPROVAL_NAMES = new List<String>{
+    'Term_IC_Approval',
+    'Bridge_IC_Approval',
+    'Term_Sub_IC',
+    'Bridge_Sub_IC'
+  };
+
+
   @AuraEnabled
   public static String recallApproval(Id processId) {
     Approval.ProcessWorkitemRequest pwr = new Approval.ProcessWorkitemRequest();
@@ -174,6 +182,7 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Owner.Name,
         Deal__r.Approval_Status__c,
         Deal__r.Apex_Context__c,
+        Deal__r.Underwriter__c,
         CreatedDate,
         Resolution__c
       FROM Approval_History__c
@@ -192,12 +201,24 @@ public without sharing class ApprovalHistory_lightningController {
         ProcessInstance.ElapsedTimeInDays,
         ProcessInstance.TargetObjectId,
         ProcessInstance.Status,
-        ProcessInstance.ProcessDefinition.DeveloperName
+        ProcessInstance.ProcessDefinition.DeveloperName,
+        ActorId
       FROM ProcessInstanceWorkItem
       WHERE Id IN :idMap.keySet()
     ]) {
       idMap.put(piw.Id, piw.ProcessInstance.ProcessDefinition.DeveloperName);
     }
+
+    Boolean allowUnderwriterRecall = false;
+
+    List<OpportunityTeamMember> otmList = [
+      SELECT
+        Id
+      FROM OpportunityTeamMember
+      WHERE OpportunityId = :recordId
+      AND UserId = :UserInfo.getUserId()
+      AND TeamMemberRole = 'Underwriter'
+    ];
 
     for (Approval_History__c ah : ahList) {
       if (
@@ -325,11 +346,18 @@ public without sharing class ApprovalHistory_lightningController {
             }
           }
           roleName = 'Underwriter';
+        } 
+        if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
+          ah.Verified__c = true;
+        }
+
+        if(IC_APPROVAL_NAMES.contains(processName) && (otmList.size() > 0 || ah.Deal__r.Underwriter__c == UserInfo.getUserId())){
+          allowUnderwriterRecall = true;
         }
       }
     }
 
-    Boolean b = submitterId == UserInfo.getUserId();
+    Boolean b = submitterId == UserInfo.getUserId() || allowUnderwriterRecall;
 
     returnWrapper rw = new returnWrapper();
     rw.ahList = ahList;
@@ -570,6 +598,11 @@ public without sharing class ApprovalHistory_lightningController {
     system.debug(userRole);
     system.debug(approvalName);
     // system.debug(JSON.serialize(opp));
+    Opportunity updDeal = new Opportunity(
+      Id = oppId,
+      Final_Sponsor_Tier__c = 'Tier 1'
+    );
+
     ApprovalAttachments_lightningController.approveDeal(
       recordId,
       userRole,

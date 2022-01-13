@@ -333,7 +333,7 @@ export default class VendorEntityList extends LightningElement {
     }
 
     queryString +=
-      " AND LastViewedDate != null Order By LastViewedDate Desc LIMIT 5";
+      " ORDER BY LastViewedDate DESC NULLS LAST LIMIT 5";
 
     console.log(queryString);
 

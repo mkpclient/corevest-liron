@@ -32,7 +32,7 @@ public class TermPostClosingEmailController {
 
   @AuraEnabled(cacheable=true)
   public static Loan_Version__c getLoanVersion(Id dealId) {
-    if(test.isRunningTest()) {
+    if (test.isRunningTest()) {
       return new Loan_Version__c();
     }
     try {
@@ -96,7 +96,7 @@ public class TermPostClosingEmailController {
 
   @AuraEnabled
   public static Loan_Version__c saveLoanVersion(Loan_Version__c newRecord) {
-    if(test.isRunningTest()) {
+    if (test.isRunningTest()) {
       return new Loan_Version__c();
     }
     Id rtypeId = SObjectType.Loan_Version__c.getRecordTypeInfosByDeveloperName()
@@ -110,7 +110,7 @@ public class TermPostClosingEmailController {
   @AuraEnabled(cacheable=true)
   public static String getEmailInfo(Id dealId) {
     Map<String, List<Object>> retVal = new Map<String, List<Object>>();
-    if(test.isRunningTest()) {
+    if (test.isRunningTest()) {
       return 'test';
     }
     EmailTemplate template = [
@@ -123,7 +123,7 @@ public class TermPostClosingEmailController {
     mail = Messaging.renderStoredEmailTemplate(template.Id, null, dealId);
     retVal.put('emailBody', new List<Object>{ mail.getHTMLBody() });
     retVal.put('subject', new List<Object>{ mail.getSubject() });
-    
+
     return JSON.serialize(retVal);
   }
 
@@ -144,10 +144,10 @@ public class TermPostClosingEmailController {
 
     List<String> addresses = new List<String>();
     addresses.addAll(recipientEmails);
-    
+
     String body = m.get('emailBody');
     Id recId = (Id) m.get('recordId');
-    
+
     try {
       sendMail(
         addresses,
@@ -181,8 +181,8 @@ public class TermPostClosingEmailController {
           Deal__c = :recordId
           AND Type__c = 'DS Funding Package - DS Funding Package'
           AND File_Name__c LIKE '%BerkadiaOnboarding%'
-          AND ContentVersion_Id__c != null
-          AND Document_Loaded__c = true
+          AND ContentVersion_Id__c != NULL
+          AND Document_Loaded__c = TRUE
       ] + 1;
   }
 
@@ -191,13 +191,17 @@ public class TermPostClosingEmailController {
     Savepoint sp = Database.setSavepoint();
     try {
       Integer i = queryDealDocument(recordId);
-      Pagereference pdfPage =
-        new PageReference('/apex/TermPostClosingBerkadiaOnboardingLetter?id=' + recordId);
+      Pagereference pdfPage = new PageReference(
+        '/apex/TermPostClosingBerkadiaOnboardingLetter?id=' + recordId
+      );
       Blob content;
       ContentVersion cv;
       if (Test.isRunningTest()) {
         content = Blob.valueOf('TEST VAL');
-        cv = new ContentVersion(PathOnClient = 'test.pdf', VersionData = content);
+        cv = new ContentVersion(
+          PathOnClient = 'test.pdf',
+          VersionData = content
+        );
       } else {
         content = pdfPage.getContentAsPdf();
         cv = new ContentVersion(
@@ -216,14 +220,16 @@ public class TermPostClosingEmailController {
       Deal_Document__c dd = new Deal_Document__c(
         ContentVersion_Id__c = queryCv.Id,
         Attachment_Id__c = queryCv.ContentDocumentId,
-        Type__c = 'DS Funding Package - DS Funding Package',
+        Type__c = 'DS Funding Package',
         Section__c = 'DS Funding Package',
         Document_Type__c = 'Miscellaneous',
         Deal__c = recordId,
         Added_On__c = System.now(),
         Added_By__c = UserInfo.getUserId(),
         Document_Loaded__c = true,
-        File_Name__c = 'BerkadiaOnboarding' + '(' + i + ')' + '.pdf'
+        File_Name__c = 'BerkadiaOnboarding' + '(' + i + ')' + '.pdf',
+        Vendor_Access__c = true,
+        Vendor_Type_Access__c = 'Servicer'
       );
 
       insert dd;
@@ -235,10 +241,10 @@ public class TermPostClosingEmailController {
       );
 
       insert cdl;
-      return new Map<String, String>{'Success' => '' + dd.Id};
+      return new Map<String, String>{ 'Success' => '' + dd.Id };
     } catch (AuraException err) {
       Database.rollback(sp);
-      return new Map<String, String>{'Error' => err.getMessage()};
+      return new Map<String, String>{ 'Error' => err.getMessage() };
     }
   }
 
