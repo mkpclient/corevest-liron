@@ -42,6 +42,7 @@ public class property_advance_Helper {
           Max_LTC_Dollar__c,
           Max_LTV_Dollar__c,
           Escrow_Agent__c,
+          Title_Company__c,
           Max_LTC_Dollar_nooverride__c,
           Reno_Advance_Amount__c,
           Initial_Disbursement_remaining__c,
@@ -59,6 +60,8 @@ public class property_advance_Helper {
           Perc_of_Rehab_Budget__c,
           Daily_Interest_Rate__c,
           Approved_Advance_Amount_Max__c,
+          Rehab_Budget__c,
+          Appraisal_Due_Date__c,
           (
             SELECT Id, Name, Property_Advance_Number__c
             FROM Property_Advances__r
@@ -82,6 +85,7 @@ public class property_advance_Helper {
       adv.Max_LTV_Dollar_nooverride__c = property.Max_LTV_Dollar_nooverride__c;
       // adv.Approved_Advance_Amount__c = property.Approved_Advance_Amount__c;
       adv.Escrow_Agent__c = property.Escrow_Agent__c;
+      adv.Title_Company__c = property.Title_Company__c;
       //adv.Initial_Disbursement__c = property.Initial_Disbursement__c;
       adv.Initial_Disbursement__c = property.Initial_Disbursement_remaining__c;
       adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
@@ -89,6 +93,8 @@ public class property_advance_Helper {
       adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
       adv.Approved_Advance_Amount_Max__c = property.Approved_Advance_Amount_Max__c;
       adv.Approved_Renovation_Holdback__c = property.Approved_Renovation_Holdback__c;
+      adv.Renovation_Budget__c = property.Rehab_Budget__c;
+      adv.Appraisal_Due_Date__c = property.Appraisal_Due_Date__c;
       //if(property.RecordType_Name__c == 'Renovation Advance'){
       //adv.Renovation_Advance__c = property.Reno_Advance_Amount__c;
       //}
@@ -186,6 +192,19 @@ public class property_advance_Helper {
         }
 
         wireMap.get(adv.Advance__c).get(adv.Escrow_Agent__c).add(adv);
+      }
+
+      if (adv.Title_Company__c != null) {
+        if (!wireMap.containsKey(adv.Advance__c)) {
+          wireMap.put(adv.Advance__c, new Map<Id, List<Property_Advance__c>>());
+        }
+
+        if (!wireMap.get(adv.Advance__c).containsKey(adv.Title_Company__c)) {
+          wireMap.get(adv.Advance__c)
+            .put(adv.Title_Company__c, new List<Property_Advance__c>());
+        }
+
+        wireMap.get(adv.Advance__c).get(adv.Title_Company__c).add(adv);
       }
     }
 
@@ -355,7 +374,9 @@ public class property_advance_Helper {
           Daily_Interest_Rate__c,
           Origination_Fee_Amnt__c,
           Approved_Advance_Amount_Max__c,
-          Broker_Adv_Fee_Amnt__c
+          Broker_Adv_Fee_Amnt__c,
+          Rehab_Budget__c,
+          Appraisal_Due_Date__c
         FROM Property__c
         WHERE Id IN :propertyIds
       ]
@@ -381,6 +402,8 @@ public class property_advance_Helper {
         adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
         adv.Approved_Advance_Amount_Max__c = property.Approved_Advance_Amount_Max__c;
         adv.Approved_Renovation_Holdback__c = property.Approved_Renovation_Holdback__c;
+        adv.Renovation_Budget__c = property.Rehab_Budget__c;
+        adv.Appraisal_Due_Date__c = property.Appraisal_Due_Date__c;
 
         if (property.Number_of_Advances__c == 0) {
           adv.Broker_Advance_Fee__c = property.Broker_Adv_Fee_Amnt__c;
@@ -643,17 +666,23 @@ public class property_advance_Helper {
   public static void setAdvRecordTypes(Set<Id> advIds) {
     List<Advance__c> advances = new List<Advance__c>();
     Map<String, Id> recTypes = getAdvanceRecordTypes();
-
+    Map<id,id> propertyAdvMap = new Map<id,id>(); //CIP-2149 - Raj Sirivolu. 1/20/2022.
     for (Advance__c adv : [
       SELECT
         Id,
         RecordType.DeveloperName,
+        Target_Advance_Date__c,		//CIP-2149 - Raj Sirivolu. 1/20/2022.
+        Underwriter__c,				//CIP-2149 - Raj Sirivolu. 1/20/2022.        
         (
           SELECT
             Id,
+            property__c,							//CIP-2149 - Raj Sirivolu. 1/20/2022.
             Property__r.RecordType__c,
-            Property__r.Number_of_Advances__c
+            Property__r.Number_of_Advances__c,
+            Property__r.Requested_Funding_Date__c, 	//CIP-2149 - Raj Sirivolu. 1/20/2022.
+            Property__r.Underwriter__c 				//CIP-2149 - Raj Sirivolu. 1/20/2022.
           FROM Property_Advances__r
+          ORDER BY createdDate ASC,property__c ASC
         )
       FROM Advance__c
       WHERE Id IN :advIds
@@ -661,6 +690,10 @@ public class property_advance_Helper {
       Boolean hasReno = false;
       Boolean hasChanged = false;
       Boolean isConstruction = false;
+//CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.        
+      Date requestedFundDt = null;
+	  String underwriter ='';        
+	//CIP-2149 - Raj Sirivolu. 1/20/2022. End.        
       for (Property_Advance__c pAdv : adv.Property_Advances__r) {
         if (Integer.valueOf(pAdv.Property__r.Number_of_Advances__c) >= 1) {
           isConstruction = true;
@@ -669,7 +702,29 @@ public class property_advance_Helper {
           hasReno = true;
           isConstruction = false;
         }
+     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
+     if (Trigger.isAfter && Trigger.isInsert)  
+     {
+        // system.debug('pAdv.Property__r.Requested_Funding_Date__c :' +pAdv.Property__r.Requested_Funding_Date__c);
+        // system.debug('pAdv.Property__r.Underwriter__c :' +pAdv.Property__r.Underwriter__c);
+     if (adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||   adv.RecordType.DeveloperName == 'Renovation_Initial' )
+     {
+         propertyAdvMap.put(pAdv.Property__c,adv.id);
+        if (pAdv.Property__r.Requested_Funding_Date__c != null)
+        {
+              requestedFundDt = pAdv.Property__r.Requested_Funding_Date__c ;
+        }
+        if (pAdv.Property__r.Underwriter__c != null)
+        {
+             underwriter = pAdv.Property__r.Underwriter__c;
+          }    
+        // system.debug('requestedFundDt :' +requestedFundDt);
+        // system.debug('underwriter :' +underwriter);    
+	 } 
+     }
+     //CIP-2149 - Raj Sirivolu. 1/20/2022. End.          
       }
+        
       if (
         isConstruction && adv.RecordType.DeveloperName != 'Construction_Advance'
       ) {
@@ -687,15 +742,58 @@ public class property_advance_Helper {
         adv.RecordTypeId = recTypes.get('Non_Renovation_Initial');
       }
 
+     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.     
+     if (Trigger.isAfter && Trigger.isInsert)  
+     {    
+         if (adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||   adv.RecordType.DeveloperName == 'Renovation_Initial' )
+         {
+             if (requestedFundDt != null)
+             {
+                 hasChanged = true;
+                 adv.Target_Advance_Date__c  = requestedFundDt;
+             }
+             if (!String.isblank(underwriter))
+             {
+                 hasChanged = true;
+                 adv.Underwriter__c = underwriter;
+             }
+             system.debug('adv.Target_Advance_Date__c :' +adv.Target_Advance_Date__c);
+             system.debug('adv.Underwriter__c :' +adv.Underwriter__c);          
+         }
+     }
+                
+ //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       if (hasChanged) {
         advances.add(adv);
       }
-    }
+    } //Advance__c SOQL
+      
+     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.     
+     if (Trigger.isAfter && Trigger.isInsert)  
+     {      
+      if (propertyAdvMap.size() > 0)
+      {
+        List<Property__c>  propertyList = new List<Property__c>();
+		for(Property__c property : [Select id,Initial_Advance__c from property__c  where id = :propertyAdvMap.keySet() and Initial_Advance__c = NULL] )
+        {
+         property.Initial_Advance__c = propertyAdvMap.get(property.id); 
+         propertyList.add(property);
+        }
+      //system.debug('propertyList :' +propertyList);
+	try {
+      update propertyList;
+    	} catch (DmlException err) {
+      	System.debug('Property intial advance id update error: ' + err);
+    	}         
+     }
+     }
+     //CIP-2149 - Raj Sirivolu. 1/20/2022. End.      
     try {
       update advances;
     } catch (DmlException err) {
       System.debug('Advance record type change error : ' + err);
     }
+     
   }
 
   public static void rollupAdvances(Set<Id> advIds) {

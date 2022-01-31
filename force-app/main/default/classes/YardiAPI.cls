@@ -1,44 +1,49 @@
 public without sharing class YardiAPI {
-  static final String USERNAME = 'SFitf';
-  static final String PASSWORD = 'PyL9JXi`c-eRz&gt;B';
-  static final String SERVER_NAME = 'dcqtadfdm_CAF_Pilot';
-  static final String DATABASE = 'dcqtadfdm_CAF_Pilot';
-  static final String PLATFORM = 'SQL Server';
-  static final String INTERFACE_ENTITY = 'CoreVest Loan Interface';
-  static final String INTERFACE_LICENSE = 'MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC';
-  static final String URL = 'https://www.yardiaspla2.com';
+  // static final String USERNAME = 'SFitf';
+  // static final String PASSWORD = 'PyL9JXi`c-eRz&gt;B';
+  // static final String SERVER_NAME = 'dcqtadfdm_CAF_Pilot';
+  // static final String DATABASE = 'dcqtadfdm_CAF_Pilot';
+  // static final String PLATFORM = 'SQL Server';
+  // static final String INTERFACE_ENTITY = 'CoreVest Loan Interface';
+  // static final String INTERFACE_LICENSE = 'MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC';
+  // static final String URL = 'https://www.yardiaspla2.com';
 
-  static final String TERM_FOLDER_ID = '147042016627';
-  static final String BRIDGE_FOLDER_ID = '147041409626';
+  // static final String TERM_FOLDER_ID = '147042016627';
+  // static final String BRIDGE_FOLDER_ID = '147041409626';
 
-  @AuraEnabled
-  public static List<String> createSampleData(Id recordId) {
-    List<String> xmls = createInvoiceRegisters(recordId);
+  public static Settings__mdt SETTINGS = Settings__mdt.getInstance(
+    'Universal_Settings'
+  );
 
-    system.debug(xmls);
-    List<ContentVersion> notes = new List<ContentVersion>();
-    for (String xml : xmls) {
-      ContentVersion note = new ContentVersion();
-      note.Title = 'Sample Invoice Register XML';
-      note.PathOnClient = note.title + '.snote';
-      note.VersionData = Blob.valueOf(xml.escapeHtml4());
-      note.FirstPublishLocationId = recordId;
+  // @AuraEnabled
+  // public static List<String> createSampleData(Id recordId) {
+  //   List<String> xmls = createInvoiceRegisters(recordId);
 
-      sendInvoiceRegister(xml, recordId);
+  //   system.debug(xmls);
+  //   List<ContentVersion> notes = new List<ContentVersion>();
+  //   for (String xml : xmls) {
+  //     ContentVersion note = new ContentVersion();
+  //     note.Title = 'Sample Invoice Register XML';
+  //     note.PathOnClient = note.title + '.snote';
+  //     note.VersionData = Blob.valueOf(xml.escapeHtml4());
+  //     note.FirstPublishLocationId = recordId;
 
-      //notes.add(note);
-    }
-    //insert notes;
+  //     sendInvoiceRegister(xml, recordId);
 
-    return xmls;
-  }
+  //     //notes.add(note);
+  //   }
+  //   //insert notes;
+
+  //   return xmls;
+  // }
 
   @future(callout=true)
   public static void sendInvoiceRegister(String xml, Id recordId) {
     HttpRequest request;
     HttpResponse response;
     try {
-      String endpoint = URL + '/25587caf/WebServices/itfvendorinvoicing.asmx';
+      String endpoint =
+        SETTINGS.Yardi_URL__c + '/25587caf/WebServices/itfvendorinvoicing.asmx';
 
       String requestBody = '<?xml version="1.0" encoding="utf-8"?>';
       requestBody += '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"';
@@ -47,18 +52,21 @@ public without sharing class YardiAPI {
       requestBody += '<soap:Body>';
       requestBody += '<ImportInvoiceRegister';
       requestBody += ' xmlns="http://tempuri.org/YSI.Interfaces.WebServices/ysiItfVendorInvoicing">';
-      requestBody += '<UserName>' + USERNAME + '</UserName>';
-      requestBody += '<Password>' + PASSWORD + '</Password>';
-      requestBody += '<ServerName>' + SERVER_NAME + '</ServerName>';
-      requestBody += '<Database>' + DATABASE + '</Database>';
-      requestBody += '<Platform>' + PLATFORM + '</Platform>';
+      requestBody += '<UserName>' + SETTINGS.Yardi_Username__c + '</UserName>';
+      requestBody += '<Password>' + SETTINGS.Yardi_Password__c + '</Password>';
+      requestBody +=
+        '<ServerName>' +
+        SETTINGS.Yardi_Server_Name__c +
+        '</ServerName>';
+      requestBody += '<Database>' + SETTINGS.Yardi_Database__c + '</Database>';
+      requestBody += '<Platform>' + SETTINGS.Yardi_Platform__c + '</Platform>';
       requestBody +=
         '<InterfaceEntity>' +
-        INTERFACE_ENTITY +
+        SETTINGS.Yardi_Interface_Entity__c +
         '</InterfaceEntity>';
       requestBody +=
         '<InterfaceLicense>' +
-        INTERFACE_LICENSE +
+        SETTINGS.Yardi_Interface_License__c +
         '</InterfaceLicense>';
       requestBody += '<InvoicRegisterDoc>' + xml + '</InvoicRegisterDoc>';
       requestBody += '</ImportInvoiceRegister>';
@@ -75,10 +83,10 @@ public without sharing class YardiAPI {
       request.setHeader('Content-Length', String.valueOf(requestBody.length()));
       request.setMethod('POST');
       request.setBody(requestBody);
-      response = new Http().send(request);
-      system.debug(response.getBody());
-      system.debug(response.getStatusCode());
-      system.debug(response.getStatus());
+
+      if (!Test.isRunningTest()) {
+        response = new Http().send(request);
+      }
 
       System.enqueueJob(
         new APILoggerQueueable(request, response, recordId, false)
@@ -95,7 +103,7 @@ public without sharing class YardiAPI {
     csvs.add(createVendorCSVTerm(recordIds));
     csvs.add(createPropCsvTerm(recordIds));
 
-    String folderId = TERM_FOLDER_ID;
+    String folderId = SETTINGS.Box_Yardi_Term_Folder_Id__c;
 
     String fileString = String.valueOf(system.now()).replaceAll(' ', '_');
 
@@ -123,7 +131,7 @@ public without sharing class YardiAPI {
     csvs.add(createVendorCSVProperty(recordIds));
     csvs.add(createPropCsvProperty(recordIds));
 
-    String folderId = BRIDGE_FOLDER_ID;
+    String folderId = SETTINGS.Box_Yardi_Bridge_Folder_Id__c;
 
     String fileString = String.valueOf(system.now()).replaceAll(' ', '_');
 
@@ -333,26 +341,6 @@ public without sharing class YardiAPI {
   }
 
   public static String createVendorCSVProperty(List<Id> recordIds) {
-    // Property__c property = [
-    //   SELECT
-    //     Id,
-    //     Escrow_Agent__r.BillingStreet,
-    //     Escrow_Agent__r.BillingCity,
-    //     Escrow_Agent__r.BillingState,
-    //     Escrow_Agent__r.BillingCountryCode,
-    //     Escrow_Agent__r.BillingStateCode,
-    //     Escrow_Agent__r.BillingPostalCode,
-    //     Escrow_Agent__r.Yardi_Vendor_Code__c,
-    //     Escrow_Agent__c,
-    //     Escrow_Agent__r.ABA__c,
-    //     Escrow_Agent__r.Bank_Account__c,
-    //     Escrow_Agent__r.Name,
-    //     Escrow_Agent__r.Payment_Instructions__c,
-    //     Property__r.Name
-    //   FROM Property__c
-    //   WHERE Id IN :recordIds
-    // ];
-
     Map<String, Account> vendorMap = new Map<String, Account>();
     for (Property__c property : [
       SELECT
@@ -417,6 +405,306 @@ public without sharing class YardiAPI {
 
     return csv;
   }
+
+  // @AuraEnabled
+  // public static List<String> createSampleCSV(Id recordId) {
+  //   List<String> csvs = new List<String>();
+  //   //system.debug(csvs);
+  //   csvs.add(createVendorCSV(recordId));
+
+  //   String propCsv = createPropCsv(recordId);
+  //   if (String.isNotBlank(propCsv)) {
+  //     csvs.add(propCsv);
+  //   }
+
+  //   String loanNumber = '';
+  //   String folderId = '';
+  //   if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
+  //     Advance__c adv = [
+  //       SELECT Id, Deal__r.Deal_Loan_Number__c
+  //       FROM Advance__c
+  //       WHERE Id = :recordId
+  //       LIMIT 1
+  //     ];
+  //     folderId = BRIDGE_FOLDER_ID;
+  //     loanNumber = adv.Deal__r.Deal_Loan_Number__c;
+  //   } else {
+  //     folderId = TERM_FOLDER_ID;
+  //     Opportunity opp = [
+  //       SELECT Id, Deal_Loan_Number__c
+  //       FROM Opportunity
+  //       WHERE Id = :recordId
+  //       LIMIT 1
+  //     ];
+  //     loanNumber = opp.Deal_Loan_Number__c;
+  //   }
+
+  //   String fileString =
+  //     '_' +
+  //     loanNumber +
+  //     '_' +
+  //     String.valueOf(system.now()).replaceAll(' ', '_');
+
+  //   uploadFile(
+  //     Blob.valueOf(csvs[0]),
+  //     'ETL_SFSTAGELOANVENDOR' +
+  //     fileString +
+  //     '.csv',
+  //     folderId,
+  //     recordId
+  //   );
+
+  //   if (csvs.size() > 1) {
+  //     uploadFile(
+  //       Blob.valueOf(csvs[1]),
+  //       'ETL_SFSTAGELOANPROP' +
+  //       fileString +
+  //       '.csv',
+  //       folderId,
+  //       recordId
+  //     );
+  //   }
+
+  //   return csvs;
+  // }
+
+  @future(callout=true)
+  public static void uploadFile(
+    Blob file,
+    String fileName,
+    String folderId,
+    Id recordId
+  ) {
+    BOXAPI.uploadFile(file, fileName, folderId, recordId);
+  }
+
+  // public static String createVendorCSVAdvance(Id advanceId) {
+  //   Advance__c advance = [
+  //     SELECT
+  //       Id,
+  //       (
+  //         SELECT
+  //           Id,
+  //           Escrow_Agent__r.BillingStreet,
+  //           Escrow_Agent__r.BillingCity,
+  //           Escrow_Agent__r.BillingState,
+  //           Escrow_Agent__r.BillingCountryCode,
+  //           Escrow_Agent__r.BillingStateCode,
+  //           Escrow_Agent__r.BillingPostalCode,
+  //           Escrow_Agent__r.Yardi_Vendor_Code__c,
+  //           Escrow_Agent__c,
+  //           Escrow_Agent__r.ABA__c,
+  //           Escrow_Agent__r.Bank_Account__c,
+  //           Escrow_Agent__r.Name,
+  //           Escrow_Agent__r.Payment_Instructions__c,
+  //           Property__r.Name
+  //         FROM Property_Advances__r
+  //       )
+  //     FROM Advance__c
+  //     WHERE Id = :advanceId
+  //   ];
+
+  //   Map<String, List<Property_Advance__c>> vendorMap = new Map<String, List<Property_Advance__c>>();
+  //   for (Property_Advance__c property : advance.Property_Advances__r) {
+  //     if (
+  //       !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
+  //     ) {
+  //       vendorMap.put(
+  //         property.Escrow_Agent__r.Yardi_Vendor_Code__c,
+  //         new List<Property_Advance__c>()
+  //       );
+  //     }
+
+  //     vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
+  //       .add(property);
+  //   }
+
+  //   String csv = 'CommonCustomTables,,,,,,,,,,,,,,,\r\n';
+  //   csv += 'TableName,dtdate,sVENDcode,sVENDname,sVENDCATEGORY,sfedid,sfurthercreditto,SVENDABA,SVENDBANKACCT,sVENDaddr1,sVENDaddr2,sVENDaddr3,sVENDaddrCity,svendst,svendzip,saddrCountry,svendphone\r\n';
+  //   csv += 'SFSTAGEVENDOR,date,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string\r\n';
+
+  //   for (String vendorYardiCode : vendorMap.keySet()) {
+  //     Property_Advance__c prop = vendorMap.get(vendorYardiCode)[0];
+
+  //     if (String.isNotBlank(prop.Escrow_Agent__r.Payment_Instructions__c)) {
+  //       prop.Escrow_Agent__r.Payment_Instructions__c = prop.Escrow_Agent__r.Payment_Instructions__c.replaceAll(
+  //           '\r',
+  //           ' '
+  //         )
+  //         .replaceAll('\n', ' ');
+  //     }
+
+  //     csv += 'SFSTAGEVENDOR,';
+  //     csv += system.today().format() + ',';
+  //     csv += vendorYardiCode + ',';
+  //     csv += prop.Escrow_Agent__r.Name + ',';
+  //     csv += 'FUNDING,,';
+  //     csv += '"' + prop.Escrow_Agent__r.Payment_Instructions__c + '"' + ',';
+  //     csv += prop.Escrow_Agent__r.ABA__c + ',';
+  //     csv += prop.Escrow_Agent__r.Bank_Account__c + ',';
+  //     csv += prop.Escrow_Agent__r.BillingStreet + ',';
+  //     csv += ',,';
+  //     csv += prop.Escrow_Agent__r.BillingCity + ',';
+  //     csv += prop.Escrow_Agent__r.BillingStateCode + ',';
+  //     csv += prop.Escrow_Agent__r.BillingPostalCode + ',';
+  //     csv += ',,\r\n';
+  //     // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
+  //   }
+
+  //   return csv;
+  // }
+
+  // public static String createVendorCSVTerm(Id dealId) {
+  //   Opportunity deal = [
+  //     SELECT
+  //       Id,
+  //       (
+  //         SELECT
+  //           Id,
+  //           Vendor__c,
+  //           Vendor__r.BillingStreet,
+  //           Vendor__r.BillingCity,
+  //           Vendor__r.BillingState,
+  //           Vendor__r.BillingCountryCode,
+  //           Vendor__r.BillingStateCode,
+  //           Vendor__r.BillingPostalCode,
+  //           Vendor__r.Yardi_Vendor_Code__c,
+  //           Vendor__r.ABA__c,
+  //           Vendor__r.Bank_Account__c,
+  //           Vendor__r.Name,
+  //           Vendor__r.Payment_Instructions__c
+  //         FROM Loan_Fees__r
+  //       )
+  //     FROM Opportunity
+  //     WHERE Id = :dealId
+  //   ];
+
+  //   Map<String, List<Loan_Fee__c>> vendorMap = new Map<String, List<Loan_Fee__c>>();
+  //   for (Loan_Fee__c fee : deal.Loan_Fees__r) {
+  //     if (!vendorMap.containsKey(fee.Vendor__r.Yardi_Vendor_Code__c)) {
+  //       vendorMap.put(
+  //         fee.Vendor__r.Yardi_Vendor_Code__c,
+  //         new List<Loan_Fee__c>()
+  //       );
+  //     }
+
+  //     vendorMap.get(fee.Vendor__r.Yardi_Vendor_Code__c).add(fee);
+  //   }
+
+  //   String csv = 'CommonCustomTables,,,,,,,,,,,,,,,\r\n';
+  //   csv += 'TableName,dtdate,sVENDcode,sVENDname,sVENDCATEGORY,sfedid,sfurthercreditto,SVENDABA,SVENDBANKACCT,sVENDaddr1,sVENDaddr2,sVENDaddr3,sVENDaddrCity,svendst,svendzip,saddrCountry,svendphone\r\n';
+  //   csv += 'SFSTAGEVENDOR,date,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string\r\n';
+
+  //   for (String vendorYardiCode : vendorMap.keySet()) {
+  //     Loan_Fee__c fee = vendorMap.get(vendorYardiCode)[0];
+
+  //     if (String.isNotBlank(fee.Vendor__r.Payment_Instructions__c)) {
+  //       fee.Vendor__r.Payment_Instructions__c = fee.Vendor__r.Payment_Instructions__c.replaceAll(
+  //           '\r',
+  //           ' '
+  //         )
+  //         .replaceAll('\n', ' ');
+  //     }
+
+  //     csv += 'SFSTAGEVENDOR,';
+  //     csv += system.today().format() + ',';
+  //     csv += vendorYardiCode + ',';
+  //     csv += fee.Vendor__r.Name + ',';
+  //     csv += 'FUNDING,,';
+  //     csv += '"' + fee.Vendor__r.Payment_Instructions__c + '"' + ',';
+  //     csv += fee.Vendor__r.ABA__c + ',';
+  //     csv += fee.Vendor__r.Bank_Account__c + ',';
+  //     csv += fee.Vendor__r.BillingStreet + ',';
+  //     csv += ',,';
+  //     csv += fee.Vendor__r.BillingCity + ',';
+  //     csv += fee.Vendor__r.BillingStateCode + ',';
+  //     csv += fee.Vendor__r.BillingPostalCode + ',';
+  //     csv += ',,\r\n';
+  //     // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
+  //   }
+
+  //   return csv;
+  // }
+
+  // public static String createVendorCSV(Id recordId) {
+  //   String csv;
+
+  //   if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
+  //     csv = createVendorCsvAdvance(recordId);
+  //   } else {
+  //     csv = createVendorCsvTerm(recordId);
+  //   }
+
+  //   return csv;
+  // }
+
+  // public static String createPropCsvAdvance(Set<Id> propertyIds) {
+  //   List<Property__c> properties = [
+  //     SELECT
+  //       Id,
+  //       Escrow_Agent__r.BillingStreet,
+  //       Escrow_Agent__r.BillingCity,
+  //       Escrow_Agent__r.BillingState,
+  //       Escrow_Agent__r.BillingCountryCode,
+  //       Escrow_Agent__r.BillingPostalCode,
+  //       Escrow_Agent__r.BillingStateCode,
+  //       Escrow_Agent__r.Yardi_Vendor_Code__c,
+  //       Escrow_Agent__c,
+  //       Name,
+  //       Yardi_Id__c,
+  //       City__c,
+  //       State__c,
+  //       County__c,
+  //       ZipCode__c,
+  //       Address_2__c
+  //     FROM Property__c
+  //     WHERE Id IN :propertyIds
+  //   ];
+
+  //   Map<String, List<Property__c>> vendorMap = new Map<String, List<Property__c>>();
+  //   for (Property__c property : properties) {
+  //     if (
+  //       !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
+  //     ) {
+  //       vendorMap.put(
+  //         property.Escrow_Agent__r.Yardi_Vendor_Code__c,
+  //         new List<Property__c>()
+  //       );
+  //     }
+
+  //     vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
+  //       .add(property);
+  //   }
+
+  //   String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
+  //   csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
+  //   csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
+
+  //   for (String vendorYardiCode : vendorMap.keySet()) {
+  //     for (Property__c prop : vendorMap.get(vendorYardiCode)) {
+  //       csv += 'SFSTAGELOAN,';
+  //       csv += system.today().format() + ',';
+  //       csv += prop.Yardi_Id__c + ',';
+  //       csv += prop.Name + ',';
+  //       csv += 'Bridge,';
+  //       csv += prop.Name + ',';
+
+  //       if (prop.Address_2__c == null) {
+  //         prop.Address_2__c = '';
+  //       }
+
+  //       csv += prop.Address_2__c + ',';
+  //       csv += ',';
+  //       csv += prop.City__c + ',';
+  //       csv += prop.State__c + ',';
+  //       csv += prop.ZipCode__c + ',';
+  //       csv += prop.County__c + ',';
+  //       csv += '\r\n';
+  //     }
+  //   }
+
+  //   return csv;
+  // }
 
   // public static String createPropCsvAdvance(Id advanceId) {
   //   Advance__c advance = [
@@ -507,24 +795,9 @@ public without sharing class YardiAPI {
   //     WHERE Id = :dealId
   //   ];
 
-  //   // Map<String, List<Loan_Fee__c>> vendorMap = new Map<String, List<Loan_Fee__c>>();
-  //   // for (Loan_Fee__c fee : deal.Loan_Fees__r) {
-  //   //   if (!vendorMap.containsKey(fee.Vendor__r.Yardi_Vendor_Code__c)) {
-  //   //     vendorMap.put(
-  //   //       fee.Vendor__r.Yardi_Vendor_Code__c,
-  //   //       new List<Loan_Fee__c>()
-  //   //     );
-  //   //   }
-
-  //   //   vendorMap.get(fee.Vendor__r.Yardi_Vendor_Code__c).add(fee);
-  //   // }
-
   //   String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
   //   csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
   //   csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
-
-  //   // for (String vendorYardiCode : vendorMap.keySet()) {
-  //   // Loan_Fee__c fee = vendorMap.get(vendorYardiCode)[0];
 
   //   String entityName = deal.Name + ' (' + deal.Borrower_Entity__r.Name + ')';
 
@@ -543,564 +816,21 @@ public without sharing class YardiAPI {
   //   csv += ',';
   //   csv += ',';
   //   csv += ',\r\n';
-  //   // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-  //   // }
 
   //   return csv;
   // }
 
-  // public static String createPropCsvAdvance(Id advanceId) {
-  //   Advance__c advance = [
-  //     SELECT
-  //       Id,
-  //       Name,
-  //       (
-  //         SELECT
-  //           Id,
-  //           Escrow_Agent__r.BillingStreet,
-  //           Escrow_Agent__r.BillingCity,
-  //           Escrow_Agent__r.BillingState,
-  //           Escrow_Agent__r.BillingCountryCode,
-  //           Escrow_Agent__r.BillingPostalCode,
-  //           Escrow_Agent__r.BillingStateCode,
-  //           Escrow_Agent__r.Yardi_Vendor_Code__c,
-  //           Escrow_Agent__c,
-  //           Property__r.Name,
-  //           Property__r.Yardi_Id__c,
-  //           Property__r.City__c,
-  //           Property__r.State__c,
-  //           Property__r.County__c,
-  //           Property__r.ZipCode__c,
-  //           Property__r.Address_2__c
-  //         FROM Property_Advances__r
-  //       )
-  //     FROM Advance__c
-  //     WHERE Id = :advanceId
-  //   ];
+  // public static String createPropCsv(Id recordID) {
+  //   String csv;
 
-  //   Map<String, List<Property_Advance__c>> vendorMap = new Map<String, List<Property_Advance__c>>();
-  //   for (Property_Advance__c property : advance.Property_Advances__r) {
-  //     if (
-  //       !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-  //     ) {
-  //       vendorMap.put(
-  //         property.Escrow_Agent__r.Yardi_Vendor_Code__c,
-  //         new List<Property_Advance__c>()
-  //       );
-  //     }
-
-  //     vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-  //       .add(property);
-  //   }
-
-  //   String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
-  //   csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
-  //   csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
-
-  //   for (String vendorYardiCode : vendorMap.keySet()) {
-  //     for (Property_Advance__c prop : vendorMap.get(vendorYardiCode)) {
-  //       csv += 'SFSTAGELOAN,';
-  //       csv += system.today().format() + ',';
-  //       csv += prop.Property__r.Yardi_Id__c + ',';
-  //       csv += prop.Property__r.Name + ',';
-  //       csv += 'Bridge,';
-  //       csv += prop.Property__r.Name + ',';
-
-  //       if (prop.Property__r.Address_2__c == null) {
-  //         prop.Property__r.Address_2__c = '';
-  //       }
-
-  //       csv += prop.Property__r.Address_2__c + ',';
-  //       csv += ',';
-  //       csv += prop.Property__r.City__c + ',';
-  //       csv += prop.Property__r.State__c + ',';
-  //       csv += prop.Property__r.ZipCode__c + ',';
-  //       csv += prop.Property__r.County__c + ',';
-  //       csv += '\r\n';
-  //     }
-
-  //     // Property_Advance__c prop = vendorMap.get(vendorYardiCode)[0];
-
-  //     // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
+  //   if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
+  //     csv = createPropCsvAdvance(recordId);
+  //   } else {
+  //     csv = createPropCsvTerm(recordId);
   //   }
 
   //   return csv;
   // }
-
-  @AuraEnabled
-  public static List<String> createSampleCSV(Id recordId) {
-    List<String> csvs = new List<String>();
-    //system.debug(csvs);
-    csvs.add(createVendorCSV(recordId));
-
-    String propCsv = createPropCsv(recordId);
-    if (String.isNotBlank(propCsv)) {
-      csvs.add(propCsv);
-    }
-
-    String loanNumber = '';
-    String folderId = '';
-    if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
-      Advance__c adv = [
-        SELECT Id, Deal__r.Deal_Loan_Number__c
-        FROM Advance__c
-        WHERE Id = :recordId
-        LIMIT 1
-      ];
-      folderId = BRIDGE_FOLDER_ID;
-      loanNumber = adv.Deal__r.Deal_Loan_Number__c;
-    } else {
-      folderId = TERM_FOLDER_ID;
-      Opportunity opp = [
-        SELECT Id, Deal_Loan_Number__c
-        FROM Opportunity
-        WHERE Id = :recordId
-        LIMIT 1
-      ];
-      loanNumber = opp.Deal_Loan_Number__c;
-    }
-
-    String fileString =
-      '_' +
-      loanNumber +
-      '_' +
-      String.valueOf(system.now()).replaceAll(' ', '_');
-
-    uploadFile(
-      Blob.valueOf(csvs[0]),
-      'ETL_SFSTAGELOANVENDOR' +
-      fileString +
-      '.csv',
-      folderId,
-      recordId
-    );
-
-    if (csvs.size() > 1) {
-      uploadFile(
-        Blob.valueOf(csvs[1]),
-        'ETL_SFSTAGELOANPROP' +
-        fileString +
-        '.csv',
-        folderId,
-        recordId
-      );
-    }
-
-    return csvs;
-  }
-
-  @future(callout=true)
-  public static void uploadFile(
-    Blob file,
-    String fileName,
-    String folderId,
-    Id recordId
-  ) {
-    BOXAPI.uploadFile(file, fileName, folderId, recordId);
-  }
-
-  public static String createVendorCSVAdvance(Id advanceId) {
-    Advance__c advance = [
-      SELECT
-        Id,
-        (
-          SELECT
-            Id,
-            Escrow_Agent__r.BillingStreet,
-            Escrow_Agent__r.BillingCity,
-            Escrow_Agent__r.BillingState,
-            Escrow_Agent__r.BillingCountryCode,
-            Escrow_Agent__r.BillingStateCode,
-            Escrow_Agent__r.BillingPostalCode,
-            Escrow_Agent__r.Yardi_Vendor_Code__c,
-            Escrow_Agent__c,
-            Escrow_Agent__r.ABA__c,
-            Escrow_Agent__r.Bank_Account__c,
-            Escrow_Agent__r.Name,
-            Escrow_Agent__r.Payment_Instructions__c,
-            Property__r.Name
-          FROM Property_Advances__r
-        )
-      FROM Advance__c
-      WHERE Id = :advanceId
-    ];
-
-    Map<String, List<Property_Advance__c>> vendorMap = new Map<String, List<Property_Advance__c>>();
-    for (Property_Advance__c property : advance.Property_Advances__r) {
-      if (
-        !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-      ) {
-        vendorMap.put(
-          property.Escrow_Agent__r.Yardi_Vendor_Code__c,
-          new List<Property_Advance__c>()
-        );
-      }
-
-      vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-        .add(property);
-    }
-
-    String csv = 'CommonCustomTables,,,,,,,,,,,,,,,\r\n';
-    csv += 'TableName,dtdate,sVENDcode,sVENDname,sVENDCATEGORY,sfedid,sfurthercreditto,SVENDABA,SVENDBANKACCT,sVENDaddr1,sVENDaddr2,sVENDaddr3,sVENDaddrCity,svendst,svendzip,saddrCountry,svendphone\r\n';
-    csv += 'SFSTAGEVENDOR,date,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string\r\n';
-
-    for (String vendorYardiCode : vendorMap.keySet()) {
-      Property_Advance__c prop = vendorMap.get(vendorYardiCode)[0];
-
-      if (String.isNotBlank(prop.Escrow_Agent__r.Payment_Instructions__c)) {
-        prop.Escrow_Agent__r.Payment_Instructions__c = prop.Escrow_Agent__r.Payment_Instructions__c.replaceAll(
-            '\r',
-            ' '
-          )
-          .replaceAll('\n', ' ');
-      }
-
-      csv += 'SFSTAGEVENDOR,';
-      csv += system.today().format() + ',';
-      csv += vendorYardiCode + ',';
-      csv += prop.Escrow_Agent__r.Name + ',';
-      csv += 'FUNDING,,';
-      csv += '"' + prop.Escrow_Agent__r.Payment_Instructions__c + '"' + ',';
-      csv += prop.Escrow_Agent__r.ABA__c + ',';
-      csv += prop.Escrow_Agent__r.Bank_Account__c + ',';
-      csv += prop.Escrow_Agent__r.BillingStreet + ',';
-      csv += ',,';
-      csv += prop.Escrow_Agent__r.BillingCity + ',';
-      csv += prop.Escrow_Agent__r.BillingStateCode + ',';
-      csv += prop.Escrow_Agent__r.BillingPostalCode + ',';
-      csv += ',,\r\n';
-      // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-    }
-
-    return csv;
-  }
-
-  public static String createVendorCSVTerm(Id dealId) {
-    Opportunity deal = [
-      SELECT
-        Id,
-        (
-          SELECT
-            Id,
-            Vendor__c,
-            Vendor__r.BillingStreet,
-            Vendor__r.BillingCity,
-            Vendor__r.BillingState,
-            Vendor__r.BillingCountryCode,
-            Vendor__r.BillingStateCode,
-            Vendor__r.BillingPostalCode,
-            Vendor__r.Yardi_Vendor_Code__c,
-            Vendor__r.ABA__c,
-            Vendor__r.Bank_Account__c,
-            Vendor__r.Name,
-            Vendor__r.Payment_Instructions__c
-          FROM Loan_Fees__r
-        )
-      FROM Opportunity
-      WHERE Id = :dealId
-    ];
-
-    Map<String, List<Loan_Fee__c>> vendorMap = new Map<String, List<Loan_Fee__c>>();
-    for (Loan_Fee__c fee : deal.Loan_Fees__r) {
-      if (!vendorMap.containsKey(fee.Vendor__r.Yardi_Vendor_Code__c)) {
-        vendorMap.put(
-          fee.Vendor__r.Yardi_Vendor_Code__c,
-          new List<Loan_Fee__c>()
-        );
-      }
-
-      vendorMap.get(fee.Vendor__r.Yardi_Vendor_Code__c).add(fee);
-    }
-
-    String csv = 'CommonCustomTables,,,,,,,,,,,,,,,\r\n';
-    csv += 'TableName,dtdate,sVENDcode,sVENDname,sVENDCATEGORY,sfedid,sfurthercreditto,SVENDABA,SVENDBANKACCT,sVENDaddr1,sVENDaddr2,sVENDaddr3,sVENDaddrCity,svendst,svendzip,saddrCountry,svendphone\r\n';
-    csv += 'SFSTAGEVENDOR,date,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string\r\n';
-
-    for (String vendorYardiCode : vendorMap.keySet()) {
-      Loan_Fee__c fee = vendorMap.get(vendorYardiCode)[0];
-
-      if (String.isNotBlank(fee.Vendor__r.Payment_Instructions__c)) {
-        fee.Vendor__r.Payment_Instructions__c = fee.Vendor__r.Payment_Instructions__c.replaceAll(
-            '\r',
-            ' '
-          )
-          .replaceAll('\n', ' ');
-      }
-
-      csv += 'SFSTAGEVENDOR,';
-      csv += system.today().format() + ',';
-      csv += vendorYardiCode + ',';
-      csv += fee.Vendor__r.Name + ',';
-      csv += 'FUNDING,,';
-      csv += '"' + fee.Vendor__r.Payment_Instructions__c + '"' + ',';
-      csv += fee.Vendor__r.ABA__c + ',';
-      csv += fee.Vendor__r.Bank_Account__c + ',';
-      csv += fee.Vendor__r.BillingStreet + ',';
-      csv += ',,';
-      csv += fee.Vendor__r.BillingCity + ',';
-      csv += fee.Vendor__r.BillingStateCode + ',';
-      csv += fee.Vendor__r.BillingPostalCode + ',';
-      csv += ',,\r\n';
-      // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-    }
-
-    return csv;
-  }
-
-  public static String createVendorCSV(Id recordId) {
-    String csv;
-
-    if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
-      csv = createVendorCsvAdvance(recordId);
-    } else {
-      csv = createVendorCsvTerm(recordId);
-    }
-
-    return csv;
-  }
-
-  public static String createPropCsvAdvance(Set<Id> propertyIds) {
-    // Advance__c advance = [
-    //   SELECT
-    //     Id,
-    //     Name,
-    //     (
-    //       SELECT
-    //         Id,
-    //         Escrow_Agent__r.BillingStreet,
-    //         Escrow_Agent__r.BillingCity,
-    //         Escrow_Agent__r.BillingState,
-    //         Escrow_Agent__r.BillingCountryCode,
-    //         Escrow_Agent__r.BillingPostalCode,
-    //         Escrow_Agent__r.BillingStateCode,
-    //         Escrow_Agent__r.Yardi_Vendor_Code__c,
-    //         Escrow_Agent__c,
-    //         Property__r.Name,
-    //         Property__r.Yardi_Id__c,
-    //         Property__r.City__c,
-    //         Property__r.State__c,
-    //         Property__r.County__c,
-    //         Property__r.ZipCode__c,
-    //         Property__r.Address_2__c
-    //       FROM Property_Advances__r
-    //     )
-    //   FROM Advance__c
-    //   WHERE Id = :advanceId
-    // ];
-
-    List<Property__c> properties = [
-      SELECT
-        Id,
-        Escrow_Agent__r.BillingStreet,
-        Escrow_Agent__r.BillingCity,
-        Escrow_Agent__r.BillingState,
-        Escrow_Agent__r.BillingCountryCode,
-        Escrow_Agent__r.BillingPostalCode,
-        Escrow_Agent__r.BillingStateCode,
-        Escrow_Agent__r.Yardi_Vendor_Code__c,
-        Escrow_Agent__c,
-        Name,
-        Yardi_Id__c,
-        City__c,
-        State__c,
-        County__c,
-        ZipCode__c,
-        Address_2__c
-      FROM Property__c
-      WHERE Id IN :propertyIds
-    ];
-
-    Map<String, List<Property__c>> vendorMap = new Map<String, List<Property__c>>();
-    for (Property__c property : properties) {
-      if (
-        !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-      ) {
-        vendorMap.put(
-          property.Escrow_Agent__r.Yardi_Vendor_Code__c,
-          new List<Property__c>()
-        );
-      }
-
-      vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-        .add(property);
-    }
-
-    String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
-    csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
-    csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
-
-    for (String vendorYardiCode : vendorMap.keySet()) {
-      for (Property__c prop : vendorMap.get(vendorYardiCode)) {
-        csv += 'SFSTAGELOAN,';
-        csv += system.today().format() + ',';
-        csv += prop.Yardi_Id__c + ',';
-        csv += prop.Name + ',';
-        csv += 'Bridge,';
-        csv += prop.Name + ',';
-
-        if (prop.Address_2__c == null) {
-          prop.Address_2__c = '';
-        }
-
-        csv += prop.Address_2__c + ',';
-        csv += ',';
-        csv += prop.City__c + ',';
-        csv += prop.State__c + ',';
-        csv += prop.ZipCode__c + ',';
-        csv += prop.County__c + ',';
-        csv += '\r\n';
-      }
-
-      // Property_Advance__c prop = vendorMap.get(vendorYardiCode)[0];
-
-      // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-    }
-
-    return csv;
-  }
-
-  public static String createPropCsvAdvance(Id advanceId) {
-    Advance__c advance = [
-      SELECT
-        Id,
-        Name,
-        (
-          SELECT
-            Id,
-            Escrow_Agent__r.BillingStreet,
-            Escrow_Agent__r.BillingCity,
-            Escrow_Agent__r.BillingState,
-            Escrow_Agent__r.BillingCountryCode,
-            Escrow_Agent__r.BillingPostalCode,
-            Escrow_Agent__r.BillingStateCode,
-            Escrow_Agent__r.Yardi_Vendor_Code__c,
-            Escrow_Agent__c,
-            Property__r.Name,
-            Property__r.Yardi_Id__c,
-            Property__r.City__c,
-            Property__r.State__c,
-            Property__r.County__c,
-            Property__r.ZipCode__c,
-            Property__r.Address_2__c
-          FROM Property_Advances__r
-        )
-      FROM Advance__c
-      WHERE Id = :advanceId
-    ];
-
-    Map<String, List<Property_Advance__c>> vendorMap = new Map<String, List<Property_Advance__c>>();
-    for (Property_Advance__c property : advance.Property_Advances__r) {
-      if (
-        !vendorMap.containsKey(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-      ) {
-        vendorMap.put(
-          property.Escrow_Agent__r.Yardi_Vendor_Code__c,
-          new List<Property_Advance__c>()
-        );
-      }
-
-      vendorMap.get(property.Escrow_Agent__r.Yardi_Vendor_Code__c)
-        .add(property);
-    }
-
-    String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
-    csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
-    csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
-
-    for (String vendorYardiCode : vendorMap.keySet()) {
-      for (Property_Advance__c prop : vendorMap.get(vendorYardiCode)) {
-        csv += 'SFSTAGELOAN,';
-        csv += system.today().format() + ',';
-        csv += prop.Property__r.Yardi_Id__c + ',';
-        csv += prop.Property__r.Name + ',';
-        csv += 'Bridge,';
-        csv += prop.Property__r.Name + ',';
-
-        if (prop.Property__r.Address_2__c == null) {
-          prop.Property__r.Address_2__c = '';
-        }
-
-        csv += prop.Property__r.Address_2__c + ',';
-        csv += ',';
-        csv += prop.Property__r.City__c + ',';
-        csv += prop.Property__r.State__c + ',';
-        csv += prop.Property__r.ZipCode__c + ',';
-        csv += prop.Property__r.County__c + ',';
-        csv += '\r\n';
-      }
-
-      // Property_Advance__c prop = vendorMap.get(vendorYardiCode)[0];
-
-      // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-    }
-
-    return csv;
-  }
-
-  // public static String createPropCsvTerm(Set<Id> dealContactIds){
-
-  // }
-
-  public static String createPropCsvTerm(Id dealId) {
-    Opportunity deal = [
-      SELECT Id, Name, Yardi_Id__c, Borrower_Entity__r.Name
-      FROM Opportunity
-      WHERE Id = :dealId
-    ];
-
-    // Map<String, List<Loan_Fee__c>> vendorMap = new Map<String, List<Loan_Fee__c>>();
-    // for (Loan_Fee__c fee : deal.Loan_Fees__r) {
-    //   if (!vendorMap.containsKey(fee.Vendor__r.Yardi_Vendor_Code__c)) {
-    //     vendorMap.put(
-    //       fee.Vendor__r.Yardi_Vendor_Code__c,
-    //       new List<Loan_Fee__c>()
-    //     );
-    //   }
-
-    //   vendorMap.get(fee.Vendor__r.Yardi_Vendor_Code__c).add(fee);
-    // }
-
-    String csv = 'CommonCustomTables,,,,,,,,,,,\r\n';
-    csv += 'TableName,dtdate,spropcode,spropname,sloantype,saddr1,saddr2,saddr3,saddrCity,saddrSt,saddrZip,saddrCounty\r\n';
-    csv += 'SFSTAGELOAN,date,string,string,string,string,string,string,string,string,string,string\r\n';
-
-    // for (String vendorYardiCode : vendorMap.keySet()) {
-    // Loan_Fee__c fee = vendorMap.get(vendorYardiCode)[0];
-
-    String entityName = deal.Name + ' (' + deal.Borrower_Entity__r.Name + ')';
-
-    if (entityName.contains(',')) {
-      entityName = '"' + entityName + '"';
-    }
-
-    csv += 'SFSTAGELOAN,';
-    csv += system.today().format() + ',';
-    csv += deal.Yardi_Id__c + ',';
-    csv += entityName + ',';
-    csv += 'Term,';
-    csv += entityName + ',';
-    csv += ',,';
-    csv += ',';
-    csv += ',';
-    csv += ',';
-    csv += ',\r\n';
-    // csv += prop.Escrow_Agent__r.BillingCounty + ',\r\n';
-    // }
-
-    return csv;
-  }
-
-  public static String createPropCsv(Id recordID) {
-    String csv;
-
-    if (recordId.getSObjectType().getDescribe().getName() == 'Advance__c') {
-      csv = createPropCsvAdvance(recordId);
-    } else {
-      csv = createPropCsvTerm(recordId);
-    }
-
-    return csv;
-  }
 
   public static List<String> createInvoiceRegistersAdvance(Id advanceId) {
     Advance__c advance = [
@@ -1196,10 +926,6 @@ public without sharing class YardiAPI {
       String yardiPropertyId = '';
       Decimal advAmtMax = null;
       for (Property_Advance__c property : vendorMap.get(vendorYardiCode)) {
-        // approvedAdvanceAmount += property.Property__r.Approved_Advance_Amount__c !=
-        //   null
-        //   ? property.Property__r.Approved_Advance_Amount__c
-        //   : 0;
         approvedAdvanceAmount += property.property__r.Approved_Advance_Amount__c !=
           null
           ? property.Property__r.Approved_Advance_Amount__c
@@ -1261,13 +987,6 @@ public without sharing class YardiAPI {
         String.valueOf(approvedAdvanceAmount) +
         '</TotalAmount>';
       invoiceRegister += '<AmountPaid>0</AmountPaid>';
-      // invoiceRegister += '<Notes />';
-      // invoiceRegister += '<IsCreditMemo></IsCreditMemo>';
-      // invoiceRegister += '<IsAdjustment></IsAdjustment>';
-      // invoiceRegister += '<IsConsolidateChecks></IsConsolidateChecks>';
-      // invoiceRegister += '<ExemptFrom1099></ExemptFrom1099>';
-      // invoiceRegister += '<UserDefinedFields_2></UserDefinedFields_2>';
-      // invoiceRegister += '<UserDefinedFields_3></UserDefinedFields_3>';
       invoiceRegister += '<DisplayType>IR Display Type</DisplayType>';
       invoiceRegister += '<ExpenseType>Bridge Funding</ExpenseType>';
       invoiceRegister += '<Status>Approved</Status>';
@@ -1509,7 +1228,6 @@ public without sharing class YardiAPI {
         Yardi_ID__c,
         Origination_Fee__c,
         Deposit_Lender_Out_of_Pocket__c,
-        // Stub_Interest__c,
         Name,
         Borrower_Entity__r.Name,
         Deposit_Amount__c,
@@ -1517,11 +1235,6 @@ public without sharing class YardiAPI {
         Third_Party_Title__c,
         Title__r.Yardi_Vendor_Code__c,
         Third_Party_Title__r.Yardi_Vendor_Code__c,
-        // (
-        //   SELECT Id, Vendor__c, vendor__r.Yardi_Vendor_Code__c
-        //   FROM Loan_Fees__r
-        //   WHERE Vendor__r.Non_Borrower_Account_Type__c = 'Title and Escrow'
-        // ),
         (
           SELECT
             Id,

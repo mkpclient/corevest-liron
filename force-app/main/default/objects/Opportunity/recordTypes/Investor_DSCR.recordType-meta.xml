@@ -365,6 +365,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>600 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>720 day</fullName>
             <default>false</default>
         </values>
@@ -1592,6 +1596,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Asset Based Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>BiggerPockets</fullName>
             <default>false</default>
         </values>
@@ -1712,6 +1720,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fidelis</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fit Small Business</fullName>
             <default>false</default>
         </values>
@@ -1721,6 +1733,10 @@
         </values>
         <values>
             <fullName>Geraci Events</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Great Lakes Financing</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1761,6 +1777,10 @@
         </values>
         <values>
             <fullName>Instagram Lead Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jack Jerue Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2043,6 +2063,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Borrower does not like terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Borrower does not meet requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Broker Requested</fullName>
             <default>false</default>
         </values>
@@ -2059,6 +2087,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Does not meet occupancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Economic Downturn</fullName>
             <default>false</default>
         </values>
@@ -2072,6 +2104,10 @@
         </values>
         <values>
             <fullName>Failed to Qualify</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Process of Withdrawal%2FRejection</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2099,11 +2135,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Pending Financial Documents%2FTax Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Property Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Portfolio Leveraged</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Prior to Reason Requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property List Not Finalized</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2131,6 +2183,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2372,10 +2428,6 @@
         </values>
         <values>
             <fullName>Borrower does not meet requirements</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Borrower unresponsive</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2819,6 +2871,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3361,6 +3417,10 @@
         </values>
         <values>
             <fullName>18 Months</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>20 Months</fullName>
             <default>false</default>
         </values>
         <values>

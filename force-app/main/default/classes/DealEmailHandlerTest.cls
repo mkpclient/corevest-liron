@@ -41,7 +41,13 @@ public without sharing class DealEmailHandlerTest {
     email.headers.add(h);
     Messaging.InboundEnvelope env = new Messaging.InboundEnvelope();
 
-    email.subject = '#      ' + dealLoanNumber;
+    String subject = '#      ' + dealLoanNumber;
+
+    for(Integer i = 1; i < 81; i++) {
+      subject += ' Long Subject + ' + i;
+    }
+
+    email.subject = subject.substring(0, 80);
     email.fromAddress = UserInfo.getUserEmail();
     email.plainTextBody = 'email body\n2225256325\nTitle';
     String body = '<p>testHtmlBody</p>';

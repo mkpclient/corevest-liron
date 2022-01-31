@@ -396,7 +396,8 @@
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
-    <tabs>Lender_Loan_Tape__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>Lender_Deal__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Lender_Partnerships_UtilityBar</utilityBar>
 </CustomApplication>

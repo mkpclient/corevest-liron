@@ -16,4 +16,6 @@
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
     <tabs>API_Log__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>Lender_Deal__c</tabs>
 </CustomApplication>

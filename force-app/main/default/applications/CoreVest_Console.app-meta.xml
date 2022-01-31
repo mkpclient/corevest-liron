@@ -4544,6 +4544,8 @@
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
     <tabs>API_Log__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>Lender_Deal__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>CoreVest_Console_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -4569,6 +4571,9 @@
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
+            <tab>Lender_Deal__c</tab>
+        </mappings>
+        <mappings>
             <tab>Loan_Version__c</tab>
         </mappings>
         <mappings>
@@ -4576,6 +4581,9 @@
         </mappings>
         <mappings>
             <tab>Property__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Swap_Rate__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>

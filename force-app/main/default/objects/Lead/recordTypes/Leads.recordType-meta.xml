@@ -2839,6 +2839,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Jack Jerue Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Joakim Mortensen Sourced</fullName>
             <default>false</default>
         </values>
@@ -3096,6 +3100,10 @@
         </values>
         <values>
             <fullName>William Gavin Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yumna Zahidi Sourced</fullName>
             <default>false</default>
         </values>
     </picklistValues>

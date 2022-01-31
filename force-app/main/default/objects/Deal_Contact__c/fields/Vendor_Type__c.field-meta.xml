@@ -16,6 +16,11 @@
                 <label>3rd Party Title</label>
             </value>
             <value>
+                <fullName>Appraisal Review</fullName>
+                <default>false</default>
+                <label>Appraisal Review</label>
+            </value>
+            <value>
                 <fullName>Architect</fullName>
                 <default>false</default>
                 <label>Architect</label>
@@ -69,6 +74,11 @@
                 <fullName>Lease/Purchase Review</fullName>
                 <default>false</default>
                 <label>Lease/Purchase Review</label>
+            </value>
+            <value>
+                <fullName>Lender</fullName>
+                <default>false</default>
+                <label>Lender</label>
             </value>
             <value>
                 <fullName>Lender Legal Counsel</fullName>

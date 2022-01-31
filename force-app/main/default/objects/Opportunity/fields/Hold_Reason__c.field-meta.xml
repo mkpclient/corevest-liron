@@ -11,7 +11,6 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <controllingField>StageName</controllingField>
         <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
@@ -24,11 +23,6 @@
                 <fullName>Borrower does not meet requirements</fullName>
                 <default>false</default>
                 <label>Borrower does not meet requirements</label>
-            </value>
-            <value>
-                <fullName>Borrower unresponsive</fullName>
-                <default>false</default>
-                <label>Borrower unresponsive</label>
             </value>
             <value>
                 <fullName>Does not meet occupancy</fullName>
@@ -75,54 +69,12 @@
                 <default>false</default>
                 <label>Split Up Deal</label>
             </value>
+            <value>
+                <fullName>Borrower unresponsive</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Borrower unresponsive</label>
+            </value>
         </valueSetDefinition>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Borrower does not like terms</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Borrower does not meet requirements</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Borrower unresponsive</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Does not meet occupancy</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Economic Downturn</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>In Process of Withdrawal/Rejection</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Other – See Deal Notes</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Pending Financial Documents/Tax Returns</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Pending Property Rehab</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Pending Rehab</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Property List Not Finalized</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>UW Hold</controllingFieldValue>
-            <valueName>Split Up Deal</valueName>
-        </valueSettings>
     </valueSet>
 </CustomField>

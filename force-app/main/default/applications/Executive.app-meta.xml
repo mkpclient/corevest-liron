@@ -9693,7 +9693,8 @@
     <tabs>API_Log__c</tabs>
     <tabs>Product_Goal__c</tabs>
     <tabs>Lost_Deal_Analysis__c</tabs>
-    <tabs>Lender_Loan_Tape__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>Lender_Deal__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Executive_UtilityBar</utilityBar>
 </CustomApplication>

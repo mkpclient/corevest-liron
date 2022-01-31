@@ -454,35 +454,101 @@ Renovation Reserve Account:
                 </td>
             </tr>
             <apex:outputText rendered="{! If( Opportunity.Requested_Origination_Fee__c != 0.00 && Opportunity.Requested_Origination_Fee__c != null, true, false ) }">
-                <tr style="page-break-inside:avoid;">
-                    <td class="row-title">
-                        Origination Fee:
-                    </td>
-                    <td class="row-description">
-                        <apex:outputText value="{0, number, 0.00}%">
-                            <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText> of the Maximum Loan Amount Payable at Closing
-                    </td>
-                </tr>
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c == 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Origination Fee:
+                        </td>
+                        <td class="row-description">
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee != true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                </apex:outputText>
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c != 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Origination Fee:
+                        </td>
+                        <td class="row-description">
+                            <apex:outputText value="{0, number, 0.00}%">
+                                <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText> of the Maximum Loan Amount Payable at Closing
+                        </td>
+                    </tr>
+                </apex:outputText>
             </apex:outputText>
             <apex:outputText rendered="{! If( Opportunity.Requested_Draw_Fee__c != 0.00 && Opportunity.Requested_Draw_Fee__c != null, true, false ) }">
-                <tr style="page-break-inside:avoid;">
-                    <td class="row-title">
-                        Advance Fee:
-                    </td>
-                    <td class="row-description">
-                        <span style="{!IF(includeBrokerFee = false, 'page-break-inside:avoid;', 'display:none;')}">
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c == 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Advance Fee:
+                        </td>
+                        <!-- <td class="row-description">
+                            <span style="{!IF(includeBrokerFee = false, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}%">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText> paid to CoreVest and
+                                <apex:outputText value="{0, number, 0.00}%">
+                                    <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText> paid to the broker
+                            </span>
+                        </td> -->
+                        <td class="row-description">
                             <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
                                 <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
-                        </span>
-                        <span style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
-                            <apex:outputText value="{0, number, 0.00}%">
-                                <apex:param value="{! Opportunity.Requested_Draw_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText> paid to CoreVest and
-                            <apex:outputText value="{0, number, 0.00}%">
-                                <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText> paid to the broker
-                        </span>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                </apex:outputText>
+                <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c != 'Origination', true, false ) }">
+                    <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Advance Fee:
+                        </td>
+                        <td class="row-description">
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText>
+                            </span>
+                            <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee != true, 'page-break-inside:avoid;', 'display:none;')}">
+                                <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
+                                    <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
+                            </span>
+                        </td>
+                    </tr>
+                </apex:outputText>
             </apex:outputText>
+            <tr style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                <td class="row-title">
+                    Broker Fee: 
+                </td>
+                <td class="row-description">
+                    <apex:outputText value="{0, number, 0.00}% paid by ">
+                        <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText>
+                        <apex:outputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" />
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Each Initial Advance', 'page-break-inside:avoid;', 'display:none;')}">
+                            on each Advance approved by Lender
+                        </span>
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Origination', 'page-break-inside:avoid;', 'display:none;')}">
+                            at Closing
+                        </span>
+                </td>
+            </tr>
             <apex:outputText rendered="{! If( Opportunity.Requested_Exit_Fee__c != 0.00 && Opportunity.Requested_Exit_Fee__c != null, true, false ) }">
                 <tr style="page-break-inside:avoid;">
                     <td class="row-title">
@@ -505,6 +571,7 @@ Renovation Reserve Account:
                     <apex:outputText rendered="{! If( Opportunity.Loan_Size__c >= 5000000 && Opportunity.Loan_Size__c < 10000000, true, false ) }" value=" $5,000 " />
                     <apex:outputText rendered="{! If( Opportunity.Loan_Size__c >= 10000000, true, false ) }" value=" $7,500+ " /> (to increase with the complexity of transaction)
                     <br/> Entity Due Diligence: $200.00
+                    <br/> Tax Review Fee: $50.00
                     <br/> UCC Filing: $100.00
                 </td>
             </tr>
@@ -992,6 +1059,8 @@ be utilized:
             <apex:inputField value="{!Opportunity.Requested_Draw_Fee_Cap__c}" rendered="false" />
             <apex:inputField value="{!Opportunity.Active_States__c}" rendered="false" />
             <apex:inputField value="{!Opportunity.Maturity_Date_Calculation_Type__c}" rendered="false" />
+            <apex:inputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" rendered="false" />
+            <apex:inputField value="{!Opportunity.Broker_Fee_Paid_When__c}" rendered="false" />
         </apex:form>
         <!--Content Div End-->
     </div>

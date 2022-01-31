@@ -396,6 +396,9 @@ public class deal_Document_Helper {
     List<Deal_Document__c> oldList
   ) {
     Set<Id> updateAppraisals = new Set<Id>();
+      
+    Map<Id,Deal_Document__c> updateFileNamesMap = new Map<Id,Deal_Document__c>();//CIP 2152. 1/25/2022. Raj Sirivolu.
+
     for (Integer i = 0; i < newList.size(); i++) {
       if (
         newList[i].Property__c != oldList[i].Property__c &&
@@ -403,7 +406,13 @@ public class deal_Document_Helper {
       ) {
         updateAppraisals.add(newList[i].Id);
       }
-
+   //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+	if ((newList[i].File_Name__c  != oldList[i].File_Name__c ) && !String.isblank(newList[i].File_Name__c) 
+        && !String.isblank(oldList[i].File_Name__c))
+	{
+       updateFileNamesMap.put(newList[i].Attachment_Id__c ,newList[i]); 
+	}
+   //CIP 2152. 1/25/2022. Raj Sirivolu.End      
       if (
         newList[i].Document_Type__c == 'Term Sheet' &&
         newList[i].Executive_Approval_Date__c != null &&
@@ -429,6 +438,18 @@ public class deal_Document_Helper {
         update appraisalsToUpdate;
       }
     }
+   //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+   List<ContentDocument > contentdocList = new List<ContentDocument >();
+
+   for (ContentDocument contentdoc : [SELECT Id,Title from ContentDocument  where id in :updateFileNamesMap.keyset()])          
+   {
+                  contentdoc.Title = updateFileNamesMap.get(contentdoc.id).File_Name__c ;
+       			  contentdocList.add(contentdoc);
+   }
+   
+   update contentdocList;
+   //CIP 2152. 1/25/2022. Raj Sirivolu.End   
+   
   }
 
   /**

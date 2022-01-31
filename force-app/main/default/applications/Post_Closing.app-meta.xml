@@ -12046,7 +12046,8 @@
     <tabs>Loan_Version__c</tabs>
     <tabs>API_Log__c</tabs>
     <tabs>Product_Goal__c</tabs>
-    <tabs>Lender_Loan_Tape__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>Lender_Deal__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Post_Closing_UtilityBar</utilityBar>
 </CustomApplication>

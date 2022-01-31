@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Alchemy_Portal_Dev_URL__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">https://coreveststaging-api.alchemylms.com</value>
     </values>
     <values>
         <field>Alchemy_Production_URL__c</field>
@@ -17,6 +17,42 @@
     <values>
         <field>Berkadia_To_Emails__c</field>
         <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
+    </values>
+    <values>
+        <field>Box_Client_Id__c</field>
+        <value xsi:type="xsd:string">6j821cmxtkmpmy144abj7y94tgqshm8b</value>
+    </values>
+    <values>
+        <field>Box_Client_Secret__c</field>
+        <value xsi:type="xsd:string">npPwz6fxqMrEzFZOrJsOIiKEOprolPXn</value>
+    </values>
+    <values>
+        <field>Box_Subject_Id__c</field>
+        <value xsi:type="xsd:string">786745</value>
+    </values>
+    <values>
+        <field>Box_Yardi_Bridge_Folder_Id__c</field>
+        <value xsi:type="xsd:string">147041409626</value>
+    </values>
+    <values>
+        <field>Box_Yardi_Term_Folder_Id__c</field>
+        <value xsi:type="xsd:string">147042016627</value>
+    </values>
+    <values>
+        <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Bridge_Sec_Diligence_Review_Email_To__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Construction_Manager_Acquired_Loans__c</field>
+        <value xsi:type="xsd:string">0050a00000LVh0GAAT</value>
+    </values>
+    <values>
+        <field>Construction_Manager_CV_Originated__c</field>
+        <value xsi:type="xsd:string">0050a00000L854aAAB</value>
     </values>
     <values>
         <field>Disable_Advance_Trigger__c</field>
@@ -91,12 +127,16 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Enable_Yardi_API__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Num_of_Days_to_Transfer_Lead__c</field>
         <value xsi:type="xsd:double">90.0</value>
     </values>
     <values>
         <field>Require_AVM_Sync_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_AVM_Sync_on_UW_Submission__c</field>
@@ -108,11 +148,11 @@
     </values>
     <values>
         <field>Require_Address_Valid_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_X_Author_Validation_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_X_Author_Validation_on_UW_Submis__c</field>
@@ -127,7 +167,43 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Send_Email_for_Bridge_Securitization_Rev__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Validated_Address_Threshold__c</field>
         <value xsi:type="xsd:double">50.0</value>
+    </values>
+    <values>
+        <field>Yardi_Database__c</field>
+        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
+    </values>
+    <values>
+        <field>Yardi_Interface_Entity__c</field>
+        <value xsi:type="xsd:string">CoreVest Loan Interfac</value>
+    </values>
+    <values>
+        <field>Yardi_Interface_License__c</field>
+        <value xsi:type="xsd:string">MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRt</value>
+    </values>
+    <values>
+        <field>Yardi_Password__c</field>
+        <value xsi:type="xsd:string">PyL9JXi`c-eRz&amp;gt;B</value>
+    </values>
+    <values>
+        <field>Yardi_Platform__c</field>
+        <value xsi:type="xsd:string">SQL Server</value>
+    </values>
+    <values>
+        <field>Yardi_Server_Name__c</field>
+        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
+    </values>
+    <values>
+        <field>Yardi_URL__c</field>
+        <value xsi:type="xsd:string">https://www.yardiaspla2.com</value>
+    </values>
+    <values>
+        <field>Yardi_Username__c</field>
+        <value xsi:type="xsd:string">SFitf</value>
     </values>
 </CustomMetadata>

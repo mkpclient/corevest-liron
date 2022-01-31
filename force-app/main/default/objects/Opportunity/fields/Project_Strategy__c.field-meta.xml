@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Project_Strategy__c</fullName>
     <businessStatus>Active</businessStatus>
-    <description>Bridge Use - Multifamily Light Lift: renovation loan is less than 50% of purchase price, Multifamily Heavy Lift: renovation loan is more than 50% of purchase price, Multifamily Lease-Up/No Rehab: no renovation funds given, Conversion to Multifamily: Converting a property into MF, Multifamily GUC: ground up construction for MF properties</description>
+    <description>Bridge Use - Multifamily Light Lift: renovation loan is less than 50% of purchase price, Multifamily Heavy Lift: renovation loan is more than 50% of purchase price, Multifamily Lease-Up/No Rehab: no renovation funds given, Conversion to Multifamily: Converting a property into MF, Multifamily GUC: ground up construction for MF properties
+
+Collateralized Loan Obligation (CLO): a single security backed by a pool of debt Loan Obligation</description>
     <externalId>false</externalId>
     <label>Project Strategy</label>
     <required>false</required>
@@ -15,39 +17,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Fix and Flip</fullName>
-                <default>false</default>
-                <label>Fix and Flip</label>
-            </value>
-            <value>
-                <fullName>Renovate and Rent</fullName>
-                <default>false</default>
-                <label>Renovate and Rent</label>
-            </value>
-            <value>
-                <fullName>Portfolio Acquisition</fullName>
-                <default>false</default>
-                <label>Portfolio Acquisition</label>
-            </value>
-            <value>
                 <fullName>Build to Rent</fullName>
                 <default>false</default>
                 <label>Build to Rent</label>
-            </value>
-            <value>
-                <fullName>Multifamily Light Lift</fullName>
-                <default>false</default>
-                <label>Multifamily Light Lift</label>
-            </value>
-            <value>
-                <fullName>Multifamily Heavy Lift</fullName>
-                <default>false</default>
-                <label>Multifamily Heavy Lift</label>
-            </value>
-            <value>
-                <fullName>Multifamily Lease-Up/No Rehab</fullName>
-                <default>false</default>
-                <label>Multifamily Lease-Up/No Rehab</label>
             </value>
             <value>
                 <fullName>Conversion to Multifamily</fullName>
@@ -55,9 +27,54 @@
                 <label>Conversion to Multifamily</label>
             </value>
             <value>
+                <fullName>Fix and Flip</fullName>
+                <default>false</default>
+                <label>Fix and Flip</label>
+            </value>
+            <value>
                 <fullName>Multifamily GUC</fullName>
                 <default>false</default>
                 <label>Multifamily GUC</label>
+            </value>
+            <value>
+                <fullName>Multifamily Heavy Lift</fullName>
+                <default>false</default>
+                <label>Multifamily Heavy Lift</label>
+            </value>
+            <value>
+                <fullName>Multifamily Heavy Lift/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Heavy Lift/CLO</label>
+            </value>
+            <value>
+                <fullName>Multifamily Lease-Up/No Rehab</fullName>
+                <default>false</default>
+                <label>Multifamily Lease-Up/No Rehab</label>
+            </value>
+            <value>
+                <fullName>Multifamily Lease-Up/No Rehab/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Lease-Up/No Rehab/CLO</label>
+            </value>
+            <value>
+                <fullName>Multifamily Light Lift</fullName>
+                <default>false</default>
+                <label>Multifamily Light Lift</label>
+            </value>
+            <value>
+                <fullName>Multifamily Light Lift/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Light Lift/CLO</label>
+            </value>
+            <value>
+                <fullName>Portfolio Acquisition</fullName>
+                <default>false</default>
+                <label>Portfolio Acquisition</label>
+            </value>
+            <value>
+                <fullName>Renovate and Rent</fullName>
+                <default>false</default>
+                <label>Renovate and Rent</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -68,9 +85,9 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
-            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
-            <valueName>Renovate and Rent</valueName>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Light Lift</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
@@ -78,17 +95,9 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
-            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Multifamily Light Lift</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Multifamily Heavy Lift</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
-            <valueName>Multifamily Lease-Up/No Rehab</valueName>
+            <valueName>Renovate and Rent</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
@@ -97,6 +106,26 @@
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <valueName>Multifamily GUC</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Heavy Lift</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Heavy Lift/CLO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Lease-Up/No Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Lease-Up/No Rehab/CLO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Light Lift/CLO</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Build to Rent</controllingFieldValue>

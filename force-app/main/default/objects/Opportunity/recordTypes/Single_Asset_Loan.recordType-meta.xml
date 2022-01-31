@@ -292,6 +292,10 @@
     <picklistValues>
         <picklist>Asset_Maturity__c</picklist>
         <values>
+            <fullName>600 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
@@ -1636,6 +1640,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Jack Jerue Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Joakim Mortensen Sourced</fullName>
             <default>false</default>
         </values>
@@ -1911,6 +1919,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Borrower does not like terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Borrower does not meet requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Broker Requested</fullName>
             <default>false</default>
         </values>
@@ -1927,6 +1943,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Does not meet occupancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Economic Downturn</fullName>
             <default>false</default>
         </values>
@@ -1940,6 +1960,10 @@
         </values>
         <values>
             <fullName>Failed to Qualify</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Process of Withdrawal%2FRejection</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1967,7 +1991,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Pending Financial Documents%2FTax Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Property Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Portfolio Leveraged</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property List Not Finalized</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1981,6 +2021,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Draw_Period__c</picklist>
+        <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>540 Days</fullName>
             <default>false</default>
@@ -2199,10 +2243,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Borrower unresponsive</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Does not meet occupancy</fullName>
             <default>false</default>
         </values>
@@ -2385,6 +2425,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Line_Expiration__c</picklist>
+        <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>540 Days</fullName>
             <default>false</default>
@@ -2725,6 +2769,10 @@
     </picklistValues>
     <picklistValues>
         <picklist>Repayment_Period__c</picklist>
+        <values>
+            <fullName>20 Months</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>540 Days</fullName>
             <default>false</default>

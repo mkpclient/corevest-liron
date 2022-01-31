@@ -1,0 +1,6 @@
+<apex:page showHeader="false" sidebar="false" rendered="false" standardController="Opportunity" extensions="Update_swap_rates" action="{!UpdateRate}"  >
+    <h1>
+          Swap Rate Updated 
+    </h1>
+ 
+</apex:page>

@@ -70,7 +70,7 @@ public with sharing class TermSheetPDF_Controller {
           .put(
             'Content-Disposition',
             'attachment; filename="' +
-            Opportunity.Name +
+            record.Name +
             '_Termsheetv_' +
             intStr +
             '.doc"'
@@ -140,7 +140,8 @@ public with sharing class TermSheetPDF_Controller {
       ]) {
         if (
           property.Property_Type__c == '2-4 Unit' ||
-          property.Property_Type__c == 'Multifamily'
+          property.Property_Type__c == 'Multifamily' ||
+          property.Property_Type__c == 'Mixed Use'
         ) {
           if (property.Is_Parent__c == true) {
             properties.add(property);

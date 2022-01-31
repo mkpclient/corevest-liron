@@ -603,11 +603,18 @@
                   title="Property Status"
                 />
                 <c:hotColumn
+                  data="Underwriter"
+                  title="Underwriter"
+                  type="dropdown"
+                  width="50"
+                  source="['Brandon Jacobs', 'Henry Newell', 'Juan Arias']"
+                />
+                <c:hotColumn
                   data="Closer"
                   title="Closer"
                   type="dropdown"
                   width="50"
-                  source="['David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Kathy Perez', 'Nate Valline']"
+                  source="['David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Joseph Felice', 'Kathy Perez', 'Nate Valline']"
                 />
                 <c:hotColumn
                   data="Funding_Status__c"

@@ -205,7 +205,9 @@
 
 		for (var i = 0; i < rowsChecked.length; i++) {
 		  if (
-			rows[rowsChecked[i]].Status__c == "Closing" || 
+			rows[rowsChecked[i]].Status__c == "Due Diligence" || 
+			rows[rowsChecked[i]].Status__c == "Pending" ||
+			rows[rowsChecked[i]].Status__c == "Closing" ||
 			(rows[rowsChecked[i]].Status__c == "Active" && rows[rowsChecked[i]].Reno_Advance_Amount_Remaining__c > 0)
 		  ) {
 			properties.push(rows[rowsChecked[i]]);

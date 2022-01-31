@@ -83,7 +83,46 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
-    'Deposit_Amount_Requested__c'
+    'Deposit_Amount_Requested__c',
+    'Broker_Fee_Paid_By_Whom__c',
+    'Broker_Fee_Paid_When__c'
+  };
+
+  public static List<String> sabFields = new List<String>{
+    'Name',
+    'Requested_Revolving__c',
+    'Recourse__c',
+    'Loan_Size__c',
+    'LOC_Loan_Type__c',
+    'Requested_LTC_Max__c',
+    'Requested_LTV_Max__c',
+    // 'Requested_Total_Loan_LTC__c',
+    // 'Requested_ARV_LTV__c',
+    // 'Requested_Max_Reno_Cost_Reimbursement__c',
+    // 'Requested_Reno_Limit__c',
+    'Line_Expiration__c',
+    // 'Extension_Fee__c',
+    'Draw_Period__c',
+    'Requested_Interest_Type__c',
+    'Requested_Origination_Fee__c',
+    'Requested_Draw_Fee__c',
+    'Requested_Exit_Fee__c',
+    'Broker_Fees__c',
+    'Owner_Name__c',
+    'Owner_Phone__c',
+    'Deal_Intro_Source__c',
+    //'Deal_Intro_Sub_Source__c',
+    'Account.BillingStreet',
+    'Account.BillingCity',
+    'Account.BillingPostalCode',
+    'Contact__r.MailingStreet',
+    'Contact__r.MailingCity',
+    'Contact__r.MailingPostalCode',
+    'Contact__r.Phone',
+    'Contact__r.Email',
+    'Deposit_Amount_Requested__c',
+    'Broker_Fee_Paid_By_Whom__c',
+    'Broker_Fee_Paid_When__c'
   };
 
   public static Map<String, String> fieldLabels = new Map<String, String>{
@@ -154,7 +193,9 @@ public without sharing class TermSheetInput_LightningController {
     'Deal_Intro_Source__c' => 'Deal Intro Source',
     'Deal_Intro_Sub_Source__c' => 'Deal Intro Sub Source',
     'Deposit_Amount_Requested__c' => 'Deposit Amount Requested',
-    'YSP_perc__c' => 'Broker YSP %'
+    'YSP_perc__c' => 'Broker YSP %',
+    'Broker_Fee_Paid_By_Whom__c' => 'Broker Fee Paid By Whom',
+    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When'
   };
 
   @AuraEnabled
@@ -168,6 +209,10 @@ public without sharing class TermSheetInput_LightningController {
     }
 
     for (String fieldName : bridgeFields) {
+      fields.add(fieldName);
+    }
+
+    for (String fieldName : sabFields) {
       fields.add(fieldName);
     }
 
@@ -240,10 +285,7 @@ public without sharing class TermSheetInput_LightningController {
     List<String> nullFields = new List<String>();
     List<String> selectedList;
     if (null != o && null != o.RecordType.DeveloperName) {
-      if (
-        (o.RecordType.DeveloperName == 'LOC_Loan' ||
-        o.RecordType.DeveloperName.contains('Bridge'))
-      ) {
+      if (o.RecordType.DeveloperName == 'LOC_Loan') {
         selectedList = bridgeFields;
         if (
           o.LOC_Loan_Type__c == 'Credit Line' &&
@@ -256,6 +298,8 @@ public without sharing class TermSheetInput_LightningController {
         }
       } else if (o.Recordtype.DeveloperName == 'Term_Loan') {
         selectedList = termFields;
+      } else if (o.Recordtype.DeveloperName == 'Single_Asset_Bridge_Loan') {
+        selectedList = sabFields;
       }
       for (String field : selectedList) {
         if (

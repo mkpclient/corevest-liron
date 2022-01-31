@@ -77,11 +77,17 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+                <div class="slds-truncate" title="Property Status">Property Status</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Purchase Price">
-                  Purchase Price
+                <div class="slds-truncate" title="Appraisal Due Date">Appraisal Due Date</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Title Company">Title Company</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Acquisition Price">
+                  Acquisition Price
                 </div>
               </th>
               <th scope="col">
@@ -187,8 +193,20 @@
                   </div>
                 </th>
                 <th scope="" data-label="">
+                  <div class="slds-truncate" title="Property Status">
+                    {!item.Property__r.Status__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                    <ui:outputDate
+                      value="{!item.Appraisal_Due_Date__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputText value="{!item.Title_Company__r.Name}" />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -299,6 +317,12 @@
                 <div class="slds-truncate" title=""></div>
               </th>
               <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
               <th scope="" data-label="">
@@ -427,6 +451,12 @@
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="Adjustments:">
                 <div class="slds-truncate" title="Adjustments:">
                   Adjustments:
@@ -516,6 +546,12 @@
                 <div class="slds-truncate" title=""></div>
               </th>
               <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
               <th scope="" data-label="">
@@ -670,7 +706,23 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+                <div class="slds-truncate" title="Property Status">Property Status</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Appraisal Due Date">Appraisal Due Date</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Title Company">Title Company</div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Acquisition Price">
+                  Acquisition Price
+                </div>
+              </th>
+              <th scope="col">
+                <div class="slds-truncate" title="Renovation Budget">
+                  Renovation Budget
+                </div>
               </th>
               <th scope="col">
                 <div class="slds-truncate" title="Initial Disbursement">
@@ -791,8 +843,34 @@
                   </div>
                 </th>
                 <th scope="" data-label="">
+                  <div class="slds-truncate" title="Property Status">
+                    {!item.Property__r.Status__c}
+                  </div>
+                </th>
+                <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                    <ui:outputDate
+                      value="{!item.Appraisal_Due_Date__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    {!item.Title_Company__r.Name}
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Purchase_Price__c) ? 0 : item.Purchase_Price__c}"
+                    />
+                  </div>
+                </th>
+                <th scope="" data-label="">
+                  <div class="slds-truncate" title="">
+                    <ui:outputCurrency
+                      value="{!empty(item.Renovation_Budget__c) ? 0 : item.Renovation_Budget__c}"
+                    />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -942,8 +1020,28 @@
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="Sub-Total:">
                 <div class="slds-truncate" title="Sub-Total:">Sub-Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Purchase_Price_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Renovation_Budget_Total__c}"
+                  />
+                </div>
               </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title="">
@@ -1076,10 +1174,22 @@
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="Adjustments:">
                 <div class="slds-truncate" title="Adjustments:">
                   Adjustments:
                 </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
               </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
@@ -1191,8 +1301,28 @@
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="Total:">
                 <div class="slds-truncate" title="Total:">Total:</div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Purchase_Price_Total__c}"
+                  />
+                </div>
+              </th>
+              <th scope="" data-label="">
+                <div class="slds-truncate" title="">
+                  <ui:outputCurrency
+                    value="{!v.record.Renovation_Budget_Total__c}"
+                  />
+                </div>
               </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title="">
@@ -1345,10 +1475,10 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Escrow Name">Escrow Name</div>
+                <div class="slds-truncate" title="Title Company">Title Company</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Purchase Price">
+                <div class="slds-truncate" title="Initial Cost Basis">
                   Initial Cost Basis
                 </div>
               </th>
@@ -1427,7 +1557,7 @@
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                    <ui:outputText value="{!item.Title_Company__r.Name}" />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -1615,8 +1745,8 @@
             <div class="slds-truncate" title="Wire #">Wire #</div>
           </th>
           <th scope="col">
-            <div class="slds-truncate" title="Escrow Company">
-              Escrow Company
+            <div class="slds-truncate" title="Title Company">
+              Title Company
             </div>
           </th>
           <th scope="col">
@@ -1683,7 +1813,7 @@
             </th>
             <th scope="" data-label="">
               <div class="slds-truncate" title="">
-                <ui:outputText value="{!item.Escrow_Agent__r.Name}" />
+                <ui:outputText value="{!item.Title_Company__r.Name}" />
               </div>
             </th>
             <th scope="" data-label="">

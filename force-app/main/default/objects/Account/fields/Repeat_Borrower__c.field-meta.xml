@@ -7,7 +7,7 @@
     <formula>Deals_Won__c &gt;= 2</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Has 2 or more Closed Won Deals</inlineHelpText>
-    <label>Repeat Borrower</label>
+    <label>Repeat Sponsor</label>
     <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>
     <type>Checkbox</type>

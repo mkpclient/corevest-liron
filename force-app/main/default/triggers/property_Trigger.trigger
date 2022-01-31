@@ -30,7 +30,7 @@ trigger property_Trigger on Property__c(
       !property_Helper.hasafterUpdateRun
     ) {
       // property_Helper.hasafterUpdateRun=true;
-      Property_Helper.afterUpdate(Trigger.New, Trigger.Old);
+		Property_Helper.afterUpdate(Trigger.New, Trigger.Old);
     }
     if (Trigger.isBefore && Trigger.isDelete) {
       //  Property__c_Helper.beforeDelete(Trigger.New);

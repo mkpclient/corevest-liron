@@ -9,11 +9,13 @@ public without sharing class BoxAPI {
       return accessToken;
     }
 
+    Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
+
     String grant_type = 'client_credentials';
     String box_subject_type = 'enterprise';
-    String box_subject_id = '786745';
-    String client_id = '6j821cmxtkmpmy144abj7y94tgqshm8b';
-    String client_secret = 'npPwz6fxqMrEzFZOrJsOIiKEOprolPXn';
+    String box_subject_id = settings.Box_Subject_Id__c; //'786745';
+    String client_id = settings.Box_Client_Id__c; //'6j821cmxtkmpmy144abj7y94tgqshm8b';
+    String client_secret = settings.Box_Client_Id__c; //'npPwz6fxqMrEzFZOrJsOIiKEOprolPXn';
 
     String body = 'grant_type=' + grant_type;
     body += '&box_subject_type=' + box_subject_type;
@@ -27,9 +29,10 @@ public without sharing class BoxAPI {
     request.setBody(body);
     String responseBody = '{"access_token":"EjgX2hnlA55CvDxBilscSSxnjzCvbak3","expires_in":3941,"restricted_to":[],"token_type":"bearer"}';
 
-    HttpResponse response = new Http().send(request);
-
-    responseBody = response.getBody();
+    if (!Test.isRunningTest()) {
+      HttpResponse response = new Http().send(request);
+      responseBody = response.getBody();
+    }
 
     // system.debug(responseBody);
 
@@ -81,11 +84,9 @@ public without sharing class BoxAPI {
       );
       request.setEndpoint(uploadEndpoint);
 
-      response = new Http().send(request);
-
-      system.debug(response.getBody());
-      system.debug(response.getStatus());
-      system.debug(response.getStatusCode());
+      if (!Test.isRunningTest()) {
+        response = new Http().send(request);
+      }
 
       System.enqueueJob(
         new APILoggerQueueable(request, response, parentId, false)

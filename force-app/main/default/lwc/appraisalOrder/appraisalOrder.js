@@ -1101,6 +1101,10 @@ export default class AppraisalOrder extends LightningElement {
           label: "ClearVal 2.0 (Exterior PCI)",
           value: "ClearVal 2.0 (Exterior PCI)"
         },
+        {
+          label: "1004 Hybrid Report",
+          value: "1004 Hybrid Report"
+        },
         // {
         //   label: "Commercial",
         //   value: "Commercial"
@@ -1213,6 +1217,10 @@ export default class AppraisalOrder extends LightningElement {
         { label: "2 Day", value: "48" },
         { label: "3 Day", value: "72" },
         { label: "5 Day", value: "120" }
+      ];
+    } else if (this.reportType === "1004 Hybrid Report") {
+      options = [
+        { label: "7 Day", value: "168" }
       ];
     }
 

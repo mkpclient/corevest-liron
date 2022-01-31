@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Purchase</label>
             </value>
+            <value>
+                <fullName>Decision Pending</fullName>
+                <default>false</default>
+                <label>Decision Pending</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

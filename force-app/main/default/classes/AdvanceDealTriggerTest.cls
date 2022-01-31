@@ -1,7 +1,9 @@
 @isTest
 private class AdvanceDealTriggerTest {
-  @TestVisible private static string statusValid = 'Completed';
-  @TestVisible private static string statusInvalid = 'Pending';
+  @TestVisible
+  private static string statusValid = 'Completed';
+  @TestVisible
+  private static string statusInvalid = 'Pending';
   @isTest
   static void advanceDealTriggerTestInsert() {
     Account acc = test_Helper.createAccount();
@@ -10,6 +12,7 @@ private class AdvanceDealTriggerTest {
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';
     testContact.Email = 'logins+cvest@mkpartners.com';
+    testContact.AccountId = acc.Id;
 
     insert testContact;
 
@@ -33,7 +36,6 @@ private class AdvanceDealTriggerTest {
     testDeal.AccountId = acc.Id;
     testDeal.Stated_Maturity_Date__c = null;
 
-
     insert testDeal;
 
     //very picky picklist
@@ -45,7 +47,6 @@ private class AdvanceDealTriggerTest {
     testDeal.LOC_Term__c = '540 Days';
 
     update testDeal;
-
 
     Deal_Contact__c testDealContact = new Deal_Contact__c(
       Contact__c = testContact.Id,
@@ -111,6 +112,7 @@ private class AdvanceDealTriggerTest {
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';
     testContact.Email = 'logins+cvest@mkpartners.com';
+    testContact.AccountId = acc.Id;
 
     insert testContact;
 
@@ -133,7 +135,6 @@ private class AdvanceDealTriggerTest {
     testDeal.CloseDate = Date.today();
     testDeal.AccountId = acc.Id;
     testDeal.Stated_Maturity_Date__c = null;
-
 
     insert testDeal;
 
@@ -170,7 +171,6 @@ private class AdvanceDealTriggerTest {
     Advance__c updatedAdvance = new Advance__c();
     updatedAdvance.Id = testAdvance.Id;
     updatedAdvance.Status__c = statusValid;
-
 
     Test.startTest();
     update updatedAdvance;
@@ -212,7 +212,6 @@ private class AdvanceDealTriggerTest {
 
   @isTest
   static void advanceDealTriggerTestUpdateFail() {
-
     Contact testContact = new Contact();
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';
@@ -237,7 +236,6 @@ private class AdvanceDealTriggerTest {
     testDeal.Contact__c = testContact.Id;
     testDeal.CloseDate = Date.today();
     testDeal.Stated_Maturity_Date__c = null;
-
 
     insert testDeal;
 

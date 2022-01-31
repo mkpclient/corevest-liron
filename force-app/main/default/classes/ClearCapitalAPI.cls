@@ -777,6 +777,8 @@ public without sharing class ClearCapitalAPI {
       reportType = '28';
     } else if (productType == 'Interior BPO') {
       reportType = '27';
+    } else if (productType == '1004 Hybrid Report') {
+      reportType = '110';
     }
 
     return reportType;

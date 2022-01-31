@@ -6,6 +6,7 @@
     <aura:attribute name="bypass" type="Boolean" default="false" />
     <aura:attribute name="submitting" type="Boolean" default="false" />
     <aura:attribute name="submitted" type="String" />
+    <aura:attribute name="validationErrorMessage" type="String" />
 
 
     <aura:html tag="style">
@@ -81,7 +82,7 @@
                 You can only submit a term sheet for approval after a pricing review has been approved and a term sheet has been generated.
             </div>
             <div aura:id="validationError" class="slds-hide">
-                Please fill in the Product Sub-Type before sending any emails.
+                {!v.validationErrorMessage}
             </div>
             <div aura:id="noTermSheet" class="slds-hide">
                 You can only bypass termsheet approval after a term sheet has been generated.

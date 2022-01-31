@@ -8,28 +8,28 @@ public without sharing class YardiQueueable implements Queueable, Database.Allow
   }
 
   public void execute(QueueableContext context) {
-    // Set<Id> idSet //= this.recordIds.remove(0);
+    Settings__mdt SETTINGS = Settings__mdt.getInstance('Universal_Settings');
 
-    if (this.yardiType == 'termXML' || this.yardiType == 'advanceXML') {
-      // List<Id> idList = new List<Id>(idSet);
+    if (SETTINGS.Enable_Yardi_API__c || Test.isRunningTest()) {
+      if (this.yardiType == 'termXML' || this.yardiType == 'advanceXML') {
+        Id recordId = recordIds.remove(0);
+        List<String> xmls = YardiAPI.createInvoiceRegisters(recordId);
+        for (String xml : xmls) {
+          YardiAPI.sendInvoiceRegister(xml, recordId);
+        }
+      } else if (this.yardiType == 'propertyCSV') {
+        YardiAPI.sendPropertyCSV(recordIds);
 
-      Id recordId = recordIds.remove(0);
-      List<String> xmls = YardiAPI.createInvoiceRegisters(recordId);
-      for (String xml : xmls) {
-        YardiAPI.sendInvoiceRegister(xml, recordId);
+        recordIds.clear();
+      } else if (this.yardiType == 'termCSV') {
+        YardiAPI.sendTermCSV(recordIds);
+
+        recordIds.clear();
       }
-    } else if (this.yardiType == 'propertyCSV') {
-      YardiAPI.sendPropertyCSV(recordIds);
 
-      recordIds.clear();
-    } else if (this.yardiType == 'termCSV') {
-      YardiAPI.sendTermCSV(recordIds);
-
-      recordIds.clear();
-    }
-
-    if (this.recordIds.size() > 0) {
-      system.enqueueJob(new YardiQueueable(this.yardiType, this.recordIds));
+      if (this.recordIds.size() > 0) {
+        system.enqueueJob(new YardiQueueable(this.yardiType, this.recordIds));
+      }
     }
   }
 }

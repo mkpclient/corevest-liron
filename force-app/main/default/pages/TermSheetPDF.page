@@ -748,7 +748,7 @@
         <td class="row-title">Stepdown Par Prepayment Period:</td>
         <td class="row-description">
           <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1,0,0', 'inline','none')}"
+            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1', 'inline','none')}"
           >
             The loan can be prepaid anytime during the loan term subject to a
             declining prepayment premium. Year One (1) the prepayment premium
@@ -766,7 +766,7 @@
             the prepayment premium will be 1% of the loan amount.
           </span>
           <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '4,3,2,1,0', 'inline','none')}"
+            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '4,3,2,1', 'inline','none')}"
           >
             The loan can be prepaid anytime during the loan term subject to
             a declining prepayment premium. Year One (1) the prepayment
@@ -785,17 +785,6 @@
             will be 3% of the loan amount, Year Four (4) the prepayment premium
             will be 2% of the loan amount, and Year Five (5) the prepayment
             premium will be 1% of the loan amount.
-          </span>
-          <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,1,0,0', 'inline','none')}"
-          >
-            The loan can be prepaid anytime during the loan term subject to a
-            declining prepayment premium. Year One (1) the prepayment premium
-            will be 5% of the loan amount, Year Two (2) the prepayment premium
-            will be 4% of the loan amount, Year Three (3) the prepayment premium
-            will be 3% of the loan amount, Year Four (4) the prepayment premium
-            will be 2% of the loan amount, and Year Five (5) the prepayment premium will 
-            be 1% of the loan amount.
           </span>
           <span
             style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,4,3,2,1,1,1', 'inline','none')}"
@@ -833,7 +822,7 @@
             amount.
           </span>
           <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,4,3,2,1,0', 'inline','none')}"
+            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,4,3,2,1', 'inline','none')}"
           >
             The loan can be prepaid anytime during the loan term subject to a
             declining prepayment premium. Year One (1) and Year Two (2) the
@@ -880,7 +869,7 @@
             Ten (10) the prepayment premium will be 1% of the loan amount.
           </span>
           <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,4,3,2,0,0', 'inline','none')}"
+            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,4,3,2', 'inline','none')}"
           >
             The loan can be prepaid anytime during the loan term subject to a
             declining prepayment premium. Year One (1) through Year Five (5) the
@@ -890,7 +879,7 @@
             prepayment premium will be 2% of the loan amount.
           </span>
           <span
-            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,5,4,3,2,0', 'inline','none')}"
+            style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '5,5,5,5,5,5,4,3,2', 'inline','none')}"
           >
             The loan can be prepaid anytime during the loan term subject to a
             declining prepayment premium. Year One (1) through Year Six (6) the

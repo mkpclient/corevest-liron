@@ -4,9 +4,4 @@
     <availableInTouch>true</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>DC Merge Property</label>
-    <packageVersions>
-        <majorNumber>3</majorNumber>
-        <minorNumber>262</minorNumber>
-        <namespace>dupcheck</namespace>
-    </packageVersions>
 </ApexPage>

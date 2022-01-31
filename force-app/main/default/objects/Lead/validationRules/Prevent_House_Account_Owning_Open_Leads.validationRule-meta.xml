@@ -4,10 +4,14 @@
     <active>true</active>
     <description>This will prevent users from being able to move Open/Contacted Leads to the House Account</description>
     <errorConditionFormula>AND(
-OR(
- ISPICKVAL( Status , &quot;Open&quot;) ,
- ISPICKVAL( Status , &quot;Contacted&quot;)) ,
+ OR(
+  ISPICKVAL( Status , &quot;Open&quot;) ,
+  ISPICKVAL( Status , &quot;Contacted&quot;)
+ ),
  Owner_Name__c = &quot;House Account&quot;,
-NOT(ISNEW()))</errorConditionFormula>
+ NOT(ISNEW()),
+ ISCHANGED( OwnerId ),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;)
+)</errorConditionFormula>
     <errorMessage>House Account cannot own Open/Contacted Leads.  House Account can only own Unresponsive or Unqualified Leads.</errorMessage>
 </ValidationRule>
