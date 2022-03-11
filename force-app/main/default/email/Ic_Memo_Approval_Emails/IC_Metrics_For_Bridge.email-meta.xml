@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>IC Metrics For Bridge</name>
+    <style>freeForm</style>
+    <subject>Your Deal is NOT Approved by Committee - {!Opportunity.Name} - #{!Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hi {!Opportunity.OwnerFirstName},
+
+Your Deal is no longer IC Approved due to an increase in Max LTV% and/or LOC Commitment.
+
+Current LTV: {!Opportunity.LTV__c}.
+Current Loan Amount: {!Opportunity.LOC_Commitment__c}
+
+Deal: {!Opportunity.Name}
+
+Please resubmit for IC Approvals and upload an updated IC Memo, if needed.
+
+Please send an email to support@cvest.com if you have any issues.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

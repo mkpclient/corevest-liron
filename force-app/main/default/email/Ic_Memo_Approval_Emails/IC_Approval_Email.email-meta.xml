@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>IC Approval Email</name>
+    <style>freeForm</style>
+    <subject>Your Deal&apos;s IC Approval Process has been completed and approved by committee - {!Opportunity.Name} - {Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hi {!Opportunity.OwnerFirstName},
+
+Your Deal&apos;s IC Approval Process has been completed and approved by the IC Committee.
+
+Deal: {!Opportunity.Name}
+Approver: {!ApprovalRequest.Process_Approver}
+Comments: {!ApprovalRequest.Comments}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
