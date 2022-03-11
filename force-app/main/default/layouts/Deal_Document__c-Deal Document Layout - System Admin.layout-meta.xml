@@ -221,8 +221,8 @@
                 <field>TermSheet_sent_to_Portal__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Deal_Term_Sheet_Signed__c</field>
+                <behavior>Edit</behavior>
+                <field>Borrower_Term_Sheet_Signature_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

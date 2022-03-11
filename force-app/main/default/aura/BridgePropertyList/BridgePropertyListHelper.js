@@ -224,22 +224,22 @@
      * successCallback = function to call when action completes (e.g. function( response ) { ... } )
      * failureCallback = function to call when action fails (e.g. function( response ) { ... } )
      */
-    var renoType = properties[0].Renovation_Type_formula__c;
+    // var renoType = properties[0].Renovation_Type_formula__c;
 
-    if (renoType == "No Renovation") {
-      renoType = "Non-Renovation";
-      /**   else if(renoType == 'Ground Up Construction') {
-                renoType == 'Ground Up Construction';
-            }*/
-    } else {
-      renoType = "Renovation";
-    }
+    // if (renoType == "No Renovation") {
+    //   renoType = "Non-Renovation";
+    //   /**   else if(renoType == 'Ground Up Construction') {
+    //             renoType == 'Ground Up Construction';
+    //         }*/
+    // } else {
+    //   renoType = "Renovation";
+    // }
 
     var advance = {
       sobjectType: "Advance__c",
       Deal__c: component.get("v.recordId"),
       Status__c: "Pending",
-      Property_Record_Type__c: renoType
+      // Property_Record_Type__c: renoType
     };
 
     this.callAction(
@@ -275,6 +275,7 @@
         Property__c: properties[i]["Id"],
         Advance_Fee__c: feeAmount
       });
+      properties[i].Advance__c = advanceId;
     }
 
     this.callAction(

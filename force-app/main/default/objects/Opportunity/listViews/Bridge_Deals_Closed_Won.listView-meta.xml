@@ -25,7 +25,7 @@
     <filters>
         <field>OPPORTUNITY.STAGE_NAME</field>
         <operation>equals</operation>
-        <value>Expired,Matured</value>
+        <value>Closed Won</value>
     </filters>
     <label>Bridge Deals - Closed Won</label>
     <sharedTo>

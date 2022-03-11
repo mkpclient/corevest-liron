@@ -5,8 +5,8 @@
     <externalId>false</externalId>
     <label>Deal</label>
     <referenceTo>Opportunity</referenceTo>
-    <relationshipLabel>Application</relationshipLabel>
-    <relationshipName>Application</relationshipName>
+    <relationshipLabel>Applications</relationshipLabel>
+    <relationshipName>Applications</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

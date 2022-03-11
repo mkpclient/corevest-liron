@@ -43,8 +43,8 @@
                 <field>Deal_Lost_Reason__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Hold_Reason__c</field>
+                <behavior>Edit</behavior>
+                <field>In_Process_of_Withdrawn_or_Rejected__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -555,6 +555,11 @@
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Update_Swap_Rate</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -570,6 +575,13 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Account__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Close_Date__c</fields>
+        <relatedList>Lost_Deal_Analysis__c.Deal__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>ContactName</fields>
         <fields>Role</fields>
@@ -662,6 +674,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Application__c.Deal_2__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

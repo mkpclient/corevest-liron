@@ -2,10 +2,10 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Deal_Lost_Reason__c</fullName>
     <businessStatus>Active</businessStatus>
-    <description>When a deal is marked as Lost (Cancelled, Withdrawn, or Rejected).  A lost reason is needed.</description>
+    <description>When a deal is marked as UW Hold, Withdrawn, or Rejected a lost/hold reason is needed.</description>
     <externalId>false</externalId>
-    <inlineHelpText>Select a Deal Lost Reason, if a deal is moved to Cancelled, Withdrawn, or Rejected.</inlineHelpText>
-    <label>Deal Lost Reason</label>
+    <inlineHelpText>Select a Deal Lost/Hold Reason if a deal is moved to UW Hold, Withdrawn, or Rejected.</inlineHelpText>
+    <label>Deal Lost/Hold Reason</label>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
@@ -125,6 +125,61 @@
                 <default>false</default>
                 <label>Won through another broker</label>
             </value>
+            <value>
+                <fullName>Borrower does not like terms</fullName>
+                <default>false</default>
+                <label>Borrower does not like terms</label>
+            </value>
+            <value>
+                <fullName>Borrower does not meet requirements</fullName>
+                <default>false</default>
+                <label>Borrower does not meet requirements</label>
+            </value>
+            <value>
+                <fullName>Does not meet occupancy</fullName>
+                <default>false</default>
+                <label>Does not meet occupancy</label>
+            </value>
+            <value>
+                <fullName>Economics Downturn</fullName>
+                <default>false</default>
+                <label>Economics Downturn</label>
+            </value>
+            <value>
+                <fullName>In Process of Withdrawal/Rejected</fullName>
+                <default>false</default>
+                <label>In Process of Withdrawal/Rejected</label>
+            </value>
+            <value>
+                <fullName>Other - See Deal Notes</fullName>
+                <default>false</default>
+                <label>Other - See Deal Notes</label>
+            </value>
+            <value>
+                <fullName>Pending Financial Documents/Tax Returns</fullName>
+                <default>false</default>
+                <label>Pending Financial Documents/Tax Returns</label>
+            </value>
+            <value>
+                <fullName>Pending Property Rehab</fullName>
+                <default>false</default>
+                <label>Pending Property Rehab</label>
+            </value>
+            <value>
+                <fullName>Pending Rehab</fullName>
+                <default>false</default>
+                <label>Pending Rehab</label>
+            </value>
+            <value>
+                <fullName>Property List Not Finalized</fullName>
+                <default>false</default>
+                <label>Property List Not Finalized</label>
+            </value>
+            <value>
+                <fullName>Slip Up Deal</fullName>
+                <default>false</default>
+                <label>Slip Up Deal</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Rejected</controllingFieldValue>
@@ -182,12 +237,56 @@
             <valueName>Won through another broker</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
             <controllingFieldValue>Withdrawn</controllingFieldValue>
-            <valueName>Borrower Requested</valueName>
+            <controllingFieldValue>Processing Hold</controllingFieldValue>
+            <valueName>Borrower Unresponsive</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Borrower does not like terms</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <controllingFieldValue>Processing Hold</controllingFieldValue>
+            <valueName>Borrower does not meet requirements</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Does not meet occupancy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Economics Downturn</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <controllingFieldValue>Processing Hold</controllingFieldValue>
+            <valueName>Other - See Deal Notes</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Pending Financial Documents/Tax Returns</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Pending Property Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Pending Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Property List Not Finalized</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>UW Hold</controllingFieldValue>
+            <valueName>Slip Up Deal</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Withdrawn</controllingFieldValue>
-            <valueName>Borrower Unresponsive</valueName>
+            <valueName>Borrower Requested</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Withdrawn</controllingFieldValue>
@@ -220,6 +319,10 @@
         <valueSettings>
             <controllingFieldValue>Withdrawn</controllingFieldValue>
             <valueName>Split Up Deal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Processing Hold</controllingFieldValue>
+            <valueName>In Process of Withdrawal/Rejected</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

@@ -8,12 +8,22 @@
         >
           <lightning-layout multiple-rows>
             <lightning-layout-item size="12">
-              <lightning-combobox
-                label="Document Type"
-                options={documentTypes}
-                required
-              ></lightning-combobox>
+              <template if:true={showDocumentTypes}>
+                <lightning-combobox
+                  label="Document Type"
+                  options={documentTypes}
+                  required
+                ></lightning-combobox>
+              </template>
+              <template if:false={showDocumentTypes}>
+                <lightning-input
+                  name="taskType"
+                  label="Task Type"
+                  required
+                ></lightning-input>
+              </template>
             </lightning-layout-item>
+
             <lightning-layout-item size="12">
               <lightning-input-field
                 field-name="Name"
@@ -26,9 +36,11 @@
                 field-name="Status__c"
               ></lightning-input-field>
             </lightning-layout-item>
-            <lightning-input-field
-              field-name="Responsible_Party__c"
-            ></lightning-input-field>
+            <lightning-layout-item size="12">
+              <lightning-input-field
+                field-name="Responsible_Party__c"
+              ></lightning-input-field>
+            </lightning-layout-item>
             <lightning-layout-item size="12"
               ><lightning-input-field
                 field-name="Comments__c"

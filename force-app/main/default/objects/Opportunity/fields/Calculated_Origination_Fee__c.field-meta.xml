@@ -2,18 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Calculated_Origination_Fee__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(ISBLANK( Origination_Fee__c ) ,
-IF( CONTAINS(RecordType.Name, &quot;Bridge Loan&quot;),  LOC_Commitment__c * CAF_Upfront_Fee__c,
-
- IF( CONTAINS(RecordType.Name, &quot;Term Loan&quot;) &amp;&amp; ISBLANK( Final_Loan_Amount__c ),
-  IF(
-   ISBLANK( Current_Loan_Amount__c ) &amp;&amp; ISBLANK( Final_Loan_Amount__c ),
-   MAX(7500, Loan_Size__c * CAF_Upfront_Fee__c),
-   MAX(7500, Current_Loan_Amount__c  * CAF_Upfront_Fee__c)
-  ),
-  MAX(7500, Final_Loan_Amount__c  * CAF_Upfront_Fee__c)
-  )
- ),
+    <formula>IF(OR(Record_Type_Name__c = &apos;Single_Asset_Bridge_Loan&apos;, Record_Type_Name__c = &apos;LOC_Loan&apos;),  LOC_Commitment__c * CAF_Upfront_Fee__c,
 Origination_Fee__c
 )</formula>
     <inlineHelpText>This is the calculated Origination Fee</inlineHelpText>

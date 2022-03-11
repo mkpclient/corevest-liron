@@ -26,7 +26,7 @@
         </approvalActions>
         <assignedApprover>
             <approver>
-                <name>caf-it@cvest.com</name>
+                <name>lisha.mcdaniel@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
@@ -35,7 +35,7 @@
         <name>Capital_Markets_Review</name>
     </approvalStep>
     <description>Approval Process for the Term Deal Pricing Review that only requires Capital Markets Approval</description>
-    <emailTemplate>Pricing_Approval_Email_Templates/Pricing_Review_Request</emailTemplate>
+    <emailTemplate>Pricing_Approval_Email_Templates/Pricing_Review_Request_Custom</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <entryCriteria>
         <booleanFilter>(1 OR 3) AND 2</booleanFilter>
@@ -99,7 +99,7 @@
         <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
         <userHierarchyField>Manager</userHierarchyField>
     </nextAutomatedApprover>
-    <processOrder>2</processOrder>
+    <processOrder>1</processOrder>
     <recallActions>
         <action>
             <name>Current_Approval_Process_NULL</name>

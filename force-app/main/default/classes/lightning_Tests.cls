@@ -215,6 +215,28 @@ private class lightning_Tests {
       '',
       ''
     );
+    lightning_Controller.getRecordListPropAdva(
+      opp.Id,
+      'Deal__c',
+      'Property__c',
+      new List<String>{ 'Name' },
+      'Id',
+      'Desc',
+      '',
+      '',
+      True
+    );    
+    lightning_Controller.getRecordListPropAdva(
+      opp.Id,
+      'Deal__c',
+      'Property__c',
+      new List<String>{ 'Name' },
+      'Id',
+      'Desc',
+      '',
+      '',
+      False
+    );       
     lightning_Controller.getRecords(
       opp.Id,
       'Deal__c',

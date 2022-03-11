@@ -13,11 +13,19 @@
             <fullName>Escrow</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
             <fullName>Each Initial Advance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
         <values>
@@ -52,6 +60,32 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Funding_Shield_Cert_Status__c</picklist>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>HUD_Settlement_Statement_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Requested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revisions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Lender__c</picklist>
         <values>
             <fullName>5 Arch Funding Corp%2E</fullName>
@@ -63,40 +97,6 @@
         </values>
         <values>
             <fullName>Third Party Originator</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Probability__c</picklist>
-        <values>
-            <fullName>0%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>100%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>50%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>80%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Property_Record_Type__c</picklist>
-        <values>
-            <fullName>Non-Renovation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Asset w%2F Renovation</fullName>
             <default>false</default>
         </values>
     </picklistValues>

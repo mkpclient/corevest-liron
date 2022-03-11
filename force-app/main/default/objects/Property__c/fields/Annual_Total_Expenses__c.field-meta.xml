@@ -6,6 +6,7 @@
     <formula>Annual_HOA_Fee__c +  Annual_Managment_Fee__c + Vacancy_Repairs__c + Maintenance_Repairs__c
 + (IF( Verified_Annual_Insurance__c &gt; 0, Verified_Annual_Insurance__c, Annual_Insurance__c ))
 + (IF( Verified_Tax__c &gt; 0, Verified_Tax__c, Annual_Taxes__c))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>If blank, complete all fields: Annual HOA Fee, Annual Insurance, Annual Management Fee, Annual Taxes, Vacancy Repairs/Maintenance, and Annual Maintenance/Repairs</inlineHelpText>
     <label>Annual Total Expenses</label>
     <precision>18</precision>

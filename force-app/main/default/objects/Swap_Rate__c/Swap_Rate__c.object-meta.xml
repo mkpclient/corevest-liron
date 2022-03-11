@@ -160,7 +160,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Swap Rate</label>
+    <label>Swap Rates</label>
     <nameField>
         <label>Rate Name</label>
         <type>Text</type>

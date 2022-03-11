@@ -3,28 +3,38 @@ import queryDocumentTypes from "@salesforce/apex/ChecklistController.queryDocume
 import upsertItem from "@salesforce/apex/ChecklistController.upsertItem";
 export default class ChecklistItemNew extends LightningElement {
   sectionId = null;
-
+  itemType = "";
   documentTypes = [];
   @api milestone;
   @api
-  open(sectionId) {
+  open(sectionId, itemType) {
     // console.log(this.sectionId);
+    this.itemType = itemType;
+    if (itemType == "upload") {
+      queryDocumentTypes({ sectionId })
+        .then((results) => {
+          console.log(results);
+          this.documentTypes = results;
+          this.sectionId = sectionId;
+        })
+        .catch((error) => {
+          console.log("document types errors");
+          console.log(error);
+        });
+    } else {
+      this.sectionId = sectionId;
+    }
 
-    queryDocumentTypes({ sectionId })
-      .then((results) => {
-        console.log(results);
-        this.documentTypes = results;
-        this.sectionId = sectionId;
-      })
-      .catch((error) => {
-        console.log("document types errors");
-        console.log(error);
-      });
     this.template.querySelector("c-modal").openModal();
+  }
+
+  get showDocumentTypes() {
+    return this.itemType == "upload";
   }
 
   close() {
     this.sectionId = null;
+    this.itemType = null;
     this.template.querySelector("c-modal").closeModal();
   }
 
@@ -41,15 +51,24 @@ export default class ChecklistItemNew extends LightningElement {
     });
 
     // console.log(item);
-    const documentType = this.template.querySelector("lightning-combobox")
-      .value;
 
-    item.Doc_Structure_Id__c = documentType;
+    if (this.itemType == "upload") {
+      const documentType = this.template.querySelector("lightning-combobox")
+        .value;
+
+      item.Doc_Structure_Id__c = documentType;
+    } else if (this.itemType == "task") {
+      const taskType = this.template.querySelector("lightning-input").value;
+      item.Uploader__c = taskType;
+    }
 
     //console.log(documentType);
     console.log(item);
-    if (item.Doc_Structure_Id__c && item.Name) {
-      upsertItem({ item })
+    if (
+      (this.itemType == "upload" && item.Doc_Structure_Id__c && item.Name) ||
+      (this.itemType == "task" && item.Uploader__c && item.Name)
+    ) {
+      upsertItem({ item, itemType: this.itemType })
         .then((results) => {
           console.log(results);
           this.dispatchEvent(new CustomEvent("save"));

@@ -268,13 +268,18 @@ global without sharing class PortalAPIDocumentVault {
     if (sobjectType == 'Property__c') {
       //vault = createPropertyVault();
     } else if (sobjectType == 'Opportunity') {
-      vault = createLoanVault();
+      system.debug(user.userType);
+      if (user.userType == 'vendor') {
+        vault = createVendorVault();
+      } else {
+        vault = createLoanVault();
+      }
     }
 
     return vault;
   }
 
-  public static DocumentVault createLoanVaultVendor() {
+  public static DocumentVault createVendorVault() {
     Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
     DocumentVault vault = new DocumentVault();
     vault.id = deal.Id;
@@ -282,6 +287,22 @@ global without sharing class PortalAPIDocumentVault {
 
     List<Checklist_Item__c> items = new List<Checklist_Item__c>();
     contentVersionMap = new Map<Id, ContentVersion>();
+
+    Set<String> vendorType = new Set<String>();
+    for (Deal_Contact__c dc : [
+      SELECT Id, Vendor_Type__c
+      FROM Deal_Contact__c
+      WHERE Account__c = :user.accountId AND Deal__c = :recordId
+    ]) {
+      if (dc.Vendor_Type__c == 'Lender Legal Counsel') {
+        vendorType.add('Legal');
+      } else if (
+        dc.Vendor_Type__c == 'Title and Escrow' ||
+        dc.Vendor_Type__c == '3rd Party Title'
+      ) {
+        vendorType.add('Title');
+      }
+    }
 
     for (Checklist_Item__c item : [
       SELECT
@@ -292,6 +313,7 @@ global without sharing class PortalAPIDocumentVault {
         Document_Type__c,
         Folder_String__c,
         Status__c,
+        Checklist_Section__r.Property__r.Name,
         (
           SELECT
             Id,
@@ -309,11 +331,11 @@ global without sharing class PortalAPIDocumentVault {
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = FALSE
-        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        Checklist_Section__r.Checklist__r.Deal__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
         AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Sponsor')
+        OR Checklist_Section__r.Type__c = 'Legal')
+        AND Checklist_Section__r.Deal_Contact__r.Account__c = :user.AccountId
     ]) {
       if (isVault) {
         if (item.Status__c == 'Pending') {
@@ -345,6 +367,7 @@ global without sharing class PortalAPIDocumentVault {
 
     items = new List<Checklist_Item__c>();
     contentVersionMap = new Map<Id, ContentVersion>();
+
     for (Checklist_Item__c item : [
       SELECT
         Id,
@@ -355,6 +378,7 @@ global without sharing class PortalAPIDocumentVault {
         Folder_String__c,
         Reviewed__c,
         Status__c,
+        Checklist_Section__r.Property__r.Name,
         (
           SELECT
             Id,
@@ -372,11 +396,10 @@ global without sharing class PortalAPIDocumentVault {
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = TRUE
-        AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+        Checklist_Section__r.Checklist__r.Deal__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
-        AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Applicant')
+        AND Checklist_Section__r.Type__c = 'Property'
+        AND Uploader__c IN :vendorType
     ]) {
       if (isVault) {
         if (item.Status__c == 'Pending') {
@@ -405,6 +428,7 @@ global without sharing class PortalAPIDocumentVault {
       vault.addPropertyItem(item);
     }
     vault.propertyLevelDocuments.sort();
+
     return vault;
   }
 
@@ -425,6 +449,7 @@ global without sharing class PortalAPIDocumentVault {
         Document_Type__c,
         Folder_String__c,
         Status__c,
+        Checklist_Section__r.Property__r.Name,
         (
           SELECT
             Id,
@@ -488,6 +513,7 @@ global without sharing class PortalAPIDocumentVault {
         Folder_String__c,
         Reviewed__c,
         Status__c,
+        Checklist_Section__r.Property__r.Name,
         (
           SELECT
             Id,
@@ -800,6 +826,13 @@ global without sharing class PortalAPIDocumentVault {
       itemId = item.id;
       documentType = item.Document_Type__c;
 
+      if (item.Checklist_Section__r.Property__c != null) {
+        documentType =
+          item.Checklist_Section__r.Property__r.Name +
+          ' - ' +
+          documentType;
+      }
+
       uploadedDocuments = new List<Document>();
       for (Deal_Document__c doc : item.Deal_Documents__r) {
         uploadedDocuments.add(new Document(doc));
@@ -827,7 +860,7 @@ global without sharing class PortalAPIDocumentVault {
     public String reviewedBy;
     public Date reviewedDate;
     public String status;
-    Document(Deal_Document__c doc) {
+    public Document(Deal_Document__c doc) {
       fileName = doc.File_Name__c;
       comments = doc.Comments__c;
       status = doc.Status__c;
@@ -848,10 +881,12 @@ global without sharing class PortalAPIDocumentVault {
         );
       }
       reviewed = doc.Reviewed__c;
-      ContentVersion cv = contentVersionMap.get(doc.ContentVersion_Id__c);
-      if (cv != null) {
-        this.fileExtension = cv.FileExtension;
-        this.id = cv.Id;
+      if (contentVersionMap != null) {
+        ContentVersion cv = contentVersionMap.get(doc.ContentVersion_Id__c);
+        if (cv != null) {
+          this.fileExtension = cv.FileExtension;
+          this.id = cv.Id;
+        }
       }
     }
   }

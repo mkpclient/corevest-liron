@@ -4,6 +4,13 @@
     <active>true</active>
     <label>Task</label>
     <picklistValues>
+        <picklist>Approver__c</picklist>
+        <values>
+            <fullName>Underwriter</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Document_Category__c</picklist>
         <values>
             <fullName>Borrower</fullName>
@@ -23,6 +30,20 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Responsible_Party__c</picklist>
+        <values>
+            <fullName>Underwriter</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reviewer__c</picklist>
+        <values>
+            <fullName>Underwriter</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Status__c</picklist>
         <values>
             <fullName>Completed</fullName>
@@ -31,6 +52,17 @@
         <values>
             <fullName>Pending</fullName>
             <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Uploader__c</picklist>
+        <values>
+            <fullName>Applicant</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sponsor</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

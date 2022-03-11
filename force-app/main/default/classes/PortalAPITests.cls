@@ -14,7 +14,7 @@ private class PortalAPITests {
     insert app;
 
     cont.Alchemy_Portal_Id__c = 'af-sdba';
-    cont.Email = 'test@example.com';
+    cont.Email = 'portalapitest@example.com';
     update cont;
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
     opp.Apex_Context__c = true;
@@ -338,6 +338,10 @@ private class PortalAPITests {
     request.requestUri = 'apexrest/portal/comments/af-sdba/all';
     request.httpMethod = 'GET';
 
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/loanId/' + opp.Id;
+    request.httpMethod = 'GET';
+
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIComments.doGet();
@@ -424,11 +428,24 @@ private class PortalAPITests {
     PortalAPITermsheet.doPatch();
 
     Deal_document__c dealDoc = [
-      SELECT Id
+      SELECT
+        Id,
+        Added_On__c,
+        Added_By__r.Name,
+        Document_Type__c,
+        Reviewed_By__r.Name,
+        Reviewed_On__c,
+        File_Name__c,
+        ContentVersion_Id__c,
+        Status__c,
+        Comments__c,
+        Reviewed__c
       FROM Deal_Document__c
       WHERE Document_Type__c = 'Executed Term Sheet' AND Deal__c = :opp.Id
       LIMIT 1
     ];
+
+    new PortalAPIDocumentVault.Document(dealDoc);
     request = new RestRequest();
     request.requestUri = 'apexrest/portal/termsheet/executed/' + opp.Id;
     request.httpMethod = 'GET';
@@ -531,7 +548,7 @@ private class PortalAPITests {
     Contact cont = [SELECT Id, AccountId FROM Contact LIMIT 1];
 
     Opportunity topp1 = new Opportunity();
-    topp1.Name = 'test';
+    topp1.Name = 'documentTests';
     topp1.CloseDate = System.today();
     topp1.StageName = 'Initial Review';
     topp1.Loan_Size__c = 2000000;
@@ -613,12 +630,30 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doGet();
 
-    Checklist_ITem__c item = [
+    // Checklist_ITem__c item = [
+    //   SELECT Id
+    //   FROM Checklist_Item__c
+    //   WHERE RecordType.DeveloperName = 'Document_Upload'
+    //   LIMIT 1
+    // ];
+    Checklist__c checklist = new Checklist__c();
+    checklist.Deal__c = topp1.Id;
+    insert checklist;
+
+    Checklist_Section__c section = new Checklist_Section__c();
+    section.Checklist__c = checklist.id;
+    insert section;
+
+    Document_Structure__mdt struct = [
       SELECT Id
-      FROM Checklist_Item__c
-      WHERE RecordType.DeveloperName = 'Document_Upload'
+      FROM Document_Structure__mdt
       LIMIT 1
     ];
+    Checklist_Item__c item = new Checklist_Item__c();
+    item.Checklist_Section__c = section.Id;
+    // item.Checklist__c = checklist.Id;
+    item.Doc_Structure_Id__c = struct.Id;
+    insert item;
     request = new RestRequest();
     request.requestUri = 'apexrest/portal/documentvault/upload';
     request.httpMethod = 'POST';
@@ -711,36 +746,8 @@ private class PortalAPITests {
   static testMethod void apiTests2() {
     Contact cont = [SELECT Id, AccountId FROM Contact LIMIT 1];
 
-    Opportunity topp1 = new Opportunity();
-    topp1.Name = 'test';
-    topp1.CloseDate = System.today();
-    topp1.StageName = 'Initial Review';
-    topp1.Loan_Size__c = 2000000;
-    topp1.AccountId = cont.AccountId;
-    topp1.Contact__c = cont.Id;
-    topp1.Final_Loan_Amount__c = 100;
-    topp1.Deal_Intro_Source__c = 'Hotline';
-    topp1.Deal_Intro_Sub_Source__c = 'Main';
-    topp1.Apex_Context__c = true;
-    topp1.Term_Loan_Type__c = '5 Year';
-    topp1.YM_Prepayment_Penalty__c = '48 Months';
-    topp1.RecordTypeId = [
-      SELECT Id
-      FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
-    ]
-    .Id;
-    insert topp1;
-
-    RestRequest request = new RestRequest();
-    request.requestUri = 'apexrest/portal/checklist/milestones/' + topp1.Id;
-    request.httpMethod = 'GET';
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIChecklist.doGet();
-
     Opportunity topp2 = new Opportunity();
-    topp2.Name = 'test';
+    topp2.Name = 'apiTests2 1';
     topp2.CloseDate = System.today();
     topp2.StageName = 'Initial Review';
     topp2.Loan_Size__c = 2000000;
@@ -755,16 +762,131 @@ private class PortalAPITests {
     topp2.RecordTypeId = [
       SELECT Id
       FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'LOC_Loan'
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
     ]
     .Id;
     insert topp2;
 
-    request = new RestRequest();
+    RestRequest request = new RestRequest();
     request.requestUri = 'apexrest/portal/checklist/milestones/' + topp2.Id;
     request.httpMethod = 'GET';
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIChecklist.doGet();
+
+    Opportunity topp3 = new Opportunity();
+    topp3.Name = 'apiTests2 2';
+    topp3.CloseDate = System.today();
+    topp3.StageName = 'Initial Review';
+    topp3.Loan_Size__c = 2000000;
+    topp3.AccountId = cont.AccountId;
+    topp3.Contact__c = cont.Id;
+    topp3.Final_Loan_Amount__c = 100;
+    topp3.Deal_Intro_Source__c = 'Hotline';
+    topp3.Deal_Intro_Sub_Source__c = 'Main';
+    topp3.Apex_Context__c = true;
+    topp3.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'LOC_Loan'
+    ]
+    .Id;
+    insert topp3;
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/checklist/milestones/' + topp3.Id;
+    request.httpMethod = 'GET';
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIChecklist.doGet();
+  }
+
+  static testMethod void apiTests3() {
+    Contact cont = [SELECT Id, AccountId FROM Contact LIMIT 1];
+
+    Opportunity topp2 = new Opportunity();
+    topp2.Name = 'apiTests2 1';
+    topp2.CloseDate = System.today();
+    topp2.StageName = 'Initial Review';
+    topp2.Loan_Size__c = 2000000;
+    topp2.AccountId = cont.AccountId;
+    topp2.Contact__c = cont.Id;
+    topp2.Final_Loan_Amount__c = 100;
+    topp2.Deal_Intro_Source__c = 'Hotline';
+    topp2.Deal_Intro_Sub_Source__c = 'Main';
+    topp2.Apex_Context__c = true;
+    topp2.Term_Loan_Type__c = '5 Year';
+    topp2.YM_Prepayment_Penalty__c = '48 Months';
+    topp2.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
+    ]
+    .Id;
+    insert topp2;
+
+    Test.startTest();
+    RestRequest request = new RestRequest();
+    request.requestUri = 'apexrest/portal/broker/invite/';
+    request.httpMethod = 'POST';
+
+    Map<String, Object> body = new Map<String, String>();
+
+    body.put('brokerId', 'af-sdba');
+    body.put('borrowerEmail', 'test@example.com');
+    body.put('borrowerFirstName', 'firstname');
+    body.put('borrowerLastName', 'lastname');
+    body.put('borrowerLastName', 'test company');
+    body.put('borrowerId', 'af-sdaa');
+    body.put('dealId', topp2.Id);
+
+    request.requestBody = Blob.valueOf(JSON.serialize(body));
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+
+    PortalAPIBroker.doPost();
+
+    Test.stopTest();
+  }
+
+  static testMethod void apiTest4() {
+    RestRequest request = new RestRequest();
+    Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
+    request.requestUri = 'apexrest/portal/fundings/' + opp.Id + '/new/';
+    request.httpMethod = 'POST';
+
+    Map<String, Object> body = new Map<String, Object>();
+
+    body.put('recordType', 'No Renovation');
+    body.put('streetAddress', '5709 Caheunga Blvd');
+    body.put('city', 'North Hollywood');
+    body.put('state', 'CA');
+    body.put('zipCode', '91601');
+    body.put('propertyType', '2-4 Unit');
+    body.put('numberOfUnits', 2);
+    body.put('numberOfBathrooms', 2);
+    body.put('numberOfBedrooms', 3);
+    body.put('squareFootage', '2500');
+    body.put('transactyionType', 'Refinance');
+    body.put('requestedFundingDate', '2022-01-01');
+    body.put('acquisitionPrice', 250000);
+    body.put('purchaseDate', '2021-01-01');
+    body.put('contractCloseDate', '2022-01-01');
+    body.put('titleCompany', 'Test Title Company');
+    body.put('titleContactName', 'Title Contact');
+    body.put('titleContactPhone', '555-555-5555');
+    body.put('titleContactEmail', 'title@example.com');
+    body.put('interiorContact', 'Interior Contact');
+    body.put('interiorAccessPOCPhone', '555-555-5555');
+    body.put('interiorAccessPOCPhone', 'interior@example.com');
+
+    List<Map<String, Object>> funding = new List<Map<String, Object>>();
+    funding.add(body);
+
+    request.requestBody = Blob.valueOf(JSON.serialize(funding));
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIFunding.doPost();
   }
 }

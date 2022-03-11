@@ -53,7 +53,8 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       "Holdback_Reserve__c",
       "Holdback_Reserve_Override__c",
       "Interest_Rate_Type__c",
-      "Term__c"
+      "Term__c",
+      "Legal_Fee__c"
     ];
     let queryString = `SELECT Id, ${fields.join(",")}`;
     queryString += ` FROM Loan_Version__c WHERE Id = '${versionId}'`;

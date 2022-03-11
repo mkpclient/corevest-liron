@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Yardi_API_Response_Logging__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This will enable the logging of the API response for Yardi integration in the API Log Object</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This will enable the logging of the API response for Yardi integration in the API Log Object</inlineHelpText>
+    <label>Enable Yardi API Response Logging</label>
+    <type>Checkbox</type>
+</CustomField>

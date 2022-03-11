@@ -7,9 +7,6 @@
     <columns>Start_Date__c</columns>
     <columns>End_Date__c</columns>
     <columns>Include_Yes_No__c</columns>
-    <columns>QC_Yes_No__c</columns>
-    <columns>QC_Batch_Number__c</columns>
-    <columns>QC_Date__c</columns>
     <columns>CREATED_DATE</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>

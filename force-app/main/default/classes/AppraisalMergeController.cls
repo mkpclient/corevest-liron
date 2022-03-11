@@ -36,7 +36,9 @@ public with sharing class AppraisalMergeController {
     'CreatedDate' => '',
     'Flood_Zone__c' => '',
     'Status__c' => '',
-    'Appraisal_Product_Ordered__c' => ''
+    'Appraisal_Product_Ordered__c' => '',
+    'Appraisal_Replacement_Cost_Value__c' => 'Appraisal_Replacement_Cost_Value__c',
+    'No_of_Stories__c' => 'No_of_Stories__c'
   };
 
   public static Map<String, Schema.SObjectField> APPRAISAL_FIELD_MAP = Schema.SObjectType.Appraisal__c.fields.getMap();
@@ -175,7 +177,7 @@ public with sharing class AppraisalMergeController {
         propertyId,
         productType,
         turnTime,
-        addOns,
+        // addOns,
         vendorComments
       );
     } else if (appraisalFirm == 'Appraisal Nation') {
@@ -262,7 +264,7 @@ public with sharing class AppraisalMergeController {
     Id propertyId,
     String productType,
     String turnTime,
-    List<Object> addOns,
+    // List<Object> addOns,
     String vendorComments
   ) {
     Property__c p = [
@@ -293,20 +295,20 @@ public with sharing class AppraisalMergeController {
       p,
       productType,
       turnTime,
-      addOns,
+      // addOns,
       vendorComments
     );
 
-    if(addOns.size() > 0) {
-      String addonAsString = '';
+    // if(addOns.size() > 0) {
+    //   String addonAsString = '';
 
-      for(Object a : addOns) {
-        addonAsString += String.valueOf(a) + ';';
-      }
+    //   for(Object a : addOns) {
+    //     addonAsString += String.valueOf(a) + ';';
+    //   }
 
-      addonAsString = addonAsString.substringBeforeLast(';');
-      appraisal.Product_Type_Addons__c = addonAsString;
-    }
+    //   addonAsString = addonAsString.substringBeforeLast(';');
+    //   appraisal.Product_Type_Addons__c = addonAsString;
+    // }
 
     appraisal.Deal__c = p.Deal__c;
     appraisal.Property__c = p.Id;
@@ -810,7 +812,7 @@ public with sharing class AppraisalMergeController {
       System.debug(appraisal);
       appraisals.add(appraisal);
     }
-    
+
     if(System.isBatch()) {
       appraisals.addAll((List<Appraisal__c>)BATCH_VAL.get('Appraisals'));
       BATCH_VAL.put('Appraisals', appraisals);
@@ -837,7 +839,7 @@ public with sharing class AppraisalMergeController {
       return;
     }
 
-    Map<String, Object> resp = AppraisalNationAPI.checkOrder(
+   Map<String, Object> resp = AppraisalNationAPI.checkOrder(
       appraisal.Appraisal_Firm_Transaction_ID__c,
       appraisal.property__r.deal__r.recordtype.developername
     );
@@ -1229,7 +1231,7 @@ public with sharing class AppraisalMergeController {
     List<String> bccAddresses = new List<String>{ 'bryon.harland@cvest.com' };
 
     String htmlBody = '<html><body>';
-    htmlBody += 'Appraisal API failed retrieving the following url ';
+    htmlBody += 'Due to size limitations, the PDF and/or the XMl was not received through the API. ';
     htmlBody += fileURL;
     htmlBody += '<br/><br/>';
     htmlBody += 'Upload the XML to the following appraisal record ';
@@ -1240,7 +1242,7 @@ public with sharing class AppraisalMergeController {
       '/view';
 
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-    email.setSubject('Appraisal API Failed to Retrieve');
+    email.setSubject('Appraisal API Unable to Retrieve Files due to size limitation');
     email.setHtmlBody(htmlBody);
     email.setToAddresses(toAddresses);
     email.setBccAddresses(bccAddresses);
@@ -1288,7 +1290,7 @@ public with sharing class AppraisalMergeController {
     List<String> bccAddresses = new List<String>{ 'bryon.harland@cvest.com' };
 
     String htmlBody = '<html><body>';
-    htmlBody += 'Appraisal API failed retrieving the following Appraisal documents ';
+    htmlBody += 'Due to size limitations, the PDF and/or the XMl was not received through the API.  ';
     htmlBody +=
       '<p>Deal: ' +
       appraisal.Deal__r.Name +
@@ -1334,7 +1336,7 @@ public with sharing class AppraisalMergeController {
 
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
     email.setSubject(
-      appraisal.Vendor_Ordered_From__c + ' API Failed to Retrieve XML/PDF'
+      appraisal.Vendor_Ordered_From__c + ' Appraisal API Unable to Retrieve Files due to size limitation'
     );
     email.setHtmlBody(htmlBody);
     email.setToAddresses(toAddresses);

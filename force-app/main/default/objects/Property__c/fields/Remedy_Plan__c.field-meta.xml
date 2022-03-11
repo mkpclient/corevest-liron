@@ -95,6 +95,11 @@
                 <label>Title Claim</label>
             </value>
             <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <label>Paid Off</label>
+            </value>
+            <value>
                 <fullName>2000</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

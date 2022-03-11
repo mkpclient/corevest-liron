@@ -25,9 +25,4 @@
         <value>Approved by Committee</value>
     </filters>
     <label>Bridge Deals - Approved by Committee</label>
-    <sharedTo>
-        <role>Administrator</role>
-        <role>Bridge</role>
-        <role>Bridge_Manager</role>
-    </sharedTo>
 </ListView>

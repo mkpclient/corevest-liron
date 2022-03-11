@@ -32,6 +32,14 @@
                       <div slot="actions">
                         <lightning-button
                           data-id={section.id}
+                          data-type="upload"
+                          label="Approve All"
+                          onclick={approveAll}
+                        >
+                        </lightning-button>
+                        <lightning-button
+                          data-id={section.id}
+                          data-type="upload"
                           label="Add Item"
                           onclick={newItem}
                         ></lightning-button>
@@ -42,6 +50,16 @@
                       >
                         <thead>
                           <tr class="slds-line-height_reset">
+                            <th>
+                              <lightning-input
+                                type="checkbox"
+                                label="checkbox"
+                                variant="label-hidden"
+                                data-id={section.id}
+                                data-type="upload"
+                                onchange={selectAll}
+                              ></lightning-input>
+                            </th>
                             <th class="" scope="col">
                               <div
                                 class="slds-truncate"
@@ -98,6 +116,17 @@
                             for:index="itemIndex"
                           >
                             <tr class="slds-hint-parent" key={section.id}>
+                              <th>
+                                <lightning-input
+                                  type="checkbox"
+                                  label="checkbox"
+                                  variant="label-hidden"
+                                  data-item="item"
+                                  data-id={section.id}
+                                  data-type="upload"
+                                  data-itemid={item.id}
+                                ></lightning-input>
+                              </th>
                               <th scope="row">
                                 <lightning-formatted-text
                                   value={item.name}
@@ -181,12 +210,37 @@
                 <template if:true={section.showTasks}>
                   <lightning-accordion>
                     <lightning-accordion-section label="Tasks" name="tasks">
+                      <div slot="actions">
+                        <lightning-button
+                          data-id={section.id}
+                          data-type="task"
+                          label="Approve All"
+                          onclick={approveAll}
+                        >
+                        </lightning-button>
+                        <lightning-button
+                          data-id={section.id}
+                          data-type="task"
+                          label="Add Item"
+                          onclick={newItem}
+                        ></lightning-button>
+                      </div>
                       <table
                         class="slds-table slds-table_cell-buffer slds-table_bordered"
                         aria-label="Example default base table of Opportunities"
                       >
                         <thead>
                           <tr class="slds-line-height_reset">
+                            <th>
+                              <lightning-input
+                                type="checkbox"
+                                label="checkbox"
+                                variant="label-hidden"
+                                data-id={section.id}
+                                data-type="task"
+                                onchange={selectAll}
+                              ></lightning-input>
+                            </th>
                             <th class="" scope="col">
                               <div
                                 class="slds-truncate"
@@ -206,6 +260,14 @@
                                 title="Responsible Party"
                               >
                                 Responsible Party
+                              </div>
+                            </th>
+                            <th class="" scope="">
+                              <div
+                                class="slds-truncate"
+                                title="Responsible Party"
+                              >
+                                Action
                               </div>
                             </th>
                             <th class="" scope="col">
@@ -235,6 +297,17 @@
                             for:index="itemIndex"
                           >
                             <tr class="slds-hint-parent" key={item.id}>
+                              <th>
+                                <lightning-input
+                                  type="checkbox"
+                                  label="checkbox"
+                                  variant="label-hidden"
+                                  data-item="item"
+                                  data-id={section.id}
+                                  data-type="task"
+                                  data-itemid={item.id}
+                                ></lightning-input>
+                              </th>
                               <th scope="row">
                                 <lightning-formatted-text
                                   value={item.name}
@@ -248,6 +321,11 @@
                               <td role="gridcell">
                                 <lightning-formatted-text
                                   value={item.responsibleParty}
+                                ></lightning-formatted-text>
+                              </td>
+                              <td role="gridcell">
+                                <lightning-formatted-text
+                                  value={item.uploader}
                                 ></lightning-formatted-text>
                               </td>
                               <td role="gridcell">

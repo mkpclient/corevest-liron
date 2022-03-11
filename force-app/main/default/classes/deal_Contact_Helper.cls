@@ -231,7 +231,14 @@ public class deal_Contact_Helper {
     Set<Id> sponsorIds = new Set<Id>();
 
     for (Deal_Contact__c dc : dealContacts) {
-      if (dc.Entity_Type__c == 'Applicant') {
+      if (
+        dc.Entity_Type__c == 'Applicant' ||
+        dc.Entity_Type__c == 'Sponsor' ||
+        ((dc.Vendor_Type__c == 'Lender Legal Counsel' ||
+        dc.Vendor_Type__c == 'Lender Local Legal Counsel') &&
+        dc.Account__c != null) ||
+        dc.Entity_Type__c == 'Guarantor'
+      ) {
         sponsorIds.add(dc.Id);
       }
 
@@ -299,7 +306,7 @@ public class deal_Contact_Helper {
     }
 
     if (sponsorIds.size() > 0) {
-      ChecklistHelper.createChecklistSectionApplicant(sponsorIds);
+      ChecklistHelper.createChecklistDealContact(sponsorIds);
     }
   }
 
@@ -310,8 +317,16 @@ public class deal_Contact_Helper {
     List<Deal_Contact__c> newList = newMap.values();
     List<Deal_Contact__c> oldList = oldMap.values();
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
+    Set<Id> vendorIds = new Set<Id>();
     for (Deal_Contact__c entity : newList) {
-      system.debug(entity);
+      if (
+        (entity.Vendor_Type__c == 'Lender Legal Counsel' &&
+        entity.Account__c != null &&
+        entity.Account__c != oldMap.get(entity.Id).Account__c)
+      ) {
+        vendorIds.add(entity.Id);
+      }
+
       if (
         entity.Vendor_Type__c != null &&
         entity.Account__c != null &&
@@ -578,6 +593,10 @@ public class deal_Contact_Helper {
       if (dcToUpdate.size() > 0) {
         update dcToUpdate;
       }
+    }
+
+    if (vendorIds.size() > 0) {
+      ChecklistHelper.createChecklistDealContact(vendorIds);
     }
 
     //New changes to update Loan Fee when deal contact is updated.

@@ -34,7 +34,7 @@
             </value>
             <value>
                 <fullName>DealCreation</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>DealCreation</label>
             </value>
             <value>

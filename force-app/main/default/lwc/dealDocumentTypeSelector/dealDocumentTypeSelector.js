@@ -144,10 +144,18 @@ export default class DealDocumentTypeSelector extends LightningElement {
         console.log(records);
         recordType = records[0].Deal__r.RecordType.DeveloperName;
 
-        if (recordType.includes("Bridge")) {
+        if (recordType.includes("LOC_Loan")) {
           recordType = "LOC_Loan";
         } else if (recordType.includes("Investor_DSCR")) {
           recordType = "Term_Loan";
+        } else if (recordType.includes("Single_Rental_Loan")) {
+          recordType = "Term_Loan";
+        } else if (recordType.includes("Single_Asset_Loan")) {
+          recordType = "Term_Loan";
+        } else if (recordType.includes("Acquired_Bridge_Loan")) {
+          recordType = "LOC_Loan";
+        } else if (recordType.includes("Single_Asset_Bridge_Loan")) {
+          recordType = "LOC_Loan";
         }
 
         documents = [];

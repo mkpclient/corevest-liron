@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>Is_Property_Level__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Is_Bulk__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

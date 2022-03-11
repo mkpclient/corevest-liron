@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>CreateSurveyInvitation</excludeButtons>
-    <excludeButtons>DataDotComAccountInsights</excludeButtons>
-    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
@@ -397,10 +396,10 @@
         <fields>Deal_Loan_Number__c</fields>
         <fields>OPPORTUNITY.TYPE</fields>
         <fields>OPPORTUNITY.STAGE_NAME</fields>
+        <fields>Historical_Ontime_Payments_Percentage__c</fields>
         <fields>Loan_Size__c</fields>
         <fields>Final_Loan_Amount__c</fields>
         <fields>LOC_Commitment__c</fields>
-        <fields>Aggregate_Funding__c</fields>
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>Owner_Name__c</fields>
         <relatedList>RelatedOpportunityList</relatedList>

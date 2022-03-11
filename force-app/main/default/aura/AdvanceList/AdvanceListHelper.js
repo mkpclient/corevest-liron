@@ -2,22 +2,22 @@
   createAdvance: function (component, feeAmount) {
     let property = component.get("v.record");
 
-    let renoType = property.Renovation_Type_formula__c;
+    // let renoType = property.Renovation_Type_formula__c;
 
-    if (renoType == "No Renovation") {
-      renoType = "Non-Renovation";
-      /**   else if(renoType == 'Ground Up Construction') {
-                renoType == 'Ground Up Construction';
-            }*/
-    } else {
-      renoType = "Renovation";
-    }
+    // if (renoType == "No Renovation") {
+    //   renoType = "Non-Renovation";
+    //   /**   else if(renoType == 'Ground Up Construction') {
+    //             renoType == 'Ground Up Construction';
+    //         }*/
+    // } else {
+    //   renoType = "Renovation";
+    // }
 
     var advance = {
       sobjectType: "Advance__c",
       Deal__c: property.Deal__c,
       Status__c: "Pending",
-      Property_Record_Type__c: renoType
+      // Property_Record_Type__c: renoType
     };
 
     component.find("util").upsert(advance, (data) => {

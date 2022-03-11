@@ -7,5 +7,10 @@
     <columns>Status__c</columns>
     <columns>Wire_Date__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Status__c</field>
+        <operation>notEqual</operation>
+        <value>Completed</value>
+    </filters>
     <label>All</label>
 </ListView>

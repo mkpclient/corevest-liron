@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Single_Asset_Bridge_Loan</label>
             </value>
+            <value>
+                <fullName>Investor_DSCR</fullName>
+                <default>false</default>
+                <label>Investor_DSCR</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

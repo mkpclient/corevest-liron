@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Processing_Hold_Reason_Required</fullName>
+    <active>true</active>
+    <description>Requires the Deal Lost/Hold Reason field be completed when a deal is in the stage Processing Hold.</description>
+    <errorConditionFormula>AND(
+ISPICKVAL( StageName , &quot;Processing Hold&quot;),
+ISBLANK( TEXT( Deal_Lost_Reason__c ) )
+)</errorConditionFormula>
+    <errorDisplayField>Deal_Lost_Reason__c</errorDisplayField>
+    <errorMessage>Deal Lost/Hold Reason is required to move deal into the stage Processing Hold.</errorMessage>
+</ValidationRule>

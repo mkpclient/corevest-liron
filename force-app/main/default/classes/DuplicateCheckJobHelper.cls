@@ -319,6 +319,7 @@ public without sharing class DuplicateCheckJobHelper {
       WHERE
         dupcheck__Score__c >= :score
         AND dupcheck__SourceObject__c IN :newList.keyset()
+        AND dupcheck__MatchObject__c NOT IN :newList.keySet()
     ]) {
       if (!dupMap.containsKey(dup.dupcheck__MatchObject__c)) {
         dupMap.put(
@@ -336,7 +337,7 @@ public without sharing class DuplicateCheckJobHelper {
       FROM Property__c
       WHERE
         Id IN :dupMap.keySet()
-        AND Deal__r.StageName NOT IN ('Withdrawn','Rejected','Paid Off')
+        AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected', 'Paid Off')
         AND Status__c = 'Active'
     ]) {
       if (duplicateProperty.Deal_Record_Type__c == recordType) {
@@ -371,6 +372,7 @@ public without sharing class DuplicateCheckJobHelper {
         WHERE
           dupcheck__Score__c >= :score
           AND dupcheck__MatchObject__c IN :newList.keyset()
+          AND dupcheck__SourceObject__c NOT IN :newList.keySet()
       ]) {
         if (!dupMap.containsKey(dup.dupcheck__SourceObject__c)) {
           dupMap.put(
@@ -390,8 +392,9 @@ public without sharing class DuplicateCheckJobHelper {
         FROM Property__c
         WHERE
           Id IN :dupMap.keySet()
-          AND Deal__r.StageName NOT IN ('Withdrawn','Rejected','Paid Off')
+          AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected', 'Paid Off')
           AND Status__c = 'Active'
+          AND Deal_Record_Type__c = :recordType
       ]) {
         if (duplicateProperty.Deal_Record_Type__c == recordType) {
           for (

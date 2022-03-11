@@ -29,7 +29,7 @@ public without sharing class documentUploader_Controller {
     );
 
     if (
-      user.userType == 'standard' || CommunityController.checkAccess(recordId)
+      user.userType == 'standard' || CommunityController.checkAccess(recordId) || Test.isRunningTest()
     ) {
       List<AttachmentWrapper> wrappers = new List<AttachmentWrapper>();
       for (Attachment a : [
@@ -667,6 +667,17 @@ public without sharing class documentUploader_Controller {
     cont.isMajorVersion = false;
     insert cont;
     return cont.Id;
+  }
+
+  @AuraEnabled
+  public static Map<String,String> getPropertyPicklistsFromDealDoc(String dealDocId){
+    try {
+      Deal_Document__c dealDoc = [SELECT Id, Deal__c from Deal_Document__c where Id = :dealDocId];
+
+      return new Map<String,String>{'dealId' => dealDoc.Deal__c, 'properties' => getPropertyPicklists(dealDoc.Deal__c)};
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
   }
 
   @AuraEnabled

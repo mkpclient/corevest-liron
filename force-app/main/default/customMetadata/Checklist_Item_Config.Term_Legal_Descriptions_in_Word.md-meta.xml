@@ -19,8 +19,12 @@
         <value xsi:type="xsd:string">Diligence_Title_Legal_Discriptions</value>
     </values>
     <values>
+        <field>Is_Bulk__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Is_Property_Level__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Milestone__c</field>

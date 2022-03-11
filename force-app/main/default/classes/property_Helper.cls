@@ -73,7 +73,16 @@ public without sharing class property_Helper {
     'BPO_Appraisal_Value__c',
     'Rehab_Budget__c',
     'After_Repair_Value__c',
-    'Approved_Completed_Rehab_Costs__c'
+    'Approved_Completed_Rehab_Costs__c',
+    'Appraisal_Due_Date__c',
+    'BPO_Appraisal_Fee__c',
+    'Doc_Prep_Fee__c',
+    'BlackSquare_Fee__c',
+    'Inspection_Fee_SUY__c',
+    'Override_Initial_Disbursement__c',
+    'Override_Reno_Advance_Amount__c',
+    'Advance_Fee_Override__c',
+    'Reno_Advance_Amount__c'
   };
 
   @AuraEnabled(cacheable=true)
@@ -101,10 +110,6 @@ public without sharing class property_Helper {
 
     for (Property__c p : newList) {
       p.Name = standardizePropertyName(p.Name);
-      if (p.Verified_Rent__c == 0) {
-        p.Verified_Rent__c = null;
-      }
-
       if (p.Property_Name__c != null) {
         p.Property_Name__c = standardizePropertyName(p.Property_Name__c);
       }
@@ -485,9 +490,9 @@ public without sharing class property_Helper {
       SELECT Id, State__c, State_Full__c, MSA__c, County__c, Deal__c
       FROM Property__c
       WHERE
-        Deal__c IN :dealMap.keySet()
-        AND Status__c IN ('Active', 'Paid Off')
+        Status__c IN ('Active', 'Paid Off')
         AND Is_Sub_Unit__c = FALSE
+        AND Deal__c IN :dealMap.keySet()
     ]) {
       if (!propertyMap.containsKey(p.Deal__c)) {
         propertyMap.put(p.Deal__c, new List<Property__c>());
@@ -776,6 +781,7 @@ public without sharing class property_Helper {
         Status__c = 'Active'
         AND Parent_Property__c = NULL
         AND Acquisition_Date__c != NULL
+        AND Refinance_Acquisition__c = 'Refinance'
         AND Deal__c IN :oppMap.keySet()
     ];
 
@@ -1123,10 +1129,6 @@ public without sharing class property_Helper {
       // }
       //}
 
-      if (newList[i].Verified_Rent__c == 0) {
-        newList[i].Verified_Rent__c = null;
-      }
-
       if (
         (newList[i].Status__c == 'Closing' &&
         oldList[i].Status__c != 'Closing') &&
@@ -1360,8 +1362,22 @@ public without sharing class property_Helper {
 
     // Set<Id> smartyStreetIds = new Set<Id>();
     // Set<String> recordTypeIds = new Set<String>();
+
+    Set<Id> sendToYardiCSV = new Set<Id>();
+
     for (Integer i = 0; i < newList.size(); i++) {
       bothIds.add(newList[i].Deal__c);
+
+      if (
+        ((newList[i].Status__c != oldList[i].Status__c &&
+        newList[i].Status__c == 'Closing' &&
+        newList[i].Title_Company__c != null) ||
+        (newList[i].Title_Company__c != oldList[i].Title_Company__c &&
+        newList[i].Title_Company__c != null &&
+        newList[i].Status__c == 'Closing')) && newList[i].Yardi_Id__c != null
+      ) {
+        sendToYardiCSV.add(newList[i].Id);
+      }
 
       // for (String s : smartyStreetFields) {
       //   if (newList[i].get(s) != oldList[i].get(s)) {
@@ -1426,6 +1442,7 @@ public without sharing class property_Helper {
 
     if (bothIds.size() > 0) {
       //sumStates(bothIds);
+      //CPQ2100 - Raj Sirivolu- 1/6/22 - Added 2 fields, Account_Name__c, Contact__c and Approved_Third_Party_Originators__c to the below SOQL.
       Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>(
         [
           SELECT
@@ -1443,7 +1460,10 @@ public without sharing class property_Helper {
             Total_Properties__c,
             Refinance_Property_Count__c,
             Acquisition_Property_Count__c,
-            Apex_Context__c
+            Apex_Context__c,
+            Account_Name__c,
+            Contact__c,
+            Approved_Third_Party_Originators__c
           FROM Opportunity
           WHERE Id IN :bothIds
         ]
@@ -1488,6 +1508,62 @@ public without sharing class property_Helper {
         }
       }
       update oppMap.values();
+
+      // CPQ2100 - Raj Sirivolu- 1/6/22 - Begin
+      Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
+      string cmcoId = settings.Construction_Manager_CV_Originated__c;
+      string cmalId = settings.Construction_Manager_Acquired_Loans__c;
+      for (Integer i = 0; i < newList.size(); i++) {
+        if (
+          newList[i].Status__c != oldList[i].Status__c &&
+          newList[i].Status__c == 'Active'
+        ) {
+          if (
+            (newList[i].RecordType_Name__c == 'Bridge_Renovation' ||
+            newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
+            oppMap.get(newList[i].deal__c).Account_Name__c !=
+            'Inhouse Test Account' &&
+            oppMap.get(newList[i].deal__c)
+              .Approved_Third_Party_Originators__c == null
+          ) {
+            Task t = new Task();
+            t.subject = 'Bridge Asset with Reno/Construction has Funded';
+            t.ActivityDate = Date.today().addDays(1);
+            t.Priority = 'Normal';
+            t.Status = 'Open';
+            t.Type = 'Reminder';
+            t.WhatID = Trigger.new[i].Id;
+            if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
+              t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
+            }
+            t.Ownerid = cmcoId;
+            insert t;
+          } else {
+            if (
+              (newList[i].RecordType_Name__c == 'Bridge_Renovation' ||
+              newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
+              oppMap.get(newList[i].deal__c).Account_Name__c !=
+              'Inhouse Test Account' &&
+              oppMap.get(newList[i].deal__c)
+                .Approved_Third_Party_Originators__c != null
+            ) {
+              Task t = new Task();
+              t.subject = 'Bridge Asset with Reno/Construction has Funded';
+              t.ActivityDate = Date.today().addDays(1);
+              t.Priority = 'Normal';
+              t.Status = 'Open';
+              t.Type = 'Reminder';
+              t.WhatID = Trigger.new[i].Id;
+              if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
+                t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
+              }
+              t.Ownerid = cmalId;
+              insert t;
+            }
+          }
+        }
+      }
+      // CPQ2100 - Raj Sirivolu- 1/6/22 - End
     }
 
     if (refinanceBubble.size() > 0) {
@@ -1519,6 +1595,12 @@ public without sharing class property_Helper {
       if (propAdvs.size() > 0) {
         update propAdvs;
       }
+    }
+
+    if (sendToYardiCSV.size() > 0) {
+      system.enqueueJob(
+        new YardiQueueable('propertyCSV', new List<Id>(sendToYardiCSV))
+      );
     }
 
     // if (smartyStreetIds.size() > 0) {
@@ -1565,7 +1647,6 @@ public without sharing class property_Helper {
     //Set<Id> ids = (new Map<Id, Property__c>(oldList)).keySet();
 
     //delete [SELECT Id FROM Deal_Document__c WHERE Property__c IN : ids];
-    delete [SELECT Id FROM Checklist_Section__c WHERE Property__c IN :oldList];
   }
 
   /**
@@ -1905,20 +1986,30 @@ public without sharing class property_Helper {
     for (String name : vendorMap.keySet()) {
       if (vendorMap.get(name).size() > 0) {
         String vendorName = '';
+        Account vendorAccount = new Account(
+          Account_Status__c = 'Active CoreVest Vendor',
+          RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
+        );
         if (vendorType == 'Escrow') {
           vendorName = vendorMap.get(name)[0].Escrow_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Title and Escrow';
         } else if (vendorType == 'Title') {
           vendorName = vendorMap.get(name)[0].Title_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Title and Escrow';
         } else if (vendorType == 'Insurance') {
           vendorName = vendorMap.get(name)[0].Insurance_Company_text__c;
+          vendorAccount.Non_Borrower_Account_Type__c = 'Insurance Agent';
         }
 
-        accountInsert.add(
-          new Account(
-            Name = vendorName,
-            RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
-          )
-        );
+        vendorAccount.Name = vendorName;
+        accountINsert.add(vendorAccount);
+
+        // accountInsert.add(
+        //   new Account(
+        //     Name = vendorName,
+        //     RecordTypeId = ACCOUNT_RECORD_TYPE_MAP.get('Vendor').Id
+        //   )
+        // );
       }
     }
 

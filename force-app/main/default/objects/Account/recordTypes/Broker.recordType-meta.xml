@@ -795,6 +795,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Asset Based Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>BiggerPockets</fullName>
             <default>false</default>
         </values>
@@ -915,11 +919,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Fidelis</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Five Star</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Geraci Events</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Great Lakes Financing</fullName>
             <default>false</default>
         </values>
         <values>
@@ -960,6 +972,10 @@
         </values>
         <values>
             <fullName>Instagram Lead Form</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jack Jerue Sourced</fullName>
             <default>false</default>
         </values>
         <values>

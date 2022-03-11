@@ -115,6 +115,11 @@ global with sharing class PortalAPITermsheet {
       dealDoc.ContentVersion_Id__c = cv.Id;
       dealDoc.File_Name__c = fileName;
       dealDoc.Deal__c = opp[0].Id;
+      dealDoc.Added_On__c = system.now();
+      dealDoc.Added_By__c = UserInfo.getUserId();
+
+      dealDoc.Document_Loaded__c = true;
+
       if (opp[0].RecordType.DeveloperName == 'LOC_Loan') {
         //dealDoc.Document_Type__c = 'Executed Term Sheet';
         //dealDoc.
@@ -127,6 +132,33 @@ global with sharing class PortalAPITermsheet {
       dealDoc.Document_Type__c = 'Executed Termsheet';
       dealDoc.Type__c = 'Executed Termsheet';
       dealDoc.Section__c = 'Executed Termsheet';
+      system.debug(body.get('executiveSignedDate'));
+      if (body.containsKey('executiveSignedDate')) {
+        String s = (String) body.get('executiveSignedDate');
+
+        s = s.replace(' ', 'T');
+        s = s.substringBefore('.');
+        s = '"' + s + 'Z"';
+        dealDoc.Executive_Approval_Date__c = (Datetime) JSON.deserialize(
+          s,
+          Datetime.class
+        );
+      }
+      system.debug(body.get('borrowerSignedDate'));
+
+      if (body.containsKey('borrowerSignedDate')) {
+        // Opportunity deal = new Opportunity(Id = dealId);
+        String s = (String) body.get('borrowerSignedDate');
+        // deal.Term_Sheet_Signed__c = Date.valueOf(s);
+        // update deal;
+        s = s.replace(' ', 'T');
+        s = s.substringBefore('.');
+        s = '"' + s + 'Z"';
+        dealDOc.Borrower_Term_Sheet_Signature_Date__c = (Datetime) JSON.deserialize(
+          s,
+          Datetime.class
+        );
+      }
 
       insert dealDoc;
 

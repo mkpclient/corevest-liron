@@ -10,6 +10,10 @@
 				let returnVal = JSON.parse(response.getReturnValue());
 				console.log(returnVal);
 				component.set('v.record', returnVal.Deal);
+				const parsedApprovalName = returnVal.hasOwnProperty('ProcessName') ? returnVal.ProcessName.split('_') : [];
+				if(parsedApprovalName.length > 1 && parsedApprovalName.some(v => v.toUpperCase() == 'IC')){
+					component.set("v.isIcApproval", true);
+				}
 				if (returnVal.Deal.Properties__r){
 					let properties = returnVal.Deal.Properties__r.records.slice();
 					component.set('v.properties', properties);

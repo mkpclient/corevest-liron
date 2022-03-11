@@ -103,6 +103,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Bridge_Payoff__c: this.deal.Bridge_Payoff__c,
       Deposit_Lender_Out_of_Pocket__c: this.deal
         .Deposit_Lender_Out_of_Pocket__c,
+      Legal_Fee__c: this.deal.Legal_Fee__c,
       Holdback_Reserve_Month_Multiplier__c: this.deal
         .Holdback_Reserve_Month_Multiplier__c,
       Installment_Comment__c: this.deal.Installment_Comment__c
@@ -264,8 +265,8 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     let closingDate = new Date(this.deal.CloseDate);
 
     let fundingDate2 = new Date(
-      closingDate.getFullYear(),
-      closingDate.getMonth() + 1,
+      closingDate.getUTCFullYear(),
+      closingDate.getUTCMonth() + 1,
       0
     );
     fundingDate2 = fundingDate2.toISOString();
@@ -281,8 +282,9 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
     var date1 = new Date(fundingDate1);
     var date2 = new Date(fundingDate2);
-    var diffTime = Math.abs(date2 - date1 + 1);
-    stubInterestDayCount = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    var diffTime = Math.abs(date2.getUTCDate() - date1.getUTCDate() + 1);
+    stubInterestDayCount = diffTime;
+    // console.log(date2.getUTCDate() + ' - ' +  date1.getUTCDate());
     // console.log("stub interest day count");
     // console.log(stubInterestDayCount);
     return stubInterestDayCount;
@@ -304,18 +306,21 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       );
     }
 
+    //Round(Interest Rate/360*Final Loan Amount*(Date difference of the last day of the closed date month - the Closed Date)
+
+
     let stubInterestDay = this.stubInterestDayCountCalc();
 
     if (stubInterestDay) {
       stubInterestDayCount = parseFloat(stubInterestDay).toFixed(2);
     }
     stubInterest = parseFloat(
-      (parseFloat(InterestRateTermSheet) *
+      parseFloat((InterestRateTermSheet) / 36000) *
         parseFloat(Final_Loan_Amount) *
-        parseFloat(stubInterestDayCount)) /
-        36000
+        parseFloat(stubInterestDayCount)
     ).toFixed(2);
-
+    
+    console.log(`Calculating as: (${InterestRateTermSheet}/36000)*${Final_Loan_Amount}*${stubInterestDayCount} = ${stubInterest}`);
     return stubInterest;
   }
 
@@ -329,6 +334,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     var stubInterest = 0;
     var Lender_Diligence_Out_of_Pocket = 0;
     var cfcorevestpurchaser = 0;
+    var legalFee = 0;
     let CalculatedOriginationFee = this.finalorignalfeeCalc();
     if (CalculatedOriginationFee) {
       Origination_Fee = parseFloat(CalculatedOriginationFee).toFixed(2);
@@ -344,6 +350,11 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
         this.deal.Deposit_Lender_Out_of_Pocket__c
       ).toFixed(2);
     }
+    if (this.deal.Legal_Fee__c) {
+      legalFee = parseFloat(
+        this.deal.Legal_Fee__c
+      ).toFixed(2);
+    }
     if (this.deal.Bridge_Payoff__c) {
       cfcorevestpurchaser = parseFloat(this.deal.Bridge_Payoff__c).toFixed(2);
     }
@@ -352,7 +363,8 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
         parseFloat(Origination_Fee) +
           parseFloat(stubInterest) +
           parseFloat(Lender_Diligence_Out_of_Pocket) +
-          parseFloat(cfcorevestpurchaser)
+          parseFloat(cfcorevestpurchaser) +
+          parseFloat(legalFee)
       )
     ).toFixed(2);
 
@@ -734,6 +746,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Bridge_Payoff__c: deal.Bridge_Payoff__c,
       Stub_Interest__c: calculatedFields.Stub_Interest__c,
       Deposit_Lender_Out_of_Pocket__c: deal.Deposit_Lender_Out_of_Pocket__c,
+      Legal_Fee__c: deal.Legal_Fee__c,
       Total_Lender__c: calculatedFields.Total_Lender__c,
       Proceeds_Paid_To_Escrow__c: calculatedFields.Proceeds_Paid_To_Escrow__c,
       Total_Annual_Tax__c: deal.Total_Annual_Tax__c,

@@ -8,6 +8,7 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Term_Loan_Type__c</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -26,5 +27,27 @@
                 <label>None</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>3 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>Soft</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>3 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>Hard</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>5 Year</controllingFieldValue>
+            <controllingFieldValue>30 Year</controllingFieldValue>
+            <controllingFieldValue>10 Year</controllingFieldValue>
+            <controllingFieldValue>3 Year</controllingFieldValue>
+            <controllingFieldValue>7 Year</controllingFieldValue>
+            <valueName>None</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

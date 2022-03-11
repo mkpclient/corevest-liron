@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Days_In_UW_Hold_Total__c</fullName>
+    <description>Previously called &quot;Days in UW Hold Total.&quot;</description>
     <externalId>false</externalId>
-    <label>Days In UW Hold Total</label>
+    <inlineHelpText>Number of days the deal has been in UW Hold and Processing Hold cumulatively.</inlineHelpText>
+    <label>Days In Hold Stages Total</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

@@ -331,6 +331,20 @@
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <span style="display:{!IF(record.Legal_Fee__c!=null && record.Legal_Fee__c>0,'','none')}">Legal Fee</span>
+                             
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Legal_Fee__c!=null && record.Legal_Fee__c>0,true,false)}">
+                                <apex:param value="{!record.Legal_Fee__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2" style="padding-bottom:20px;">
                         </td>
                         <td style="border-top: 1pt solid black;padding-bottom:20px;">

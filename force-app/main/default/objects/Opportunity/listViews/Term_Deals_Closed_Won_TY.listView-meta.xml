@@ -29,7 +29,7 @@
     <filters>
         <field>OPPORTUNITY.CLOSE_DATE</field>
         <operation>equals</operation>
-        <value>THIS_YEAR</value>
+        <value>LAST_YEAR</value>
     </filters>
     <label>Term Deals - Closed Won TY</label>
 </ListView>

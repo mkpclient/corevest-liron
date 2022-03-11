@@ -269,6 +269,11 @@
                 <label>Instagram Lead Form</label>
             </value>
             <value>
+                <fullName>Jack Jerue Sourced</fullName>
+                <default>false</default>
+                <label>Jack Jerue Sourced</label>
+            </value>
+            <value>
                 <fullName>Joakim Mortensen Sourced</fullName>
                 <default>false</default>
                 <label>Joakim Mortensen Sourced</label>
@@ -824,6 +829,10 @@
         <valueSettings>
             <controllingFieldValue>Non-Database</controllingFieldValue>
             <valueName>Ian Hardcastle Sourced</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Database</controllingFieldValue>
+            <valueName>Jack Jerue Sourced</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Non-Database</controllingFieldValue>

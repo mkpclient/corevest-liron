@@ -47,38 +47,41 @@ global without sharing class PortalAPIDashboard {
       dealIds = AlchemyAPI.getDealIds(user);
       system.debug(user);
       system.debug(user.accountId);
+      system.debug(user.contactId);
       // contactId = AlchemyAPI.getDealIdsContactId(contactId)
       // dealIds = AlchemyAPI.getDealIdsContactId(contactId);
 
+      Contact contact = new COntact();
       if (String.isNotBlank(contactId)) {
-        Contact contact = [
+        contact = [
           SELECT Id, Alchemy_Portal_Id__c, AccountId
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
         ];
-
-        if (params.size() > 5) {
-          String status = params[5];
-
-          List<Deal> loans = getDealList(status);
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(loans));
-        } else {
-          Map<String, Object> loans = createMyDealsDashboard(contact);
-
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(loans));
-        }
-
-        //List<Deal> loans = createMyDealsDashboard(contact);
-      } else {
-        Map<String, String> respBody = new Map<String, String>();
-        res.addHeader('Content-Type', 'application/json');
-        respBody.put('status', 'error');
-        respBody.put('message', 'User Id Not Found');
-        res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
       }
+
+      if (params.size() > 5) {
+        String status = params[5];
+
+        List<Deal> loans = getDealList(status);
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(loans));
+      } else {
+        Map<String, Object> loans = createMyDealsDashboard(contact);
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(loans));
+      }
+
+      //List<Deal> loans = createMyDealsDashboard(contact);
+      // } else {
+      //   Map<String, String> respBody = new Map<String, String>();
+      //   res.addHeader('Content-Type', 'application/json');
+      //   respBody.put('status', 'error');
+      //   respBody.put('message', 'User Id Not Found');
+      //   res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
+      // }
     } else if (params[3] == 'properties') {
       portalUserId = params[4];
       // contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
@@ -87,33 +90,35 @@ global without sharing class PortalAPIDashboard {
       contactId = user.contactId;
       dealIds = AlchemyAPI.getDealIds(user);
       // dealIds.addAll(Alchem)
+      Contact contact = new Contact();
       if (String.isNotBlank(contactId)) {
-        Contact contact = [
+        contact = [
           SELECT Id, Alchemy_Portal_Id__c, AccountId
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
         ];
-
-        if (params.size() > 5) {
-          String status = params[5];
-          List<Property> properties = getPropertyList(status);
-
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(properties));
-        } else {
-          PropertyDashboard dashboard = createPropertyDashboard(contact);
-
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(dashboard));
-        }
-      } else {
-        Map<String, String> respBody = new Map<String, String>();
-        res.addHeader('Content-Type', 'application/json');
-        respBody.put('status', 'error');
-        respBody.put('message', 'User Id Not Found');
-        res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
       }
+
+      if (params.size() > 5) {
+        String status = params[5];
+        List<Property> properties = getPropertyList(status);
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(properties));
+      } else {
+        PropertyDashboard dashboard = createPropertyDashboard(contact);
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(dashboard));
+      }
+      // } else {
+      //   Map<String, String> respBody = new Map<String, String>();
+      //   res.addHeader('Content-Type', 'application/json');
+      //   respBody.put('status', 'error');
+      //   respBody.put('message', 'User Id Not Found');
+      //   res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
+      // }
     } else {
       portalUserId = params[3];
 
@@ -122,8 +127,9 @@ global without sharing class PortalAPIDashboard {
       user = new PortalAPIUser.PortalUser(portalUserId);
       contactId = user.contactId;
       dealIds = AlchemyAPI.getDealIds(user);
+      Contact contact = new Contact();
       if (String.isNotBlank(contactId)) {
-        Contact contact = [
+        contact = [
           SELECT
             Id,
             Alchemy_Portal_Id__c,
@@ -138,25 +144,26 @@ global without sharing class PortalAPIDashboard {
           WHERE Id = :contactId
           LIMIT 1
         ];
-
-        if (params.size() > 4) {
-          String status = params[4];
-          List<Loan> loans = getLoansList(status);
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(loans));
-        } else {
-          Dashboard dashboard = createDashboard(contact);
-
-          res.addHeader('Content-Type', 'application/json');
-          res.responseBody = Blob.valueOf(JSON.serialize(dashboard));
-        }
-      } else {
-        Map<String, String> respBody = new Map<String, String>();
-        res.addHeader('Content-Type', 'application/json');
-        respBody.put('status', 'error');
-        respBody.put('message', 'User Id Not Found');
-        res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
       }
+
+      if (params.size() > 4) {
+        String status = params[4];
+        List<Loan> loans = getLoansList(status);
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(loans));
+      } else {
+        Dashboard dashboard = createDashboard(contact);
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(dashboard));
+      }
+      // } else {
+      //   Map<String, String> respBody = new Map<String, String>();
+      //   res.addHeader('Content-Type', 'application/json');
+      //   respBody.put('status', 'error');
+      //   respBody.put('message', 'User Id Not Found');
+      //   res.responseBody = Blob.valueOf(JSON.serialize(respBody, true));
+      // }
     }
   }
 
@@ -335,7 +342,7 @@ global without sharing class PortalAPIDashboard {
   public static Map<String, Object> createMyDealsDashboard(Contact contact) {
     // Dashboard dashboard = new Dashboard(contact);
     List<Deal> deals = new List<Deal>();
-    Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contact.Id);
+    // Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contact.Id);
 
     Map<String, Object> dashboard = new Map<String, Object>();
     dashboard.put('activeLoans', new List<Deal>());
@@ -532,8 +539,7 @@ global without sharing class PortalAPIDashboard {
         )
       FROM Opportunity
       WHERE
-        (Contact__c = :contactId
-        OR Id IN :dealIds)
+        Id IN :dealIds
         AND StageName NOT IN (
           'Matured',
           'Expired',
@@ -596,8 +602,7 @@ global without sharing class PortalAPIDashboard {
         )
       FROM Opportunity
       WHERE
-        (Contact__c = :contactId
-        OR Id IN :dealIds)
+        Id IN :dealIds
         AND StageName NOT IN (
           'Matured',
           'Expired',
@@ -658,8 +663,7 @@ global without sharing class PortalAPIDashboard {
         )
       FROM Opportunity
       WHERE
-        (Contact__c = :contactId
-        OR Id IN :dealIds)
+        Id IN :dealIds
         AND StageName IN ('Paid Off', 'Withdrawn', 'Rejected')
       ORDER BY CloseDate DESC, Name ASC
     ];
@@ -681,8 +685,7 @@ global without sharing class PortalAPIDashboard {
         Deal__r.LOC_Loan_Type__c
       FROM Property__c
       WHERE
-        (Deal__r.Contact__c = :contactId
-        OR Deal__c IN :dealIds)
+        Deal__c IN :dealIds
         AND Deal__r.StageName NOT IN (
           'Matured',
           'Expired',
@@ -693,6 +696,7 @@ global without sharing class PortalAPIDashboard {
         AND Deal__r.StageName = 'Closed Won'
         AND Deal__r.CloseDate <= :today7
       ORDER BY Deal__r.CloseDate DESC, Name ASC
+      LIMIT 10000
     ];
   }
 
@@ -712,8 +716,7 @@ global without sharing class PortalAPIDashboard {
         Deal__r.LOC_Loan_Type__c
       FROM Property__c
       WHERE
-        (Deal__r.Contact__c = :contactId
-        OR Deal__c IN :dealIds)
+        Deal__c IN :dealIds
         AND Deal__r.StageName NOT IN (
           'Matured',
           'Expired',
@@ -725,6 +728,7 @@ global without sharing class PortalAPIDashboard {
         OR (Deal__r.StageName = 'Closed Won'
         AND Deal__r.CloseDate > :today7))
       ORDER BY Deal__r.CloseDate DESC, Name ASC
+      LIMIT 10000
     ];
   }
 
@@ -744,8 +748,7 @@ global without sharing class PortalAPIDashboard {
         Deal__r.LOC_Loan_Type__c
       FROM Property__c
       WHERE
-        (Deal__r.Contact__c = :contactId
-        OR Deal__c IN :dealIds)
+        Deal__c IN :dealIds
         AND Deal__r.StageName IN (
           'Matured',
           'Expired',
@@ -754,6 +757,7 @@ global without sharing class PortalAPIDashboard {
           'Paid Off'
         )
       ORDER BY Deal__r.CloseDate DESC, Name ASC
+      LIMIT 10000
     ];
   }
 
@@ -849,7 +853,7 @@ global without sharing class PortalAPIDashboard {
       numberOfNewLoans = 0;
       numberOfActiveLoans = 0;
       numberOfInactiveLoans = 0;
-      relationshipManager = new DealTeamMember(c);
+      relationshipManager = new DealTeamMember();
     }
 
     public void calculateTotals() {
@@ -1049,6 +1053,55 @@ global without sharing class PortalAPIDashboard {
       } else {
         this.photoURL = c.Owner.Portal_Profile_Pic__c;
       }
+      //this.photoURL = c.Owner.smallPhotoURl;
+    }
+
+    DealTeamMember() {
+      Id leadId = user.leadId;
+      Id contactId = user.contactId;
+
+      if (contactId == null) {
+        Lead l = [SELECT Id, OwnerId FROM Lead WHERE Id = :leadId];
+        User u = [
+          SELECT Id, Name, Phone, Email, Portal_Profile_Pic__c
+          FROM User
+          WHERE Id = :l.OwnerId
+          LIMIT 1
+        ];
+
+        this.name = u.Name;
+        this.role = 'Relationship Manager';
+        this.phoneNumber = u.Phone;
+        this.email = u.Email;
+        if (String.isBlank(u.Portal_Profile_Pic__c)) {
+          this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+        } else {
+          this.photoURL = u.Portal_Profile_Pic__c;
+        }
+      } else {
+        Contact c = [
+          SELECT
+            Id,
+            Owner.Name,
+            Owner.Phone,
+            Owner.Email,
+            Owner.Portal_Profile_Pic__c
+          FROM Contact
+          WHERE ID = :contactId
+          LIMIT 1
+        ];
+
+        this.name = c.Owner.Name;
+        this.role = 'Relationship Manager';
+        this.phoneNumber = c.Owner.Phone;
+        this.email = c.Owner.Email;
+        if (String.isBlank(c.Owner.Portal_Profile_Pic__c)) {
+          this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+        } else {
+          this.photoURL = c.Owner.Portal_Profile_Pic__c;
+        }
+      }
+
       //this.photoURL = c.Owner.smallPhotoURl;
     }
   }

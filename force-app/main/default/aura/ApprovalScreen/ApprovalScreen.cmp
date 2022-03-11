@@ -12,6 +12,7 @@
     <aura:attribute name="Square_Feet__c" type="String" default="down" />
     <aura:attribute name="Acquisition_Price__c" type="String" default="down" />
     <aura:attribute name="Total_Basis__c" type="String" default="down" />
+    <aura:attribute name="isIcApproval" type="Boolean" default="false" />
     <!-- <aura:attribute name="Property_Listing__c" type="String" default="down" /> -->
 
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -20,7 +21,8 @@
         Approval Details
     </div>
 
-      <div class="dashboard-section">
+    <aura:if isTrue="{!v.isIcApproval}">
+    <div class="dashboard-section">
         <button class="section" onclick="{!c.showSection}">
           <span class="marker">
             +
@@ -33,6 +35,7 @@
         </aura:if>
       </div>
     </div>
+    </aura:if>
     <div class="dashboard-section">
       <button class="section" onclick="{!c.showSection}">
         <span class="marker">

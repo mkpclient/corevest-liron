@@ -4,6 +4,7 @@
     <active>true</active>
     <description>This will prevent an Originations user from updating the Stage of a Deal to Underwriting or Submitted into Underwriting.</description>
     <errorConditionFormula>AND(
+ Apex_Context__c = false,
  ISCHANGED(StageName),
  OR(
   $Profile.Name = &quot;Origination Manager&quot;,

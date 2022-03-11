@@ -68,6 +68,23 @@ public without sharing class ChecklistController {
   }
 
   @AuraEnabled
+  public static void approveItems(List<Id> itemIds) {
+    try {
+      List<Checklist_Item__c> items = new List<Checklist_Item__c>();
+      for (Id itemId : itemIds) {
+        Checklist_Item__c item = new Checklist_Item__c();
+        item.Id = itemId;
+        item.Status__c = 'Completed';
+        items.add(item);
+      }
+
+      update items;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static void deleteItem(Id itemId) {
     try {
       delete new Checklist_Item__c(Id = itemId);
@@ -77,8 +94,29 @@ public without sharing class ChecklistController {
   }
 
   @AuraEnabled
-  public static Checklist_Item__c upsertItem(Checklist_Item__c item) {
+  public static Checklist_Item__c upsertItem(
+    Checklist_Item__c item,
+    String itemType
+  ) {
     try {
+      if (itemType != null) {
+        Map<String, Id> recordTypeMap = new Map<String, Id>();
+
+        for (RecordType rt : [
+          SELECT Id, DeveloperName
+          FROM RecordType
+          WHERE Sobjecttype = 'Checklist_Item__c'
+        ]) {
+          recordTypeMap.put(rt.DeveloperName, rt.Id);
+        }
+
+        if (itemType == 'upload') {
+          item.RecordTypeId = recordTypeMap.get('Document_Upload');
+        } else {
+          item.RecordTypeId = recordTypeMap.get('Task');
+        }
+      }
+
       upsert item;
       return item;
     } catch (Exception e) {
@@ -203,7 +241,8 @@ public without sharing class ChecklistController {
             Deal_Contact__r.Contact__c,
             RecordType.Name,
             Comments__c,
-            External_Comments__c
+            External_Comments__c,
+            Uploader__c
           FROM Checklist_Items__r
         )
       FROM Checklist_Section__c
@@ -390,6 +429,7 @@ public without sharing class ChecklistController {
     public List<Deal_Document__c> documents;
     public Boolean showDocuments;
     public String externalComments;
+    public String uploader;
 
     public String responsibleParty;
 
@@ -410,6 +450,7 @@ public without sharing class ChecklistController {
       this.comments = item.Comments__c;
       this.externalComments = item.External_Comments__c;
       this.responsibleParty = item.Responsible_Party__c;
+      this.uploader = item.Uploader__c;
       //this.documents = new List<Deal_Document__c>();
       this.documents = itemDocMap.get(item.Id);
       this.showDocuments = this.documents.size() > 0;
@@ -426,4 +467,53 @@ public without sharing class ChecklistController {
       }
     }
   }
+
+  @AuraEnabled
+  public static List<String> getMilestoneList(Id recordId) {
+    try {
+      Opportunity opp = [
+        SELECT Id, RecordType.DeveloperName
+        FROM Opportunity
+        WHERE Id = :recordId
+      ];
+
+      List<String> milestones = new List<String>();
+
+      if (opp.recordType.DeveloperName == 'Term_Loan') {
+        milestones = termMilestones;
+      } else if (opp.recordType.DeveloperName == 'LOC_Loan') {
+        milestones = bridgeMilestones;
+      } else if (opp.recordType.DeveloperName == 'Single_Asset_Bridge') {
+        milestones = sabMilestones;
+      }
+
+      return milestones;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  public static List<String> termMilestones = new List<String>{
+    'Kick-Off',
+    'Vendor Orders',
+    'In Processing',
+    'In Underwriting',
+    'In Closing',
+    'Funding'
+  };
+
+  public static List<String> bridgeMilestones = new List<String>{
+    'Kick-Off',
+    'In Processing',
+    'In Underwriting',
+    'In Closing'
+  };
+
+  public static List<String> sabMilestones = new List<String>{
+    'Kick-Off',
+    'In Processing',
+    'In Underwriting',
+    'In Closing',
+    'Post Closing'
+  };
 }

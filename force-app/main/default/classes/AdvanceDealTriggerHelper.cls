@@ -1,4 +1,4 @@
-public with sharing class AdvanceDealTriggerHelper {
+public without sharing class AdvanceDealTriggerHelper {
   static final string VALIDADVSTATUS = 'Completed';
   static final string VALIDCALCULATIONTYPE = 'Fixed at First Advance';
   static final string FIRSTCONTACTTYPE = 'Individual';
@@ -77,23 +77,23 @@ public with sharing class AdvanceDealTriggerHelper {
     dealEmail.setTreatTargetObjectAsRecipient(false);
     bccEmails.add('bryon.harland@cvest.com');
 
-    for (User user : [
-      SELECT
-        Id,
-        FirstName,
-        LastName,
-        Email,
-        isActive,
-        Profile.Name,
-        UserRole.Name,
-        UserType
-      FROM User
-      WHERE UserRole.Name IN :USERROLES AND isActive = TRUE AND Email != NULL
-    ]) {
-      // userIds.add(user.Id);
-      // allIds.add(user.Id);
-      ccEmails.add(user.Email);
-    }
+    // for (User user : [
+    //   SELECT
+    //     Id,
+    //     FirstName,
+    //     LastName,
+    //     Email,
+    //     isActive,
+    //     Profile.Name,
+    //     UserRole.Name,
+    //     UserType
+    //   FROM User
+    //   WHERE UserRole.Name IN :USERROLES AND isActive = TRUE AND Email != NULL
+    // ]) {
+    //   // userIds.add(user.Id);
+    //   // allIds.add(user.Id);
+    //   ccEmails.add(user.Email);
+    // }
 
     if (opp.Deal_Contacts__r.size() > 0) {
       for (integer i = 0; i < opp.Deal_Contacts__r.size(); i++) {

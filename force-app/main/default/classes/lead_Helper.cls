@@ -170,6 +170,9 @@ public class lead_Helper {
     if (
       leadIdsForPortal.size() > 0 && settings.Enable_Portal_User_Creation__c
     ) {
+      // for (String leadId : leadIdsForPortal) {
+      //   AlchemyAPI.createUserFromLead(leadId);
+      // }
       system.enqueueJob(new CreatePortalUserQueueable(leadIdsForPortal));
     }
   }
@@ -244,7 +247,6 @@ public class lead_Helper {
         }
       }
 
-
       if (newList[i].Status != oldList[i].Status) {
         newList[i].Status_Last_Changed__c = System.today();
       }
@@ -291,11 +293,11 @@ public class lead_Helper {
       sobj.last_Touch_checkbox__c = l.last_Touch_checkbox__c;
       sobj.True_source__c = l.True_source__c;
       sobj.lead_id__c = l.id;
-      sobj.utm_Campaign_Name__c  = l.utm_Campaign_Name__c;
-      sobj.utm_Campaign_Content__c  = l.utm_Campaign_Content__c;
-      sobj.utm_Campaign_Medium__c  = l.utm_Campaign_Medium__c;
-      sobj.utm_Campaign_Source__c  = l.utm_Campaign_Source__c;
-      sobj.utm_Campaign_Term__c  = l.utm_Campaign_Term__c;
+      sobj.utm_Campaign_Name__c = l.utm_Campaign_Name__c;
+      sobj.utm_Campaign_Content__c = l.utm_Campaign_Content__c;
+      sobj.utm_Campaign_Medium__c = l.utm_Campaign_Medium__c;
+      sobj.utm_Campaign_Source__c = l.utm_Campaign_Source__c;
+      sobj.utm_Campaign_Term__c = l.utm_Campaign_Term__c;
 
       SourceList.add(sobj);
     }

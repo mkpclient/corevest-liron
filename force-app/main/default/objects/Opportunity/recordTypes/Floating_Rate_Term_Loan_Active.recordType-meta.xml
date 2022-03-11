@@ -1768,6 +1768,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Jack Jerue Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Joakim Mortensen Sourced</fullName>
             <default>false</default>
         </values>
@@ -2047,6 +2051,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Borrower does not like terms</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Borrower does not meet requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Broker Requested</fullName>
             <default>false</default>
         </values>
@@ -2063,7 +2075,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Does not meet occupancy</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Economic Downturn</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Economics Downturn</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2076,6 +2096,10 @@
         </values>
         <values>
             <fullName>Failed to Qualify</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Process of Withdrawal%2FRejected</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2103,11 +2127,35 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Other - See Deal Notes</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Financial Documents%2FTax Returns</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Property Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Portfolio Leveraged</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Prior to Reason Requirement</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Property List Not Finalized</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Slip Up Deal</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2369,57 +2417,6 @@
         </values>
         <values>
             <fullName>Wet</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Hold_Reason__c</picklist>
-        <values>
-            <fullName>Borrower does not like terms</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Borrower does not meet requirements</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Borrower unresponsive</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Does not meet occupancy</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Economic Downturn</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>In Process of Withdrawal%2FRejection</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other %E2%80%93 See Deal Notes</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Financial Documents%2FTax Returns</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Property Rehab</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Pending Rehab</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Property List Not Finalized</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Split Up Deal</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3145,6 +3142,14 @@
             <fullName>Floating Rate Term Loan</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Long Term Rental  Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short Term Rental Loan</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Project_Strategy__c</picklist>
@@ -3158,6 +3163,10 @@
         </values>
         <values>
             <fullName>Fix and Flip</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Long Term Rental</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3182,6 +3191,10 @@
         </values>
         <values>
             <fullName>Renovate and Rent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Short Term Rental</fullName>
             <default>false</default>
         </values>
     </picklistValues>

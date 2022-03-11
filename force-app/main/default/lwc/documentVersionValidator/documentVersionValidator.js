@@ -123,7 +123,7 @@ export default class DocumentVersionValidator extends LightningElement {
       }
 
       if (sobjectFields["Opportunity"].indexOf("Product_Sub_Type__c") === -1) {
-        sobjectFields["LOpportunity"].push("Product_Sub_Type__c");
+        sobjectFields["Opportunity"].push("Product_Sub_Type__c");
       }
     }
 
@@ -362,7 +362,7 @@ export default class DocumentVersionValidator extends LightningElement {
     }
 
     if (sobjectFields.hasOwnProperty("Loan_Version__c")) {
-      queryString += `(SELECT Id, Full_Name__c, ${sobjectFields[
+      queryString += `, (SELECT Id, Full_Name__c, ${sobjectFields[
         "Loan_Version__c"
       ].join(
         ","
@@ -371,7 +371,7 @@ export default class DocumentVersionValidator extends LightningElement {
     }
 
     if (sobjectFields.hasOwnProperty("Advance__c")) {
-      queryString += `(SELECT Id, Name, ${sobjectFields["Advance__c"].join(
+      queryString += `, (SELECT Id, Name, ${sobjectFields["Advance__c"].join(
         ","
       )} FROM Advances__r)`;
     }

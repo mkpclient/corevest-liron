@@ -2,7 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Project_Strategy__c</fullName>
     <businessStatus>Active</businessStatus>
-    <description>Bridge Use - Multifamily Light Lift: renovation loan is less than 50% of purchase price, Multifamily Heavy Lift: renovation loan is more than 50% of purchase price, Multifamily Lease-Up/No Rehab: no renovation funds given, Conversion to Multifamily: Converting a property into MF, Multifamily GUC: ground up construction for MF properties</description>
+    <description>Bridge Use - Multifamily Light Lift: renovation loan is less than 50% of purchase price, Multifamily Heavy Lift: renovation loan is more than 50% of purchase price, Multifamily Lease-Up/No Rehab: no renovation funds given, Conversion to Multifamily: Converting a property into MF, Multifamily GUC: ground up construction for MF properties
+
+Collateralized Loan Obligation (CLO): a single security backed by a pool of debt Loan Obligation</description>
     <externalId>false</externalId>
     <label>Project Strategy</label>
     <required>false</required>
@@ -40,14 +42,29 @@
                 <label>Multifamily Heavy Lift</label>
             </value>
             <value>
+                <fullName>Multifamily Heavy Lift/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Heavy Lift/CLO</label>
+            </value>
+            <value>
                 <fullName>Multifamily Lease-Up/No Rehab</fullName>
                 <default>false</default>
                 <label>Multifamily Lease-Up/No Rehab</label>
             </value>
             <value>
+                <fullName>Multifamily Lease-Up/No Rehab/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Lease-Up/No Rehab/CLO</label>
+            </value>
+            <value>
                 <fullName>Multifamily Light Lift</fullName>
                 <default>false</default>
                 <label>Multifamily Light Lift</label>
+            </value>
+            <value>
+                <fullName>Multifamily Light Lift/CLO</fullName>
+                <default>false</default>
+                <label>Multifamily Light Lift/CLO</label>
             </value>
             <value>
                 <fullName>Portfolio Acquisition</fullName>
@@ -58,6 +75,16 @@
                 <fullName>Renovate and Rent</fullName>
                 <default>false</default>
                 <label>Renovate and Rent</label>
+            </value>
+            <value>
+                <fullName>Long Term Rental</fullName>
+                <default>false</default>
+                <label>Long Term Rental</label>
+            </value>
+            <value>
+                <fullName>Short Term Rental</fullName>
+                <default>false</default>
+                <label>Short Term Rental</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
@@ -96,11 +123,31 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Heavy Lift/CLO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <valueName>Multifamily Lease-Up/No Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Lease-Up/No Rehab/CLO</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <valueName>Multifamily Light Lift/CLO</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Build to Rent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <valueName>Long Term Rental</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <valueName>Short Term Rental</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

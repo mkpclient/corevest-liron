@@ -79,10 +79,6 @@
                 <field>Current_UPB_Interest_Reserve__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Loan_Sizing_Completed_Date__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Deal__c</field>
             </layoutItems>

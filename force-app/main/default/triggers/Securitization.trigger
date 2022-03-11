@@ -17,7 +17,7 @@ trigger Securitization on Securitization__c (
             // SecuritizationHelper.beforeUpdate(Trigger.New, Trigger.Old);
         }
         if ( Trigger.isAfter && Trigger.isUpdate ) {
-            // SecuritizationHelper.afterUpdate(Trigger.New);
+            SecuritizationHelper.afterUpdate(Trigger.oldMap, Trigger.New);
         }
         if ( Trigger.isBefore && Trigger.isDelete ) {
         //  SecuritizationHelper.beforeDelete(Trigger.New);

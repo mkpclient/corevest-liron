@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Single_Asset_Bridge</label>
             </value>
+            <value>
+                <fullName>CRE_Loan</fullName>
+                <default>false</default>
+                <label>CRE_Loan</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

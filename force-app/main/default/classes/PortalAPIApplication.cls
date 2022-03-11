@@ -257,6 +257,10 @@ global without sharing class PortalAPIApplication {
       this.loanType = applicationFull.loanType;
       this.createdDate = application.createdDate;
       this.leadId = application.Lead__c;
+
+      if (this.status == null) {
+        this.status = 'Pending';
+      }
     }
   }
 
@@ -368,7 +372,8 @@ global without sharing class PortalAPIApplication {
     public Boolean reviewTitle; //Review_Title__c// boolean,
     public Boolean obtainTitleInsurance; //Obtain_Title_Insurance__c boolean,
     public String titleCompany; // Title_Company__cstring,
-    public String rangeOfProperties; //Range_of_Properties__c string,
+    //public String rangeOfProperties; //Range_of_Properties__c string,
+    public List<String> priceRangPurProperty;
     public String underwritedAcquisitions; // underwritedAcquisitions string,
     public String fairMarketValue; // Fair_Market_Value__c string,
     public Decimal estimatedRenovationCosts; // Estimated_Renovation_Costs__c string,
@@ -608,7 +613,12 @@ global without sharing class PortalAPIApplication {
       this.reviewTitle = application.Review_Title__c;
       this.obtainTitleInsurance = application.Obtain_Title_Insurance__c;
       this.titleCompany = application.Title_Company__c;
-      this.rangeOfProperties = application.Range_of_Properties__c;
+      //this.rangeOfProperties = application.Range_of_Properties__c;
+      if (String.isNotBlank(application.Range_of_Properties__c)) {
+        this.priceRangPurProperty = application.Range_of_Properties__c.split(
+          ';'
+        );
+      }
       this.underwritedAcquisitions = application.Underwrited_Acquisitions__c;
       this.fairMarketValue = application.Fair_Market_Value__c;
       this.estimatedRenovationCosts = application.Estimated_Renovation_Costs__c;
@@ -913,7 +923,13 @@ global without sharing class PortalAPIApplication {
       application.Review_Title__c = this.reviewTitle;
       application.Obtain_Title_Insurance__c = this.obtainTitleInsurance;
       application.Title_Company__c = this.titleCompany;
-      application.Range_of_Properties__c = this.rangeOfProperties;
+      //application.Range_of_Properties__c = this.rangeOfProperties;
+      if (this.priceRangPurProperty != null) {
+        application.Range_of_Properties__c = String.join(
+          this.priceRangPurProperty,
+          ';'
+        );
+      }
       application.Underwrited_Acquisitions__c = this.underwritedAcquisitions;
       application.Fair_Market_Value__c = this.fairMarketValue;
       application.Estimated_Renovation_Costs__c = this.estimatedRenovationCosts;
@@ -974,6 +990,10 @@ global without sharing class PortalAPIApplication {
       // application.Years_Experience__c = this.creYearsOfExperience;
       // application.Number_of_Properties_Self_Managed__c = this.creNumberOfPropertiesSelfManaged;
       application.Other_Type_of_Properties__c = this.otherTypeOfProperties;
+
+      if (this.status == null) {
+        this.status = 'Pending';
+      }
 
       return application;
     }

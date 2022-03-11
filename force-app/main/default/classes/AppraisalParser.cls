@@ -1,8 +1,18 @@
 public without sharing class AppraisalParser implements Queueable {
   List<Deal_Document__c> documents;
+  // APILoggerQueueable apiLogger;
+
   public AppraisalParser(List<Deal_Document__c> documents) {
     this.documents = documents;
   }
+
+  // public AppraisalParser(
+  //   List<Deal_Document__c> documents,
+  //   APILoggerQueueable logger
+  // ) {
+  //   this.documents = documents;
+  //   this.apiLogger = logger;
+  // }
 
   public void execute(QueueableContext context) {
     system.debug('inside parser');
@@ -12,6 +22,10 @@ public without sharing class AppraisalParser implements Queueable {
     if (documents.size() > 0) {
       system.enqueueJob(new AppraisalParser(documents));
     }
+
+    // if (apiLogger != null) {
+    //   system.enqueueJob(apiLogger);
+    // }
   }
 
   public static void parseXML(Deal_Document__c dealDocument) {
@@ -120,13 +134,11 @@ public without sharing class AppraisalParser implements Queueable {
     //for(DOM.XMLNode children : root.getChildElements()){
     //  system.debug(children.getName());
     //}
-    
+
     DOM.XMLNode property_node = root.getChildElement('PROPERTY', null);
 
-    String streetaddress = property_node.getAttribute(
-      '_StreetAddress',
-      null
-    ).toLowerCase();
+    String streetaddress = property_node.getAttribute('_StreetAddress', null)
+      .toLowerCase();
     List<String> addressSplit = streetaddress.split(' ');
     for (Integer i = 0; i < addressSplit.size(); i++) {
       addressSplit[i] = addressSplit[i].capitalize();
@@ -137,24 +149,64 @@ public without sharing class AppraisalParser implements Queueable {
       'STRUCTURE',
       null
     );
-    
+    DOM.XMLNode structureExtensonNode = null;
+    DOM.XMLNode stExtSectionNode = null;
+    DOM.XMLNode stExtSectionDataNode = null;
+    DOM.XMLNode structureInformationNode = null;
+    if (structure_node_new != null) {
+      structureExtensonNode = structure_node_new.getChildElement(
+        'STRUCTURE_EXTENSION',
+        null
+      );
+    }
+
+    if (structureExtensonNode != null) {
+      stExtSectionNode = structureExtensonNode.getChildElement(
+        'STRUCTURE_EXTENSION_SECTION',
+        null
+      );
+    }
+
+    if (stExtSectionNode != null) {
+      stExtSectionDataNode = stExtSectionNode.getChildElement(
+        'STRUCTURE_EXTENSION_SECTION_DATA',
+        null
+      );
+    }
+
+    if (stExtSectionDataNode != null) {
+      structureInformationNode = stExtSectionDataNode.getChildElement(
+        'STRUCTURE_INFORMATION',
+        null
+      );
+    }
+
+    if (
+      structureInformationNode != null &&
+      String.isNotEmpty(
+        structureInformationNode.getAttribute('GSEStoriesCount', null)
+      )
+    ) {
+      Decimal gseStories = Decimal.ValueOf(
+        structureInformationNode.getAttribute('GSEStoriesCount', null)
+          .replaceAll('[^0-9.]', '')
+      );
+      appraisal.No_of_Stories__c = gseStories;
+    }
+
     DOM.XMLNode unit_node = structure_node_new.getChildElement('_UNIT', null);
-    system.debug('unit_node=='+unit_node);
-      String unitidentifier='';
-    if(unit_node!=null)
-    {
-      unitidentifier = unit_node.getAttribute('UnitIdentifier',null);
+    system.debug('unit_node==' + unit_node);
+    String unitidentifier = '';
+    if (unit_node != null) {
+      unitidentifier = unit_node.getAttribute('UnitIdentifier', null);
     }
-    system.debug('streetaddress==='+streetaddress);
-    system.debug('unitidentifier==='+unitidentifier);
-    if(unitidentifier=='' || unitidentifier==null)
-    {   
-      appraisal.Property_Address__c  = streetaddress;
+    system.debug('streetaddress===' + streetaddress);
+    system.debug('unitidentifier===' + unitidentifier);
+    if (unitidentifier == '' || unitidentifier == null) {
+      appraisal.Property_Address__c = streetaddress;
+    } else {
+      appraisal.Property_Address__c = streetaddress + ' #' + unitidentifier;
     }
-    else
-    {
-      appraisal.Property_Address__c  = streetaddress+' #'+unitidentifier;
-    }       
 
     String city = property_node.getAttribute('_City', null).toLowerCase();
     List<String> cityNames = city.split(' ');
@@ -335,6 +387,23 @@ public without sharing class AppraisalParser implements Queueable {
     DOM.XMLNode valuationMethodsNode = root
       .getChildElement('VALUATION_METHODS', null);
     if (valuationMethodsNode != null) {
+      Dom.XMLNode costAnalysisNode = valuationMethodsNode.getChildElement(
+        'COST_ANALYSIS',
+        null
+      );
+
+      String newImprovementTotalCostAmount = costAnalysisNode != null
+        ? costAnalysisNode.getAttribute('NewImprovementTotalCostAmount', null)
+        : null;
+
+      appraisal.Appraisal_Replacement_Cost_Value__c = String.isNotBlank(
+          newImprovementTotalCostAmount
+        )
+        ? Decimal.ValueOf(
+            newImprovementTotalCostAmount.replaceAll('[^0-9.]', '')
+          )
+        : null;
+
       Dom.XMLNode salesComparisonNode = valuationMethodsNOde.getChildElement(
         'SALES_COMPARISON',
         null
@@ -662,6 +731,10 @@ public without sharing class AppraisalParser implements Queueable {
                 }
 
                 if (
+                  unitNode.getAttribute(
+                    'GrossLivingAreaSquareFeetCount',
+                    null
+                  ) != null &&
                   unitNode.getAttribute(
                     'GrossLivingAreaSquareFeetCount',
                     null

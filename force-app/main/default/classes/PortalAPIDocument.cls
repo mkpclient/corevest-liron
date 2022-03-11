@@ -128,7 +128,7 @@ global without sharing class PortalAPIDocument {
     String documentType;
     public String fileExtension;
     DateTime addedOn;
-    Document(Id docId) {
+    public Document(Id docId) {
       Deal_Document__c doc = [
         SELECT
           Id,
@@ -166,7 +166,7 @@ global without sharing class PortalAPIDocument {
       this.fileExtension = cv.FileExtension;
     }
 
-    Document(Deal_Document__c doc) {
+    public Document(Deal_Document__c doc) {
       this.docNumber = doc.Name;
       this.id = doc.ContentVersion_Id__c;
       this.dealName = doc.Deal__r.Name;

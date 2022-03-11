@@ -6,6 +6,7 @@
     <errorConditionFormula>AND(
  ISCHANGED(StageName),
  NOT(ISBLANK(Date_Stage_Changed_To_UW__c)),
+ Apex_Context__c = false,
 OR(
  $Profile.Name = &quot;Relationship Manager&quot;,
  $Profile.Name = &quot;Origination Manager&quot;,

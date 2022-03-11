@@ -19,9 +19,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
   public static final Map<String, Map<Id, User>> USERINFOMAP = new Map<String, Map<Id, User>>{
     'Bridge IC Process' => queryUserInfo('Bridge_IC_Approval'),
-    'Term Sub-IC' => queryUserInfo('Term_Sub_IC'),
+    'Term Sub-IC Process' => queryUserInfo('Term_Sub_IC'),
     'Term IC Process' => queryUserInfo('Term_IC_Approval'),
-    'Bridge Sub-IC' => queryUserInfo('Term_Sub_IC')
+    'Bridge Sub-IC Process' => queryUserInfo('Term_Sub_IC')
   };
 
   public static final Set<String> BRIDGE_IC_GROUP = queryEmailAddresses(
@@ -105,7 +105,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     if (userMap.size() > 0) {
       for (Id key : userMap.keySet()) {
         String name2 = userMap.get(key).Name;
-        if (name2.substring(0, 4) == 'Chris') {
+        if (name2.substring(0, 5) == 'Chris') {
           name2 = 'Chris Hoeffel';
         }
         names.add(name2);
@@ -119,7 +119,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
         for (Id key : userMap.keySet()) {
           User userInfo = userMap.get(key);
           String name3 = userInfo.Name;
-          if (name3.substring(0, 4) == 'Chris') {
+          if (name3.substring(0, 5) == 'Chris') {
             name3 = 'Chris Hoeffel';
           }
           if (String.isNotEmpty(settings.get(name3).Email_Address__c)) {
@@ -181,7 +181,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     'Dec' => 12
   };
 
-  public static void postToChatter(Opportunity deal, String subjectId) {
+  public static void postToChatter(String actionVerb, Opportunity deal, String subjectId) {
     System.debug('postToChatter has been hit');
     ConnectApi.MessageBodyInput messageInput = new ConnectApi.MessageBodyInput();
     messageInput.messageSegments = new List<ConnectApi.MessageSegmentInput>();
@@ -191,7 +191,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     messageInput.messageSegments.add(mentionSegment);
 
     ConnectApi.TextSegmentInput textSegment = new ConnectApi.TextSegmentInput();
-    textSegment.text = ' ' + deal.Name + ' has been approved.';
+    textSegment.text = ' ' + deal.Name + ' has been ' + actionVerb + '.';
     messageInput.messageSegments.add(textSegment);
 
     ConnectApi.FeedItemInput input = new ConnectApi.FeedItemInput();
@@ -250,8 +250,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       ORDER BY CreatedDate DESC
       LIMIT 1
     ];
-
+    System.debug('PROCESS NAME: ' + appHis.ProcessName__c);
     Map<Id, User> userMap = USERINFOMAP.get(appHis.ProcessName__c);
+    System.debug('USERMAP: ' + userMap);
     deal.Apex_Context__c = true;
     Set<String> alreadyCcs = new Set<String>();
     Set<String> setCcs = new Set<String>();
@@ -337,7 +338,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       }
       System.debug(userMap);
       for (Id key : userMap.keySet()) {
-        approverEmails.add(userMap.get(key).Email);
+        if(userMap.get(key).Email != null) {
+          approverEmails.add(userMap.get(key).Email);
+        }
       }
 
       if (
@@ -451,11 +454,14 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
         ) {
           User fromUser = new User();
           for (Id key : userMap.keySet()) {
-            if (
+            if (userMap.get(key).Email != null &&
               (userMap.get(key).Email.toLowerCase() == fromAddress ||
               userMap.get(key).Email.toLowerCase() == alternateFromAddress) &&
-              htmlBody.toLowerCase()
+              (htmlBody.toLowerCase()
                 .contains(userMap.get(key).Approver_Code__c.toLowerCase())
+              || htmlBody.toLowerCase()
+              .contains((userMap.get(key).Approver_Code__c.toLowerCase()).replace('approved', 'rejected'))
+                )
             ) {
               toId = key;
               fromUser = userMap.get(key);
@@ -464,6 +470,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
           }
           System.debug('FROM USER :: ');
           System.debug(fromUser);
+          
+
 
           if (
             null != fromUser.Approver_Code__c &&
@@ -472,8 +480,20 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
           ) {
             approved = approveDeal(fromUser.Id, deal);
             createAttachment(email, deal);
-            postToChatter(deal, deal.Id);
+            
+          } else if (
+            null != fromUser.Approver_Code__c &&
+            htmlBody.toLowerCase()
+              .contains((fromUser.Approver_Code__c.toLowerCase()).replace('approved', 'rejected'))
+          ) {
+            approved = rejectDeal(fromUser.Id, deal);
+            createAttachment(email, deal);
+            postToChatter('rejected', deal, deal.Id);
           }
+        }
+
+        if(approved) {
+          postToChatter('approved', deal, deal.Id);
         }
 
         List<String> emailAddressesList = new List<String>();
@@ -923,7 +943,6 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       sendExceptionEmails(ex);
     }
 
-    System.debug('this is the new email record, reached');
     if (null != ccEmails && ccEmails.size() > 0) {
       e.CC__c = String.join(ccEmails, ';');
     }
@@ -967,7 +986,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
     email.setToAddresses(
-      new List<String>{ 'mcastillo@mkpartners.com', 'bryon@cvest.com' }
+      new List<String>{ ' logins+cvest@mkpartners.com', 'bryon@cvest.com' }
     );
 
     String body = '';
@@ -977,6 +996,16 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     body += '\nMessage:  ' + ex.getMessage();
     email.setPlainTextbody(body);
     email.setSubject('Deal Approval Handler Error');
+
+    List<OrgWideEmailAddress> owea = [
+      SELECT Id
+      FROM OrgWideEmailAddress
+      WHERE Address = 'caf-apps@cvest.com'
+    ];
+    
+    if (owea.size() > 0) {
+      email.setOrgWideEmailAddressId(owea.get(0).Id);
+    }
 
     Messaging.sendEmail(new List<Messaging.SIngleEmailMessage>{ email });
   }
@@ -1001,17 +1030,29 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     System.debug('Approved deal method entry');
     if (wrkItem.size() > 0) {
       try {
-        handleApproval(userId, deal, wrkItem, false);
+        handleApproval('Approve', userId, deal, wrkItem, false);
         List<ProcessInstanceWorkItem> updatedWkrItem = [
-          SELECT Id
+          SELECT
+            Id,
+            ProcessInstance.TargetObjectId,
+            ProcessInstance.Status,
+            ActorId,
+            Actor.Name,
+            OriginalActorId,
+            ProcessInstance.ProcessDefinition.DeveloperName,
+            CreatedDate
           FROM ProcessInstanceWorkItem
           WHERE ProcessInstance.TargetObjectId = :deal.Id
         ];
 
-        if (updatedWkrItem.size() > 0 && !TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName)) {
+        System.debug('RECORD TYPE DEV NAME IS: ' + deal.RecordType.DeveloperName);
+        System.debug('THERE ARE ' + updatedWkrItem.size() + ' WORK ITEMS');
+        System.debug('SHOULD 2/3 RUN? ' + (TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName.toUpperCase()) && updatedWkrItem.size() == 1));
+        
+        if (updatedWkrItem.size() > 0 && !TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName.toUpperCase())) {
           return false;
-        } else if (TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName) && updatedWkrItem.size() == 1) {
-          handleApproval(userId, deal, wrkItem, true);
+        } else if (TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName.toUpperCase()) && updatedWkrItem.size() == 1) {
+          handleApproval('Approve', userId, deal, updatedWkrItem, true);
           return true;
         } else {
           return true;
@@ -1019,6 +1060,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
       } catch (Exception err) {
         System.debug(err.getMessage());
+        sendExceptionEmails(err);
       }
     } else {
       return false;
@@ -1027,15 +1069,52 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     return false;
   }
 
-  public static void handleApproval(Id userId, Opportunity deal, List<ProcessInstanceWorkItem> wrkItem, Boolean isTwoOfThree) {
-    String comments = 'Approved from Email by ' + wrkItem[0].Actor.Name;
+  public static Boolean rejectDeal(Id userId, Opportunity deal) {
+    
+    List<ProcessInstanceWorkItem> wrkItem = [
+      SELECT
+        Id,
+        ProcessInstance.TargetObjectId,
+        ProcessInstance.Status,
+        ActorId,
+        Actor.Name,
+        OriginalActorId,
+        ProcessInstance.ProcessDefinition.DeveloperName,
+        CreatedDate
+      FROM ProcessInstanceWorkItem
+      WHERE ActorId = :userId AND ProcessInstance.TargetObjectId = :deal.Id
+      LIMIT 1
+    ];
+
+    System.debug('Reject deal method entry');
+    if (wrkItem.size() > 0) {
+      try {
+        handleApproval('Reject', userId, deal, wrkItem, false);
+      } catch (Exception err) {
+        System.debug(err.getMessage());
+        sendExceptionEmails(err);
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  public static void handleApproval(String actionType, Id userId, Opportunity deal, List<ProcessInstanceWorkItem> wrkItem, Boolean isTwoOfThree) {
+    String actionVerb = '';
+    if (actionType == 'Approve') {
+      actionVerb = 'Approved';
+    } else if (actionType == 'Reject') {
+      actionVerb = 'Rejected';
+    }
+    String comments = actionVerb + ' from Email by ' + wrkItem[0].Actor.Name;
     if(isTwoOfThree) {
       comments = 'Automatic approval based on 2/3 approval.';
     }
     Approval.ProcessWorkitemRequest pwr = new Approval.ProcessWorkitemRequest();
     pwr.setComments(comments);
     pwr.setWorkitemId(wrkItem[0].Id);
-    pwr.setAction('Approve');
+    pwr.setAction(actionType);
     Approval.ProcessResult result = Approval.process(pwr);
     Id processInstanceId = result.getInstanceId();
 
@@ -1044,7 +1123,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       FROM ProcessInstanceStep
       WHERE
         ProcessInstanceId = :processInstanceId
-        AND StepStatus = 'Approved'
+        AND StepStatus = :actionVerb
       ORDER BY CreatedDate DESC
       LIMIT 1
     ];
@@ -1094,8 +1173,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
         ah.Actor__c = wrkItem[0].ActorId;
         ah.Approver__c = wrkItem[0].Actor.Name;
-        ah.Status__c = 'Approved';
-        ah.Status_Text__c = 'Approved';
+        ah.Status__c = actionVerb;
+        ah.Status_Text__c = actionVerb;
         ah.Comments__c = comments;
         ah.Date_Acted__c = System.now();
         if (pis.size() > 0) {
@@ -1126,7 +1205,14 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
       ah.Deal__c = deal.Id;
       update ah;
-      if (null != otherAh && otherAh.size() > 0) {
+      
+      if (null != otherAh && otherAh.size() > 0 && actionType == 'Reject') {
+        for (Approval_History__c ahc : otherAh) {
+          ahc.Status__c = actionVerb;
+          ahc.Status_Text__c = actionVerb;
+          ahc.Comments__c = comments;
+          ahc.Date_Acted__c = System.now();
+        }
         update otherAh;
       }
     }

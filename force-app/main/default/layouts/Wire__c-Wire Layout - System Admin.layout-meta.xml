@@ -38,6 +38,10 @@
                 <behavior>Edit</behavior>
                 <field>Inspection_Fee_Adjustment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Company__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

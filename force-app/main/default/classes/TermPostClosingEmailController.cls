@@ -222,7 +222,7 @@ public class TermPostClosingEmailController {
         Attachment_Id__c = queryCv.ContentDocumentId,
         Type__c = 'DS Funding Package',
         Section__c = 'DS Funding Package',
-        Document_Type__c = 'Miscellaneous',
+        Document_Type__c = 'Onboarding Letter',
         Deal__c = recordId,
         Added_On__c = System.now(),
         Added_By__c = UserInfo.getUserId(),

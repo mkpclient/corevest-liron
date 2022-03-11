@@ -20,6 +20,11 @@
                 <default>false</default>
                 <label>Interest Only</label>
             </value>
+            <value>
+                <fullName>Partial I/O Term</fullName>
+                <default>false</default>
+                <label>Partial I/O Term</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

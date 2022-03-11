@@ -30,7 +30,7 @@ global class UpdateCloseDateBatch implements Database.Batchable<sObject>{
             this.selectedDaysMap = bridgeDaysMap;
             queryString += ' RecordType.DeveloperName = \'LOC_Loan\'';
         }else if(recordType == 'Single Asset Bridge'){
-            this.selectedDaysMap =sabDaysMap;
+            this.selectedDaysMap = sabDaysMap;
             queryString += ' RecordType.DeveloperName = \'Single_Asset_Bridge_Loan\'';
         }
 

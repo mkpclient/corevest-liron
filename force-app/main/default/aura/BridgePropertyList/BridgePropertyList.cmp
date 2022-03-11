@@ -538,6 +538,15 @@
 				/>
 
 				<c:DataTableColumn
+				label="Advance Group"
+				name="Initial_Advance__r.Advance_Group_Name__c"
+				linkToRecord="Initial_Advance__c"
+				sortable="true"
+				displayType="text"
+				columnWidth="10"
+			  	/>
+
+				<c:DataTableColumn
 				  label="Requested Funding Date"
 				  name="Requested_Funding_Date__c"
 				  sortable="true"

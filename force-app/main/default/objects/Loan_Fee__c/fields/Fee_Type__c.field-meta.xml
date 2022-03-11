@@ -10,7 +10,7 @@
     <type>Picklist</type>
     <valueSet>
         <valueSetDefinition>
-            <sorted>false</sorted>
+            <sorted>true</sorted>
             <value>
                 <fullName>Extension Fee</fullName>
                 <default>false</default>
@@ -25,6 +25,11 @@
                 <fullName>Servicer Fee</fullName>
                 <default>false</default>
                 <label>Servicer Fee</label>
+            </value>
+            <value>
+                <fullName>Title Fee</fullName>
+                <default>false</default>
+                <label>Title Fee</label>
             </value>
             <value>
                 <fullName>Valuation Fee</fullName>

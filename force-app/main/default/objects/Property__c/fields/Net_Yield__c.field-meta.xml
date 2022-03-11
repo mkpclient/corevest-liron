@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Net_Yield__c</fullName>
+    <description>Term</description>
+    <externalId>false</externalId>
+    <formula>( Annual_Rent__c -  Annual_Total_Expenses__c ) / 
+IF(
+ Appraised_Value_Amount__c  &gt; 0,
+  Appraised_Value_Amount__c,
+  Borrower_Opinion_of_Current_Value__c
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>=c(Annual Rent - Annual Total Expenses) / Current Appraised As Is Value. If this field is blank, make sure Annual Total Expenses is NOT blank.</inlineHelpText>
+    <label>Net Yield</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

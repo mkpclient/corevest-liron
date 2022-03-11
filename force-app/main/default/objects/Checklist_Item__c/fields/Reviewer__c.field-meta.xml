@@ -3,9 +3,17 @@
     <fullName>Reviewer__c</fullName>
     <externalId>false</externalId>
     <label>Reviewer</label>
-    <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Underwriter</fullName>
+                <default>true</default>
+                <label>Underwriter</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

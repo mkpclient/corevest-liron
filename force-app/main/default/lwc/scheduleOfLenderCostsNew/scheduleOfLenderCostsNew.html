@@ -213,6 +213,18 @@
       ></lightning-input>
     </lightning-layout-item>
     <lightning-layout-item padding="around-medium" size="6"
+    ><lightning-input
+      label="Legal Fee"
+      value={deal.Legal_Fee__c}
+      onchange={updateValue}
+      data-field="Legal_Fee__c"
+      type="number"
+      formatter="currency"
+      step="0.01"
+    ></lightning-input>
+  </lightning-layout-item>
+
+    <lightning-layout-item padding="around-medium" size="6"
       ><lightning-input
         label="Total Lender"
         value={calculatedFields.Total_Lender__c}
@@ -221,6 +233,8 @@
         step="0.01"
         read-only
       ></lightning-input>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6">
     </lightning-layout-item>
 
     <lightning-layout-item size="12">

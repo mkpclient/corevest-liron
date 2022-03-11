@@ -1,7 +1,3 @@
-.THIS {
-  overflow: hidden;
-}
-
 .THIS.header {
   /*top:auto;*/
   bottom: auto;
@@ -12,6 +8,7 @@
 
 .THIS .scrollerSize {
   height: 100%;
+
 }
 
 .THIS .row {
@@ -27,7 +24,7 @@
 
 .THIS .flex{
   flex: 1;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .THIS.flex{

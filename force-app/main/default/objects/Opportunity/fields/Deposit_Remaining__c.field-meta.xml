@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Deposit_Remaining__c</fullName>
-    <description>Bridge Use</description>
+    <description>Bridge Use
+If this is a CRE or BTR/BTR Deal, then the Legal Fee is not included in this calculation</description>
     <externalId>false</externalId>
-    <formula>Deposit_Amount__c - ( Legal_Fee__c + Entity_Search_Fee__c + Calculated_Origination_Fee__c + UCC_1_Filing_Fee__c)</formula>
+    <formula>Deposit_Amount__c - ( Entity_Search_Fee__c + Calculated_Origination_Fee__c + UCC_1_Filing_Fee__c +
+ IF(
+  OR(ISPICKVAL( LOC_Loan_Type__c , &apos;Multifamily/CRE&apos;),
+  AND(
+   ISPICKVAL( LOC_Loan_Type__c , &apos;Build to Rent&apos;),
+   ISPICKVAL( Product_Sub_Type__c , &apos;Build to Rent&apos;))
+  ),
+ 0, Legal_Fee__c 
+))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>If this is a CRE or BTR/BTR Deal, then the Legal Fee is not included in this calculation</inlineHelpText>
     <label>Deposit Remaining</label>
     <precision>18</precision>
     <required>false</required>

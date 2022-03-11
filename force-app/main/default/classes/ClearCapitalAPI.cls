@@ -390,7 +390,7 @@ public without sharing class ClearCapitalAPI {
     Property__c property,
     String productType,
     String turnTime,
-    List<Object> addOns,
+    // List<Object> addOns,
     String vendorComments
   ) {
     String reportType = getReportType(productType, property.Property_Type__c);
@@ -457,16 +457,16 @@ public without sharing class ClearCapitalAPI {
     // }
 
     body += 'version="' + versionNumber + '">';
-    if(addOns.size() > 0) {
-      body += '<addons>';
+    // if(addOns.size() > 0) {
+    //   body += '<addons>';
 
-      for(Object a : addons) {
-        body += '<addon>' + CLEARVAL_ADDON_MAP.get(String.valueof(a)) + '</addon>';
-      } 
+    //   for(Object a : addons) {
+    //     body += '<addon>' + CLEARVAL_ADDON_MAP.get(String.valueof(a)) + '</addon>';
+    //   } 
 
 
-      body += '</addons>';    
-    }
+    //   body += '</addons>';    
+    // }
     // body += '<addons>';
     // body += '<addon>';
     // body += addons;
@@ -767,6 +767,8 @@ public without sharing class ClearCapitalAPI {
       reportType = '28';
     } else if (productType == 'Interior BPO') {
       reportType = '27';
+    } else if (productType == '1004 Hybrid Report') {
+      reportType = '110';
     }
 
     return reportType;

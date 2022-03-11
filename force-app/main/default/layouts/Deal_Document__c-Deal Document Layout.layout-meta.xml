@@ -103,6 +103,10 @@
                 <behavior>Edit</behavior>
                 <field>Assignment_Document__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Borrower_Term_Sheet_Signature_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

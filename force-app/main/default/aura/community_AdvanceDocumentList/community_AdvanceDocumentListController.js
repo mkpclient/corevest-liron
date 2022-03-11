@@ -47,13 +47,22 @@
           for (var i = 0; i < columns.length; i++) {
             fields.push(columns[i].get("v.name"));
           }
-  
-          component.set("v.whereClause", "Property__c = null");
+
+          let whereClauseString = component.get("v.whereClause");
+          
+          if(!$A.util.isEmpty(whereClauseString)){ 
+            whereClauseString += ' AND Property__c = null';
+          } else {
+            whereClauseString = 'Property__c = null';
+          }
+
+          component.set("v.whereClause", whereClauseString);
   
           //fields.push('Vendor_Type_Access__c');
   
           component.set("v.fieldList", fields);
           console.log(component.get("v.fieldList"));
+          console.log("entering query records list helper");
           helper.queryRecordsList(component);
         } else if (state === "ERROR") {
           console.log("error");
@@ -68,11 +77,11 @@
           //console.log(JSON.parse( response.getReturnValue() ));
           component.set("v.user", JSON.parse(response.getReturnValue()));
           var user = JSON.parse(response.getReturnValue());
-  
+          console.log("GET USER END, STARTING NEXT ACTION");
           $A.enqueueAction(action);
         } else {
           console.log("error");
-          console.log(response);
+          console.log(response.getError()[0].message);
         }
       });
       $A.enqueueAction(action1);

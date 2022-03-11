@@ -64,6 +64,11 @@
                 <label>Anthony Elgort Sourced</label>
             </value>
             <value>
+                <fullName>Asset Based Lending</fullName>
+                <default>false</default>
+                <label>Asset Based Lending</label>
+            </value>
+            <value>
                 <fullName>BiggerPockets</fullName>
                 <default>false</default>
                 <label>BiggerPockets</label>
@@ -214,6 +219,11 @@
                 <label>FAMP</label>
             </value>
             <value>
+                <fullName>Fidelis</fullName>
+                <default>false</default>
+                <label>Fidelis</label>
+            </value>
+            <value>
                 <fullName>Fit Small Business</fullName>
                 <default>false</default>
                 <label>Fit Small Business</label>
@@ -227,6 +237,11 @@
                 <fullName>Geraci Events</fullName>
                 <default>false</default>
                 <label>Geraci Events</label>
+            </value>
+            <value>
+                <fullName>Great Lakes Financing</fullName>
+                <default>false</default>
+                <label>Great Lakes Financing</label>
             </value>
             <value>
                 <fullName>Homesearch</fullName>
@@ -277,6 +292,11 @@
                 <fullName>Instagram Lead Form</fullName>
                 <default>false</default>
                 <label>Instagram Lead Form</label>
+            </value>
+            <value>
+                <fullName>Jack Jerue Sourced</fullName>
+                <default>false</default>
+                <label>Jack Jerue Sourced</label>
             </value>
             <value>
                 <fullName>Joakim Mortensen Sourced</fullName>
@@ -687,6 +707,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Non-Database</controllingFieldValue>
+            <valueName>Jack Jerue Sourced</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Database</controllingFieldValue>
             <valueName>Joakim Mortensen Sourced</valueName>
         </valueSettings>
         <valueSettings>
@@ -1030,12 +1054,24 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>
+            <valueName>Asset Based Lending</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Imported List</controllingFieldValue>
             <valueName>Churchill Real Estate</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>
             <controllingFieldValue>Referral</controllingFieldValue>
             <valueName>Employee</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Imported List</controllingFieldValue>
+            <valueName>Fidelis</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Imported List</controllingFieldValue>
+            <valueName>Great Lakes Financing</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>

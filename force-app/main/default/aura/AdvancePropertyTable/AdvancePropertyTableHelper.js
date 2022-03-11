@@ -55,6 +55,9 @@
       "Property__r.Name",
       "Property__r.Yardi_Id__c",
       "Purchase_Price__c",
+      "Property__r.Status__c",
+      "Appraisal_Due_Date__c",
+      "Renovation_Budget__c",
       "BPO_Appraisal_Value__c",
       "BlackSquare_Fee__c",
       "Total_Cost_Basis__c",
@@ -84,13 +87,15 @@
       "Daily_Interest_Rate_Total__c",
       "Inspection_Fee__c",
       "Escrow_Agent__r.Name",
+      "Title_Company__r.Name",
       "Wire__r.Name",
       "Wire__r.Wire_Number__c",
       "Wire__r.Origination_Fee__c",
       "Wire__r.Daily_Interest_Rate__c",
       "Wire__r.BlackSquare_Fee__c",
       "Approved_Renovation_Holdback__c",
-      "Approved_Advance_Amount_Max__c"
+      "Approved_Advance_Amount_Max__c",
+      "Property__r.Title_Review_Company__c"
     ];
 
     var action = component.get("c.getRecordList");
