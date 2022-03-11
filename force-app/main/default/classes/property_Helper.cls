@@ -73,7 +73,16 @@ public without sharing class property_Helper {
     'BPO_Appraisal_Value__c',
     'Rehab_Budget__c',
     'After_Repair_Value__c',
-    'Approved_Completed_Rehab_Costs__c'
+    'Approved_Completed_Rehab_Costs__c',
+    'Appraisal_Due_Date__c',
+    'BPO_Appraisal_Fee__c',
+    'Doc_Prep_Fee__c',
+    'BlackSquare_Fee__c',
+    'Inspection_Fee_SUY__c',
+    'Override_Initial_Disbursement__c',
+    'Override_Reno_Advance_Amount__c',
+    'Advance_Fee_Override__c',
+    'Reno_Advance_Amount__c'
   };
 
   @AuraEnabled(cacheable=true)
@@ -1340,11 +1349,10 @@ public without sharing class property_Helper {
    * @description
    * @param
    **/
-   public static void afterUpdate(
+  public static void afterUpdate(
     List<Property__c> newList,
     List<Property__c> oldList
-  )
-  {
+  ) {
     Set<Id> opIds = new Set<Id>();
     Set<Id> parentIds = new Set<Id>();
     Set<Id> propertyAdvancePropIds = new Set<Id>();
@@ -1500,57 +1508,62 @@ public without sharing class property_Helper {
         }
       }
       update oppMap.values();
-        
-// CPQ2100 - Raj Sirivolu- 1/6/22 - Begin 
-        Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
-        string cmcoId = settings.Construction_Manager_CV_Originated__c;
-        string cmalId = settings.Construction_Manager_Acquired_Loans__c;        
-          For (Integer i = 0; i < newList.size(); i++) 
-          {
-          if (newList[i].Status__c != oldList[i].Status__c && newList[i].Status__c == 'Active')
-              {
-	          if((newList[i].RecordType_Name__c == 'Bridge_Renovation' || newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
-                   oppMap.get(newList[i].deal__c).Account_Name__c != 'Inhouse Test Account' &&
-                   oppMap.get(newList[i].deal__c).Approved_Third_Party_Originators__c == NULL)
-                   {
-                       Task t = new Task();
-                       t.subject 	  	= 'Bridge Asset with Reno/Construction has Funded';
-                       t.ActivityDate 	= Date.today().addDays(1);
-                       t.Priority 		= 'Normal';
-                       t.Status	  		= 'Open';
-                       t.Type 			= 'Reminder';
-                       t.WhatID			= Trigger.new[i].Id;                       
-                       if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c))
-                       {
-                       t.WhoId =oppMap.get(newList[i].deal__c).Contact__c;
-                       }
-                       t.Ownerid		= cmcoId;
-                       insert t;
-                   }
-              else
-              {
-              if((newList[i].RecordType_Name__c == 'Bridge_Renovation' || newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
-                   oppMap.get(newList[i].deal__c).Account_Name__c != 'Inhouse Test Account' &&
-                   oppMap.get(newList[i].deal__c).Approved_Third_Party_Originators__c != NULL)
-               		{
-                      Task t = new Task();
-                      t.subject 	  	= 'Bridge Asset with Reno/Construction has Funded';
-                      t.ActivityDate 	= Date.today().addDays(1);
-                      t.Priority 		= 'Normal';
-                      t.Status	  		= 'Open';
-                      t.Type 			= 'Reminder';
-                      t.WhatID			= Trigger.new[i].Id;
-                      if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c))
-                      	{
-                          t.WhoId =oppMap.get(newList[i].deal__c).Contact__c;
-                      	}                       
-                      t.Ownerid		= cmalId;
-                      insert t;
-               		}     
-			  }                  
-             }
+
+      // CPQ2100 - Raj Sirivolu- 1/6/22 - Begin
+      Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
+      string cmcoId = settings.Construction_Manager_CV_Originated__c;
+      string cmalId = settings.Construction_Manager_Acquired_Loans__c;
+      for (Integer i = 0; i < newList.size(); i++) {
+        if (
+          newList[i].Status__c != oldList[i].Status__c &&
+          newList[i].Status__c == 'Active'
+        ) {
+          if (
+            (newList[i].RecordType_Name__c == 'Bridge_Renovation' ||
+            newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
+            oppMap.get(newList[i].deal__c).Account_Name__c !=
+            'Inhouse Test Account' &&
+            oppMap.get(newList[i].deal__c)
+              .Approved_Third_Party_Originators__c == null
+          ) {
+            Task t = new Task();
+            t.subject = 'Bridge Asset with Reno/Construction has Funded';
+            t.ActivityDate = Date.today().addDays(1);
+            t.Priority = 'Normal';
+            t.Status = 'Open';
+            t.Type = 'Reminder';
+            t.WhatID = Trigger.new[i].Id;
+            if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
+              t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
+            }
+            t.Ownerid = cmcoId;
+            insert t;
+          } else {
+            if (
+              (newList[i].RecordType_Name__c == 'Bridge_Renovation' ||
+              newList[i].RecordType_Name__c == 'Ground_Up_Construction') &&
+              oppMap.get(newList[i].deal__c).Account_Name__c !=
+              'Inhouse Test Account' &&
+              oppMap.get(newList[i].deal__c)
+                .Approved_Third_Party_Originators__c != null
+            ) {
+              Task t = new Task();
+              t.subject = 'Bridge Asset with Reno/Construction has Funded';
+              t.ActivityDate = Date.today().addDays(1);
+              t.Priority = 'Normal';
+              t.Status = 'Open';
+              t.Type = 'Reminder';
+              t.WhatID = Trigger.new[i].Id;
+              if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
+                t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
+              }
+              t.Ownerid = cmalId;
+              insert t;
+            }
           }
-// CPQ2100 - Raj Sirivolu- 1/6/22 - End        
+        }
+      }
+      // CPQ2100 - Raj Sirivolu- 1/6/22 - End
     }
 
     if (refinanceBubble.size() > 0) {
@@ -1590,9 +1603,6 @@ public without sharing class property_Helper {
       );
     }
 
-
-      
-      
     // if (smartyStreetIds.size() > 0) {
     //   System.enqueueJob(
     //     new SmartyStreetsQueueable(new List<Id>(smartyStreetIds))

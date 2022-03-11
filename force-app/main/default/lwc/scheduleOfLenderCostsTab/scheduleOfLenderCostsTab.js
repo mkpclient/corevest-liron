@@ -106,7 +106,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
     let queryString = `SELECT Id, ${fields.join(",")}`;
     queryString += `, (SELECT Id, Name, Finalized__c, Full_Name__c, `;
     queryString += ` Total_Annual_Tax__c, Total_Annual_Insurance__c, Total_Annual_Cap_Ex__c, Reserve_Tax__c, Reserve_Insurance__c, Holdback_Reserve__c,`;
-    queryString += ` Reserve_Cap_Ex__c, Holdback_Reserve_Override__c, Holdback_Reserve_Month_Multiplier__c, Interest_Rate_Type__c, Deposit_Lender_Out_of_Pocket__c, Bridge_Payoff__c, Installment_Comment__c `;
+    queryString += ` Reserve_Cap_Ex__c, Holdback_Reserve_Override__c, Holdback_Reserve_Month_Multiplier__c, Interest_Rate_Type__c, Deposit_Lender_Out_of_Pocket__c, Legal_Fee__c, Bridge_Payoff__c, Installment_Comment__c `;
     queryString += ` FROM Loan_Versions__r WHERE RecordTypeId = '${this.recordTypeId}' Order By CreatedDate ASC)`;
     queryString += ` FROM Opportunity WHERE Id = '${this.recordId}'`;
 
@@ -146,6 +146,8 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
           deal.Interest_Rate_Type__c = version.Interest_Rate_Type__c;
           deal.Deposit_Lender_Out_of_Pocket__c =
             version.Deposit_Lender_Out_of_Pocket__c;
+          deal.Legal_Fee__c =
+            version.Legal_Fee__c;
           deal.Bridge_Payoff__c = version.Bridge_Payoff__c;
           deal.Installment_Comment__c = version.Installment_Comment__c;
         }
@@ -184,6 +186,8 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
         deal.Bridge_Payoff__c = calculatedData.Bridge_Payoff__c;
         deal.Deposit_Lender_Out_of_Pocket__c =
           calculatedData.Deposit_Lender_Out_of_Pocket__c;
+        deal.Legal_Fee__c =
+          calculatedData.Legal_Fee__c;        
         deal.Holdback_Reserve_Month_Multiplier__c =
           calculatedData.Holdback_Reserve_Month_Multiplier__c;
         deal.Installment_Comment__c = calculatedData.Installment_Comment__c;

@@ -5,7 +5,7 @@ public without sharing class YardiAPI {
   // static final String DATABASE = 'dcqtadfdm_CAF_Pilot';
   // static final String PLATFORM = 'SQL Server';
   // static final String INTERFACE_ENTITY = 'CoreVest Loan Interface';
-  // static final String INTERFACE_LICENSE = 'MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC';
+  static final String INTERFACE_LICENSE = 'MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC';
   // static final String URL = 'https://www.yardiaspla2.com';
 
   // static final String TERM_FOLDER_ID = '147042016627';
@@ -66,7 +66,8 @@ public without sharing class YardiAPI {
         '</InterfaceEntity>';
       requestBody +=
         '<InterfaceLicense>' +
-        SETTINGS.Yardi_Interface_License__c +
+        INTERFACE_LICENSE +
+        // SETTINGS.Yardi_Interface_License_Long__c +
         '</InterfaceLicense>';
       requestBody += '<InvoicRegisterDoc>' + xml + '</InvoicRegisterDoc>';
       requestBody += '</ImportInvoiceRegister>';
@@ -220,6 +221,10 @@ public without sharing class YardiAPI {
           .replaceAll('\n', ' ');
       }
 
+      acc.Payment_Instructions__c = '';
+
+      String billingStreet = '"' + acc.BillingStreet + '"';
+
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
@@ -228,7 +233,7 @@ public without sharing class YardiAPI {
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
       csv += acc.Bank_Account__c + ',';
-      csv += acc.BillingStreet + ',';
+      csv += billingStreet + ',';
       csv += ',,';
       csv += acc.BillingCity + ',';
       csv += acc.BillingStateCode + ',';
@@ -250,8 +255,10 @@ public without sharing class YardiAPI {
       FROM Opportunity
       WHERE Id IN :recordIds
     ]) {
-      String entityName = deal.Name + ' (' + deal.Borrower_Entity__r.Name + ')';
-
+      String entityName = deal.Name; //+ ' (' + deal.Borrower_Entity__r.Name + ')';
+      if (String.isNotBlank(deal.Borrower_Entity__r.Name)) {
+        entityName += ' (' + deal.Borrower_Entity__r.Name + ')';
+      }
       if (entityName.contains(',')) {
         entityName = '"' + entityName + '"';
       }
@@ -316,18 +323,29 @@ public without sharing class YardiAPI {
 
     for (String vendorYardiCode : vendorMap.keySet()) {
       for (Property__c prop : vendorMap.get(vendorYardiCode)) {
+        String propName = prop.Name;
+        String propAddr = prop.Address_2__c;
+
+        if (propName == null) {
+          propName = '';
+        } else if (propName.contains(',')) {
+          propName = '"' + propName + '"';
+        }
+
         csv += 'SFSTAGELOAN,';
         csv += system.today().format() + ',';
         csv += prop.Yardi_Id__c + ',';
-        csv += prop.Name + ',';
+        csv += propName + ',';
         csv += 'Bridge,';
-        csv += prop.Name + ',';
+        csv += propName + ',';
 
-        if (prop.Address_2__c == null) {
-          prop.Address_2__c = '';
+        if (propAddr == null) {
+          propAddr = '';
+        } else if (propAddr.contains(',')) {
+          propAddr = '"' + propAddr + '"';
         }
 
-        csv += prop.Address_2__c + ',';
+        csv += propAddr + ',';
         csv += ',';
         csv += prop.City__c + ',';
         csv += prop.State__c + ',';
@@ -386,6 +404,10 @@ public without sharing class YardiAPI {
           .replaceAll('\n', ' ');
       }
 
+      acc.Payment_Instructions__c = '';
+
+      String billingStreet = '"' + acc.Name + '"';
+
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
@@ -394,7 +416,7 @@ public without sharing class YardiAPI {
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
       csv += acc.Bank_Account__c + ',';
-      csv += acc.BillingStreet + ',';
+      csv += billingStreet + ',';
       csv += ',,';
       csv += acc.BillingCity + ',';
       csv += acc.BillingStateCode + ',';
@@ -1243,7 +1265,8 @@ public without sharing class YardiAPI {
             Origination_Fee__c,
             Deposit_Amount__c,
             Bridge_Payoff__c,
-            Installment_Comment__c
+            Installment_Comment__c,
+            Legal_Fee__c
           FROM Loan_Versions__r
           WHERE
             RecordType.DeveloperName = 'Schedule_of_Lender_Cost'
@@ -1264,7 +1287,8 @@ public without sharing class YardiAPI {
           Origination_Fee__c,
           Deposit_Amount__c,
           Bridge_Payoff__c,
-          Installment_Comment__c
+          Installment_Comment__c,
+          Legal_Fee__c
         FROM Loan_Version__c
         WHERE Deal__c = :deal.Id
         ORDER BY CreatedDate DESC
@@ -1302,6 +1326,8 @@ public without sharing class YardiAPI {
     totalAmount -= schedule.Stub_Interest__c != null
       ? schedule.Stub_Interest__c
       : 0;
+
+    totalAmount -= schedule.Legal_Fee__c != null ? schedule.Legal_Fee__c : 0;
 
     String vendorYardiId = '';
     if (deal.Third_Party_Title__c != null) {
@@ -1355,6 +1381,11 @@ public without sharing class YardiAPI {
     invoiceRegister += '<Details>';
     invoiceRegister += '<Detail>';
 
+    String entityName = deal.Name;
+    if (String.isNotBlank(deal.Borrower_Entity__r.Name)) {
+      entityName += '(' + deal.Borrower_Entity__r.Name + ')';
+    }
+
     if (deal.Current_Loan_Amount__c != null) {
       invoiceRegister +=
         '<Amount>' +
@@ -1363,13 +1394,7 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>1631-0002</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
-      invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }
@@ -1383,13 +1408,7 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>4622-0000</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
-      invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }
@@ -1403,13 +1422,7 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>1103-1000</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
-      invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }
@@ -1423,13 +1436,7 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>4621-0000</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
-      invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }
@@ -1443,13 +1450,7 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>1647-1000</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
-      invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }
@@ -1463,13 +1464,21 @@ public without sharing class YardiAPI {
       invoiceRegister += '<AccountId>1295-0000</AccountId>';
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
+      invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
+      invoiceRegister += '</Detail>';
+    }
+
+    if (schedule != null && schedule.Legal_Fee__c != null) {
+      invoiceRegister += '<Detail>';
       invoiceRegister +=
-        '<Notes>' +
-        deal.Name +
-        '(' +
-        deal.Borrower_Entity__r.Name +
-        ')' +
-        '</Notes>';
+        '<Amount>-' +
+        String.valueOf(schedule.Legal_Fee__c) +
+        '</Amount>';
+      invoiceRegister += '<AccountId>4627-0000</AccountId>';
+      invoiceRegister += '<CashAccountId></CashAccountId>';
+      invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }

@@ -17,9 +17,14 @@
                 <label>Origination</label>
             </value>
             <value>
-                <fullName>Each Advance</fullName>
+                <fullName>Each Initial Advance</fullName>
                 <default>false</default>
-                <label>Each Advance</label>
+                <label>Each Initial Advance</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
             </value>
         </valueSetDefinition>
     </valueSet>

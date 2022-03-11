@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>Pricing Review</label>
             </value>
+            <value>
+                <fullName>Purchased</fullName>
+                <default>false</default>
+                <label>Purchased</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

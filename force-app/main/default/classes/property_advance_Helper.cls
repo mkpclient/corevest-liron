@@ -666,34 +666,42 @@ public class property_advance_Helper {
   public static void setAdvRecordTypes(Set<Id> advIds) {
     List<Advance__c> advances = new List<Advance__c>();
     Map<String, Id> recTypes = getAdvanceRecordTypes();
-    Map<id,id> propertyAdvMap = new Map<id,id>(); //CIP-2149 - Raj Sirivolu. 1/20/2022.
-    for (Advance__c adv : [
-      SELECT
-        Id,
-        RecordType.DeveloperName,
-        Target_Advance_Date__c,		//CIP-2149 - Raj Sirivolu. 1/20/2022.
-        Underwriter__c,				//CIP-2149 - Raj Sirivolu. 1/20/2022.        
-        (
-          SELECT
-            Id,
-            property__c,							//CIP-2149 - Raj Sirivolu. 1/20/2022.
-            Property__r.RecordType__c,
-            Property__r.Number_of_Advances__c,
-            Property__r.Requested_Funding_Date__c, 	//CIP-2149 - Raj Sirivolu. 1/20/2022.
-            Property__r.Underwriter__c 				//CIP-2149 - Raj Sirivolu. 1/20/2022.
-          FROM Property_Advances__r
-          ORDER BY createdDate ASC,property__c ASC
-        )
-      FROM Advance__c
-      WHERE Id IN :advIds
-    ]) {
+    Map<id, id> propertyAdvMap = new Map<id, id>(); //CIP-2149 - Raj Sirivolu. 1/20/2022.
+    for (
+      Advance__c adv : [
+        SELECT
+          Id,
+          RecordType.DeveloperName,
+          Target_Advance_Date__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
+          Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
+          Closer__c,
+          Title_Review_Company__c,
+          (
+            SELECT
+              Id,
+              property__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
+              Property__r.RecordType__c,
+              Property__r.Number_of_Advances__c,
+              Property__r.Requested_Funding_Date__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
+              Property__r.Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
+              Property__r.Closer__c,
+              Property__r.Title_Review_Company__c
+            FROM Property_Advances__r
+            ORDER BY createdDate ASC, property__c ASC
+          )
+        FROM Advance__c
+        WHERE Id IN :advIds
+      ]
+    ) {
       Boolean hasReno = false;
       Boolean hasChanged = false;
       Boolean isConstruction = false;
-//CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.        
+      //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
       Date requestedFundDt = null;
-	  String underwriter ='';        
-	//CIP-2149 - Raj Sirivolu. 1/20/2022. End.        
+      String underwriter = '';
+      String closer = '';
+      String titleReview = '';
+      //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       for (Property_Advance__c pAdv : adv.Property_Advances__r) {
         if (Integer.valueOf(pAdv.Property__r.Number_of_Advances__c) >= 1) {
           isConstruction = true;
@@ -702,29 +710,34 @@ public class property_advance_Helper {
           hasReno = true;
           isConstruction = false;
         }
-     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
-     if (Trigger.isAfter && Trigger.isInsert)  
-     {
-        // system.debug('pAdv.Property__r.Requested_Funding_Date__c :' +pAdv.Property__r.Requested_Funding_Date__c);
-        // system.debug('pAdv.Property__r.Underwriter__c :' +pAdv.Property__r.Underwriter__c);
-     if (adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||   adv.RecordType.DeveloperName == 'Renovation_Initial' )
-     {
-         propertyAdvMap.put(pAdv.Property__c,adv.id);
-        if (pAdv.Property__r.Requested_Funding_Date__c != null)
-        {
-              requestedFundDt = pAdv.Property__r.Requested_Funding_Date__c ;
+        //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
+        if (Trigger.isAfter && Trigger.isInsert) {
+          // system.debug('pAdv.Property__r.Requested_Funding_Date__c :' +pAdv.Property__r.Requested_Funding_Date__c);
+          // system.debug('pAdv.Property__r.Underwriter__c :' +pAdv.Property__r.Underwriter__c);
+          if (
+            adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||
+            adv.RecordType.DeveloperName == 'Renovation_Initial'
+          ) {
+            propertyAdvMap.put(pAdv.Property__c, adv.id);
+            if (pAdv.Property__r.Requested_Funding_Date__c != null) {
+              requestedFundDt = pAdv.Property__r.Requested_Funding_Date__c;
+            }
+            if (pAdv.Property__r.Underwriter__c != null) {
+              underwriter = pAdv.Property__r.Underwriter__c;
+            }
+            if (pAdv.Property__r.Closer__c != null) {
+              closer = pAdv.Property__r.Closer__c;
+            }
+            if (pAdv.Property__r.Title_Review_Company__c != null) {
+              titleReview = pAdv.Property__r.Title_Review_Company__c;
+            }
+            // system.debug('requestedFundDt :' +requestedFundDt);
+            // system.debug('underwriter :' +underwriter);
+          }
         }
-        if (pAdv.Property__r.Underwriter__c != null)
-        {
-             underwriter = pAdv.Property__r.Underwriter__c;
-          }    
-        // system.debug('requestedFundDt :' +requestedFundDt);
-        // system.debug('underwriter :' +underwriter);    
-	 } 
-     }
-     //CIP-2149 - Raj Sirivolu. 1/20/2022. End.          
+        //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       }
-        
+
       if (
         isConstruction && adv.RecordType.DeveloperName != 'Construction_Advance'
       ) {
@@ -742,58 +755,67 @@ public class property_advance_Helper {
         adv.RecordTypeId = recTypes.get('Non_Renovation_Initial');
       }
 
-     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.     
-     if (Trigger.isAfter && Trigger.isInsert)  
-     {    
-         if (adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||   adv.RecordType.DeveloperName == 'Renovation_Initial' )
-         {
-             if (requestedFundDt != null)
-             {
-                 hasChanged = true;
-                 adv.Target_Advance_Date__c  = requestedFundDt;
-             }
-             if (!String.isblank(underwriter))
-             {
-                 hasChanged = true;
-                 adv.Underwriter__c = underwriter;
-             }
-             system.debug('adv.Target_Advance_Date__c :' +adv.Target_Advance_Date__c);
-             system.debug('adv.Underwriter__c :' +adv.Underwriter__c);          
-         }
-     }
-                
- //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
+      //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
+      if (Trigger.isAfter && Trigger.isInsert) {
+        if (
+          adv.RecordType.DeveloperName == 'Non_Renovation_Initial' ||
+          adv.RecordType.DeveloperName == 'Renovation_Initial'
+        ) {
+          if (requestedFundDt != null) {
+            hasChanged = true;
+            adv.Target_Advance_Date__c = requestedFundDt;
+          }
+          if (!String.isblank(underwriter)) {
+            hasChanged = true;
+            adv.Underwriter__c = underwriter;
+          }
+          if (!String.isblank(closer)) {
+            hasChanged = true;
+            adv.Closer__c = closer;
+          }
+          if (!String.isblank(titleReview)) {
+            hasChanged = true;
+            adv.Title_Review_Company__c = titleReview;
+          }
+          system.debug(
+            'adv.Target_Advance_Date__c :' + adv.Target_Advance_Date__c
+          );
+          system.debug('adv.Underwriter__c :' + adv.Underwriter__c);
+        }
+      }
+
+      //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       if (hasChanged) {
         advances.add(adv);
       }
     } //Advance__c SOQL
-      
-     //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.     
-     if (Trigger.isAfter && Trigger.isInsert)  
-     {      
-      if (propertyAdvMap.size() > 0)
-      {
-        List<Property__c>  propertyList = new List<Property__c>();
-		for(Property__c property : [Select id,Initial_Advance__c from property__c  where id = :propertyAdvMap.keySet() and Initial_Advance__c = NULL] )
-        {
-         property.Initial_Advance__c = propertyAdvMap.get(property.id); 
-         propertyList.add(property);
+
+    //CIP-2149 - Raj Sirivolu. 1/20/2022. Begin.
+    if (Trigger.isAfter && Trigger.isInsert) {
+      if (propertyAdvMap.size() > 0) {
+        List<Property__c> propertyList = new List<Property__c>();
+        for (Property__c property : [
+          SELECT id, Initial_Advance__c
+          FROM property__c
+          WHERE id = :propertyAdvMap.keySet() AND Initial_Advance__c = NULL
+        ]) {
+          property.Initial_Advance__c = propertyAdvMap.get(property.id);
+          propertyList.add(property);
         }
-      //system.debug('propertyList :' +propertyList);
-	try {
-      update propertyList;
-    	} catch (DmlException err) {
-      	System.debug('Property intial advance id update error: ' + err);
-    	}         
-     }
-     }
-     //CIP-2149 - Raj Sirivolu. 1/20/2022. End.      
+        //system.debug('propertyList :' +propertyList);
+        try {
+          update propertyList;
+        } catch (DmlException err) {
+          System.debug('Property intial advance id update error: ' + err);
+        }
+      }
+    }
+    //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
     try {
       update advances;
     } catch (DmlException err) {
       System.debug('Advance record type change error : ' + err);
     }
-     
   }
 
   public static void rollupAdvances(Set<Id> advIds) {

@@ -191,8 +191,25 @@ public class deal_Document_Helper {
    **/
 
   public static void afterInsert(List<Deal_Document__c> newList) {
+    Set<Id> itemIds = new Set<Id>();
     for (Deal_Document__c doc : newList) {
-      system.debug(newList);
+      if (doc.Checklist_Item__c != null) {
+        itemIds.add(doc.Checklist_Item__c);
+      }
+    }
+
+    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
+    if (itemIds.size() > 0) {
+      for (Checklist_Item__c item : [
+        SELECT Id, Status__c
+        FROM Checklist_Item__c
+        WHERE Id IN :itemIds
+      ]) {
+        item.Status__c = 'Pending';
+        items.add(item);
+      }
+
+      update items;
     }
   }
 
@@ -396,7 +413,7 @@ public class deal_Document_Helper {
     List<Deal_Document__c> oldList
   ) {
     Set<Id> updateAppraisals = new Set<Id>();
-      
+
     Map<Id,Deal_Document__c> updateFileNamesMap = new Map<Id,Deal_Document__c>();//CIP 2152. 1/25/2022. Raj Sirivolu.
 
     for (Integer i = 0; i < newList.size(); i++) {
@@ -406,13 +423,15 @@ public class deal_Document_Helper {
       ) {
         updateAppraisals.add(newList[i].Id);
       }
-   //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
-	if ((newList[i].File_Name__c  != oldList[i].File_Name__c ) && !String.isblank(newList[i].File_Name__c) 
-        && !String.isblank(oldList[i].File_Name__c))
-	{
-       updateFileNamesMap.put(newList[i].Attachment_Id__c ,newList[i]); 
-	}
-   //CIP 2152. 1/25/2022. Raj Sirivolu.End      
+
+        //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+	    if ((newList[i].File_Name__c  != oldList[i].File_Name__c ) && !String.isblank(newList[i].File_Name__c) 
+      && !String.isblank(oldList[i].File_Name__c))
+      {
+          updateFileNamesMap.put(newList[i].Attachment_Id__c ,newList[i]); 
+      }
+        //CIP 2152. 1/25/2022. Raj Sirivolu.End  
+
       if (
         newList[i].Document_Type__c == 'Term Sheet' &&
         newList[i].Executive_Approval_Date__c != null &&
@@ -438,7 +457,8 @@ public class deal_Document_Helper {
         update appraisalsToUpdate;
       }
     }
-   //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+
+       //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
    List<ContentDocument > contentdocList = new List<ContentDocument >();
 
    for (ContentDocument contentdoc : [SELECT Id,Title from ContentDocument  where id in :updateFileNamesMap.keyset()])          
@@ -449,7 +469,6 @@ public class deal_Document_Helper {
    
    update contentdocList;
    //CIP 2152. 1/25/2022. Raj Sirivolu.End   
-   
   }
 
   /**

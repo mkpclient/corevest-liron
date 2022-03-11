@@ -120,7 +120,7 @@
       "Advance_Fee_formula__c"
     ];
     var whereClause = "Deal__c = '" + component.get("v.deal").Id + "'";
-    whereClause += " AND (Status__c = 'Closing' OR (Status__c = 'Active' AND Approved_Advance_Amount_Remaining__c > 0))";
+    whereClause += " AND (Status__c = 'Due Diligence' OR Status__c = 'Pending' OR Status__c = 'Closing' OR (Status__c = 'Active' AND Approved_Advance_Amount_Remaining__c > 0))";
 
     whereClause +=
       " AND (Asset_Maturity_Date__c = null OR Asset_Maturity_Date__c >= TODAY )";

@@ -41,7 +41,7 @@ public without sharing class DealEmailHandlerTest {
     email.headers.add(h);
     Messaging.InboundEnvelope env = new Messaging.InboundEnvelope();
 
-    String subject = '#      ' + dealLoanNumber;
+    String subject = '#      ' + dealLoanNumber + '/+-$#%^ALCMD';
 
     for(Integer i = 1; i < 81; i++) {
       subject += ' Long Subject + ' + i;

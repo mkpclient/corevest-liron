@@ -13,5 +13,9 @@
             <fullName>Pricing Review</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Purchased</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
 </RecordType>

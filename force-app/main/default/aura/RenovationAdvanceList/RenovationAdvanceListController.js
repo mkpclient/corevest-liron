@@ -44,13 +44,15 @@
       let property = data[0];
       component.set("v.record", property);
       if (
+        property.Status__c != "Due Diligence" &&
+        property.Status__c != "Pending" &&
         property.Status__c != "Closing" &&
         (property.Status__c != "Active" && property.Reno_Advance_Amount_Remaining__c != 0)
       ) {
         var toast = $A.get("e.force:showToast");
         toast.setParams({
           type: "warning",
-          message: "Property Status must be in Closing Status or Active with available Renovation funding"
+          message: "Property Status must be in Due Diligence, Pending, Closing Status or Active with available Renovation funding"
         });
 
         toast.fire();

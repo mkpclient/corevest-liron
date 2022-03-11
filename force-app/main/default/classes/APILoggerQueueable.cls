@@ -15,17 +15,17 @@ public without sharing class APILoggerQueueable implements Queueable {
     this.log = new APILogger(request, response).getLog();
   }
 
-  // public APILoggerQueueable(
-  //   HttpRequest request,
-  //   HttpResponse response,
-  //   Id parentId,
-  //   APILoggerQueueable nextQueue
-  // ) {
-  //   this.parentId = parentId;
-  //   this.error = false;
-  //   this.next = nextQueue;
-  //   this.log = new APILogger(request, response).getLog();
-  // }
+  public APILoggerQueueable(
+    HttpRequest request,
+    HttpResponse response,
+    Id parentId,
+    APILoggerQueueable nextQueue
+  ) {
+    this.parentId = parentId;
+    this.error = false;
+    this.next = nextQueue;
+    this.log = new APILogger(request, response).getLog();
+  }
 
   public APILoggerQueueable(
     HttpRequest request,

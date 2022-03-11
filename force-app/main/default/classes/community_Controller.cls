@@ -317,11 +317,11 @@ public without sharing class community_Controller {
       'Underwriting',
       'Approved by Committee',
       'UW Hold',
-      'Closed Won'
+      'Closed Won',
+      'Paid Off'
     };
     Set<String> termClosedStages = new Set<String>{
       'Closed Won',
-      'Withdrawn',
       'Paid Off'
     };
 
@@ -335,12 +335,12 @@ public without sharing class community_Controller {
       'UW Hold',
       'Closed Won',
       'Matured',
-      'Expired'
+      'Expired',
+      'Paid Off'
     };
     Set<String> bridgeClosedStages = new Set<String>{
       'Matured',
       'Expired',
-      'Withdrawn',
       'Paid Off'
     };
 
@@ -431,11 +431,15 @@ public without sharing class community_Controller {
       'Underwriting',
       'Approved by Committee',
       'UW Hold',
-      'Closed Won'
+      'Closed Won',
+      'Withdrawn',
+      'Rejected',
+      'Paid Off'
     };
     Set<String> termClosedStages = new Set<String>{
       'Closed Won',
       'Withdrawn',
+      'Rejected',
       'Paid Off'
     };
 
@@ -449,12 +453,16 @@ public without sharing class community_Controller {
       'UW Hold',
       'Closed Won',
       'Matured',
-      'Expired'
+      'Expired',
+      'Withdrawn',
+      'Rejected',
+      'Paid Off'
     };
     Set<String> bridgeClosedStages = new Set<String>{
       'Matured',
       'Expired',
       'Withdrawn',
+      'Rejected',
       'Paid Off'
     };
 

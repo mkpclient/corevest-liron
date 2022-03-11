@@ -395,8 +395,17 @@
         <td class="row-description">
           The interest rate for the Loan shall be fixed at a rate equal to the
           sum of (a) the&nbsp;
-          <apex:outputText value="{!Opportunity.Term_Loan_Type__c}" /> Swap Rate
-          as of the Closing (see defined term below) Date, subject to a floor
+          <span
+          style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year','block','none')}"
+          >
+            <apex:outputText value="{!Opportunity.Term_Loan_Type__c}" />
+          </span>
+          <span
+          style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year','block','none')}"
+          >
+            5 Year&nbsp;
+          </span>
+          Swap Rate as of the Closing (see defined term below) Date, subject to a floor
           of&nbsp;
           <apex:outputText value="{0,number,###.00}">
             <apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>% and (b)&nbsp;
@@ -600,137 +609,137 @@
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
           >
-            34th month after origination
+            34th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '36 Months', 'inline','none')}"
           >
-            36th month after origination
+            36th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '42 Months', 'inline','none')}"
           >
-            42nd month after origination
+            42nd Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '48 Months', 'inline','none')}"
           >
-            48th month after origination
+            48th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '52 Months', 'inline','none')}"
           >
-            52nd month after origination
+            52nd Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '53 Months', 'inline','none')}"
           >
-            53th month after origination
+            53th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '54 Months', 'inline','none')}"
           >
-            54th month after origination
+            54th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '55 Months', 'inline','none')}"
           >
-            55th month after origination
+            55th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '56 Months', 'inline','none')}"
           >
-            56th month after origination
+            56th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '57 Months', 'inline','none')}"
           >
-            57th month after origination
+            57th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '58 Months', 'inline','none')}"
           >
-            58th month after origination
+            58th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '60 Months', 'inline','none')}"
           >
-            60th month after origination
+            60th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '61 Months', 'inline','none')}"
           >
-            61st month after origination
+            61st Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '66 Months', 'inline','none')}"
           >
-            66th month after origination
+            66th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '72 Months', 'inline','none')}"
           >
-            72nd month after origination
+            72nd Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '77 Months', 'inline','none')}"
           >
-            77th month after origination
+            77th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '78 Months', 'inline','none')}"
           >
-            78th month after origination
+            78th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '81 Months', 'inline','none')}"
           >
-            81st month after origination
+            81st Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '84 Months', 'inline','none')}"
           >
-            84th month after origination
+            84th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '96 Months', 'inline','none')}"
           >
-            96th month after origination
+            96th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '102 Months', 'inline','none')}"
           >
-            102nd month after origination
+            102nd Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '108 Months', 'inline','none')}"
           >
-            108th month after origination
+            108th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '112 Months', 'inline','none')}"
           >
-            112th month after origination
+            112th mPayment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '113 Months', 'inline','none')}"
           >
-            113th month after origination
+            113th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '114 Months', 'inline','none')}"
           >
-            114th month after origination
+            114th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '117 Months', 'inline','none')}"
           >
-            117th month after origination
+            117th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '120 Months', 'inline','none')}"
           >
-            120th month after origination
+            120th Payment Date
           </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == 'Date of Maturity' || Opportunity.YM_Prepayment_Penalty__c == 'N/A', 'inline','none')}"
@@ -745,7 +754,7 @@
       <tr
         style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A' && Opportunity.Stepdown_Prepayment_Period__c != null, 'page-break-inside:avoid;', 'display:none;')}"
       >
-        <td class="row-title">Stepdown Par Prepayment Period:</td>
+        <td class="row-title">Prepayment Premium:</td>
         <td class="row-description">
           <span
             style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1', 'inline','none')}"
@@ -1522,7 +1531,7 @@ If the Loan closes more than sixty (60) days after execution of this Summary of 
               style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
             >
               <td class="definition-title">
-                Yield Maintenance Premium:
+                Prepayment Premium:
               </td>
               <td class="definition">
                 An amount determined by Lender to be equal to the greater of (a)
@@ -1566,11 +1575,11 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 requirements set forth in the loan documents, Borrower shall
                 have the right to release individual Properties comprising part
                 of the Portfolio through the payment of release prices equal to
-                120% of the allocated loan amount of the individual Properties
+                120% of the initial allocated loan amount of the individual Properties
                 released (plus the applicable
                 <span
                   style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
-                  >Yield Maintenance Premium</span
+                  >Prepayment Premium</span
                 >
                 <span
                   style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
@@ -1578,9 +1587,9 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 >, interest on the amount prepaid through the end of the
                 interest accrual period in which the release occurs and
                 out-of-pocket fees and expenses of Lender); provided (i) pro
-                forma DSCR (see defined term below) following such release of
-                the remaining Properties shall exceed the greater of (A)
-                Required DSCR and (B) DSCR as of the fiscal quarter ended
+                forma Rent to Debt Service Ratio (see defined term below) following such release of
+                the remaining Properties following such release shall exceed the greater of (A)
+                Required Rent to Debt Service Ratio and (B) actual Rent to Debt Service Ratio as of the last day of the most recent calendar month ended
                 immediately preceding such release, and (ii) other customary
                 conditions are satisfied.
                 <p

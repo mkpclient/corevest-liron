@@ -15,7 +15,7 @@ public without sharing class BoxAPI {
     String box_subject_type = 'enterprise';
     String box_subject_id = settings.Box_Subject_Id__c; //'786745';
     String client_id = settings.Box_Client_Id__c; //'6j821cmxtkmpmy144abj7y94tgqshm8b';
-    String client_secret = settings.Box_Client_Id__c; //'npPwz6fxqMrEzFZOrJsOIiKEOprolPXn';
+    String client_secret = settings.Box_Client_Secret__c; //'npPwz6fxqMrEzFZOrJsOIiKEOprolPXn';
 
     String body = 'grant_type=' + grant_type;
     body += '&box_subject_type=' + box_subject_type;

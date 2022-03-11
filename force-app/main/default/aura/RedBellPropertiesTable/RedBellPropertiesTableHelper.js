@@ -76,8 +76,6 @@
 			Is_HOA__c: prop.Is_HOA__c,
 			Property_Type__c: prop.Property_Type__c,
 			Borrower_Opinion_of_Current_Value__c: prop.Borrower_Opinion_of_Current_Value__c != null ? '$' + prop.Borrower_Opinion_of_Current_Value__c.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,').slice(0, -3) : null,
-			
-            
 			Red_Bell_Address__c: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? prop.Property_AVMs__r[0].AVM_Address__c : null,
 			Diff_Red_Bell_Address__c: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? prop.Name && prop.Name != prop.Property_AVMs__r[0].AVM_Address__c : null,
 			Red_Bell_City__c: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? prop.Property_AVMs__r[0].AVM_C1_City__c : null,

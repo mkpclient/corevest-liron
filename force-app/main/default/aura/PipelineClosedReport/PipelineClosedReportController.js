@@ -9,6 +9,7 @@
 		helper.CLOSED_FIELDS.forEach( field => fields.add(field) );
 		fields.delete('');
 		fields.add('Awaiting_Kickoff_Call__c');
+		fields.add('In_Process_of_Withdrawn_or_Rejected__c');
 
 		var fieldList = Array.from(fields);
 
@@ -17,10 +18,10 @@
 		helper.STAGES.forEach( field => pipelineWhereClause += '\'' + field + '\', ' );
 		pipelineWhereClause = pipelineWhereClause.substr(0, pipelineWhereClause.lastIndexOf(','));
 		pipelineWhereClause += ')';
-		pipelineWhereClause += ' AND Type =\'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\' AND Hold_Reason__c != \'In Process of Withdrawal/Rejection\')';
+		pipelineWhereClause += ' AND Type =\'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\')';
 		pipelineWhereClause += ' OR (Type =\'Term Loan\' AND StageName = \'Closed Won\' AND Account_Name__c != \'Inhouse Test Account\' AND CloseDate = THIS_MONTH)';
 
-		var pipelineOrderBy = "Awaiting_Kickoff_Call__c Asc, Anticipated_Closing_Date__c Asc, StageName DESC ";
+		var pipelineOrderBy = "Awaiting_Kickoff_Call__c ASC, Anticipated_Closing_Date__c ASC, StageName DESC ";
 
 		var pipelineQuery = component.get('c.getRecordList');
 
@@ -31,7 +32,7 @@
 			orderBy : pipelineOrderBy
 		});
 
-		var closedWhereClause = 'StageName IN (\'Closed Won\',\'Matured\',\'Paid Off\') AND Type = \'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\' AND CloseDate != THIS_MONTH';
+		var closedWhereClause = 'StageName IN (\'Closed Won\',\'Matured\',\'Paid Off\',\'Sold\') AND Type = \'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\' AND CloseDate != THIS_MONTH';
 		var closedOrderBy = 'CloseDate ASC';
 
 		var closedQuery = component.get('c.getRecordList');
@@ -64,7 +65,7 @@
 
 					var sheetClosed = {};
 					var sheetPipeline = {};
-					var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Closed', 'Pending Kickoff', 'On Hold'];
+					var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December', 'Closed', 'Pending Kickoff', 'On Hold', 'In Process of Rejected/Withdrawn'];
 
 					closedData.forEach( function(deal){
 						var year = parseInt(deal.CloseDate.split('-')[0]);
@@ -73,6 +74,7 @@
 					});
 
 					var onHolds = [];
+					var inprocessOfRejectedOrWithdrawn = [];
 
 					pipelineData.forEach( function(deal){
 						if(deal.StageName == 'Closed Won'){
@@ -86,26 +88,31 @@
 
 						var pendingKickoffs = [];
 
-						if(deal.StageName == 'UW Hold' && deal.hasOwnProperty('Anticipated_Closing_Date__c')){
-							deal.StageName = 'On Hold';
+						if(deal.StageName == 'UW Hold' && !deal.In_Process_of_Withdrawn_or_Rejected__c && deal.hasOwnProperty('Anticipated_Closing_Date__c')){
+							
 							//var year = parseInt(deal.Anticipated_Closing_Date__c.split('-')[0]);
 							//var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
-
+							deal.StageName = 'On Hold';
 							onHolds.push(deal);
 
 							//helper.pushRecord(sheetPipeline, new Date().getFullYear(), months, 14, deal);
-						}else 
-						if(deal.Awaiting_Kickoff_Call__c){
+						} else if(deal.StageName == 'UW Hold' && deal.In_Process_of_Withdrawn_or_Rejected__c && deal.hasOwnProperty('Anticipated_Closing_Date__c')){
+							deal.StageName = 'In Process of Rejected/Withdrawn';
+							inprocessOfRejectedOrWithdrawn.push(deal);
+							// var year = parseInt(deal.Anticipated_Closing_Date__c.split('-')[0]);
+							// var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
+
+							// helper.pushRecord(sheetPipeline, new Date().getFullYear(), months, 15, deal);
+
+						} else if(deal.Awaiting_Kickoff_Call__c){
 							deal.StageName = 'Pending Kickoff';
 							var year = parseInt(deal.Anticipated_Closing_Date__c.split('-')[0]);
 							var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
 
 							helper.pushRecord(sheetPipeline, new Date().getFullYear(), months, 13, deal);
-						}
-						else if(deal.StageName == 'Closed Won'){
+						} else if(deal.StageName == 'Closed Won'){
 							
-
-						}else if (deal.hasOwnProperty('Anticipated_Closing_Date__c')){
+						} else if (deal.hasOwnProperty('Anticipated_Closing_Date__c')){
 
 							var year = parseInt(deal.Anticipated_Closing_Date__c.split('-')[0]);
 							var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
@@ -118,6 +125,13 @@
 						var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
 
 						helper.pushRecord(sheetPipeline, new Date().getFullYear(), months, 14, deal);
+					})
+
+					inprocessOfRejectedOrWithdrawn.forEach(function(deal){
+						var year = parseInt(deal.Anticipated_Closing_Date__c.split('-')[0]);
+						var month = parseInt(deal.Anticipated_Closing_Date__c.split('-')[1]) - 1;
+
+						helper.pushRecord(sheetPipeline, new Date().getFullYear(), months, 15, deal);
 					})
 
 					// for(var property in sheetPipeline){

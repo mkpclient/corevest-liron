@@ -5,14 +5,21 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
   ) {
     String subject = email.Subject;
     String parsedSubject = subject.substringAfter('#');
+    parsedSubject = parsedSubject.replaceAll('_', ' ');
 
     while (parsedSubject.startsWith(' ')) {
       parsedSubject = parsedSubject.substringAfter(' ');
     }
 
+    
+
     String dealLoanNumber = parsedSubject.contains(' ')
       ? parsedSubject.substringBefore(' ')
       : parsedSubject;
+
+    while(!(dealLoanNumber.right(1)).isNumeric()) {
+      dealLoanNumber = dealLoanNumber.removeEnd(dealLoanNumber.right(1));
+    }
 
     System.debug(
       subject +
@@ -217,6 +224,9 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
         }
 
         cvIdString = cvIdString.removeEnd(';');
+        if(cvIdString.length() > 255) {
+          cvIdString = cvIdString.substring(0, 230) + ' [...]';
+        }
 
         customEmailRecord.ContentVersionId__c = cvIdString;
 
@@ -309,9 +319,9 @@ global class dealEmailHandler implements Messaging.InboundEmailHandler {
 
     email.setToAddresses(
       new List<String>{
-        'ldecastro@mkpartners.com',
         'logins+cvest@mkpartners.com',
-        'bryon.harland@cvest.com'
+        'bryon.harland@cvest.com',
+        'jonathan.lay@cvest.com'
       }
     );
 

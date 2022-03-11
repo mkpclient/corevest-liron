@@ -14,6 +14,8 @@ public with sharing class opportunity_Tests {
 
   @TestSetup
   static void dataSetup(){
+  
+      
     Account acc = test_Helper.createAccount();
 
     acc.Alternate_Phone__c = '7777777777';
@@ -3778,7 +3780,7 @@ public with sharing class opportunity_Tests {
     Opportunity opp = test_Helper.createBTRDeal(acc, cont);
   }
 
-  static testMethod void opportunity_CancellationTest() {
+   static testMethod void opportunity_CancellationTest() {
     Account acc = [SELECT Id FROM Account ORDER BY CreatedDate DESC LIMIT 1];
     Contact cont = [SELECT Id FROM Contact ORDER BY CreatedDate DESC LIMIT 1];
     Opportunity opp = test_Helper.createCREDeal(acc, cont);
@@ -4052,7 +4054,7 @@ public with sharing class opportunity_Tests {
         oldoppmap.put(opp2.id,opp2);
         
         opportunity_Helper.beforeUpdate(newoppmap,oldoppmap); */
-  }
+  } 
   static testMethod void opportunity_UnitTest6() {
     id recType = Schema.SObjectType.Account.getRecordTypeInfosByName()
       .get('Broker')
@@ -4094,5 +4096,7 @@ public with sharing class opportunity_Tests {
     opp.GLC_Approved__c = true;
     opp.Background_Check_Completed__c = true;
     insert opp;
-  }
+  } 
+    
+ 
 }

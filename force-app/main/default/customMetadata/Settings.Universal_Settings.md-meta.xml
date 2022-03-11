@@ -180,7 +180,7 @@
     </values>
     <values>
         <field>Yardi_Interface_Entity__c</field>
-        <value xsi:type="xsd:string">CoreVest Loan Interfac</value>
+        <value xsi:type="xsd:string">CoreVest Loan Interface</value>
     </values>
     <values>
         <field>Yardi_Interface_License__c</field>

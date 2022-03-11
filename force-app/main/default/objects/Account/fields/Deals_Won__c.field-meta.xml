@@ -8,7 +8,7 @@
     <summaryFilterItems>
         <field>Opportunity.StageName</field>
         <operation>equals</operation>
-        <value>Closed Won, Expired, Matured, Paid Off</value>
+        <value>Closed Won, Expired, Matured, Paid Off, Sold</value>
     </summaryFilterItems>
     <summaryForeignKey>Opportunity.AccountId</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

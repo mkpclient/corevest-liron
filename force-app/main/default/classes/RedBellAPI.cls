@@ -20,8 +20,8 @@ public class RedBellAPI {
 											AVM_C2_Act_Dom__c, AVM_C2_Address__c, AVM_C2_Baths__c, AVM_C2_Beds__c, AVM_C2_City__c, AVM_C2_Comp_Type__c, AVM_C2_Garage__c, AVM_C2_Image__c, AVM_C2_Included_In_Calculation__c, AVM_C2_Last_Sale_Date__c, AVM_C2_Last_Sale_Price__c, AVM_C2_List_Date__c,
 											AVM_C2_list_Price__c, AVM_C2_Lot_Size__c, AVM_C2_Percentage_Of_Valuation__c, AVM_C2_Square_Feet__c,AVM_C2_Square_Foot_Price__c, AVM_C2_State__c, AVM_C2_Target_Distance__c, AVM_C2_Tot_Dom__c, AVM_C2_Units__c, AVM_C2_Year_Built__c, AVM_C2_ZIP__c, AVM_C2_REO__c,
 											AVM_C3_Act_Dom__c, AVM_C3_Address__c, AVM_C3_Baths__c, AVM_C3_Beds__c, AVM_C3_City__c, AVM_C3_Comp_Type__c, AVM_C3_Garage__c, AVM_C3_Image__c, AVM_C3_Included_In_Calculation__c, AVM_C3_Last_Sale_Date__c,AVM_C3_Last_Sale_Price__c, AVM_C3_List_Date__c,
-											AVM_C3_List_Price__c, AVM_C3_Lot_Size__c, AVM_C3_Percentage_Of_Valuation__c, AVM_C3_Square_Feet__c,AVM_C3_Square_Foot_Price__c, AVM_C3_State__c, AVM_C3_Target_Distance__c, AVM_C3_Tot_Dom__c, AVM_C3_Units__c, AVM_C3_Year_Built__c, AVM_C3_Zip__c, AVM_C3_REO__c 
-											from Property_AVMs__r)
+											AVM_C3_List_Price__c, AVM_C3_Lot_Size__c, AVM_C3_Percentage_Of_Valuation__c, AVM_C3_Square_Feet__c,AVM_C3_Square_Foot_Price__c, AVM_C3_State__c, AVM_C3_Target_Distance__c, AVM_C3_Tot_Dom__c, AVM_C3_Units__c, AVM_C3_Year_Built__c, AVM_C3_Zip__c, AVM_C3_REO__c
+                                            from Property_AVMs__r)
                                         FROM Property__c
                                         WHERE
                                             Property__c.Deal__c = :recordId AND Status__c NOT IN ('Inactive','Cancelled','Rescinded')

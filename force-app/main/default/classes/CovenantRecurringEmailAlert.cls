@@ -2,7 +2,7 @@ global class CovenantRecurringEmailAlert implements Schedulable{
 
 global void execute(SchedulableContext SC) {
  //EmailTemplate template = [SELECT id FROM EmailTemplate WHERE DeveloperName = 'X10dayCovenantEmail'];
- User notificationRecepient = [SELECT id, email from User WHERE FirstName = 'George' and LastName = 'Younes'];
+ User notificationRecepient = [SELECT id, email FROM User WHERE FirstName = 'George' AND LastName = 'Younes'];
     system.debug(notificationRecepient.email);
  string messageBody;
  //string messageBodyText;
@@ -19,6 +19,7 @@ list<task> taskList=new list<task>([select id, ownerId,subject, ActivityDate, As
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setTargetObjectId(t.ownerid);
             mail.setCcAddresses(new String[] {notificationRecepient.email});
+            mail.setBccAddresses(new String[] {'bryon.harland@cvest.com'});
 
        			System.debug(t.ownerid);
 				System.debug(notificationRecepient.email);

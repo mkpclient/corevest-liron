@@ -27,6 +27,14 @@
                 <behavior>Edit</behavior>
                 <field>Initial_Monthly_Tax_Reserve_Deposit__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Management_Adjustment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Fee__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

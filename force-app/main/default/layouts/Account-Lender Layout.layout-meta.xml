@@ -406,6 +406,8 @@
         <fields>CREATED_DATE</fields>
         <fields>RECORDTYPE</fields>
         <fields>Stage__c</fields>
+        <fields>Number_of_Loans__c</fields>
+        <fields>Total_Bid_Amount__c</fields>
         <relatedList>Lender_Deal__c.Lender__c</relatedList>
         <sortField>CREATED_DATE</sortField>
         <sortOrder>Desc</sortOrder>

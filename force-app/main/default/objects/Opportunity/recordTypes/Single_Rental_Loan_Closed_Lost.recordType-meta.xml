@@ -362,7 +362,11 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
-            <fullName>Each Advance</fullName>
+            <fullName>Each Initial Advance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
         <values>

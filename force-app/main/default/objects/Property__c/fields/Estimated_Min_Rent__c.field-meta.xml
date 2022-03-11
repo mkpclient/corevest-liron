@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Estimated_Min_Rent__c</fullName>
+    <description>Estimated Min Rent retrieved from Beekin Interface</description>
+    <externalId>false</externalId>
+    <label>Estimated Min Rent</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

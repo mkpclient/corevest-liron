@@ -947,6 +947,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             o.Approved_Term_Sheet__c = i;
             o.Approved_Term_Sheet_Name__c = cv.PathOnClient;
             o.Term_Sheet_Approval_Date__c = System.now();
+            if (o.StageName == 'Initial Review' || o.StageName == 'Data Tape Receieved') {
+              o.StageName = 'Term Sheet Issued';
+            }
             dealDoc.Executive_Approval_Date__c = system.now();
             update dealDoc;
             update o;
