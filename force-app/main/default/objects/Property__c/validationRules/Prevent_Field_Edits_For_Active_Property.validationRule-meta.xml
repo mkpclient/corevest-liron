@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Prevent_Field_Edits_For_Active_Property</fullName>
+    <active>true</active>
+    <description>To Prevent certain property fields from updating a property record when the property is active.</description>
+    <errorConditionFormula>AND(
+ISPICKVAL( Status__c ,&quot;Active&quot;),
+$Profile.Name&lt;&gt; &quot;System Administrator&quot;,
+OR(
+ISCHANGED(After_Repair_Value__c),
+ISCHANGED(Appraised_Value_Amount__c),
+ISCHANGED(Acquisition_Price__c),
+ISCHANGED(Rehab_Budget__c)
+ ))</errorConditionFormula>
+    <errorMessage>Acquisition Price, Current Appraised As Is Value, Renovation Budget, Current Appraisal After Repair Value, Approved Renovation Advance Amount and
+Reno Advance Amount cannot be changed while property is active.</errorMessage>
+</ValidationRule>

@@ -3182,7 +3182,7 @@
     <picklistValues>
         <picklist>Product_Sub_Type__c</picklist>
         <values>
-            <fullName>Fixed Rate Term Loan</fullName>
+            <fullName>Fixed Rate Long Term Loan</fullName>
             <default>false</default>
         </values>
         <values>

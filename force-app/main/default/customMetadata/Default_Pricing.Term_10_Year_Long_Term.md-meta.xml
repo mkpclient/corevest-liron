@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Tier 4-LOC-Reno and Rent-Reno</label>
+    <label>Term-10 Year-Long Term</label>
     <protected>false</protected>
     <values>
         <field>ARV_LTV__c</field>
-        <value xsi:type="xsd:double">65.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Cash_Management__c</field>
@@ -12,47 +12,47 @@
     </values>
     <values>
         <field>Credit_Tier__c</field>
-        <value xsi:type="xsd:string">Tier 4</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Floor_Percent__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">1.65</value>
     </values>
     <values>
         <field>Holdback_Multiplier__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
         <field>Initial_LTC__c</field>
-        <value xsi:type="xsd:double">80.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Initial_LTV__c</field>
-        <value xsi:type="xsd:double">75.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Loan_Term__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">10 Year</value>
     </values>
     <values>
         <field>Max_Reno_Cost_Reimbursement__c</field>
-        <value xsi:type="xsd:double">100.0</value>
-    </values>
-    <values>
-        <field>Origination_Fee_Percent__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Origination_Fee_Percent__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
         <field>Product_Sub_Type__c</field>
-        <value xsi:type="xsd:string">Renovation</value>
+        <value xsi:type="xsd:string">Fixed Rate Long Term Loan</value>
     </values>
     <values>
         <field>Product_Type__c</field>
-        <value xsi:type="xsd:string">Credit Line</value>
+        <value xsi:type="xsd:string">Term Loan</value>
     </values>
     <values>
         <field>Project_Strategy__c</field>
-        <value xsi:type="xsd:string">Renovate and Rent</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Recourse__c</field>
@@ -60,7 +60,7 @@
     </values>
     <values>
         <field>Reno_Limit_Acq_Cost__c</field>
-        <value xsi:type="xsd:double">75.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Stepdown_Prepayment_Period__c</field>
@@ -68,6 +68,6 @@
     </values>
     <values>
         <field>Total_Loan_LTC__c</field>
-        <value xsi:type="xsd:double">80.0</value>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

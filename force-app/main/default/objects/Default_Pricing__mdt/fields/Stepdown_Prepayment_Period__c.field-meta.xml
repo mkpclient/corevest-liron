@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Product_Type__c</fullName>
+    <fullName>Stepdown_Prepayment_Period__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Product Type</label>
+    <label>Stepdown Prepayment Period</label>
     <required>false</required>
     <type>Picklist</type>
     <valueSet>
@@ -11,14 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Credit Line</fullName>
+                <fullName>5,4,3,2,1</fullName>
                 <default>true</default>
-                <label>Credit Line</label>
+                <label>5,4,3,2,1</label>
             </value>
             <value>
-                <fullName>Term Loan</fullName>
+                <fullName>N/A</fullName>
                 <default>false</default>
-                <label>Term Loan</label>
+                <label>N/A</label>
             </value>
         </valueSetDefinition>
     </valueSet>

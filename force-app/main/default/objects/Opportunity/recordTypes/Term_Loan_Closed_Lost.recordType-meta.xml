@@ -2907,7 +2907,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Fixed Rate Term Loan</fullName>
+            <fullName>Fixed Rate Long Term Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Rate Short Term Loan</fullName>
             <default>false</default>
         </values>
         <values>

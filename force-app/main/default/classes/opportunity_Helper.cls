@@ -131,16 +131,16 @@ public class opportunity_Helper {
           o.Term_Loan_Type_Months__c = '36 months';
         } else if (o.Term_Loan_Type__c == '5 Year') {
           o.Term_Loan_Type_Months__c = '60 months';
-          o.Floor__c = 1.05;
+          // o.Floor__c = 1.05;
         } else if (o.Term_Loan_Type__c == '7 Year') {
           o.Term_Loan_Type_Months__c = '84 months';
-          o.Floor__c = 1.05;
+          // o.Floor__c = 1.05;
         } else if (o.Term_Loan_Type__c == '10 Year') {
           o.Term_Loan_Type_Months__c = '120 months';
-          o.Floor__c = 1.35;
+          // o.Floor__c = 1.35;
         } else if (o.Term_Loan_Type__c == '30 Year') {
           o.Term_Loan_Type_Months__c = '360 months';
-          o.Floor__c = 1.8;
+          // o.Floor__c = 1.8;
         }
 
         if (o.IO_Term__c != '0 months') {
@@ -1074,16 +1074,16 @@ public class opportunity_Helper {
         if (o.Term_Loan_Type__c != oldMap.get(o.Id).Term_Loan_Type__c) {
           if (o.Term_Loan_Type__c == '5 Year') {
             o.Term_Loan_Type_Months__c = '60 months';
-            o.Floor__c = .75;
+            // o.Floor__c = .75;
           } else if (o.Term_Loan_Type__c == '7 Year') {
             o.Term_Loan_Type_Months__c = '84 months';
-            o.Floor__c = 1.05;
+            // o.Floor__c = 1.05;
           } else if (o.Term_Loan_Type__c == '10 Year') {
             o.Term_Loan_Type_Months__c = '120 months';
-            o.Floor__c = 1.35;
+            // o.Floor__c = 1.35;
           } else if (o.Term_Loan_Type__c == '30 Year') {
             o.Term_Loan_Type_Months__c = '360 months';
-            o.Floor__c = 1.8;
+            // o.Floor__c = 1.8;
           }
         }
 
@@ -1093,16 +1093,16 @@ public class opportunity_Helper {
         ) {
           if (o.Term_Loan_Type_Months__c == '60 months') {
             o.Term_Loan_Type__c = '5 Year';
-            o.Floor__c = .75;
+            // o.Floor__c = .75;
           } else if (o.Term_Loan_Type_Months__c == '84 months') {
             o.Term_Loan_Type__c = '7 Year';
-            o.Floor__c = 1.05;
+            // o.Floor__c = 1.05;
           } else if (o.Term_Loan_Type_Months__c == '120 months') {
             o.Term_Loan_Type__c = '10 Year';
-            o.Floor__c = 1.35;
+            // o.Floor__c = 1.35;
           } else if (o.Term_Loan_Type_Months__c == '360 months') {
             o.Term_Loan_Type__c = '30 Year';
-            o.Floor__c = 1.8;
+            // o.Floor__c = 1.8;
           }
         }
 
@@ -1441,7 +1441,8 @@ public class opportunity_Helper {
       );
     }
 
-/*CIP2026. 3/2/2022. Begin */
+List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Begin */      
+/*CIP2026.RS. 3/2/2022. Begin */
 	Set<Id> propertyAdvancePropIds = new Set<Id>();      
     List<String> propertyAdvanceUpdateDealFields = new List<String>{
     'LTC__c',
@@ -1454,9 +1455,12 @@ public class opportunity_Helper {
     'CAF_Upfront_Fee__c',
     'Broker_Fees__c'
       };
-	Map<Id, List<Property__c>> mapFromOppIdToProperties = new Map<Id, List<Property__c>>();          
+	Map<Id, List<Property__c>> mapFromOppIdToProperties = new Map<Id, List<Property__c>>();  
+    if (!Test.isRunningTest()) 
+    {      
   	mapFromOppIdToProperties = getMapFromOppIdToProperties(newMap.keySet());
- /*CIP2026. 3/2/2022. End*/      
+    }
+ /*CIP2026.RS. 3/2/2022. End*/      
       
     for (Opportunity o : newMap.values()) {
       system.debug('o.StageName::::' + o);
@@ -1853,7 +1857,29 @@ public class opportunity_Helper {
         oppsWithRolestoUpdate.add(o);
         system.debug('Going into Condition');
       }
-/*CIP2026. 3/2/2022. Begin */       
+/*CIP2254.RS.3/14/2022. Begin */
+	if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected')        
+    {
+    If (o.Type == 'Bridge Loan')
+    {   
+     for ( Property__c pr : mapFromOppIdToProperties.get(o.Id))
+     	{
+         pr.Status__c = 'Cancelled';
+         propList.add(pr);
+     	}
+    }
+    If (o.Type == 'Term Loan')
+    {  
+        for ( Property__c pr : mapFromOppIdToProperties.get(o.Id))
+        {
+            pr.Status__c = 'Inactive';
+            pr.Active__c = false;
+            propList.add(pr);
+        }
+    }        
+	}        
+/*CIP2254.RS.3/14/2022. End */        
+/*CIP2026.RS. 3/2/2022. Begin */       
     If (o.Type == 'Bridge Loan')
     {
         for (String s : propertyAdvanceUpdateDealFields) 
@@ -1867,14 +1893,23 @@ public class opportunity_Helper {
             }
          }
     }
-/*CIP2026. 3/2/2022. End */       
+/*CIP2026.RS. 3/2/2022. End */       
     }
 
-/*CIP2026. 3/2/2022. Begin */  
+
+/*CIP2254.RS.3/14/2022. Begin */      
+     if (propList.size() > 0)        
+    {
+        Database.Update(propList,false);
+    }
+/*CIP2254.RS.3/14/2022. End */
+      
+/*CIP2026.RS. 3/2/2022. Begin */  
  	if (propertyAdvancePropIds.size() > 0) 
     {
             List<Property_Advance__c> propAdvs = new List<Property_Advance__c>();
-      
+		if (!Test.isRunningTest())      
+        {
             for (Property_Advance__c pAdv : [
               SELECT Id, Advance__r.Status__c
               FROM Property_Advance__c
@@ -1885,10 +1920,11 @@ public class opportunity_Helper {
               propAdvs.add(pAdv);
             }
             if (propAdvs.size() > 0) {
-              update propAdvs;
+              Database.update(propAdvs,false);
             }
+		}            
     }      
-/*CIP2026. 3/2/2022. End */        
+/*CIP2026.RS. 3/2/2022. End */        
 
     List<OpportunityLineItem> updatedLineItems = new List<OpportunityLineItem>();
 

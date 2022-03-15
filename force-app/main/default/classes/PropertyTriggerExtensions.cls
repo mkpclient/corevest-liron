@@ -37,11 +37,11 @@ public without sharing class PropertyTriggerExtensions {
         );
       }
 
-      if (
-        oP.Status__c != nP.Status__c && validStatuses.contains(nP.Status__c)
-      ) {
-        propIDs.add(nP.Id);
-      }
+      // if (
+      //   oP.Status__c != nP.Status__c && validStatuses.contains(nP.Status__c)
+      // ) {
+      //   propIDs.add(nP.Id);
+      // }
     }
 
     if (cxledProperties.size() > 0) {
@@ -54,16 +54,15 @@ public without sharing class PropertyTriggerExtensions {
       update cxledProperties.values();
     }
 
-    if(propIDs.size() > 0) {
-      for(Property_Advance__c pa : [
-        SELECT Advance__c
-        FROM Property_Advance__c
-        WHERE Property__c IN :propIDs
-        AND Advance__r.Name NOT IN :NUMBERS_SET
-      ]) {
-        advanceIds.add(pa.Advance__c);
-      }
-    }
+    // if (propIDs.size() > 0) {
+    //   for (Property_Advance__c pa : [
+    //     SELECT Advance__c
+    //     FROM Property_Advance__c
+    //     WHERE Property__c IN :propIDs AND Advance__r.Name NOT IN :NUMBERS_SET
+    //   ]) {
+    //     advanceIds.add(pa.Advance__c);
+    //   }
+    // }
 
     if (advanceIds.size() > 0) {
       updateAdvances(advanceIds);

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Product_Type__c</fullName>
+    <fullName>Recourse__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Product Type</label>
+    <label>Recourse</label>
     <required>false</required>
     <type>Picklist</type>
     <valueSet>
@@ -11,14 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Credit Line</fullName>
+                <fullName>Recourse</fullName>
                 <default>true</default>
-                <label>Credit Line</label>
+                <label>Recourse</label>
             </value>
             <value>
-                <fullName>Term Loan</fullName>
+                <fullName>Non-Recourse</fullName>
                 <default>false</default>
-                <label>Term Loan</label>
+                <label>Non-Recourse</label>
             </value>
         </valueSetDefinition>
     </valueSet>

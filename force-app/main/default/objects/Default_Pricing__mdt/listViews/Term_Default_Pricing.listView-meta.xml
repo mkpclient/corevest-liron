@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Term_Default_Pricing</fullName>
+    <columns>MasterLabel</columns>
+    <columns>Loan_Term__c</columns>
+    <columns>Product_Type__c</columns>
+    <columns>Product_Sub_Type__c</columns>
+    <columns>Holdback_Multiplier__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Product_Type__c</field>
+        <operation>equals</operation>
+        <value>Term Loan</value>
+    </filters>
+    <label>Term Default Pricing</label>
+</ListView>

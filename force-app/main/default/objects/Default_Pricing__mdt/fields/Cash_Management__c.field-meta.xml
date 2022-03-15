@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Product_Sub_Type__c</fullName>
+    <fullName>Cash_Management__c</fullName>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Product Sub-Type</label>
+    <label>Cash Management</label>
     <required>false</required>
     <type>Picklist</type>
     <valueSet>
@@ -11,24 +11,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Renovation</fullName>
+                <fullName>Soft</fullName>
                 <default>true</default>
-                <label>Renovation</label>
+                <label>Soft</label>
             </value>
             <value>
-                <fullName>No Renovation</fullName>
+                <fullName>Hard</fullName>
                 <default>false</default>
-                <label>No Renovation</label>
+                <label>Hard</label>
             </value>
             <value>
-                <fullName>Fixed Rate Long Term Loan</fullName>
+                <fullName>None</fullName>
                 <default>false</default>
-                <label>Fixed Rate Long Term Loan</label>
-            </value>
-            <value>
-                <fullName>Fixed Rate Short Term Loan</fullName>
-                <default>false</default>
-                <label>Fixed Rate Short Term Loan</label>
+                <label>None</label>
             </value>
         </valueSetDefinition>
     </valueSet>

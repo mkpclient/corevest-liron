@@ -7,8 +7,20 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Cash_Management__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Credit_Tier__c</field>
         <value xsi:type="xsd:string">Tier 3</value>
+    </values>
+    <values>
+        <field>Floor_Percent__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Holdback_Multiplier__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Initial_LTC__c</field>
@@ -19,7 +31,15 @@
         <value xsi:type="xsd:double">75.0</value>
     </values>
     <values>
+        <field>Loan_Term__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Max_Reno_Cost_Reimbursement__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Origination_Fee_Percent__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -35,7 +55,15 @@
         <value xsi:type="xsd:string">Renovate and Rent</value>
     </values>
     <values>
+        <field>Recourse__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Reno_Limit_Acq_Cost__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Stepdown_Prepayment_Period__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>

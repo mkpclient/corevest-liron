@@ -100,14 +100,15 @@ public class advance_Helper {
         if (String.isBlank(adv.Name)) {
           // adv.Advance_Num__c = o.Advances__r.size() + 1;
           // adv.Name = 'Pending-' + String.valueOf(adv.Advance_Num__c);
-          adv.Name = 'TBD';
-          // if (o.Advances__r.size() > 0) {
-          //   //adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
-          //   adv.Name = 'Pending-' + String.valueOf(adv.Advance_Num__c);
-          // } else {
-          //   adv.Name = 'Pending-1';
-          //   adv.Advance_Num__c = 1;
-          // }
+          // adv.Name = 'TBD';
+          if (o.Advances__r.size() > 0) {
+            adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
+            adv.Name = String.valueOf(adv.Advance_Num__c);
+          } else {
+            // adv.Name = 'Pending-1';
+            adv.Name = '1';
+            adv.Advance_Num__c = 1;
+          }
         }
       }
     }
@@ -395,7 +396,7 @@ public class advance_Helper {
     }
 
     if(advanceWithNameChanges.size() > 0) {
-      PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
+      // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
     }
 
     for (Opportunity o : [

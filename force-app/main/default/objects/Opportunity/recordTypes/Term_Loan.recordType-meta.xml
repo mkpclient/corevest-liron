@@ -2749,7 +2749,11 @@
     <picklistValues>
         <picklist>Product_Sub_Type__c</picklist>
         <values>
-            <fullName>Fixed Rate Term Loan</fullName>
+            <fullName>Fixed Rate Long Term Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fixed Rate Short Term Loan</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2794,7 +2798,7 @@
         <picklist>Recourse__c</picklist>
         <values>
             <fullName>Non-Recourse</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
         <values>
             <fullName>Recourse</fullName>

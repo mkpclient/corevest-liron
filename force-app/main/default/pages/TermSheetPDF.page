@@ -394,14 +394,14 @@
         </td>
         <td class="row-description">
           The interest rate for the Loan shall be fixed at a rate equal to the
-          sum of (a) the&nbsp;
+          sum of (a) the
           <span
-          style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year','block','none')}"
+          style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year','inline','none')}"
           >
             <apex:outputText value="{!Opportunity.Term_Loan_Type__c}" />
           </span>
           <span
-          style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year','block','none')}"
+          style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year','inline','none')}"
           >
             5 Year&nbsp;
           </span>
@@ -2678,6 +2678,9 @@ Except if any Oregon property is included in the portfolio in which case the fol
       <apex:inputField value="{!Opportunity.Total_Units__c}" rendered="false" />
       <apex:inputField value="{!Opportunity.IO_Term__c}" rendered="false" />
       <apex:inputField value="{!Opportunity.Stepdown_Prepayment_Period__c}"
+        rendered="false"
+      />
+      <apex:inputField value="{!Opportunity.Term_Loan_Type__c}"
         rendered="false"
       />
     </apex:form>
