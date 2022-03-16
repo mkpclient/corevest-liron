@@ -10,7 +10,7 @@ Opportunity.Loan_Coordinator__r.Email + &apos;;&apos; +
 Opportunity.Owner.Email + &apos;;&apos; +
 Opportunity.Co_Originator__r.Email + &apos;;&apos; + 
 Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + 
-&apos;micaela.lumpkin@cvest.com;gregg.moore@cvest.com;behnam.hoss@cvest.com&apos;</formula>
+&apos;micaela.lumpkin@cvest.com;gregg.moore@cvest.com;behnam.hoss@cvest.com;dealhandler@k-2bh7wkoo683pchiov12ni6j453cr34w4pg7vofaxhrpqh5ugzj.j-l4sceas.na159.apex.salesforce.com&apos;</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>HtmlBody</field>
@@ -18,7 +18,7 @@ Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; +
     </fieldOverrides>
     <fieldOverrides>
         <field>Subject</field>
-        <formula>&apos;Rate Lock - &apos; + Opportunity.Name</formula>
+        <formula>&apos;Rate Lock - &apos; + Opportunity.Name + &apos; #&apos; +  Opportunity.Deal_Loan_Number__c</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>ToAddress</field>

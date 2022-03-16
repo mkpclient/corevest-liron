@@ -26,7 +26,7 @@
         </approvalActions>
         <assignedApprover>
             <approver>
-                <name>lisha.mcdaniel@cvest.com</name>
+                <name>caf-it@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>

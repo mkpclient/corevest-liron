@@ -26,35 +26,9 @@ global without sharing class PortalAPIUser {
         FROM Lead
         WHERE Entry_Id__c = :entryId
       ];
-      system.debug(leads.size());
 
       if (leads.size() > 0) {
-        while (leads[0].Alchemy_Portal_Id__c == null) {
-          Long startTime = DateTime.now().getTime();
-          Long finishTime = DateTime.now().getTime();
-          while ((finishTime - startTime) < 5000) {
-            //sleep for 9s
-            finishTime = DateTime.now().getTime();
-          }
-
-          leads = [
-            SELECT
-              Id,
-              FirstName,
-              LastName,
-              Alchemy_Portal_Id__c,
-              Email,
-              Form_Title__c,
-              Phone,
-              Entry_Id__c
-            FROM Lead
-            WHERE Entry_Id__c = :entryId
-          ];
-        }
-
         Map<String, String> responseBody = new Map<String, String>();
-        system.debug(entryId);
-
         responseBody.put('userId', leads[0].Alchemy_Portal_Id__c);
         // responseBody.put('name', leads[0].Name);
         responseBody.put('firstName', leads[0].FIrstName);
@@ -63,13 +37,11 @@ global without sharing class PortalAPIUser {
         responseBody.put('formTitle', leads[0].Form_Title__c);
         responseBody.put('entryId', leads[0].Entry_Id__c);
         res.addHeader('Content-Type', 'application/json');
-        system.debug(JSON.serialize(responseBody, true));
         res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
       } else {
         Map<String, String> responseBody = new Map<String, String>();
         responseBody.put('status', 'error');
         responseBody.put('message', 'Entry Id not found');
-        system.debug(JSON.serialize(responseBody, true));
 
         res.addHeader('Content-Type', 'application/json');
         res.statusCode = 404;
@@ -165,6 +137,11 @@ global without sharing class PortalAPIUser {
     public String contactId;
     public String accountId;
 
+    public String title;
+    public String alternativeEmail;
+    public String licenseNo;
+    public Decimal yearsOfExperience;
+
     public PortalUser(String portalId) {
       Id contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
       Id leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
@@ -196,7 +173,10 @@ global without sharing class PortalAPIUser {
             Home_Country__c,
             SponsorState__c,
             AccountId,
-            Account.RecordType.DeveloperName
+            Alternative_Email__c,
+            License_No__c,
+            Years_of_Experience__c,
+            Title
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -225,9 +205,10 @@ global without sharing class PortalAPIUser {
         this.homeZip = c.SponsorZipCode__c;
         this.accountId = c.AccountId;
 
-        if (c.Account.RecordType.DeveloperName == 'Vendor') {
-          this.userType = 'vendor';
-        }
+        this.title = c.Title;
+        this.alternativeEmail = c.Alternative_Email__c;
+        this.licenseNo = c.License_No__c;
+        this.yearsOfExperience = c.Years_of_Experience__c;
       } else if (leadId != null) {
         Lead l = [
           SELECT
@@ -344,6 +325,11 @@ global without sharing class PortalAPIUser {
         c.SponsorZipCode__c = this.homeZip;
         c.Home_Country__c = this.homeCountry;
 
+        c.Title = this.title;
+        c.Alternative_Email__c = this.alternativeEmail;
+        c.License_No__c = this.licenseNo;
+        c.Years_of_Experience__c = this.yearsOfExperience;
+
         record = c;
       } else if (this.leadId != null) {
         Lead l = new Lead(Id = this.leadId);
@@ -399,6 +385,11 @@ global without sharing class PortalAPIUser {
         c.SponsorState__c = this.homeState;
         c.SponsorZipCode__c = this.homeZip;
         c.Home_Country__c = this.homeCountry;
+
+        c.Title = this.title;
+        c.Alternative_Email__c = this.alternativeEmail;
+        c.License_No__c = this.licenseNo;
+        c.Years_of_Experience__c = this.yearsOfExperience;
 
         record = c;
       } else if (sobjectType == 'Lead') {

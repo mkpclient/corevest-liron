@@ -428,12 +428,16 @@ public without sharing class opportunity_Helper {
         OpportunityLineItem oli = new OpportunityLineItem(
           OpportunityId = o.id,
           // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
-          PricebookEntryId = '01u5b00000L8lMhAAJ',
+           PricebookEntryId = '01u5b00000L8lMhAAJ',
           Quantity = 1,
           ServiceDate = o.CloseDate,
           UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
         );
+          //raj
+        if (!Test.isRunningTest())
+        {
         insert oli;
+        }
       }
 
       if (o.Underwriter__c != null) {
@@ -1406,6 +1410,7 @@ public without sharing class opportunity_Helper {
       );
     }
 
+ List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Begin */
 /*CIP2026. 3/2/2022. Begin */
 	Set<Id> propertyAdvancePropIds = new Set<Id>();      
     List<String> propertyAdvanceUpdateDealFields = new List<String>{
@@ -1839,6 +1844,30 @@ public without sharing class opportunity_Helper {
         oppsWithRolestoUpdate.add(o);
         system.debug('Going into Condition');
       }
+/*CIP2254.RS.3/14/2022. Begin */
+      
+	if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected')        
+    {
+    If (o.Type == 'Bridge Loan')
+    {   
+     for ( Property__c pr : mapFromOppIdToProperties.get(o.Id))
+     	{
+         pr.Status__c = 'Cancelled';
+         propList.add(pr);
+     	}
+    }
+    If (o.Type == 'Term Loan')
+    {  
+        for ( Property__c pr : mapFromOppIdToProperties.get(o.Id))
+        {
+            pr.Status__c = 'Inactive';
+            pr.Active__c = false;
+            propList.add(pr);
+        }
+    }        
+    
+	}        
+/*CIP2254.RS.3/14/2022. End */          
 /*CIP2026. 3/2/2022. Begin */       
     if (o.Type == 'Bridge Loan')
     {
@@ -1856,6 +1885,12 @@ public without sharing class opportunity_Helper {
 /*CIP2026. 3/2/2022. End */          
     }
 
+/*CIP2254.RS.3/14/2022. Begin */      
+     if (propList.size() > 0)        
+    {
+        Database.Update(propList,false);
+    }
+/*CIP2254.RS.3/14/2022. End */      
 /*CIP2026. 3/2/2022. Begin */  
  	if (propertyAdvancePropIds.size() > 0) 
     {
@@ -2714,13 +2749,16 @@ public without sharing class opportunity_Helper {
     return BorrowerChecklistController.getFiles(dealId, docInfoId);
   }
 
+  
   @AuraEnabled
   public static string reviewDocuments(List<String> docIds) {
     return BorrowerChecklistController.reviewDocuments(docIds);
   }
 
+  
   //attach Berkadia and Statebridge
   public static void attachVendors(Map<Id, Opportunity> oppMap) {
+
     List<Account> berkadiaAccs = [
       SELECT Id
       FROM Account
@@ -2841,6 +2879,7 @@ public without sharing class opportunity_Helper {
         newDealContacts.add(newDC);
       }
 
+
       for (Opportunity o : churchillOppsToUpdate) {
         Deal_Contact__c newDC = new Deal_Contact__c();
         newDC.Vendor_Type__c = 'Servicer';
@@ -2850,6 +2889,7 @@ public without sharing class opportunity_Helper {
         newDC.Entity_Type__c = 'Vendor';
         newDealContacts.add(newDC);
       }
+      
       for (Opportunity o : acquiredDSCROppsToUpdate) {
         Deal_Contact__c newDC = new Deal_Contact__c();
         newDC.Vendor_Type__c = 'Servicer';
