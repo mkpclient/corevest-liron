@@ -798,6 +798,14 @@ public without sharing class opportunity_Helper {
         o.Broker_Fee_Paid_By_Whom__c = 'N/A';
       }
 
+      if (
+          oldMap.get(o.Id).Securitization__c !=
+          newMap.get(o.Id).Securitization__c &&
+          newMap.get(o.Id).Securitization__c == null
+        ) {
+          o.Securitized__c = false;
+        }
+
       if (o.GLC_Approved__c != oldMap.get(o.Id).GLC_Approved__c) {
         if (o.GLC_Approved__c == true) {
           o.GLC_Approval_Date__c = System.today();
@@ -1160,13 +1168,7 @@ public without sharing class opportunity_Helper {
           }
         }
 
-        if (
-          oldMap.get(o.Id).Securitization__c !=
-          newMap.get(o.Id).Securitization__c &&
-          newMap.get(o.Id).Securitization__c == null
-        ) {
-          o.Securitized__c = false;
-        }
+        
 
         if (
           (oldMap.get(o.Id).Trigger_Field__c !=
