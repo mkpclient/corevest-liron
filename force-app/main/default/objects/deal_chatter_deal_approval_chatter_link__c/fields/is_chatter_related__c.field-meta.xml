@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>is_chatter_related__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>are the id on this record from chatter or comments of the chatter</description>
+    <externalId>false</externalId>
+    <label>is chatter related</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

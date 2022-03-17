@@ -1,19 +1,20 @@
-public class oppchatterhelper {
+public class OppCustomChatterCommentsHelper 
+{
     
     public static boolean afterupdateran = false;
     
-    public static void AfterInsert(List<FeedItem> newList, List<FeedItem> oldList) 
+    public static void AfterInsert(List<FeedComment> newList, List<FeedComment> oldList) 
     {
-        List<FeedItem>  newfeeditem = new List<FeedItem>();
+      /*  List<FeedComment>  newfeeditem = new List<FeedComment>();
         List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = new List<deal_chatter_deal_approval_chatter_link__c>();
-        for (FeedItem fI :newList )
+        for (FeedComment fI :newList )
         {
         	System.debug('FI.Parent_Id__c :' +FI.ParentId);
        		List<Custom_Chatter_Mapping__c> custChatList = [SELECT Deal__c FROM Custom_Chatter_Mapping__c where id = :FI.ParentId Limit 1 ];
 
        		if (CustChatList.size() > 0)
        		{
-              	FeedItem newFI = new FeedItem();
+              	FeedComment newFI = new FeedComment();
                 deal_chatter_deal_approval_chatter_link__c newChtrLink = new deal_chatter_deal_approval_chatter_link__c();
                 newFI.Type	=	fI.Type;
                 newFI.Title = fI.Title;
@@ -46,17 +47,17 @@ public class oppchatterhelper {
         if (newChtrLinkList.size() > 0)
         {
         Database.insert(newChtrLinkList,false);
-        }
+        }*/
     }
 
-    public static void AfterUpdate( List<FeedItem> newList, List<FeedItem> oldList) 
+    public static void AfterUpdate( List<FeedComment> newList, List<FeedComment> oldList) 
     {
-        List<FeedItem>  newfeeditem = new List<FeedItem>();
+       /* List<FeedComment>  newfeeditem = new List<FeedComment>();
         id processingId;
         
         if (!afterupdateran)
         {
-        for (FeedItem fI :newList )
+        for (FeedComment fI :newList )
         {
         	System.debug('fI.id :' +fI.id);
             System.debug('fI.Body :' +fI.Body);
@@ -84,8 +85,8 @@ public class oppchatterhelper {
        		if (newChtrLinkList.size() > 0)
        		{
                 
-			for(FeedItem fIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
-                                     FROM FeedItem where Id = :processingId] )
+			for(FeedComment fIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
+                                     FROM FeedComment where Id = :processingId] )
             {
                 fIInside.Title 				= fI.Title;
                 fIInside.Body 				= fI.Body;
@@ -98,13 +99,13 @@ public class oppchatterhelper {
         {
             Database.Update(newfeeditem,false);
         }          
-    }
+    }*/
     }
 
-    public static void BeforeDelete(List<FeedItem> oldList) 
+    public static void BeforeDelete(List<FeedComment> oldList) 
     {
-        List<FeedItem>  newfeeditem = new List<FeedItem>();
-        for (FeedItem FI :oldList )
+      /*  List<FeedComment>  newfeeditem = new List<FeedComment>();
+        for (FeedComment FI :oldList )
         {
         	System.debug('FI.Parent_Id__c :' +FI.ParentId);
             System.debug('FI.Body :' +FI.Body);
@@ -112,8 +113,8 @@ public class oppchatterhelper {
 			System.debug('CustChatList[0].Deal__c :' +CustChatList[0].Deal__c);
        		if (CustChatList.size() > 0)
        		{
-			for(FeedItem FIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
-                                     FROM FeedItem where ParentId = :CustChatList[0].Deal__c] )
+			for(FeedComment FIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
+                                     FROM FeedComment where ParentId = :CustChatList[0].Deal__c] )
             {
                 System.debug('FIInside.Body :' +FIInside.Body);
               if (FIInside.Body == FI.Body)
@@ -126,7 +127,7 @@ public class oppchatterhelper {
             	Database.delete(newfeeditem,false);
             }            
             }//for
-        }
+        } */
     }    
 
 }

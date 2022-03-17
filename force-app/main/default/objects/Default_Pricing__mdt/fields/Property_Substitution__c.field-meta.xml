@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Property_Substitution__c</fullName>
-    <businessStatus>Active</businessStatus>
     <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
     <label>Property Substitution</label>
     <precision>2</precision>
     <required>false</required>
     <scale>0</scale>
-    <securityClassification>Internal</securityClassification>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>false</trackHistory>
     <type>Percent</type>
 </CustomField>

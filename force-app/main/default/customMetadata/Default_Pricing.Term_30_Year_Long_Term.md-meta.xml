@@ -7,8 +7,16 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Amortization_Term__c</field>
+        <value xsi:type="xsd:string">360 months</value>
+    </values>
+    <values>
+        <field>Broker_YSP_Percent__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
         <field>Cash_Management__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">None</value>
     </values>
     <values>
         <field>Credit_Tier__c</field>
@@ -23,6 +31,10 @@
         <value xsi:type="xsd:double">4.0</value>
     </values>
     <values>
+        <field>IO_Term__c</field>
+        <value xsi:type="xsd:string">0 months</value>
+    </values>
+    <values>
         <field>Initial_LTC__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -33,6 +45,14 @@
     <values>
         <field>Loan_Term__c</field>
         <value xsi:type="xsd:string">30 Year</value>
+    </values>
+    <values>
+        <field>Max_LTV_Percent_for_Foreign_National__c</field>
+        <value xsi:type="xsd:double">65.0</value>
+    </values>
+    <values>
+        <field>Max_LTV__c</field>
+        <value xsi:type="xsd:double">75.0</value>
     </values>
     <values>
         <field>Max_Reno_Cost_Reimbursement__c</field>
@@ -55,8 +75,12 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Property_Substitution__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
         <field>Recourse__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Recourse</value>
     </values>
     <values>
         <field>Reno_Limit_Acq_Cost__c</field>
@@ -64,10 +88,18 @@
     </values>
     <values>
         <field>Stepdown_Prepayment_Period__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">5,4,3,2,1</value>
     </values>
     <values>
         <field>Total_Loan_LTC__c</field>
         <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>YM_Par_Prepayment_New_Client__c</field>
+        <value xsi:type="xsd:string">60 Months</value>
+    </values>
+    <values>
+        <field>YM_Par_Prepayment_Repeat_Client__c</field>
+        <value xsi:type="xsd:string">N/A</value>
     </values>
 </CustomMetadata>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Max_LTV_Percent_for_Foreign_National__c</fullName>
+    <description>Maximum Loan to Value for a Loan involving a Foreign National</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Maximum Loan to Value for a Loan involving a Foreign National</inlineHelpText>
+    <label>Max LTV % for Foreign National</label>
+    <precision>6</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <type>Percent</type>
+</CustomField>

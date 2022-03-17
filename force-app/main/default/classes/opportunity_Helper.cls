@@ -121,11 +121,11 @@ public class opportunity_Helper {
           o.Lockbox__c = 'Springing';
         }
 
-        if (o.Loan_Size__c >= 2000000) {
-          o.Min_DSCR__c = '1.20x';
-        } else {
-          o.Min_DSCR__c = '1.20x';
-        }
+        // if (o.Loan_Size__c >= 2000000) {
+        //   o.Min_DSCR__c = '1.20x';
+        // } else {
+        //   o.Min_DSCR__c = '1.20x';
+        // }
 
         if (o.Term_Loan_Type__c == '3 Year') {
           o.Term_Loan_Type_Months__c = '36 months';
@@ -1441,7 +1441,6 @@ public class opportunity_Helper {
       );
     }
 
-List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Begin */      
 /*CIP2026.RS. 3/2/2022. Begin */
 	Set<Id> propertyAdvancePropIds = new Set<Id>();      
     List<String> propertyAdvanceUpdateDealFields = new List<String>{
@@ -1860,6 +1859,7 @@ List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Beg
 /*CIP2254.RS.3/14/2022. Begin */
 	if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected')        
     {
+ 	List<Property__c> propList = new List<property__c>();
     If (o.Type == 'Bridge Loan')
     {   
      for ( Property__c pr : mapFromOppIdToProperties.get(o.Id))
@@ -1877,8 +1877,14 @@ List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Beg
             propList.add(pr);
         }
     }        
+        
+	if (propList.size() > 0)        
+    {
+        Database.Update(propList,false);
+    }
 	}        
 /*CIP2254.RS.3/14/2022. End */        
+        
 /*CIP2026.RS. 3/2/2022. Begin */       
     If (o.Type == 'Bridge Loan')
     {
@@ -1896,14 +1902,6 @@ List<Property__c> propList = new List<property__c>();  /*CIP2254. 3/14/2022. Beg
 /*CIP2026.RS. 3/2/2022. End */       
     }
 
-
-/*CIP2254.RS.3/14/2022. Begin */      
-     if (propList.size() > 0)        
-    {
-        Database.Update(propList,false);
-    }
-/*CIP2254.RS.3/14/2022. End */
-      
 /*CIP2026.RS. 3/2/2022. Begin */  
  	if (propertyAdvancePropIds.size() > 0) 
     {

@@ -582,7 +582,7 @@
         <td class="row-description">
           <!-- <span style="{!IF(Opportunity.Total_Units__c >= 20, 'page-break-inside:avoid;', 'display:none;')}">Three (3) months of principal, interest, taxes, insurance and capital expenditures</span>
                     <span style="{!IF(Opportunity.Total_Units__c < 20, 'page-break-inside:avoid;', 'display:none;')}">Six (6) months of principal, interest, taxes, insurance and capital expenditures</span> -->
-          <span
+          <!-- <span
             style="{!IF(Opportunity.Total_Units__c >= 20 && (Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null), 'page-break-inside:avoid;', 'display:none;')}"
             >One (1) month of principal and interest</span
           >
@@ -597,7 +597,32 @@
           <span
             style="{!IF(Opportunity.Total_Units__c < 20 && Opportunity.IO_Term__c != '0 months', 'page-break-inside:avoid;', 'display:none;')}"
             >One (1) month of interest</span
+          > -->
+          <span
+            style="{!IF(Opportunity.Holdback_Multiplier__c == 1, 'page-break-inside:avoid;', 'display:none;')}"
+            >One (1) month of</span
           >
+          <span
+            style="{!IF(Opportunity.Holdback_Multiplier__c == 2, 'page-break-inside:avoid;', 'display:none;')}"
+            >Two (2) months of</span
+          >
+          <span
+            style="{!IF(Opportunity.Holdback_Multiplier__c == 3, 'page-break-inside:avoid;', 'display:none;')}"
+            >Three (3) months of</span
+          >
+          <span
+            style="{!IF(Opportunity.Holdback_Multiplier__c == 4, 'page-break-inside:avoid;', 'display:none;')}"
+            >Four (4) months of</span
+          >
+          <span
+            style="{!IF(Opportunity.Holdback_Multiplier__c == 5, 'page-break-inside:avoid;', 'display:none;')}"
+            >Five (5) months of</span
+          >
+          <span
+            style="{!IF(Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null, 'page-break-inside:avoid;', 'display:none;')}"
+            >principal and </span
+          >
+          interest
           <span style="float: right; font-weight: bold"
             >Initials: <span class="signing-section">_____\i1\____</span></span
           >
@@ -2681,6 +2706,9 @@ Except if any Oregon property is included in the portfolio in which case the fol
         rendered="false"
       />
       <apex:inputField value="{!Opportunity.Term_Loan_Type__c}"
+        rendered="false"
+      />
+      <apex:inputField value="{!Opportunity.Holdback_Multiplier__c}"
         rendered="false"
       />
     </apex:form>

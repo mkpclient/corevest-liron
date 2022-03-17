@@ -58,6 +58,7 @@ Contact cont = test_Helper.createContact(a);
     opp.Loan_Size__c = 2000000;
     opp.AccountId = a.Id;
     opp.Contact__c = cont.Id;
+	opp.Term_Loan_Type__c = '5 Year';
     opp.Final_Loan_Amount__c = 100;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_Source__c = 'Main';
@@ -73,7 +74,7 @@ Contact cont = test_Helper.createContact(a);
     .Id;
     opp.GLC_Approved__c = false;
     opp.Background_Check_Completed__c = false;
-    opp.Term_Loan_Type__c = '10 Year';
+    opp.Term_Loan_Type__c = '5 Year';
     opp.YM_Prepayment_Penalty__c = '34 Months';
 	opp.First_Payment_Date__c = System.today().addmonths(-22);
 
@@ -90,6 +91,8 @@ system.debug('date?'+ myOpp.Open_Period_Begins__c);
     opp2.Final_Swap__c = 2;
     opp2.StageName = 'Closed Won';
     opp2.Type = 'Term Loan';
+    opp2.Term_Loan_Type__c = '5 Year';
+
     opp2.Loan_Size__c = 2000000;
     opp2.AccountId = a.Id;
     opp2.Contact__c = cont.Id;
@@ -109,7 +112,7 @@ system.debug('date?'+ myOpp.Open_Period_Begins__c);
     .Id;
     opp2.GLC_Approved__c = false;
     opp2.Background_Check_Completed__c = false;
-    opp2.Term_Loan_Type__c = '10 Year';
+    opp2.Term_Loan_Type__c = '5 Year';
     opp2.YM_Prepayment_Penalty__c = '34 Months';
 	opp2.First_Payment_Date__c = System.today().addmonths(-25);
 

@@ -7,6 +7,14 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Amortization_Term__c</field>
+        <value xsi:type="xsd:string">360 months</value>
+    </values>
+    <values>
+        <field>Broker_YSP_Percent__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
         <field>Cash_Management__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -23,6 +31,10 @@
         <value xsi:type="xsd:double">1.0</value>
     </values>
     <values>
+        <field>IO_Term__c</field>
+        <value xsi:type="xsd:string">0 months</value>
+    </values>
+    <values>
         <field>Initial_LTC__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -33,6 +45,14 @@
     <values>
         <field>Loan_Term__c</field>
         <value xsi:type="xsd:string">7 Year</value>
+    </values>
+    <values>
+        <field>Max_LTV_Percent_for_Foreign_National__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Max_LTV__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Max_Reno_Cost_Reimbursement__c</field>
@@ -55,6 +75,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Property_Substitution__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Recourse__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -64,10 +88,18 @@
     </values>
     <values>
         <field>Stepdown_Prepayment_Period__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">N/A</value>
     </values>
     <values>
         <field>Total_Loan_LTC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>YM_Par_Prepayment_New_Client__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>YM_Par_Prepayment_Repeat_Client__c</field>
         <value xsi:nil="true"/>
     </values>
 </CustomMetadata>

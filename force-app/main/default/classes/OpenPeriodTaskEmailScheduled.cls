@@ -33,7 +33,7 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
 		AND Account.In_Foreclosure__c = false
 		AND	Current_UPB__c > 0
         ]);
-        system.debug('size'+myDeals.size());
+        system.debug('# of Deals'+myDeals.size());
         
         if(myDeals.size()>0){
            
@@ -104,7 +104,10 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
 
 'Account Name: '+myDeals[i].Account.Name +'\n\n'+
     
-'Account Intro Source: '+ myDeals[i].Account_Introduction_Source__c;
+'Account Intro Source: '+ myDeals[i].Account_Introduction_Source__c+'\n\n'+
+                
+ '# of Deals'+myDeals.size();
+
     
 	messages.add(message);
    // }
@@ -170,10 +173,13 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
         }
         if(myTasks.size()>0){
             insert myTasks;
+            system.debug('# Tasks Created'+ myTasks.size());
         }
         
         if(messages.size()>0){
     Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
+         system.debug('# emails Created'+ messages.size());
+
             
 if (results[0].success) {
     System.debug('The email was sent successfully.');
