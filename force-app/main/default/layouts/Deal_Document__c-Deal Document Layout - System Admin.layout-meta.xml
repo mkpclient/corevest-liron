@@ -89,6 +89,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Closer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
@@ -110,6 +114,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Assignment_Document__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Closer__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

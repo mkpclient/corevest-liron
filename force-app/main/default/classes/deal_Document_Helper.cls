@@ -46,12 +46,13 @@ public class deal_Document_Helper {
 
     if (needDealProperty.size() > 0) {
       for (Property__c property : [
-        SELECT Id, Deal__c
+        SELECT Id, Deal__c, Closer__c
         FROM Property__c
         WHERE Id IN :needDealProperty.keySet()
       ]) {
         for (Deal_Document__c doc : needDealProperty.get(property.Id)) {
           doc.Deal__c = property.Deal__c;
+          doc.Property_Closer__c = property.Closer__c;
         }
       }
     }

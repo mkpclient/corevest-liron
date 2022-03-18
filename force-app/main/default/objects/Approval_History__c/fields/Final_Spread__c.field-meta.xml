@@ -7,5 +7,5 @@
     <required>false</required>
     <scale>4</scale>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>Percent</type>
 </CustomField>

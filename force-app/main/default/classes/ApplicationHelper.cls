@@ -80,7 +80,8 @@ public with sharing class ApplicationHelper {
       if (
         application.loan_Type__c == 'Build for Rent' ||
         application.Loan_Type__c == 'Credit Line' ||
-        application.Loan_Type__c == 'Bridge Loan'
+        application.Loan_Type__c == 'Bridge Loan' ||
+        application.Loan_Type__c == 'Multifamily'
       ) {
         opp.RecordTypeId = recordTypeMap.get('LOC_Loan');
         opp.CloseDate = system.today().addDays(75);

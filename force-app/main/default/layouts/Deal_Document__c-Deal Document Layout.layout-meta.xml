@@ -89,6 +89,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Closer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
@@ -106,6 +110,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Borrower_Term_Sheet_Signature_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Closer__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

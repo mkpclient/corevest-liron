@@ -94,7 +94,7 @@ private class Deal_Document_HelperTest {
       LIMIT 1
     ];
     Advance__c adv = new Advance__c(Deal__c = opp.Id);
-    insert adv;
+    insert adv; 
 
     Property__c testProp = new Property__c(
       Deal__c = opp.Id,
@@ -122,7 +122,7 @@ private class Deal_Document_HelperTest {
       Property__c = testProp.Id
     );
 
-    insert new List<Deal_Document__c>{ doc, doc2 };
+    insert new List<Deal_Document__c>{doc, doc2};
 
     doc.Recorded_Date__c = system.today();
     doc.Type__c = 'Final IC Memo';

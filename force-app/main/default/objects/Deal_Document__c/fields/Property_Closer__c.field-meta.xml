@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Closer__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This field is pulling a user value from Property object, Closer__c field</description>
+    <externalId>false</externalId>
+    <label>Property Closer</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Deal_Documents6</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

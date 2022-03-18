@@ -1274,6 +1274,10 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Funding_Vehicle__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <fields>Include_Yes_No__c</fields>
         <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
     </relatedLists>
     <relatedLists>
