@@ -152,6 +152,10 @@
         border-left: solid 1px #bebebe;
       }
 
+      .hidden {
+        display:none;
+      }
+
       table#hrdftrtbl {
         margin: 0in 0in 0in 9in;
       }
@@ -614,7 +618,7 @@
                       border: none;
                     "
                   >
-                    <span
+                    <!-- <span
                       style="display:{!IF(Opportunity.Total_Units__c >= 20 && (Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null), 'inline','none')}"
                       >One (1) month of principal and interest</span
                     >
@@ -629,7 +633,32 @@
                     <span
                       style="display:{!IF(Opportunity.Total_Units__c < 20 && Opportunity.IO_Term__c != '0 months', 'inline','none')}"
                       >One (1) month of interest</span
+                    > -->
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 1, 'inline','none')}"
+                      >One (1) month of</span
                     >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 2, 'inline','none')}"
+                      >Two (2) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 3, 'inline','none')}"
+                      >Three (3) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 4, 'inline','none')}"
+                      >Four (4) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 5, 'inline','none')}"
+                      >Five (5) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null, 'inline','none')}"
+                      >principal and </span
+                    >
+                    interest
                   </td>
                   <td
                     style="
@@ -1450,11 +1479,15 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
             <td class="definition-title">
               Pledgor:
             </td>
-            <td class="definition">
-              A newly-formed, single purpose, Delaware limited liability company
-              acceptable to Lender if the Loan is $5,000,000 or above or an
-              entity or individual acceptable to Lender following due diligence
-              if the Loan is below $5,000,000.
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              A newly-formed, single purpose, Delaware limited liability
+              company acceptable to Lender.
+            </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              A newly-formed, single purpose, Delaware limited liability
+              company acceptable to Lender if the Loan is $5,000,000 or above
+              or an entity or individual acceptable to Lender following due
+              diligence if the Loan is below $5,000,000.
             </td>
           </tr>
           <tr style="page-break-inside: avoid">
@@ -1762,18 +1795,30 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
             <td class="definition-title">
               Reporting:
             </td>
-            <td class="definition">
-              Borrower shall provide to Lender (i) if the Loan is non-recourse,
-              balance sheets, statements of operations, equity holders' capital
-              and cash flows for each calendar year as set forth in the Summary
-              of Terms, (ii) if the Loan is non-recourse, unaudited balance
-              sheets, statements of operations, equity holders' capital and cash
-              flows for each calendar quarter along with a statement in
-              reasonable detail calculating the underwritten net operating
-              income of Borrower for such calendar quarter, (iii) monthly rent
-              rolls delivered quarterly and (iv) other reports reasonably
-              requested by Lender, in each case certified true and correct by an
-              officer of Borrower.
+            <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              Borrower shall provide to Lender (i) if the Loan is
+              non-recourse, balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar year as set
+              forth in the Summary of Terms, (ii) if the Loan is non-recourse,
+              unaudited balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar quarter along
+              with a statement in reasonable detail calculating the
+              underwritten net operating income of Borrower for such calendar
+              quarter, (iii) monthly rent rolls delivered quarterly and (iv)
+              other reports reasonably requested by Lender, in each case
+              certified true and correct by an officer of Borrower.
+            </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              Borrower shall provide to Lender (i) if the Loan is
+              non-recourse, balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar year as set
+              forth in the Summary of Terms, (ii) if the Loan is non-recourse,
+              unaudited balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar quarter along
+              with a statement in reasonable detail calculating the
+              underwritten net operating income of Borrower for such calendar
+              quarter  and (iv) other reports reasonably requested by Lender, 
+              in each case certified true and correct by an officer of Borrower.
             </td>
           </tr>
           <tr
@@ -2113,7 +2158,9 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
                     interest which shall be held for the life of the Loan.
                   </td>
                 </tr>
-                <tr>
+                <tr
+                  style="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'page-break-inside:avoid;', 'display:none;')}"
+                >
                   <td class="sub-definition-title">
                     Advance Rent:
                   </td>
@@ -2972,7 +3019,10 @@ Except if any Oregon property is included in the portfolio in which case the fol
             rendered="false"
           />
           <apex:inputField value="{!Opportunity.Term_Loan_Type__c}"
-          rendered="false"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Holdback_Multiplier__c}"
+            rendered="false"
           />
         </apex:form>
       </div>

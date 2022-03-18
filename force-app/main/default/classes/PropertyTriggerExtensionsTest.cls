@@ -33,7 +33,7 @@ public with sharing class PropertyTriggerExtensionsTest {
     ];
 
     Test.startTest();
-    Advance__c adv = new Advance__c(Deal__c = deal.Id, Name = 'TBD');
+    Advance__c adv = new Advance__c(Deal__c = deal.Id);
     insert adv;
 
     List<Property_Advance__c> padv = new List<Property_Advance__c>{
@@ -90,7 +90,7 @@ public with sharing class PropertyTriggerExtensionsTest {
       LIMIT 2
     ];
     Test.startTest();
-    Advance__c adv = new Advance__c(Deal__c = deal.Id, Name = 'TBD');
+    Advance__c adv = new Advance__c(Deal__c = deal.Id);
     insert adv;
     List<Property_Advance__c> padv = new List<Property_Advance__c>{
       new Property_Advance__c(Property__c = props[0].Id, Advance__c = adv.Id),
@@ -138,7 +138,7 @@ public with sharing class PropertyTriggerExtensionsTest {
     }
     update props;
 
-    Advance__c adv = new Advance__c(Deal__c = deal.Id, Name = 'TBD');
+    Advance__c adv = new Advance__c(Deal__c = deal.Id);
     insert adv;
     List<Property_Advance__c> padv = new List<Property_Advance__c>{
       new Property_Advance__c(Property__c = props[0].Id, Advance__c = adv.Id),
@@ -156,38 +156,38 @@ public with sharing class PropertyTriggerExtensionsTest {
     Test.stopTest();
   }
 
-  @isTest
-  public static void testAdvNameChange() {
-    Opportunity deal = [SELECT Id FROM Opportunity LIMIT 1];
-    List<Property__c> props = [
-      SELECT Id, Status__c
-      FROM Property__c
-      WHERE Deal__c = :deal.Id
-      LIMIT 2
-    ];
-    Test.startTest();
+  // @isTest
+  // public static void testAdvNameChange() {
+  //   Opportunity deal = [SELECT Id FROM Opportunity LIMIT 1];
+  //   List<Property__c> props = [
+  //     SELECT Id, Status__c
+  //     FROM Property__c
+  //     WHERE Deal__c = :deal.Id
+  //     LIMIT 2
+  //   ];
+  //   Test.startTest();
 
-    Advance__c adv = new Advance__c(Deal__c = deal.Id, Name = 'TBD');
-    insert adv;
-    List<Property_Advance__c> padv = new List<Property_Advance__c>{
-      new Property_Advance__c(Property__c = props[0].Id, Advance__c = adv.Id),
-      new Property_Advance__c(Property__c = props[1].Id, Advance__c = adv.Id)
-    };
-    insert padv;
+  //   Advance__c adv = new Advance__c(Deal__c = deal.Id, Name = 'TBD');
+  //   insert adv;
+  //   List<Property_Advance__c> padv = new List<Property_Advance__c>{
+  //     new Property_Advance__c(Property__c = props[0].Id, Advance__c = adv.Id),
+  //     new Property_Advance__c(Property__c = props[1].Id, Advance__c = adv.Id)
+  //   };
+  //   insert padv;
 
-    Map<Id,Advance__c> advMap = new Map<Id, Advance__c>{
-        adv.Id => new Advance__c(Id = adv.Id, Name = '1')
-    };
+  //   Map<Id,Advance__c> advMap = new Map<Id, Advance__c>{
+  //       adv.Id => new Advance__c(Id = adv.Id, Name = '1')
+  //   };
 
-    Boolean hasException = false;
+  //   Boolean hasException = false;
 
-    try {
-        PropertyTriggerExtensions.validateAdvanceNames(advMap);
-    } catch (Exception err) {
-        hasException = true;
-    }
-    System.assertEquals(true, hasException, 'Exception was not thrown');
+  //   try {
+  //       PropertyTriggerExtensions.validateAdvanceNames(advMap);
+  //   } catch (Exception err) {
+  //       hasException = true;
+  //   }
+  //   System.assertEquals(true, hasException, 'Exception was not thrown');
 
-    Test.stopTest();
-  }
+  //   Test.stopTest();
+  // }
 }

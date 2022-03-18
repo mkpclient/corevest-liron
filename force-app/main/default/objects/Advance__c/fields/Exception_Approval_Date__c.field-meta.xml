@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Final_Spread__c</fullName>
+    <fullName>Exception_Approval_Date__c</fullName>
     <externalId>false</externalId>
-    <label>Final Spread</label>
-    <precision>6</precision>
+    <label>Exception Approval Date</label>
     <required>false</required>
-    <scale>4</scale>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Percent</type>
+    <type>Date</type>
 </CustomField>

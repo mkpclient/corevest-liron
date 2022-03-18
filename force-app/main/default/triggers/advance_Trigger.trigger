@@ -10,7 +10,7 @@ trigger advance_Trigger on Advance__c(
   Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
   if (!settings.Disable_Advance_Trigger__c) {
     if (Trigger.isBefore && Trigger.isInsert) {
-	Advance_Helper.beforeInsert(Trigger.New);
+      Advance_Helper.beforeInsert(Trigger.New);
     }
     if (Trigger.isAfter && Trigger.isInsert) {
       Advance_Helper.afterInsert(Trigger.New);

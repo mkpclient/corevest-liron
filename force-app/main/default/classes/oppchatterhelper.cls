@@ -8,8 +8,8 @@ public class oppchatterhelper {
         List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = new List<deal_chatter_deal_approval_chatter_link__c>();
         for (FeedItem fI :newList )
         {
-        	System.debug('FI.Parent_Id__c :' +FI.ParentId);
-       		List<Custom_Chatter_Mapping__c> custChatList = [SELECT Deal__c FROM Custom_Chatter_Mapping__c where id = :FI.ParentId Limit 1 ];
+        	System.debug('FI.Parent_Id__c :' +fI.ParentId);
+       		List<Custom_Chatter_Mapping__c> custChatList = [SELECT Deal__c FROM Custom_Chatter_Mapping__c where id = :fI.ParentId Limit 1 ];
 
        		if (CustChatList.size() > 0)
        		{
@@ -104,29 +104,54 @@ public class oppchatterhelper {
     public static void BeforeDelete(List<FeedItem> oldList) 
     {
         List<FeedItem>  newfeeditem = new List<FeedItem>();
-        for (FeedItem FI :oldList )
+         List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkDelList = new List<deal_chatter_deal_approval_chatter_link__c>();
+        id processingId,DeleteId;
+        
+        for (FeedItem fI :oldList )
         {
-        	System.debug('FI.Parent_Id__c :' +FI.ParentId);
-            System.debug('FI.Body :' +FI.Body);
-       		List<Custom_Chatter_Mapping__c> CustChatList = [SELECT Deal__c FROM Custom_Chatter_Mapping__c where id = :FI.ParentId Limit 1 ];
-			System.debug('CustChatList[0].Deal__c :' +CustChatList[0].Deal__c);
-       		if (CustChatList.size() > 0)
-       		{
-			for(FeedItem FIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
-                                     FROM FeedItem where ParentId = :CustChatList[0].Deal__c] )
+        	System.debug('fI.id :' +fI.id);
+            List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = [SELECT id,DealChatterId__c, Deal_Approval_Chatter_Id__c 
+                                                                                FROM deal_chatter_deal_approval_chatter_link__c WHERE is_chatter_related__c = true 
+                                                                                and DealChatterId__c = :fI.id Limit 1];
+            if (newChtrLinkList.size() > 0)
             {
-                System.debug('FIInside.Body :' +FIInside.Body);
-              if (FIInside.Body == FI.Body)
-              {
-                newfeeditem.add(FIInside);
-              }
+                system.debug('This is a Deal id and approval id is' +newChtrLinkList[0].id);
+               DeleteId = newChtrLinkList[0].id;
+               processingId = newChtrLinkList[0].Deal_Approval_Chatter_Id__c; 
             }
-			 If (newfeeditem.size() > 0)
+            
+       		if (!(newChtrLinkList.size() > 0))
             {
-            	Database.delete(newfeeditem,false);
-            }            
-            }//for
-        }
-    }    
+            	newChtrLinkList = [SELECT id,DealChatterId__c, Deal_Approval_Chatter_Id__c FROM deal_chatter_deal_approval_chatter_link__c 
+                                   WHERE Deal_Approval_Chatter_Id__c = :fI.id Limit 1];   
 
+                if (newChtrLinkList.size() > 0)
+                {
+                    system.debug('This is a approval id and the deal id is' +newChtrLinkList[0].DealChatterId__c);
+                    DeleteId = newChtrLinkList[0].id;
+                    processingId = newChtrLinkList[0].DealChatterId__c;
+                }
+            }
+
+       		if (newChtrLinkList.size() > 0)
+       		{
+			for(FeedItem fIInside :[SELECT Id,Body,Type,Title,LinkUrl,RelatedRecordId,NetworkScope,Visibility,IsRichText 
+                                     FROM FeedItem where Id = :processingId] )
+            {
+                deal_chatter_deal_approval_chatter_link__c newChtrLink = new deal_chatter_deal_approval_chatter_link__c();
+                newfeeditem.add(fIInside);
+                newChtrLink.id = DeleteId;
+                newChtrLinkDelList.add(newChtrLink);
+            }
+			}
+        }
+        If (newfeeditem.size() > 0)
+        {
+            Database.delete(newfeeditem,false);
+        }    
+        If (newChtrLinkDelList.size() > 0)
+        {
+            Database.delete(newChtrLinkDelList,false);
+        }        
+    }
 }

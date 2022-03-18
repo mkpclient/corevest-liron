@@ -119,6 +119,11 @@
         border-top: solid 1px #bebebe;
         border-left: solid 1px #bebebe;
       }
+
+      .hidden {
+        display:none;
+      }
+
     </style>
   </head>
 
@@ -1441,7 +1446,11 @@ If the Loan closes more than sixty (60) days after execution of this Summary of 
               <td class="definition-title">
                 Pledgor:
               </td>
-              <td class="definition">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+                A newly-formed, single purpose, Delaware limited liability
+                company acceptable to Lender.
+              </td>
+              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
                 A newly-formed, single purpose, Delaware limited liability
                 company acceptable to Lender if the Loan is $5,000,000 or above
                 or an entity or individual acceptable to Lender following due
@@ -1689,7 +1698,7 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
               <td class="definition-title">
                 Reporting:
               </td>
-              <td class="definition">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
                 Borrower shall provide to Lender (i) if the Loan is
                 non-recourse, balance sheets, statements of operations, equity
                 holders’ capital and cash flows for each calendar year as set
@@ -1701,6 +1710,18 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 quarter, (iii) monthly rent rolls delivered quarterly and (iv)
                 other reports reasonably requested by Lender, in each case
                 certified true and correct by an officer of Borrower.
+              </td>
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+                Borrower shall provide to Lender (i) if the Loan is
+                non-recourse, balance sheets, statements of operations, equity
+                holders’ capital and cash flows for each calendar year as set
+                forth in the Summary of Terms, (ii) if the Loan is non-recourse,
+                unaudited balance sheets, statements of operations, equity
+                holders’ capital and cash flows for each calendar quarter along
+                with a statement in reasonable detail calculating the
+                underwritten net operating income of Borrower for such calendar
+                quarter  and (iv) other reports reasonably requested by Lender, 
+                in each case certified true and correct by an officer of Borrower.
               </td>
             </tr>
             <tr
@@ -2005,7 +2026,9 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                       for the life of the Loan.
                     </td>
                   </tr>
-                  <tr style="page-break-inside: avoid">
+                  <tr
+                    style="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'page-break-inside:avoid;', 'display:none;')}"
+                  >
                     <td class="sub-definition-title">
                       Advance Rent:
                     </td>

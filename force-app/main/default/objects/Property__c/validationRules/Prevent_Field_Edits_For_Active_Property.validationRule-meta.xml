@@ -12,6 +12,5 @@ ISCHANGED(Appraised_Value_Amount__c),
 ISCHANGED(Acquisition_Price__c),
 ISCHANGED(Rehab_Budget__c)
  ))</errorConditionFormula>
-    <errorMessage>Acquisition Price, Current Appraised As Is Value, Renovation Budget, Current Appraisal After Repair Value, Approved Renovation Advance Amount and
-Reno Advance Amount cannot be changed while property is active.</errorMessage>
+    <errorMessage>Acquisition Price, Current Appraised After Repair Value, Current Appraised As Is Value, Renovation Budget cannot be changed while property is active.</errorMessage>
 </ValidationRule>

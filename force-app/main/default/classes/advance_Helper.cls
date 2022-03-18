@@ -233,13 +233,6 @@ public class advance_Helper {
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
-        newList[i].Advance_Group_Name__c != oldList[i].Advance_Group_Name__c &&
-        newList[i].Status__c != 'Completed'
-      ) {
-        newList[i].Name = newList[i].Advance_Group_Name__c;
-      }
-
-      if (
         newList[i].Status__c != oldList[i].Status__c &&
         newList[i].Status__c == 'Completed' &&
         newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Advance')
@@ -421,13 +414,13 @@ public class advance_Helper {
         adv.Aggregate_Funding__c = o.Aggregate_Funding__c;
         adv.Aggregate_Payoffs__c = o.Aggregate_Payoffs__c;
         adv.Outstanding_Facility_Amount__c = o.Outstanding_Facility_Amount__c;
-        if (o.Advances__r.size() > 0) {
-          adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
-          adv.Name = String.valueOf(adv.Advance_Num__c);
-        } else {
-          adv.Advance_Num__c = 1;
-          adv.Name = '1';
-        }
+        // if (o.Advances__r.size() > 0) {
+        //   adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
+        //   adv.Name = String.valueOf(adv.Advance_Num__c);
+        // } else {
+        //   adv.Advance_Num__c = 1;
+        //   adv.Name = '1';
+        // }
       }
     }
   }
@@ -537,7 +530,13 @@ public class advance_Helper {
             newList[i].Closer__c != null) ||
             (newList[i].Title_Review_Company__c !=
             oldList[i].Title_Review_Company__c &&
-            newList[i].Title_Review_Company__c != null)
+            newList[i].Title_Review_Company__c != null) ||
+            (newList[i].HUD_Settlement_Statement_Status__c !=
+            oldList[i].HUD_Settlement_Statement_Status__c &&
+            newList[i].HUD_Settlement_Statement_Status__c != null) ||
+            (newList[i].Funding_Shield_Cert_Status__c !=
+            oldList[i].Funding_Shield_Cert_Status__c &&
+            newList[i].Funding_Shield_Cert_Status__c != null)
           ) {
             advanceProjUpdatesIds.add(newList[i].id);
           }
@@ -659,6 +658,8 @@ public class advance_Helper {
           Advance__r.Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
           Advance__r.Closer__c,
           Advance__r.Title_Review_Company__c,
+          Advance__r.Funding_Shield_Cert_Status__c,
+          Advance__r.HUD_Settlement_Statement_Status__c,
           Approved_Advance_Amount_Calc__c,
           Advance__r.Wire_Date__c,
           Property__r.Status__c,
@@ -715,6 +716,12 @@ public class advance_Helper {
         }
         if (pAdv.Advance__r.Title_Review_Company__c != null) {
           property.Title_Review_Company__c = pAdv.Advance__r.Title_Review_Company__c;
+        }
+        if (pAdv.Advance__r.Funding_Shield_Cert_Status__c != null) {
+          property.Funding_Shield_Cert_Status__c = pAdv.Advance__r.Funding_Shield_Cert_Status__c;
+        }
+        if (pAdv.Advance__r.HUD_Settlement_Statement_Status__c != null) {
+          property.HUD_Settlement_Statement_Status__c = pAdv.Advance__r.HUD_Settlement_Statement_Status__c;
         }
       }
       //CIP-2149 - Raj Sirivolu. 1/20/2022.End.

@@ -67,7 +67,9 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
     message.toAddresses = new String[] { toEmailAddresses , 'nadeem.elsewehy@cvest.com' };
 	message.setReplyTo('integrations@cvest.com');
 	//message.setSenderDisplayName('Cvest Reminders');
-	message.setSaveAsActivity(false);
+                  //set to true and uncomment line below to save email record            
+    message.setSaveAsActivity(false);
+	//message.setWhatId(myDeals[i].id);   
     message.subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
     	
     if ( owea.size() > 0 ) {
