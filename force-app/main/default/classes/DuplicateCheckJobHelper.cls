@@ -337,8 +337,8 @@ public without sharing class DuplicateCheckJobHelper {
       FROM Property__c
       WHERE
         Id IN :dupMap.keySet()
-        AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected', 'Paid Off')
-        AND Status__c = 'Active'
+        AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected')
+        AND Status__c IN ('Active', 'Sold', 'Paid Off')
     ]) {
       if (duplicateProperty.Deal_Record_Type__c == recordType) {
         for (dupcheck__dc3Duplicate__c dup : dupMap.get(duplicateProperty.Id)) {
@@ -392,8 +392,8 @@ public without sharing class DuplicateCheckJobHelper {
         FROM Property__c
         WHERE
           Id IN :dupMap.keySet()
-          AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected', 'Paid Off')
-          AND Status__c = 'Active'
+          AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected')
+          AND Status__c IN ('Active', 'Sold', 'Paid Off')
           AND Deal_Record_Type__c = :recordType
       ]) {
         if (duplicateProperty.Deal_Record_Type__c == recordType) {

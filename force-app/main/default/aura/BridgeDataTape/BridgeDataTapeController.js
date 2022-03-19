@@ -25,7 +25,9 @@
             } else {
               d.RT = "Ground Up Construction";
             }
-            if (d.Closer__c == "0055b00000P92byAAB") {
+            if (d.Closer__c == "0055b00000PkArFAAV") {
+              d.Closer = "Amy Piana";
+            } else if (d.Closer__c == "0055b00000P92byAAB") {
               d.Closer = "David Carrillo";
             } else if (d.Closer__c == "0050a00000MCPyLAAX") {
               d.Closer = "Kathy Perez";
@@ -137,7 +139,9 @@
           el.RecordTypeId = "0120a0000019kcQAAQ";
         }
 
-        if (el.Closer == "David Carrillo") {
+        if (el.Closer == "Amy Piana") {
+          el.Closer__c = "0055b00000PkArFAAV";
+        } else if (el.Closer == "David Carrillo") {
           el.Closer__c = "0055b00000P92byAAB";
         } else if (el.Closer == "Kathy Perez") {
           el.Closer__c = "0050a00000MCPyLAAX";
@@ -269,7 +273,9 @@
                 d.RT = "Ground Up Construction";
               }
 
-              if (d.Closer__c == "0055b00000P92byAAB") {
+              if (d.Closer__c == "0055b00000PkArFAAV") {
+                d.Closer = "Amy Piana";
+              } else if (d.Closer__c == "0055b00000P92byAAB") {
                 d.Closer = "David Carrillo";
               } else if (d.Closer__c == "0050a00000MCPyLAAX") {
                 d.Closer = "Kathy Perez";
@@ -553,7 +559,11 @@
               property.RT = "Ground Up Construction";
             }
 
-            if (property.Closer__c == "0050a00000MCPyLAAX") {
+            if (property.Closer__c == "0055b00000PkArFAAV") {
+              property.Closer = "Amy Piana";
+            } else if (property.Closer__c == "0055b00000P92byAAB") {
+              property.Closer = "David Carrillo";
+            } else if (property.Closer__c == "0050a00000MCPyLAAX") {
               property.Closer = "Kathy Perez";
             } else if (property.Closer__c == "0050a00000MBNARAA5") {
               property.Closer = "Jaime Chavez";

@@ -100,14 +100,15 @@ public class advance_Helper {
         if (String.isBlank(adv.Name)) {
           // adv.Advance_Num__c = o.Advances__r.size() + 1;
           // adv.Name = 'Pending-' + String.valueOf(adv.Advance_Num__c);
-          adv.Name = 'TBD';
-          // if (o.Advances__r.size() > 0) {
-          //   //adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
-          //   adv.Name = 'Pending-' + String.valueOf(adv.Advance_Num__c);
-          // } else {
-          //   adv.Name = 'Pending-1';
-          //   adv.Advance_Num__c = 1;
-          // }
+          // adv.Name = 'TBD';
+          if (o.Advances__r.size() > 0) {
+            adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
+            adv.Name = String.valueOf(adv.Advance_Num__c);
+          } else {
+            // adv.Name = 'Pending-1';
+            adv.Name = '1';
+            adv.Advance_Num__c = 1;
+          }
         }
       }
     }
@@ -228,15 +229,9 @@ public class advance_Helper {
 
     Map<Id, Advance__c> advMap = new Map<Id, Advance__c>();
     List<Id> advancesForCompletion = new List<Id>();
+    Map<Id, Advance__c> advanceWithNameChanges = new Map<Id, Advance__c>();
 
     for (Integer i = 0; i < newList.size(); i++) {
-      if (
-        newList[i].Advance_Group_Name__c != oldList[i].Advance_Group_Name__c &&
-        newList[i].Status__c != 'Completed'
-      ) {
-        newList[i].Name = newList[i].Advance_Group_Name__c;
-      }
-
       if (
         newList[i].Status__c != oldList[i].Status__c &&
         newList[i].Status__c == 'Completed' &&
@@ -247,6 +242,14 @@ public class advance_Helper {
       }
 
       if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
+        if(
+          (newList[i].Name != oldList[i].Name ||
+          newList[i].Advance_Num__c != oldList[i].Advance_Num__c) &&
+          newList[i].Status__c != 'Completed'
+        ) {
+          advanceWithNameChanges.put(newList[i].Id, newList[i]);
+        }
+
         if (
           newList[i].Status__c != oldList[i].Status__c &&
           newList[i].Status__c == 'Completed'
@@ -385,6 +388,10 @@ public class advance_Helper {
       }
     }
 
+    if(advanceWithNameChanges.size() > 0) {
+      // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
+    }
+
     for (Opportunity o : [
       SELECT
         Id,
@@ -407,15 +414,13 @@ public class advance_Helper {
         adv.Aggregate_Funding__c = o.Aggregate_Funding__c;
         adv.Aggregate_Payoffs__c = o.Aggregate_Payoffs__c;
         adv.Outstanding_Facility_Amount__c = o.Outstanding_Facility_Amount__c;
-        if (adv.Advance_Num__c == null) {
-          if (o.Advances__r.size() > 0) {
-            adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
-            adv.Name = String.valueOf(adv.Advance_Num__c);
-          } else {
-            adv.Advance_Num__c = 1;
-            adv.Name = '1';
-          }
-        }
+        // if (o.Advances__r.size() > 0) {
+        //   adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
+        //   adv.Name = String.valueOf(adv.Advance_Num__c);
+        // } else {
+        //   adv.Advance_Num__c = 1;
+        //   adv.Name = '1';
+        // }
       }
     }
   }

@@ -5,18 +5,32 @@
   <aura:attribute name="recordId" type="String" />
   <aura:attribute name="record" type="Object" />
   <aura:attribute name="propertyAdvances" type="Object[]" />
+  <aura:attribute name="propertyStatusPicklistValues" type="Object[]" />
   <aura:attribute name="wires" type="Object[]" />
   <aura:attribute name="user" type="Object" />
   <aura:attribute name="depositNotes" type="String" />
   <aura:attribute name="brokerFeeLabel" type="String" />
+  <aura:attribute name="currentlyEditing" type="String" />
+  <aura:attribute name="isEditButtonClicked" type="Boolean" default="false" />
+  <aura:attribute name="currentEditingValue" type="String" />
+  <aura:attribute name="updatedPropertyStatuses" type="Object" />
   <aura:handler event="force:refreshView" action="{!c.init}" />
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
-
   <aura:attribute name="permissionsMap" type="Map" />
+  <aura:attribute name="propertyPermissionsMap" type="Map" />
+  <aura:attribute
+    name="specialAssetText"
+    type="String"
+    default="This is a Special Asset Property"
+  />
 
   <!-- <aura:handler name="change" value={!v.record.Inspection_Fee} -->
 
-  <div class="slds-is-relative">
+  <div
+    class="slds-is-relative"
+    onclick="{!c.handleOutsideClick}"
+    onkeyup="{!c.handleKeyPress}"
+  >
     <lightning:spinner
       variant="brand"
       aura:id="spinner"
@@ -34,6 +48,21 @@
         onclick="{!c.refresh}"
         class="{!v.record.Status__c == 'Completed' ? 'slds-hide' : ''}"
       />
+      <aura:if isTrue="{!v.isEditButtonClicked}">
+        <lightning:buttonGroup>
+          <lightning:button
+            onclick="{!c.handleStatusButtonsClick}"
+            label="Update Statuses"
+            title="update"
+            variant="brand"
+          />
+          <lightning:button
+            onclick="{!c.handleStatusButtonsClick}"
+            label="Cancel"
+            title="cancel"
+          />
+        </lightning:buttonGroup>
+      </aura:if>
     </div>
 
     <!-- Begin Non Renovation Table -->
@@ -46,7 +75,8 @@
         >
           <thead>
             <tr class="slds-text-title--caps">
-              <th>
+              <th scope="col"></th>
+              <th scope="col">
                 <div
                   class="{! and(!empty(v.permissionsMap), v.permissionsMap.sobject.isUpdateable) ? '' : 'slds-hide'}"
                 >
@@ -77,16 +107,24 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Property Status">Property Status</div>
+                <div class="slds-truncate" title="Property Status">
+                  Property Status
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Appraisal Due Date">Appraisal Due Date</div>
+                <div class="slds-truncate" title="Appraisal Due Date">
+                  Appraisal Due Date
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Title Company">Title Company</div>
+                <div class="slds-truncate" title="Title Company">
+                  Title Company
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Title Company">Title Review</div>
+                <div class="slds-truncate" title="Title Company">
+                  Title Review
+                </div>
               </th>
               <th scope="col">
                 <div class="slds-truncate" title="Acquisition Price">
@@ -125,7 +163,9 @@
                 isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
               >
                 <th scope="col">
-                  <div class="slds-truncate" title="Broker Fee">{!v.brokerFeeLabel}</div>
+                  <div class="slds-truncate" title="Broker Fee">
+                    {!v.brokerFeeLabel}
+                  </div>
                 </th>
                 <!-- <aura:set attribute="else">
                   <th scope="col">
@@ -165,28 +205,36 @@
               var="item"
             >
               <tr>
-                <th scope="row" data-lable="">
-                  <ui:inputCheckbox aura:id="checkbox" name="{!item.Id}" />
+                <th scope="" data-label="">
+                  <lightning:helptext
+                        content="{!v.specialAssetText}"
+                        iconName="utility:warning"
+                        iconVariant="error"
+                        class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? '' : 'slds-hide'}"
+                  />
                 </th>
-                <th scope="row" data-label="{!index}">
+                <th scope="row" data-label="">
+                    <ui:inputCheckbox aura:id="checkbox" name="{!item.Id}" />
+                </th>
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="row" data-label="{!index}">
                   <div class="slds-truncate" title="{!index}">{!index+1}</div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Property__r.Yardi_Id__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Wire__r.Wire_Number__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Property__r.APN__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     <ui:outputURL
                       label="{!item.Property__r.Name}"
@@ -197,14 +245,58 @@
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="Property Status">
-                    {!item.Property__r.Status__c}
+                    <aura:if
+                      isTrue="{!v.propertyPermissionsMap != null &amp;&amp; v.propertyPermissionsMap.Status__c.isUpdateable &amp;&amp; item.Advance__r.Status__c != 'Completed'}"
+                    >
+                      <aura:if
+                        isTrue="{!v.currentlyEditing != null &amp;&amp; v.currentlyEditing == item.Property__c}"
+                      >
+                        <div class="flexed-div combobox-div">
+                          <lightning:combobox
+                            name="property-status"
+                            variant="label-hidden"
+                            aria-label="Property Status"
+                            value="{!item.Property__r.Status__c}"
+                            placeholder="Select Status"
+                            options="{! v.propertyStatusPicklistValues }"
+                            onchange="{! c.handleStatusSelect }"
+                          />
+                          <lightning:buttonIcon
+                            iconName="utility:close"
+                            variant="bare"
+                            onclick="{! c.toggleStatusEdit }"
+                            alternativeText="Cancel"
+                            title="Cancel"
+                            value="{!item.Property__r}"
+                            tooltip="Cancel"
+                          />
+                        </div>
+                        <aura:set attribute="else">
+                          <div class="flexed-div">
+                            <lightning:formattedText
+                              value="{!item.Property__r.Status__c}"
+                            />
+                            <lightning:buttonIcon
+                              iconName="utility:edit"
+                              variant="bare"
+                              onclick="{! c.toggleStatusEdit }"
+                              alternativeText="Edit"
+                              title="Edit"
+                              value="{!item.Property__r}"
+                              tooltip="Edit"
+                            />
+                          </div>
+                        </aura:set>
+                      </aura:if>
+                      <aura:set attribute="else">
+                        {!item.Property__r.Status__c}
+                      </aura:set>
+                    </aura:if>
                   </div>
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputDate
-                      value="{!item.Appraisal_Due_Date__c}"
-                    />
+                    <ui:outputDate value="{!item.Appraisal_Due_Date__c}" />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -214,7 +306,9 @@
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputText value="{!item.Property__r.Title_Review_Company__c}" />
+                    <ui:outputText
+                      value="{!item.Property__r.Title_Review_Company__c}"
+                    />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -689,14 +783,17 @@
 
     <!-- Renovation Table Begin -->
 
-    <aura:if isTrue="{!v.record.RecordType_Name__c == 'Renovation Initial' || v.record.RecordType_Name__c == 'Construction Advance'}">
+    <aura:if
+      isTrue="{!v.record.RecordType_Name__c == 'Renovation Initial' || v.record.RecordType_Name__c == 'Construction Advance'}"
+    >
       <ui:scrollerWrapper class="scrollerSize">
         <table
           class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--col-bordered"
         >
           <thead>
             <tr class="slds-text-title--caps">
-              <th>
+              <th scope="col"></th>
+              <th scope="col">
                 <lightning:buttonIcon
                   variant="bare"
                   iconName="utility:delete"
@@ -723,16 +820,24 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Property Status">Property Status</div>
+                <div class="slds-truncate" title="Property Status">
+                  Property Status
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Appraisal Due Date">Appraisal Due Date</div>
+                <div class="slds-truncate" title="Appraisal Due Date">
+                  Appraisal Due Date
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Title Company">Title Company</div>
+                <div class="slds-truncate" title="Title Company">
+                  Title Company
+                </div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Title Company">Title Review</div>
+                <div class="slds-truncate" title="Title Company">
+                  Title Review
+                </div>
               </th>
               <th scope="col">
                 <div class="slds-truncate" title="Acquisition Price">
@@ -780,7 +885,9 @@
                 isTrue="{!and(!empty(v.record.Broker_Advance_Fee_Subtotal__c), v.record.Broker_Advance_Fee_Subtotal__c != 0)}"
               >
                 <th scope="col">
-                  <div class="slds-truncate" title="Broker Fee">{!v.brokerFeeLabel}</div>
+                  <div class="slds-truncate" title="Broker Fee">
+                    {!v.brokerFeeLabel}
+                  </div>
                 </th>
                 <!-- <aura:set attribute="else">
                   <th scope="col">
@@ -807,7 +914,9 @@
                   Appraisal Fee
                 </div>
               </th>
-              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+              <aura:if
+                isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}"
+              >
                 <th scope="col">
                   <div class="slds-truncate" title="Inspection Fee">
                     Inspection Fee
@@ -832,28 +941,36 @@
               var="item"
             >
               <tr>
-                <th scope="row" data-lable="">
+                <th scope="" data-label="">
+                  <lightning:helptext
+                  content="{!v.specialAssetText}"
+                  iconName="utility:warning"
+                  iconVariant="error"
+                  class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? '' : 'slds-hide'}"
+                />                   
+                </th>
+                <th scope="row" data-label="">
                   <ui:inputCheckbox aura:id="checkbox" name="{!item.Id}" />
                 </th>
-                <th scope="row" data-label="{!index}">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="row" data-label="{!index}">
                   <div class="slds-truncate" title="{!index}">{!index+1}</div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Property__r.Yardi_Id__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Wire__r.Wire_Number__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     {!item.Property__r.APN__c}
                   </div>
                 </th>
-                <th scope="" data-label="">
+                <th class="{!item.Property__r.Special_Asset__c != null &amp;&amp; v.record.Status__c == 'Pending' ? 'special-asset-cell' : ''}" scope="" data-label="">
                   <div class="slds-truncate" title="">
                     <ui:outputURL
                       label="{!item.Property__r.Name}"
@@ -864,14 +981,58 @@
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="Property Status">
-                    {!item.Property__r.Status__c}
+                    <aura:if
+                      isTrue="{!v.propertyPermissionsMap != null &amp;&amp; v.propertyPermissionsMap.Status__c.isUpdateable &amp;&amp; item.Advance__r.Status__c != 'Completed'}"
+                    >
+                      <aura:if
+                        isTrue="{!v.currentlyEditing != null &amp;&amp; v.currentlyEditing == item.Property__c}"
+                      >
+                        <div class="flexed-div combobox-div">
+                          <lightning:combobox
+                            name="property-status"
+                            variant="label-hidden"
+                            aria-label="Property Status"
+                            value="{!item.Property__r.Status__c}"
+                            placeholder="Select Status"
+                            options="{! v.propertyStatusPicklistValues }"
+                            onchange="{! c.handleStatusSelect }"
+                          />
+                          <lightning:buttonIcon
+                            iconName="utility:close"
+                            variant="bare"
+                            onclick="{! c.toggleStatusEdit }"
+                            alternativeText="Cancel"
+                            title="Cancel"
+                            value="{!item.Property__r}"
+                            tooltip="Cancel"
+                          />
+                        </div>
+                        <aura:set attribute="else">
+                          <div class="flexed-div">
+                            <lightning:formattedText
+                              value="{!item.Property__r.Status__c}"
+                            />
+                            <lightning:buttonIcon
+                              iconName="utility:edit"
+                              variant="bare"
+                              onclick="{! c.toggleStatusEdit }"
+                              alternativeText="Edit"
+                              title="Edit"
+                              value="{!item.Property__r}"
+                              tooltip="Edit"
+                            />
+                          </div>
+                        </aura:set>
+                      </aura:if>
+                      <aura:set attribute="else">
+                        {!item.Property__r.Status__c}
+                      </aura:set>
+                    </aura:if>
                   </div>
                 </th>
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
-                    <ui:outputDate
-                      value="{!item.Appraisal_Due_Date__c}"
-                    />
+                    <ui:outputDate value="{!item.Appraisal_Due_Date__c}" />
                   </div>
                 </th>
                 <th scope="" data-label="">
@@ -982,7 +1143,9 @@
                     />
                   </div>
                 </th>
-                <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+                <aura:if
+                  isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}"
+                >
                   <th scope="" data-label="">
                     <!-- <div class="slds-truncate" title=""
                       ><ui:outputCurrency
@@ -1157,7 +1320,9 @@
                   />
                 </div>
               </th>
-              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+              <aura:if
+                isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}"
+              >
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
                     <ui:outputCurrency
@@ -1289,7 +1454,9 @@
                   />
                 </div>
               </th>
-              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+              <aura:if
+                isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}"
+              >
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
                     <ui:inputCurrency
@@ -1440,7 +1607,9 @@
                   />
                 </div>
               </th>
-              <aura:if isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}">
+              <aura:if
+                isTrue="{!v.record.RecordType_Name__c == 'Construction Advance'}"
+              >
                 <th scope="" data-label="">
                   <div class="slds-truncate" title="">
                     <ui:outputCurrency
@@ -1481,7 +1650,7 @@
         >
           <thead>
             <tr class="slds-text-title--caps">
-              <th>
+              <th scope="col">
                 <div
                   class="{! and(!empty(v.permissionsMap), v.permissionsMap.sobject.isUpdateable) ? '' : 'slds-hide'}"
                 >
@@ -1509,7 +1678,9 @@
                 <div class="slds-truncate" title="Address">Address</div>
               </th>
               <th scope="col">
-                <div class="slds-truncate" title="Title Company">Title Company</div>
+                <div class="slds-truncate" title="Title Company">
+                  Title Company
+                </div>
               </th>
               <th scope="col">
                 <div class="slds-truncate" title="Initial Cost Basis">
@@ -1560,7 +1731,7 @@
               var="item"
             >
               <tr>
-                <th scope="row" data-lable="">
+                <th scope="row" data-label="">
                   <ui:inputCheckbox
                     aura:id="checkbox"
                     name="{!item.Id}"
@@ -1779,9 +1950,7 @@
             <div class="slds-truncate" title="Wire #">Wire #</div>
           </th>
           <th scope="col">
-            <div class="slds-truncate" title="Title Company">
-              Title Company
-            </div>
+            <div class="slds-truncate" title="Title Company">Title Company</div>
           </th>
           <th scope="col">
             <div class="slds-truncate" title="Advance Amount">
@@ -2016,7 +2185,6 @@
       </tbody>
     </table>
   </ui:scrollerWrapper>
-
   <!-- <lightning:accordion activeSectionName="notes">
     <lightning:accordionSection label="Deposit Notes" name="notes">
       test
