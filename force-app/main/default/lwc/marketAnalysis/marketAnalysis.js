@@ -5,8 +5,10 @@ export default class MarketAnalysis extends LightningElement {
         {
             location: {
                 Street: '1000 5th Ave',
-                City: 'New York',
-                State: 'NY',
+                // City: 'New York',
+                // State: 'NY',
+                Latitude: '40.7831856',
+                Longitude: '-73.9675653'
             },
 
             title: 'Museum of Fine Arts',
