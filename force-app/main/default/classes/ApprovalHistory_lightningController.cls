@@ -299,7 +299,7 @@ public without sharing class ApprovalHistory_lightningController {
             }
           }
           roleName = 'Underwriter';
-        } else if (processName == 'Term_Pricing_Review') {
+        } else if (processName == 'Term_Pricing_Review' || processName == 'Term_Repricing_Review') {
           if (termPricingApprover) {
             if (null != o.Approved_by_Underwriter__c) {
               // if (o.Approval_Status__c == 'Approved'){
@@ -422,14 +422,11 @@ public without sharing class ApprovalHistory_lightningController {
       SELECT Id, ProcessDefinition.Name
       FROM ProcessInstance
       WHERE ID IN :processIds
+      AND ProcessDefinition.Name LIKE '%Pricing Review%'
     ]) {
-      if (
-        pi.ProcessDefinition.Name.contains(
-          'Pricing Review'
-        ) /* || pi.ProcessDefinition.Name.contains('Pricing_Review')*/
-      ) {
+
         pricingReviewIds.add(pi.Id);
-      }
+        
     }
 
     Map<Id, historyWrapper> m = new Map<Id, historyWrapper>();

@@ -841,8 +841,8 @@
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Pending_GLC_Approval</template>
     </alerts>
-    <alerts>
-        <fullName>Stage_Loan_Processing_to_UW</fullName>
+    <!-- <alerts>
+        <fullName>_Processing_to_UW</fullName>
         <description>Stage - Loan Processing to UW</description>
         <protected>false</protected>
         <recipients>
@@ -858,7 +858,7 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>unfiled$public/Stage_Loan_Processing_to_UW</template>
-    </alerts>
+    </alerts> -->
     <alerts>
         <fullName>Sub_IC_Approved_Alert</fullName>
         <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
@@ -1096,14 +1096,14 @@
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
-        <recipients>
+        <!-- <recipients>
             <recipient>jonetta.hobbs@cvest.com</recipient>
             <type>user</type>
-        </recipients>
-        <recipients>
+        </recipients> -->
+        <!-- <recipients>
             <recipient>mavi.lenon@cvest.com</recipient>
             <type>user</type>
-        </recipients>
+        </recipients> -->
         <recipients>
             <recipient>micaela.lumpkin@cvest.com</recipient>
             <type>user</type>

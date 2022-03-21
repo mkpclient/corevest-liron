@@ -1,6 +1,6 @@
 global class icApprovalHandler implements Messaging.InboundEmailHandler {
   // ! change handler address from prod
-  static final String HANDLERADDRESS = 'icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com';
+  static final String HANDLERADDRESS = retrieveEmailServiceAddress();
 
   public static Boolean ISSANDBOX = false;
 
@@ -40,6 +40,25 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     'Bridge Committee Memo',
     'Committee Memo'
   };
+
+  public static String retrieveEmailServiceAddress() {
+      EmailServicesFunction emailFunction = [
+        SELECT Id
+        FROM EmailServicesFunction
+        WHERE FunctionName = 'icApprovalHandler'
+      ];
+
+      EmailServicesAddress emailServicesAddress = [
+        SELECT Id, LocalPart, EmailDomainName
+        FROM EmailServicesAddress
+        WHERE FunctionId = :emailFunction.Id
+      ];
+
+      return (emailServicesAddress.LocalPart +
+      '@' +
+      emailServicesAddress.EmailDomainName);
+
+  }
 
   public static Set<String> queryEmailAddresses(String name) {
     Set<String> emailAdds = new Set<String>();
@@ -252,7 +271,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       (!alreadySentTo.equals(BRIDGE_IC_GROUP) &&
       !alreadyCcs.equals(BRIDGE_IC_GROUP)))
     ) {
-      if(Deal.Amount > 3000000) {
+      if (Deal.Amount > 3000000) {
         setCcs.addAll(BRIDGE_IC_GROUP);
       } else {
         setCcs.addAll(BRIDGE_SUB_IC_GROUP);
@@ -531,8 +550,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
         RecordType.DeveloperName,
         Amount
       FROM Opportunity
-      WHERE Id = :opportunityId
-      AND RecordType.DeveloperName IN :VALID_RECORDTYPES
+      WHERE
+        Id = :opportunityId
+        AND RecordType.DeveloperName IN :VALID_RECORDTYPES
       LIMIT 1
     ];
     if (opptys.size() > 0) {
@@ -964,7 +984,6 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
   }
 
   public static Boolean approveDeal(Id userId, Opportunity deal) {
-    
     List<ProcessInstanceWorkItem> wrkItem = [
       SELECT
         Id,
@@ -990,15 +1009,20 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
           WHERE ProcessInstance.TargetObjectId = :deal.Id
         ];
 
-        if (updatedWkrItem.size() > 0 && !TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName)) {
+        if (
+          updatedWkrItem.size() > 0 &&
+          !TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName)
+        ) {
           return false;
-        } else if (TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName) && updatedWkrItem.size() == 1) {
+        } else if (
+          TWO_OF_THREE_APPROVALS.contains(deal.RecordType.DeveloperName) &&
+          updatedWkrItem.size() == 1
+        ) {
           handleApproval(userId, deal, wrkItem, true);
           return true;
         } else {
           return true;
         }
-
       } catch (Exception err) {
         System.debug(err.getMessage());
       }
@@ -1009,9 +1033,14 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     return false;
   }
 
-  public static void handleApproval(Id userId, Opportunity deal, List<ProcessInstanceWorkItem> wrkItem, Boolean isTwoOfThree) {
+  public static void handleApproval(
+    Id userId,
+    Opportunity deal,
+    List<ProcessInstanceWorkItem> wrkItem,
+    Boolean isTwoOfThree
+  ) {
     String comments = 'Approved from Email by ' + wrkItem[0].Actor.Name;
-    if(isTwoOfThree) {
+    if (isTwoOfThree) {
       comments = 'Automatic approval based on 2/3 approval.';
     }
     Approval.ProcessWorkitemRequest pwr = new Approval.ProcessWorkitemRequest();
@@ -1024,9 +1053,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     List<ProcessInstanceStep> pis = [
       SELECT Id, ProcessInstance.ProcessDefinition.DeveloperName
       FROM ProcessInstanceStep
-      WHERE
-        ProcessInstanceId = :processInstanceId
-        AND StepStatus = 'Approved'
+      WHERE ProcessInstanceId = :processInstanceId AND StepStatus = 'Approved'
       ORDER BY CreatedDate DESC
       LIMIT 1
     ];

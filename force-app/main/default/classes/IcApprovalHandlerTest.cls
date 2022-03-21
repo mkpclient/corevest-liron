@@ -10,7 +10,7 @@ private class IcApprovalHandlerTest {
     h.Value = '      1   1 2000';
     Messaging.InboundEmail email = new Messaging.InboundEmail();
     email.headers = new List<Messaging.InboundEmail.Header>();
-    email.headers.add(h);
+  email.headers.add(h);
     Messaging.InboundEnvelope env = new Messaging.InboundEnvelope();
 
     email.subject = 'Create Contact';

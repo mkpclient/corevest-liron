@@ -1,6 +1,6 @@
 public without sharing class IcApprovalController {
   // ! change in prod
-  static final String HANDLERADDRESS = 'icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com';
+  static final String HANDLERADDRESS = retrieveEmailServiceAddress();
 
   static final List<String> DEAL_TYPES = new List<String>{
     'Term Loan',
@@ -40,6 +40,28 @@ public without sharing class IcApprovalController {
   };
 
   public static final String APPROVALTYPEPICKLISTVAL = 'IC Memo';
+
+  public static String retrieveEmailServiceAddress() {
+    try {
+      EmailServicesFunction emailFunction = [
+        SELECT Id
+        FROM EmailServicesFunction
+        WHERE FunctionName = 'icApprovalHandler'
+      ];
+
+      EmailServicesAddress emailServicesAddress = [
+        SELECT Id, LocalPart, EmailDomainName
+        FROM EmailServicesAddress
+        WHERE FunctionId = :emailFunction.Id
+      ];
+
+      return (emailServicesAddress.LocalPart +
+      '@' +
+      emailServicesAddress.EmailDomainName);
+    } catch (Exception e) {
+      throw new AuraHandledException('Error retrieving email service address. Please make sure that an Inbound Email Service was properly set up for IC Approvals. ' + e.getMessage());
+    }
+  }
 
   public static Boolean verifyPermission() {
     List<PermissionSetAssignment> permSets = [
