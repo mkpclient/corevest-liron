@@ -87,50 +87,50 @@ global class AppraisalParseBatch implements Database.Batchable<sObject> {
     }
   }
 
-  public static void sendCompletedEmail(AsyncApexJob job) {
-    Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+public static void sendCompletedEmail(AsyncApexJob job) {
+  Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
 
-    email.setToAddresses(
-      new List<String>{
-        'ldecastro@mkpartners.com',
-        'logins+cvest@mkpartners.com'
-        ,
-        'integrations@cvest.com',
-        'jonathan.lay@cvest.com',
-        'bryon.harland@cvest.com'
-      }
-    );
-    OrgWideEmailAddress owea = new OrgWideEmailAddress();
-    owea = [
-      SELECT Id, Address, DisplayName
-      FROM OrgWideEmailAddress
-      WHERE DisplayName = 'Integrations User'
-    ];
-
-
-    String body = 'Batch ' + job.Status + '.\n';
-    body += '\nTotal Job Items: ' + job.TotalJobItems;
-    body += '\nJob Items Processed: ' + job.JobItemsProcessed;
-    body += '\nNumber of Errors: ' + job.NumberOfErrors;
-    body += '\nStatus: ' + job.Status;
-    body +=
-      '\nStarted Date: ' +
-      job.CreatedDate.format('MM/dd/yyyy HH:mm:ss', 'America/Los_Angeles');
-    body +=
-      '\nCompleted Date: ' +
-      job.CompletedDate.format('MM/dd/yyyy HH:mm:ss', 'America/Los_Angeles');
-    // if (job.NumberOfErrors > 0) {
-    //   body += '\n\nPlease refer to separate email with details about the error.';
-    // }
-    if (owea != null) {
-      email.setOrgWideEmailAddressId(owea.Id);
+  email.setToAddresses(
+    new List<String>{
+      'ldecastro@mkpartners.com',
+      'logins+cvest@mkpartners.com'
+      ,
+      'integrations@cvest.com',
+      'jonathan.lay@cvest.com',
+      'bryon.harland@cvest.com'
     }
+  );
+  OrgWideEmailAddress owea = new OrgWideEmailAddress();
+  owea = [
+    SELECT Id, Address, DisplayName
+    FROM OrgWideEmailAddress
+    WHERE DisplayName = 'Integrations User'
+  ];
 
-    email.setPlainTextbody(body);
-    email.setSubject('Appraisal Batch ' + job.Status);
 
-    Messaging.sendEmail(new List<Messaging.SIngleEmailMessage>{ email });
+  String body = 'Batch ' + job.Status + '.\n';
+  body += '\nTotal Job Items: ' + job.TotalJobItems;
+  body += '\nJob Items Processed: ' + job.JobItemsProcessed;
+  body += '\nNumber of Errors: ' + job.NumberOfErrors;
+  body += '\nStatus: ' + job.Status;
+  body +=
+    '\nStarted Date: ' +
+    job.CreatedDate.format('MM/dd/yyyy HH:mm:ss', 'America/Los_Angeles');
+  body +=
+    '\nCompleted Date: ' +
+    job.CompletedDate.format('MM/dd/yyyy HH:mm:ss', 'America/Los_Angeles');
+  // if (job.NumberOfErrors > 0) {
+  //   body += '\n\nPlease refer to separate email with details about the error.';
+  // }
+  if (owea != null) {
+    email.setOrgWideEmailAddressId(owea.Id);
   }
+
+  email.setPlainTextbody(body);
+  email.setSubject('Appraisal Batch ' + job.Status);
+
+  Messaging.sendEmail(new List<Messaging.SIngleEmailMessage>{ email });
+}
 
   public static Map<String, Decimal> parseXML(
     Appraisal__c s,
