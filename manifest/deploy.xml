@@ -1,19 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>PropertyTriggerExtensionsTest</members>
-        <members>PropertyTriggerExtensions</members>
-        <members>advance_Helper</members>
+        <members>ConfirmationOfTermsController</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>property_Trigger</members>
-        <name>ApexTrigger</name>
+		<members>confirmationTerms</members>
+		<name>LightningComponentBundle</name>
+	</types>
+    <types>
+      <members>ConfirmationOfTermsEmail</members>
+      <name>ApexComponent</name>
     </types>
     <types>
-        <members>AdvancePropertyTable</members>
-        <name>AuraDefinitionBundle</name>
+      <members>Servicer_Contact</members>
+      <name>GlobalValueSet</name>
+	</types>
+    <types>
+        <members>Approval_History__c.Contact_Address__c</members>
+        <members>Approval_History__c.Contact_Address_Comment__c</members>
+        <members>Approval_History__c.Contact_Email__c</members>
+        <members>Approval_History__c.Contact_Email_Comment__c</members>
+        <members>Approval_History__c.Contact_Name__c</members>
+        <members>Approval_History__c.Contact_Name_Comment__c</members>
+        <members>Approval_History__c.Contact_Phone__c</members>
+        <members>Approval_History__c.Contact_Phone_Comment__c</members>
+        <members>Approval_History__c.Servicer_Contact_Address__c</members>
+        <members>Approval_History__c.Servicer_Contact_Email__c</members>
+        <members>Approval_History__c.Servicer_Contact_Name__c</members>
+        <members>Approval_History__c.Servicer_Contact_Phone__c</members>
+        <members>Approval_History__c.Final_Spread__c</members>
+     <name>CustomField</name>
     </types>
+    
     <version>53.0</version>
 </Package>
-<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r advance_Tests,Advance_Tests_Additional,PropertyTriggerExtensionsTest -->
+<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r ConfirmationOfTermsTests -->
