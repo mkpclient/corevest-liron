@@ -1,7 +1,7 @@
 public without sharing class OpportunityMethods {
     public static void updatePaidOffProperties(Map<Id,Opportunity> dealMap) {
         List<Property__c> propertiesForUpdate = [
-            SELECT Id, Status__c, Deal__c, Inactive_Date__c FROM Property__c WHERE Deal__c IN :dealMap.keySet() FOR UPDATE
+            SELECT Id, Status__c, Deal__c, Inactive_Date__c FROM Property__c WHERE Deal__c IN :dealMap.keySet() AND Status__c = 'Active' FOR UPDATE
         ];
 
         if (propertiesForUpdate.size() > 0) {
