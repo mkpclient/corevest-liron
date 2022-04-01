@@ -197,7 +197,7 @@
                     <strong>[USE FOR SINGLE FAMILY/TOWNHOME PROJECTS]</strong>
                     <apex:outputText value=" ${0,number} ">
                         <apex:param value="{!Opportunity.Loan_Size__c}" />
-                    </apex:outputText> Construction Loan Proposal to finance the the acquisition/refinancing and construction of [[XXX] Residential Units, defined below, each on a subdivided residential lot located at [_COMPLETE PROPERTY ADDRESS or APNs_] (the <strong>"Property"</strong>)
+                    </apex:outputText> Construction Loan Proposal to finance the the acquisition/refinancing and construction of [[XXX] Residential Units, defined below, each on a subdivided residential lot located at {!allProperties[0].Name} (the <strong>"Property"</strong>)
                     
                 </p>
                 
