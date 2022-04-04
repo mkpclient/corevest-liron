@@ -200,7 +200,7 @@
                 <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
                     <apex:outputText value=" ${0,number} ">
                         <apex:param value="{!Opportunity.Loan_Size__c}" />
-                    </apex:outputText> Loan Proposal to the acquisition an  an [XX]-property [portfolio] located in [FULL ADDRESS, CITY, STATE] (the "Property")
+                    </apex:outputText> Loan Proposal to the acquisition an  an [XX]-property [portfolio] located in {!allProperties[0].Name} {!allProperties[0].City__c}, {!allProperties[0].State__c} (the "Property")
   
                 </p>
                 <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
@@ -750,7 +750,7 @@
 
                 <!-- Begin Signature Section -->
 
-                <div class="sigsection">
+                <div class="sigsection" style="page-break-inside:avoid;">
                     <p style="font-family: Times; font-size: 11pt; line-height: 1.3;">
                         Please don't hesitate to call
                         <apex:outputText value="{!' ' & Opportunity.Owner_Name__c}" /> at

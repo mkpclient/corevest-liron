@@ -337,6 +337,10 @@ public without sharing class TermSheetInput_LightningController {
     //     m.put('MissingFields', nullFields);
     // }
 
+    if (o.RecordType.DeveloperName == 'Single_Asset_Bridge_Loan' && nullFields.contains('Distinct States')) {
+      nullFields.remove(nullFields.indexOf('Distinct States'));
+    }
+
     if (
       (o.RecordType.DeveloperName == 'LOC_Loan' ||
       o.RecordType.DeveloperName.contains('Bridge')) &&
@@ -368,7 +372,8 @@ public without sharing class TermSheetInput_LightningController {
         Include_Prop_Sub_Text__c,
         Include_3_Months_Min_Interest__c,
         Broker_Fees__c,
-        Referral_Source_Contact__c
+        Referral_Source_Contact__c,
+        Project_Strategy__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
@@ -629,7 +634,7 @@ public without sharing class TermSheetInput_LightningController {
         createContent(i, o, recordType, p, true);
         return docReference;
       } else {
-        if (
+         if (
           o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
           o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)' ||
           o.LOC_Loan_Type__c == 'Multifamily/CRE'
@@ -650,7 +655,14 @@ public without sharing class TermSheetInput_LightningController {
         }
       }
     } else {
-      if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
+      if (String.isNotEmpty(o.Project_Strategy__c) && o.Project_Strategy__c.toLowerCase().contains('clo')) {
+        String assetString = '/apex/BridgeCRE_CLO_MF_Term_Sheet?id=';
+        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+        p = new PageReference(docReference);
+        createContent(i, o, recordType, p, true);
+        return docReference;
+      }
+      else if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
         // Date d = Date.newInstance(Integer.valueOf(splitDate[0]), Integer.valueOf(splitDate[1]), Integer.valueOf(splitDate[2]));
         // p = new PageReference('/apex/BridgeTermSheetPDF?id=' + o.Id + '&month=' +Integer.valueOf(splitDate[1])+ '&day=' +Integer.valueOf(splitDate[2])+ '&year=' + Integer.valueOf(splitDate[0]));
 
