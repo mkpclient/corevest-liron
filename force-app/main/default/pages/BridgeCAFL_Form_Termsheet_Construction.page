@@ -113,24 +113,26 @@
                 text-indent: 40px;
                 }
                 
-                .row-title {
+            .row-title {
                 font-family: Times;
-                font-size: 10pt;
-                width: 30%;
+                font-size: 11pt;
+                width: 10%;
                 font-weight: bold;
                 vertical-align: top;
                 padding: 2px 6px;
-                border: solid 1px #BEBEBE;
-                }
-                
-                .row-description {
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
+
+            .row-description {
                 font-family: Times;
-                font-size: 10pt;
-                width: 70%;
+                font-size: 11pt;
+                width: 90%;
                 padding: 2px 6px;
                 vertical-align: top;
-                border: solid 1px #BEBEBE;
-                }
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
                 
                 
                 .limitor-list {
@@ -186,27 +188,22 @@
                     <apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c } " /> ("
                     <strong>Sponsor</strong>")
                 </p>
-                <p style="{!IF(includeCOBroker = true, 'page-break-inside:avoid;', 'display:none;')}">
-                    <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
-                        C/O:
-                        <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> -
-                        <apex:outputText value=" {!Opportunity.Referral_Source__r.Name}" />
+                 <p style="{!IF(Opportunity.Project_Strategy__c = 'Build to Rent', 'page-break-inside:avoid;', 'display:none;')}">
+                <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                    <strong>[USE FOR SINGLE FAMILY/TOWNHOME PROJECTS]</strong>
+                    <apex:outputText value=" ${0,number} Construction Loan Proposal to finance the the acquisition/refinancing and construction of [[XXX] Residential Units, defined below, each on a subdivided residential lot located {1}">
+                        <apex:param value="{!Opportunity.Loan_Size__c}" />
+                        <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, 'in ' + allProperties[0].City__c + ', ' + allProperties[0].State__c, 'at ' + allProperties[0].Name + ' ' + allProperties[0].City__c + ', ' + allProperties[0].State__c)}" />
+                    </apex:outputText> (the <strong>"Property"</strong>)
                     </span>
                 </p>
-                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
-                    <strong>[USE FOR SINGLE FAMILY/TOWNHOME PROJECTS]</strong>
-                    <apex:outputText value=" ${0,number} ">
-                        <apex:param value="{!Opportunity.Loan_Size__c}" />
-                    </apex:outputText> Construction Loan Proposal to finance the the acquisition/refinancing and construction of [[XXX] Residential Units, defined below, each on a subdivided residential lot located at {!allProperties[0].Name} (the <strong>"Property"</strong>)
-                    
-                </p>
-                
-                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                <p style="{!IF(Opportunity.Project_Strategy__c = 'Multifamily GUC', 'page-break-inside:avoid;', 'display:none;')}">
+                <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
                     <strong>[USE FOR MULTIFAMILY PROJECTS]</strong>
                     <apex:outputText value=" ${0,number} ">
                         <apex:param value="{!Opportunity.Loan_Size__c}" />
                     </apex:outputText> <strong>[USE FOR MULTIFAMILY PROJECTS]</strong>$[XXX] Construction Loan Proposal to finance the acquisition/refinancing and construction of a multifamily apartment project to be comprised of [XXX] Residential Units (defined below located at [_____________] (the "Property")
-                    
+                    </span>
                 </p>
                 
                 <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
@@ -430,14 +427,14 @@ None                       </span>
                             
                         </td>
                         <td class="row-description">
-                            <p class ="paragraph">a) No default or event of default has occurred and is then continuing,</p>
-                            <p class ="paragraph">b) Borrower shall have delivered to Lender written notice requesting such extension at least 60 days but no more than 180 days prior to the stated maturity date, </p>
-                            <p class ="paragraph">c) Borrower shall have paid Lender the Extension Fee on or before the Initial Stated Maturity Date; </p>
-                            <p class ="paragraph">d) The Loan must be in balance through extended maturity with Borrower depositing necessary Balancing Funds prior to the Initial Stated Maturity Date (see "Loan in Balance" below); </p>
-                            <p class ="paragraph"> (e) Completion of all of the Improvements, including issuance of a permanent certificate of occupancy for each Residential Unit and if applicable, dedication and acceptance of all public on and offsite improvements has occurred; </p>
-                            <p class ="paragraph"> (f) An As-Is LTV ratio of no greater than [XX]%[INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT] as tested by an updated current appraisal; </p>
-                            <p class ="paragraph"> (g) Borrower shall have provided evidence satisfactory to Lender that at least [<strong>85</strong>]% of the Residential Units are occupied by Eligible Tenants pursuant to Eligible Leases as of the Initial Stated Maturity Date; and</p>
-                            <p class ="paragraph"> (h) There shall have been no material adverse change in the financial condition of Guarantor that would materially and adversely affect Guarantor's ability to perform its obligations under the Loan Documents, as determined by Lender, and Guarantor shall have delivered to Lender a Compliance Certificate dated as of the Initial Stated Maturity Date, with all supporting documentation, evidencing Guarantor is in compliance with Guarantor's  minimum liquidity and net worth covenants.[IF NO EXTENSION OPTION, DELETE (a)-(h) TEXT AND REPLACE WITH N/A] </p>
+                            <p>a) No default or event of default has occurred and is then continuing,</p>
+                            <p>b) Borrower shall have delivered to Lender written notice requesting such extension at least 60 days but no more than 180 days prior to the stated maturity date, </p>
+                            <p>c) Borrower shall have paid Lender the Extension Fee on or before the Initial Stated Maturity Date; </p>
+                            <p>d) The Loan must be in balance through extended maturity with Borrower depositing necessary Balancing Funds prior to the Initial Stated Maturity Date (see "Loan in Balance" below); </p>
+                            <p> (e) Completion of all of the Improvements, including issuance of a permanent certificate of occupancy for each Residential Unit and if applicable, dedication and acceptance of all public on and offsite improvements has occurred; </p>
+                            <p> (f) An As-Is LTV ratio of no greater than [XX]%[INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT] as tested by an updated current appraisal; </p>
+                            <p> (g) Borrower shall have provided evidence satisfactory to Lender that at least [<strong>85</strong>]% of the Residential Units are occupied by Eligible Tenants pursuant to Eligible Leases as of the Initial Stated Maturity Date; and</p>
+                            <p> (h) There shall have been no material adverse change in the financial condition of Guarantor that would materially and adversely affect Guarantor's ability to perform its obligations under the Loan Documents, as determined by Lender, and Guarantor shall have delivered to Lender a Compliance Certificate dated as of the Initial Stated Maturity Date, with all supporting documentation, evidencing Guarantor is in compliance with Guarantor's  minimum liquidity and net worth covenants.[IF NO EXTENSION OPTION, DELETE (a)-(h) TEXT AND REPLACE WITH N/A] </p>
                             
                             
                         </td>
@@ -896,7 +893,7 @@ None                       </span>
                                 <br /> Account Name: CoreVest American Finance Lender LLC (Borrower Deposits)
                                 <br /> Account Number: 4451272357
                                 <br /> Reference: Bridge Loan/
-                                <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}" />/D
+                                <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}" />/
                                 <apex:outputText value="{!Opportunity.Name}" />
                                 <br />
                             </p>

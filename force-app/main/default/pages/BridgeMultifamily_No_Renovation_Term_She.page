@@ -114,24 +114,26 @@
                 text-indent: 40px;
                 }
                 
-                .row-title {
+            .row-title {
                 font-family: Times;
-                font-size: 10pt;
-                width: 30%;
+                font-size: 11pt;
+                width: 10%;
                 font-weight: bold;
                 vertical-align: top;
                 padding: 2px 6px;
-                border: solid 1px #BEBEBE;
-                }
-                
-                .row-description {
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
+
+            .row-description {
                 font-family: Times;
-                font-size: 10pt;
-                width: 70%;
+                font-size: 11pt;
+                width: 90%;
                 padding: 2px 6px;
                 vertical-align: top;
-                border: solid 1px #BEBEBE;
-                }
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
                 
                 
                 .limitor-list {
@@ -187,17 +189,12 @@
                     <apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c } " /> ("
                     <strong>Sponsor Name</strong>")
                 </p>
-                <p style="{!IF(includeCOBroker = true, 'page-break-inside:avoid;', 'display:none;')}">
-                    <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
-                        C/O:
-                        <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> -
-                        <apex:outputText value=" {!Opportunity.Referral_Source__r.Name}" />
-                    </span>
-                </p>
+
                 <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
-                    <apex:outputText value=" ${0,number} ">
+                    <apex:outputText value=" ${0,number} Loan Proposal to finance the acquisition an existing [TBD #]-unit multifamily property located {1} ">
                         <apex:param value="{!Opportunity.Loan_Size__c}" />
-                    </apex:outputText> Loan Proposal to finance the acquisition an existing [TBD #]-unit multifamily property located at [FULL Property Address] (<strong>"Property"</strong>)
+                        <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, 'in ' + allProperties[0].City__c + ', ' + allProperties[0].State__c, 'at ' + allProperties[0].Name + ' ' + allProperties[0].City__c + ', ' + allProperties[0].State__c)}" />
+                    </apex:outputText>(<strong>"Property"</strong>)
                     
                 </p>
                 
@@ -826,7 +823,7 @@ Conditions precedent to Closing, include, among other things, in Lender's sole a
                                 <br /> Account Name: CoreVest American Finance Lender LLC (Borrower Deposits)
                                 <br /> Account Number: 4451272357
                                 <br /> Reference: Bridge Loan/
-                                <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}" />/D
+                                <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}" />/
                                 <apex:outputText value="{!Opportunity.Name}" />
                                 <br />
                             </p>

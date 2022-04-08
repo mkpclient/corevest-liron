@@ -1,5 +1,5 @@
 ({
-  init: function(component, event, helper) {
+  init: function (component, event, helper) {
     var today = new Date();
     var isoStr = new Date(today.setDate(today.getDate() + 14)).toISOString();
     var dateArr = isoStr.split(/[-T]/);
@@ -10,7 +10,7 @@
     let recordId = component.get("v.recordId");
     let action = component.get("c.findRecordType");
     action.setParams({ recordId: recordId });
-    action.setCallback(this, function(response) {
+    action.setCallback(this, function (response) {
       let state = response.getState();
       if ("SUCCESS" === state) {
         let returnVal = response.getReturnValue();
@@ -20,6 +20,14 @@
         component.set("v.deal", JSON.parse(returnVal["record"][0]));
 
         console.log(component.get("v.deal"));
+
+        if (
+          returnVal.Checkboxes &&
+          returnVal.Checkboxes.length > 0 &&
+          returnVal.Checkboxes[0] == "false"
+        ) {
+          helper.toggleHide(component, "checkboxes");
+        }
 
         if (
           returnVal.incorrectLoanType &&
@@ -63,7 +71,7 @@
     $A.enqueueAction(action);
   },
 
-  handleClick: function(component, event, helper) {
+  handleClick: function (component, event, helper) {
     console.log("clicked1");
     component.find("submitButton").set("v.disabled", true);
     if (null != component.get("v.dateError")) {
@@ -163,15 +171,13 @@
     };
     console.log(serverObj);
     action.setParams(serverObj);
-    action.setCallback(this, function(response) {
+    action.setCallback(this, function (response) {
       let state = response.getState();
       if ("SUCCESS" === state) {
         if (
           component.get("v.generateDocPermission") == "true" &&
-          component
-            .find("Generate_Word_Doc")
-            .get("v.checked")
-            .toString() == "true"
+          component.find("Generate_Word_Doc").get("v.checked").toString() ==
+            "true"
         ) {
           let returnVal = response.getReturnValue();
           console.log(returnVal);
@@ -191,18 +197,18 @@
     // supposed to input these fields and generate term sheet
   },
 
-  reload: function(component, event, helper) {
+  reload: function (component, event, helper) {
     //console.log("reloading");
     //window.location.reload();
     $A.get("e.force:refreshView").fire();
     $A.get("e.force:closeQuickAction").fire();
   },
 
-  closeModal: function(component, event, helper) {
+  closeModal: function (component, event, helper) {
     $A.get("e.force:closeQuickAction").fire();
   },
 
-  handleBlur: function(component, event, helper) {
+  handleBlur: function (component, event, helper) {
     console.log(event.target.value);
     var todaysDate = new Date();
     var twoWeeksFromNow = new Date();
@@ -223,7 +229,7 @@
     }
   },
 
-  closeWindow: function(component, event, helper) {
+  closeWindow: function (component, event, helper) {
     $A.get("e.force:closeQuickAction").fire();
   }
 });
