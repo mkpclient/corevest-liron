@@ -254,8 +254,7 @@ public without sharing class TermSheetInput_LightningController {
     }
 
     m.put('Approved', new List<String>{ 'true' });
-    //TODO: uncomment out:
-    /*
+    
     if (
       (o.RecordType.DeveloperName == 'LOC_Loan' ||
       o.RecordType.DeveloperName.contains('Bridge')) &&
@@ -284,7 +283,7 @@ public without sharing class TermSheetInput_LightningController {
         // m.put('Approved', new List<String>{'true'});
       }
     } 
-*/
+
 
     List<String> nullFields = new List<String>();
     List<String> selectedList;
@@ -347,19 +346,19 @@ public without sharing class TermSheetInput_LightningController {
     ) {
       nullFields.remove(nullFields.indexOf('Distinct States'));
     }
-    // TODO: UNCOMMENT OUT
-    // if (
-    //   (o.RecordType.DeveloperName == 'LOC_Loan' ||
-    //   o.RecordType.DeveloperName.contains('Bridge')) &&
-    //   o.LOC_Program_Type__c != null &&
-    //   o.LOC_Program_Type__c == 'Standard'
-    // ) {
-    //   m.put('MissingFields', null);
-    // } else if (nullFields.size() > 0) {
-    //   m.put('MissingFields', nullFields);
-    // } else {
-    //   m.put('MissingFields', null);
-    // }
+
+    if (
+      (o.RecordType.DeveloperName == 'LOC_Loan' ||
+      o.RecordType.DeveloperName.contains('Bridge')) &&
+      o.LOC_Program_Type__c != null &&
+      o.LOC_Program_Type__c == 'Standard'
+    ) {
+      m.put('MissingFields', null);
+    } else if (nullFields.size() > 0) {
+      m.put('MissingFields', nullFields);
+    } else {
+      m.put('MissingFields', null);
+    }
     System.debug(m);
 
     m.put('Checkboxes', new List<String>{ 'true' });
