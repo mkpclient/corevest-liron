@@ -246,7 +246,7 @@ public without sharing class CommunityFundingController {
           ),
           List<Opportunity>.class
         )
-      )
+      ) 
       .keySet();
   }
 

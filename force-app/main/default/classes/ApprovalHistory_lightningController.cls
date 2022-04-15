@@ -9,12 +9,12 @@ public without sharing class ApprovalHistory_lightningController {
     'Term'
   };
 
-  public static final List<String> IC_APPROVAL_NAMES = new List<String>{
-    'Term_IC_Approval',
-    'Bridge_IC_Approval',
-    'Term_Sub_IC',
-    'Bridge_Sub_IC'
-  };
+  // public static final List<String> IC_APPROVAL_NAMES = new List<String>{
+  //   'Term_IC_Approval',
+  //   'Bridge_IC_Approval',
+  //   'Term_Sub_IC',
+  //   'Bridge_Sub_IC'
+  // };
 
 
   @AuraEnabled
@@ -183,7 +183,8 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Approval_Status__c,
         Deal__r.Apex_Context__c,
         CreatedDate,
-        Resolution__c
+        Resolution__c,
+        ProcessName__c
       FROM Approval_History__c
       WHERE Deal__c = :recordId
       ORDER BY LastModifiedDate DESC
@@ -334,14 +335,15 @@ public without sharing class ApprovalHistory_lightningController {
             }
           }
           roleName = 'Underwriter';
-        } 
-        if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
-          ah.Verified__c = true;
+        // } 
+        // if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
+        //   ah.Verified__c = true;
         }
       }
     }
 
-    Boolean b = submitterId == UserInfo.getUserId() || (String.isNotEmpty(ahList[0].ProcessName__c) && IC_APPROVAL_NAMES.contains(ahList[0].ProcessName__c) && roleName == 'Underwriter');
+    Boolean b = submitterId == UserInfo.getUserId();
+    // || (String.isNotEmpty(ahList[0].ProcessName__c) && IC_APPROVAL_NAMES.contains(ahList[0].ProcessName__c) && roleName == 'Underwriter');
 
     returnWrapper rw = new returnWrapper();
     rw.ahList = ahList;
@@ -400,6 +402,7 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.RecordType.DeveloperName,
         Parent_Status__c,
         Process_Id__c,
+        ProcessName__c,
         Process_Instance_Id__c,
         Status__c,
         Step_Item_Id__c,
@@ -579,11 +582,10 @@ public without sharing class ApprovalHistory_lightningController {
     system.debug(userRole);
     system.debug(approvalName);
     // system.debug(JSON.serialize(opp));
-    Opportunity updDeal = new Opportunity(
-      Id = oppId,
-      Final_Sponsor_Tier__c = 'Tier 1'
-    );
-
+    // Opportunity updDeal = new Opportunity(
+    //   Id = oppId,
+    //   Final_Sponsor_Tier__c = 'Tier 1'
+    // );
     ApprovalAttachments_lightningController.approveDeal(
       recordId,
       userRole,

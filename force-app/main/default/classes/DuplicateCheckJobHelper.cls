@@ -260,11 +260,28 @@ public without sharing class DuplicateCheckJobHelper {
   public static List<Map<String, String>> getDupeListFromDeal(String dealId) {
     //query properties here
     Map<String, String> newList = new Map<String, String>();
-
+    String recTypeDevName = [
+      SELECT Id, RecordType.DeveloperName
+      FROM Opportunity
+      WHERE Id = :dealId
+      LIMIT 1
+    ]
+    .RecordType.DeveloperName;
     for (Property__c property : [
       SELECT Id, Deal__c
       FROM Property__c
-      WHERE Deal__c = :dealId AND Is_Parent__c = FALSE AND Status__c = 'Active'
+      WHERE
+        Deal__c = :dealId
+        AND Is_Parent__c = FALSE
+        AND Status__c IN (
+          'Due Diligence',
+          'Pending',
+          'Closing',
+          'On Hold',
+          'Active',
+          'Sold',
+          'Paid Off'
+        )
       ORDER BY Property_Name__c ASC, Name ASC
     ]) {
       newList.put(property.Id, dealId);
@@ -272,7 +289,7 @@ public without sharing class DuplicateCheckJobHelper {
 
     Map<String, List<dupcheck__dc3Duplicate__c>> dupeListMap = checkDuplicateListFoundByRecordType(
       newList,
-      'Term_Loan'
+      recTypeDevName.containsIgnoreCase('term') ? 'Term_Loan' : 'LOC_Loan'
     );
 
     List<Map<String, String>> dupeList = new List<Map<String, String>>();
@@ -319,6 +336,7 @@ public without sharing class DuplicateCheckJobHelper {
       WHERE
         dupcheck__Score__c >= :score
         AND dupcheck__SourceObject__c IN :newList.keyset()
+        AND dupcheck__MatchObject__c NOT IN :newList.keySet()
     ]) {
       if (!dupMap.containsKey(dup.dupcheck__MatchObject__c)) {
         dupMap.put(
@@ -336,8 +354,16 @@ public without sharing class DuplicateCheckJobHelper {
       FROM Property__c
       WHERE
         Id IN :dupMap.keySet()
-        AND Deal__r.StageName NOT IN ('Withdrawn','Rejected','Paid Off')
-        AND Status__c = 'Active'
+        AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected')
+        AND Status__c IN (
+          'Due Diligence',
+          'Pending',
+          'Closing',
+          'On Hold',
+          'Active',
+          'Sold',
+          'Paid Off'
+        )
     ]) {
       if (duplicateProperty.Deal_Record_Type__c == recordType) {
         for (dupcheck__dc3Duplicate__c dup : dupMap.get(duplicateProperty.Id)) {
@@ -371,6 +397,7 @@ public without sharing class DuplicateCheckJobHelper {
         WHERE
           dupcheck__Score__c >= :score
           AND dupcheck__MatchObject__c IN :newList.keyset()
+          AND dupcheck__SourceObject__c NOT IN :newList.keySet()
       ]) {
         if (!dupMap.containsKey(dup.dupcheck__SourceObject__c)) {
           dupMap.put(
@@ -390,8 +417,17 @@ public without sharing class DuplicateCheckJobHelper {
         FROM Property__c
         WHERE
           Id IN :dupMap.keySet()
-          AND Deal__r.StageName NOT IN ('Withdrawn','Rejected','Paid Off')
-          AND Status__c = 'Active'
+          AND Deal__r.StageName NOT IN ('Withdrawn', 'Rejected')
+          AND Status__c IN (
+            'Due Diligence',
+            'Pending',
+            'Closing',
+            'On Hold',
+            'Active',
+            'Sold',
+            'Paid Off'
+          )
+          AND Deal_Record_Type__c = :recordType
       ]) {
         if (duplicateProperty.Deal_Record_Type__c == recordType) {
           for (

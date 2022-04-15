@@ -65,7 +65,7 @@ public class UnderwritingApproval_LightningController {
   @AuraEnabled
   public static String validateRecord(String recordId) {
     Settings__mdt universalSetting = lightning_Controller.queryUniversalSettings();
-    String queryString = 'SELECT Id, RecordType.DeveloperName, OwnerId, Name, Contact__r.RecordType.DeveloperName, Account.RecordType.DeveloperName,Account.Number_of_Contacts__c,Current_Approval_Process__c,Rate_Lock_Picklist__c,';
+    String queryString = 'SELECT Id, GLC_Required__c, GLC_Approved__c, RecordType.DeveloperName, OwnerId, Name, Contact__r.RecordType.DeveloperName, Account.RecordType.DeveloperName,Account.Number_of_Contacts__c,Current_Approval_Process__c,Rate_Lock_Picklist__c,';
 
     for (String field : termFields.keySet()) {
       if (!queryString.contains(field + ',')) {
@@ -87,6 +87,9 @@ public class UnderwritingApproval_LightningController {
     Opportunity o = (Opportunity) Database.query(queryString);
 
     //String recordTypeName = o.RecordType.Name;
+    // if(o.GLC_Required__c && !o.GLC_Approved__c) {
+    //   termRequiredDocuments.add('Greenlight Deck');
+    // }
 
     Set<String> requiredDocuments;
     Map<String, String> requiredFields;
@@ -99,6 +102,10 @@ public class UnderwritingApproval_LightningController {
         requiredDocuments = bridgeRequiredDocuments;
         requiredFields = bridgeFields;
       }
+      when 'Single_Asset_Bridge_Loan' {
+        requiredDocuments = bridgeRequiredDocuments;
+        requiredFields = bridgeFields;
+      }
     }
 
     Map<String, Object> response = new Map<String, Object>();
@@ -106,12 +113,21 @@ public class UnderwritingApproval_LightningController {
     response.put('result', 'success');
     response.put('recordType', o.RecordType.DeveloperName);
 
-    List<Deal_Contact__c> dealContacts = [
+    List<Deal_Contact__c> applicantContacts = [
       SELECT Id
       FROM Deal_Contact__c
       WHERE
         Deal__c = :recordId
         AND Entity_Type__c = 'Applicant'
+        AND Contact__c != NULL
+    ];
+
+    List<Deal_Contact__c> guarantorContacts = [
+      SELECT Id
+      FROM Deal_Contact__c
+      WHERE
+        Deal__c = :recordId
+        AND Entity_Type__c = 'Guarantor'
         AND Contact__c != NULL
     ];
 
@@ -124,9 +140,16 @@ public class UnderwritingApproval_LightningController {
       response.put('result', 'error');
     }
 
-    if (dealContacts.size() == 0) {
+    if (applicantContacts.size() == 0) {
       //errorMsg +=
       errorMsgs.add('Please add an “Applicant” Contact to this Deal');
+      // response.put('errorMsg', 'Please add an “Applicant” Contact to this Deal');
+      response.put('result', 'error');
+    }
+
+    if (guarantorContacts.size() == 0) {
+      //errorMsg +=
+      errorMsgs.add('Please add an “Guarantor” Contact to this Deal');
       // response.put('errorMsg', 'Please add an “Applicant” Contact to this Deal');
       response.put('result', 'error');
     }
@@ -269,6 +292,14 @@ public class UnderwritingApproval_LightningController {
 
     //}
 
+//CIP-2191-RS.4/4/22.Begin.
+	// if (universalSetting.Request_Beekin_Rental_Data_Validation__c && PricingReviewRequest_LightningController.beekingRentalInfoCheck(recordId))
+  //   {
+	// 	errorMsgs.add(
+  //         'Please reterieve rental estimates from Beekin on all the properties before moveing the deal to Underwriting.'
+  //       );    
+  //   }
+////CIP-2191-RS.4/4/22.End.        
     response.put('errorMsg', errorMsgs);
 
     return JSON.serialize(response);
@@ -326,7 +357,7 @@ public class UnderwritingApproval_LightningController {
       processName = 'Submit_Term_Deal_to_UW_Approval';
     } else if (
       o.RecordType.DeveloperName == 'LOC_Loan' ||
-      o.RecordType.DeveloperName.contains('Bridge')
+      o.RecordType.DeveloperName.containsIgnoreCase('bridge')
     ) {
       processName = 'Submit_Bridge_Deal_to_UW_Approval';
     }

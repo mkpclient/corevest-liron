@@ -22,9 +22,9 @@ public class contact_Helper {
 
       if (String.isBlank(newList[i].Phone)) {
         if (String.isNotBlank(newList[i].MobilePhone)) {
-            newList[i].Phone = newList[i].MobilePhone;
+          newList[i].Phone = newList[i].MobilePhone;
         } else if (String.isNotBlank(newList[i].HomePhone)) {
-            newList[i].Phone = newList[i].HomePhone;
+          newList[i].Phone = newList[i].HomePhone;
         }
       }
     }
@@ -63,7 +63,7 @@ public class contact_Helper {
         }
 
         if (String.isBlank(newList[i].Phone)) {
-            newList[i].Phone = newList[i].MobilePhone;
+          newList[i].Phone = newList[i].MobilePhone;
         }
       }
 
@@ -75,12 +75,24 @@ public class contact_Helper {
     }
   }
 
-  public static void afterUpdate(List<Contact> newList) {
+  public static void afterUpdate(
+    Map<Id, Contact> oldMap,
+    List<Contact> newList
+  ) {
     //Related account list
     list<id> myAcc = new List<id>();
+    List<Contact> terminatedContacts = new List<Contact>();
+
     for (Contact con : newList) {
       if (con.In_Litigation__c == true) {
         myAcc.add(con.AccountId);
+      }
+
+      if (
+        con.Status__c == 'Business Relationship Terminated' &&
+        con.Status__c != oldMap.get(con.Id).Status__c
+      ) {
+        terminatedContacts.add(con);
       }
     }
     if (myAcc.size() > 0) {
@@ -95,6 +107,47 @@ public class contact_Helper {
       }
       if (accToUpdate.size() > 0) {
         update accToUpdate;
+      }
+    }
+
+    List<ContentDocumentLink> notes = new List<ContentDocumentLink>();
+
+    if (terminatedContacts.size() > 0) {
+      Map<Id, Contact> contactsMap = new Map<Id,Contact>([
+        SELECT
+          Id,
+          Name,
+          (
+            SELECT Id, Title, CreatedDate, CreatedById,ContentDocumentId,ContentSize,FileExtension,FileType,LinkedEntityId,TextPreview
+            FROM AttachedContentNotes
+            WHERE
+              CreatedDate > :DateTime.Now().addMinutes(-30)
+              AND CreatedById = :UserInfo.getUserId()
+            ORDER BY CreatedDate
+          )
+        FROM Contact
+        WHERE Id IN :terminatedContacts
+      ]);
+
+      for (Contact c : terminatedContacts) {
+        Contact fromMap = contactsMap.get(c.Id);
+        if (
+          fromMap.AttachedContentNotes != null &&
+          fromMap.AttachedContentNotes.size() > 0
+        ) {
+          AttachedContentNote note = fromMap.AttachedContentNotes[0];
+          ContentDocumentLink cdl = new ContentDocumentLink();
+          cdl.LinkedEntityId = c.AccountId;
+          cdl.ContentDocumentId = note.ContentDocumentId;
+          cdl.Visibility = 'AllUsers';
+          cdl.ShareType = 'I';
+          notes.add(cdl);
+        } else {
+          c.addError('Please add a Contact Note to this contact first before changing the Status to "Business Relationship Terminated"');
+        }
+      }
+      if(notes.size() > 0) {
+        insert notes;
       }
     }
   }

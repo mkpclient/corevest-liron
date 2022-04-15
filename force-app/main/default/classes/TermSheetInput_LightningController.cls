@@ -361,19 +361,19 @@ public without sharing class TermSheetInput_LightningController {
     }
     System.debug(m);
 
-    m.put('Checkboxes', new List<String>{ 'true' });
+    // m.put('Checkboxes', new List<String>{ 'true' });
 
-    if (
-      (String.isNotEmpty(o.Project_Strategy__c) &&
-      o.Project_Strategy__c.toLowerCase().contains('clo')) ||
-      (String.isNotEmpty(o.Project_Strategy__c) &&
-      (o.Project_Strategy__c == 'Ground Up Construction' ||
-      o.Project_Strategy__c == 'Build to Rent')) ||
-      (o.LOC_Loan_Type__c == 'Multifamily/CRE' &&
-      String.isNotBlank(o.Renovation_Funding__c))
-    ) {
-      m.put('Checkboxes', new List<String>{ 'false' });
-    }
+    // if (
+    //   (String.isNotEmpty(o.Project_Strategy__c) &&
+    //   o.Project_Strategy__c.toLowerCase().contains('clo')) ||
+    //   (String.isNotEmpty(o.Project_Strategy__c) &&
+    //   (o.Project_Strategy__c == 'Ground Up Construction' ||
+    //   o.Project_Strategy__c == 'Build to Rent')) ||
+    //   (o.LOC_Loan_Type__c == 'Multifamily/CRE' &&
+    //   String.isNotBlank(o.Renovation_Funding__c))
+    // ) {
+    //   m.put('Checkboxes', new List<String>{ 'false' });
+    // }
 
     m.put('record', new List<String>{ JSON.serialize(o) });
 
@@ -676,43 +676,44 @@ public without sharing class TermSheetInput_LightningController {
         }
       }
     } else {
-      if (
-        String.isNotEmpty(o.Project_Strategy__c) &&
-        o.Project_Strategy__c.toLowerCase().contains('clo')
-      ) {
-        String assetString = '/apex/BridgeCRE_CLO_MF_Term_Sheet?id=';
-        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else if (
-        String.isNotEmpty(o.Project_Strategy__c) &&
-        (o.Project_Strategy__c == 'Ground Up Construction' ||
-        o.Project_Strategy__c == 'Build to Rent')
-      ) {
-        String assetString = '/apex/BridgeCAFL_Form_Termsheet_Construction?id=';
-        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else if (
-        o.LOC_Loan_Type__c == 'Multifamily/CRE' &&
-        String.isNotBlank(o.Renovation_Funding__c)
-      ) {
-        String assetString;
-        switch on o.Renovation_Funding__c {
-          when 'Yes' {
-            assetString = '/apex/BridgeMultifamily_Renovation_Term_Sheet?id=';
-          }
-          when else {
-            assetString = '/apex/BridgeMultifamily_No_Renovation_Term_She?id=';
-          }
-        }
-        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
+      // if (
+      //   String.isNotEmpty(o.Project_Strategy__c) &&
+      //   o.Project_Strategy__c.toLowerCase().contains('clo')
+      // ) {
+      //   String assetString = '/apex/BridgeCRE_CLO_MF_Term_Sheet?id=';
+      //   String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+      //   p = new PageReference(docReference);
+      //   createContent(i, o, recordType, p, true);
+      //   return docReference;
+      // } else if (
+      //   String.isNotEmpty(o.Project_Strategy__c) &&
+      //   (o.Project_Strategy__c == 'Ground Up Construction' ||
+      //   o.Project_Strategy__c == 'Build to Rent')
+      // ) {
+      //   String assetString = '/apex/BridgeCAFL_Form_Termsheet_Construction?id=';
+      //   String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+      //   p = new PageReference(docReference);
+      //   createContent(i, o, recordType, p, true);
+      //   return docReference;
+      // } else if (
+      //   o.LOC_Loan_Type__c == 'Multifamily/CRE' &&
+      //   String.isNotBlank(o.Renovation_Funding__c)
+      // ) {
+      //   String assetString;
+      //   switch on o.Renovation_Funding__c {
+      //     when 'Yes' {
+      //       assetString = '/apex/BridgeMultifamily_Renovation_Term_Sheet?id=';
+      //     }
+      //     when else {
+      //       assetString = '/apex/BridgeMultifamily_No_Renovation_Term_She?id=';
+      //     }
+      //   }
+      //   String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+      //   p = new PageReference(docReference);
+      //   createContent(i, o, recordType, p, true);
+      //   return docReference;
+      // } else 
+      if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
         // Date d = Date.newInstance(Integer.valueOf(splitDate[0]), Integer.valueOf(splitDate[1]), Integer.valueOf(splitDate[2]));
         // p = new PageReference('/apex/BridgeTermSheetPDF?id=' + o.Id + '&month=' +Integer.valueOf(splitDate[1])+ '&day=' +Integer.valueOf(splitDate[2])+ '&year=' + Integer.valueOf(splitDate[0]));
 

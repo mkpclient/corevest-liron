@@ -199,6 +199,11 @@
                 <label>Dennis Spivey Sourced</label>
             </value>
             <value>
+                <fullName>Dominion Group</fullName>
+                <default>false</default>
+                <label>Dominion Group</label>
+            </value>
+            <value>
                 <fullName>Employee</fullName>
                 <default>false</default>
                 <label>Employee</label>
@@ -512,6 +517,11 @@
                 <fullName>Rent Range</fullName>
                 <default>false</default>
                 <label>Rent Range</label>
+            </value>
+            <value>
+                <fullName>Revolution Realty Capital</fullName>
+                <default>false</default>
+                <label>Revolution Realty Capital</label>
             </value>
             <value>
                 <fullName>River Rock</fullName>
@@ -916,6 +926,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>
+            <valueName>Dominion Group</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Imported List</controllingFieldValue>
             <valueName>Fidelis</valueName>
         </valueSettings>
         <valueSettings>
@@ -937,6 +951,10 @@
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>
             <valueName>Rent Range</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Imported List</controllingFieldValue>
+            <valueName>Revolution Realty Capital</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Imported List</controllingFieldValue>

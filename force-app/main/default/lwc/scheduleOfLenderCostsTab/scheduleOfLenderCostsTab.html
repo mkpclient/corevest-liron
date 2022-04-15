@@ -44,6 +44,16 @@
             ></lightning-button>
           </template>
         </template>
+        <template if:true={permissionsMap.sobject.isCreateable}>
+          <template if:true={showNew}>
+          <lightning-button-icon
+            icon-name="utility:refresh"
+            alternative-text="Refresh Tab"
+            title="Refresh Tab"
+            onclick={refreshNew}
+          ></lightning-button-icon>
+          </template>
+        </template>
       </div>
       <template if:true={showNew}>
         <c-schedule-of-lender-costs-new

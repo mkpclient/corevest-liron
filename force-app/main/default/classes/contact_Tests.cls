@@ -123,4 +123,31 @@ private class contact_Tests {
 
     Test.stopTest();
   }
+
+  @IsTest(SeeAllData=true)
+  static void bizTerminatedTest() {
+    Contact c = [
+      SELECT Id, Status__c
+      FROM Contact
+      WHERE
+        Status__c != 'Business Relationship Terminated'
+        AND RecordType.Name = 'Vendor'
+      LIMIT 1
+    ];
+
+    ContentNote noteRecord = new ContentNote();
+    noteRecord.Title = 'Test Content Note';
+    String body = 'Test Content Note';
+    noteRecord.Content = Blob.valueOf(body.escapeHTML4());
+    insert noteRecord;
+    ContentDocumentLink link = new ContentDocumentLink();
+    link.ContentDocumentId = noteRecord.id;
+    link.LinkedEntityId = c.Id;
+    link.ShareType = 'I';
+    link.Visibility = 'InternalUsers';
+    insert link;
+
+    c.Status__c = 'Business Relationship Terminated';
+    update c;
+  }
 }

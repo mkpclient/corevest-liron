@@ -309,27 +309,15 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_By_Whom__c</picklist>
         <values>
-            <fullName>Corevest</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Escrow</fullName>
-            <default>false</default>
+            <fullName>N%2FA</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
-            <fullName>Each Initial Advance</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Origination</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -1419,6 +1407,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Dominion Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fidelis</fullName>
             <default>false</default>
         </values>
@@ -1444,6 +1436,10 @@
         </values>
         <values>
             <fullName>Rachel Adams Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revolution Realty Capital</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1514,10 +1510,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>In Process of Withdrawal%2FRejection</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Insufficient Income</fullName>
             <default>false</default>
         </values>
@@ -1538,7 +1530,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Other %E2%80%93 See Deal Notes</fullName>
+            <fullName>Other - See Deal Notes</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1567,6 +1559,17 @@
         </values>
         <values>
             <fullName>Won through another broker</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Discount_Fee__c</picklist>
+        <values>
+            <fullName>1 pt rate buy down %2F -25 BPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2 pt rate buy down %2F -50 BPS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1663,17 +1666,6 @@
         </values>
         <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Extension_Modified__c</picklist>
-        <values>
-            <fullName>Extension</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Modified</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1791,6 +1783,10 @@
         </values>
         <values>
             <fullName>Borrower does not meet requirements</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Borrower unresponsive</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1958,6 +1954,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Asset Based Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Bellevue</fullName>
             <default>false</default>
         </values>
@@ -1970,7 +1970,19 @@
             <default>true</default>
         </values>
         <values>
+            <fullName>Dominion Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Great Lakes Financing</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Paradyme Funding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revolution Realty Capital LLC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2230,7 +2242,23 @@
     <picklistValues>
         <picklist>Project_Strategy__c</picklist>
         <values>
+            <fullName>Conversion to Multifamily</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fix and Flip</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily GUC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily Heavy Lift</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily Lease-Up%2FNo Rehab</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2300,7 +2328,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Rate Locked</fullName>
+            <fullName>Standard Rate Locked</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2393,8 +2421,12 @@
     <picklistValues>
         <picklist>Servicer_Name__c</picklist>
         <values>
-            <fullName>Statebridge</fullName>
+            <fullName>FCI</fullName>
             <default>true</default>
+        </values>
+        <values>
+            <fullName>Statebridge</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2448,10 +2480,6 @@
         </values>
         <values>
             <fullName>5%2C5%2C5%2C4%2C3%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C5%2C5%2C5%2C5%2C4%2C3%2C2%2C0%2C0</fullName>
             <default>false</default>
         </values>
         <values>
