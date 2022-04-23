@@ -206,4 +206,88 @@ private class YardiTests {
 
     Test.stopTest();
   }
+
+  static testMethod void emailTests() {
+    List<RecordType> opptyRecordTypes = [
+      SELECT Id
+      FROM RecordType
+      WHERE sObjectType = 'Opportunity'
+    ];
+
+    Id termLoanRecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName()
+      .get('Term Loan')
+      .getRecordTypeId();
+    Id bridgeLoanRecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName()
+      .get('Bridge Loan')
+      .getRecordTypeId();
+
+    Account acc = test_Helper.createAccount();
+    Contact cont = test_Helper.createContact(acc);
+    Opportunity opp = test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = opptyRecordTypes[0].Id;
+    opp.Loan_Effective_Date__c = system.today();
+    opp.StageName = 'Approved by Committee';
+    update opp;
+
+    Attachment a = new Attachment(
+      Name = 'Test',
+      ParentId = opp.Id,
+      Body = blob.valueOf('test')
+    );
+
+    Test.startTest();
+    ContentVersion cv = new ContentVersion();
+    cv.PathOnClient = '/';
+    cv.VersionData = blob.valueOf('test');
+    YardiEmailSubmissionController.constructFileAttachment(cv);
+    YardiEmailSubmissionController.Person person = new YardiEmailSubmissionController.Person()
+      .CurrentUser();
+    YardiEmailSubmissionController.returnDeal(opp.Id);
+    List<EmailTemplate> e = YardiEmailSubmissionController.queryEmailTemplate(
+      'Send_to_Accounting'
+    );
+    Map<String, String> m = new Map<String, String>();
+    m.put('recipients', 'test@test.com');
+    m.put('cc', 'test@test.com');
+    m.put('whatId', opp.Id);
+    List<Id> aIds = new List<Id>();
+    List<Id> cIds = new List<Id>();
+    try {
+      Messaging.reserveSingleEmailCapacity(2);
+      YardiEmailSubmissionController.sendMail(
+        new List<String>{ 'test@test.com' },
+        'Subject',
+        'html',
+        new List<Messaging.EmailFileAttachment>(),
+        new List<String>{ 'test@test.com' },
+        'Test',
+        null,
+        null,
+        null,
+        null,
+        null
+      );
+
+      YardiEmailSubmissionController.sendMail(
+        new List<String>{ 'logins+cvest@mkpartners.com' },
+        null,
+        null,
+        null,
+        null,
+        'MKP',
+        false,
+        false,
+        cont.Id,
+        e[0].Id,
+        opp.Id
+      );
+      YardiEmailSubmissionController.sendEmail(
+        JSON.serialize(m),
+        JSON.serialize(cIds)
+      );
+    } catch (Exception exc) {
+      System.debug(exc);
+    }
+    Test.stopTest();
+  }
 }

@@ -11,7 +11,6 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -65,6 +64,11 @@
                 <label>No Response</label>
             </value>
             <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <label>Paid Off</label>
+            </value>
+            <value>
                 <fullName>Payoff Pending</fullName>
                 <default>false</default>
                 <label>Payoff Pending</label>
@@ -93,120 +97,6 @@
                 <fullName>Title Claim</fullName>
                 <default>false</default>
                 <label>Title Claim</label>
-            </value>
-            <value>
-                <fullName>2000</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>2000</label>
-            </value>
-            <value>
-                <fullName>2100</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>2100</label>
-            </value>
-            <value>
-                <fullName>2300</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>2300</label>
-            </value>
-            <value>
-                <fullName>2400</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>2400</label>
-            </value>
-            <value>
-                <fullName>2500</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>2500</label>
-            </value>
-            <value>
-                <fullName>3100</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>3100</label>
-            </value>
-            <value>
-                <fullName>4200</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4200</label>
-            </value>
-            <value>
-                <fullName>4300</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4300</label>
-            </value>
-            <value>
-                <fullName>4400</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4400</label>
-            </value>
-            <value>
-                <fullName>4500</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4500</label>
-            </value>
-            <value>
-                <fullName>4600</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4600</label>
-            </value>
-            <value>
-                <fullName>4700</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>4700</label>
-            </value>
-            <value>
-                <fullName>5100</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>5100</label>
-            </value>
-            <value>
-                <fullName>5200</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>5200</label>
-            </value>
-            <value>
-                <fullName>5300</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>5300</label>
-            </value>
-            <value>
-                <fullName>FC with Guarantee</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>FC with Guarantee</label>
-            </value>
-            <value>
-                <fullName>Foreclosure</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Foreclosure</label>
-            </value>
-            <value>
-                <fullName>REO with Guarantee</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>REO with Guarantee</label>
-            </value>
-            <value>
-                <fullName>Reinstated</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Reinstated</label>
             </value>
         </valueSetDefinition>
     </valueSet>

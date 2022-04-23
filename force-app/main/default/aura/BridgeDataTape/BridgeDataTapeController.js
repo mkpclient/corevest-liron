@@ -25,7 +25,9 @@
             } else {
               d.RT = "Ground Up Construction";
             }
-            if (d.Closer__c == "0055b00000P92byAAB") {
+            if (d.Closer__c == "0055b00000PkArFAAV") {
+              d.Closer = "Amy Piana";
+            } else if (d.Closer__c == "0055b00000P92byAAB") {
               d.Closer = "David Carrillo";
             } else if (d.Closer__c == "0050a00000MCPyLAAX") {
               d.Closer = "Kathy Perez";
@@ -41,6 +43,8 @@
               d.Closer = "Gina Lambis";
             } else if (d.Closer__c == "0050a00000L853XAAR") {
               d.Closer = "Nate Valline";
+            } else if (d.Closer__c == "0055b00000PkQo7AAF") {
+              d.Closer = "Paola De Sousa";  
             } else if (d.Closer__c == "0055b00000Omc6lAAB") {
               d.Closer = "Ellie Young";
             } else {
@@ -137,7 +141,9 @@
           el.RecordTypeId = "0120a0000019kcQAAQ";
         }
 
-        if (el.Closer == "David Carrillo") {
+        if (el.Closer == "Amy Piana") {
+          el.Closer__c = "0055b00000PkArFAAV";
+        } else if (el.Closer == "David Carrillo") {
           el.Closer__c = "0055b00000P92byAAB";
         } else if (el.Closer == "Kathy Perez") {
           el.Closer__c = "0050a00000MCPyLAAX";
@@ -153,6 +159,8 @@
           el.Closer__c = "005j000000FXxrDAAT";
         } else if (el.Closer == "Nate Valline") {
           el.Closer__c = "0050a00000L853XAAR";
+        } else if (el.Closer == "Paola De Sousa") {
+          el.Closer__c = "0055b00000PkQo7AAF";              
         } else if (el.Closer == "Ellie Young") {
           el.Closer__c = "0055b00000Omc6lAAB";
         } else {
@@ -269,7 +277,9 @@
                 d.RT = "Ground Up Construction";
               }
 
-              if (d.Closer__c == "0055b00000P92byAAB") {
+              if (d.Closer__c == "0055b00000PkArFAAV") {
+                d.Closer = "Amy Piana";
+              } else if (d.Closer__c == "0055b00000P92byAAB") {
                 d.Closer = "David Carrillo";
               } else if (d.Closer__c == "0050a00000MCPyLAAX") {
                 d.Closer = "Kathy Perez";
@@ -285,6 +295,8 @@
                 d.Closer = "Gina Lambis";
               } else if (d.Closer__c == "0050a00000L853XAAR") {
                 d.Closer = "Nate Valline";
+              } else if (d.Closer__c == "0055b00000PkQo7AAF") {
+                d.Closer = "Paola De Sousa";                  
               } else if (d.Closer__c == "0055b00000Omc6lAAB") {
                 d.Closer = "Ellie Young";
               } else {
@@ -553,7 +565,11 @@
               property.RT = "Ground Up Construction";
             }
 
-            if (property.Closer__c == "0050a00000MCPyLAAX") {
+            if (property.Closer__c == "0055b00000PkArFAAV") {
+              property.Closer = "Amy Piana";
+            } else if (property.Closer__c == "0055b00000P92byAAB") {
+              property.Closer = "David Carrillo";
+            } else if (property.Closer__c == "0050a00000MCPyLAAX") {
               property.Closer = "Kathy Perez";
             } else if (property.Closer__c == "0050a00000MBNARAA5") {
               property.Closer = "Jaime Chavez";
@@ -567,6 +583,8 @@
               property.Closer = "Gina Lambis";
             } else if (property.Closer__c == "0050a00000L853XAAR") {
               property.Closer = "Nate Valline";
+            } else if (property.Closer__c == "0055b00000PkQo7AAF") {
+              property.Closer = "Paola De Sousa"; 
             } else if (property.Closer__c == "0055b00000Omc6lAAB") {
               property.Closer = "Ellie Young";
             } else {

@@ -13,6 +13,8 @@
     <columns>Aggregate_Funding__c</columns>
     <columns>RECORDTYPE</columns>
     <columns>Property_Record_Type__c</columns>
+    <columns>Origination_Fee_Subtotal__c</columns>
+    <columns>Origination_Fee_Total__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CREATED_DATE</field>

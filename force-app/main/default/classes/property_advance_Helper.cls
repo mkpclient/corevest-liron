@@ -376,7 +376,8 @@ public class property_advance_Helper {
           Approved_Advance_Amount_Max__c,
           Broker_Adv_Fee_Amnt__c,
           Rehab_Budget__c,
-          Appraisal_Due_Date__c
+          Appraisal_Due_Date__c,
+          Title_Company__c
         FROM Property__c
         WHERE Id IN :propertyIds
       ]
@@ -404,6 +405,7 @@ public class property_advance_Helper {
         adv.Approved_Renovation_Holdback__c = property.Approved_Renovation_Holdback__c;
         adv.Renovation_Budget__c = property.Rehab_Budget__c;
         adv.Appraisal_Due_Date__c = property.Appraisal_Due_Date__c;
+        adv.Title_Company__c = property.Title_Company__c;
 
         if (property.Number_of_Advances__c == 0) {
           adv.Broker_Advance_Fee__c = property.Broker_Adv_Fee_Amnt__c;
@@ -676,6 +678,8 @@ public class property_advance_Helper {
           Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
           Closer__c,
           Title_Review_Company__c,
+          Funding_Shield_Cert_Status__c,
+          HUD_Settlement_Statement_Status__c,
           (
             SELECT
               Id,
@@ -685,7 +689,9 @@ public class property_advance_Helper {
               Property__r.Requested_Funding_Date__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
               Property__r.Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
               Property__r.Closer__c,
-              Property__r.Title_Review_Company__c
+              Property__r.Title_Review_Company__c,
+              Property__r.Funding_Shield_Cert_Status__c,
+              Property__r.HUD_Settlement_Statement_Status__c
             FROM Property_Advances__r
             ORDER BY createdDate ASC, property__c ASC
           )
@@ -701,6 +707,8 @@ public class property_advance_Helper {
       String underwriter = '';
       String closer = '';
       String titleReview = '';
+      String hudStatus = '';
+      String fundingShieldStatus = '';
       //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       for (Property_Advance__c pAdv : adv.Property_Advances__r) {
         if (Integer.valueOf(pAdv.Property__r.Number_of_Advances__c) >= 1) {
@@ -730,6 +738,12 @@ public class property_advance_Helper {
             }
             if (pAdv.Property__r.Title_Review_Company__c != null) {
               titleReview = pAdv.Property__r.Title_Review_Company__c;
+            }
+            if (pAdv.Property__r.Funding_Shield_Cert_Status__c != null) {
+              fundingShieldStatus = pAdv.Property__r.Funding_Shield_Cert_Status__c;
+            }
+            if (pAdv.Property__r.HUD_Settlement_Statement_Status__c != null) {
+              hudStatus = pAdv.Property__r.HUD_Settlement_Statement_Status__c;
             }
             // system.debug('requestedFundDt :' +requestedFundDt);
             // system.debug('underwriter :' +underwriter);
@@ -776,6 +790,14 @@ public class property_advance_Helper {
           if (!String.isblank(titleReview)) {
             hasChanged = true;
             adv.Title_Review_Company__c = titleReview;
+          }
+          if (!String.isblank(fundingShieldStatus)) {
+            hasChanged = true;
+            adv.Funding_Shield_Cert_Status__c = fundingShieldStatus;
+          }
+          if (!String.isblank(hudStatus)) {
+            hasChanged = true;
+            adv.HUD_Settlement_Statement_Status__c = hudStatus;
           }
           system.debug(
             'adv.Target_Advance_Date__c :' + adv.Target_Advance_Date__c

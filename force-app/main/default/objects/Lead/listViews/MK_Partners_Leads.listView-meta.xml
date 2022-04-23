@@ -13,7 +13,7 @@
     <filters>
         <field>Owner_Name__c</field>
         <operation>equals</operation>
-        <value>Integration User,Kimberly Cobb,MK Partners</value>
+        <value>Integration User,Kimberly Cobb,MK Partners,Amelia Cunningham</value>
     </filters>
     <filters>
         <field>LEAD.STATUS</field>

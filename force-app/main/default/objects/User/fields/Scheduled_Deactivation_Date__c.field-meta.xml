@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Scheduled_Deactivation_Date__c</fullName>
+    <description>Date that a user is scheduled to be deactivated.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This field fires a flow that deactivates the user on 12:15am on the date specified.</inlineHelpText>
+    <label>Scheduled Deactivation Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Date</type>
+</CustomField>

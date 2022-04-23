@@ -46,6 +46,11 @@
                 <default>false</default>
                 <label>2021</label>
             </value>
+            <value>
+                <fullName>2022</fullName>
+                <default>false</default>
+                <label>2022</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>River Rock</controllingFieldValue>
@@ -319,6 +324,45 @@
             <controllingFieldValue>IMN Middle Market</controllingFieldValue>
             <controllingFieldValue>Collective Genius</controllingFieldValue>
             <valueName>2021</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>River Rock</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>REI Expo</controllingFieldValue>
+            <controllingFieldValue>MBA CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>California Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>NARPM</controllingFieldValue>
+            <controllingFieldValue>MBA Annual</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <valueName>2022</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

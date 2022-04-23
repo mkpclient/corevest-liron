@@ -314,12 +314,11 @@ private class lightning_Tests {
       Body = Blob.valueOf('saadsf'),
       Name = 'Test'
     );
-
+    Test.startTest();
     List<documentUploader_Controller.AttachmentWrapper> wrapper = (List<documentUploader_Controller.AttachmentWrapper>) JSON.deserialize(
       documentUploader_Controller.getAttachments(opp.Id),
       List<documentUploader_Controller.AttachmentWrapper>.class
     );
-    
     documentUploader_Controller.getPicklists(
       'Opportunity',
       'Term_Loan',
@@ -352,7 +351,7 @@ private class lightning_Tests {
 
     wrapper[3].section = 'Due Diligence Document - Submission Documents';
     wrapper[3].documentType = 'Wire Confirmation';
-	Test.startTest();
+
     documentUploader_Controller.saveFile(
       JSON.serialize(wrapper[0]),
       opp.Id,
@@ -383,13 +382,16 @@ private class lightning_Tests {
       String.valueOf(acc.Id),
       'Title and Escrow'
     );
+
+
     lightning_Controller.getDocuments(
       String.valueOf(opp.Id),
       'borrower',
       String.valueOf(acc.Id),
       'Title and Escrow'
     );
-Test.StopTest();      
+    Test.stopTest();
+
     //lightning_Controller.getDocuments(String.valueOf(opp.Id), 'internal', String.valueOf(acc.Id), 'Title and Escrow');
     //contentVersion cv = [SELECT Id FROM ContentVersion LIMIT 1];
     //lightning_Controller.getDOcumentData(cv.Id);

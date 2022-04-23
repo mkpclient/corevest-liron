@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>REO_Date_and_REO_Sell_Date</fullName>
+    <active>true</active>
+    <description>These two fields cannot have a value at the same time.</description>
+    <errorConditionFormula>NOT(ISNULL(REO_Date__c))&amp;&amp; NOT(ISNULL(REO_Sell_Date__c))</errorConditionFormula>
+    <errorMessage>The REO Sell Date and the REO Date cannot have a value at the same time.</errorMessage>
+</ValidationRule>

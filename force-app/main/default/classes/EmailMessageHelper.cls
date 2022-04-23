@@ -97,10 +97,6 @@ public class EmailMessageHelper {
     }
     if (finalAdvanceToUpdate.size() > 0) {
       update finalAdvanceToUpdate;
-
-      // system.enqueueJob(
-      //   new YardiQueueable('advanceXML', new List<Id>(advanceId))
-      // );
     }
   }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Default</fullName>
+    <fields>Deal_Loan_Number__c</fields>
+    <fields>County__c</fields>
+    <fields>Contact__c</fields>
+    <fields>Business_Entity__c</fields>
+    <fields>Post_Closing_Section__c</fields>
+    <label>Custom Default</label>
+</CompactLayout>

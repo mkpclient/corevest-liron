@@ -72,6 +72,11 @@
                 <label>No Response</label>
             </value>
             <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <label>Paid Off</label>
+            </value>
+            <value>
                 <fullName>Payoff Pending</fullName>
                 <default>false</default>
                 <label>Payoff Pending</label>

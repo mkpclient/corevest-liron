@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Enable_Beekin_API_Response_Logging__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This checkbox enable logging for all Beeking API Calls</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Enable_Beekin_API_Response_Logging</label>
+    <type>Checkbox</type>
+</CustomField>

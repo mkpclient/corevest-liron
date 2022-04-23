@@ -91,6 +91,60 @@
             .sigsection {
                 page-break-inside: avoid;
             }
+
+            .pagebreak {
+                page-break-before: always;
+            }
+
+            .signing-section {
+                text-decoration: underline;
+                color: white;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-color: black;
+            }
+
+            .paragraph-title {
+                text-align: center;
+                font-family: Times;
+                font-size: 11pt;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            .paragraph {
+                font-family: Times;
+                font-size: 10pt;
+                line-height: 1.3;
+                text-align: justify;
+                text-indent: 40px;
+            }
+
+            .row-title {
+                font-family: Times;
+                font-size: 10pt;
+                width: 30%;
+                font-weight: bold;
+                vertical-align: top;
+                padding: 2px 6px;
+                border-right: solid 1px #BEBEBE;
+                border-bottom: solid 1px #BEBEBE;
+                border-top: solid 1px #BEBEBE;
+                border-left: solid 1px #BEBEBE;
+            }
+
+            .row-description {
+                font-family: Times;
+                font-size: 10pt;
+                width: 70%;
+                padding: 2px 6px;
+                vertical-align: top;
+                border-right: solid 1px #BEBEBE;
+                border-bottom: solid 1px #BEBEBE;
+                border-top: solid 1px #BEBEBE;
+                border-left: solid 1px #BEBEBE;
+            }
+
         </style>
     </head>
 
@@ -331,17 +385,36 @@ Sponsor Initials ________
                     </td>
                 </tr>
 
-
-                <apex:outputText rendered="{! If(Opportunity.Requested_Origination_Fee__c != 0.00 && Opportunity.Requested_Origination_Fee__c != null, true, false)}">
+                <apex:outputText rendered="{! If( Opportunity.Requested_Origination_Fee__c != 0.00 && Opportunity.Requested_Origination_Fee__c != null, true, false ) }">
                     <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c == 'Origination', true, false ) }">
                         <tr style="page-break-inside:avoid;">
-                            <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                            <td class="row-title">
                                 Origination Fee:
                             </td>
-                            <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                                <apex:outputText value="{0, number, 0.00}% payable at closing">
-                                    <apex:param value="{! Opportunity.CAF_Upfront_Fee__c }" />
-                                </apex:outputText>
+                            <td class="row-description">
+                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                    <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                                </span>
+                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                                    <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                        <apex:param value="{! Opportunity.Requested_Origination_Fee__c-Opportunity.Broker_Fees__c }" /></apex:outputText>
+                                </span>
+                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'CoreVest' && includeBrokerFee != true, 'page-break-inside:avoid;', 'display:none;')}">
+                                    <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
+                                        <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
+                                </span>
+                            </td>
+                        </tr>
+                    </apex:outputText>
+                    <apex:outputText rendered="{! If( Opportunity.Broker_Fee_Paid_When__c != 'Origination', true, false ) }">
+                        <tr style="page-break-inside:avoid;">
+                            <td class="row-title">
+                                Origination Fee:
+                            </td>
+                            <td class="row-description">
+                                <apex:outputText value="{0, number, 0.00}%">
+                                    <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText> of the Maximum Loan Amount Payable at Closing
                             </td>
                         </tr>
                     </apex:outputText>
@@ -407,22 +480,22 @@ Sponsor Initials ________
                 </apex:outputText>
             </apex:outputText> -->
 
-                <!-- <tr style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
-                <td style="font-family: Times; font-size: 10pt; width:30%;font-weight:bold;vertical-align:top;padding:2px 6px; border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                    Broker Fee:
+            <tr style="{!IF(includeBrokerFee = true, 'page-break-inside:avoid;', 'display:none;')}">
+                <td class="row-title">
+                    Broker Fee: 
                 </td>
-                <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
+                <td class="row-description">
                     <apex:outputText value="{0, number, 0.00}% paid by ">
                         <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText>
-                    <apex:outputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" />
-                    <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Each Initial Advance', 'page-break-inside:avoid;', 'display:none;')}">
-                        on each Advance approved by Lender
-                    </span>
-                    <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Origination', 'page-break-inside:avoid;', 'display:none;')}">
-                        at Closing
-                    </span>
+                        <apex:outputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" />
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Each Initial Advance', 'page-break-inside:avoid;', 'display:none;')}">
+                            on each Advance approved by Lender
+                        </span>
+                        <span style="{!IF(Opportunity.Broker_Fee_Paid_When__c == 'Origination', 'page-break-inside:avoid;', 'display:none;')}">
+                            at Closing
+                        </span>
                 </td>
-            </tr> -->
+            </tr>
 
                 <!-- <apex:outputText rendered="{! If(Opportunity.Requested_Exit_Fee__c != 0.00 && Opportunity.Requested_Exit_Fee__c != null, true, false)}">
                 <tr style="page-break-inside:avoid;">
@@ -503,7 +576,7 @@ Sponsor Initials ________
                         </strong>
                     </td>
                     <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-right: solid 1px #BEBEBE;border-bottom: solid 1px #BEBEBE; border-top: solid 1px #BEBEBE; border-left: solid 1px #BEBEBE;">
-                        <apex:outputText value="{!Opportunity.LOC_Term__c}" />
+                        <apex:outputText value="{!Opportunity.Line_Expiration__c}" />
                     </td>
                 </tr>
 
@@ -514,9 +587,7 @@ Sponsor Initials ________
                         </strong>
                     </td>
                     <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-collapse: collapse; border: 1px solid #BEBEBE;">
-                        <apex:outputText value="{0, date, MMMM d','  yyyy}">
-                            <apex:param value="{!Opportunity.Current_Line_Maturity_Date__c + 90}" />
-                        </apex:outputText>
+                        <apex:outputText value="{! LOWER(Opportunity.Draw_Period__c) } from Closing" />
                     </td>
                 </tr>
 
@@ -545,7 +616,8 @@ Sponsor Initials ________
                     </td>
                     <td style="font-family: Times; font-size: 10pt; width:70%;padding:2px 6px;vertical-align:top;border-collapse: collapse; border: 1px solid #BEBEBE;">
                         <apex:outputText value="{0, date, MMMM d','  yyyy}">
-                            <apex:param value="{!Opportunity.Current_Line_Maturity_Date__c + 97}" /></apex:outputText>
+                            <apex:param value="{!Opportunity.Term_Sheet_Expiration_Date__c}" />
+                        </apex:outputText>
                     </td>
                 </tr>
             </table>

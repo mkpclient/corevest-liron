@@ -51,6 +51,11 @@
                 <label>Broker</label>
             </value>
             <value>
+                <fullName>Investor_DSCR</fullName>
+                <default>false</default>
+                <label>Investor_DSCR</label>
+            </value>
+            <value>
                 <fullName>Term</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

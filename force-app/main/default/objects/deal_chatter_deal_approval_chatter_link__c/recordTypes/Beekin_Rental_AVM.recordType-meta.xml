@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Beekin_Rental_AVM</fullName>
+    <active>true</active>
+    <description>Beekin Rental AVM</description>
+    <label>Beekin Rental AVM</label>
+</RecordType>

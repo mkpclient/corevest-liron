@@ -55,6 +55,11 @@
                 <default>false</default>
                 <label>CoreLogic</label>
             </value>
+            <value>
+                <fullName>Beekin</fullName>
+                <default>false</default>
+                <label>Beekin</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

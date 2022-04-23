@@ -112,11 +112,11 @@ global without sharing class PortalAPIBroker {
           opp.LOC_Loan_Type__c == 'Credit Line' &&
           opp.Product_Sub_Type__c == 'Build to Rent'
         ) {
-          dealType = 'Build For Rent';
+          dealType = 'Build for Rent';
         }
 
         if (opp.LOC_Loan_Type__c == 'Build to Rent') {
-          dealType = 'Build For Rent';
+          dealType = 'Build for Rent';
         }
 
         if (
@@ -157,6 +157,8 @@ global without sharing class PortalAPIBroker {
           // loanType = 'Rental';
         }
       }
+
+      system.debug(dealType);
 
       Application__c app = new Application__c();
       app.Alchemy_User_Id__c = borrowerId;

@@ -5,7 +5,7 @@ public with sharing class BridgeLenderDealImportHelperTest {
   @TestSetup
   static void makeData() {
     Account a = Test_Helper.createAccount();
-    Lender_Deal__c ld = new Lender_Deal__c();
+    TPO_Pool__c ld = new TPO_Pool__c();
     ld.Lender__c = a.Id;
     ld.Name = 'Test Lender Deal';
     ld.Stage__c = 'Initial Review';
@@ -36,14 +36,14 @@ public with sharing class BridgeLenderDealImportHelperTest {
 
   @isTest
   public static void testParseFileValues() {
-    Lender_Deal__c ld = [
+    TPO_Pool__c ld = [
       SELECT Id
-      FROM Lender_Deal__c
+      FROM TPO_Pool__c
       WHERE Name = :'Test Lender Deal'
       LIMIT 1
     ];
 
-    List<Lender_Deal_to_Deal__c> createdLenderD2Ds = BridgeLenderDealImportHelper.parseFileValues(
+    List<TPO_Pool_x_Deal__c> createdLenderD2Ds = BridgeLenderDealImportHelper.parseFileValues(
       testJson,
       ld.id
     );
@@ -51,12 +51,12 @@ public with sharing class BridgeLenderDealImportHelperTest {
     System.assertEquals(
       1,
       createdLenderD2Ds.size(),
-      'Expected 1 Lender_Deal_to_Deal__c'
+      'Expected 1 TPO_Pool_x_Deal__c'
     );
     System.assertEquals(
       ld.Id,
-      createdLenderD2Ds[0].Lender_Deal__c,
-      'Expected Lender_Deal__c'
+      createdLenderD2Ds[0].TPO_Pool__c,
+      'Expected TPO_Pool__c'
     );
   }
 }

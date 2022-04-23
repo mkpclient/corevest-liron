@@ -14,7 +14,7 @@ trigger lead_Trigger on Lead(
   if (!settings.Disable_Lead_Trigger__c) {
     if (Trigger.isBefore && Trigger.isInsert) {
       Lead_Helper.beforeInsert(Trigger.New);
-      Lead_Helper.UpdateLeadTrueSource(Trigger.New);
+      // Lead_Helper.UpdateLeadTrueSource(Trigger.New);
     }
     if (Trigger.isAfter && Trigger.isInsert) {
       Lead_Helper.afterInsert(Trigger.New);
@@ -43,14 +43,6 @@ trigger lead_Trigger on Lead(
       }
       system.debug('LeadIdConvertList::::' + LeadIdConvertList);
       Lead_Helper.updateSource(LeadIdConvertList);
-
-      //  Lead_Helper.afterUpdate(Trigger.New, Trigger.Old);
-      /*system.debug('===LeadIdConvertList==='+LeadIdConvertList);
-        
-      if(LeadIdConvertList!= null && LeadIdConvertList.size() > 0)
-      {
-        Lead_Helper.updateIsconvertedLead(LeadIdConvertList);
-      }*/
     }
     if (Trigger.isBefore && Trigger.isDelete) {
       //  Lead_Helper.beforeDelete(Trigger.New);
@@ -66,47 +58,7 @@ trigger lead_Trigger on Lead(
           oldlead.add(ld);
         }
       }
-      /*
-        Map<id,lead> leadMap = new map<id,lead>();
-        if(oldlead!=null && oldlead.size()>0)
-        {   
-             for(lead lobj : oldlead)
-                {
-                    //lead templ = leadMap.get(lobj.MasterRecordId);
-                    if(leadMap.get(lobj.MasterRecordId)!=null)
-                    {
-                        lead l = leadMap.get(lobj.MasterRecordId);
-                        if(lobj.CreatedDate > l.CreatedDate)
-                        {
-                            leadMap.put(lobj.MasterRecordId,lobj);  
-                        }       
-                        
-                    }
-                    else
-                    {
-                        leadMap.put(lobj.MasterRecordId,lobj);  
-                    }       
-                }
-           
-            system.debug('leadMap=='+leadMap);
-            list<lead> lList = [select id,Introduction_Source__c,Introduction_Subsource__c from lead where id In: leadMap.keyset()] ;
-            list<lead> lfinallist = new  list<lead>();
-            system.debug('lList####'+lList);
-            for(lead l :lList)
-            {
-                lead lobj = leadMap.get(l.id);
-                if(l.id==lobj.MasterRecordId)
-                {
-                    system.debug('inside if####');  
-                    l.Introduction_Source__c=lobj.Introduction_Source__c;
-                    l.Introduction_Subsource__c=lobj.Introduction_Subsource__c;
-                    lfinallist.add(l);
-                } 
-                    
-            }
-            system.debug('lfinallist=='+lfinallist);
-            update  lfinallist;
-        }*/
+
       if (oldlead != null && oldlead.size() > 0) {
         String JSONlead = JSON.serialize(oldlead);
         lead_Helper.updateleadonMarge(JSONlead);

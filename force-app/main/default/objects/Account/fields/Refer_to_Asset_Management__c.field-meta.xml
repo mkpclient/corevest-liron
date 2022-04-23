@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Refer_to_Asset_Management__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Checkbox to trigger rich text &quot;refer to AM&quot; instructions on the account and related deals</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Check this box if this account is being monitored by asset management.</inlineHelpText>
+    <label>Refer to Asset Management</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

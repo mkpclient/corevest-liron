@@ -17,7 +17,7 @@
     <filters>
         <field>LEAD.CREATED_DATE</field>
         <operation>equals</operation>
-        <value>TODAY</value>
+        <value>YESTERDAY</value>
     </filters>
     <label>Today&apos;s Leads</label>
 </ListView>

@@ -96,9 +96,6 @@
                   <div class="slds-truncate">{! row.Square_Feet__c }</div>
                 </td>
                 <td>
-                  <div class="slds-truncate">{! row.Pool__c }</div>
-                </td>
-                <td>
                   <div class="slds-truncate">{! row.Estimated_Rent__c }</div>
                 </td>
                 <td>
@@ -111,6 +108,30 @@
                   <div class="slds-truncate"></div>
                 </td>
               </tr>
+			  <aura:if isTrue="{! row.Beekin_Estimated_Rent__c}">
+                <tr class="slds-hint-parent BeekinColor">
+                  <td class="slds-text-align_right"></td>
+                  <td class="{! row.Retrieved_addr_diff? '' : '' }">
+                    <div class="slds-truncate">{! row.Beekin_Address__c }</div>
+                  </td>                    
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <div class="slds-truncate">{! row.Beekin_Estimated_Rent__c }</div>
+                  </td>
+                  <td>
+                    <div class="slds-truncate">{! row.Beekin_Estimated_Min_Rent__c }</div>
+                  </td>
+                  <td>
+                    <div class="slds-truncate" >{! row.Beekin_Estimated_Max_Rent__c }</div>
+                  </td>
+                </tr>
+              </aura:if>                
        </aura:iteration>
           </tbody>
         </table>

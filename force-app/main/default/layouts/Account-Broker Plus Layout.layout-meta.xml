@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>CreateSurveyInvitation</excludeButtons>
-    <excludeButtons>DataDotComAccountInsights</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
-    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>IncludeOffline</excludeButtons>
@@ -60,22 +57,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Primary_Contact__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Yardi_Vendor_Code__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ABA__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Bank_Account__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Non_Borrower_Account_Type_c__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -392,6 +373,14 @@
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>OPPORTUNITY.RECORDTYPE</fields>
         <relatedList>Opportunity.Referral_Source__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Type__c</fields>
+        <fields>Expiration_Date__c</fields>
+        <fields>Amount_of_Bond__c</fields>
+        <fields>Phone__c</fields>
+        <relatedList>Insurance_and_Bond__c.Account__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

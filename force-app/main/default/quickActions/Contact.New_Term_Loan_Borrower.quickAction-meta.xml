@@ -22,10 +22,6 @@
         <formula>Contact.OwnerId</formula>
     </fieldOverrides>
     <fieldOverrides>
-        <field>Product_Sub_Type__c</field>
-        <literalValue>Fixed Rate Term Loan</literalValue>
-    </fieldOverrides>
-    <fieldOverrides>
         <field>StageName</field>
         <literalValue>Initial Review</literalValue>
     </fieldOverrides>

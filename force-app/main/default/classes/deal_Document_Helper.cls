@@ -46,12 +46,13 @@ public class deal_Document_Helper {
 
     if (needDealProperty.size() > 0) {
       for (Property__c property : [
-        SELECT Id, Deal__c
+        SELECT Id, Deal__c, Closer__c
         FROM Property__c
         WHERE Id IN :needDealProperty.keySet()
       ]) {
         for (Deal_Document__c doc : needDealProperty.get(property.Id)) {
           doc.Deal__c = property.Deal__c;
+          doc.Property_Closer__c = property.Closer__c;
         }
       }
     }
@@ -108,6 +109,7 @@ public class deal_Document_Helper {
       SELECT
         Id,
         Underwriter__c,
+        X2nd_Underwriter__c,
         Closer__c,
         Loan_Coordinator__c,
         OwnerId,
@@ -117,6 +119,7 @@ public class deal_Document_Helper {
     ]) {
       for (Deal_Document__c doc : oppMap.get(o.Id)) {
         doc.Underwriter__c = o.Underwriter__c;
+        doc.X2nd_Underwriter__c = o.X2nd_Underwriter__c;
         doc.Closer__C = o.Closer__c;
         doc.Loan_Coordinator__c = o.Loan_Coordinator__c;
         doc.Originator__c = o.OwnerId;

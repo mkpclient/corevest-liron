@@ -16,7 +16,7 @@
     <columns>Existing_Contact__c</columns>
     <columns>LEAD.PHONE</columns>
     <columns>LEAD.STATE_CODE</columns>
-    <columns>Applicant_Type__c</columns>
+    <columns>CREATEDBY_USER.ALIAS</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>LEAD.CREATED_DATE</field>

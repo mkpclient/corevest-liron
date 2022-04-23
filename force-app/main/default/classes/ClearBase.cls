@@ -174,13 +174,14 @@ public class ClearBase {
     return req;
   }
   @auraenabled
-  public static Map<String, String> getContactDetailforRiskSearch(ID id) {
+  public static Map<String, String> getContactDetailforRiskSearch(Id id) {
     Map<String, String> resultlist = new Map<String, String>();
     try {
       system.debug('id:::::' + id);
       list<Deal_Contact__c> dealContactList = new List<Deal_Contact__c>();
       list<Contact> ContactList = new List<Contact>();
       list<string> ContactIDList = new List<string>();
+
       for (Deal_Contact__c dc : [
         SELECT id, name, Contact__c
         FROM Deal_Contact__c
@@ -189,6 +190,7 @@ public class ClearBase {
       ]) {
         ContactIDList.add(dc.Contact__c);
       }
+
       system.debug('ContactIDList:::::' + ContactIDList);
 
       string message = 'Get Response from Risk Search.';
@@ -267,7 +269,9 @@ public class ClearBase {
                 'getContactDetailforRiskSearch:GroupId===risk' + GroupId
               );
               update clearResultlist;
+
               String JsonclearResultlist = JSON.serialize(clearResultlist);
+
 
               Deal_Contact__c dcObj = new Deal_Contact__c();
               dcObj.id = id;
@@ -313,9 +317,20 @@ public class ClearBase {
       //return resultlist;
     } catch (exception e) {
       System.debug('The following exception has occurred: ' + e.getMessage());
+      resultlist.put('errorMessage', e.getMessage());
+      return resultlist;
+
     }
     return resultlist;
   }
+
+
+  @future
+  public static void performUpdateDmlInFuture(String sobjectJson) {
+    update (SObject) JSON.deserialize(sobjectJson, SObject.class);
+  }
+
+
   @auraenabled
   public static String riskPersonInfo(list<Clear_Result__c> clearResultlist) {
     DOM.Document doc = new DOM.Document();
@@ -484,7 +499,19 @@ public class ClearBase {
     //if(conlist[0].Birthdate != null){
 
     message = 'Get the Person Search Report.';
-    String xmlstring = DomXmlUserInfo(conlist);
+
+    if(conlist == null) {
+      retrunlist.put('errorMessage', 'Your request could not be processed due to incomplete contact details.');
+      return retrunlist;
+    }
+    String xmlstring;
+    
+    try {
+      xmlstring = DomXmlUserInfo(conlist);
+    } catch (Exception e) {
+      retrunlist.put('errorMessage', 'Your request could not be processed due to incomplete contact details.');
+      return retrunlist;
+    }
     system.debug('getContactDetailforPersonSearch:  xmlstring==' + xmlstring);
     Http http = new Http();
     HTTPResponse res = new HTTPResponse();
@@ -693,7 +720,7 @@ public class ClearBase {
                 new APILoggerQueueable(req, res, id, nextQueue)
               );
             } else {
-              message = 'Not get Response for Person Search.';
+              message = 'Failed to get a response from Person Search.';
               System.CalloutException e = new System.CalloutException();
               e.setMessage(message);
               throw e;
@@ -708,13 +735,16 @@ public class ClearBase {
           throw e;
         }
       } else {
-        message = 'Error occurred.Please try again.';
+        message = 'Error occurred. Please try again.';
         System.CalloutException ce = new System.CalloutException();
         ce.setMessage(res.getStatusCode() + ': ' + res.getStatus());
         throw ce;
       }
     } catch (Exception er) {
       System.enqueueJob(new APILoggerQueueable(req, res, id, er));
+
+      retrunlist.put('errorMessage', er.getMessage());
+      return retrunlist;
     }
     /*  }else{
                 message='Please Enter Date of Birth first.'; 
@@ -1437,8 +1467,10 @@ public class ClearBase {
     String typeofReport,
     String dealRecordId
   ) {
+
     Map<String, String> resultMap = new Map<String, String>();
     string errorMsg;
+
     try {
       list<string> ContactIDList = new List<string>();
       for (Deal_Contact__c dc : [
@@ -1564,26 +1596,48 @@ public class ClearBase {
                   errorMsg +
                   ' button to get latest group ID.'
                 );
+                resultMap.put(
+                  'errorMessage',
+                  'Please click on ' +
+                  errorMsg +
+                  ' button to get latest group ID.'
+                );
               } else {
-                resultMap.put('message', 'Error occurred pelase try again.');
+                resultMap.put('message', 'Error occurred please try again.');
+                resultMap.put(
+                  'errorMessage',
+                  'Error occurred please try again.'
+                );
               }
             }
 
             System.enqueueJob(new APILoggerQueueable(req, res, id, false));
           } catch (Exception e) {
             System.enqueueJob(new APILoggerQueueable(req, res, id, e));
+            throw e;
           }
         } else {
-          resultMap.put('message', 'please click ' + errorMsg + ' first.');
+          resultMap.put('message', 'Please click ' + errorMsg + ' first.');
+          resultMap.put(
+            'errorMessage',
+            'Please click ' + errorMsg + ' first.'
+          );
         }
       } else {
-        resultMap.put('message', 'please click ' + errorMsg + ' first.');
+        resultMap.put('message', 'Please click ' + errorMsg + ' first.');
+        resultMap.put(
+          'errorMessage',
+          'Please click ' + errorMsg + ' first.'
+        );
       }
     } catch (exception e) {
       System.debug('The following exception has occurred: ' + e.getMessage());
+      resultMap.put('errorMessage', e.getMessage());
+      return resultMap;
     }
     return resultMap;
   }
+
   @auraenabled
   public static Map<String, String> riskReport(ID id) {
     Map<String, String> resultMap = new Map<String, String>();

@@ -20,6 +20,21 @@
                 <default>false</default>
                 <label>Term Loan</label>
             </value>
+            <value>
+                <fullName>Single Asset Bridge</fullName>
+                <default>false</default>
+                <label>Single Asset Bridge</label>
+            </value>
+            <value>
+                <fullName>Multifamily/CRE</fullName>
+                <default>false</default>
+                <label>Multifamily/CRE</label>
+            </value>
+            <value>
+                <fullName>Build to Rent</fullName>
+                <default>false</default>
+                <label>Build to Rent</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

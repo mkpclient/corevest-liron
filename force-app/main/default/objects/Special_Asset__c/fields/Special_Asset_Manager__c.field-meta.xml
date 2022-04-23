@@ -3,7 +3,7 @@
     <fullName>Special_Asset_Manager__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Special Asset Manager</label>
+    <label>Special Asset Associate</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Special_Assets</relationshipName>
     <required>false</required>

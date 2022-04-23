@@ -11,9 +11,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Active</fullName>
+                <fullName>Diligence</fullName>
                 <default>false</default>
-                <label>Active</label>
+                <label>Diligence</label>
+            </value>
+            <value>
+                <fullName>Diligence Review</fullName>
+                <default>false</default>
+                <label>Diligence Review</label>
+            </value>
+            <value>
+                <fullName>Declined</fullName>
+                <default>false</default>
+                <label>Declined</label>
             </value>
             <value>
                 <fullName>Inactive</fullName>
@@ -26,9 +36,14 @@
                 <label>Active CoreVest Vendor</label>
             </value>
             <value>
-                <fullName>Diligence</fullName>
+                <fullName>Onboarded</fullName>
                 <default>false</default>
-                <label>Diligence</label>
+                <label>Onboarded</label>
+            </value>
+            <value>
+                <fullName>Approved</fullName>
+                <default>false</default>
+                <label>Approved</label>
             </value>
             <value>
                 <fullName>Negotiation</fullName>
@@ -36,9 +51,14 @@
                 <label>Negotiation</label>
             </value>
             <value>
-                <fullName>Onboarded</fullName>
+                <fullName>Legal Review</fullName>
                 <default>false</default>
-                <label>Onboarded</label>
+                <label>Legal Review</label>
+            </value>
+            <value>
+                <fullName>Active</fullName>
+                <default>false</default>
+                <label>Active</label>
             </value>
         </valueSetDefinition>
     </valueSet>

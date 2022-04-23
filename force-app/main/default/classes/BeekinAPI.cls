@@ -1,53 +1,28 @@
 public class BeekinAPI {
-    public static Red_Bell_Settings__c BeekinSettings = Red_bell_Settings__c.getInstance();
-    static String USERNAME = BeekinSettings.Username__c;
-    static String PASSWORD = BeekinSettings.Password__c;
-    static String GRANT_TYPE = BeekinSettings.Grant_Type__c;
+    public static Beekin_Settings__c BeekinSettings = Beekin_Settings__c.getInstance();
     static String BASE_URL = BeekinSettings.Endpoint__c;
-    static String ACCESS_TOKEN;
+    static String ACCESS_TOKEN = BeekinSettings.APIKey__c;
     static Boolean RETRIED_AUTH = False;
-
+	public static List<Settings__mdt> settings = [ SELECT Enable_Beekin_API_Response_Logging__c,Enable_Beekin_API_Error_Response_Logging__c 
+                                     FROM Settings__mdt  WHERE DeveloperName = 'Universal_Settings' Limit 1 ];  
     @auraEnabled
     public static Map<String, Object> getProperties(Id recordId) {
         Map<String, Object> response = new Map<String, Object>();
         
         List<Property__c> properties = [SELECT Id, Name, City__c, State__c, ZipCode__c, Status__c, Number_of_Beds__c, Number_of_Bath__c
-                                        , Square_Feet__c, Year_Built__c, Pool__c, Property_Type__c, Invalid_Address__c,
-											(Select Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c
-											from Property_AVMs__r where recordtypeid = '012780000008V3MAAU')
+                                        , Square_Feet__c, Year_Built__c, Pool__c, Property_Type__c, Invalid_Address__c,Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c,
+											(SELECT AVM_Address__c,Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c
+											 FROM Property_AVMs__r where recordtypeid in (SELECT Id FROM RecordType WHERE sobjecttype = 'Property_AVM__c' 
+                                                                                        and DeveloperName  = 'Beekin_Rental_AVM') order by CreatedDate desc Limit 1)
                                         FROM Property__c
-                                        WHERE
-                                            Property__c.Deal__c = :recordId AND Status__c NOT IN ('Inactive','Cancelled','Rescinded')
-                                        AND
-                                            Property__c.ZipCode__c != null AND 
-                                            (Property__c.Property_Type__c = null OR Property__c.Property_Type__c = 'SFR' 
-                                             OR Property__c.Property_Type__c = 'Condo' OR Property__c.Property_Type__c = 'Townhome' 
-                                             OR (Property__c.Property_Type__c = '2-4 Unit' AND Property__c.Is_Parent__c = true))
-                                        ORDER BY Property_Name__c
-                                        ];
-
-        System.debug('RS999 property :' +properties);
-        response.put('properties', properties);
-        return response;
-    }
-
-    public class TokenResponse {
-        String access_token;
-        String token_type;
-        Integer expires_in;
-        String error;
-        String error_description;
-    }
-
-    public class AveResponse {
-        AveData ave;
-        Integer status;
-        String message;
-    }
-
-    public class AveData {
-        AveSubjectData subject;
-        AveCompData comps;
+                                        WHERE Deal__r.StageName IN ('Data Tape Received' , 'Term Sheet Issued' , 'Term Sheet Signed/Deposit Collected' 
+                                                                    , 'Submitted to Underwriting' , 'Underwriting' , 'UW Hold' , 'Approved by Committee')
+                                            AND Property__c.Deal__c = :recordId AND Status__c NOT IN ('Inactive','Cancelled','Rescinded')
+                                        	AND Property__c.ZipCode__c != null AND 
+                                            Property__c.Property_Type__c IN ('SFR' , 'Condo','Townhome','2-4 Unit','Multifamily')
+                                            AND Property__c.Is_Parent__c = False AND deal__r.RecordType__c = 'Term' ORDER BY Property_Name__c];
+      response.put('properties', properties);
+      return response;
     }
 
     public class AveSubjectData {
@@ -62,11 +37,24 @@ public class BeekinAPI {
         Boolean Pool;
     }
 
-    public class AveCompData {
-        Integer estimatedRent;
-        Integer estimatedMinRent;
-        Integer estimatedMaxRent;
+    Public class AveResDataMsg {
+        AveResData Response;
+        String Message;
+        String Code;
+    }
+    
+    public class AveResData {
+        String address;
+        Integer estimated_rent;
+        geolocation geolocation;
+        Integer lower;
+        Integer upper;
         }
+    
+    public class geolocation {
+        double lat;
+        double lng;
+    }    
 
     public static void throwError(String errorMsg) {
         AuraHandledException ex = new AuraHandledException(errorMsg);
@@ -74,89 +62,53 @@ public class BeekinAPI {
         throw ex;
     }
 
+    //Called from property insert trigger
+    //@future(callout=true)
     @auraEnabled
-    public static Map<String, Object> callBeekin(List<Property__c> properties, Id recordId) {
-        System.debug(properties);
-        AveResponse aveResponse;
-
-        getAccessToken();
-        for (Property__c prop : properties) {
-            getAveData(prop);
+ 	public static Void callBeekin(List<Property__c> property) 
+    {
+	If (property.Size() > 0)                                             
+	{
+	 List<Settings__mdt> settings = [ SELECT Enable_Beekin_API_Response_Logging__c,Enable_Beekin_API_Error_Response_Logging__c 
+                                     FROM Settings__mdt  WHERE DeveloperName = 'Universal_Settings' ];     
+     List<AveResDataMsg> ResponseDataMsg = New List<AveResDataMsg>();      
+     for (Property__c prop : property)
+        {
+        ResponseDataMsg.add(getAveData(prop));
         }
-        System.debug(998);
-        update properties;
-        System.debug(999);
-        return getProperties(recordId);
+     
+	 populatePropertyWithFields(property, ResponseDataMsg); 	         
     }
-
+    }
+/////////////////////////////
     @auraEnabled
-    public static Map<String, Object> callBeekinSingle(Property__c property, Id recordId) {
-        System.debug(property);
-        AveResponse aveResponse;
-
-        getAccessToken();
-        getAveData(property);
-        System.debug(998);
-        update property;
-        System.debug(999);
-        return getProperties(recordId);
+    public static Map<String, Object> callBeekinSingle(Property__c property, Id recordId) 
+    {
+       List<AveResDataMsg> ResponseDataMsg = New List<AveResDataMsg>();
+       List<Property__c> prop = new List<property__C>();
+       prop.add(property);
+       ResponseDataMsg.add(getAveData(property));
+       if (ResponseDataMsg[0].Message.substring(0,5) !='Error')
+       {
+         populatePropertyWithFields(prop, ResponseDataMsg);  
+       }
+       Else
+       {
+           throw new AuraHandledException(ResponseDataMsg[0].Message);
+          // throw new Error(ResponseDataMsg[0].Message);
+       }
+       return getProperties(recordId);
     }
-
-    public static void getAccessToken() {
+///////////////////
+  public static AveResDataMsg getAveData(Property__c prop) 
+  {
         Map<String, String> parameters;
         Map<String, String> headers;
         String endpoint;
         String method;
         String body;
         String rawJSON;
-        TokenResponse tokenResponse;
-
-        parameters = new Map<String, String>();
-        parameters.put('grant_type', GRANT_TYPE);
-        parameters.put('username', USERNAME);
-        parameters.put('password', PASSWORD);
-
-        body = getBodyString(parameters);
-
-        headers = new Map<String, String>();
-        headers.put('Content-Type', 'application/x-www-form-urlencoded');
-        headers.put('Content-Length', String.valueOf(body.length()));
-        headers.put('Accept', 'application/json');
-
-        endpoint = BASE_URL + '/token';
-
-        method = 'POST';
-
-        System.debug('body:');
-        System.debug(body);
-        System.debug(endpoint);
-
-        rawJSON = callOut(method, endpoint, body, headers);
-
-        System.debug(444);
-        System.debug(rawJSON);
-
-        TokenResponse = (TokenResponse)JSON.deserialize(rawJSON, TokenResponse.class);
-
-        if (TokenResponse.error != null && TokenResponse.error_description != null) {
-            throwError(TokenResponse.error_description);
-        }
-        else if (TokenResponse.error != null) {
-            throwError(TokenResponse.error);
-        }
-        else {
-            ACCESS_TOKEN = TokenResponse.access_token;
-        }
-    }
-
-    public static void getAveData(Property__c prop) {
-        Map<String, String> parameters;
-        Map<String, String> headers;
-        String endpoint;
-        String method;
-        String body;
-        String rawJSON;
-        AveResponse aveResponse;
+        AveResData Response;
 
         string noofbeds = string.valueof(prop.Number_of_Beds__c);
         string noofbath = string.valueof(prop.Number_of_Bath__c);
@@ -173,113 +125,167 @@ public class BeekinAPI {
       
         switch on  prop.Property_Type__c
          {
-             when 'a' {
+             when 'Townhome' {
                  propertytype = '0';
              }
-             when 'b' {
+             when 'SFR' {
                  propertytype = '1';
              }
-             when 'c' {
+             when 'Multifamily' {
                  propertytype = '2';
              }
-             when 'd' {
+             when '2-4 Unit' {
+                 propertytype = '2';
+             }             
+             when 'Condo' {
                  propertytype = '3';
              }             
         }
-            
-        parameters = new Map<String, String>{'Address'=>prop.Name, 'Sqft'=>sqft, 'beds'=>noofbeds, 'bath'=>noofbath, 'pool'=>pool, 'property_type'=>propertytype};
-        body = JSON.serialize(parameters);
-        System.debug(body);
 
         headers = new Map<String, String>();
-        headers.put('Authorization', 'bearer ' + ACCESS_TOKEN);
+        headers.put('x-api-key', ACCESS_TOKEN);
         headers.put('Content-Type', 'application/json');
-        headers.put('Content-Length', String.valueOf(body.length()));
-        headers.put('Accept', 'application/json');
-
-        endpoint = BASE_URL + '/upload/ave';
-
-        method = 'POST';
-
-        rawJSON = callOut(method, endpoint, body, headers);
-        System.debug('123');
-        System.debug(rawJSON);
-        aveResponse = (AveResponse)JSON.deserialize(rawJSON, AveResponse.class);
-        System.debug(aveResponse);
-        if (aveResponse.message == 'Authorization has been denied for this request.' && RETRIED_AUTH == True) {
-            System.debug(555);
-            throwError(aveResponse.message);
-        }
-        else if (aveResponse.message == 'Authorization has been denied for this request.') {
-            System.debug(666);
-            RETRIED_AUTH = True;
-            getAccessToken();
-            getAveData(prop);
-        }
-        else if (aveResponse.status != 0) {
-            System.debug(777);
-            throwError(aveResponse.message);
-        }
-        else {
-            System.debug(888);
-            RETRIED_AUTH = False;
-            populatePropertyWithFields(prop, aveResponse);
-        }
-    }
-
-    public static void populatePropertyWithFields(Property__c prop, AveResponse aveResponse) {
-
-        System.debug(aveResponse);
-
-       // prop.Estimated_Max_Rent__c = aveResponse.ave.subject.estimatedMaxRent ;
-       // prop.Estimated_Min_Rent__c =  aveResponse.ave.subject.estimatedMinRent;
-       // prop.Estimated_Rent__c =  aveResponse.ave.subject.estimatedRent;
-       
+      
+        String parameter = '';
         
+        if (prop.Name != null)
+        {
+         String address = prop.Name + ',' + prop.City__c + ','+ prop.State__c + ' ' + prop.ZipCode__c;
+         parameter = '?address='+ EncodingUtil.urlEncode(address, 'UTF-8');
+        }
+    
+        if (sqft != null)
+        {
+        parameter = parameter + '&sqft=' + EncodingUtil.urlEncode(sqft, 'UTF-8');
+        }
+      
+        if (noofbeds != null)
+        {
+        parameter = parameter + '&beds=' + EncodingUtil.urlEncode(noofbeds, 'UTF-8');
+        }
+      
+        if (noofbath != null)
+        {
+        parameter = parameter + '&baths=' + EncodingUtil.urlEncode(noofbath, 'UTF-8');
+        } 
+      
+        if (propertytype != null)
+        {
+        parameter = parameter + '&property_type=' + EncodingUtil.urlEncode(propertytype, 'UTF-8');
+        }
+   		System.Debug('parameter :' +parameter);
+        endpoint = BASE_URL + '/rent-estimate' + parameter;
+        method = 'GET';
+      
+       rawJSON = callOut(method, endpoint, headers,prop.id);
+       AveResDataMsg ResponseDataMsg = New AveResDataMsg();
+
+        if (rawJSON.Substring(0,5) != 'Error')
+        {
+        Response = (AveResData)JSON.deserialize(rawJSON, AveResData.class);
+        ResponseDataMsg.Response = Response;
+        ResponseDataMsg.Message ='Not in Error';
+        ResponseDataMsg.Code = '0';
+        }
+       Else
+       {
+		ResponseDataMsg.Message = rawJSON;
+        ResponseDataMsg.Code = '-1';
+       }
+		return ResponseDataMsg;
+      
+     }
+///////////////////////
+    public static void populatePropertyWithFields(List<Property__c> props, List<AveResDataMsg> aveResponseMsg) 
+    {
+        List<Property_AVM__c> avmList = new List<Property_AVM__c>();
+        List<Property__c> PropList = New List<Property__c>();
+        
+       for (Integer i=0;i<props.size();i++)
+       {
+        if (aveResponseMsg[i].Message.substring(0,5) !='Error')
+        {
         Property_AVM__c avm=new Property_AVM__c();
-        if(prop.Property_AVMs__r.size()>0){
-            avm.Id=prop.Property_AVMs__r[0].Id;
-        }else{
-			avm.RelatedProperty__c=prop.Id;
-		}
-     
+        AveResData aveResponse = new AveResData();
+        aveResponse = aveResponseMsg[i].Response;
            
-        if(avm.Id==null){
-            insert avm;
-        }else{
-            update avm;
-        }
+        if(props[i].Property_AVMs__r.size()>0){
+            avm.Id=props[i].Property_AVMs__r[0].Id;
+        } else{
+			avm.RelatedProperty__c=props[i].Id;
+		}
+        avm.recordtypeid = [SELECT Id FROM RecordType WHERE sobjecttype = 'Property_AVM__c' and DeveloperName  = 'Beekin_Rental_AVM'].Id;
+        //avm.AVM_Provider__c = 'Beekin';
+		avm.RelatedProperty__c = props[i].Id;
+        avm.AVM_Address__c = aveResponse.address;
+	    avm.Estimated_Max_Rent__c = aveResponse.upper ;
+        avm.Estimated_Min_Rent__c =  aveResponse.lower;
+        avm.Estimated_Rent__c =  aveResponse.estimated_rent; 
+        avmList.add(avm);
+        props[i].Estimated_Max_Rent__c = aveResponse.upper ;
+        props[i].Estimated_Min_Rent__c =  aveResponse.lower;
+        props[i].Estimated_Rent__c =  aveResponse.estimated_rent; 
+        PropList.add(props[i]);
+        } // != Error
+        } //For
+
+	if (avmList.size() > 0)
+    {
+        Database.Upsert(avmList,false);
+        Database.Update(PropList,false);        
+    }
         
     }
 
-
-    public static String getBodyString(Map<String, String> parameters) {
-        String bodyStr = '';
-        if (parameters != null) {
-            for (String key : parameters.keySet()) {
-                bodyStr += key + '=' + EncodingUtil.urlEncode(parameters.get(key), 'UTF-8') + '&';
-            }
-        }
-        return bodyStr;
-    }
-
-    public static String callOut(String method, String endpoint, String body, Map<String, String> headers) {
-        HttpResponse response = new HttpResponse();
-
-        HttpRequest request = new httpRequest();
-        request.setTimeout(60000);
-    request.setMethod(method);
-        request.setEndpoint(endpoint);
+public static String callOut(String method, String endpoint, Map<String, String> headers,id id) 
+	{
+    
+   HttpResponse response = new HttpResponse();
+   HttpRequest request = new httpRequest();
+   request.setEndpoint(endpoint);
+   request.setMethod(method);    
+   request.setEndpoint(endpoint);
         if (headers != null) {
             for (String key : headers.keySet()) {
                 request.setHeader(key, headers.get(key));
             }
         }
-        if (body != null) {
-            request.setBody(body);
-        }
-        response = new Http().send(request);
+
+    request.setTimeout(60000);  
+     response = new Http().send(request);
+    try {
+    System.debug('response.getstatuscode() :=' +response.getstatuscode());
+	System.debug('response.getstatus() :=' +response.getstatus());
+	System.debug('response.getBody() :=' +response.getBody());    
+    system.debug('http.response := ' +response);
+
+    if (response.getstatuscode() == 200)
+      {
+        System.CalloutException e = new System.CalloutException();
+		if (settings[0].Enable_Beekin_API_Response_Logging__c == True && settings[0].Enable_Beekin_API_Error_Response_Logging__c == False)          
+        {
+         request.setBody('{"call":"Beekin Call"}');
+         System.enqueueJob(new APILoggerQueueable(request, response, id, e));     
+		}            
         return response.getBody();
+      }
+    else
+    {
+        System.CalloutException e = new System.CalloutException();
+        e.setMessage(response.getStatusCode() + ': ' + response.getStatus());
+        String ErrorMessage = 'Error' + '**' + 'Beekin Status Code :' + response.getStatusCode() + '**' + 'Beekin Status Message :' + response.getStatus();        
+		if (settings[0].Enable_Beekin_API_Response_Logging__c == True && settings[0].Enable_Beekin_API_Error_Response_Logging__c == True)          
+        {        
+        request.setBody('{"call":"Beekin Call"}');
+        response.setBody('{"call":"Beekin Call in Error"}');
+        System.enqueueJob(new APILoggerQueueable(request, response, id, e));
+        }
+		return ErrorMessage;
     }
-   
+    }
+    catch (Exception e) {
+   // System.enqueueJob(new APILoggerQueueable(request, response, id, e));
+     throw e;
+    }
+   }
  }

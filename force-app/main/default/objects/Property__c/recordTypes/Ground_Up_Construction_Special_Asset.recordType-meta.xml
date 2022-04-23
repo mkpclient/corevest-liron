@@ -232,24 +232,17 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Loan_Document_Status__c</picklist>
-        <values>
-            <fullName>Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Requested</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Revisions</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Occupancy_Status__c</picklist>
         <values>
+            <fullName>Occupied%2FLong Term Lease</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Occupied%2FLong Term Rental</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupied%2FShort Term Lease</fullName>
             <default>false</default>
         </values>
         <values>
@@ -431,6 +424,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Paid Off</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payoff Pending</fullName>
             <default>false</default>
         </values>
@@ -470,6 +467,10 @@
         <picklist>Servicer_Name__c</picklist>
         <values>
             <fullName>Cohen</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCI</fullName>
             <default>false</default>
         </values>
         <values>

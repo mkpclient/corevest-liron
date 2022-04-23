@@ -6,7 +6,7 @@
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <type>Picklist</type>
+    <type>MultiselectPicklist</type>
     <valueSet>
         <restricted>true</restricted>
         <valueSetDefinition>
@@ -46,6 +46,17 @@
                 <default>false</default>
                 <label>In-House</label>
             </value>
+            <value>
+                <fullName>Faye Servicing</fullName>
+                <default>false</default>
+                <label>Faye Servicing</label>
+            </value>
+            <value>
+                <fullName>Cohen Financial</fullName>
+                <default>false</default>
+                <label>Cohen Financial</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
+    <visibleLines>4</visibleLines>
 </CustomField>

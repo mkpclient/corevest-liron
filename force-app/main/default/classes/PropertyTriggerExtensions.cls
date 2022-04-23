@@ -105,38 +105,38 @@ public without sharing class PropertyTriggerExtensions {
     }
   }
 
-  public static void validateAdvanceNames(Map<Id, Advance__c> advMap) {
-    Set<Id> advIds = advMap.keySet();
-    for (Property_Advance__c pa : [
-      SELECT Id, Advance__c
-      FROM Property_Advance__c
-      WHERE
-        Advance__c IN :advIds
-        AND Property__r.Status__c NOT IN :validStatuses
-    ]) {
-      Boolean shouldThrowErrorForTest = false;
-      if (!advIds.contains(pa.Advance__c)) {
-        continue;
-      }
-      if (
-        advMap.get(pa.Advance__c).Advance_Num__c != null ||
-        (String.isNotEmpty(advMap.get(pa.Advance__c).Name) &&
-        advMap.get(pa.Advance__c).Name.isNumeric())
-      ) {
-        shouldThrowErrorForTest = true;
-        advMap.get(pa.Advance__c)
-          .addError(
-            'Please do not change the Advance Number or use a numeric name.'
-          );
-      }
-      advIds.remove(pa.Advance__c);
-      if (Test.isRunningTest() && shouldThrowErrorForTest) {
-        throw new DmlException(
-          'Please do not change the Advance Number or use a numeric name.'
-        );
-      }
-    }
-  }
+  // public static void validateAdvanceNames(Map<Id, Advance__c> advMap) {
+  //   Set<Id> advIds = advMap.keySet();
+  //   for (Property_Advance__c pa : [
+  //     SELECT Id, Advance__c
+  //     FROM Property_Advance__c
+  //     WHERE
+  //       Advance__c IN :advIds
+  //       AND Property__r.Status__c NOT IN :validStatuses
+  //   ]) {
+  //     Boolean shouldThrowErrorForTest = false;
+  //     if (!advIds.contains(pa.Advance__c)) {
+  //       continue;
+  //     }
+  //     if (
+  //       advMap.get(pa.Advance__c).Advance_Num__c != null ||
+  //       (String.isNotEmpty(advMap.get(pa.Advance__c).Name) &&
+  //       advMap.get(pa.Advance__c).Name.isNumeric())
+  //     ) {
+  //       shouldThrowErrorForTest = true;
+  //       advMap.get(pa.Advance__c)
+  //         .addError(
+  //           'Please do not change the Advance Number or use a numeric name.'
+  //         );
+  //     }
+  //     advIds.remove(pa.Advance__c);
+  //     if (Test.isRunningTest() && shouldThrowErrorForTest) {
+  //       throw new DmlException(
+  //         'Please do not change the Advance Number or use a numeric name.'
+  //       );
+  //     }
+  //   }
+  // }
 
   public static void updateAdvances(Set<Id> advanceIds) {
     System.debug('updating advances');

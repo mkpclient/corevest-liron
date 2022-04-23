@@ -8,8 +8,8 @@
     <columns>Zip_Code__c</columns>
     <columns>Area_Code__c</columns>
     <columns>State_Code__c</columns>
-    <columns>Population__c</columns>
-    <columns>Type__c</columns>
+    <columns>Zip_Population__c</columns>
+    <columns>Zip_Type__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

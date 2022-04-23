@@ -29,30 +29,10 @@ public without sharing class YardiEmailSubmissionController {
   @AuraEnabled
   public static String returnDeal(Id recordId) {
     Map<String, Object> m = new Map<String, List<Object>>();
-    // if (!verifyPermission()) {
-    //   m.put(
-    //     'Error',
-    //     new List<Object>{
-    //       'You do not have the sufficient role to start this process.'
-    //     }
-    //   );
-    //   return JSON.serialize(m);
-    // }
     String qs = 'SELECT ';
     qs += String.join(fields, ', ');
     qs += ' FROM Opportunity WHERE Id = :recordId LIMIT 1';
 
-    system.debug(qs);
-
-    // List<Opportunity> deal;
-    // try {
-    //   deal = Database.query(qs);
-    //   m.put('Deal', deal);
-    // } catch (AuraHandledException err) {
-    //   System.debug(err.getMessage());
-    //   m.put('Error', new List<AuraHandledException>{ err });
-    //   return JSON.serialize(m);
-    // }
     List<Opportunity> deal = [
       SELECT Id, StageName
       FROM Opportunity
@@ -123,11 +103,11 @@ public without sharing class YardiEmailSubmissionController {
       m.put('EmailContents', new List<Object>{ mail.getHTMLBody() });
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
-    // m.put('Recipients', new List<Object>{ 'cafaccounting@cvest.com' });
-    // m.put('CC', new List<Object>{ 'kaitlyn.vuong@cvest.com' });
+    m.put('Recipients', new List<Object>{ 'cafaccounting@cvest.com' });
+    m.put('CC', new List<Object>{ 'kaitlyn.vuong@cvest.com' });
 
-    m.put('Recipients', new List<Object>{ 'jonathan.lay@cvest.com' });
-    m.put('CC', new List<Object>{ 'mcastillo@mkpartners.com' });
+    // m.put('Recipients', new List<Object>{ 'jonathan.lay@cvest.com' });
+    // m.put('CC', new List<Object>{ 'mcastillo@mkpartners.com' });
 
     m.put('ContentVersions', cvList);
     m.put('CurrentUser', p);
@@ -250,15 +230,13 @@ public without sharing class YardiEmailSubmissionController {
     }
     System.debug('this is the mail being sent');
     System.debug(mail);
+
     if (!Test.isRunningTest()) {
       Messaging.SendEmailResult[] results = Messaging.sendEmail(
         new List<Messaging.SingleEmailMessage>{ mail }
       );
-      System.debug('these are the results of sending your initial email: ');
-      System.debug(results);
+      system.enqueueJob(new YardiQueueable('termXML', new List<Id>{ whatId }));
     }
-
-    system.enqueueJob(new YardiQueueable('termXML', new List<Id>{ whatId }));
 
     return mail;
   }

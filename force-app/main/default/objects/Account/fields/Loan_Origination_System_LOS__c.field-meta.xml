@@ -31,6 +31,21 @@
                 <default>false</default>
                 <label>LendingWise</label>
             </value>
+            <value>
+                <fullName>Mortgage Automator</fullName>
+                <default>false</default>
+                <label>Mortgage Automator</label>
+            </value>
+            <value>
+                <fullName>Liquid Logics</fullName>
+                <default>false</default>
+                <label>Liquid Logics</label>
+            </value>
+            <value>
+                <fullName>Compass</fullName>
+                <default>false</default>
+                <label>Compass</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

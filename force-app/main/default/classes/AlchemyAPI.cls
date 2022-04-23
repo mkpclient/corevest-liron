@@ -103,16 +103,16 @@ public without sharing class AlchemyAPI {
     requestBody.put('email', l.Email);
     requestBody.put('lead_id', l.Id);
     requestBody.put('entry_id', l.Entry_Id__c);
+    requestBody.put('role', 'user');
     //system.debug(requestBody);
     String url = getBaseURL() + create_user_endpoint;
-
+    system.debug(url);
     HttpRequest req = new HttpRequest();
     req.setBody(JSON.serialize(requestBody, true));
     req.setEndpoint(url);
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
-    req.setTimeout(120000);
     //system.debug(req.getBody());
     // req.setHeader('C')
 
@@ -150,14 +150,35 @@ public without sharing class AlchemyAPI {
   @AuraEnabled
   public static void createUserFromContact(Id contactId) {
     Contact c = [
-      SELECT Id, FirstName, LastName, email
+      SELECT
+        Id,
+        FirstName,
+        LastName,
+        email,
+        Account.RecordType.DeveloperName,
+        Non_Borrower_Account_Type__c,
+        RecordType.DeveloperName
       FROM Contact
       WHERE Id = :contactId
     ];
 
     Map<String, String> requestBody = new Map<String, String>();
 
+    String role = 'user';
+    String nonBorrowerAccType = '';
+    if (c.Account.RecordType.DeveloperName == 'Vendor') {
+      role = 'vendor';
+      nonBorrowerAccType = c.Non_Borrower_Account_Type__c;
+    }
+    if (c.RecordType.DeveloperName == 'Broker') {
+      role = 'broker';
+    }
+
+    if (String.isNotBlank(nonBorrowerAccType)) {
+      requestBody.put('nonBorrowerAccType', nonBorrowerAccType);
+    }
     //requestBody.put('name', c.firstname + ' ' + c.lastname);
+    requestBody.put('role', role);
     requestBody.put('firstName', c.firstName);
     requestBody.put('lastName', c.lastName);
     requestBody.put('email', c.Email);
@@ -171,15 +192,11 @@ public without sharing class AlchemyAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
-    req.setTimeout(120000);
-
     system.debug(req.getBody());
     // req.setHeader('C')
 
-    //String body
-
     Integer statusCode = 200;
-    String body = '{"userId": "test-124"}';
+    String body = '{"userId": "test-123"}';
 
     if (!Test.isRunningTest()) {
       HttpResponse res = new Http().send(req);
@@ -216,7 +233,10 @@ public without sharing class AlchemyAPI {
         Id,
         Application__c,
         Contact__r.Alchemy_Portal_Id__c,
-        Application__r.Loan_Id__c
+        Application__r.Loan_Id__c,
+        Application__r.Term_Sheet_Sent__c,
+        Deal_Loan_Number__c,
+        Name
       FROM Opportunity
       WHERE Id = :dealId
     ];
@@ -232,11 +252,13 @@ public without sharing class AlchemyAPI {
       LIMIT 1
     ];
 
-    List<Deal_Document__c> dealDocs = [
-      SELECT Id
-      FROM Deal_Document__c
-      WHERE Termsheet_Sent_To_Portal__c = TRUE AND Deal__c = :dealId
-    ];
+    // Application__c app
+
+    // List<Deal_Document__c> dealDocs = [
+    //   SELECT Id
+    //   FROM Deal_Document__c
+    //   WHERE Termsheet_Sent_To_Portal__c = TRUE AND Deal__c = :dealId
+    // ];
 
     ContentVersion cv = [
       SELECT Id, VersionData
@@ -245,26 +267,35 @@ public without sharing class AlchemyAPI {
       LIMIT 1
     ];
 
-    if (deal.Contact__r.Alchemy_Portal_Id__c != null) {
+    if (
+      deal.Contact__r.Alchemy_Portal_Id__c != null &&
+      deal.Application__c != null
+    ) {
       Map<String, String> requestBody = new Map<String, String>();
       requestBody.put(
         'base64String',
         EncodingUtil.base64Encode(cv.VersionData)
       );
-
+      requestBody.put('dealName', deal.Name);
       requestBody.put('fileName', dealDoc.File_Name__c);
-
-      // system.debug(JSON.serialize(requestBody));
+      requestBody.put('dealLoanNum', deal.Deal_Loan_Number__c);
+      system.debug(JSON.serialize(requestBody));
       HttpRequest req = new HttpRequest();
+
       req.setHeader('from', 'sf');
       req.setHeader(
         'x-auth',
         '8a85dd6f4ab293c9c7aaad0156487d5ae3aba26cbfbc5b9c3c1661212336565f'
       );
+
       String url = getBaseURL() + TERMSHEET_NOTIF_ENDPOINT;
-      if (dealDocs.size() > 0) {
+      if (deal.Application__r.Term_Sheet_Sent__c) {
         req.setMethod('PATCH');
-        url += '/dealId/' + String.valueOf(dealId);
+        url +=
+          '/dealId/' +
+          String.valueOf(dealId) +
+          '/appId/' +
+          deal.Application__c;
       } else {
         req.setMethod('POST');
         requestBody.put('dealId', String.valueOf(dealId));
@@ -293,9 +324,18 @@ public without sharing class AlchemyAPI {
         statusCode = res.getStatusCode();
       }
 
+      system.debug(statusCode);
+      system.debug(body);
+
       if (statusCode == 200 || statusCode == 201) {
         dealDoc.Termsheet_Sent_To_Portal__c = true;
+        dealDoc.Portal_Error_Message__c = '';
         update dealDoc;
+
+        Application__c application = new APplication__c();
+        application.Id = deal.Application__c;
+        application.Term_Sheet_Sent__c = true;
+        update application;
       } else {
         dealDoc.Portal_Error_Message__c = body;
         update dealDoc;
@@ -312,13 +352,51 @@ public without sharing class AlchemyAPI {
     for (Deal_Contact__c c : [
       SELECT Id, Deal__c
       FROM Deal_Contact__c
-      WHERE Contact__c = :contactId AND Entity_Type__c = 'Portal Access'
+      WHERE
+        Contact__c = :contactId
+        AND (Entity_Type__c = 'Portal Access'
+        OR Entity_Type__c = 'Broker')
     ]) {
       oppIds.add(c.Deal__c);
     }
 
     return oppIds;
   }
+
+  public static Set<Id> getDealIds(PortalAPIUser.PortalUser user) {
+    Set<Id> oppIds = new Set<Id>();
+    if (user != null && user.contactId != null && user.accountId != null) {
+      for (Deal_Contact__c c : [
+        SELECT Id, Deal__c
+        FROM Deal_Contact__c
+        WHERE
+          (Contact__c = :user.contactId
+          AND (Entity_Type__c = 'Portal Access'
+          OR Entity_Type__c = 'Broker'))
+          OR (Vendor_Type__c != NULL
+          AND Account__c = :user.accountId)
+          OR Deal__r.Contact__c = :user.contactId
+      ]) {
+        oppIds.add(c.Deal__c);
+      }
+    }
+
+    return oppIds;
+  }
+
+  // public static Set<Id> getDealIdsVendorId(Id accountId) {
+  //   Set<Id> oppIds = new Set<Id>();
+  //   for (Deal_Contact__c c : [
+  //     SELECT Id, Deal__c
+  //     FROM Deal_Contact__c
+  //     WHERE Account__c = :accountId
+  //   ]) {
+  //     oppIds.add(c.Deal__c);
+  //   }
+
+  //   return oppIds;
+  // }
+
   public static Id getLeadIdByAlchemyId(String alchemyId) {
     Id leadId;
     List<lead> leads = [

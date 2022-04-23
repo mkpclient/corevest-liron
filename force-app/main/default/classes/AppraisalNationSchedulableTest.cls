@@ -1,5 +1,5 @@
 @isTest
-class AppraisalNationSchedulableTest {
+public with sharing class AppraisalNationSchedulableTest {
   public static testMethod void AppraisalNationSchedulableTest() {
     List<AsyncApexJob> jobsBefore = [
       SELECT Id, ApexClassID, ApexClass.Name, Status, JobType

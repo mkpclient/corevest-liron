@@ -13,11 +13,19 @@
             <fullName>Escrow</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
             <fullName>Each Initial Advance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
         <values>
@@ -90,29 +98,6 @@
         <values>
             <fullName>Third Party Originator</fullName>
             <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Probability__c</picklist>
-        <values>
-            <fullName>0%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>100%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>50%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>80%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>N%2FA</fullName>
-            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>

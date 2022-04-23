@@ -983,15 +983,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Background and Credit Search</controllingFieldValue>
-            <controllingFieldValue>Cash Management</controllingFieldValue>
-            <controllingFieldValue>Closing Documents</controllingFieldValue>
-            <controllingFieldValue>Assignments</controllingFieldValue>
-            <controllingFieldValue>Title</controllingFieldValue>
-            <controllingFieldValue>Borrower</controllingFieldValue>
-            <valueName>Closing Protection Letter</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Background and Credit Search</controllingFieldValue>
             <valueName>Entity Search</valueName>
         </valueSettings>
         <valueSettings>
@@ -1234,6 +1225,10 @@
         <valueSettings>
             <controllingFieldValue>Title</controllingFieldValue>
             <valueName>Borrower Information Sheet</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Title</controllingFieldValue>
+            <valueName>Closing Protection Letter</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Title</controllingFieldValue>

@@ -91,6 +91,11 @@
                 <label>Lender Local Legal Counsel</label>
             </value>
             <value>
+                <fullName>Lender Underwriter</fullName>
+                <default>false</default>
+                <label>Lender Underwriter</label>
+            </value>
+            <value>
                 <fullName>PCA &amp; ESA</fullName>
                 <default>false</default>
                 <label>PCA &amp; ESA</label>
@@ -144,6 +149,11 @@
                 <fullName>Valuations Review</fullName>
                 <default>false</default>
                 <label>Valuations Review</label>
+            </value>
+            <value>
+                <fullName>Warehouse Lender</fullName>
+                <default>false</default>
+                <label>Warehouse Lender</label>
             </value>
         </valueSetDefinition>
     </valueSet>

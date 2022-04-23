@@ -157,7 +157,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ReadWrite</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <label>Commission</label>
     <nameField>
         <displayFormat>COM-{0000}</displayFormat>
@@ -175,6 +175,6 @@
         <searchResultsAdditionalFields>Commission_Amount1__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Commission_Type__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

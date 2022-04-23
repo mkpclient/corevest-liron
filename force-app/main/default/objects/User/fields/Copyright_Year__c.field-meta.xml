@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Copyright_Year__c</fullName>
+    <defaultValue>&quot;2022&quot;</defaultValue>
+    <description>Copyright Year to use for merge fields in Lightning Email Templates</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Copyright Year to use for merge fields in Lightning Email Templates</inlineHelpText>
+    <label>Copyright Year</label>
+    <length>5</length>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

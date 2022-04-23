@@ -421,6 +421,9 @@
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
@@ -547,6 +550,9 @@
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
@@ -647,6 +653,9 @@
 
             <!-- Non Renovation Table Totals Row -->
             <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
@@ -1199,6 +1208,9 @@
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
@@ -1358,6 +1370,9 @@
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>
@@ -1481,6 +1496,9 @@
 
             <!-- Renovation Table Total Row -->
             <tr>
+              <th scope="row" data-label="">
+                <div class="slds-truncate" title=""></div>
+              </th>
               <th scope="row" data-label="">
                 <div class="slds-truncate" title=""></div>
               </th>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Estimated_Max_Rent__c</fullName>
-    <defaultValue>0</defaultValue>
-    <description>Estimated Max Rent Retrieved from Beekin API</description>
+    <description>Estimated_Max_Rent__c from Beekin Interface</description>
     <externalId>false</externalId>
     <label>Estimated Max Rent</label>
     <precision>18</precision>

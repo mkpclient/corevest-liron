@@ -1,4 +1,4 @@
-public with sharing class AdvanceDealTriggerHelper {
+public without sharing class AdvanceDealTriggerHelper {
   static final string VALIDADVSTATUS = 'Completed';
   static final string VALIDCALCULATIONTYPE = 'Fixed at First Advance';
   static final string FIRSTCONTACTTYPE = 'Individual';
@@ -21,7 +21,7 @@ public with sharing class AdvanceDealTriggerHelper {
     return [
       SELECT
         Id,
-        // Contact__c,
+        Contact__c,
         (
           SELECT
             Id,
@@ -73,27 +73,27 @@ public with sharing class AdvanceDealTriggerHelper {
     dealEmail.setTemplateId(templateId);
     dealEmail.setWhatId(opp.Id);
     dealEmail.setSaveAsActivity(false);
-    // dealEmail.setTargetObjectId(opp.Contact__c);
-    // dealEmail.setTreatTargetObjectAsRecipient(false);
+    dealEmail.setTargetObjectId(opp.Contact__c);
+    dealEmail.setTreatTargetObjectAsRecipient(false);
     bccEmails.add('bryon.harland@cvest.com');
 
-    for (User user : [
-      SELECT
-        Id,
-        FirstName,
-        LastName,
-        Email,
-        isActive,
-        Profile.Name,
-        UserRole.Name,
-        UserType
-      FROM User
-      WHERE UserRole.Name IN :USERROLES AND isActive = TRUE AND Email != NULL
-    ]) {
-      // userIds.add(user.Id);
-      // allIds.add(user.Id);
-      ccEmails.add(user.Email);
-    }
+    // for (User user : [
+    //   SELECT
+    //     Id,
+    //     FirstName,
+    //     LastName,
+    //     Email,
+    //     isActive,
+    //     Profile.Name,
+    //     UserRole.Name,
+    //     UserType
+    //   FROM User
+    //   WHERE UserRole.Name IN :USERROLES AND isActive = TRUE AND Email != NULL
+    // ]) {
+    //   // userIds.add(user.Id);
+    //   // allIds.add(user.Id);
+    //   ccEmails.add(user.Email);
+    // }
 
     if (opp.Deal_Contacts__r.size() > 0) {
       for (integer i = 0; i < opp.Deal_Contacts__r.size(); i++) {
@@ -191,7 +191,8 @@ public with sharing class AdvanceDealTriggerHelper {
           Maturity_Date_Calculation_Type__c,
           Stated_Maturity_Date__c,
           Advance_Period__c,
-          LOC_Term__c
+          LOC_Term__c,
+          CloseDate
         FROM Opportunity
         WHERE
           Id = :triggerNew.Deal__c
@@ -207,16 +208,16 @@ public with sharing class AdvanceDealTriggerHelper {
         System.debug('deal from trigger : ' + updatedDeal);
 
         if (updatedDeal.Advance_Period__c != null) {
-          updatedDeal.Modified_Expiration_Date__c = Date.today()
+          updatedDeal.Modified_Expiration_Date__c = updatedDeal.CloseDate
             .addDays(Integer.valueOf(updatedDeal.Advance_Period__c));
         }
 
         if (!string.isBlank(updatedDeal.LOC_Term__c)) {
           List<String> locTerm = updatedDeal.LOC_Term__c.split(' ');
           Integer locTermNumber = Integer.valueOf(locTerm[0]);
-          updatedDeal.Stated_Maturity_Date__c = Date.today()
+          updatedDeal.Stated_Maturity_Date__c = updatedDeal.CloseDate
             .addDays(locTermNumber);
-          updatedDeal.Updated_Loan_Maturity_Date__c = Date.today()
+          updatedDeal.Updated_Loan_Maturity_Date__c = updatedDeal.CloseDate
             .addDays(locTermNumber);
         }
 

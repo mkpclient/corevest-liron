@@ -30,6 +30,10 @@
             <fullName>2020</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>2022</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Contact_Type__c</picklist>
@@ -1196,6 +1200,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -1273,6 +1281,10 @@
         </values>
         <values>
             <fullName>Dennis Spivey Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dominion Group</fullName>
             <default>false</default>
         </values>
         <values>

@@ -362,7 +362,7 @@ private class advance_Tests {
     );
     insert adv;
 
-   /*RS Property_Advance__c padv = new Property_Advance__c();
+    Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
     padv.Advance_Fee__c = 1000;
@@ -370,7 +370,7 @@ private class advance_Tests {
     padv.Renovation_Reserve__c = 500000;
     padv.Origination_Fee__c = 1000;
 
-    insert padv;RS */
+    insert padv;
 
     Test.startTest();
     adv.Wire_Date__c = system.today();
@@ -455,7 +455,7 @@ private class advance_Tests {
     );
     insert adv;
 
-   /*RS Property_Advance__c padv = new Property_Advance__c();
+    Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
     padv.Advance_Fee__c = 1000;
@@ -463,7 +463,7 @@ private class advance_Tests {
     padv.Renovation_Reserve__c = 500000;
     padv.Origination_Fee__c = 1000;
 
-    insert padv;RS*/
+    insert padv;
 
     Test.startTest();
     adv.Wire_Date__c = system.today();
@@ -548,7 +548,7 @@ private class advance_Tests {
     );
     insert adv;
 
-    /*RS Property_Advance__c padv = new Property_Advance__c();
+     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
     padv.Advance_Fee__c = 1000;
@@ -556,7 +556,7 @@ private class advance_Tests {
     padv.Renovation_Reserve__c = 500000;
     padv.Origination_Fee__c = 1000;
 
-    insert padv;*/
+    insert padv;
 
     Test.startTest();
     adv.Target_Advance_Date__c = System.today() + 5;

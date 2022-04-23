@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Request_Beekin_Rental_Data_Validation__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Require Beekin Rental Info Valid on deal stage change to Pricing or UW</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Request Beekin Rental Data Validation</label>
+    <type>Checkbox</type>
+</CustomField>

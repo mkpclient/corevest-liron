@@ -7,6 +7,18 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Advance_Fee_Cap__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Advance_Fee__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Advance_Period__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Amortization_Term__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -23,6 +35,10 @@
         <value xsi:type="xsd:string">Tier 4</value>
     </values>
     <values>
+        <field>Exit_Fee__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Floor_Percent__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -35,15 +51,19 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Initial_LTC__c</field>
-        <value xsi:type="xsd:double">80.0</value>
+        <field>Interest_Rate_Type__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Initial_LTV__c</field>
-        <value xsi:type="xsd:double">75.0</value>
+        <field>Interest_Rate__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Loan_Term__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Max_LTC_Percent__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
@@ -84,6 +104,14 @@
     </values>
     <values>
         <field>Reno_Limit_Acq_Cost__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Repayment_Period__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Revolving__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>

@@ -62,6 +62,10 @@
         <literalValue>Initial Review</literalValue>
     </fieldOverrides>
     <fieldOverrides>
+        <field>Stepdown_Prepayment_Period__c</field>
+        <formula>TEXT( Opportunity.Stepdown_Prepayment_Period__c )</formula>
+    </fieldOverrides>
+    <fieldOverrides>
         <field>Term_Loan_Type__c</field>
         <formula>TEXT( Opportunity.Term_Loan_Type__c )</formula>
     </fieldOverrides>

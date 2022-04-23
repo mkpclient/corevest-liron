@@ -177,10 +177,7 @@
         <field>ExpectedRevenue</field>
         <field>Expiration_Date__c</field>
         <field>Expired__c</field>
-        <field>Expired_Amount__c</field>
-        <field>Extension_Modified__c</field>
         <field>Extension_Fee__c</field>
-        <field>Extension_Period_Days__c</field>
         <field>Deal_Code__c</field>
         <field>Final_Sponsor_Tier__c</field>
         <field>Final_Interest_Rate__c</field>
@@ -213,7 +210,6 @@
         <field>Holdback_Multiplier__c</field>
         <field>Hold_Reason__c</field>
         <field>IC_Approval_Date__c</field>
-        <field>Implied_Cap_Rate__c</field>
         <field>Implied_Cap_Rate_Calc__c</field>
         <field>Include_3_Months_Min_Interest__c</field>
         <field>Include_Assumption__c</field>
@@ -348,7 +344,6 @@
         <field>Pricebook2</field>
         <field>Pricing_Approval_Date__c</field>
         <field>Approval_Status__c</field>
-        <field>Pricing_Comments__c</field>
         <field>Campaign</field>
         <field>Contact__c</field>
         <field>Primary_Contact_Email__c</field>
@@ -442,7 +437,6 @@
         <field>Spread_BPS__c</field>
         <field>StageName</field>
         <field>State_Percentages__c</field>
-        <field>State_Specific_Calculations__c</field>
         <field>Static_Vacancy__c</field>
         <field>Stepdown_Prepayment_Period__c</field>
         <field>YM_Prepayment_Penalty_Description__c</field>
@@ -511,7 +505,6 @@
         <field>utm_Campaign_Name__c</field>
         <field>utm_Campaign_Source__c</field>
         <field>utm_Campaign_Term__c</field>
-        <field>UW_Exception_Resolved__c</field>
         <field>UW_LTC__c</field>
         <field>UW_LTV__c</field>
         <field>Warehoused__c</field>
@@ -581,7 +574,7 @@
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
     <label>Term IC Approval</label>
-    <processOrder>10</processOrder>
+    <processOrder>12</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>false</showApprovalHistory>
 </ApprovalProcess>

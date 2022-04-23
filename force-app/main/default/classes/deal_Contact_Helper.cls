@@ -186,7 +186,8 @@ public class deal_Contact_Helper {
         Net_Worth__c,
         Rental_Units_Owned__c,
         Cash_Equivalent__c,
-        Cash_Position__c
+        Cash_Position__c,
+        Legal_Name__c
       FROM Contact
       WHERE Id IN :contactPrepopulateMap.keySet()
     ]) {
@@ -202,6 +203,7 @@ public class deal_Contact_Helper {
         entity.Cash_Equivalent__c = c.Cash_Equivalent__c;
         entity.Rental_Units_Owned__c = c.Rental_Units_Owned__c;
         entity.Net_Worth__c = c.Net_Worth__c;
+        entity.Legal_Name__c = c.Legal_Name__c;
       }
     }
 
@@ -298,9 +300,9 @@ public class deal_Contact_Helper {
       insert loanFees;
     }
 
-    if (sponsorIds.size() > 0) {
-      ChecklistHelper.createChecklistSectionSponsor(sponsorIds);
-    }
+    // if (sponsorIds.size() > 0) {
+    //   ChecklistHelper.createChecklistSectionSponsor(sponsorIds);
+    // }
   }
 
   public static void afterUpdate(
@@ -429,6 +431,12 @@ public class deal_Contact_Helper {
           .Years_of_Experience1__c;
         dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
       }
+      if (newList[i].Legal_Name__c != oldList[i].Legal_Name__c) {
+        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+        contactMap.get(newList[i].Contact__c).Legal_Name__c = newList[i]
+          .Legal_Name__c;
+        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+      }
     }
 
     for (Contact c : contactMap.values()) {
@@ -441,7 +449,6 @@ public class deal_Contact_Helper {
       update contactsUpdate;
 
       Map<Id, Contact> contactMapExtra = new Map<Id, Contact>(contactsUpdate);
-      // Map<Id, List<
       // for(Contact : )
 
       List<Deal_Contact__c> dcToUpdate = new List<Deal_Contact__c>();
@@ -459,6 +466,7 @@ public class deal_Contact_Helper {
           TransUnion__c,
           Equifax__c,
           Years_of_Experience1__c,
+          Legal_Name__c,
           Contact__c,
           Deal__c
         FROM Deal_Contact__c
@@ -567,6 +575,15 @@ public class deal_Contact_Helper {
             dealToContactIdMap.containsKey(dealContact.Deal__c)
           ) {
             dealContact.Years_of_Experience1__c = c.Years_of_Experience__c;
+            addToList = true;
+          }
+
+          if (
+            c.Legal_Name__c != null &&
+            dealContact.Legal_Name__c != c.Legal_Name__c &&
+            dealToContactIdMap.containsKey(dealContact.Deal__c)
+          ) {
+            dealContact.Legal_Name__c = c.Legal_Name__c;
             addToList = true;
           }
 

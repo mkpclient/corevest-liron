@@ -19,8 +19,6 @@
 						}
 					}
 
-
-
 					console.log('these are resubmitted deals');
 					console.log(resubmittedDeals);
                     

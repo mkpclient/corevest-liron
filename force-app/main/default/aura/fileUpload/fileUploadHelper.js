@@ -200,9 +200,8 @@
         //sfInstanceUrl = 'https://caf--partial.lightning.force.com';
         //sfInstanceUrl = 'https://caf--partial.cs62.my.salesforce.com';
         //
-        console.log(sfInstanceUrl); 
-        if(sfInstanceUrl.includes('salesforce.com')){
-            sfInstanceUrl = 'https://cs213.salesforce.com';
+        if(sfInstanceUrl.includes('https://corevest.salesforce.com') || sfInstanceUrl.includes('https://cvest.salesforce.com')){
+            sfInstanceUrl = 'https://na54.salesforce.com';
         }
         client.setSessionToken(sessionId ,'v36.0',sfInstanceUrl);
         client.proxyUrl = null;
@@ -310,6 +309,11 @@
         var client = new forcetk.Client();
         //sfInstanceUrl = 'https://caf--partial.lightning.force.com';
         //sfInstanceUrl = 'https://caf--partial.cs62.my.salesforce.com';
+
+        if(sfInstanceUrl.includes('https://corevest.salesforce.com') || sfInstanceUrl.includes('https://cvest.salesforce.com')){
+            sfInstanceUrl = 'https://na54.salesforce.com';
+        }
+        
         client.setSessionToken(sessionId ,'v36.0',sfInstanceUrl);
         client.proxyUrl = null;
 

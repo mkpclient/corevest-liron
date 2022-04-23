@@ -20,7 +20,7 @@ trigger deal_Contact_Trigger on Deal_Contact__c(
         'Deal_Contact__c',
         'afterInsert'
       );
-      ChecklistHelper.createChecklistSectionSponsor(Trigger.newMap.keySet());
+      //ChecklistHelper.createChecklistSectionSponsor(Trigger.newMap.keySet());
     }
     if (Trigger.isBefore && Trigger.isUpdate) {
       // Deal_Contact__c_Helper.beforeUpdate(Trigger.New, Trigger.Old);

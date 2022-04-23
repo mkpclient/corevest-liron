@@ -8,11 +8,34 @@ global with sharing class PortalAPIDeal {
     List<String> params = Restcontext.request.requestURI.split('/');
 
     if (params[3] == 'userId') {
-      // String userId = params[4];
-      // Id contactId = AlchemyAPI.getContactIdByAlchemyId(userId);
-      // Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contactId);
+      String userId = params[4];
+      Id contactId = AlchemyAPI.getContactIdByAlchemyId(userId);
+      Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contactId);
 
-      // //Contact contact = [SELECT Id, ]
+      Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
+
+      String queryString = 'SELECT ';
+      queryString += String.join(new List<String>(fields), ',');
+      queryString += ' ,Contact__r.Name,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
+      queryString += ' (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone, User.Portal_Profile_Pic__c FROM OpportunityTeamMembers) ';
+      queryString += ' FROM Opportunity ';
+      queryString += ' WHERE Id IN: dealIds';
+      //   system.debug(queryString);
+
+      List<LoanSmall> loans = new List<LoanSmall>();
+
+      for (Opportunity deal : (List<Opportunity>) Database.query(queryString)) {
+        loans.add(new LoanSmall(deal));
+      }
+
+      // Opportunity deal = (Opportunity) Database.query(queryString);
+
+      // Loan loan = new Loan(deal);
+
+      res.responseBody = Blob.valueOf(JSON.serialize(loans));
+      res.addHeader('Content-Type', 'application/json');
+
+      //Contact contact = [SELECT Id, ]
 
       // Set<Id> termLoans = new Set<Id>();
       // Set<Id> locLoans = new Set<Id>();
@@ -49,7 +72,9 @@ global with sharing class PortalAPIDeal {
       //     List<Opportunity> deals = new List<Opportunity>();
 
       //     if (termLoans.size() > 0) {
-      //       Set<String> fields = TERM_FIELDS;
+      //       // Set<String> fields = TERM_FIELDS;
+      //       Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
+
       //       String queryString = 'SELECT ';
       //       queryString += String.join(new List<String>(fields), ',');
       //       queryString += ' FROM Opportunity ';
@@ -60,7 +85,9 @@ global with sharing class PortalAPIDeal {
       //     }
 
       //     if (locLoans.size() > 0) {
-      //       Set<String> fields = LOC_FIELDS;
+      //       // Set<String> fields = LOC_FIELDS;
+      //       Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
+
       //       String queryString = 'SELECT ';
       //       queryString += String.join(new List<String>(fields), ',');
       //       queryString += ' FROM Opportunity ';
@@ -71,7 +98,8 @@ global with sharing class PortalAPIDeal {
       //     }
 
       //     if (sabLoans.size() > 0) {
-      //       Set<String> fields = SAB_FIELDS;
+      //       //Set<String> fields = SAB_FIELDS;
+      //       Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
       //       String queryString = 'SELECT ';
       //       queryString += String.join(new List<String>(fields), ',');
       //       queryString += ' FROM Opportunity ';
@@ -82,7 +110,8 @@ global with sharing class PortalAPIDeal {
       //     }
 
       //     if (salLoans.size() > 0) {
-      //       Set<String> fields = SAL_FIELDS;
+      //       // Set<String> fields = SAL_FIELDS;
+      //       Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
       //       String queryString = 'SELECT ';
       //       queryString += String.join(new List<String>(fields), ',');
       //       queryString += ' FROM Opportunity ';
@@ -138,34 +167,40 @@ global with sharing class PortalAPIDeal {
         //   }
         // }
 
-        Set<String> fields = new Set<String>{
-          'Name',
-          'Deal_Loan_Number__c',
-          'Account.Name',
-          'LOC_Term__c',
-          'Loan_Size__c',
-          'Over_LOC_Commitment__c',
-          'Expired__c',
-          'Advance_Period_Days_In_Months__c',
-          'Asset_Maturity__c',
-          'Days_Remaining__c',
-          'StageName',
-          'CloseDate',
-          'LOC_Loan_Type__c',
-          'Product_Sub_Type__c',
-          'Interest_Rate_Type__c',
-          'LTC__c',
-          'LTV__c',
-          'Origination_Fee__c',
-          'Fee__c',
-          'Rate__c',
-          'Project_Strategy__c'
-          // (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone FROM OpportunityTeamMembers)
-        };
+        // Set<String> fields = new Set<String>{
+        //   'Name',
+        //   'Deal_Loan_Number__c',
+        //   'Account.Name',
+        //   'LOC_Term__c',
+        //   'Loan_Size__c',
+        //   'Over_LOC_Commitment__c',
+        //   'Expired__c',
+        //   'Advance_Period_Days_In_Months__c',
+        //   'Asset_Maturity__c',
+        //   'Days_Remaining__c',
+        //   'StageName',
+        //   'CloseDate',
+        //   'LOC_Loan_Type__c',
+        //   'Product_Sub_Type__c',
+        //   'Interest_Rate_Type__c',
+        //   'LTC__c',
+        //   'LTV__c',
+        //   'Origination_Fee__c',
+        //   'Fee__c',
+        //   'Rate__c',
+        //   'Project_Strategy__c',
+        //   'Type',
+        //   'Final_Loan_Amount__c',
+        //   'Current_Loan_Amount__c',
+        //   'LOC_Commitment__c'
+        //   // (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone FROM OpportunityTeamMembers)
+        // };
+        Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
 
         String queryString = 'SELECT ';
         queryString += String.join(new List<String>(fields), ',');
-        queryString += ' ,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
+        queryString += ' ,Contact__r.Name ';
+        queryString += ' ,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
         queryString += ' (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone, User.Portal_Profile_Pic__c FROM OpportunityTeamMembers) ';
         queryString += ' FROM Opportunity ';
         queryString += ' WHERE Id =\'' + dealId + '\'';
@@ -196,6 +231,24 @@ global with sharing class PortalAPIDeal {
     }
   }
 
+  public class LoanSmall {
+    Id id;
+    String loanType;
+    DateTime createdDate;
+    String loanName;
+    String primaryContact;
+
+    LoanSmall(Opportunity deal) {
+      Loan loan = new Loan(deal);
+
+      this.id = deal.id;
+      this.loanType = loan.loanType;
+      this.createdDate = deal.CreatedDate;
+      this.loanName = loan.loanName;
+      this.primaryContact = deal.Contact__r.Name;
+    }
+  }
+
   public class Loan {
     String loanName;
     String loanNumber;
@@ -217,6 +270,17 @@ global with sharing class PortalAPIDeal {
     Decimal maxLTV;
     Decimal originationFee;
     Decimal advanceFee;
+    String loanType;
+
+    Decimal originalLoanBalance;
+    Decimal outstandingLoanBalance;
+    Decimal remainingCommitmentAmount;
+    // String interestRateType
+    String index;
+    Decimal indexMargin;
+    String indexFloor;
+    String primaryContact;
+
     Id id;
     List<DealTeamMember> teamMembers;
 
@@ -232,27 +296,100 @@ global with sharing class PortalAPIDeal {
       advancePeriodInMonths = o.Advance_Period_Days_In_Months__c;
       assetMaturityDays = o.Asset_Maturity__c;
       daysRemaining = o.Days_Remaining__c;
+      primaryContact = o.Contact__r.Name;
       //stage = o.StageName;
 
-      stage = 'New';
-      if (o.StageName == 'Rejected' || o.StageName == 'Withdrawn') {
-        stage = 'Inactive';
+      if (o.LOC_Loan_Type__c == 'Term Loan') {
+        this.loanType = 'Rental Portfolio';
+      }
+      if (
+        o.LOC_Loan_Type__c == 'Credit Line' &&
+        o.Project_Strategy__c != 'Fix and Flip'
+      ) {
+        this.loanType = 'Credit Line';
+      }
+      if (
+        o.LOC_Loan_Type__c == 'Credit Line' &&
+        o.Project_Strategy__c == 'Fix and Flip'
+      ) {
+        this.loanType = 'Credit Line';
       }
 
       if (
-        o.StageName == 'Expired' ||
-        o.StageName == 'Matured' ||
-        o.StageName == 'Paid Off'
+        o.LOC_Loan_Type__c == 'Credit Line' &&
+        o.Product_Sub_Type__c == 'Build to Rent'
       ) {
-        stage = 'Past';
+        this.loanType = 'Build for Rent';
+      }
+
+      if (o.LOC_Loan_Type__c == 'Build to Rent') {
+        this.loanType = 'Build for Rent';
       }
 
       if (
-        o.StageName == 'Closed Won' &&
-        system.today().addDays(7) > o.CloseDate
+        o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
+        o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
       ) {
-        stage = 'Active';
+        this.loanType = 'Bridge Loan';
       }
+      if (o.Loc_Loan_Type__c == 'Multifamily/CRE') {
+        this.loanType = 'Multifamily';
+      }
+
+      if (o.LOC_Loan_Type__c == 'Model Home Release') {
+        this.loanType = 'Model Home Release';
+      }
+
+      if (o.LOC_Loan_Type__c == 'Single Asset Rental') {
+        this.loanType = 'Single Rental';
+      }
+
+      if (o.LOC_Loan_Type__c == 'Single Rental Loan') {
+        this.loanType = 'Single Rental';
+      }
+
+      if (o.Type == 'Term Loan' || o.Type == 'Single Rental Loan') {
+        if (
+          o.Final_Loan_Amount__c == null &&
+          o.Current_Loan_Amount__c == null
+        ) {
+          loanSize = o.Loan_Size__c;
+        } else if (
+          o.Final_Loan_Amount__c == null &&
+          o.Current_Loan_Amount__c != null
+        ) {
+          loanSize = o.Current_Loan_Amount__c;
+        } else if (o.Final_Loan_Amount__c != null) {
+          loanSize = o.Final_Loan_Amount__c;
+        }
+      } else if (o.Type == 'Bridge Loan' || o.Type == 'SAB Loan') {
+        if (o.LOC_Commitment__c == null) {
+          loanSize = o.Loan_Size__c;
+        } else {
+          loanSize = o.LOC_Commitment__c;
+        }
+      }
+      stage = PortalAPIDashboard.dealStageMap.get(o.StageName);
+
+      // stage = 'New';
+      // if (o.StageName == 'Rejected' || o.StageName == 'Withdrawn') {
+      //   stage = 'Inactive';
+      // }
+
+      // if (
+      //   o.StageName == 'Expired' ||
+      //   o.StageName == 'Matured' ||
+      //   o.StageName == 'Paid Off'
+      // ) {
+      //   stage = 'Past';
+      // }
+
+      // if (
+      //   o.StageName == 'Closed Won' &&
+      //   system.today().addDays(7) > o.CloseDate
+      // ) {
+      //   stage = 'Active';
+      // }
 
       closeDate = o.CloseDate;
       //productType = o.LOC_Loan_Type__c;
@@ -306,9 +443,43 @@ global with sharing class PortalAPIDeal {
         this.productType = 'Single Rental';
       }
 
+      originalLoanBalance = o.Original_UPB_Svc__c;
+      outstandingLoanBalance = o.Current_UPB__c;
+      remainingCommitmentAmount = o.Outstanding_Facility_Amount__c;
+
       productSubType = o.Product_Sub_Type__c;
       interestRateType = o.Interest_Rate_Type__c;
-      interestRate = o.Rate__c;
+      if (interestRateType == null) {
+        interestRateType = o.Requested_Interest_Type__c;
+      }
+
+      if (String.isBlank(o.Interest_Rate_Type__c)) {
+        interestRateType = o.Requested_Interest_Type__c;
+      }
+
+      interestRate = o.Final_Interest_Rate_Calc__c;
+
+      if (interestRate == null || interestRate == 0) {
+        interestRate = o.Rate__c;
+      }
+
+      index = o.Index__c;
+
+      if (String.isBlank(index)) {
+        index = o.Requested_Index__c;
+      }
+
+      indexMargin = o.Index_Margin__c;
+      if (indexMargin == null) {
+        indexMargin = o.Requested_Index_Margin__c;
+      }
+
+      indexFloor = o.Index_Floor__c;
+      if (String.isBlank(indexFloor)) {
+        indexFloor = o.Requested_Index_Floor__c;
+      }
+
+      //interestRate = o.Rate__c;
       maxLTC = o.LTC__c;
       maxLTV = o.LTV__c;
       originationFee = o.Origination_Fee__c;
@@ -412,7 +583,8 @@ global with sharing class PortalAPIDeal {
     'UW_LTV__c',
     'YM_Prepayment_Penalty__c',
     'YM_Prepayment_Penalty_Description__c',
-    'Id'
+    'Id',
+    'Original_UPB__c'
   };
 
   public static Set<String> LOC_FIELDS = new Set<String>{

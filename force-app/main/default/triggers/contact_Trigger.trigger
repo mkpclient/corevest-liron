@@ -49,7 +49,7 @@ trigger contact_Trigger on Contact(
       Contact_Helper.isAfter(parentIdsSet);
     }
     if (Trigger.IsUpdate) {
-      Contact_Helper.afterUpdate(Trigger.new);
+      Contact_Helper.afterUpdate(Trigger.oldMap, Trigger.new);
       for (Contact c : Trigger.new) {
         if (c.AccountId != null) {
           parentIdsSet.add(c.AccountId);

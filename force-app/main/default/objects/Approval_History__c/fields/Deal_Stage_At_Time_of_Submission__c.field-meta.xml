@@ -51,6 +51,11 @@
                 <default>false</default>
                 <label>Closed Won</label>
             </value>
+            <value>
+                <fullName>UW Hold</fullName>
+                <default>false</default>
+                <label>UW Hold</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

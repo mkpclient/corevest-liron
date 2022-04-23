@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Business_Entity_Compact_Layout</fullName>
+    <fields>Entity_Type__c</fields>
+    <fields>Company_Jurisdiction__c</fields>
+    <fields>Entity_Number__c</fields>
+    <fields>Entity_Filing_Date__c</fields>
+    <fields>Operating_Agreement_Date__c</fields>
+    <fields>Account__c</fields>
+    <label>Business Entity Compact Layout</label>
+</CompactLayout>

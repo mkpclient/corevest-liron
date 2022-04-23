@@ -17,14 +17,15 @@
     </alerts>
     <alerts>
         <fullName>Property_created_through_the_Portal</fullName>
+        <ccEmails>corevestit@cvest.com</ccEmails>
         <description>Property created through the Portal</description>
         <protected>false</protected>
         <recipients>
-            <recipient>Bridge_Funding</recipient>
-            <type>group</type>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
         </recipients>
         <recipients>
-            <recipient>bryon.harland@cvest.com</recipient>
+            <recipient>daniel.han@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>

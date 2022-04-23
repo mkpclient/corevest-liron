@@ -26,19 +26,9 @@
                 <label>Single_Asset_Bridge</label>
             </value>
             <value>
-                <fullName>Lender</fullName>
+                <fullName>CRE_Loan</fullName>
                 <default>false</default>
-                <label>Lender</label>
-            </value>
-            <value>
-                <fullName>Broker</fullName>
-                <default>false</default>
-                <label>Broker</label>
-            </value>
-            <value>
-                <fullName>Borrower</fullName>
-                <default>false</default>
-                <label>Borrower</label>
+                <label>CRE_Loan</label>
             </value>
         </valueSetDefinition>
     </valueSet>

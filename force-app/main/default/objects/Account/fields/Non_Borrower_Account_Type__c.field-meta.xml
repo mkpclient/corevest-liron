@@ -126,6 +126,11 @@
                 <label>Lender</label>
             </value>
             <value>
+                <fullName>Lender Underwriter</fullName>
+                <default>false</default>
+                <label>Lender Underwriter</label>
+            </value>
+            <value>
                 <fullName>Mortgage Broker</fullName>
                 <default>false</default>
                 <label>Mortgage Broker</label>
@@ -204,6 +209,11 @@
                 <fullName>Vendor</fullName>
                 <default>false</default>
                 <label>Vendor</label>
+            </value>
+            <value>
+                <fullName>Warehouse Lender</fullName>
+                <default>false</default>
+                <label>Warehouse Lender</label>
             </value>
             <value>
                 <fullName>Wholesale</fullName>

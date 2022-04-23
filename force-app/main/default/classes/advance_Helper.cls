@@ -80,9 +80,9 @@ public class advance_Helper {
           (
             SELECT Id, Name, Advance_Num__c
             FROM Advances__r
-            // WHERE Advance_Num__c != NULL
-            // ORDER BY Advance_Num__c DESC
-            // LIMIT 1
+            WHERE Advance_Num__c != NULL
+            ORDER BY Advance_Num__c DESC
+            LIMIT 1
           )
         FROM Opportunity
         WHERE Id IN :advanceMap.keySet()
@@ -103,7 +103,7 @@ public class advance_Helper {
           // adv.Name = 'TBD';
           if (o.Advances__r.size() > 0) {
             adv.Advance_Num__c = o.Advances__r[0].Advance_Num__c + 1;
-            adv.Name = String.valueOf(adv.Advance_Num__c);
+            adv.Name = String.valueOf(o.Advances__r[0].Advance_Num__c + 1);
           } else {
             // adv.Name = 'Pending-1';
             adv.Name = '1';
@@ -757,7 +757,7 @@ public class advance_Helper {
           OR Advance__c IN :updateRollups
       ];
     }
-
+// completed advances create commission records CRE/MultiFamily will generate commission
     if (myAdvanceList.size() > 0) {
       system.debug('advance list size' + myAdvanceList.size());
       list<advance__c> myAdv = [
@@ -803,10 +803,10 @@ public class advance_Helper {
 
         if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 5000000
+          adv.Approved_Advance_Amount_Total__c <= 10000000
         ) {
           rateBasedOnBorrowed = 0.20;
-          system.debug('under 5 mil and direct');
+          system.debug('under 10 mil');
           if (
             adv.Deal__r.Internal_Referral__c != null &&
             adv.Deal__r.Internal_Referral__r.isActive == true &&
@@ -901,11 +901,11 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 5000000 &&
+          adv.Approved_Advance_Amount_Total__c > 10000000 &&
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 75000000
+          adv.Approved_Advance_Amount_Total__c <= 100000000
         ) {
-          system.debug('over 5 mil and direct');
+          system.debug('over 10 mil to 100 mil');
           rateBasedOnBorrowed = 0.10;
 
           if (
@@ -996,9 +996,9 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 75000000
+          adv.Approved_Advance_Amount_Total__c > 100000000
         ) {
-          system.debug('over 20 mil and direct');
+          system.debug('over 100 mil and above');
           rateBasedOnBorrowed = 0.04;
 
           if (
@@ -1095,7 +1095,7 @@ public class advance_Helper {
         insert myCommsToAdd;
       }
     }
-
+// delete commission based on uncompleted advance
     if (uncompletedAdvanceIds.size() > 0) {
       system.debug('uncompleted advance' + uncompletedAdvanceIds.size());
       List<Commission__c> myCommissionList = [

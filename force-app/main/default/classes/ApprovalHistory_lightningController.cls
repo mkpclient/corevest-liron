@@ -183,7 +183,8 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Approval_Status__c,
         Deal__r.Apex_Context__c,
         CreatedDate,
-        Resolution__c
+        Resolution__c,
+        ProcessName__c
       FROM Approval_History__c
       WHERE Deal__c = :recordId
       ORDER BY LastModifiedDate DESC
@@ -398,8 +399,10 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Product_Sub_Type__c,
         Deal__r.LOC_Program_Type__c,
         Deal__r.RecordType.DeveloperName,
+        Deal__r.Project_Strategy__c,
         Parent_Status__c,
         Process_Id__c,
+        ProcessName__c,
         Process_Instance_Id__c,
         Status__c,
         Step_Item_Id__c,
@@ -452,6 +455,7 @@ public without sharing class ApprovalHistory_lightningController {
         hw.loanType = ahc.Deal__r.Type;
         hw.productType = ahc.Deal__r.LOC_Loan_Type__c;
         hw.productSubType = ahc.Deal__r.Product_Sub_Type__c;
+        hw.projectStrategy = ahc.Deal__r.Project_Strategy__c;
         hw.loanStage = ahc.Deal_Stage_At_Time_of_Submission__c;
         hw.pricingType = ahc.Deal__r.LOC_Program_Type__c;
 
@@ -553,6 +557,7 @@ public without sharing class ApprovalHistory_lightningController {
     String loanType;
     String productType;
     String productSubType;
+    String projectStrategy;
     String loanStage;
     String pricingType;
     // String status;

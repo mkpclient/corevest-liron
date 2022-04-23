@@ -173,6 +173,6 @@
         <searchResultsAdditionalFields>Total_Bridge_Commission__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Bridge_Attainment__c</searchResultsAdditionalFields>
     </searchLayouts>
-    <sharingModel>ReadWrite</sharingModel>
+    <sharingModel>Private</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

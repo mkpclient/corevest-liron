@@ -79,11 +79,11 @@ private class Deal_Document_HelperTest {
   static testMethod void Deal_Document_Helper_UnitTest2() {
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
-    Opportunity opp = test_Helper.createOpportunity(acc, cont);
-    Id termLoanRecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName()
-      .get('Bridge Loan')
-      .getRecordTypeId();
-    opp.RecordTypeId = termLoanRecordTypeId;
+    Opportunity opp = test_Helper.createBridgeDeal(acc, cont);
+    // Id termLoanRecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByName()
+    //   .get('Bridge Loan')
+    //   .getRecordTypeId();
+    // opp.RecordTypeId = termLoanRecordTypeId;
     opp.LOC_Program_Type__c = 'Custom';
     opp.Approved_Term_Sheet_Name__c = null;
     update opp;
@@ -93,13 +93,39 @@ private class Deal_Document_HelperTest {
       FROM Document_Structure__mdt
       LIMIT 1
     ];
+    Advance__c adv = new Advance__c(Deal__c = opp.Id);
+    insert adv;
+
+    Property__c testProp = new Property__c(
+      Deal__c = opp.Id,
+      Name = 'Test',
+      Property_Name__c = 'Test',
+      Property_Type__c = 'SFR',
+      Number_of_Units__c = 1,
+      Interior_Access_POC_Email__c = 'test@test.com',
+      Security_Deposit__c = 800,
+      Status__c = 'Active'
+    );
+
+    insert testProp;
+
     Deal_Document__c doc = new Deal_Document__c(
       Deal__c = opp.Id,
-      Document_Structure_Id__c = docStruct.Id
+      Document_Structure_Id__c = docStruct.Id,
+      Type__c = 'Draft IC Memo',
+      Section__c = 'IC Memo'
     );
-    insert doc;
+
+    Deal_Document__c doc2 = new Deal_Document__c(
+      Document_Structure_Id__c = docStruct.Id,
+      Advance__c = adv.Id,
+      Property__c = testProp.Id
+    );
+
+    insert new List<Deal_Document__c>{ doc, doc2 };
 
     doc.Recorded_Date__c = system.today();
+    doc.Type__c = 'Final IC Memo';
     update doc;
 
     doc.Recorded_Date__c = null;

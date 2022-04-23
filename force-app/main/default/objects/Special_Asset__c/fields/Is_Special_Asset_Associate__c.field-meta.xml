@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Special_Asset_Associate__c</fullName>
+    <description>This will equal true if the Special Asset Associate is the same person as current User</description>
+    <externalId>false</externalId>
+    <formula>$User.Id = Special_Asset_Manager__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This will equal true if the Special Asset Associate is the same person as current User</inlineHelpText>
+    <label>Is Special Asset Associate</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
