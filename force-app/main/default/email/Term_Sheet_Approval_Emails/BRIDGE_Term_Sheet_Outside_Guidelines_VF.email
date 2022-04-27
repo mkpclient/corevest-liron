@@ -1,33 +1,43 @@
-<messaging:emailTemplate subject="{!relatedTo.Name} - IC Memo Approval"
-    recipientType="User"
-    relatedToType="Opportunity">
-<messaging:htmlEmailBody >
-    <p style="margin-top:20px;">
-    Dear IC Committee Member,</p>
+<messaging:emailTemplate subject="{!relatedTo.Name} - Term Sheet Request" recipientType="User" relatedToType="Opportunity">
+    <messaging:htmlEmailBody >
 
-    <br />
-    <p>
-        Please review the deal below that has a loan amount that's less than $3,000,000.
-    </p>
-    <br />
+        <p>Dear Beth or Executive Committee Member,</p>
+        <br />
 
-    <p>
-    Capital Market: {!relatedTo.Approved_by_Capital_Markets__r.Name}, &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!relatedTo.Approved_by_Capital_Markets_Date__c}" /> </apex:outputText><br />
-    Underwriting: {!relatedTo.Approved_by_Underwriter__r.Name}, &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!relatedTo.Approved_by_Underwriter_Date__c}" /> </apex:outputText><br />
-    </p>
-    <br />
+        <p>Please review the deal below.</p>
+        <br />
 
-    <p>
-    Attached is a completed IC Memo.</p>
-    <br />
+        <p>This deal was outside of the Bridge Pricing Model, therefore needed Pricing Request Approvals from Capital Market
+            and Bridge Underwriting.</p>
+        <br />
 
-    <p>
-    Thanks,</p>
-    <p>
-    {!relatedTo.Owner.Name}</p>
-    <br />
+        <p>
+            Pricing Request Approval Information:
+            <br />
+            <apex:outputText value="Capital Market: {0}{1} {2,date,MM/dd/yyyy}">
+                <apex:param value="{!if(relatedTo.Approved_by_Capital_Markets__r.Name != null, relatedTo.Approved_by_Capital_Markets__r.Name, 'Not Applicable')}"
+                />
+                <apex:param value="{!if(NOT(ISBLANK(relatedTo.Approved_by_Capital_Markets_Date__c)), ',', '')}" />
+                <apex:param value="{!if(NOT(ISBLANK(relatedTo.Approved_by_Capital_Markets_Date__c)), relatedTo.Approved_by_Capital_Markets_Date__c, '')}"
+                />
+            </apex:outputText>
+            <br />
+            <apex:outputText value="Underwriting: {0}{1} {2,date,MM/dd/yyyy}">
+                <apex:param value="{!if(relatedTo.Approved_by_Underwriter__r.Name != null, relatedTo.Approved_by_Underwriter__r.Name, 'Not Applicable')}"
+                />
+                <apex:param value="{!if(NOT(ISBLANK(relatedTo.Approved_by_Underwriter_Date__c)), ',', '')}" />
+                <apex:param value="{!if(NOT(ISBLANK(relatedTo.Approved_by_Underwriter_Date__c)), relatedTo.Approved_by_Underwriter_Date__c, '')}"
+                />
+            </apex:outputText>
+        </p>
+        <br />
 
-            <p>
+        <p>Attached is a completed Term Sheet.</p>
+        <c:duplicateDealsInEmail recordId="{!relatedTo.Id}" deal="{!relatedTo}" />
+        <p>Thanks,</p>
+        <p>{!relatedTo.Owner.Name}</p>
+        <br />
+        <p>
             <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
                 <colgroup>
                     <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
@@ -448,5 +458,5 @@
             </p>
             <!-- </div> -->
         </apex:repeat>
-</messaging:htmlEmailBody>
+    </messaging:htmlEmailBody>
 </messaging:emailTemplate>
