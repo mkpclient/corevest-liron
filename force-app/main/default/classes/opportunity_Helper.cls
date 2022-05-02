@@ -356,14 +356,6 @@ public without sharing class opportunity_Helper {
         );
 
         termRecordIds.add(o.Id);
-        OpportunityLineItem oli = new OpportunityLineItem();
-        oli.OpportunityId = o.id;
-        // Product2Id = PRODUCT_MAP.get('Term Loan').Id,
-        oli.PricebookEntryId = '01u0a00000K75E5AAJ';
-        oli.Quantity = 1;
-        oli.ServiceDate = o.CloseDate;
-        oli.UnitPrice = util.fixNull(o.Loan_Size__c);
-        insert oli;
       } else if (o.RecordType__c == 'Bridge') {
         applicants.add(
           new Deal_Contact__c(
@@ -405,49 +397,6 @@ public without sharing class opportunity_Helper {
             Vendor_Type__c = 'Insurance'
           )
         );
-        // OpportunityLineItem oli = new OpportunityLineItem(
-        //     OpportunityId = o.id,
-        //     // Product2Id = PRODUCT_MAP.get('Bridge Loan').Id,
-        //     PricebookEntryId = '01u0a00000K75EAAAZ',
-        //     Quantity = 1,
-        //     UnitPrice = util.fixNull(o.Loan_Size__c)
-        // );
-        // insert oli;
-      } else if (o.RecordType__c == 'Single Asset Rental') {
-        if (o.Loan_Size__c != null && o.Final_Loan_Amount__c == null) {
-          OpportunityLineItem oli = new OpportunityLineItem(
-            OpportunityId = o.id,
-            // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
-            PricebookEntryId = '01u0a00000K75EKAAZ',
-            Quantity = 1,
-            ServiceDate = o.CloseDate,
-            UnitPrice = util.fixNull(o.Loan_Size__c)
-          );
-          insert oli;
-        } else if (o.Final_Loan_Amount__c != null) {
-          OpportunityLineItem oli = new OpportunityLineItem(
-            OpportunityId = o.id,
-            // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
-            PricebookEntryId = '01u0a00000K75EKAAZ',
-            Quantity = 1,
-            ServiceDate = o.CloseDate,
-            UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
-          );
-          insert oli;
-        }
-      } else if (o.RecordType__c == 'Investor DSCR') {
-        OpportunityLineItem oli = new OpportunityLineItem(
-          OpportunityId = o.id,
-          // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
-          PricebookEntryId = '01u78000000LkkZAAS',
-          Quantity = 1,
-          ServiceDate = o.CloseDate,
-          UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
-        );
-        //raj
-        if (!Test.isRunningTest()) {
-          insert oli;
-        }
       }
 
       if (o.Underwriter__c != null) {
@@ -649,7 +598,7 @@ public without sharing class opportunity_Helper {
         currOpp.IC_Approval_Date__c = System.today();
       }
 
-      if (validateDealForIcReapproval(prevOpp, currOpp)) {
+   if (validateDealForIcReapproval(prevOpp, currOpp) && currOpp.IC_Approval__c == 'Approved') {
         currOpp.IC_Approval__c = null;
         currOpp.IC_Approval_Date__c = null;
         currOpp.StageName = 'Underwriting';
@@ -1448,6 +1397,17 @@ public without sharing class opportunity_Helper {
     List<Opportunity> dealsWithSec = new List<Opportunity>();
     Map<Id, String> updatedWarehouseLines = new Map<Id, String>();
 
+    /*CIP 2215 4/22/2022 begin */
+    List<String> stagesForSfv = new List<String>{
+      'Sold',
+      'Matured',
+      'Expired',
+      'Paid Off',
+      'Rejected',
+      'Withdrawn'
+    };
+    /*CIP 2215 4/22/2022 end */
+
     /* CIP 1686 3/17/2022 begin */
     Map<Id, Opportunity> paidOffDeals = new Map<Id, Opportunity>();
     /* CIP 1686 3/17/2022 end */
@@ -1506,6 +1466,12 @@ public without sharing class opportunity_Helper {
       system.debug('o.StageName::::' + o);
       system.debug('oldMap::::' + oldMap);
 
+      /* CIP2215 4/22/2022 begin */
+      if(o.StageName != oldMap.get(o.Id).StageName && stagesForSfv.contains(o.StageName)){
+        updatedWarehouseLines.put(o.Id, 'Closing');
+      }
+      /* CIP2215 4/22/2022 end */
+
       /* CIP 2326 4/1/2022 begin */
 
       if (
@@ -1560,6 +1526,8 @@ public without sharing class opportunity_Helper {
           updatedWarehouseLines.put(o.Id, oldMap.get(o.Id).Warehouse_Line__c);
         }
       }
+
+
 
       if (
         oldMap.get(o.Id).Securitization__c != null &&
@@ -3167,7 +3135,13 @@ public without sharing class opportunity_Helper {
       }
 
       addlRecipIds.add(deal.OwnerId);
-      addlRecipIds.add(deal.Underwriter__c);
+      if(deal.Underwriter__c != null) {
+        addlRecipIds.add(deal.Underwriter__c);
+      }
+
+      if(deal.X2nd_Underwriter__c != null) {
+        addlRecipIds.add(deal.X2nd_Underwriter__c);
+      }
 
       if (deal.Record_Type_Name__c == 'Term_Loan') {
         termDealIdsByRecipients.put(deal.Id, addlRecipIds);
@@ -3278,13 +3252,22 @@ public without sharing class opportunity_Helper {
         Funding_Vehicle__r.Name,
         End_Date__c,
         Deal__r.Securitization__r.Close_Date__c,
-        Deal__r.Securitization__c
+        Deal__r.Securitization__c,
+        Deal__r.Payoff_Date__c,
+        Deal__r.StageName
       FROM Deal_x_Funding_Vehicle__c
       WHERE Deal__c IN :dealMap.keySet() AND End_Date__c = NULL
     ];
 
     for (Deal_x_Funding_Vehicle__c d : dfvs) {
-      if (
+      if(dealMap.containsKey(d.Deal__c) && dealMap.get(d.Deal__c) == 'Closing') {
+        if(d.Deal__r.Payoff_Date__c != null) {
+          d.End_Date__c = d.Deal__r.Payoff_Date__c;
+        } else {
+          d.End_Date__c = System.today();
+        }
+      }
+      else if (
         d.Deal__r.Securitization__c != null &&
         dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name &&
         d.Deal__r.Securitization__r.Close_Date__c != null
@@ -3503,20 +3486,21 @@ public without sharing class opportunity_Helper {
     Boolean isRecourseChanged = currOpp.Recourse__c != prevOpp.Recourse__c;
     Boolean shouldReapproveActualDSCR = false;
 
-    Decimal prevActualDSCR = prevOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
+    Decimal prevActualDSCR = String.isNotEmpty(prevOpp.Actual_DSCR__c) && prevOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
         .isNumeric()
       ? Decimal.valueOf(prevOpp.Actual_DSCR__c.replaceAll('[^.\\d]', ''))
       : null;
     if (prevActualDSCR != null) {
-      Decimal currActualDSCR = currOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
+      Decimal currActualDSCR = String.isNotEmpty(currOpp.Actual_DSCR__c) && currOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
           .isNumeric()
         ? Decimal.valueOf(currOpp.Actual_DSCR__c.replaceAll('[^.\\d]', ''))
         : null;
-      Decimal dscrDifference = currActualDSCR - prevActualDSCR;
+      Decimal dscrDifference =  prevActualDSCR - currActualDSCR;
       shouldReapproveActualDSCR =
-        dscrDifference > 0.05 &&
-        !(prevActualDSCR > 1.80 &&
-        currActualDSCR < 1.30);
+        (currActualDSCR < 1.30 && dscrDifference > 0) || 
+        (dscrDifference > 0.05 &&
+        !(prevActualDSCR >= 1.80 &&
+        currActualDSCR > 1.30));
     }
 
     if (isBridge) {
