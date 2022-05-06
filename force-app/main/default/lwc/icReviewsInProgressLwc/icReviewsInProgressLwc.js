@@ -14,6 +14,11 @@ export default class IcReviewsInProgressLwc extends LightningElement {
       sortable: true
     },
     {
+      label: "Approver",
+      fieldName: "approverName",
+      sortable: true
+    },
+    {
       label: "Originator",
       fieldName: "originator",
       sortable: true
