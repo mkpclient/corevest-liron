@@ -16,14 +16,14 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
   static final String SANDBOX_EMAIL = 'ldecastro@mkpartners.com';
 
   public static final Map<String, Map<Id, User>> USERINFOMAP = new Map<String, Map<Id, User>>{
-    'Bridge IC Process' => queryUserInfo('Bridge_IC_Approval'),
+    'Bridge IC Process' => queryUserInfo('Term_IC_Approval'),
     'Term Sub-IC' => queryUserInfo('Term_Sub_IC'),
     'Term IC Process' => queryUserInfo('Term_IC_Approval'),
     'Bridge Sub-IC' => queryUserInfo('Term_Sub_IC')
   };
 
   public static final Set<String> BRIDGE_IC_GROUP = queryEmailAddresses(
-    'Bridge_IC_Approval'
+    'Term_IC_Approval'
   );
   public static final Set<String> TERM_SUB_IC_GROUP = queryEmailAddresses(
     'Term_Sub_IC'
