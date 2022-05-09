@@ -3497,10 +3497,10 @@ public without sharing class opportunity_Helper {
         : null;
       Decimal dscrDifference =  prevActualDSCR - currActualDSCR;
       shouldReapproveActualDSCR =
-        (currActualDSCR < 1.30 && dscrDifference > 0) || 
+        (prevActualDSCR < 1.30 && dscrDifference > 0) || 
         (dscrDifference > 0.05 &&
         !(prevActualDSCR >= 1.80 &&
-        currActualDSCR > 1.30));
+        currActualDSCR >= 1.30));
     }
 
     if (isBridge) {
