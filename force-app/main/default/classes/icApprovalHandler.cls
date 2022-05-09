@@ -17,9 +17,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
   public static final Map<String, Map<Id, User>> USERINFOMAP = new Map<String, Map<Id, User>>{
     'Bridge IC Process' => queryUserInfo('Term_IC_Approval'),
-    'Term Sub-IC' => queryUserInfo('Term_Sub_IC'),
+    'Term Sub-IC Process' => queryUserInfo('Term_Sub_IC'),
     'Term IC Process' => queryUserInfo('Term_IC_Approval'),
-    'Bridge Sub-IC' => queryUserInfo('Term_Sub_IC')
+    'Bridge Sub-IC Process' => queryUserInfo('Term_Sub_IC')
   };
 
   public static final Set<String> BRIDGE_IC_GROUP = queryEmailAddresses(
