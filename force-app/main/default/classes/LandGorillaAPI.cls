@@ -1,0 +1,139 @@
+public without sharing class LandGorillaAPI {
+  public static final String BASE_URL = Settings__mdt.getInstance(
+      'Universal_Settings'
+    )
+    .LandGorilla_Endpoint__c;
+  public static final String API_NAME = Settings__mdt.getInstance(
+      'Universal_Settings'
+    )
+    .LandGorllia_ApiName__c;
+  public static final String USERNAME = Settings__mdt.getInstance(
+      'Universal_Settings'
+    )
+    .LandGorilla_Username__c;
+  public static final String PASSWORD = Settings__mdt.getInstance(
+      'Universal_Settings'
+    )
+    .LandGorilla_Password__c;
+  public static final Boolean IS_API_ENABLED = Settings__mdt.getInstance(
+      'Universal_Settings'
+    )
+    .Enable_LandGorilla_API__c;
+
+  public class TokenResponse {
+    public String id { get; set; }
+    public String token { get; set; }
+    public DateTime expired { get; set; }
+  }
+
+  public static TokenResponse currentToken {
+    get {
+      if (
+        !IS_API_ENABLED ||
+        String.isEmpty(BASE_URL) ||
+        String.isEmpty(API_NAME) ||
+        String.isEmpty(USERNAME) ||
+        String.isEmpty(PASSWORD)
+      ) {
+        return null;
+      }
+      
+      if(currentToken != null && currentToken.expired < System.now().dateGmt()) {
+          return currentToken;
+      }
+      
+      return requestToken();
+    }
+    private set;
+  }
+
+  public static TokenResponse requestToken() {
+    String token = '';
+    HttpRequest req;
+    HttpResponse resp;
+    String tokenEndpoint = BASE_URL + '/api/token&api_name=' + API_NAME;
+    try {
+      req = new HttpRequest();
+      req.setEndpoint(tokenEndpoint);
+      req.setMethod('GET');
+      req.setHeader('USER', USERNAME);
+      req.setHeader('PASSWORD', PASSWORD);
+
+      String payload = 'api_name=' + API_NAME;
+
+      req.setTimeout(120000);
+      Integer statusCode = 200;
+      String respBody = '';
+
+      if (!Test.isRunningTest()) {
+        resp = new Http().send(req);
+        statusCode = resp.getStatusCode();
+        respBody = resp.getBody();
+        if (statusCode == 200) {
+        Map<String, Object> respMap = (Map<String, Object>) JSON.deserializeUntyped(
+            respBody
+          );
+        TokenResponse retVal = new TokenResponse();
+        retVal.id = String.valueOf(respMap.get('id'));
+        retVal.token = String.valueOf(respMap.get('token'));
+        // 2021-09-27 13:44:52
+        String dateString = String.valueOf(respMap.get('expired'));
+        // Integer year = Integer.valueOf(dateString.substring(0, 4));
+        // Integer month = Integer.valueOf(dateString.substring(5, 7));
+        // Integer day = Integer.valueOf(dateString.substring(8, 10));
+        // Integer hour = Integer.valueOf(dateString.substring(11, 13));
+        // Integer minute = Integer.valueOf(dateString.substring(14, 16));
+        // Integer second = Integer.valueOf(dateString.substring(17, 19));
+        retVal.expired = Datetime.valueOf(dateString);
+        System.debug(retVal);
+        return retVal;
+        } else {
+            return null;
+        }
+      } else {
+        TokenResponse respMap = new TokenResponse();
+        respMap.id = '1';
+        respMap.token = '12345';
+        respMap.expired = System.now().addHours(1);
+        return respMap;
+      }
+    } catch (Exception err) {
+      System.debug(err.getMessage());
+      return null;
+    }
+  }
+
+  @future(callout=true)
+  public static void postLoan(Id propertyId, String yardiId) {
+    if (
+      !IS_API_ENABLED ||
+      String.isEmpty(BASE_URL) ||
+      String.isEmpty(API_NAME) ||
+      String.isEmpty(USERNAME) ||
+      String.isEmpty(PASSWORD)
+    ) {
+      return;
+    }
+
+    String postLoanEndpoint = BASE_URL + '/api/clm/loan';
+    HttpRequest req;
+    HttpResponse resp;
+    try {
+        TokenResponse tokenData = currentToken;
+        String token = tokenData.token;
+        req = new HttpRequest();
+        req.setMethod('POST');
+        req.setHeader('Authorization', 'Bearer ' + token);
+        req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.setEndpoint(postLoanEndpoint);
+        String payLoad = EncodingUtil.urlEncode('Loan File Number', 'UTF-8') + '=' + EncodingUtil.urlEncode(yardiId, 'UTF-8');
+        req.setBody(payLoad);
+        req.setTimeout(120000);
+        if(!Test.isRunningTest()) {
+            resp = new Http().send(req);
+            System.debug(resp.getStatusCode() + ': ' + resp.getBody());
+        }
+    } catch (Exception err) {
+    }
+  }
+}
