@@ -47,6 +47,7 @@ public without sharing class LandGorillaAPI {
     private set;
   }
 
+
   public static TokenResponse requestToken() {
     String token = '';
     HttpRequest req;
@@ -104,7 +105,7 @@ public without sharing class LandGorillaAPI {
   }
 
   @future(callout=true)
-  public static void postLoan(Id propertyId, String yardiId) {
+  public static void postLoan(Id propertyId) {
     if (
       !IS_API_ENABLED ||
       String.isEmpty(BASE_URL) ||
@@ -121,19 +122,69 @@ public without sharing class LandGorillaAPI {
     try {
         TokenResponse tokenData = currentToken;
         String token = tokenData.token;
+
         req = new HttpRequest();
         req.setMethod('POST');
+        Map<String,String> headers = new Map<String,String>();
         req.setHeader('Authorization', 'Bearer ' + token);
+        
+        Property__c p = [
+          SELECT Id, Name,City__c,ZipCode__c, Approved_Advance_Amount__c,County__c,State__c,Yardi_Id__c, Deal__r.Borrower_entity__r.Name, Deal__r.Original_Line_Maturity_Date__c, Deal__r.CloseDate, Deal__r.Stated_Maturity_Date__c FROM Property__c WHERE Id = :propertyId
+        ];
+  
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setEndpoint(postLoanEndpoint);
-        String payLoad = EncodingUtil.urlEncode('Loan File Number', 'UTF-8') + '=' + EncodingUtil.urlEncode(yardiId, 'UTF-8');
-        req.setBody(payLoad);
+        Map<String, String> payload = new Map<String, String>();
+        // payload.put('Loan File Number', p.Yardi_Id__c);
+        // payload.put('Loan Type', 'Commercial');
+        // payload.put('Loan Program', 'Test');
+        // payload.put('Loan Purpose', 'Purchase');
+        // payload.put('Loan Term in Days', '' + (p.Deal__r.CloseDate.daysBetween(p.Deal__r.Original_Line_Maturity_Date__c)));
+        // payload.put('Loan Funded Date', String.valueOf(p.Deal__r.CloseDate));
+        // payload.put('Subject property address', p.Name);
+        // payload.put('Zip', p.ZipCode__c);
+        // payload.put('City', p.City__c);
+        // payload.put('State', p.State__c);
+        // payload.put('County', p.County__c);
+        // payload.put('Borrower First Name', p.Deal__r.Borrower_entity__r.Name.substringBefore(' '));
+        // payload.put('Borrower Last Name', p.Deal__r.Borrower_entity__r.Name.substringAfterLast(' '));
+        // payload.put('Loan Amount', String.valueOf(p.Approved_Advance_Amount__c));
+
+        payload.put('Loan File Number', '1234ABC');
+        payload.put('Loan Type', 'Commercial');
+        payload.put('Loan Program', 'Test');
+        payload.put('Loan Purpose', 'Purchase');
+        payload.put('Loan Term in Days', '10950');
+        payload.put('Loan Funded Date', '5/11/2022');
+        payload.put('Subject property address', '1600 Pennsylvania Ave NW');
+        payload.put('Zip', '20500');
+        payload.put('City', 'Washington');
+        payload.put('State', 'DC');
+        payload.put('County', 'DC');
+        payload.put('Borrower First Name', 'John');
+        payload.put('Borrower Last Name', 'Doe');
+        payload.put('Loan Amount', '2000000');
+
+
+        req.setBody(getBodyString(payload));
         req.setTimeout(120000);
         if(!Test.isRunningTest()) {
             resp = new Http().send(req);
             System.debug(resp.getStatusCode() + ': ' + resp.getBody());
         }
     } catch (Exception err) {
+      System.debug(err.getMessage() + ' on line ' + err.getLineNumber());
     }
   }
+
+  public static String getBodyString(Map<String, String> parameters) {
+    String bodyStr = '';
+    if (parameters != null) {
+        for (String key : parameters.keySet()) {
+            bodyStr += key + '=' + EncodingUtil.urlEncode(parameters.get(key), 'UTF-8') + '&';
+        }
+    }
+    return bodyStr;
+}
+
 }
