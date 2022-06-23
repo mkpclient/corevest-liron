@@ -19,7 +19,8 @@ public without sharing class TitleOrderHelper {
               Title_Complete_Date__c,
               Original_Title_Cleared_Date__c,
               All_Cleared_To_Close_Date__c,
-              Comments__c
+              Comments__c,
+              Title_Vendor__c
             FROM Title_Orders__r
             ORDER BY CreatedDate DESC
           )
@@ -83,6 +84,7 @@ public without sharing class TitleOrderHelper {
           TitleOrderObject titleOrderval = new TitleOrderObject();
           titleOrderval.titleOrderId = titleOrder.Id;
           titleOrderval.titleOrderStatus = titleOrder.Status__c;
+          titleOrderval.titleVendor = String.isNotEmpty(titleOrder.Title_Vendor__c) ? titleOrder.Title_Vendor__c : null;
           titleOrderval.orderDate = titleOrder.Order_Opened_Date__c != null
             ? titleOrder.Order_Opened_Date__c
             : null;
