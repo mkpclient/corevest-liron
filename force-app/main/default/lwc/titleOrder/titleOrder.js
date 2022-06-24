@@ -66,13 +66,28 @@ export default class TitleOrder extends LightningElement {
     this.isLoading = false;
   }
 
-  selectAll(event) {
+  handleCheckbox(event) {
     const checked = event.target.checked;
+    const propId = event.target.dataset.id;
+    if(checked) {
+      this.template
+        .querySelectorAll(`[data-name="propertyCheckbox"]`)
+        .forEach((checkbox) => {
+          if(checkbox.checked && checkbox.dataset.id != propId) {
+            checkbox.checked = false;
+          }
+        });
 
-    this.template
-      .querySelectorAll('[data-name="propertyCheckbox"]')
-      .forEach((checkbox) => {
-        checkbox.checked = checked;
-      });
+    }
   }
+
+  // selectAll(event) {
+  //   const checked = event.target.checked;
+
+  //   this.template
+  //     .querySelectorAll('[data-name="propertyCheckbox"]')
+  //     .forEach((checkbox) => {
+  //       checkbox.checked = checked;
+  //     });
+  // }
 }

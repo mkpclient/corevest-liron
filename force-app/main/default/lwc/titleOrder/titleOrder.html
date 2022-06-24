@@ -41,13 +41,13 @@
                     >Choose a row</span
                   >
                   <div class="slds-checkbox">
-                    <lightning-input
+                    <!-- <lightning-input
                       type="checkbox"
                       name="selectAll"
                       label="Select All"
                       variant="label-hidden"
                       onchange={selectAll}
-                    ></lightning-input>
+                    ></lightning-input> -->
                   </div>
                 </th>
                 <template for:each={tableHeaders} for:item="header">
@@ -75,6 +75,7 @@
                           data-index={index}
                           data-propertytype={property.propertyType}
                           variant="label-hidden"
+                          onchange={handleCheckbox}
                         ></lightning-input>
                       </div>
                     </td>
@@ -128,14 +129,14 @@
                       >
                         <div class="slds-checkbox">
                           <template if:true={titleOrder.showCheckbox}>
-                            <lightning-input
+                            <!-- <lightning-input
                               type="checkbox"
                               label="checkbox"
                               data-id={titleOrder.titleOrderId}
                               name="titleOrderCheckbox"
                               data-name="titleOrderCheckbox"
                               variant="label-hidden"
-                            ></lightning-input>
+                            ></lightning-input> -->
                           </template>
                         </div>
                       </td>

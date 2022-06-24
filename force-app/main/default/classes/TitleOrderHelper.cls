@@ -1,4 +1,16 @@
 public without sharing class TitleOrderHelper {
+  public static final String DOCUMENT_TYPE = 'Title Order';
+  public static final List<String> DEAL_DOC_FIELDS = new List<String>{
+    'Id',
+    'Deal__c',
+    'Title_Order__c',
+    'Service_Link_Id__c',
+    'Type__c',
+    'Document_Type__c',
+    'File_Name__c',
+    'Attachment_Id__c',
+    'ContentVersion_Id__c'
+  };
   @AuraEnabled
   public static String retrieveData(Id dealId) {
     try {
@@ -39,6 +51,24 @@ public without sharing class TitleOrderHelper {
       throw new AuraHandledException(e.getMessage());
     }
   }
+
+  @AuraEnabled
+  public static List<Deal_Document__c> retrieveDocuments(Id dealId, List<Id> titleOrderIds){
+    try {
+      String queryString = 'SELECT ' + String.join(DEAL_DOC_FIELDS, ',') + ' FROM Deal_Document__c';
+      queryString += ' WHERE Document_Type__c = :DOCUMENT_TYPE AND Deal__c= :dealId';
+      if(titleOrderIds.size() > 0) {
+        queryString += ' AND Title_Order__c IN :titleOrderIds';
+      }
+      List<Deal_Document__c> dealDocs = Database.query(queryString);
+
+      return dealDocs;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+
 
   public class TitleOrderObject {
     public String titleOrderId { get; set; }
