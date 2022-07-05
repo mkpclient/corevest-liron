@@ -11,6 +11,12 @@ public without sharing class TitleOrderHelper {
     'Attachment_Id__c',
     'ContentVersion_Id__c'
   };
+  public static final List<String> DEAL_FIELDS = new List<String>{
+    'Deal_Loan_Number__c',
+    'Id',
+    'Current_Loan_Amount__c',
+    'Name'
+  };
   @AuraEnabled
   public static String retrieveData(Id dealId) {
     try {
@@ -40,7 +46,7 @@ public without sharing class TitleOrderHelper {
         WHERE Deal__c = :dealId AND Is_Sub_Unit__c = FALSE
       ];
 
-      for(Property__c p : props) {
+      for (Property__c p : props) {
         ReturnObject retVal = new ReturnObject();
         retVal.parseData(p, p.Title_Orders__r);
         returnObj.add(retVal);
@@ -53,11 +59,17 @@ public without sharing class TitleOrderHelper {
   }
 
   @AuraEnabled
-  public static List<Deal_Document__c> retrieveDocuments(Id dealId, List<Id> titleOrderIds){
+  public static List<Deal_Document__c> retrieveDocuments(
+    Id dealId,
+    List<Id> titleOrderIds
+  ) {
     try {
-      String queryString = 'SELECT ' + String.join(DEAL_DOC_FIELDS, ',') + ' FROM Deal_Document__c';
+      String queryString =
+        'SELECT ' +
+        String.join(DEAL_DOC_FIELDS, ',') +
+        ' FROM Deal_Document__c';
       queryString += ' WHERE Document_Type__c = :DOCUMENT_TYPE AND Deal__c= :dealId';
-      if(titleOrderIds.size() > 0) {
+      if (titleOrderIds.size() > 0) {
         queryString += ' AND Title_Order__c IN :titleOrderIds';
       }
       List<Deal_Document__c> dealDocs = Database.query(queryString);
@@ -68,7 +80,64 @@ public without sharing class TitleOrderHelper {
     }
   }
 
+  @AuraEnabled
+  public static void processRequest(
+    String requestName,
+    List<Id> propertyIds,
+    Id dealId,
+    Id cvId
+  ) {
+    ContentVersion cv = [
+      SELECT ContentSize, VersionData
+      FROM ContentVersion
+      WHERE Id = :cvId
+    ];
+    Deal_Document__c dealDoc = [
+      SELECT File_Name__c
+      FROM Deal_Document__c
+      WHERE ContentVersion_Id__c = :cvId
+    ];
+    String queryString =
+      'SELECT ' +
+      String.join(DEAL_FIELDS, ',') +
+      ' FROM Opportunity WHERE Id = :dealId';
+    Opportunity deal = Database.query(queryString);
 
+    if (requestName == 'quoteRequest') {
+      ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest();
+      qRequest.generateRequest(deal, dealDoc, cv);
+      ServiceLinkAPI.QuoteRequest qResponse = ServiceLinkAPI.performQuoteRequest(
+        qRequest
+      );
+      List<Title_Order__c> titleOrders = new List<Title_Order__c>();
+
+      for (Id propId : propertyIds) {
+        titleOrders.add(
+          new Title_Order__c(
+            Property__c = propId,
+            Source_Party_ID__c = qRequest.SourcePartyID,
+            Destination_Party_ID__c = qRequest.DestinationPartyID,
+            Quote_ID__c = qRequest.QuoteID,
+            Loan_Number__c = qRequest.LoanNumber,
+            Loan_Portfolio_Name__c = qRequest.LoanPortfolioName,
+            Loan_Amount__c = qRequest.LoanAmount,
+            Comments__c = qRequest.Comments,
+            Document_Name__c = qRequest.Document.DocumentName,
+            Document_Type__c = qRequest.Document.DocumentType,
+            Bulk_Project_Order_Num__c = qResponse.BulkProjectOrderNum
+          )
+        );
+      }
+
+      performDmlFuture(JSON.serialize(titleOrders));
+    }
+  }
+
+  @future
+  public static void performDmlFuture(String sobjectJson) {
+    List<Title_Order__c> titleOrders = (List<Title_Order__c>) JSON.deserialize(sobjectJson, List<Title_Order__c>.class);
+    upsert titleOrders;
+  }
 
   public class TitleOrderObject {
     public String titleOrderId { get; set; }
@@ -105,8 +174,10 @@ public without sharing class TitleOrderHelper {
         this.propertyType = property.Property_Type__c;
         this.noOfUnits = property.Number_of_Units__c;
         this.propertyStatus = property.Status__c;
-        this.linkUrl = System.URL.getSalesforceBaseUrl().toExternalForm() + '/' + property.Id;
-
+        this.linkUrl =
+          System.URL.getSalesforceBaseUrl().toExternalForm() +
+          '/' +
+          property.Id;
       }
       List<TitleOrderObject> titleOrdersLocal = new List<TitleOrderObject>();
       if (titleOrders != null && titleOrders.size() > 0) {
@@ -114,7 +185,11 @@ public without sharing class TitleOrderHelper {
           TitleOrderObject titleOrderval = new TitleOrderObject();
           titleOrderval.titleOrderId = titleOrder.Id;
           titleOrderval.titleOrderStatus = titleOrder.Status__c;
-          titleOrderval.titleVendor = String.isNotEmpty(titleOrder.Title_Vendor__c) ? titleOrder.Title_Vendor__c : null;
+          titleOrderval.titleVendor = String.isNotEmpty(
+              titleOrder.Title_Vendor__c
+            )
+            ? titleOrder.Title_Vendor__c
+            : null;
           titleOrderval.orderDate = titleOrder.Order_Opened_Date__c != null
             ? titleOrder.Order_Opened_Date__c
             : null;
@@ -135,7 +210,10 @@ public without sharing class TitleOrderHelper {
             : null;
           titleOrderval.showCheckbox = true;
           titleOrderval.showURL = true;
-          titleOrderval.linkUrl = System.URL.getSalesforceBaseUrl().toExternalForm() + '/' + titleOrder.Id;
+          titleOrderval.linkUrl =
+            System.URL.getSalesforceBaseUrl().toExternalForm() +
+            '/' +
+            titleOrder.Id;
           titleOrdersLocal.add(titleOrderval);
         }
       } else {
@@ -145,7 +223,6 @@ public without sharing class TitleOrderHelper {
         titleOrder.showURL = false;
         titleOrder.titleOrderId = property.Id;
         titleOrdersLocal.add(titleOrder);
-        
       }
       this.titleOrders = titleOrdersLocal;
     }

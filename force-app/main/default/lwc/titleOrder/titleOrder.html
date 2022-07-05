@@ -5,6 +5,7 @@
         label="Title Menu"
         alternative-text="Show title menu"
         variant="border"
+        onselect={handleSelect}
       >
         <template for:each={titleMenuItems} for:item="item">
           <lightning-menu-item
@@ -41,13 +42,13 @@
                     >Choose a row</span
                   >
                   <div class="slds-checkbox">
-                    <!-- <lightning-input
+                    <lightning-input
                       type="checkbox"
                       name="selectAll"
                       label="Select All"
                       variant="label-hidden"
                       onchange={selectAll}
-                    ></lightning-input> -->
+                    ></lightning-input>
                   </div>
                 </th>
                 <template for:each={tableHeaders} for:item="header">
@@ -75,7 +76,6 @@
                           data-index={index}
                           data-propertytype={property.propertyType}
                           variant="label-hidden"
-                          onchange={handleCheckbox}
                         ></lightning-input>
                       </div>
                     </td>

@@ -59,6 +59,20 @@ export default class TitleOrder extends LightningElement {
     }
   }
 
+  handleSelect(event) {
+    const val = event.detail.value;
+    const propIds = [];
+    this.template
+    .querySelectorAll('[data-name="propertyCheckbox"]')
+    .forEach((checkbox) => {
+      if(checkbox.checked) {
+        propIds.push(checkbox.dataset.id);
+      }
+    });
+
+    console.log("PROPERTY IDS", propIds);
+  }
+
   async handleRetrieveData() {
     const res = await retrieveData({ dealId: this.recordId });
     this.tableData = JSON.parse(res);
@@ -66,28 +80,13 @@ export default class TitleOrder extends LightningElement {
     this.isLoading = false;
   }
 
-  handleCheckbox(event) {
+  selectAll(event) {
     const checked = event.target.checked;
-    const propId = event.target.dataset.id;
-    if(checked) {
-      this.template
-        .querySelectorAll(`[data-name="propertyCheckbox"]`)
-        .forEach((checkbox) => {
-          if(checkbox.checked && checkbox.dataset.id != propId) {
-            checkbox.checked = false;
-          }
-        });
 
-    }
+    this.template
+      .querySelectorAll('[data-name="propertyCheckbox"]')
+      .forEach((checkbox) => {
+        checkbox.checked = checked;
+      });
   }
-
-  // selectAll(event) {
-  //   const checked = event.target.checked;
-
-  //   this.template
-  //     .querySelectorAll('[data-name="propertyCheckbox"]')
-  //     .forEach((checkbox) => {
-  //       checkbox.checked = checked;
-  //     });
-  // }
 }
