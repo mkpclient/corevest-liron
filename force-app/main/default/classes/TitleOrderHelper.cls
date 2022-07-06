@@ -81,12 +81,7 @@ public without sharing class TitleOrderHelper {
   }
 
   @AuraEnabled
-  public static void processRequest(
-    String requestName,
-    List<Id> propertyIds,
-    Id dealId,
-    Id cvId
-  ) {
+  public static void quoteRequest(List<Id> propertyIds, Id dealId, Id cvId) {
     ContentVersion cv = [
       SELECT ContentSize, VersionData
       FROM ContentVersion
@@ -103,39 +98,40 @@ public without sharing class TitleOrderHelper {
       ' FROM Opportunity WHERE Id = :dealId';
     Opportunity deal = Database.query(queryString);
 
-    if (requestName == 'quoteRequest') {
-      ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest();
-      qRequest.generateRequest(deal, dealDoc, cv);
-      ServiceLinkAPI.QuoteRequest qResponse = ServiceLinkAPI.performQuoteRequest(
-        qRequest
+    ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest();
+    qRequest.generateRequest(deal, dealDoc, cv);
+    ServiceLinkAPI.QuoteRequest qResponse = ServiceLinkAPI.performQuoteRequest(
+      qRequest
+    );
+    List<Title_Order__c> titleOrders = new List<Title_Order__c>();
+
+    for (Id propId : propertyIds) {
+      titleOrders.add(
+        new Title_Order__c(
+          Property__c = propId,
+          Source_Party_ID__c = qRequest.SourcePartyID,
+          Destination_Party_ID__c = qRequest.DestinationPartyID,
+          Quote_ID__c = qRequest.QuoteID,
+          Loan_Number__c = qRequest.LoanNumber,
+          Loan_Portfolio_Name__c = qRequest.LoanPortfolioName,
+          Loan_Amount__c = qRequest.LoanAmount,
+          Comments__c = qRequest.Comments,
+          Document_Name__c = qRequest.Document.DocumentName,
+          Document_Type__c = qRequest.Document.DocumentType,
+          Bulk_Project_Order_Num__c = qResponse.BulkProjectOrderNum
+        )
       );
-      List<Title_Order__c> titleOrders = new List<Title_Order__c>();
-
-      for (Id propId : propertyIds) {
-        titleOrders.add(
-          new Title_Order__c(
-            Property__c = propId,
-            Source_Party_ID__c = qRequest.SourcePartyID,
-            Destination_Party_ID__c = qRequest.DestinationPartyID,
-            Quote_ID__c = qRequest.QuoteID,
-            Loan_Number__c = qRequest.LoanNumber,
-            Loan_Portfolio_Name__c = qRequest.LoanPortfolioName,
-            Loan_Amount__c = qRequest.LoanAmount,
-            Comments__c = qRequest.Comments,
-            Document_Name__c = qRequest.Document.DocumentName,
-            Document_Type__c = qRequest.Document.DocumentType,
-            Bulk_Project_Order_Num__c = qResponse.BulkProjectOrderNum
-          )
-        );
-      }
-
-      performDmlFuture(JSON.serialize(titleOrders));
     }
+
+    performDmlFuture(JSON.serialize(titleOrders));
   }
 
   @future
   public static void performDmlFuture(String sobjectJson) {
-    List<Title_Order__c> titleOrders = (List<Title_Order__c>) JSON.deserialize(sobjectJson, List<Title_Order__c>.class);
+    List<Title_Order__c> titleOrders = (List<Title_Order__c>) JSON.deserialize(
+      sobjectJson,
+      List<Title_Order__c>.class
+    );
     upsert titleOrders;
   }
 

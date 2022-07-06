@@ -2,7 +2,12 @@ public without sharing class ServiceLinkAPI {
   public static QuoteRequest performQuoteRequest(QuoteRequest qr) {
     String url = '';
     HttpRequest req = new HttpRequest();
-    req.setBody(JSON.serialize(new Map<String, QuoteRequest>{'QuoteRequest' => qr}, true));
+    req.setBody(
+      JSON.serialize(
+        new Map<String, QuoteRequest>{ 'QuoteRequest' => qr },
+        true
+      )
+    );
     req.setEndpoint(url);
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
@@ -17,7 +22,10 @@ public without sharing class ServiceLinkAPI {
     system.debug(res.getStatus());
     system.debug(res.getStatusCode());
     body = res.getBody();
-    Map<String, QuoteRequest> parsedBody = (Map<String, QuoteRequest>) JSON.deserialize(body, Map<String, QuoteRequest>.class);
+    Map<String, QuoteRequest> parsedBody = (Map<String, QuoteRequest>) JSON.deserialize(
+      body,
+      Map<String, QuoteRequest>.class
+    );
     return parsedBody.values()[0];
   }
 
@@ -28,7 +36,7 @@ public without sharing class ServiceLinkAPI {
     public Long Size { get; set; }
     public String Base64FileData { get; set; }
   }
-  public class QuoteRequest {
+  public virtual class QuoteRequest {
     public String SourcePartyID { get; set; }
     public String DestinationPartyID { get; set; }
     public String QuoteID { get; set; } // CV unique ID for quote request
@@ -56,6 +64,58 @@ public without sharing class ServiceLinkAPI {
       this.Document.Format = 'XLSX';
       this.Document.Size = cv.ContentSize;
       this.Document.Base64FileData = EncodingUtil.base64Encode(cv.VersionData);
+    }
+  }
+
+  public class OrderInquiry extends QuoteRequest {
+    public String IncomingTransactionId { get; set; }
+    public String AssetID { get; set; }
+    public String OrderNumber { get; set; }
+    public String InquiryType { get; set; }
+    public String RequestorEmail { get; set; }
+    public List<TitleDocument> Documents { get; set; }
+
+    public void generateRequest(Title_Order__c titleOrder) {
+      this.IncomingTransactionId = titleOrder.Property__r.Deal__c;
+      this.OrderNumber = titleOrder.Order_Number__c;
+      this.AssetID = titleOrder.Asset_ID__c;
+      this.InquiryType = 'REVISEDQUO';
+      this.RequestorEmail = UserInfo.getUserEmail();
+    }
+
+    public void processDocuments(List<Deal_Document__c> dealDocs) {
+      List<TitleDocument> docsLocal = new List<TitleDocument>();
+      Map<String, Deal_Document__c> dealDocMap = new Map<String, Deal_Document__c>();
+      for(Deal_Document__c doc : dealDocs) {
+        dealDocMap.put(doc.ContentVersion_Id__c, doc);
+      }
+
+      List<ContentVersion> cvs = [
+        SELECT Id, VersionData, ContentSize
+        FROM ContentVersion
+        WHERE Id IN :dealDocMap.keySet()
+      ];
+
+      for(ContentVersion cv : cvs) {
+        TitleDocument doc = new TitleDocument();
+        Deal_Document__c dealDoc = dealDocMap.get(cv.Id);
+        String fileType = 'PDF';
+        String docType = dealDoc.Document_Type__c;
+        String docName = dealDoc.File_Name__c;
+        if(dealDoc.File_Name__c.containsIgnoreCase('xlsx')) {
+          fileType = 'XLSX';
+          docType = 'REVQUOTEREQ';
+          docName = 'Data tape for revised quote';
+        }
+        doc.Format = fileType;
+        doc.DocumentType = docType;
+        doc.DocumentName = docName;
+        doc.Size = cv.ContentSize;
+        doc.Base64FileData = EncodingUtil.base64Encode(cv.VersionData);
+        docsLocal.add(doc);
+      }
+
+      this.Documents = docsLocal;
     }
   }
 }
