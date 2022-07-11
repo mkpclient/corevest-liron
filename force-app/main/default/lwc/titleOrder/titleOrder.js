@@ -1,4 +1,4 @@
-import retrieveData from "@salesforce/apex/TitleOrderHelper.retrieveData";
+import retrieveData from "@salesforce/apex/TitleOrder_LightningHelper.retrieveData";
 import { api, LightningElement } from "lwc";
 
 const TITLE_MENU_ITEMS = [

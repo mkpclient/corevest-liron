@@ -50,11 +50,12 @@ public without sharing class ServiceLinkAPI {
     public void generateRequest(
       Opportunity deal,
       Deal_Document__c doc,
-      ContentVersion cv
+      ContentVersion cv,
+      Integer sequenceNumber
     ) {
       this.SourcePartyID = 'COREVEST-SFR';
       this.DestinationPartyID = 'COREVEST-QUOTE';
-      this.QuoteID = deal.id;
+      this.QuoteID = deal.id + '-' + String.valueOf(sequenceNumber).leftPad(3, '0');
       this.LoanNumber = deal.Deal_Loan_Number__c;
       this.LoanAmount = deal.Current_Loan_Amount__c;
       this.LoanPortfolioName = deal.Name;
