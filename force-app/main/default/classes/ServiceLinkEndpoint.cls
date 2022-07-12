@@ -9,23 +9,24 @@ global without sharing class ServiceLinkEndpoint {
     RestResponse res = RestContext.response;
     Blob body = req.requestBody;
     String requestString = body.toString();
-    Map<String, Object> reqMap = (Map<String, Object>) JSON.deserialize(
-      requestString,
-      Map<String, Object>.class
-    );
     res.addHeader('Content-Type', 'application/json');
     Map<String, String> resMap = new Map<String, String>();
     try {
-      if (reqMap.containsKey('QuoteReceivedConfirm')) {
+      Map<String,ServiceLinkResponse> respMap = (Map<String,ServiceLinkResponse>) JSON.deserialize(requestString, Map<String,ServiceLinkResponse>.class);
+      if (respMap.containsKey('QuoteReceivedConfirm')) {
         resMap.put(
           'LoanNumber',
-          processQuoteReceivedConfirm(reqMap.get('QuoteReceivedConfirm'))
+          processQuoteReceivedConfirm(respMap.values()[0])
         );
-      } else if (reqMap.containsKey('QuoteResponse')) {
+      } else if (respMap.containsKey('QuoteResponse')) {
         resMap.put(
           'LoanNumber',
-          processQuoteResponse(reqMap.get('QuoteResponse'))
+          processQuoteResponse(respMap.values()[0])
         );
+      } else if (respMap.containsKey('OrderInquiryResponse')) {
+
+      } else if (respMap.containsKey('OrderConfirmation')) {
+        resMap.put('LoanNumber', processOrderConfirmation(respMap.values()[0]));
       }
       res.statusCode = 201;
       resMap.put('status', 'success');
@@ -44,8 +45,37 @@ global without sharing class ServiceLinkEndpoint {
     // List<String> params = Restcontext.request.requestURI.split('/');
   }
 
-  public static String processQuoteResponse(Object obj) {
-    QuoteResponse qteRes = (QuoteResponse) obj;
+  public static String processOrderConfirmation(ServiceLinkResponse ordConf) {
+    List<Title_Order__c> titleOrders = [
+      SELECT Id
+      FROM Title_Order__c
+      WHERE Asset_ID__c = :ordConf.AssetID AND
+      Bulk_Project_Order_Num__c = :ordConf.BulkProjectOrderNum
+      FOR UPDATE
+    ];
+    if(titleOrders.size() == 0) {
+      ServiceLinkException err = new ServiceLinkException();
+      err.setMessage('Unable to locate orders.');
+      throw err;
+    }
+    
+    for(Title_Order__c to : titleOrders) {
+      to.Order_Opened_Date__c = DateTime.valueOf(ordConf.OrderOpenedDate.replace('T', ' '));
+      if(ordConf.Status == 'SUCCESS') {
+        to.Order_Number__c = ordConf.OrderNumber;
+        to.Status__c = 'Order Confirmed';
+      } else {
+        to.Status__c = 'Order Failed';
+        to.Error_Message__c = ordConf.ErrorMessage;
+      }
+    }
+
+    update titleOrders;
+
+    return ordConf.LoanNumber;
+  }
+
+  public static String processQuoteResponse(ServiceLinkResponse qteRes) {
     List<Title_Order__c> titleOrders = [
       SELECT Id, Deal__c, Property__c
       FROM Title_Order__c
@@ -128,8 +158,7 @@ global without sharing class ServiceLinkEndpoint {
   ) {
   }
 
-  public static String processQuoteReceivedConfirm(Object obj) {
-    QuoteReceivedConfirm reqObj = (QuoteReceivedConfirm) obj;
+  public static String processQuoteReceivedConfirm(ServiceLinkResponse reqObj) {
     List<Title_Order__c> titleOrders = [
       SELECT Bulk_Project_Order_Num__c
       FROM Title_Order__c
@@ -138,7 +167,8 @@ global without sharing class ServiceLinkEndpoint {
     ];
     if (titleOrders.size() > 0) {
       for (Title_Order__c tO : titleOrders) {
-        tO.Order_Opened_Date__c = DateTime.parse(reqObj.OrderOpenedDate);
+        tO.Order_Opened_Date__c = DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '));
+        tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
       }
       update titleOrders;
     } else {
@@ -150,15 +180,17 @@ global without sharing class ServiceLinkEndpoint {
     return reqObj.LoanNumber;
   }
 
-  public virtual class QuoteReceivedConfirm {
+  public virtual class ServiceLinkResponse {
     public String LoanNumber { get; set; }
     public String QuoteID { get; set; }
     public String BulkProjectOrderNum { get; set; }
     public String OrderOpenedDate { get; set; }
-  }
-
-  public class QuoteResponse extends QuoteReceivedConfirm {
     public String Comments { get; set; }
     public ServiceLinkAPI.TitleDocument Document { get; set; }
+    public String AssetID { get; set; }
+    public String OrderNumber { get; set; }
+    public String Status { get; set; }
+    public String ErrorMessage { get; set; }
   }
+
 }
