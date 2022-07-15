@@ -18,58 +18,77 @@ global without sharing class ServiceLinkEndpoint {
       );
       String reqType = new List<String>(respMap.keySet())[0];
       resMap.put('RequestType', reqType);
+
+      List<Title_Order__c> titleOrders = queryTitleOrders(respMap.values()[0]);
+      if (titleOrders.size() == 0) {
+        throwNullError();
+      }
+
       switch on reqType {
         when 'QuoteReceivedConfirm' {
           resMap.put(
             'LoanNumber',
-            processQuoteReceivedConfirm(respMap.values()[0])
+            processQuoteReceivedConfirm(respMap.values()[0], titleOrders)
           );
         }
         when 'QuoteResponse' {
-          resMap.put('LoanNumber', processQuoteResponse(respMap.values()[0]));
+          resMap.put(
+            'LoanNumber',
+            processQuoteResponse(respMap.values()[0], titleOrders)
+          );
         }
         when 'OrderInquiryResponse' {
-          resMap.put('LoanNumber', processOrderInquiry(respMap.values()[0]));
+          resMap.put(
+            'LoanNumber',
+            processOrderInquiry(respMap.values()[0], titleOrders)
+          );
         }
         when 'OrderConfirmation' {
           resMap.put(
             'LoanNumber',
-            processOrderConfirmation(respMap.values()[0])
+            processOrderConfirmation(respMap.values()[0], titleOrders)
           );
         }
         when 'AllTitlesOrdered' {
           resMap.put(
             'LoanNumber',
-            processAllQuotesOrdered(respMap.values()[0])
+            processAllQuotesOrdered(respMap.values()[0], titleOrders)
           );
         }
-        when 'TitleComplete' {
-          resMap.put('LoanNumber', processTitleComplete(respMap.values()[0]));
-        }
-        when 'AllTitlesCompleted' {
+        when 'TitleComplete', 'AllTitlesCompleted' {
           resMap.put(
             'LoanNumber',
-            processAllTitlesComplete(respMap.values()[0])
+            processTitles(respMap.values()[0], titleOrders)
           );
         }
         when 'Document' {
           resMap.put(
             'LoanNumber',
-            processDocumentReceived(respMap.values()[0])
+            processDocumentReceived(respMap.values()[0], titleOrders)
           );
         }
-        when 'TaxesOrdered' {
-          resMap.put('LoanNumber', processTaxesOrdered(respMap.values()[0]));
+        when 'TaxesOrdered',
+          'AllTaxesOrdered',
+          'TaxesCompleted',
+          'AllTaxesCompleted' {
+          resMap.put(
+            'LoanNumber',
+            processTaxes(respMap.values()[0], titleOrders)
+          );
         }
-        when 'AllTaxesOrdered' {
-          resMap.put('LoanNumber', processAllTaxesOrdered(respMap.values()[0]));
-        }
-        when 'TaxesCompleted' {
-          resMap.put('LoanNumber', processTaxesCompleted(respMap.values()[0]));
+        when 'HOAExists',
+          'HOAOrdered',
+          'AllHOAOrdered',
+          'HOACompleted',
+          'AllHOACompleted' {
+          resMap.put(
+            'LoanNumber',
+            processHoa(respMap.values()[0], titleOrders)
+          );
         }
         when else {
           ServiceLinkException err = new ServiceLinkException();
-          err.setMessage('Unable to identify request type.');
+          err.setMessage('Unable to identify request ' + reqType + '.');
           throw err;
         }
       }
@@ -79,39 +98,65 @@ global without sharing class ServiceLinkEndpoint {
       res.responseBody = Blob.valueOf(JSON.serialize(resMap));
     } catch (Exception err) {
       res.statusCode = 400;
-      res.responseBody = Blob.valueOf(
-        JSON.serialize(
-          new Map<String, String>{
-            'status' => 'error',
-            'message' => err.getMessage()
-          }
-        )
-      );
+      Map<String, String> errMap = new Map<String, String>{
+        'status' => 'error',
+        'message' => err.getMessage(),
+        'lineNumber' => String.valueOf(err.getLineNumber()),
+        'stackTrace' => err.getStackTraceString(),
+        'exceptionType' => err.getTypeName()
+      };
+      if (err.getTypeName().containsIgnoreCase('dml')) {
+        Integer numErrors = err.getNumDml();
+        String fieldNames = '';
+        for (Integer i = 0; i < numErrors; i++) {
+          fieldNames += err.getDmlFieldNames(i) + ', ';
+        }
+        errMap.put('fieldNames', fieldNames);
+      }
+
+      res.responseBody = Blob.valueOf(JSON.serialize(errMap));
     }
     // List<String> params = Restcontext.request.requestURI.split('/');
   }
 
-  public static String processTaxesCompleted(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
+  public static String processHoa(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Date hoaOrderedDate = parseDateString(resp.HOAOrderedDate);
+    Date allHoaOrderedDate = parseDateString(resp.AllHOAOrderedDate);
+    Date hoaCompletedDate = parseDateString(resp.HOACompletedDate);
+    Date allHoaCompDate = parseDateString(resp.AllHOACompletedDate);
 
-    if (titleOrders.size() == 0) {
-      throwNullError();
+    if (resp.RecId != null && String.isNotEmpty(resp.RecId)) {
+      Loan_Status__c loanNote = new Loan_Status__c();
+
+      loanNote.HOA_Rec_Id__c = resp.RecId;
+      loanNote.Subject__c = 'HOA for Property with Asset ID ' + resp.AssetID;
+      loanNote.Title_Order__c = titleOrders[0].Id;
+      loanNote.Deal__c = titleOrders[0].Deal__c;
+
+      String comment = 'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber;
+      if (hoaCompletedDate != null) {
+        comment += '\nHOA Completed Date: ' + hoaCompletedDate;
+      }
+      if (hoaOrderedDate != null) {
+        comment += '\nHOA Ordered Date: ' + hoaOrderedDate;
+      }
+
+      loanNote.Comment__c = comment;
+
+      upsert loanNote HOA_Rec_Id__c;
     }
-
-    return resp.LoanNumber;
-  }
-
-  public static String processAllTaxesOrdered(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
-    Date atoDate = parseDateString(resp.AllTaxesOrderedDate);
 
     for (Title_Order__c to : titleOrders) {
-      to.All_Taxes_Ordered_Date__c = atoDate;
+      to.HOA_Exists__c =
+        resp.HOAExists != null &&
+        resp.HOAExists.toLowerCase() == 'yes';
+      to.HOA_Ordered_Date__c = hoaOrderedDate;
+      to.All_HOA_Ordered_Date__c = allHoaOrderedDate;
+      to.HOA_Completed_Date__c = hoaCompletedDate;
+      to.All_HOA_Completed_Date__c = allHoaCompDate;
     }
 
     update titleOrders;
@@ -119,30 +164,30 @@ global without sharing class ServiceLinkEndpoint {
     return resp.LoanNumber;
   }
 
-  public static String processTaxesOrdered(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
+  public static String processTaxes(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Date atcDate = parseDateString(resp.AllTaxesCompletedDate);
+    Date atoDate = parseDateString(resp.AllTaxesOrderedDate);
     Date taxOrdDate = parseDateString(resp.TaxesOrderedDate);
+    Date tcDate = parseDateString(resp.TaxesCompletedDate);
+
     for (Title_Order__c to : titleOrders) {
       to.Taxes_Ordered_Date__c = taxOrdDate;
+      to.All_Taxes_Ordered_Date__c = atoDate;
+      to.Taxes_Completed_Date__c = tcDate;
+      to.All_Taxes_Completed_Date__c = atcDate;
     }
     update titleOrders;
     return resp.LoanNumber;
   }
 
-  public static String processDocumentReceived(ServiceLinkResponse resp) {
+  public static String processDocumentReceived(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
     Boolean hasAssetId = String.isNotEmpty(resp.AssetID);
-
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
     ServiceLinkAPI.TitleDocument doc = new ServiceLinkAPI.TitleDocument();
     doc.Base64FileData = resp.Base64FileData;
     doc.DocumentName = resp.DocumentName;
@@ -159,39 +204,25 @@ global without sharing class ServiceLinkEndpoint {
       Deal_Document__c dealDoc = createDealDocument(doc, cv, to);
       dealDoc.Service_Link_Id__c = resp.DocumentID + '-' + to.Id;
       dealDocs.add(dealDoc);
+      to.Document_Received__c = true;
     }
 
     upsert dealDocs Service_Link_Id__c;
 
+    update titleOrders;
+
     return resp.LoanNumber;
   }
 
-  public static String processAllTitlesComplete(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
+  public static String processTitles(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
     Date atcDate = parseDateString(resp.AllTitlesCompleteDate);
+    Date tcDate = parseDateString(resp.TitleCompleteDate);
 
     for (Title_Order__c to : titleOrders) {
       to.All_Titles_Complete_Date__c = atcDate;
-    }
-
-    update titleOrders;
-    return resp.LoanNumber;
-  }
-
-  public static String processTitleComplete(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
-    Date tcDate = parseDateString(resp.TitleCompleteDate);
-    for (Title_Order__c to : titleOrders) {
       to.Title_Complete_Date__c = tcDate;
     }
 
@@ -199,13 +230,10 @@ global without sharing class ServiceLinkEndpoint {
     return resp.LoanNumber;
   }
 
-  public static String processAllQuotesOrdered(ServiceLinkResponse resp) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(resp);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
+  public static String processAllQuotesOrdered(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
     List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
     for (Title_Order__c to : titleOrders) {
       if (String.isNotEmpty(resp.AllTitlesOrderedDate)) {
@@ -230,15 +258,15 @@ global without sharing class ServiceLinkEndpoint {
     return resp.LoanNumber;
   }
 
-  public static String processOrderInquiry(ServiceLinkResponse ordInq) {
-    
-    List<Title_Order__c> titleOrders = queryTitleOrders(ordInq);
-
+  public static String processOrderInquiry(
+    ServiceLinkResponse ordInq,
+    List<Title_Order__c> titleOrders
+  ) {
     if (titleOrders.size() > 0) {
       Id cvParentId = titleOrders[0].Deal__c;
       Loan_Status__c note = new Loan_Status__c();
-      note.OrderInquiryId__c = ordInq.OrderInquiryId;
-      note.OrderInquiryNoteId__c = ordInq.OrderInquiryNoteId;
+      note.OrderInquiryId__c = ordInq.CustInqId;
+      note.OrderInquiryNoteId__c = ordInq.NoteId;
       if (titleOrders.size() == 1) {
         note.Title_Order__c = titleOrders[0].Id;
       }
@@ -304,29 +332,22 @@ global without sharing class ServiceLinkEndpoint {
       if (updatedTitleOrders.size() > 0) {
         update updatedTitleOrders;
       }
-    } else {
-      throwNullError();
     }
 
     return ordInq.LoanNumber;
   }
 
-  public static String processOrderConfirmation(ServiceLinkResponse ordConf) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(ordConf);
-
-    if (titleOrders.size() == 0) {
-      throwNullError();
-    }
-
+  public static String processOrderConfirmation(
+    ServiceLinkResponse ordConf,
+    List<Title_Order__c> titleOrders
+  ) {
     for (Title_Order__c to : titleOrders) {
       to.Order_Opened_Date__c = DateTime.valueOf(
         ordConf.OrderOpenedDate.replace('T', ' ')
       );
       if (ordConf.Status == 'SUCCESS') {
         to.Order_Number__c = ordConf.OrderNumber;
-        to.Status__c = 'Order Confirmed';
       } else {
-        to.Status__c = 'Order Failed';
         to.Error_Message__c = ordConf.ErrorMessage;
       }
     }
@@ -336,9 +357,10 @@ global without sharing class ServiceLinkEndpoint {
     return ordConf.LoanNumber;
   }
 
-  public static String processQuoteResponse(ServiceLinkResponse qteRes) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(qteRes);
-
+  public static String processQuoteResponse(
+    ServiceLinkResponse qteRes,
+    List<Title_Order__c> titleOrders
+  ) {
     if (titleOrders.size() > 0) {
       ContentVersion cv = createContentVersion(
         new List<ServiceLinkAPI.TitleDocument>{ qteRes.Document },
@@ -351,11 +373,8 @@ global without sharing class ServiceLinkEndpoint {
         dealDocs.add(dd);
       }
       insert dealDocs;
-    } else {
-      ServiceLinkException err = new ServiceLinkException();
-      err.setMessage('No existing order found for QuoteID ' + qteRes.QuoteID);
-      throw err;
     }
+
     return qteRes.LoanNumber;
   }
 
@@ -418,8 +437,10 @@ global without sharing class ServiceLinkEndpoint {
     return cvsQueried;
   }
 
-  public static String processQuoteReceivedConfirm(ServiceLinkResponse reqObj) {
-    List<Title_Order__c> titleOrders = queryTitleOrders(reqObj);
+  public static String processQuoteReceivedConfirm(
+    ServiceLinkResponse reqObj,
+    List<Title_Order__c> titleOrders
+  ) {
     if (titleOrders.size() > 0) {
       for (Title_Order__c tO : titleOrders) {
         tO.Order_Opened_Date__c = DateTime.valueOf(
@@ -428,17 +449,13 @@ global without sharing class ServiceLinkEndpoint {
         tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
       }
       update titleOrders;
-    } else {
-      ServiceLinkException err = new ServiceLinkException();
-      err.setMessage('No existing order found for QuoteID ' + reqObj.QuoteID);
-      throw err;
     }
 
     return reqObj.LoanNumber;
   }
 
   public static Date parseDateString(String dateString) {
-    if (String.isEmpty(dateString)) {
+    if (dateString == null || String.isEmpty(dateString)) {
       return null;
     }
     List<String> dateList = dateString.split('-');
@@ -502,33 +519,46 @@ global without sharing class ServiceLinkEndpoint {
     }
   }
 
-  public virtual class ServiceLinkResponse {
-    public String LoanNumber { get; set; }
-    public String QuoteID { get; set; }
-    public String BulkProjectOrderNum { get; set; }
-    public String OrderOpenedDate { get; set; }
-    public String Comments { get; set; }
-    public ServiceLinkAPI.TitleDocument Document { get; set; }
-    public String AssetID { get; set; }
-    public String OrderNumber { get; set; }
-    public String Status { get; set; }
-    public String ErrorMessage { get; set; }
-    public String IncomingTransactionId { get; set; }
-    public String OrderInquiryId { get; set; }
-    public String OrderInquiryNoteId { get; set; }
-    public String NoteText { get; set; }
-    public List<ServiceLinkAPI.TitleDocument> Documents { get; set; }
-    public String AllTitlesOrderedDate { get; set; }
-    public String TitleCompleteDate { get; set; }
-    public String AllTitlesCompleteDate { get; set; }
-    public String DocumentType { get; set; }
-    public String DocumentName { get; set; }
-    public String Format { get; set; }
-    public Long Size { get; set; }
-    public String Base64FileData { get; set; }
-    public String DocumentID { get; set; }
-    public String TaxesOrderedDate { get; set; }
-    public String AllTaxesOrderedDate { get; set; }
-    public String TaxesCompletedDate { get; set; }
+  public virtual class ServiceLinkIdFields {
+    public String LoanNumber;
+    public String QuoteID;
+    public String BulkProjectOrderNum;
+    public String AssetID;
+    public String OrderNumber;
+    public String CustInqId;
+    public String NoteId;
+    public String IncomingTransactionId;
+    public String DocumentID;
+    public String RecId;
+  }
+
+  public virtual class ServiceLinkDateFields extends ServiceLinkIdFields {
+    public String OrderOpenedDate;
+    public String AllTitlesOrderedDate;
+    public String TitleCompleteDate;
+    public String AllTitlesCompleteDate;
+    public String TaxesOrderedDate;
+    public String AllTaxesOrderedDate;
+    public String TaxesCompletedDate;
+    public String AllTaxesCompletedDate;
+    public String HOAOrderedDate;
+    public String AllHOAOrderedDate;
+    public String HOACompletedDate;
+    public String AllHOACompletedDate;
+  }
+
+  public class ServiceLinkResponse extends ServiceLinkDateFields {
+    public String Comments;
+    public ServiceLinkAPI.TitleDocument Document;
+    public String Status;
+    public String ErrorMessage;
+    public String NoteText;
+    public List<ServiceLinkAPI.TitleDocument> Documents;
+    public String DocumentType;
+    public String DocumentName;
+    public String Format;
+    public Long Size;
+    public String Base64FileData;
+    public String HOAExists;
   }
 }

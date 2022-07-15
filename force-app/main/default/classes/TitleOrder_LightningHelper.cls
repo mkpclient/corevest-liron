@@ -33,12 +33,14 @@ public without sharing class TitleOrder_LightningHelper {
             SELECT
               Id,
               Status__c,
+              Status_Formula__c,
               Order_Opened_Date__c,
               Title_Complete_Date__c,
               Original_Title_Cleared_Date__c,
               All_Cleared_To_Close_Date__c,
               Comments__c,
-              Title_Vendor__c
+              Title_Vendor__c,
+              Order_Number__c
             FROM Title_Orders__r
             ORDER BY CreatedDate DESC
           )
@@ -183,7 +185,7 @@ public without sharing class TitleOrder_LightningHelper {
         for (Title_Order__c titleOrder : titleOrders) {
           TitleOrderObject titleOrderval = new TitleOrderObject();
           titleOrderval.titleOrderId = titleOrder.Id;
-          titleOrderval.titleOrderStatus = titleOrder.Status__c;
+          titleOrderval.titleOrderStatus = titleOrder.Status_Formula__c;
           titleOrderval.titleVendor = String.isNotEmpty(
               titleOrder.Title_Vendor__c
             )
