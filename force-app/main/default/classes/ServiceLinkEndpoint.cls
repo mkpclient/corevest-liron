@@ -86,6 +86,13 @@ global without sharing class ServiceLinkEndpoint {
             processHoa(respMap.values()[0], titleOrders)
           );
         }
+        when 'PayOffExists','PayoffOrdered','AllPayoffsOrdered','PayoffCompleted', 'AllPayoffsCompleted'
+         {
+          resMap.put(
+            'LoanNumber',
+            processPayoff(respMap.values()[0], titleOrders)
+          );
+        }
         when else {
           ServiceLinkException err = new ServiceLinkException();
           err.setMessage('Unable to identify request ' + reqType + '.');
@@ -117,6 +124,20 @@ global without sharing class ServiceLinkEndpoint {
       res.responseBody = Blob.valueOf(JSON.serialize(errMap));
     }
     // List<String> params = Restcontext.request.requestURI.split('/');
+  }
+
+  public static String processPayoff(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+
+    for(Title_Order__c to : titleOrders) {
+      to.Payoff_Exists__c = resp.PayOffExists != null && resp.PayOffExists.toLowerCase() == 'yes';
+    }
+
+    update titleOrders;
+
+    return resp.LoanNumber;
   }
 
   public static String processHoa(
@@ -545,6 +566,7 @@ global without sharing class ServiceLinkEndpoint {
     public String AllHOAOrderedDate;
     public String HOACompletedDate;
     public String AllHOACompletedDate;
+    
   }
 
   public class ServiceLinkResponse extends ServiceLinkDateFields {
@@ -560,5 +582,6 @@ global without sharing class ServiceLinkEndpoint {
     public Long Size;
     public String Base64FileData;
     public String HOAExists;
+    public String PayOffExists;
   }
 }
