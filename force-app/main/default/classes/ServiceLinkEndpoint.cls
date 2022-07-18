@@ -55,7 +55,7 @@ global without sharing class ServiceLinkEndpoint {
             processAllQuotesOrdered(respMap.values()[0], titleOrders)
           );
         }
-        when 'TitleComplete', 'AllTitlesCompleted' {
+        when 'TitleComplete', 'AllTitlesCompleted', 'OriginalTitleCleared', 'OriginalAllTitlesCleared' {
           resMap.put(
             'LoanNumber',
             processTitles(respMap.values()[0], titleOrders)
@@ -86,11 +86,20 @@ global without sharing class ServiceLinkEndpoint {
             processHoa(respMap.values()[0], titleOrders)
           );
         }
-        when 'PayOffExists','PayoffOrdered','AllPayoffsOrdered','PayoffCompleted', 'AllPayoffsCompleted'
-         {
+        when 'PayOffExists',
+          'PayoffOrdered',
+          'AllPayoffsOrdered',
+          'PayoffCompleted',
+          'AllPayoffsCompleted' {
           resMap.put(
             'LoanNumber',
             processPayoff(respMap.values()[0], titleOrders)
+          );
+        }
+        when 'ProblemCurativeItem' {
+          resMap.put(
+            'LoanNumber',
+            processProblemCurativeItem(respMap.values()[0], titleOrders)
           );
         }
         when else {
@@ -126,13 +135,64 @@ global without sharing class ServiceLinkEndpoint {
     // List<String> params = Restcontext.request.requestURI.split('/');
   }
 
-  public static String processPayoff(
+  public static String processProblemCurativeItem(
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
 
-    for(Title_Order__c to : titleOrders) {
-      to.Payoff_Exists__c = resp.PayOffExists != null && resp.PayOffExists.toLowerCase() == 'yes';
+    Title_Order__c to = titleOrders[0];
+    Loan_Status__c loanNote = new Loan_Status__c();
+    loanNote.Deal__c = to.Deal__c;
+    loanNote.Title_Order__c = to.Id;
+    loanNote.Servicelink_Item_Id__c = resp.ItemId;
+    loanNote.Servicelink_Item_Type__c = resp.ItemType;
+    loanNote.Subject__c = resp.ItemType + ' - ' + resp.ItemTypeDesc;
+    loanNote.Comment__c = resp.ItemNoteText + '\nCannot Cure Reasons: ' + resp.CannotCureReasons;
+    
+    upsert loanNote Servicelink_Item_Id__c;
+
+    return resp.LoanNumber;
+  }
+
+  public static String processPayoff(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Date poOrderedDate = parseDateString(resp.PayoffOrderedDate);
+    Date allPoOrderedDate = parseDateString(resp.AllPayoffsOrderedDate);
+    Date poCompletedDate = parseDateString(resp.PayoffCompletedDate);
+    Date allPoCompletedDate = parseDateString(resp.AllPayoffsCompletedDate);
+
+    if (resp.RecId != null && String.isNotEmpty(resp.RecId)) {
+      Loan_Status__c loanNote = new Loan_Status__c();
+
+      loanNote.Payoff_Rec_Id__c = resp.RecId;
+      loanNote.Subject__c = 'Payoff for Property with Asset ID ' + resp.AssetID;
+      loanNote.Title_Order__c = titleOrders[0].Id;
+      loanNote.Deal__c = titleOrders[0].Deal__c;
+
+      String comment =
+        'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber;
+      if (poCompletedDate != null) {
+        comment += '\nPayoff Completed Date: ' + poCompletedDate;
+      }
+      if (poOrderedDate != null) {
+        comment += '\nPayoff Ordered Date: ' + poOrderedDate;
+      }
+
+      loanNote.Comment__c = comment;
+
+      upsert loanNote Payoff_Rec_Id__c;
+    }
+
+    for (Title_Order__c to : titleOrders) {
+      to.Payoff_Exists__c =
+        resp.PayOffExists != null &&
+        resp.PayOffExists.toLowerCase() == 'yes';
+      to.All_Payoffs_Completed_Date__c = resp.AllPayoffsCompletedDate != null ? allPoCompletedDate : to.All_Payoffs_Completed_Date__c;
+      to.All_Payoffs_Ordered_Date__c = resp.AllPayoffsOrderedDate != null ? allPoOrderedDate : to.All_Payoffs_Ordered_Date__c;
+      to.Payoff_Completed_Date__c = resp.PayoffCompletedDate != null ? poCompletedDate : to.Payoff_Completed_Date__c;
+      to.Payoff_Ordered_Date__c = resp.PayoffOrderedDate != null ? poOrderedDate : to.Payoff_Ordered_Date__c;
     }
 
     update titleOrders;
@@ -174,10 +234,10 @@ global without sharing class ServiceLinkEndpoint {
       to.HOA_Exists__c =
         resp.HOAExists != null &&
         resp.HOAExists.toLowerCase() == 'yes';
-      to.HOA_Ordered_Date__c = hoaOrderedDate;
-      to.All_HOA_Ordered_Date__c = allHoaOrderedDate;
-      to.HOA_Completed_Date__c = hoaCompletedDate;
-      to.All_HOA_Completed_Date__c = allHoaCompDate;
+      to.HOA_Ordered_Date__c = resp.HOAOrderedDate != null ? hoaOrderedDate : to.HOA_Ordered_Date__c;
+      to.All_HOA_Ordered_Date__c = resp.AllHOAOrderedDate != null ? allHoaOrderedDate : to.All_HOA_Ordered_Date__c;
+      to.HOA_Completed_Date__c = resp.HOACompletedDate != null ? hoaCompletedDate : to.HOA_Completed_Date__c;
+      to.All_HOA_Completed_Date__c = resp.AllHOACompletedDate != null ? allHoaCompDate : to.All_HOA_Completed_Date__c;
     }
 
     update titleOrders;
@@ -241,10 +301,13 @@ global without sharing class ServiceLinkEndpoint {
   ) {
     Date atcDate = parseDateString(resp.AllTitlesCompleteDate);
     Date tcDate = parseDateString(resp.TitleCompleteDate);
-
+    Date otcDate = parseDateString(resp.OriginalTitleClearedDate);
+    Date oatcDate = parseDateString(resp.OriginalAllTitlesClearedDate);
     for (Title_Order__c to : titleOrders) {
       to.All_Titles_Complete_Date__c = atcDate;
       to.Title_Complete_Date__c = tcDate;
+      to.Original_Title_Cleared_Date__c = otcDate;
+      to.Original_All_Titles_Cleared_Date__c = oatcDate;
     }
 
     update titleOrders;
@@ -566,7 +629,12 @@ global without sharing class ServiceLinkEndpoint {
     public String AllHOAOrderedDate;
     public String HOACompletedDate;
     public String AllHOACompletedDate;
-    
+    public String PayoffOrderedDate;
+    public String AllPayoffsOrderedDate;
+    public String PayoffCompletedDate;
+    public String AllPayoffsCompletedDate;
+    public String OriginalTitleClearedDate;
+    public String OriginalAllTitlesClearedDate;
   }
 
   public class ServiceLinkResponse extends ServiceLinkDateFields {
@@ -583,5 +651,10 @@ global without sharing class ServiceLinkEndpoint {
     public String Base64FileData;
     public String HOAExists;
     public String PayOffExists;
+    public String ItemId;
+    public String ItemType;
+    public String ItemTypeDesc;
+    public String ItemNoteText;
+    public String CannotCureReasons;
   }
 }

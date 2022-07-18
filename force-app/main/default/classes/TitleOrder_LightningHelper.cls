@@ -145,7 +145,7 @@ public without sharing class TitleOrder_LightningHelper {
     public String titleVendor { get; set; }
     public DateTime orderDate { get; set; }
     public Date titleCompleted { get; set; }
-    public DateTime originalTitleCleared { get; set; }
+    public Date originalTitleCleared { get; set; }
     public DateTime allClearedToClose { get; set; }
     public String titleOrderStatus { get; set; }
     public String comments { get; set; }
