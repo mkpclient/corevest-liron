@@ -55,7 +55,10 @@ global without sharing class ServiceLinkEndpoint {
             processAllQuotesOrdered(respMap.values()[0], titleOrders)
           );
         }
-        when 'TitleComplete', 'AllTitlesCompleted', 'OriginalTitleCleared', 'OriginalAllTitlesCleared' {
+        when 'TitleComplete',
+          'AllTitlesCompleted',
+          'OriginalTitleCleared',
+          'OriginalAllTitlesCleared' {
           resMap.put(
             'LoanNumber',
             processTitles(respMap.values()[0], titleOrders)
@@ -102,6 +105,39 @@ global without sharing class ServiceLinkEndpoint {
             processProblemCurativeItem(respMap.values()[0], titleOrders)
           );
         }
+        when 'TitleUnCleared', 'LatestAllTitlesCleared', 'TitleReCleared' {
+          resMap.put(
+            'LoanNumber',
+            processTitleClearing(
+              respMap.values()[0],
+              titleOrders,
+              reqType.containsIgnoreCase('alltitles')
+            )
+          );
+        }
+        when 'DeedsOrdered', 'UnExecutedDeedsSent', 'AllClearedToClose' {
+          resMap.put(
+            'LoanNumber',
+            processDeeds(respMap.values()[0], titleOrders)
+          );
+        }
+        when 'LoanDocsReceived',
+          'SignedDocsScannedDate',
+          'ScannedDocsForwarded',
+          'DocsEstArrivalToLender',
+          'SignedDocsReceivedAtEscrow',
+          'FileFundedDate' {
+          resMap.put(
+            'LoanNumber',
+            processDocsDates(respMap.values()[0], titleOrders)
+          );
+        }
+        when 'RecordingTracking' {
+          resMap.put(
+            'LoanNumber',
+            processRecordingTracking(respMap.values()[0], titleOrders)
+          );
+        }
         when else {
           ServiceLinkException err = new ServiceLinkException();
           err.setMessage('Unable to identify request ' + reqType + '.');
@@ -135,11 +171,99 @@ global without sharing class ServiceLinkEndpoint {
     // List<String> params = Restcontext.request.requestURI.split('/');
   }
 
+  public static String processRecordingTracking(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    return resp.LoanNumber;
+  }
+
+  public static String processDocsDates(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Date ldrDate = parseDateString(resp.LoanDocsReceivedDate);
+    Date sdsDate = parseDateString(resp.SignedDocsScannedDate);
+    Date sdfDate = parseDateString(resp.ScannedDocsForwardedDate);
+    Date deaDate = parseDateString(resp.DocsEstArrivalDate);
+    Date sdrDate = parseDateString(resp.SignedDocsReceivedDate);
+    Date ffDate = parseDateString(resp.FileFundedDate);
+
+    for (Title_Order__c to : titleOrders) {
+      to.Loan_Docs_Received_Date__c = ldrDate != null
+        ? ldrDate
+        : to.Loan_Docs_Received_Date__c;
+      to.Signed_Docs_Scanned_Date__c = sdsDate != null
+        ? sdsDate
+        : to.Signed_Docs_Scanned_Date__c;
+      to.Scanned_Docs_Forwarded_Date__c = sdfDate != null
+        ? sdfDate
+        : to.Scanned_Docs_Forwarded_Date__c;
+      to.Docs_Est_Arrival_Date__c = deaDate != null
+        ? deaDate
+        : to.Docs_Est_Arrival_Date__c;
+      to.Signed_Docs_Received_Date__c = sdrDate != null
+        ? sdrDate
+        : to.Signed_Docs_Received_Date__c;
+      to.File_Funded_Date__c = ffDate != null ? ffDate : to.File_Funded_Date__c;
+    }
+
+    update titleOrders;
+
+    return resp.LoanNumber;
+  }
+
+  public static String processDeeds(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Date doDate = parseDateString(resp.DeedsOrdered);
+    Date uedsDate = parseDateString(resp.UnExecDeedSentDate);
+    Date actcDate = parseDateString(resp.AllClearedToCloseDate);
+
+    for (Title_Order__c to : titleOrders) {
+      to.Deeds_Ordered_Date__c = doDate != null
+        ? doDate
+        : to.Deeds_Ordered_Date__c;
+      to.Un_Exec_Deed_Sent_Date__c = uedsDate != null
+        ? uedsDate
+        : to.Un_Exec_Deed_Sent_Date__c;
+      to.All_Cleared_To_Close_Date__c = actcDate != null
+        ? actcDate
+        : to.All_Cleared_To_Close_Date__c;
+    }
+
+    update titleOrders;
+
+    return resp.LoanNumber;
+  }
+
+  public static String processTitleClearing(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders,
+    Boolean isAllCleared
+  ) {
+    Date ltcDate = parseDateString(resp.LatestTitleClearedDate);
+    Date latcDate = parseDateString(resp.LatestAllTitlesCleared);
+
+    for (Title_Order__c to : titleOrders) {
+      to.Latest_Title_Cleared_Date__c = isAllCleared
+        ? to.Latest_Title_Cleared_Date__c
+        : ltcDate;
+      to.Latest_All_Titles_Cleared_Date__c = isAllCleared
+        ? latcDate
+        : to.Latest_All_Titles_Cleared_Date__c;
+    }
+
+    update titleOrders;
+
+    return resp.LoanNumber;
+  }
+
   public static String processProblemCurativeItem(
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
-
     Title_Order__c to = titleOrders[0];
     Loan_Status__c loanNote = new Loan_Status__c();
     loanNote.Deal__c = to.Deal__c;
@@ -147,8 +271,11 @@ global without sharing class ServiceLinkEndpoint {
     loanNote.Servicelink_Item_Id__c = resp.ItemId;
     loanNote.Servicelink_Item_Type__c = resp.ItemType;
     loanNote.Subject__c = resp.ItemType + ' - ' + resp.ItemTypeDesc;
-    loanNote.Comment__c = resp.ItemNoteText + '\nCannot Cure Reasons: ' + resp.CannotCureReasons;
-    
+    loanNote.Comment__c =
+      resp.ItemNoteText +
+      '\nCannot Cure Reasons: ' +
+      resp.CannotCureReasons;
+
     upsert loanNote Servicelink_Item_Id__c;
 
     return resp.LoanNumber;
@@ -189,10 +316,18 @@ global without sharing class ServiceLinkEndpoint {
       to.Payoff_Exists__c =
         resp.PayOffExists != null &&
         resp.PayOffExists.toLowerCase() == 'yes';
-      to.All_Payoffs_Completed_Date__c = resp.AllPayoffsCompletedDate != null ? allPoCompletedDate : to.All_Payoffs_Completed_Date__c;
-      to.All_Payoffs_Ordered_Date__c = resp.AllPayoffsOrderedDate != null ? allPoOrderedDate : to.All_Payoffs_Ordered_Date__c;
-      to.Payoff_Completed_Date__c = resp.PayoffCompletedDate != null ? poCompletedDate : to.Payoff_Completed_Date__c;
-      to.Payoff_Ordered_Date__c = resp.PayoffOrderedDate != null ? poOrderedDate : to.Payoff_Ordered_Date__c;
+      to.All_Payoffs_Completed_Date__c = resp.AllPayoffsCompletedDate != null
+        ? allPoCompletedDate
+        : to.All_Payoffs_Completed_Date__c;
+      to.All_Payoffs_Ordered_Date__c = resp.AllPayoffsOrderedDate != null
+        ? allPoOrderedDate
+        : to.All_Payoffs_Ordered_Date__c;
+      to.Payoff_Completed_Date__c = resp.PayoffCompletedDate != null
+        ? poCompletedDate
+        : to.Payoff_Completed_Date__c;
+      to.Payoff_Ordered_Date__c = resp.PayoffOrderedDate != null
+        ? poOrderedDate
+        : to.Payoff_Ordered_Date__c;
     }
 
     update titleOrders;
@@ -234,10 +369,18 @@ global without sharing class ServiceLinkEndpoint {
       to.HOA_Exists__c =
         resp.HOAExists != null &&
         resp.HOAExists.toLowerCase() == 'yes';
-      to.HOA_Ordered_Date__c = resp.HOAOrderedDate != null ? hoaOrderedDate : to.HOA_Ordered_Date__c;
-      to.All_HOA_Ordered_Date__c = resp.AllHOAOrderedDate != null ? allHoaOrderedDate : to.All_HOA_Ordered_Date__c;
-      to.HOA_Completed_Date__c = resp.HOACompletedDate != null ? hoaCompletedDate : to.HOA_Completed_Date__c;
-      to.All_HOA_Completed_Date__c = resp.AllHOACompletedDate != null ? allHoaCompDate : to.All_HOA_Completed_Date__c;
+      to.HOA_Ordered_Date__c = resp.HOAOrderedDate != null
+        ? hoaOrderedDate
+        : to.HOA_Ordered_Date__c;
+      to.All_HOA_Ordered_Date__c = resp.AllHOAOrderedDate != null
+        ? allHoaOrderedDate
+        : to.All_HOA_Ordered_Date__c;
+      to.HOA_Completed_Date__c = resp.HOACompletedDate != null
+        ? hoaCompletedDate
+        : to.HOA_Completed_Date__c;
+      to.All_HOA_Completed_Date__c = resp.AllHOACompletedDate != null
+        ? allHoaCompDate
+        : to.All_HOA_Completed_Date__c;
     }
 
     update titleOrders;
@@ -255,10 +398,18 @@ global without sharing class ServiceLinkEndpoint {
     Date tcDate = parseDateString(resp.TaxesCompletedDate);
 
     for (Title_Order__c to : titleOrders) {
-      to.Taxes_Ordered_Date__c = taxOrdDate;
-      to.All_Taxes_Ordered_Date__c = atoDate;
-      to.Taxes_Completed_Date__c = tcDate;
-      to.All_Taxes_Completed_Date__c = atcDate;
+      to.Taxes_Ordered_Date__c = taxOrdDate != null
+        ? taxOrdDate
+        : to.Taxes_Ordered_Date__c;
+      to.All_Taxes_Ordered_Date__c = atoDate != null
+        ? atoDate
+        : to.All_Taxes_Ordered_Date__c;
+      to.Taxes_Completed_Date__c = tcDate != null
+        ? tcDate
+        : to.Taxes_Completed_Date__c;
+      to.All_Taxes_Completed_Date__c = atcDate != null
+        ? atcDate
+        : to.All_Taxes_Completed_Date__c;
     }
     update titleOrders;
     return resp.LoanNumber;
@@ -304,10 +455,18 @@ global without sharing class ServiceLinkEndpoint {
     Date otcDate = parseDateString(resp.OriginalTitleClearedDate);
     Date oatcDate = parseDateString(resp.OriginalAllTitlesClearedDate);
     for (Title_Order__c to : titleOrders) {
-      to.All_Titles_Complete_Date__c = atcDate;
-      to.Title_Complete_Date__c = tcDate;
-      to.Original_Title_Cleared_Date__c = otcDate;
-      to.Original_All_Titles_Cleared_Date__c = oatcDate;
+      to.All_Titles_Complete_Date__c = atcDate != null
+        ? atcDate
+        : to.All_Titles_Complete_Date__c;
+      to.Title_Complete_Date__c = tcDate != null
+        ? tcDate
+        : to.Title_Complete_Date__c;
+      to.Original_Title_Cleared_Date__c = otcDate != null
+        ? otcDate
+        : to.Original_Title_Cleared_Date__c;
+      to.Original_All_Titles_Cleared_Date__c = oatcDate != null
+        ? oatcDate
+        : to.Original_All_Titles_Cleared_Date__c;
     }
 
     update titleOrders;
@@ -406,6 +565,7 @@ global without sharing class ServiceLinkEndpoint {
           String.isNotEmpty(ordInq.OrderNumber)
         ) {
           to.Order_Number__c = ordInq.OrderNumber;
+          to.Recording_Order_Number__c = ordInq.OrderNumber;
           isUpdated = true;
         }
         if (isUpdated) {
@@ -431,6 +591,7 @@ global without sharing class ServiceLinkEndpoint {
       );
       if (ordConf.Status == 'SUCCESS') {
         to.Order_Number__c = ordConf.OrderNumber;
+        to.Recording_Order_Number__c = ordConf.OrderNumber;
       } else {
         to.Error_Message__c = ordConf.ErrorMessage;
       }
@@ -579,6 +740,12 @@ global without sharing class ServiceLinkEndpoint {
     if (resp.OrderNumber != null && String.isNotEmpty(resp.OrderNumber)) {
       fieldValueMap.put('Order_Number__c', resp.OrderNumber);
     }
+    if (
+      resp.RecordingOrderNumber != null &&
+      String.isNotEmpty(resp.RecordingOrderNumber)
+    ) {
+      fieldValueMap.put('Recording_Order_Number__c', resp.RecordingOrderNumber);
+    }
 
     if (fieldValueMap.size() > 0) {
       Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
@@ -603,28 +770,20 @@ global without sharing class ServiceLinkEndpoint {
     }
   }
 
-  public virtual class ServiceLinkIdFields {
+  public virtual class ServiceLinkBaseFields {
     public String LoanNumber;
     public String QuoteID;
     public String BulkProjectOrderNum;
     public String AssetID;
     public String OrderNumber;
-    public String CustInqId;
-    public String NoteId;
     public String IncomingTransactionId;
-    public String DocumentID;
-    public String RecId;
   }
 
-  public virtual class ServiceLinkDateFields extends ServiceLinkIdFields {
-    public String OrderOpenedDate;
-    public String AllTitlesOrderedDate;
-    public String TitleCompleteDate;
-    public String AllTitlesCompleteDate;
-    public String TaxesOrderedDate;
-    public String AllTaxesOrderedDate;
-    public String TaxesCompletedDate;
-    public String AllTaxesCompletedDate;
+  public virtual class ServiceLinkAttachmentFields extends ServiceLinkBaseFields {
+    public String CustInqId;
+    public String NoteId;
+    public String DocumentID;
+    public String RecId;
     public String HOAOrderedDate;
     public String AllHOAOrderedDate;
     public String HOACompletedDate;
@@ -633,11 +792,62 @@ global without sharing class ServiceLinkEndpoint {
     public String AllPayoffsOrderedDate;
     public String PayoffCompletedDate;
     public String AllPayoffsCompletedDate;
-    public String OriginalTitleClearedDate;
-    public String OriginalAllTitlesClearedDate;
+    public String HOAExists;
+    public String PayOffExists;
   }
 
-  public class ServiceLinkResponse extends ServiceLinkDateFields {
+  public virtual class ServiceLinkTitles extends ServiceLinkAttachmentFields {
+    public String AllTitlesOrderedDate;
+    public String TitleCompleteDate;
+    public String AllTitlesCompleteDate;
+    public String OriginalTitleClearedDate;
+    public String OriginalAllTitlesClearedDate;
+    public String LatestTitleClearedDate;
+    public String LatestAllTitlesCleared;
+  }
+
+  public virtual class ServiceLinkTaxes extends ServiceLinkTitles {
+    public String TaxesOrderedDate;
+    public String AllTaxesOrderedDate;
+    public String TaxesCompletedDate;
+    public String AllTaxesCompletedDate;
+  }
+
+  public virtual class ServiceLinkMisc extends ServiceLinkTaxes {
+    public String OrderOpenedDate;
+    public String DeedsOrdered;
+    public String UnExecDeedSentDate;
+    public String ItemId;
+    public String ItemType;
+    public String ItemTypeDesc;
+    public String ItemNoteText;
+    public String CannotCureReasons;
+    public String AllClearedToCloseDate;
+    public String LoanDocsReceivedDate;
+    public String SignedDocsScannedDate;
+    public String ScannedDocsForwardedDate;
+    public String DocsEstArrivalDate;
+    public String SignedDocsReceivedDate;
+    public String FileFundedDate;
+  }
+
+  public virtual class ServiceLinkRecordingTracking extends ServiceLinkMisc {
+    public String RecordingDate;
+    public String RecordingOrderNumber;
+    public String RecordingState;
+    public String RecordingCounty;
+    public String RecordingType;
+    public String RecordingDesc;
+    public String InstrumentNumber;
+    public String BookNumber;
+    public String PageNumber;
+    public String Grantor;
+    public String Grantee;
+    public String Mortgagor;
+    public String Mortgagee;
+  }
+
+  public class ServiceLinkResponse extends ServiceLinkRecordingTracking {
     public String Comments;
     public ServiceLinkAPI.TitleDocument Document;
     public String Status;
@@ -649,12 +859,5 @@ global without sharing class ServiceLinkEndpoint {
     public String Format;
     public Long Size;
     public String Base64FileData;
-    public String HOAExists;
-    public String PayOffExists;
-    public String ItemId;
-    public String ItemType;
-    public String ItemTypeDesc;
-    public String ItemNoteText;
-    public String CannotCureReasons;
   }
 }
