@@ -1,3 +1,17 @@
 <template>
-    
+  <template if:true={isOpened}>
+    <c-modal title={requestType}>
+      <template if:true={propertyIds}>
+        <div slot="body"></div>
+      </template>
+      <div slot="footer">
+        <lightning-button label="Close" onclick={closeModal}></lightning-button>
+        <lightning-button
+          label="Submit"
+          onclick={handleSubmit}
+          variant="brand"
+        ></lightning-button>
+      </div>
+    </c-modal>
+  </template>
 </template>

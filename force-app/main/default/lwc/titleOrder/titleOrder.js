@@ -1,7 +1,5 @@
 import retrieveData from "@salesforce/apex/TitleOrder_LightningHelper.retrieveData";
-import { api, LightningElement } from "lwc";
-import SheetJS2 from "@salesforce/resourceUrl/SheetJS2";
-import { loadScript } from "lightning/platformResourceLoader";
+import { api, LightningElement, track } from "lwc";
 
 const TITLE_MENU_ITEMS = [
   {
@@ -53,6 +51,9 @@ export default class TitleOrder extends LightningElement {
   isLoading = false;
   @api recordId;
   tableData = [];
+  requestType;
+  @track propIds = [];
+  isModalOpened = false;
 
   connectedCallback() {
     if (this.recordId) {
@@ -63,6 +64,7 @@ export default class TitleOrder extends LightningElement {
 
   handleSelect(event) {
     const val = event.detail.value;
+    this.requestType = val;
     const propIds = [];
     this.template
     .querySelectorAll('[data-name="propertyCheckbox"]')
@@ -71,8 +73,19 @@ export default class TitleOrder extends LightningElement {
         propIds.push(checkbox.dataset.id);
       }
     });
+    if(propIds.length > 0) {
+      this.propIds = propIds; 
+      this.isModalOpened = true;
+      this.openModal();
+    } else {
+      return;
+    }
+  }
 
-    console.log("PROPERTY IDS", propIds);
+  handleCloseModal() {
+    this.isModalOpened = false;
+    this.propIds = [];
+    this.requestType = null;
   }
 
   async handleRetrieveData() {
@@ -90,5 +103,9 @@ export default class TitleOrder extends LightningElement {
       .forEach((checkbox) => {
         checkbox.checked = checked;
       });
+  }
+
+  openModal() {
+    this.template.querySelector("c-title-order-modal").openModal(this.propIds);
   }
 }
