@@ -1,5 +1,7 @@
 import retrieveData from "@salesforce/apex/TitleOrder_LightningHelper.retrieveData";
 import { api, LightningElement } from "lwc";
+import SheetJS2 from "@salesforce/resourceUrl/SheetJS2";
+import { loadScript } from "lightning/platformResourceLoader";
 
 const TITLE_MENU_ITEMS = [
   {
