@@ -19,7 +19,10 @@ global without sharing class ServiceLinkEndpoint {
       String reqType = new List<String>(respMap.keySet())[0];
       resMap.put('RequestType', reqType);
 
-      List<Title_Order__c> titleOrders = queryTitleOrders(respMap.values()[0]);
+      List<Title_Order__c> titleOrders = queryTitleOrders(
+        respMap.values()[0],
+        reqType == 'OrderConfirmation'
+      );
       if (titleOrders.size() == 0) {
         throwNullError();
       }
@@ -138,6 +141,12 @@ global without sharing class ServiceLinkEndpoint {
             processRecordingTracking(respMap.values()[0], titleOrders)
           );
         }
+        when 'SigningAppointment' {
+          resMap.put(
+            'LoanNumber',
+            processSigningAppointment(respMap.values()[0], titleOrders)
+          );
+        }
         when else {
           ServiceLinkException err = new ServiceLinkException();
           err.setMessage('Unable to identify request ' + reqType + '.');
@@ -175,6 +184,84 @@ global without sharing class ServiceLinkEndpoint {
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
+    Record_Tracking__c rt = new Record_Tracking__c();
+    rt.Title_Order__c = titleOrders[0].Id;
+    rt.RecId__c = resp.RecId;
+    rt.Recording_Date__c = parseDateString(resp.RecordingDate);
+    rt.Recording_Order_Number__c = resp.RecordingOrderNumber;
+    rt.Recording_State__c = resp.RecordingState;
+    rt.Recording_County__c = resp.RecordingCounty;
+    rt.Recording_Type__c = resp.RecordingType;
+    rt.Recording_Desc__c = resp.RecordingDesc;
+    rt.Instrument_Number__c = resp.InstrumentNumber;
+    rt.Book_Number__c = resp.BookNumber;
+    rt.Page_Number__c = resp.PageNumber;
+    rt.Grantor__c = resp.Grantor;
+    rt.Grantee__c = resp.Grantee;
+    rt.Mortgagee__c = resp.Mortgagee;
+    rt.Mortgagor__c = resp.Mortgagor;
+
+    upsert rt RecId__c;
+
+    return resp.LoanNumber;
+  }
+
+  public static String processSigningAppointment(
+    ServiceLinkResponse resp,
+    List<Title_Order__c> titleOrders
+  ) {
+    Signing_Appointment__c sAppt = new Signing_Appointment__c();
+    List<Signing_Attendee__c> sAtts = new List<Signing_Attendee__c>();
+    List<String> attendeeNames = new List<String>();
+
+    for (SigningAttendee sa : resp.Attendees) {
+      if (sa.Name != null && String.isNotEmpty(sa.Name)) {
+        attendeeNames.add(sa.Name);
+      }
+    }
+
+    List<Deal_Contact__c> dealContacts = [
+      SELECT Id,Contact__r.Name
+      FROM Deal_Contact__c
+      WHERE
+        Contact__r.Name IN :attendeeNames
+        AND Deal__c IN (
+          SELECT Deal__c
+          FROM Title_Order__c
+          WHERE Id IN :titleOrders
+        )
+    ];
+
+    sAppt.RecId__c = resp.RecId;
+    sAppt.Appointment_Status__c = resp.AppointmentStatus;
+    sAppt.Scheduled_Signing_Date__c = resp.ScheduledSigningDate != null &&
+      String.isNotEmpty(resp.ScheduledSigningDate)
+      ? DateTime.valueOf(resp.ScheduledSigningDate.replace('T', ' '))
+      : null;
+    sAppt.Cancelled_Date__c = parseDateString(resp.CancelledDate);
+    sAppt.Closed_Date__c = parseDateString(resp.ClosedDate);
+    SigningLocation sl = resp.SigningLocation;
+    sAppt.Signing_Address1__c = sl.Address1;
+    sAppt.Signing_Address2__c = sl.Address2;
+    sAppt.Signing_City__c = sl.City;
+    sAppt.Signing_State__c = sl.State;
+    sAppt.Signing_Zip_Code__c = sl.Zipcode;
+    sAppt.Title_Order__c = titleOrders[0].Id;
+
+    upsert sAppt RecId__c;
+
+    if(dealContacts.size() > 0) {
+      for(Deal_Contact__c dc : dealContacts) {
+        Signing_Attendee__c sAtt = new Signing_Attendee__c();
+        sAtt.Signing_Appointment__c = sAppt.Id;
+        sAtt.Deal_Contact__c = dc.Id;
+        sAtt.Unique_Id__c = dc.Id + '-' + sAppt.Id;
+        sAtt.Name = dc.Contact__r.Name;
+        sAtts.add(sAtt);
+      }
+
+      upsert sAtts Unique_Id__c;
+    }
     return resp.LoanNumber;
   }
 
@@ -450,7 +537,7 @@ global without sharing class ServiceLinkEndpoint {
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
-    Date atcDate = parseDateString(resp.AllTitlesCompleteDate);
+    Date atcDate = parseDateString(resp.AllTitlesCompleted);
     Date tcDate = parseDateString(resp.TitleCompleteDate);
     Date otcDate = parseDateString(resp.OriginalTitleClearedDate);
     Date oatcDate = parseDateString(resp.OriginalAllTitlesClearedDate);
@@ -585,10 +672,16 @@ global without sharing class ServiceLinkEndpoint {
     ServiceLinkResponse ordConf,
     List<Title_Order__c> titleOrders
   ) {
+    List<String> dateString = ordConf.OrderOpenedDate.split('-');
     for (Title_Order__c to : titleOrders) {
-      to.Order_Opened_Date__c = DateTime.valueOf(
-        ordConf.OrderOpenedDate.replace('T', ' ')
-      );
+      to.Order_Opened_Date__c = ordConf.OrderOpenedDate != null &&
+        String.isNotEmpty(ordConf.OrderOpenedDate)
+        ? DateTime.newInstance(
+            Integer.valueOf(dateString[0]),
+            Integer.valueOf(dateString[1]),
+            Integer.valueOf(dateString[2])
+          )
+        : to.Order_Opened_Date__c;
       if (ordConf.Status == 'SUCCESS') {
         to.Order_Number__c = ordConf.OrderNumber;
         to.Recording_Order_Number__c = ordConf.OrderNumber;
@@ -688,9 +781,10 @@ global without sharing class ServiceLinkEndpoint {
   ) {
     if (titleOrders.size() > 0) {
       for (Title_Order__c tO : titleOrders) {
-        tO.Order_Opened_Date__c = DateTime.valueOf(
-          reqObj.OrderOpenedDate.replace('T', ' ')
-        );
+        tO.Order_Opened_Date__c = reqObj.OrderOpenedDate != null &&
+          String.isNotEmpty(reqObj.OrderOpenedDate)
+          ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
+          : tO.Order_Opened_Date__c;
         tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
       }
       update titleOrders;
@@ -718,7 +812,8 @@ global without sharing class ServiceLinkEndpoint {
   }
 
   public static List<Title_Order__c> queryTitleOrders(
-    ServiceLinkResponse resp
+    ServiceLinkResponse resp,
+    Boolean isNewOrderNumber
   ) {
     Map<String, String> fieldValueMap = new Map<String, String>();
 
@@ -737,7 +832,11 @@ global without sharing class ServiceLinkEndpoint {
     if (resp.AssetID != null && String.isNotEmpty(resp.AssetID)) {
       fieldValueMap.put('Asset_ID__c', resp.AssetID);
     }
-    if (resp.OrderNumber != null && String.isNotEmpty(resp.OrderNumber)) {
+    if (
+      resp.OrderNumber != null &&
+      String.isNotEmpty(resp.OrderNumber) &&
+      !isNewOrderNumber
+    ) {
       fieldValueMap.put('Order_Number__c', resp.OrderNumber);
     }
     if (
@@ -799,7 +898,7 @@ global without sharing class ServiceLinkEndpoint {
   public virtual class ServiceLinkTitles extends ServiceLinkAttachmentFields {
     public String AllTitlesOrderedDate;
     public String TitleCompleteDate;
-    public String AllTitlesCompleteDate;
+    public String AllTitlesCompleted;
     public String OriginalTitleClearedDate;
     public String OriginalAllTitlesClearedDate;
     public String LatestTitleClearedDate;
@@ -847,7 +946,28 @@ global without sharing class ServiceLinkEndpoint {
     public String Mortgagee;
   }
 
-  public class ServiceLinkResponse extends ServiceLinkRecordingTracking {
+  public class SigningAttendee {
+    public String Name;
+  }
+
+  public class SigningLocation {
+    public String Address1;
+    public String Address2;
+    public String City;
+    public String State;
+    public String Zipcode;
+  }
+
+  public virtual class ServiceLinkSigningAppointment extends ServiceLinkRecordingTracking {
+    public String AppointmentStatus;
+    public String ScheduledSigningDate;
+    public String CancelledDate;
+    public String ClosedDate;
+    public SigningLocation SigningLocation;
+    public List<SigningAttendee> Attendees;
+  }
+
+  public class ServiceLinkResponse extends ServiceLinkSigningAppointment {
     public String Comments;
     public ServiceLinkAPI.TitleDocument Document;
     public String Status;
