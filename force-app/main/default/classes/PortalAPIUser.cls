@@ -135,6 +135,12 @@ global without sharing class PortalAPIUser {
     public String userType;
     public String id;
     public String contactId;
+    public String accountId;
+
+    public String title;
+    public String alternativeEmail;
+    public String licenseNo;
+    public Decimal yearsOfExperience;
 
     public PortalUser(String portalId) {
       Id contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
@@ -165,7 +171,12 @@ global without sharing class PortalAPIUser {
             SponsorCity__c,
             SponsorZipCode__c,
             Home_Country__c,
-            SponsorState__c
+            SponsorState__c,
+            AccountId,
+            Alternative_Email__c,
+            License_No__c,
+            Years_of_Experience__c,
+            Title
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -192,6 +203,12 @@ global without sharing class PortalAPIUser {
         this.homeState = c.SponsorState__c;
         this.homeCountry = c.Home_Country__c;
         this.homeZip = c.SponsorZipCode__c;
+        this.accountId = c.AccountId;
+
+        this.title = c.Title;
+        this.alternativeEmail = c.Alternative_Email__c;
+        this.licenseNo = c.License_No__c;
+        this.yearsOfExperience = c.Years_of_Experience__c;
       } else if (leadId != null) {
         Lead l = [
           SELECT
@@ -308,6 +325,11 @@ global without sharing class PortalAPIUser {
         c.SponsorZipCode__c = this.homeZip;
         c.Home_Country__c = this.homeCountry;
 
+        c.Title = this.title;
+        c.Alternative_Email__c = this.alternativeEmail;
+        c.License_No__c = this.licenseNo;
+        c.Years_of_Experience__c = this.yearsOfExperience;
+
         record = c;
       } else if (this.leadId != null) {
         Lead l = new Lead(Id = this.leadId);
@@ -363,6 +385,11 @@ global without sharing class PortalAPIUser {
         c.SponsorState__c = this.homeState;
         c.SponsorZipCode__c = this.homeZip;
         c.Home_Country__c = this.homeCountry;
+
+        c.Title = this.title;
+        c.Alternative_Email__c = this.alternativeEmail;
+        c.License_No__c = this.licenseNo;
+        c.Years_of_Experience__c = this.yearsOfExperience;
 
         record = c;
       } else if (sobjectType == 'Lead') {

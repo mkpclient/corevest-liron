@@ -621,12 +621,6 @@
                 <isActive>false</isActive>
                 <label>asdf</label>
             </value>
-            <value>
-                <fullName>townhouse</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>townhouse</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

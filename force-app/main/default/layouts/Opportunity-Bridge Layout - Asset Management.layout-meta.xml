@@ -73,10 +73,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Country__c</field>
             </layoutItems>
             <layoutItems>
@@ -90,14 +86,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>In_Foreclosure__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_When__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_By_Whom__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -144,6 +132,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -197,6 +189,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Asset_Management_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Servicer_Import__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -341,6 +337,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_By_Whom__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_When__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Exit_Fee__c</field>
             </layoutItems>
             <layoutItems>
@@ -358,18 +362,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Interest_Reserves__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_Interest_Reserves_Payments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Remaining_Interest_Reserves__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Current_UPB_Interest_Reserves__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -484,9 +476,14 @@
             <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Send_Email</actionName>
+            <actionName>Opportunity.Bridge_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Send_Email</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>11</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -541,16 +538,6 @@
         <relatedList>RelatedActivityList</relatedList>
     </relatedLists>
     <relatedLists>
-        <excludeButtons>AddAccTeamMemberOnOpp</excludeButtons>
-        <excludeButtons>AddAccountTeam</excludeButtons>
-        <excludeButtons>AddDefaultTeam</excludeButtons>
-        <excludeButtons>AddOppTeam</excludeButtons>
-        <excludeButtons>AddOppTeamMember</excludeButtons>
-        <excludeButtons>DeleteAllOpportunityTeamMembers</excludeButtons>
-        <excludeButtons>DeleteTeam</excludeButtons>
-        <excludeButtons>DisplayAccess</excludeButtons>
-        <excludeButtons>DisplayOpportunityTeamEffectiveAccess</excludeButtons>
-        <excludeButtons>OppTeamMemberMultiEdit</excludeButtons>
         <fields>MemberName</fields>
         <fields>OppAccessLevel</fields>
         <fields>TeamMemberRole</fields>
@@ -588,6 +575,22 @@
         <fields>CREATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Covenant__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Piple_Line_Report_Data__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Title_Order__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

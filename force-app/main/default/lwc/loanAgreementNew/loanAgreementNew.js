@@ -756,7 +756,8 @@ export default class LoanAgreementNew extends LightningElement {
       YM_Prepayment_Penalty__c: this.deal.YM_Prepayment_Penalty__c,
       YM_Prepayment_Penalty_Description__c: this.deal
         .YM_Prepayment_Penalty_Description__c,
-      Interest_Rate_Type__c: this.calculatedFields.Interest_Rate_Type__c
+      Interest_Rate_Type__c: this.calculatedFields.Interest_Rate_Type__c,
+      Early_Lock_Deposit__c: this.calculatedFields.hasOwnProperty("Early_Lock_Deposit__c") ? this.calculatedFields.Early_Lock_Deposit__c : null
     };
 
     console.log(loanVersion);

@@ -22,7 +22,7 @@ public without sharing class BridgeICMemoController {
                     String dealId=unsavedObj.dealId;
                     
                     guarantors=new List<Deal_Contact__c>();
-                    Opportunity = [SELECT Id,Index__c,Index_Floor__c,Final_Sponsor_Tier__c,Deal_Loan_Number__c,Borrower_Entity__r.Name,Foreign_National__c,Country__c,Account.Repeat_Borrower__c,
+                    Opportunity = [SELECT Id,Index__c,Index_Floor__c,Final_Sponsor_Tier__c,Deal_Loan_Number__c,Borrower_Entity__r.Name,Foreign_National_picklist__c,Country__c,Account.Repeat_Borrower__c,
                                    Account.Total_Borrowed__c,Account.Borrowed_on_Bridge_Loans__c,Account.Borrowed_on_Term_Loans__c,Account.Prior_Utilization__c,LOC_Loan_Type__c,Full_Draw_Percentage__c, Full_Draw__c,Liquidity_Based_Percentage__c,
                                    Liquidity_Based__c,Business_Plan_Percentage__c,Business_Plan__c,Notes__c,Product_Sub_Type__c,Project_Strategy__c,Renovation_Funding__c,Active_States__c,
                                    Deal_Intro_Source__c,Account_Introduction_Source__c,Owner_Name__c,Underwriter__r.Name, Broker_Fees__c,Referral_Source_Contact__c,Referral_Source_Contact__r.Name,
@@ -74,7 +74,7 @@ public without sharing class BridgeICMemoController {
     
     @AuraEnabled
     public static Opportunity getData(String recordId){
-        List<Opportunity> deals=[SELECT Id,Index__c,Index_Floor__c,Final_Sponsor_Tier__c,Deal_Loan_Number__c,Borrower_Entity__r.Name,Foreign_National__c,Country__c,Account.Repeat_Borrower__c,
+        List<Opportunity> deals=[SELECT Id,Index__c,Index_Floor__c,Final_Sponsor_Tier__c,Deal_Loan_Number__c,Borrower_Entity__r.Name,Foreign_National_picklist__c,Country__c,Account.Repeat_Borrower__c,
                                    Account.Total_Borrowed__c,Account.Borrowed_on_Bridge_Loans__c,Account.Borrowed_on_Term_Loans__c,Account.Prior_Utilization__c,LOC_Loan_Type__c,Full_Draw_Percentage__c, Full_Draw__c,Liquidity_Based_Percentage__c,
                                    Liquidity_Based__c,Business_Plan_Percentage__c,Business_Plan__c,Notes__c,Product_Sub_Type__c,Project_Strategy__c,Renovation_Funding__c,Active_States__c,
                                    Deal_Intro_Source__c,Account_Introduction_Source__c,Owner_Name__c,Underwriter__r.Name, Broker_Fees__c,Referral_Source_Contact__c,Referral_Source_Contact__r.Name,

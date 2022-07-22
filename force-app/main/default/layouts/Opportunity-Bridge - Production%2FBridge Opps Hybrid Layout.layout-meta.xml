@@ -35,11 +35,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hold_Reason__c</field>
+                <field>Deal_Lost_Reason__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Deal_Lost_Reason__c</field>
+                <field>In_Process_of_Withdrawn_or_Rejected__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -88,14 +88,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Lender__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_When__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_By_Whom__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -153,6 +145,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Loan_Coordinator__c</field>
             </layoutItems>
             <layoutItems>
@@ -161,7 +157,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -308,6 +304,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_By_Whom__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_When__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Exception__c</field>
             </layoutItems>
             <layoutItems>
@@ -437,18 +441,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Interest_Reserves__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_Interest_Reserves_Payments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Remaining_Interest_Reserves__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Current_UPB_Interest_Reserves__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -709,11 +701,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Add_Guarantor</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -722,6 +709,11 @@
             <actionName>Opportunity.New_Entity</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.New_Individual</actionName>
@@ -819,24 +811,29 @@
             <sortOrder>21</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Send_Email</actionName>
+            <actionName>Opportunity.Bridge_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>22</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Event</actionName>
+            <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Line_of_Credit_Funding_Documents</actionName>
+            <actionName>Opportunity.Event</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Line_of_Credit_Executed_Documents</actionName>
+            <actionName>Opportunity.Line_of_Credit_Funding_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>25</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Line_of_Credit_Executed_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>26</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1006,6 +1003,22 @@
         <fields>CREATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Covenant__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Piple_Line_Report_Data__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Title_Order__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

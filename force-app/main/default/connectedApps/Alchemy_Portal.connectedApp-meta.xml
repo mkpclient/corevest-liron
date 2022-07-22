@@ -4,7 +4,7 @@
     <label>Alchemy Portal</label>
     <oauthConfig>
         <callbackUrl>https://login.salesforce.com</callbackUrl>
-        <consumerKey>3MVG9qEXqmIutu_QNttBhrw05QwH6b7C1f8lD_Wu.K6Q0tPn2XZ_c7sN6dS9bnJAWN2FHrNKES2TLbPv0wdxp</consumerKey>
+        <consumerKey>3MVG99H7o8BRmFkVv02_uD4Lt95tRXDLKzo9QZPso35.Dv9F5UThe1VtKRWn1fuNaeY8NTg59kjYfJsvKZCXy</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

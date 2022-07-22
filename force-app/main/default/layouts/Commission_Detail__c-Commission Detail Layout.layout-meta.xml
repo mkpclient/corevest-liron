@@ -43,6 +43,14 @@
                 <behavior>Edit</behavior>
                 <field>Approved__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Product_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Loan_Commitment__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -72,6 +80,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Internal_Referral_Fee_Bypass__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Repeat_Borrower__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

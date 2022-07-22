@@ -20,18 +20,6 @@
                 <field>Deal_RecordType__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Account__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Property__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Advance__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Type__c</field>
             </layoutItems>
@@ -46,6 +34,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>File_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Advance__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -93,6 +89,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
@@ -110,6 +110,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Expiration_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Review__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reviewed_By_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -256,6 +268,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Public__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Closer__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

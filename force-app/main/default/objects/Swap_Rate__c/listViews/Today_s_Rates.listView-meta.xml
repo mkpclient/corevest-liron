@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Today_s_Rates</fullName>
+    <columns>CREATED_DATE</columns>
+    <columns>Five_Year_Swap__c</columns>
+    <columns>Seven_Year_Swap__c</columns>
+    <columns>Ten_Year_Swap__c</columns>
+    <columns>Thirty_Year_Swap__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>TODAY</value>
+    </filters>
+    <label>Today&apos;s Rates</label>
+</ListView>

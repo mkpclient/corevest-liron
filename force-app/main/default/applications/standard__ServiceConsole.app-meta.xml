@@ -189,12 +189,17 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
-    <tabs>API_Log__c</tabs>
     <tabs>Swap_Rate__c</tabs>
-    <tabs>Lender_Deal__c</tabs>
+    <tabs>Interest_Reserves__c</tabs>
+    <tabs>Property_Snapshot__c</tabs>
+    <tabs>Property_Mortgage_lien_all__c</tabs>
+    <tabs>Property_Sales_history__c</tabs>
+    <tabs>Custodial_Exception__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>CLO_Asset_Details__c</tabs>
     <workspaceConfig>
         <mappings>
-            <tab>API_Log__c</tab>
+            <tab>CLO_Asset_Details__c</tab>
         </mappings>
         <mappings>
             <tab>CTM</tab>
@@ -215,10 +220,13 @@
             <tab>Comment__c</tab>
         </mappings>
         <mappings>
+            <tab>Custodial_Exception__c</tab>
+        </mappings>
+        <mappings>
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
-            <tab>Lender_Deal__c</tab>
+            <tab>Interest_Reserves__c</tab>
         </mappings>
         <mappings>
             <tab>Loan_Version__c</tab>
@@ -227,7 +235,19 @@
             <tab>Post_Closing_Section__c</tab>
         </mappings>
         <mappings>
+            <tab>Property_Mortgage_lien_all__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Property_Sales_history__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Property_Snapshot__c</tab>
+        </mappings>
+        <mappings>
             <tab>Swap_Rate__c</tab>
+        </mappings>
+        <mappings>
+            <tab>TPO_Pool_x_Deal__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>

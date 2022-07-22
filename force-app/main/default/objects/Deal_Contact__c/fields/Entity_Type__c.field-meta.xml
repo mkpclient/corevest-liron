@@ -115,6 +115,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Entity</controllingFieldValue>
+            <controllingFieldValue>Individual</controllingFieldValue>
             <valueName>Borrower</valueName>
         </valueSettings>
         <valueSettings>

@@ -131,10 +131,13 @@
               isEditable="{!!empty(v.permissionsMap) ? v.permissionsMap.Company_Type__c.isUpdateable : 'false'}"
               selectOptions="[
                                                       {'label': '--Select One--', 'value': ''},
-                                                      {'label': 'Limited Liability Company', 'value': 'Limited Liability Company' },
-                                                      {'label': 'Corporation', 'value': 'Corporation'},
-                                                      {'label': 'Limited Partnership', 'value':'Limited Partnership' },
+                                                      {'label': 'For Profit Corporation', 'value': 'For Profit Corporation'},
                                                       {'label': 'General Partnership', 'value':'General Partnership' },
+                                                      {'label': 'Limited Liability Company', 'value': 'Limited Liability Company' },
+                                                      {'label': 'Limited Partnership', 'value':'Limited Partnership' },
+                                                      {'label': 'Non Profit Corporation', 'value': 'Non Profit Corporation'},
+                                                      {'label': 'Sole Proprietorship', 'value':'Sole Proprietorship' },
+                                                      {'label': 'Trust', 'value':'Trust' },
                                                       {'label': 'Other', 'value': 'Other'}
                                                       ]"
             />

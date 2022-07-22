@@ -6,6 +6,8 @@
     <columns>Seven_Year_Swap__c</columns>
     <columns>Ten_Year_Swap__c</columns>
     <columns>Thirty_Year_Swap__c</columns>
+    <columns>OneM_SOFR__c</columns>
+    <columns>OneM_LIBOR__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

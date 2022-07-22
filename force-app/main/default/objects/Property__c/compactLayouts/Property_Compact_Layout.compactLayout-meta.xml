@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Property_Compact_Layout</fullName>
-    <fields>Name</fields>
+    <fields>Full_Address__c</fields>
     <fields>Asset_ID__c</fields>
     <fields>RecordTypeId</fields>
     <fields>Deal__c</fields>

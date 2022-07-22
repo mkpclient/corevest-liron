@@ -16,6 +16,11 @@
                 <label>Cohen</label>
             </value>
             <value>
+                <fullName>FCI</fullName>
+                <default>false</default>
+                <label>FCI</label>
+            </value>
+            <value>
                 <fullName>Lending Home</fullName>
                 <default>false</default>
                 <label>Lending Home</label>
@@ -31,14 +36,14 @@
                 <label>SLS</label>
             </value>
             <value>
-                <fullName>Wells Fargo</fullName>
-                <default>false</default>
-                <label>Wells Fargo</label>
-            </value>
-            <value>
                 <fullName>Statebridge</fullName>
                 <default>false</default>
                 <label>Statebridge</label>
+            </value>
+            <value>
+                <fullName>Wells Fargo</fullName>
+                <default>false</default>
+                <label>Wells Fargo</label>
             </value>
         </valueSetDefinition>
     </valueSet>

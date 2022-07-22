@@ -186,7 +186,9 @@ public class deal_Contact_Helper {
         Net_Worth__c,
         Rental_Units_Owned__c,
         Cash_Equivalent__c,
-        Cash_Position__c
+        Cash_Position__c,
+        Legal_Name__c,
+        Credit_Score_Date__c
       FROM Contact
       WHERE Id IN :contactPrepopulateMap.keySet()
     ]) {
@@ -202,6 +204,8 @@ public class deal_Contact_Helper {
         entity.Cash_Equivalent__c = c.Cash_Equivalent__c;
         entity.Rental_Units_Owned__c = c.Rental_Units_Owned__c;
         entity.Net_Worth__c = c.Net_Worth__c;
+        entity.Legal_Name__c = c.Legal_Name__c;
+        entity.Credit_Score_Date__c = c.Credit_Score_Date__c;
       }
     }
 
@@ -219,10 +223,12 @@ public class deal_Contact_Helper {
         Id,
         Deal_Contact_Type__c,
         Account__c,
+        Account__r.Name,
         Account__r.Account_Status__c,
         Vendor_Type__c,
         Deal__c,
-        Entity_Type__c
+        Entity_Type__c,
+        Contact__c
       FROM Deal_Contact__c
       WHERE ID IN :newList
     ];
@@ -231,7 +237,14 @@ public class deal_Contact_Helper {
     Set<Id> sponsorIds = new Set<Id>();
 
     for (Deal_Contact__c dc : dealContacts) {
-      if (dc.Entity_Type__c == 'Sponsor') {
+      if (
+        ((dc.Entity_Type__c == 'Applicant' ||
+        dc.Entity_Type__c == 'Sponsor' ||
+        dc.Entity_Type__c == 'Guarantor') && dc.Contact__c != null) ||
+        ((dc.Vendor_Type__c == 'Lender Legal Counsel' ||
+        dc.Vendor_Type__c == 'Lender Local Legal Counsel') &&
+        dc.Account__c != null)
+      ) {
         sponsorIds.add(dc.Id);
       }
 
@@ -240,7 +253,9 @@ public class deal_Contact_Helper {
         dc.Account__r.Account_Status__c == 'Active CoreVest Vendor' &&
         (dc.Vendor_Type__c == 'Cash Management' ||
         dc.Vendor_Type__c == 'Valuation' ||
-        dc.Vendor_Type__c == 'Lender Legal Counsel' ||
+        (dc.Vendor_Type__c == 'Lender Legal Counsel' &&
+        dc.Account__r.Name != 'Scoville Law' &&
+        dc.Account__r.Name != 'CoreVest Legal') ||
         dc.Vendor_Type__c == 'Insurance Review' ||
         //    || dc.Vendor_Type__c=='Flood Check'
         dc.Vendor_Type__c == 'Architect' ||
@@ -255,6 +270,7 @@ public class deal_Contact_Helper {
         dc.Vendor_Type__c == 'Title and Escrow' ||
         //    || dc.Vendor_Type__c=='Title and Escrow 2'
         dc.Vendor_Type__c == 'Title Company' ||
+        dc.Vendor_Type__c == 'PCA & ESA' ||
         dc.Vendor_Type__c == 'Reserves')
       ) {
         loanFees.add(
@@ -299,7 +315,7 @@ public class deal_Contact_Helper {
     }
 
     if (sponsorIds.size() > 0) {
-      ChecklistHelper.createChecklistSectionSponsor(sponsorIds);
+      ChecklistHelper.createChecklistDealContact(sponsorIds);
     }
   }
 
@@ -429,6 +445,18 @@ public class deal_Contact_Helper {
           .Years_of_Experience1__c;
         dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
       }
+      if (newList[i].Legal_Name__c != oldList[i].Legal_Name__c) {
+        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+        contactMap.get(newList[i].Contact__c).Legal_Name__c = newList[i]
+          .Legal_Name__c;
+        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+      }
+      if (newList[i].Credit_Score_Date__c != oldList[i].Credit_Score_Date__c) {
+        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+        contactMap.get(newList[i].Contact__c).Credit_Score_Date__c = newList[i]
+          .Credit_Score_Date__c;
+        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+      }
     }
 
     for (Contact c : contactMap.values()) {
@@ -441,7 +469,6 @@ public class deal_Contact_Helper {
       update contactsUpdate;
 
       Map<Id, Contact> contactMapExtra = new Map<Id, Contact>(contactsUpdate);
-      // Map<Id, List<
       // for(Contact : )
 
       List<Deal_Contact__c> dcToUpdate = new List<Deal_Contact__c>();
@@ -459,6 +486,8 @@ public class deal_Contact_Helper {
           TransUnion__c,
           Equifax__c,
           Years_of_Experience1__c,
+          Legal_Name__c,
+          Credit_Score_Date__c,
           Contact__c,
           Deal__c
         FROM Deal_Contact__c
@@ -570,6 +599,24 @@ public class deal_Contact_Helper {
             addToList = true;
           }
 
+          if (
+            c.Legal_Name__c != null &&
+            dealContact.Legal_Name__c != c.Legal_Name__c &&
+            dealToContactIdMap.containsKey(dealContact.Deal__c)
+          ) {
+            dealContact.Legal_Name__c = c.Legal_Name__c;
+            addToList = true;
+          }
+
+          if (
+            c.Credit_Score_Date__c != null &&
+            dealContact.Credit_Score_Date__c != c.Credit_Score_Date__c &&
+            dealToContactIdMap.containsKey(dealContact.Deal__c)
+          ) {
+            dealContact.Credit_Score_Date__c = c.Credit_Score_Date__c;
+            addToList = true;
+          }
+
           if (addToList) {
             dcToUpdate.add(dealContact);
           }
@@ -648,6 +695,7 @@ public class deal_Contact_Helper {
         Id,
         Deal_Contact_Type__c,
         Account__c,
+        Account__r.Name,
         Account__r.Account_Status__c,
         Vendor_Type__c,
         Deal__c
@@ -666,7 +714,9 @@ public class deal_Contact_Helper {
         // || dc.Vendor_Type__c=='3rd Party Title'
         dc.Vendor_Type__c == 'Valuation' ||
         //   || dc.Vendor_Type__c=='Flood Check'
-        dc.Vendor_Type__c == 'Lender Legal Counsel' ||
+        (dc.Vendor_Type__c == 'Lender Legal Counsel' &&
+        dc.Account__r.Name != 'Scoville Law' &&
+        dc.Account__r.Name != 'CoreVest Legal') ||
         dc.Vendor_Type__c == 'Insurance Review' ||
         dc.Vendor_Type__c == 'Architect' ||
         dc.Vendor_Type__c == 'Contractor' ||
@@ -678,6 +728,7 @@ public class deal_Contact_Helper {
         dc.Vendor_Type__c == 'Servicer' ||
         dc.Vendor_Type__c == 'Tax Verification' ||
         dc.Vendor_Type__c == 'Title and Escrow' ||
+        dc.Vendor_Type__c == 'PCA & ESA' ||
         // || dc.Vendor_Type__c=='Title and Escrow 2'
         // || dc.Vendor_Type__c=='Title Company'
         dc.Vendor_Type__c == 'Reserves')

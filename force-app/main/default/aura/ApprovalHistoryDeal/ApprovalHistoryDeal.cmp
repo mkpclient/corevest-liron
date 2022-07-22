@@ -21,6 +21,7 @@
   <aura:attribute name="selectedProcessId" type="String" />
   <aura:attribute name="chatterComments" type="Object[]" />
 
+
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
   <aura:handler event="force:refreshView" action="{!c.init}" />
 
@@ -80,12 +81,14 @@
             </td>
             <td colspan="3">
               <aura:if isTrue="{!step.Verified__c}">
+                <aura:if isTrue="{!step.Approval_Type__c != 'IC Memo'}">
                 <lightning:button
                   name="{!step.Process_Id__c}"
                   title="{!index}"
                   label="Require GLC Approval"
                   onclick="{!c.toggleGLC}"
                 />
+                </aura:if>
                 <lightning:button
                   variant="brand"
                   title="{!index}"
@@ -180,7 +183,7 @@
 
       <!-- Chatter Comments here 
                    Added by Trivikram to display the chatter comments in the Approvals Tab-->
-      <aura:iteration items="{!v.chatterComments}" var="step" indexVar="index">
+        <!-- CIP-2173.RS.4/8/22.Begin <aura:iteration items="{!v.chatterComments}" var="step" indexVar="index">
         <table width="100%;display: block;">
           <tr>
             <th colspan="5">
@@ -212,7 +215,7 @@
             <td></td>
           </tr>
         </table>
-      </aura:iteration>
+      </aura:iteration> CIP-2173.RS.4/8/22.End-->
 
       <aura:if isTrue="{! !empty(v.extraSteps)}">
         <div class="slds-hide" aura:id="hiddenSteps">
@@ -404,7 +407,7 @@
               </aura:if>
 
               <aura:if
-                isTrue="{!v.approvalType == 'Submit_Term_Deal_to_UW_Approval'}"
+                isTrue="{!v.approvalType == 'Submit_SAB_Deal_to_UW_Approval'}"
               >
                 <lightning:inputField
                   aura:id="fields"
@@ -421,7 +424,7 @@
               </aura:if>
 
               <aura:if
-                isTrue="{!and(or(v.approvalType == 'Custom_SAB_Pricing_Review', v.approvalType == 'Standard_SAB_Pricing_Review'), v.userRole != 'Capital Markets')}"
+                isTrue="{!v.approvalType == 'Submit_Term_Deal_to_UW_Approval'}"
               >
                 <lightning:inputField
                   aura:id="fields"
@@ -436,6 +439,23 @@
                   fieldName="Closer__c"
                 ></lightning:inputField>
               </aura:if>
+
+              <!-- <aura:if
+                isTrue="{!and(or(v.approvalType == 'Custom_SAB_Pricing_Review', v.approvalType == 'Standard_SAB_Pricing_Review'), v.userRole != 'Capital Markets')}"
+              >
+                <lightning:inputField
+                  aura:id="fields"
+                  fieldName="Underwriter__c"
+                ></lightning:inputField>
+                <lightning:inputField
+                  aura:id="fields"
+                  fieldName="Loan_Coordinator__c"
+                ></lightning:inputField>
+                <lightning:inputField
+                  aura:id="fields"
+                  fieldName="Closer__c"
+                ></lightning:inputField>
+              </aura:if> -->
             </lightning:recordEditForm>
 
             <div class="slds-form-element">

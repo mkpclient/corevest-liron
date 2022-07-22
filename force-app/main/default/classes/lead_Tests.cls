@@ -18,7 +18,13 @@ private class lead_Tests {
       Phone = '5555555555',
       MobilePhone = '5555555555',
       Introduction_Source__c = 'Event',
-      OwnerId = UserInfo.getUserId()
+      Applicant_Type__c = 'Lender',
+      OwnerId = UserInfo.getUserId(),
+      utm_Campaign_Name__c  = 'test',
+      utm_Campaign_Content__c  = 'test',
+      utm_Campaign_Medium__c  = 'test',
+      utm_Campaign_Source__c  = 'test',
+      utm_Campaign_Term__c  = 'test'
     );
     Lead l2 = new Lead(
       FirstName = 'Test2',
@@ -26,20 +32,60 @@ private class lead_Tests {
       Company = 'None',
       Email = 'test222@test.com',
       Introduction_Source__c = 'Event',
+      Applicant_Type__c = 'Borrower',
       OwnerId = UserInfo.getUserId()
     );
 
     Lead l3 = new Lead(
       FirstName = 'Test3',
       LastName = 'Tester3',
-      email = 'test@tester.com',
+      email = 'test3@tester.com',
       Company = 'Test Company3',
       Introduction_Source__c = 'Event',
+      Applicant_Type__c = 'Broker',
       OwnerId = UserInfo.getUserId()
+    );
+
+    Lead l4 = new Lead(
+      FirstName = 'Test3',
+      LastName = 'Tester3',
+      email = 'test4@tester.com',
+      Company = 'Test Company3',
+      Introduction_Source__c = 'Hotline',
+      OwnerId = UserInfo.getUserId()
+    );
+
+    Lead l5 = new Lead(
+      FirstName = 'Test3',
+      LastName = 'Tester3',
+      email = 'tes5t@tester.com',
+      Company = 'Test Company3',
+      Status = 'Unqualified',
+      Introduction_Source__c = 'Hotline'
     );
 
     List<Lead> leads = new List<Lead>{ l };
     insert leads;
+
+    insert l2;
+    insert l3;
+    insert l4;
+    insert l5;
+
+    l4.Status = 'Unqualified';
+    update l4;
+
+    l3.Introduction_Source__c = 'Event';
+    update l3;
+
+    l.Applicant_Type__c = 'Borrower';
+    update l;
+
+    l2.Applicant_Type__c = 'Lender';
+    update l2;
+
+    l3.Applicant_Type__c = 'Broker';
+    update l3;
 
     Lead testLead4 = new Lead(
       FirstName = 'Test4',
@@ -81,6 +127,8 @@ private class lead_Tests {
 
     list<lead> leadList = new List<lead>();
     leadList.add(l2);
+    leadList.add(l3);
+    leadList.add(l4);
     String JSONlead = JSON.serialize(leadList);
     //lead_Helper.reassignLeads(leadIds);
 
@@ -129,6 +177,8 @@ private class lead_Tests {
       OwnerId = UserInfo.getUserId(),
       Status = 'Contacted'
     );
+    insert l2;
+    insert l3;
 
     Master_Source__c ms = new Master_Source__c();
     ms.First_Name__c = 'Test1';

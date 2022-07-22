@@ -7,6 +7,7 @@
     <columns>CONTACT.EMAIL</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>Account_Record_Type__c</columns>
+    <columns>Alchemy_Portal_Id__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Account_Record_Type__c</field>

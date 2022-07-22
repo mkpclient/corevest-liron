@@ -22,9 +22,20 @@ public class property_advance_Helper {
    **/
   public static void beforeInsert(List<Property_Advance__c> newList) {
     Set<Id> propertyIds = new Set<Id>();
+    Set<Id> advanceIds = new Set<Id>();
+
     for (Property_Advance__c adv : newList) {
       propertyIds.add(adv.Property__c);
+      advanceIds.add(adv.Advance__c);
     }
+
+    Map<Id, Advance__c> constAdvMap = new Map<Id, Advance__c>(
+      [
+        SELECT Id
+        FROM Advance__c
+        WHERE RecordType_Name__c = 'Construction Advance' AND Id IN :advanceIds
+      ]
+    );
 
     Map<Id, Property__c> propertyMap = new Map<Id, Property__c>(
       [
@@ -33,6 +44,7 @@ public class property_advance_Helper {
           Number_of_Advances__c,
           Acquisition_Price__c,
           Appraised_Value_Amount__c,
+          Deal__r.Holdback_To_Rehab_Ratio__c,
           Max_LTC__c,
           Max_LTV__c,
           Approved_Advance_Amount__c,
@@ -62,6 +74,16 @@ public class property_advance_Helper {
           Approved_Advance_Amount_Max__c,
           Rehab_Budget__c,
           Appraisal_Due_Date__c,
+          Report_Fee_BR__c,
+          Report_Fee_GEO__c,
+          Report_Fee_PCR__c,
+          Report_Fee_PH1__c,
+          Report_Fee_PH2__c,
+          Report_Fee_PC__c,
+          Report_Fee_SEI__c,
+          Inspection_Fee_SUY__c,
+          // Report_Fee_SUY__c,
+          Report_Fee_ZN__c,
           (
             SELECT Id, Name, Property_Advance_Number__c
             FROM Property_Advances__r
@@ -90,7 +112,17 @@ public class property_advance_Helper {
       adv.Initial_Disbursement__c = property.Initial_Disbursement_remaining__c;
       adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
       adv.After_Repair_Value__c = property.After_Repair_Value__c;
-      adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
+      if (
+        property.Number_of_Advances__c >= 1 ||
+        constAdvMap.containsKey(adv.Advance__c)
+      ) {
+        adv.Holdback_To_Rehab_Ratio__c = property.Deal__r.Holdback_To_Rehab_Ratio__c;
+        adv.Renovation_Reserve__c =
+          (adv.Approved_Amount__c != null ? adv.Approved_Amount__c : 0) *
+          (property.Deal__r.Holdback_To_Rehab_Ratio__c / 100);
+      } else {
+        adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
+      }
       adv.Approved_Advance_Amount_Max__c = property.Approved_Advance_Amount_Max__c;
       adv.Approved_Renovation_Holdback__c = property.Approved_Renovation_Holdback__c;
       adv.Renovation_Budget__c = property.Rehab_Budget__c;
@@ -115,16 +147,21 @@ public class property_advance_Helper {
         adv.Broker_Advance_Fee__c = property.Broker_Adv_Fee_Amnt__c;
         adv.Advance_Fee__c = property.Advance_Fee_formula__c;
         adv.Origination_Fee__c = property.Origination_Fee_Amnt__c;
-      } else {
-        adv.Broker_Advance_Fee__c = 0;
-        adv.Advance_Fee__c = 0;
-        adv.Origination_Fee__c = 0;
-        adv.Inspection_Fee__c = 150;
+        adv.BPO_Appraisal_Fee__c = property.BPO_Appraisal_Fee__c;
+        adv.Budget_Review_Report_Fee__c = property.Report_Fee_BR__c;
+        adv.Geotechnical_Report_Fee__c = property.Report_Fee_GEO__c;
+        adv.PCR_Report_Fee__c = property.Report_Fee_PCR__c;
+        adv.Phase_1_Report_Fee__c = property.Report_Fee_PH1__c;
+        adv.Phase_2_Report_Fee__c = property.Report_Fee_PH2__c;
+        adv.Property_Condition_Report_Fee__c = property.Report_Fee_PC__c;
+        adv.Seismic_Report_Fee__c = property.Report_Fee_SEI__c;
+        adv.Inspection_Fee__c = property.Inspection_Fee_SUY__c;
+        adv.Zoning_Report_Fee__c = property.Report_Fee_ZN__c;
       }
 
-      adv.BPO_Appraisal_Fee__c = property.Status__c == 'In Process'
-        ? 0
-        : property.BPO_Appraisal_Fee__c;
+      // adv.BPO_Appraisal_Fee__c = property.Status__c == 'In Process'
+      //   ? 0
+      //   : property.BPO_Appraisal_Fee__c;
       adv.Doc_Prep_Fee__c = property.Doc_Prep_Fee__c;
       adv.BlackSquare_Fee__c = property.BlackSquare_Fee__c;
 
@@ -331,7 +368,33 @@ public class property_advance_Helper {
     List<Property_Advance__c> newList,
     List<Property_Advance__c> oldList
   ) {
+    Map<Id, Advance__c> constAdvMap = new Map<Id, Advance__c>(
+      [
+        SELECT Id
+        FROM Advance__c
+        WHERE
+          Id IN (
+            SELECT Advance__c
+            FROM Property_Advance__c
+            WHERE Id IN :newList
+          )
+          AND RecordType_Name__c = 'Construction Advance'
+      ]
+    );
+
     for (Integer i = 0; i < newList.size(); i++) {
+      if (
+        constAdvMap.containsKey(newList[i].Advance__c) &&
+        (newList[i].Approved_Amount__c != oldList[i].Approved_Amount__c ||
+        newList[i].Holdback_To_Rehab_Ratio__c !=
+        oldList[i].Holdback_To_Rehab_Ratio__c) &&
+        newList[i].Holdback_To_Rehab_Ratio__c != null &&
+        newList[i].Approved_Amount__c != null
+      ) {
+        newList[i].Renovation_Reserve__c =
+          newList[i].Approved_Amount__c *
+          (newList[i].Holdback_To_Rehab_Ratio__c / 100);
+      }
       //if(newList[i].Advance_Status__c != oldList[i].Advance_Status__c){
       newList[i].Advance_Status_text__c = newList[i].Advance_Status__c;
       //}
@@ -343,47 +406,63 @@ public class property_advance_Helper {
         propertyIds.add(adv.Property__c);
       }
     }
-
-    Map<Id, Property__c> propertyMap = new Map<Id, Property__c>(
-      [
-        SELECT
-          Id,
-          Number_of_Advances__c,
-          Acquisition_Price__c,
-          Appraised_Value_Amount__c,
-          Max_LTC__c,
-          Max_LTV__c,
-          Approved_Advance_Amount__c,
-          Advance_Fee__c,
-          BPO_Appraisal_Fee__c,
-          Doc_Prep_Fee__c,
-          Max_LTC_Dollar__c,
-          Max_LTV_Dollar__c,
-          Escrow_Agent__c,
-          Max_LTC_Dollar_nooverride__c,
-          Max_LTV_Dollar_nooverride__c,
-          Initial_Disbursement__c,
-          Initial_Disbursement_Remaining__c,
-          Advance_Fee_formula__c,
-          Total_Cost_Basis__c,
-          After_Repair_Value__c,
-          Approved_Renovation_Holdback__c,
-          Reno_Advance_Amount__c,
-          Status__c,
-          BlackSquare_Fee__c,
-          Daily_Interest_Rate__c,
-          Origination_Fee_Amnt__c,
-          Approved_Advance_Amount_Max__c,
-          Broker_Adv_Fee_Amnt__c,
-          Rehab_Budget__c,
-          Appraisal_Due_Date__c
-        FROM Property__c
-        WHERE Id IN :propertyIds
-      ]
-    );
+    Map<Id, Property__c> propertyMap = new Map<Id, Property__c>();
+    if (propertyIds.size() > 0) {
+      propertyMap = new Map<Id, Property__c>(
+        [
+          SELECT
+            Id,
+            Number_of_Advances__c,
+            Acquisition_Price__c,
+            Appraised_Value_Amount__c,
+            Max_LTC__c,
+            Max_LTV__c,
+            Approved_Advance_Amount__c,
+            Advance_Fee__c,
+            BPO_Appraisal_Fee__c,
+            Doc_Prep_Fee__c,
+            Max_LTC_Dollar__c,
+            Max_LTV_Dollar__c,
+            Escrow_Agent__c,
+            Max_LTC_Dollar_nooverride__c,
+            Max_LTV_Dollar_nooverride__c,
+            Initial_Disbursement__c,
+            Initial_Disbursement_Remaining__c,
+            Advance_Fee_formula__c,
+            Total_Cost_Basis__c,
+            After_Repair_Value__c,
+            Approved_Renovation_Holdback__c,
+            Reno_Advance_Amount__c,
+            Status__c,
+            BlackSquare_Fee__c,
+            Daily_Interest_Rate__c,
+            Origination_Fee_Amnt__c,
+            Approved_Advance_Amount_Max__c,
+            Broker_Adv_Fee_Amnt__c,
+            Rehab_Budget__c,
+            Appraisal_Due_Date__c,
+            Title_Company__c,
+            Report_Fee_BR__c,
+            Report_Fee_GEO__c,
+            Report_Fee_PCR__c,
+            Report_Fee_PH1__c,
+            Report_Fee_PH2__c,
+            Report_Fee_PC__c,
+            Report_Fee_SEI__c,
+            Inspection_Fee_SUY__c,
+            //Report_Fee_SUY__c,
+            Report_Fee_ZN__c
+          FROM Property__c
+          WHERE Id IN :propertyIds
+        ]
+      );
+    }
 
     for (Property_Advance__c adv : newList) {
-      if (adv.Advance_Status__c != 'Completed') {
+      if (
+        adv.Advance_Status__c != 'Completed' &&
+        propertyMap.containsKey(adv.Property__c)
+      ) {
         Property__c property = propertyMap.get(adv.Property__c);
         adv.Purchase_Price__c = property.Acquisition_Price__c;
         adv.BPO_APpraisal_Value__c = property.Appraised_Value_Amount__c;
@@ -399,26 +478,34 @@ public class property_advance_Helper {
         adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
         adv.After_Repair_Value__c = property.After_Repair_Value__c;
         //adv.Renovation_Reserve__c = property.Approved_Renovation_Holdback__c;
-        adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
+        if (!constAdvMap.containsKey(adv.Advance__c)) {
+          adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
+        }
         adv.Approved_Advance_Amount_Max__c = property.Approved_Advance_Amount_Max__c;
         adv.Approved_Renovation_Holdback__c = property.Approved_Renovation_Holdback__c;
         adv.Renovation_Budget__c = property.Rehab_Budget__c;
         adv.Appraisal_Due_Date__c = property.Appraisal_Due_Date__c;
+        adv.Title_Company__c = property.Title_Company__c;
 
         if (property.Number_of_Advances__c == 0) {
           adv.Broker_Advance_Fee__c = property.Broker_Adv_Fee_Amnt__c;
           adv.Advance_Fee__c = property.Advance_Fee_formula__c;
           adv.Origination_Fee__c = property.Origination_Fee_Amnt__c;
-        } else {
-          adv.Broker_Advance_Fee__c = 0;
-          adv.Advance_Fee__c = 0;
-          adv.Origination_Fee__c = 0;
+          adv.BPO_Appraisal_Fee__c = property.BPO_Appraisal_Fee__c;
+          adv.Budget_Review_Report_Fee__c = property.Report_Fee_BR__c;
+          adv.Geotechnical_Report_Fee__c = property.Report_Fee_GEO__c;
+          adv.PCR_Report_Fee__c = property.Report_Fee_PCR__c;
+          adv.Phase_1_Report_Fee__c = property.Report_Fee_PH1__c;
+          adv.Phase_2_Report_Fee__c = property.Report_Fee_PH2__c;
+          adv.Property_Condition_Report_Fee__c = property.Report_Fee_PC__c;
+          adv.Seismic_Report_Fee__c = property.Report_Fee_SEI__c;
+          adv.Inspection_Fee__c = property.Inspection_Fee_SUY__c;
+          adv.Zoning_Report_Fee__c = property.Report_Fee_ZN__c;
         }
 
-        // adv.Origination_Fee__c = property.Origination_Fee_Amnt__c;
-        adv.BPO_Appraisal_Fee__c = property.Status__c == 'In Process'
-          ? 0
-          : property.BPO_Appraisal_Fee__c;
+        // adv.BPO_Appraisal_Fee__c = property.Status__c == 'In Process'
+        //   ? 0
+        //   : property.BPO_Appraisal_Fee__c;
         adv.Doc_Prep_Fee__c = property.Doc_Prep_Fee__c;
         adv.BlackSquare_Fee__c = property.BlackSquare_Fee__c;
         //adv.Daily_Interest_Rate__c = property.Daily_Interest_Rate__c;
@@ -484,39 +571,41 @@ public class property_advance_Helper {
 
     List<Wire__c> wireUpsert = new List<Wire__c>();
 
-    for (Wire__c wire : [
-      SELECT
-        Id,
-        Advance__c,
-        Advance_Fee__c,
-        Approved_Advance_Amount__c,
-        BPO_Appraisal_Fee__c,
-        Doc_Prep_Fee__c,
-        BlackSquare_Fee__c,
-        Origination_Fee__c,
-        Escrow_Agent__c,
-        Daily_Interest_Rate__c
-      FROM Wire__c
-      WHERE Escrow_Agent__c != NULL AND Advance__c IN :wireMap.keySet()
-    ]) {
-      if (wireMap.get(wire.Advance__c).containsKey(wire.Escrow_Agent__c)) {
-        for (
-          Property_Advance__c adv : wireMap.get(wire.Advance__c)
-            .get(wire.Escrow_Agent__c)
-        ) {
-          wire.Advance_Fee__c += util.fixNull(adv.Advance_Fee__c);
-          wire.Approved_Advance_Amount__c += util.fixNull(
-            adv.Approved_Advance_Amount_Calc__c
-          );
-          wire.BPO_Appraisal_Fee__c += util.fixNull(adv.BPO_Appraisal_Fee__c);
-          wire.Doc_Prep_Fee__c += util.fixNull(adv.Doc_Prep_Fee__c);
-          wire.Origination_Fee__c += util.fixNull(adv.Origination_Fee__c);
-          wire.BlackSquare_Fee__c += util.fixNull(adv.BlackSquare_Fee__c);
-          //wire.Daily_Interest_Rate__c += util.fixNull(adv.Daily_Interest_Rate__c);
-        }
+    if (wireMap.size() > 0) {
+      for (Wire__c wire : [
+        SELECT
+          Id,
+          Advance__c,
+          Advance_Fee__c,
+          Approved_Advance_Amount__c,
+          BPO_Appraisal_Fee__c,
+          Doc_Prep_Fee__c,
+          BlackSquare_Fee__c,
+          Origination_Fee__c,
+          Escrow_Agent__c,
+          Daily_Interest_Rate__c
+        FROM Wire__c
+        WHERE Escrow_Agent__c != NULL AND Advance__c IN :wireMap.keySet()
+      ]) {
+        if (wireMap.get(wire.Advance__c).containsKey(wire.Escrow_Agent__c)) {
+          for (
+            Property_Advance__c adv : wireMap.get(wire.Advance__c)
+              .get(wire.Escrow_Agent__c)
+          ) {
+            wire.Advance_Fee__c += util.fixNull(adv.Advance_Fee__c);
+            wire.Approved_Advance_Amount__c += util.fixNull(
+              adv.Approved_Advance_Amount_Calc__c
+            );
+            wire.BPO_Appraisal_Fee__c += util.fixNull(adv.BPO_Appraisal_Fee__c);
+            wire.Doc_Prep_Fee__c += util.fixNull(adv.Doc_Prep_Fee__c);
+            wire.Origination_Fee__c += util.fixNull(adv.Origination_Fee__c);
+            wire.BlackSquare_Fee__c += util.fixNull(adv.BlackSquare_Fee__c);
+            //wire.Daily_Interest_Rate__c += util.fixNull(adv.Daily_Interest_Rate__c);
+          }
 
-        wireUpsert.add(wire);
-        wireMap.get(wire.Advance__c).remove(wire.Escrow_Agent__c);
+          wireUpsert.add(wire);
+          wireMap.get(wire.Advance__c).remove(wire.Escrow_Agent__c);
+        }
       }
     }
 
@@ -676,6 +765,8 @@ public class property_advance_Helper {
           Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
           Closer__c,
           Title_Review_Company__c,
+          Funding_Shield_Cert_Status__c,
+          HUD_Settlement_Statement_Status__c,
           (
             SELECT
               Id,
@@ -685,7 +776,9 @@ public class property_advance_Helper {
               Property__r.Requested_Funding_Date__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
               Property__r.Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
               Property__r.Closer__c,
-              Property__r.Title_Review_Company__c
+              Property__r.Title_Review_Company__c,
+              Property__r.Funding_Shield_Cert_Status__c,
+              Property__r.HUD_Settlement_Statement_Status__c
             FROM Property_Advances__r
             ORDER BY createdDate ASC, property__c ASC
           )
@@ -701,6 +794,8 @@ public class property_advance_Helper {
       String underwriter = '';
       String closer = '';
       String titleReview = '';
+      String hudStatus = '';
+      String fundingShieldStatus = '';
       //CIP-2149 - Raj Sirivolu. 1/20/2022. End.
       for (Property_Advance__c pAdv : adv.Property_Advances__r) {
         if (Integer.valueOf(pAdv.Property__r.Number_of_Advances__c) >= 1) {
@@ -730,6 +825,12 @@ public class property_advance_Helper {
             }
             if (pAdv.Property__r.Title_Review_Company__c != null) {
               titleReview = pAdv.Property__r.Title_Review_Company__c;
+            }
+            if (pAdv.Property__r.Funding_Shield_Cert_Status__c != null) {
+              fundingShieldStatus = pAdv.Property__r.Funding_Shield_Cert_Status__c;
+            }
+            if (pAdv.Property__r.HUD_Settlement_Statement_Status__c != null) {
+              hudStatus = pAdv.Property__r.HUD_Settlement_Statement_Status__c;
             }
             // system.debug('requestedFundDt :' +requestedFundDt);
             // system.debug('underwriter :' +underwriter);
@@ -776,6 +877,14 @@ public class property_advance_Helper {
           if (!String.isblank(titleReview)) {
             hasChanged = true;
             adv.Title_Review_Company__c = titleReview;
+          }
+          if (!String.isblank(fundingShieldStatus)) {
+            hasChanged = true;
+            adv.Funding_Shield_Cert_Status__c = fundingShieldStatus;
+          }
+          if (!String.isblank(hudStatus)) {
+            hasChanged = true;
+            adv.HUD_Settlement_Statement_Status__c = hudStatus;
           }
           system.debug(
             'adv.Target_Advance_Date__c :' + adv.Target_Advance_Date__c

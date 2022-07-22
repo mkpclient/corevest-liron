@@ -34,10 +34,9 @@
 						{label: 'Bed', fieldName: 'Number_of_Beds__c', type: 'number'},
 						{label: 'Bath', fieldName: 'Number_of_Bath__c', type: 'number'},
 						{label: 'Square Feet', fieldName: 'Square_Feet__c', type: 'number'},
-						{label: 'Pool', fieldName: 'Pool__c', type: 'text'},            
-            			{label: 'Estimated Rent', fieldName:'Estimated_Rent__c', type: 'number'},
+            			{label: 'Borrower Provided Rent/Estimated Rent', fieldName:'Estimated_Rent__c', type: 'number'},
             			{label: 'Estimated Min Rent', fieldName:'Estimated_Min_Rent__c', type: 'number'},
-            			{label: 'Estimated Max Rent', fieldName:'Estimated_Max_Rent__c', type: 'number'},            
+            			{label: 'Estimated Max Rent', fieldName:'Estimated_Max_Rent__c', type: 'number'},
 					 ];
 	},
 
@@ -55,10 +54,16 @@
 			Number_of_Bath__c: prop.Number_of_Bath__c,
 			Square_Feet__c: prop.Square_Feet__c,
 			Property_Type__c: prop.Property_Type__c,
-            Pool__c: prop.Pool__c,
-            Estimated_Rent__c 		: prop.Estimated_Rent__c != null ? '$' + prop.Estimated_Rent__c : null,
-            Estimated_Min_Rent__c 	: prop.Estimated_Min_Rent__c != null ? '$' + prop.Estimated_Min_Rent__c : null,
-            Estimated_Max_Rent__c 	: prop.Estimated_Max_Rent__c != null ? '$' + prop.Estimated_Max_Rent__c : null,
+            Pool__c: prop.Pool__c, 
+            Monthly_Rent__c  : prop.Monthly_Rent__c  != null ? '$' + prop.Monthly_Rent__c  : null,            
+           // Estimated_Rent__c 		: prop.Estimated_Rent__c != null ? '$' + prop.Estimated_Rent__c : null,
+           // Estimated_Min_Rent__c 	: prop.Estimated_Min_Rent__c != null ? '$' + prop.Estimated_Min_Rent__c : null,
+          //  Estimated_Max_Rent__c 	: prop.Estimated_Max_Rent__c != null ? '$' + prop.Estimated_Max_Rent__c : null,
+            Beekin_Address__c		: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? prop.Property_AVMs__r[0].AVM_Address__c : null,
+            Retrieved_addr_diff 	: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 && prop.Property_AVMs__r[0].AVM_Address__c != (prop.Name + ',' + prop.City__c + ','+ prop.State__c + ' ' + prop.ZipCode__c) ? true:false,               
+            Beekin_Estimated_Rent__c 		: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? '$' + prop.Property_AVMs__r[0].Estimated_Rent__c : null,
+            Beekin_Estimated_Min_Rent__c 	: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? '$' + prop.Property_AVMs__r[0].Estimated_Min_Rent__c : null,
+            Beekin_Estimated_Max_Rent__c 	: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? '$' + prop.Property_AVMs__r[0].Estimated_Max_Rent__c : null,
 		}));
 
 		component.set("v.selectedRowsCount", 0);
@@ -117,8 +122,6 @@
 		component.set("v.tableData", tableData);
 		component.set("v.selectedRowsCount", 0);
 	},
-
-
 
 	oneAtATimeBeekinRead: function(component, selectedProps) {
 		let isError = false;

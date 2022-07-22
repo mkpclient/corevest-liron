@@ -3,14 +3,14 @@
     <!-- <ui:scrollerWrapper class="scroller"> -->
 
     <lightning-layout slot="actions" horizontal-align="end">
-      <lightning-layout-item>
+      <!-- <lightning-layout-item>
         <lightning-button
           label="Create In-House Appraisals"
           onclick={openInhouseModal}
           name="inhouseModal"
           disabled={isLoading}
         ></lightning-button>
-      </lightning-layout-item>
+      </lightning-layout-item> -->
       <lightning-layout-item>
         <lightning-button
           label="Order Appraisal"
@@ -362,18 +362,47 @@
         data-id="params"
       >
       </lightning-combobox>
+      <template if:true={isEBI}>
+        <!-- <lightning-combobox
+          value={reportType}
+          name="productTypes"
+          label="Product Types"
+          placeholder="Select Product Types"
+          options={productTypes}
+          data-name="productType"
+          onchange={reportTypeChange}
+          data-id="params"
+        >
+        </lightning-combobox> -->
 
-      <lightning-combobox
-        value={reportType}
-        name="productTypes"
-        label="Product Types"
-        placeholder="Select Product Types"
-        options={productTypes}
-        data-name="productType"
-        onchange={reportTypeChange}
-        data-id="params"
-      >
-      </lightning-combobox>
+        <lightning-dual-listbox
+          name="productTypes"
+          label="Product Types"
+          source-label="Available"
+          selected-label="Selected"
+          value={reportType}
+          options={productTypes}
+          data-name="productType"
+          data-id="params"
+          placeholder="Select Product Types"
+          field-level-help="Select your Product Types to order"
+          size="3"
+        >
+        </lightning-dual-listbox>
+      </template>
+      <template if:false={isEBI}>
+        <lightning-combobox
+          value={reportType}
+          name="productTypes"
+          label="Product Types"
+          placeholder="Select Product Type"
+          options={productTypes}
+          data-name="productType"
+          onchange={reportTypeChange}
+          data-id="params"
+        >
+        </lightning-combobox>
+      </template>
 
       <template if:true={isClarocity}>
         <lightning-textarea
@@ -403,7 +432,7 @@
       </template>
 
       <template if:true={isClearCapital}>
-        <lightning-dual-listbox
+        <!-- <lightning-dual-listbox
           name="addOns"
           label="Add-Ons"
           source-label="Available"
@@ -416,25 +445,53 @@
           field-level-help="Select your Add-Ons for this Product/Report Type"
           size="3"
         >
-        </lightning-dual-listbox>
-        <lightning-combobox
-          value={turnTime}
-          name="turnTimes"
-          label="Turn Time"
-          placeholder="Select Turn Time"
-          options={turnTimeOptions}
-          data-name="turnTime"
-          onchange={turnTimeChange}
-          data-id="params"
-        >
-        </lightning-combobox>
-        <lightning-textarea
-          name="vendorComments"
-          label="Comments"
-          data-name="vendorComments"
-          data-id="params"
-        >
-        </lightning-textarea>
+        </lightning-dual-listbox> -->
+        <template if:false={invalidCda}>
+          <lightning-combobox
+            value={turnTime}
+            name="turnTimes"
+            label="Turn Time"
+            placeholder="Select Turn Time"
+            options={turnTimeOptions}
+            data-name="turnTime"
+            onchange={turnTimeChange}
+            data-id="params"
+          >
+          </lightning-combobox>
+          <lightning-textarea
+            name="vendorComments"
+            label="Comments"
+            data-name="vendorComments"
+            data-id="params"
+          >
+          </lightning-textarea>
+          <template if:true={isCda}>
+            <div class="slds-text-heading_small">Please select an attachment for each property</div>
+            <template for:each={files} for:item="file">
+              <lightning-combobox
+                key={file.propId}
+                name="fileselection"
+                label={file.propName}
+                placeholder="Select File"
+                options={file.fileData}
+                data-name="file-combobox"
+                variant="label-inline"
+                onchange={handleFileChange}
+                data-id={file.propId}
+                required></lightning-combobox>
+            </template>
+          </template>
+        </template>
+        <template if:true={invalidCda}>
+          <div class="slds-p-around_medium">
+            The following properties are missing an appraisal PDF file. Please unselect these properties and try again.
+          <ul class="slds-list_dotted">
+            <template for:each={missingProperties} for:item="prop">
+              <li key={prop}>{prop}</li>
+            </template>
+          </ul>
+          </div>
+        </template>
       </template>
       <template if:true={isAppraisalNation}>
         <lightning-input
@@ -519,6 +576,76 @@
           data-id="params"
         >
         </lightning-input>
+      </template>
+      <template if:true={isUSRES}>
+        <lightning-input
+          type="checkbox"
+          value={rushOrder}
+          name="rushOrder"
+          label="Rush Order"
+          data-name="rushOrder"
+          data-id="params"
+        ></lightning-input>
+        <lightning-input
+          type="date"
+          value={dueDate}
+          name="dueDate"
+          label="Due Date"
+          data-name="dueDate"
+          data-id="params"
+        ></lightning-input>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
+        <lightning-input
+          value={username}
+          name="anUsername"
+          label="Username"
+          data-name="anUsername"
+          data-id="params"
+        >
+        </lightning-input>
+        <lightning-input
+          type="password"
+          value={password}
+          name="anPassword"
+          label="Password"
+          data-name="anPassword"
+          data-id="params"
+        >
+        </lightning-input>
+      </template>
+      <template if:true={isEBI}>
+        <lightning-input
+          type="checkbox"
+          value={rushOrder}
+          name="rushOrder"
+          label="Rush Order"
+          data-name="rushOrder"
+          data-id="params"
+        ></lightning-input>
+        <lightning-combobox
+          value={turnTime}
+          name="turnTimes"
+          label="Turn Time"
+          placeholder="Select Turn Time"
+          options={turnTimeOptions}
+          data-name="turnTime"
+          onchange={turnTimeChange}
+          data-id="params"
+        >
+        </lightning-combobox>
+        <lightning-textarea
+          name="vendorComments"
+          label="Comments"
+          data-name="vendorComments"
+          data-id="params"
+        >
+        </lightning-textarea>
       </template>
     </div>
 

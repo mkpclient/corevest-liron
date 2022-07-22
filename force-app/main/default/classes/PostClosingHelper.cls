@@ -130,6 +130,9 @@ public without sharing class PostClosingHelper {
     String sObjectName,
     String triggerContext
   ) {
+    // Map<Id, sObject> recordMap = (Map<Id,SObject>) JSON.deserialize(newJson, Map<Id,SObject>.class);
+    // Map<Id, sObject> oldRecordMap = (Map<Id,SObject>) JSON.deserialize(oldJson, Map<Id,SObject>.class);
+
     Map<String, List<Document_Structure__mdt>> recordTypeDocStructureMap = new Map<String, List<Document_Structure__mdt>>();
 
     Set<Id> dealIds = new Set<Id>();
@@ -327,9 +330,6 @@ public without sharing class PostClosingHelper {
     }
   }
 
-  // public static String getRecords(String sObjectName){
-  //     String
-  // }
 
   public class PostClosingStruct {
     String postClosingSectionMDTid;
@@ -527,7 +527,8 @@ public without sharing class PostClosingHelper {
         Upload_Notification_Loan_Coordinator__c,
         Upload_Notification_Originations__c,
         Upload_Notification_Underwriter__c,
-        Document_Type__c
+        Document_Type__c,
+        Legal_Review__c
       FROM Document_Structure__mdt
       WHERE ID = :docStructureId
     ];
@@ -584,6 +585,8 @@ public without sharing class PostClosingHelper {
           .Upload_Notification_Originations__c;
         dealDoc.Upload_Notification_Underwriter__c = docStructure[0]
           .Upload_Notification_Underwriter__c;
+        dealDoc.Legal_Review__c = docStructure[0]
+          .Legal_Review__c;
       }
 
       dealDoc.Attachment_Id__c = docId;

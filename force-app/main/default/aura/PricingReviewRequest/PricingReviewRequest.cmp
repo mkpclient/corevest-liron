@@ -8,7 +8,14 @@
   <aura:attribute name="comments" type="String" />
   <aura:attribute name="resolution" type="String" />
   <aura:attribute name="errorMessage" type="List" />
+  <aura:attribute name="requireComments" type="Boolean" default="false" />
   <aura:attribute name="isDisplayGLC" type="Boolean" default="false" />
+  <aura:attribute name="allowBypass" type="Boolean" default="false" />
+  <aura:attribute name="showButtons" type="Boolean" default="false" />
+  <aura:attribute name="bypassScreen" type="Boolean" default="false" />
+  <aura:attribute name="toastTitle" type="String" />
+  <aura:attribute name="toastMessage" type="String" />
+  <aura:attribute name="toastType" type="String" />
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
 
   <aura:html tag="style">
@@ -38,8 +45,9 @@
         <h2
           id="modal-heading-01"
           class="slds-text-heading_medium slds-hyphenate"
-          >Pricing Review Request</h2
         >
+          Pricing Review Request
+        </h2>
       </header>
       <div
         class="slds-is-relative slds-modal__content slds-p-around_medium"
@@ -49,57 +57,89 @@
           <span id="missing-fields">
             <!-- {!v.errorMessage} -->
             <aura:iteration items="{!v.errorMessage}" var="errorMsg">
-              <div>
-                {!errorMsg}
-              </div>
+              <div>{!errorMsg}</div>
             </aura:iteration>
           </span>
         </div>
 
         <div aura:id="successMessage" class="slds-hide">
-          <div style="margin:12px 0;">
-            <ui:inputTextArea
-              label="Comments for pricing review:"
-              value="{!v.comments}"
-              rows="3"
-            />
-          </div>
-          <aura:if isTrue="{!v.isDisplayGLC}">
-            <div style="margin:12px 0;">
-              <ui:inputTextArea
-                label="Resolution for GLC Approval:"
-                value="{!v.resolution}"
-                rows="3"
-              />
+          <aura:if isTrue="{!v.bypassScreen}">
+            <div style="margin: 12px 0">
+              The Deal has Standard Pricing and is Eligible to bypass the
+              Pricing Approval. Please make selection below to proceed.
             </div>
+            <aura:set attribute="else">
+              <div style="margin: 12px 0">
+                <ui:inputTextArea
+                  label="Comments for pricing review:"
+                  value="{!v.comments}"
+                  rows="3"
+                  required="{!v.requireComments}"
+                />
+              </div>
+              <aura:if isTrue="{!v.isDisplayGLC}">
+                <div style="margin: 12px 0">
+                  <ui:inputTextArea
+                    label="Resolution for GLC Approval:"
+                    value="{!v.resolution}"
+                    rows="3"
+                  />
+                </div>
+              </aura:if>
+            </aura:set>
           </aura:if>
-
           <!-- <div style="float:right;"> -->
           <!-- </div> -->
         </div>
 
         <div aura:id="result" class="slds-hide">
-          <div style="text-align:center;">
+          <div style="text-align: center">
             <span id="result-message"></span>
           </div>
-          <div style="text-align:center;margin-top:20px;"> </div>
+          <div style="text-align: center; margin-top: 20px"></div>
         </div>
       </div>
       <footer class="slds-modal__footer">
-        <div>
-          <button
-            aura:id="cancelButton"
-            class="slds-button slds-button_neutral"
-            onclick="{!c.closeWindow}"
-            >Cancel</button
-          >
-          <ui:button
-            aura:id="submitButton"
-            class="slds-hide"
-            label="Submit"
-            press="{!c.submitApproval}"
-          />
-        </div>
+        <aura:if isTrue="{!v.showButtons}">
+          <div>
+            <aura:if isTrue="{!v.bypassScreen}">
+              <lightning:button
+                variant="brand"
+                label="Bypass Pricing Approval"
+                title="Bypass Pricing Approval"
+                onclick="{!c.handleBypass}"
+                aura:id="bypassButton"
+              />
+              <lightning:button
+                variant="brand"
+                label="Proceed To Submission"
+                title="Proceed To Submission"
+                onclick="{!c.handleProceed}"
+                aura:id="proceedButton"
+              />
+              <lightning:button
+                label="Cancel"
+                title="Cancel"
+                onclick="{!c.closeWindow}"
+                aura:id="cancelButton"
+              />
+              <aura:set attribute="else">
+                <button
+                  aura:id="cancelButton"
+                  class="slds-button slds-button_neutral"
+                  onclick="{!c.closeWindow}"
+                >
+                  Cancel
+                </button>
+                <ui:button
+                  aura:id="submitButton"
+                  label="Submit"
+                  press="{!c.submitApproval}"
+                />
+              </aura:set>
+            </aura:if>
+          </div>
+        </aura:if>
         <ui:button
           aura:id="okButton"
           class="slds-hide"

@@ -49,7 +49,7 @@
         </action>
     </initialSubmissionActions>
     <label>Term-Confirmation of Terms</label>
-    <processOrder>9</processOrder>
+    <processOrder>11</processOrder>
     <recallActions>
         <action>
             <name>Approval_Request_Recalled</name>

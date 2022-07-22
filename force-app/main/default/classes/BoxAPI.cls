@@ -3,7 +3,7 @@ public without sharing class BoxAPI {
   public static String authEndpoint = 'https://api.box.com/oauth2/token';
 
   public static String BOUNDARY = 'BoxApexSDKcjhJ$vXxPaCKo=83up1oadb0undary';
-  public static String AS_USER = '257409297';
+  public static String AS_USER; //'268641442';
   public static String getAccessToken() {
     if (String.isNotBlank(accessToken)) {
       return accessToken;
@@ -23,11 +23,13 @@ public without sharing class BoxAPI {
     body += '&client_id=' + client_id;
     body += '&client_secret=' + client_secret;
 
+    system.debug(body);
+
     HttpRequest request = new HttpRequest();
     request.setEndpoint(authEndpoint);
     request.setMethod('POST');
     request.setBody(body);
-    String responseBody = '{"access_token":"EjgX2hnlA55CvDxBilscSSxnjzCvbak3","expires_in":3941,"restricted_to":[],"token_type":"bearer"}';
+    String responseBody = '{"access_token":"ixUG1OvRT3aJNsmLuOrqjFBY1brpDAWP","expires_in":3941,"restricted_to":[],"token_type":"bearer"}';
 
     if (!Test.isRunningTest()) {
       HttpResponse response = new Http().send(request);
@@ -40,7 +42,7 @@ public without sharing class BoxAPI {
       responseBody
     );
 
-    // system.debug(parsedBody);
+    system.debug(parsedBody);
 
     accessToken = (String) parsedBody.get('access_token');
 
@@ -66,17 +68,23 @@ public without sharing class BoxAPI {
     HttpResponse response;
 
     try {
+      if (AS_USER == null) {
+        AS_USER = Settings__mdt.getInstance('Universal_Settings')
+          .Box_As_User__c;
+      }
+
       String uploadEndpoint = 'https://upload.box.com/api/2.0/files/content';
       system.debug(uploadEndpoint);
       request = new HttpRequest();
       request.setMethod('POST');
-      request.setTimeout(120000);
+      request.setTimeout(30000);
       request.setHeader(
         'Content-Type',
         'multipart/form-data; boundary=' + BOUNDARY
       );
       request.setHeader('Authorization', 'Bearer ' + accessToken);
-      request.setHeader('as-user', '257409297');
+      request.setHeader('as-user', AS_USER);
+      //request.setHeader('as-user', '257409297');
       request.setBodyAsBlob(bodyBlob);
       request.setHeader(
         'Content-Length',
@@ -92,7 +100,13 @@ public without sharing class BoxAPI {
         new APILoggerQueueable(request, response, parentId, false)
       );
     } catch (Exception e) {
-      System.enqueueJob(new APILoggerQueueable(request, response, parentId, e));
+      if (e.getMessage() == 'Read timed out') {
+        uploadFile(fileBody, fileName, folderId, parentId);
+      } else {
+        System.enqueueJob(
+          new APILoggerQueueable(request, response, parentId, e)
+        );
+      }
     }
   }
 

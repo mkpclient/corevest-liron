@@ -20,7 +20,12 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
-    <tabs>API_Log__c</tabs>
     <tabs>Swap_Rate__c</tabs>
-    <tabs>Lender_Deal__c</tabs>
+    <tabs>Interest_Reserves__c</tabs>
+    <tabs>Property_Snapshot__c</tabs>
+    <tabs>Property_Mortgage_lien_all__c</tabs>
+    <tabs>Property_Sales_history__c</tabs>
+    <tabs>Custodial_Exception__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>CLO_Asset_Details__c</tabs>
 </CustomApplication>

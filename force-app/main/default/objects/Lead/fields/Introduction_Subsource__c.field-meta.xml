@@ -69,6 +69,11 @@
                 <label>BiggerPockets Conference</label>
             </value>
             <value>
+                <fullName>Bobby Ash Sourced</fullName>
+                <default>false</default>
+                <label>Bobby Ash Sourced</label>
+            </value>
+            <value>
                 <fullName>Boris Zhuravel Sourced</fullName>
                 <default>false</default>
                 <label>Boris Zhuravel Sourced</label>
@@ -793,6 +798,10 @@
         <valueSettings>
             <controllingFieldValue>Non-Database</controllingFieldValue>
             <valueName>Anthony Elgort Sourced</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Non-Database</controllingFieldValue>
+            <valueName>Bobby Ash Sourced</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Non-Database</controllingFieldValue>

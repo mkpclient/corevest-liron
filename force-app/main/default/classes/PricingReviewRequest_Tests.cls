@@ -16,6 +16,8 @@ private class PricingReviewRequest_Tests {
     .Id;
 
     update opp;
+    PricingReviewRequest_LightningController.bypassApproval(opp.Id, 'testname');
+    // PricingReviewRequest_LightningController.validateRecord(opp.Id);
     PricingReviewRequest_LightningController.startApproval(
       opp.Id,
       'Opportunity',
@@ -40,6 +42,7 @@ private class PricingReviewRequest_Tests {
       'Test Resolution',
       'Term_Loan'
     );
+    PricingReviewRequest_LightningController.sendRepricingEmail(opp.Id);
     Test.stopTest();
   }
 }

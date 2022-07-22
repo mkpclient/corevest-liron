@@ -3,14 +3,13 @@ trigger AdvanceDealTrigger on Advance__c(after insert, after update) {
 
   if (!settings.Disable_Advance_Trigger__c) {
     if (Trigger.isInsert) {
-      for (Advance__c adv : Trigger.new) {
-        AdvanceDealTriggerHelper.advanceDealTriggerHelperMethod(adv, null);
-      }
+        AdvanceDealTriggerHelper.advanceDealTriggerHelperMethod(Trigger.newMap, new Map<Id,Advance__c>());
+      
     } else if (Trigger.isUpdate) {
       for (integer i = 0; i < Trigger.new.size(); i++) {
         AdvanceDealTriggerHelper.advanceDealTriggerHelperMethod(
-          Trigger.new[i],
-          Trigger.old[i]
+          Trigger.newMap,
+          Trigger.oldMap
         );
       }
     }

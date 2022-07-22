@@ -13,6 +13,10 @@
             <fullName>Escrow</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
@@ -21,7 +25,22 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Origination</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Capital_Partner_Release__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -78,6 +97,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Inspection_Method__c</picklist>
+        <values>
+            <fullName>Sitewire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trinity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Lender__c</picklist>
         <values>
             <fullName>5 Arch Funding Corp%2E</fullName>
@@ -93,52 +123,38 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Probability__c</picklist>
-        <values>
-            <fullName>0%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>100%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>50%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>80%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Property_Record_Type__c</picklist>
-        <values>
-            <fullName>Non-Renovation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renovation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Asset w%2F Renovation</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Status__c</picklist>
         <values>
             <fullName>Completed</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending</fullName>
+            <fullName>Hold</fullName>
             <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Capital Partner Release</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Inspection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Inspection Report Revision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Release</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

@@ -21,14 +21,14 @@
                 <label>No Renovation</label>
             </value>
             <value>
-                <fullName>Fixed Rate Long Term Loan</fullName>
+                <fullName>Long Term Rental</fullName>
                 <default>false</default>
-                <label>Fixed Rate Long Term Loan</label>
+                <label>Long Term Rental</label>
             </value>
             <value>
-                <fullName>Fixed Rate Short Term Loan</fullName>
+                <fullName>Short Term Rental</fullName>
                 <default>false</default>
-                <label>Fixed Rate Short Term Loan</label>
+                <label>Short Term Rental</label>
             </value>
         </valueSetDefinition>
     </valueSet>

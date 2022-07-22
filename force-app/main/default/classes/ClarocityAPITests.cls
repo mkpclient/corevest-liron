@@ -5,7 +5,7 @@ private with sharing class ClarocityAPITests {
     RecordType rt = [SELECT Id, DeveloperName FROM RecordType WHERE DeveloperName = 'Vendor' AND sobjectType = 'Account' LIMIT 1];
     insert new Account(Name = 'Clarocity Valuation Services', RecordTypeId = rt.Id);
 
-
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);

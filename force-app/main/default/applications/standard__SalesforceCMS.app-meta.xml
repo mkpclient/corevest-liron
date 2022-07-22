@@ -157,24 +157,6 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Business Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
         <profile>Business Intelligence</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -257,42 +239,6 @@
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
         <profile>Executive</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Delegated Administrator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Data Analyst</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -481,24 +427,6 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Legal - Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Legal - Read Only</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
         <profile>Loan Application Profile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -679,42 +607,6 @@
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
-        <profile>Sales and Eblast</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Sales and Eblast</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Single Asset Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Single Asset Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
         <profile>SolutionManager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -779,42 +671,6 @@
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
         <profile>Admin</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Closer</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Term Loan Coordinator</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -846,13 +702,18 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
-    <tabs>API_Log__c</tabs>
     <tabs>Swap_Rate__c</tabs>
-    <tabs>Lender_Deal__c</tabs>
+    <tabs>Interest_Reserves__c</tabs>
+    <tabs>Property_Snapshot__c</tabs>
+    <tabs>Property_Mortgage_lien_all__c</tabs>
+    <tabs>Property_Sales_history__c</tabs>
+    <tabs>Custodial_Exception__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>CLO_Asset_Details__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
-            <tab>API_Log__c</tab>
+            <tab>CLO_Asset_Details__c</tab>
         </mappings>
         <mappings>
             <tab>Checklist_Item__c</tab>
@@ -870,10 +731,13 @@
             <tab>Comment__c</tab>
         </mappings>
         <mappings>
+            <tab>Custodial_Exception__c</tab>
+        </mappings>
+        <mappings>
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
-            <tab>Lender_Deal__c</tab>
+            <tab>Interest_Reserves__c</tab>
         </mappings>
         <mappings>
             <tab>Loan_Version__c</tab>
@@ -882,7 +746,19 @@
             <tab>Post_Closing_Section__c</tab>
         </mappings>
         <mappings>
+            <tab>Property_Mortgage_lien_all__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Property_Sales_history__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Property_Snapshot__c</tab>
+        </mappings>
+        <mappings>
             <tab>Swap_Rate__c</tab>
+        </mappings>
+        <mappings>
+            <tab>TPO_Pool_x_Deal__c</tab>
         </mappings>
         <mappings>
             <tab>standard-CmsAuthorHome</tab>

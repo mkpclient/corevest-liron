@@ -8,6 +8,7 @@
     <columns>Type__c</columns>
     <columns>Document_Structure__c</columns>
     <columns>Responsible_Party__c</columns>
+    <columns>Milestone__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>RecordType__c</field>

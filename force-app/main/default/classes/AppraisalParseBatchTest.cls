@@ -23,6 +23,7 @@ public with sharing class AppraisalParseBatchTest {
       LIMIT 1
     ]
     .ContentDocumentId;
+    test_Helper.createDealLoanNumber();
     Account acc = Test_Helper.createAccount();
     Contact cont = Test_Helper.createContact(acc);
     Opportunity opp = Test_Helper.createOpportunity(acc, cont);

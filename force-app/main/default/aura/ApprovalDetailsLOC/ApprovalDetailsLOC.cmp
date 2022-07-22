@@ -27,12 +27,13 @@
                 Foreign National
             </dt>
             <dd class="slds-item_detail slds-truncate">
-                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                {!v.record.Foreign_National_picklist__c}
+                <!-- <aura:if isTrue="{!v.record.Foreign_National__c == true}">
                     Yes
                 </aura:if>
                 <aura:if isTrue="{!v.record.Foreign_National__c != true}">
                     No
-                </aura:if>
+                </aura:if> -->
             </dd>
         </div>
         
@@ -41,10 +42,10 @@
                 Foreign National Country
             </dt>
             <dd class="slds-item_detail slds-truncate">
-                <aura:if isTrue="{!v.record.Foreign_National__c == true}">
+                <aura:if isTrue="{!v.record.Foreign_National_picklist__c == 'Yes' || v.record.Foreign_National_picklist__c == 'Y'}">
                     {!v.record.Country__c}
                 </aura:if>
-                <aura:if isTrue="{!v.record.Foreign_National__c != true}">
+                <aura:if isTrue="{AND(!v.record.Foreign_National_picklist__c != 'Yes', v.record.Foreign_National_picklist__c != 'Y')}">
                     N/A
                 </aura:if>
             </dd>

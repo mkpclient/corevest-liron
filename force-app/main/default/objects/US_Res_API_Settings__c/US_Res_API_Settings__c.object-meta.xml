@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>API details for US Res</description>
+    <enableFeeds>false</enableFeeds>
+    <label>US Res API Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -17,11 +17,7 @@ public class update_Swap_Rate {
                          from Swap_Rate__c order by CreatedDate desc limit 1];
        decimal floor;
 		if (Oppor.Floor__c != null)
-        {
-            System.Debug('RS999 Oppor.Floor__c :' +Oppor.Floor__c);
-            System.Debug('RS999 SwapRate.Five_Year_Swap__c :' +SwapRate.Five_Year_Swap__c);
             floor = Oppor.Floor__c;
-		}            
         else
             floor = 0;
         

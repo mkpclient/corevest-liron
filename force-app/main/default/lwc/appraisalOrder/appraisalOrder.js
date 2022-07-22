@@ -11,7 +11,7 @@ import getType from "@salesforce/apex/lightning_Util.getType";
 import retrievePicklists from "@salesforce/apex/lightning_Util.getPicklistValues";
 import getUser from "@salesforce/apex/lightning_Util.getUser";
 import { getPicklistValues } from "lightning/uiObjectInfoApi";
-import refreshAppraisalStatus from "@salesforce/apex/AppraisalMergeController.refreshAppraisalStatus";
+// import refreshAppraisalStatus from "@salesforce/apex/AppraisalMergeController.refreshAppraisalStatus";
 // import PROPERTY_TYPES from "@salesforce/schema/Property__c.Property_Type__c";
 
 export default class AppraisalOrder extends LightningElement {
@@ -23,6 +23,7 @@ export default class AppraisalOrder extends LightningElement {
   @track selectedPropertyIds = [];
 
   @track reportType = "";
+  @track addOns = [];
   @track turnTime = "";
 
   @track canOrder = false;
@@ -52,6 +53,9 @@ export default class AppraisalOrder extends LightningElement {
   @track objname;
   @track fname;
   @track picklistresult;
+  missingProperties = [];
+  files = [];
+  selectedFiles = [];
   // @wire(checkPermission, { permissionSetName: "Order_Appraisals_Through_API" })
   // canOrder;
 
@@ -127,6 +131,10 @@ export default class AppraisalOrder extends LightningElement {
       password = this.user.Appraisal_Nation_Password__c;
     } else if (appraisalFirm === "Clarocity Valuation Services") {
       password = this.user.Clarocity_Password__c;
+    } else if (appraisalFirm === "Valuation Services AMC") {
+      password = this.user.Valuation_Services_Password__c;
+    } else if (appraisalFirm === "US RES") {
+      password = this.user.US_RES_Password__c;
     }
 
     return password;
@@ -142,6 +150,10 @@ export default class AppraisalOrder extends LightningElement {
       username = this.user.Appraisal_Nation_Username__c;
     } else if (appraisalFirm === "Clarocity Valuation Services") {
       username = this.user.Clarocity_Username__c;
+    } else if (appraisalFirm === "Valuation Services AMC") {
+      username = this.user.Valuation_Services_Username__c;
+    } else if (appraisalFirm === "US RES") {
+      username = this.user.US_RES_Username__c;
     }
 
     return username;
@@ -438,6 +450,10 @@ export default class AppraisalOrder extends LightningElement {
       validated = this.checkValidationsCC();
     } else if (appraisalFirm === "Clarocity Valuation Services") {
       validated = this.checkValidationsClarocity();
+    } else if (appraisalFirm === "Valuation Services AMC") {
+      validated = this.checkValidationsVS();
+    } else if (appraisalFirm === "US RES") {
+      validated = this.checkValidationsUSRES();
     }
 
     return validated;
@@ -452,11 +468,64 @@ export default class AppraisalOrder extends LightningElement {
     const turnTime = this.template.querySelector(
       '[data-name="turnTime"]'
     ).value;
+    let allValid = true;
 
-    return productType && productType !== "" && turnTime && turnTime !== "";
+    if(this.isCda) {
+      allValid = [...this.template.querySelectorAll('[data-name="file-combobox"]')]
+        .reduce((validSoFar, cmp) => {
+          cmp.reportValidity();
+          return validSoFar && cmp.checkValidity();
+        }, true);
+    }
+
+    return productType && productType !== "" && turnTime && turnTime !== "" && allValid;
   }
 
   checkValidationsAN() {
+    const productType = this.template.querySelector(
+      '[data-name="productType"]'
+    ).value;
+
+    const username = this.template.querySelector(
+      '[data-name="anUsername"]'
+    ).value;
+    const password = this.template.querySelector(
+      '[data-name="anPassword"]'
+    ).value;
+
+    return (
+      productType &&
+      productType !== "" &&
+      username &&
+      username !== "" &&
+      password &&
+      password !== ""
+    );
+  }
+
+  checkValidationsVS() {
+    const productType = this.template.querySelector(
+      '[data-name="productType"]'
+    ).value;
+
+    const username = this.template.querySelector(
+      '[data-name="anUsername"]'
+    ).value;
+    const password = this.template.querySelector(
+      '[data-name="anPassword"]'
+    ).value;
+
+    return (
+      productType &&
+      productType !== "" &&
+      username &&
+      username !== "" &&
+      password &&
+      password !== ""
+    );
+  }
+
+  checkValidationsUSRES() {
     const productType = this.template.querySelector(
       '[data-name="productType"]'
     ).value;
@@ -500,6 +569,17 @@ export default class AppraisalOrder extends LightningElement {
     );
   }
 
+  handleFileChange(event) {
+    const cvId = event.detail.value;
+    const propId = event.target.dataset.id;
+    let selectedFilesLocal = [...this.selectedFiles];
+    if(selectedFilesLocal.some(f => f.propId == propId)) {
+      selectedFilesLocal = selectedFilesLocal.filter(f => f.propId !== propId);
+    }
+    selectedFilesLocal.push({ propId, cvId });
+    this.selectedFiles = selectedFilesLocal;
+  }
+
   submitOrder(event) {
     this.toggleFooterButtons();
     let params = {};
@@ -534,11 +614,13 @@ export default class AppraisalOrder extends LightningElement {
     if (
       propertyTypes.has("Multifamily") &&
       (params.appraisalFirm === "Appraisal Nation" ||
-        params.appraisalFirm === "Clear Capital")
+        params.appraisalFirm === "Clear Capital" ||
+        params.appraisalFirm === "Valuation Services AMC" ||
+        params.appraisalFirm === "US RES")
     ) {
       this.showNotification(
         "Unable to Order",
-        "Clear Capital does not provide CoreVest with Appraisals on Multifamily or Mixed Use Property Types."
+        "Selected Vendor does not provide CoreVest with Appraisals on Multifamily or Mixed Use Property Types."
       );
 
       return;
@@ -547,7 +629,8 @@ export default class AppraisalOrder extends LightningElement {
     if (
       propertyTypes.has("Multifamily") &&
       (params.appraisalFirm === "Appraisal Nation" ||
-        params.appraisalFirm === "Clear Capital")
+        params.appraisalFirm === "Clear Capital" ||
+        params.appraisalFirm === "US RES")
     ) {
       return;
     }
@@ -621,7 +704,6 @@ export default class AppraisalOrder extends LightningElement {
 
       let isError = false;
       let errorMsgs = [];
-
       // this.template.querySelector('[data-id="orderModal"]').showSpinner();
       // this.toggleFooterButtons();
 
@@ -631,7 +713,7 @@ export default class AppraisalOrder extends LightningElement {
         return promise.then(() => {
           return submitOrder({
             propertyId: propertyId,
-            arguments: params
+            arguments: this.isCda ? { ...params, cvId: this.selectedFiles.find(f => f.propId == propertyId).cvId} : params
           }).then(
             (res) => {
               // do stuff
@@ -903,7 +985,8 @@ export default class AppraisalOrder extends LightningElement {
         property.Appraisals__r.forEach((appraisal) => {
           if (
             appraisal.Status__c !== "Complete-Delivered" &&
-            appraisal.Status__c !== "Cancelled"
+            appraisal.Status__c !== "Cancelled" &&
+            appraisal.Status__c !== "Complete-Undelivered"
           ) {
             appraisalIds.push(appraisal.Id);
           }
@@ -914,73 +997,58 @@ export default class AppraisalOrder extends LightningElement {
       this.refreshAppraisals(appraisalIds);
     } else {
       this.isLoading = false;
-    } 
+    }
   }
 
   refreshAppraisals(appraisalIds) {
     let isError = false;
     let errorMsgs = [];
-    refreshAppraisalStatus({appraisalIds: appraisalIds, isBatch: false})
-      .then((res) => {
-        return appraisalIds.reduce((promise, appraisalId, index) => {
-          return promise.then(() => {
-            return checkStatus({
-              appraisalId: appraisalId
-            }).then(
-              (res) => {
-                if (index === appraisalIds.length - 1) {
-                  if (isError) {
-                    //
-                    let errorMsg = "An error occured on one or more orders.";
-                    for (let msg of errorMsgs) {
-                      errorMsg += "\n" + msg;
-                    }
-    
-                    console.log(errorMsg);
-    
-                    this.showNotification("Error", errorMsg, "error");
-                  } else {
-                        this.queryProperties()
-                        this.showNotification("Success", "Orders refreshed", "success");
-                  }
+    appraisalIds.reduce((promise, appraisalId, index) => {
+      return promise.then(() => {
+        return checkStatus({
+          appraisalId: appraisalId
+        }).then(
+          (res) => {
+            if (index === appraisalIds.length - 1) {
+              if (isError) {
+                //
+                let errorMsg = "An error occured on one or more orders.";
+                for (let msg of errorMsgs) {
+                  errorMsg += "\n" + msg;
                 }
-    
-                console.log("submitted order");
-              },
-              (error) => {
-                console.log("error");
-    
-                errorMsgs.push(error.body.message);
-                if (index === appraisalIds.length - 1) {
-                  //  this.hideSpinner(component);
-    
-                  let errorMsg = "An error occured on one or more orders.";
-                  for (let msg of errorMsgs) {
-                    errorMsg += "\n" + msg;
-                  }
-    
-                  //console.log(errorMsg);
-    
-                  this.showNotification("Error", errorMsg, "error");
-                  this.queryProperties();
-                }
+
+                console.log(errorMsg);
+
+                this.showNotification("Error", errorMsg, "error");
+              } else {
+                this.showNotification("Success", "Orders refreshed", "success");
+                this.queryProperties();
               }
-            );
-          });
-        }, Promise.resolve());
-      })
-      .catch((err) => {
-        let errorMsg = "An error occured on one or more orders.";
-        for (let msg of errorMsgs) {
-          errorMsg += "\n" + msg;
-        }
+            }
 
-        console.log(errorMsg);
+            console.log("submitted order");
+          },
+          (error) => {
+            console.log("error");
 
-        this.showNotification("Error", errorMsg, "error");
+            errorMsgs.push(error.body.message);
+            if (index === appraisalIds.length - 1) {
+              //  this.hideSpinner(component);
 
-        console.error(JSON.stringify(err));
+              let errorMsg = "An error occured on one or more orders.";
+              for (let msg of errorMsgs) {
+                errorMsg += "\n" + msg;
+              }
+
+              //console.log(errorMsg);
+
+              this.showNotification("Error", errorMsg, "error");
+              this.queryProperties();
+            }
+          }
+        );
       });
+    }, Promise.resolve());
   }
 
   openOrderModal() {
@@ -1045,6 +1113,10 @@ export default class AppraisalOrder extends LightningElement {
   closeOrderModal() {
     this.template.querySelector('[data-id="orderModal"]').toggleModal();
     this.selectedPropertyIds = [];
+    this.missingProperties = [];
+    this.reportType = null;
+    this.appraisalFirm = null;
+    this.turnTime = null;
     console.log("close order modal");
   }
 
@@ -1055,12 +1127,15 @@ export default class AppraisalOrder extends LightningElement {
   get appraisalFirms() {
     let options = [];
     options = [
-      { label: "Clear Capital", value: "Clear Capital" },
       { label: "Appraisal Nation", value: "Appraisal Nation" },
-      {
-        label: "Clarocity Valuation Services",
-        value: "Clarocity Valuation Services"
-      }
+      // {
+      //   label: "Clarocity Valuation Services",
+      //   value: "Clarocity Valuation Services"
+      // },
+      { label: "Clear Capital", value: "Clear Capital" },
+      // { label: "EBI", value: "EBI" },
+      { label: "US RES", value: "US RES" },
+      { label: "Valuation Services AMC", value: "Valuation Services AMC" }
     ];
     return options;
   }
@@ -1094,17 +1169,17 @@ export default class AppraisalOrder extends LightningElement {
           value: "Interior BPO"
         },
         {
-          label: "ClearVal 2.0 (Interior PCI)",
-          value: "ClearVal 2.0 (Interior PCI)"
-        },
-        {
-          label: "ClearVal 2.0 (Exterior PCI)",
-          value: "ClearVal 2.0 (Exterior PCI)"
-        },
-        {
           label: "1004 Hybrid Report",
           value: "1004 Hybrid Report"
         },
+        // {
+        //   label: "ClearVal 2.0 (Interior PCI)",
+        //   value: "ClearVal 2.0 (Interior PCI)"
+        // },
+        // {
+        //   label: "ClearVal 2.0 (Exterior PCI)",
+        //   value: "ClearVal 2.0 (Exterior PCI)"
+        // },
         // {
         //   label: "Commercial",
         //   value: "Commercial"
@@ -1114,6 +1189,19 @@ export default class AppraisalOrder extends LightningElement {
           value: "Post Disaster Inspection"
         }
       ];
+      if (this.dealType === "Bridge Loan") {
+        const dcaOptions = [
+          {
+            label: "CDA with MLS Sheets",
+            value: "CDA with MLS Sheets"
+          },
+          {
+            label: "CDA with no MLS",
+            value: "CDA with no MLS"
+          }
+        ];
+        options = [...options, ...dcaOptions];
+      }
     } else if (this.appraisalFirm === "Appraisal Nation") {
       options = [
         { label: "Interior Appraisal", value: "Interior Appraisal" },
@@ -1164,13 +1252,117 @@ export default class AppraisalOrder extends LightningElement {
         //   value: "PCR RE Exterior"
         // }
       ];
+    } else if (this.appraisalFirm === "Valuation Services AMC") {
+      options = [
+        { label: "Interior Appraisal", value: "Interior Appraisal" },
+        {
+          label: "Interior Appraisal with ARV",
+          value: "Interior Appraisal with ARV"
+        },
+        { label: "Exterior Appraisal", value: "Exterior Appraisal" },
+        {
+          label: "Exterior Appraisal with ARV",
+          value: "Exterior Appraisal with ARV"
+        },
+        { label: "Final Inspection", value: "Final Inspection" },
+        {
+          label: "Final Inspection & Appraisal Update",
+          value: "Final Inspection & Appraisal Update"
+        }
+        // {
+        //   label: "CDAIR Exterior Disaster Area Inspection Report",
+        //   value: "CDAIR Exterior Disaster Area Inspection Report"
+        // },
+        // {
+        //   label: "CDAIR Interior Disaster Area Inspection Report",
+        //   value: "CDAIR Interior Disaster Area Inspection Report"
+        // }
+      ];
+    } else if (this.appraisalFirm === "EBI") {
+      options = [
+        { label: "PCA", value: "PCA" },
+        { label: "ESA", value: "ESA" },
+        { label: "Construction Monitoring", value: "Construction Monitoring" }
+      ];
+    } else if (this.appraisalFirm === "US RES") {
+      options = [
+        { label: "Interior Appraisal", value: "Interior Appraisal" },
+        {
+          label: "Exterior/Hybrid Desktop Appraisal",
+          value: "Exterior/Hybrid Desktop Appraisal"
+        },
+        { label: "Appraisal Update", value: "Appraisal Update" }
+        // { label: "Desktop Appraisal Summary", value: "Desktop Appraisal Summary" }
+        // {
+        //   label: "CDAIR Exterior Disaster Area Inspection Report",
+        //   value: "CDAIR Exterior Disaster Area Inspection Report"
+        // },
+        // {
+        //   label: "CDAIR Interior Disaster Area Inspection Report",
+        //   value: "CDAIR Interior Disaster Area Inspection Report"
+        // }
+      ];
     }
     return options;
   }
 
-  reportTypeChange(event) {
+  get addOnOptions() {
+    let options = [];
+
+    if (this.appraisalFirm === "Clear Capital") {
+      if (this.reportType === "ClearVal 2.0 (Interior PCI)") {
+        options = [
+          {
+            label: "As-Repaired Value Addendum",
+            value: "As-Repaired Value Addendum"
+          },
+          {
+            label: "Budget Analysis w/ As-Repaired Value Addendum",
+            value: "Budget Analysis w/ As-Repaired Value Addendum"
+          },
+          {
+            label: "Comparable Sales History",
+            value: "Comparable Sales History"
+          },
+          {
+            label: "Estimated Monthly Rent Addendum",
+            value: "Estimated Monthly Rent Addendum"
+          }
+        ];
+      } else if (this.reportType === "ClearVal 2.0 (Exterior PCI)") {
+        options = [
+          {
+            label: "As-Repaired Value Addendum",
+            value: "As-Repaired Value Addendum"
+          },
+          {
+            label: "Budget Analysis w/ As-Repaired Value Addendum",
+            value: "Budget Analysis w/ As-Repaired Value Addendum"
+          },
+          {
+            label: "Comparable Sales History",
+            value: "Comparable Sales History"
+          },
+          {
+            label: "Estimated Monthly Rent Addendum",
+            value: "Estimated Monthly Rent Addendum"
+          }
+        ];
+      }
+    }
+    return options;
+  }
+
+  async reportTypeChange(event) {
     this.turnTime = "";
-    this.reportType = event.detail.value;
+    this.addOns = [];
+    const repType = event.detail.value;
+    if(repType.toLocaleLowerCase().includes('cda')) {
+      console.log("is CDA");
+      await this.retrieveDocuments();
+    }
+    this.reportType = repType;
+
   }
 
   turnTimeChange(event) {
@@ -1179,51 +1371,68 @@ export default class AppraisalOrder extends LightningElement {
 
   get turnTimeOptions() {
     let options = [];
-
-    if (
-      this.reportType === "Interior Appraisal" ||
-      this.reportType === "Exterior Appraisal"
-    ) {
-      options = [{ label: "7 Day", value: "168" }];
-    } else if (this.reportType === "Post Disaster Inspection") {
+    if (this.appraisalFirm == "Clear Capital") {
+      if (
+        this.reportType === "Interior Appraisal" ||
+        this.reportType === "Exterior Appraisal"
+      ) {
+        options = [{ label: "7 Day", value: "168" }];
+      } else if (
+        this.reportType === "CDA with MLS Sheets" ||
+        this.reportType === "CDA with no MLS"
+      ) {
+        options = [
+          { label: "1 Day", value: "24" },
+          { label: "2 Day", value: "48" }
+        ];
+        if (this.reportType === "CDA with MLS Sheets") {
+          options.push({
+            label: "5 Day",
+            value: "120"
+          });
+        }
+      } else if (this.reportType === "Post Disaster Inspection") {
+        options = [
+          { label: "2 Day", value: "48" },
+          { label: "5 Day", value: "120" }
+        ];
+      } else if (
+        this.reportType === "ClearVal 2.0 (Interior PCI)" ||
+        this.reportType === "ClearVal 2.0 (Exterior PCI)"
+      ) {
+        options = [
+          { label: "5 Day", value: "120" },
+          { label: "7 Day", value: "168" }
+        ];
+      } else if (this.reportType === "Commercial") {
+        options = [{ label: "7 Day", value: "168" }];
+      } else if (
+        this.reportType === "Appraisal Update" ||
+        this.reportType === "Certification of Completion"
+      ) {
+        options = [{ label: "5 Day", value: "120" }];
+      } else if (this.reportType === "Drive By BPO") {
+        options = [
+          { label: "1 Day", value: "24" },
+          { label: "2 Day", value: "48" },
+          { label: "3 Day", value: "72" },
+          { label: "5 Day", value: "120" }
+        ];
+      } else if (this.reportType === "Interior BPO") {
+        options = [
+          { label: "2 Day", value: "48" },
+          { label: "3 Day", value: "72" },
+          { label: "5 Day", value: "120" }
+        ];
+      } else if (this.reportType === "1004 Hybrid Report") {
+        options = [{ label: "7 Day", value: "168" }];
+      }
+    } else if (this.appraisalFirm == "EBI") {
       options = [
-        { label: "2 Day", value: "48" },
-        { label: "5 Day", value: "120" }
-      ];
-    } else if (
-      this.reportType === "ClearVal 2.0 (Interior PCI)" ||
-      this.reportType === "ClearVal 2.0 (Exterior PCI)"
-    ) {
-      options = [
-        { label: "5 Day", value: "120" },
-        { label: "7 Day", value: "168" }
-      ];
-    } else if (this.reportType === "Commercial") {
-      options = [{ label: "7 Day", value: "168" }];
-    } else if (
-      this.reportType === "Appraisal Update" ||
-      this.reportType === "Certification of Completion"
-    ) {
-      options = [{ label: "5 Day", value: "120" }];
-    } else if (this.reportType === "Drive By BPO") {
-      options = [
-        { label: "1 Day", value: "24" },
-        { label: "2 Day", value: "48" },
-        { label: "3 Day", value: "72" },
-        { label: "5 Day", value: "120" }
-      ];
-    } else if (this.reportType === "Interior BPO") {
-      options = [
-        { label: "2 Day", value: "48" },
-        { label: "3 Day", value: "72" },
-        { label: "5 Day", value: "120" }
-      ];
-    } else if (this.reportType === "1004 Hybrid Report") {
-      options = [
-        { label: "7 Day", value: "168" }
+        { label: "10 Day", value: "10" },
+        { label: "15 Day", value: "15" }
       ];
     }
-
     return options;
   }
 
@@ -1305,6 +1514,18 @@ export default class AppraisalOrder extends LightningElement {
     return this.appraisalFirm === "Clarocity Valuation Services";
   }
 
+  get isValuationServices() {
+    return this.appraisalFirm === "Valuation Services AMC";
+  }
+
+  get isEBI() {
+    return this.appraisalFirm === "EBI";
+  }
+
+  get isUSRES() {
+    return this.appraisalFirm === "US RES";
+  }
+
   openInhouseModal() {
     let propertyId = "";
 
@@ -1320,6 +1541,56 @@ export default class AppraisalOrder extends LightningElement {
       this.template
         .querySelector("c-appraisal-input-modal")
         .openModal(propertyId);
+    }
+  }
+
+  get isCda() {
+    return this.reportType.toLocaleLowerCase().includes('cda');
+  }
+
+  get invalidCda() {
+    return this.isCda && this.missingProperties.length > 0
+  }
+
+  async retrieveDocuments() {
+    const cvToFileMap = {};
+    let propertyIds = [...this.selectedPropertyIds];
+    const queryStringDealDoc = `
+      SELECT Id, ContentVersion_Id__c, Property__c, Property__r.Name FROM Deal_Document__c WHERE Property__c IN ('${propertyIds.join("','")}') AND Document_Type__c = 'Valuations' AND File_Name__c LIKE '%pdf%'
+    `;
+    const res = await query({ queryString: queryStringDealDoc });
+    console.log(res);
+    res.forEach(d => {
+      if(propertyIds.includes(d.Property__c)) {
+        propertyIds.splice(propertyIds.indexOf(d.Property__c), 1);
+      }
+      cvToFileMap[d.ContentVersion_Id__c] = {
+        propId: d.Property__c,
+        propName: d.Property__r.Name,
+        fileData: []
+      };
+    });
+    if(propertyIds.length > 0) {
+      const badProps = this.selectedProperties.filter(d => propertyIds.includes(d.Id));
+      this.missingProperties = badProps.map(p => p.Name);
+    } else {
+      const cvString = `SELECT Id, PathOnClient, Description, VersionData FROM ContentVersion WHERE Id IN ('${Object.keys(cvToFileMap).join("','")}')`;
+      const resCv = await query({ queryString : cvString });
+      resCv.forEach(c => {
+        const newFile = [{
+          value: c.Id,
+          label: c.PathOnClient,
+          cvId: c.Id
+        }];
+        cvToFileMap[c.Id] = {
+          ...cvToFileMap[c.Id],
+          fileData: [
+            ...cvToFileMap[c.Id].fileData,
+            ...newFile
+          ]
+        }
+      });
+      this.files = Object.values(cvToFileMap);
     }
   }
 }

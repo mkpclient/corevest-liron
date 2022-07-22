@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>building_area_sq_ft__c</fullName>
+    <description>Area of building(s) in square feet</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Area of building(s) in square feet</inlineHelpText>
+    <label>Building area sq ft</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -36,12 +36,12 @@
                 <field>Days_Remaining__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <behavior>Readonly</behavior>
+                <field>Days_To_Resolve__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -49,11 +49,23 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Appraisal_Replacement_Cost_Value__c</field>
+                <field>Estimated_Min_Rent__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>No_of_Stories__c</field>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>UPB_Before_Payoff__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Occupied_Units__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Occupancy_Pct__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -191,14 +203,6 @@
                 <behavior>Edit</behavior>
                 <field>Legal_Description__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception_Reason__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -249,11 +253,31 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Title_Company_text__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Email_Address__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Phone__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Title_Order_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Received_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Review_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -426,6 +450,14 @@
                 <behavior>Edit</behavior>
                 <field>Insurance_Expiration_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception_Reason__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -460,6 +492,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Override_Initial_Disbursement__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Projected_Initial_Disbursement__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -664,65 +700,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Maturity_Status__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>Servicer Details</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Loan_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Loan_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Investor_Loan_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>First_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Date_Of_Last_Payment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Next_Due_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Payment_History__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Original_UPB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Current_UPB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reserve_Balance__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Accrued_Interest__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -1016,14 +993,42 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Property_Address__c</fields>
-        <fields>Property_City__c</fields>
-        <fields>Rent_Amount__c</fields>
-        <fields>Source__c</fields>
-        <fields>Date_Provided__c</fields>
-        <relatedList>Property_Rent__c.Property__c</relatedList>
-        <sortField>Date_Provided__c</sortField>
-        <sortOrder>Desc</sortOrder>
+        <fields>Event_Type__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Property_Snapshot__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Property_Sales_history__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Property_Mortgage_lien_all__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>HouseCanaryForReporting__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Custodial_Exception__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Title_Order__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Released_Collateral__c</fields>
+        <fields>UPB_at_Release__c</fields>
+        <fields>Completed_date__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Days_to_Resolve__c</fields>
+        <relatedList>Partial_Release__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

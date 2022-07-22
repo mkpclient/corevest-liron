@@ -10,11 +10,14 @@
     <columns>Folder_String__c</columns>
     <columns>Type__c</columns>
     <columns>Deal__c</columns>
+    <columns>Executive_Approval_Date__c</columns>
+    <columns>Portal_Error_Message__c</columns>
+    <columns>TermSheet_sent_to_Portal__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CREATED_DATE</field>
         <operation>equals</operation>
-        <value>THIS_WEEK</value>
+        <value>LAST_N_DAYS:10</value>
     </filters>
     <filters>
         <field>Type__c</field>

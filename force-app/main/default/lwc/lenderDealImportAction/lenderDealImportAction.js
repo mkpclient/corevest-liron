@@ -4,8 +4,8 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { getRecord} from "lightning/uiRecordApi";
 import parseBridge from "@salesforce/apex/BridgeLenderDealImportHelper.parseFileValues";
 import parseDscr from "@salesforce/apex/DscrImportHelper.parseFileValues";
-import NUMBER_LOANS_FIELD from '@salesforce/schema/Lender_Deal__c.Number_of_Loans__c';
-import RECORD_TYPE_FIELD from '@salesforce/schema/Lender_Deal__c.RecordType.Name';
+import NUMBER_LOANS_FIELD from '@salesforce/schema/TPO_Pool__c.Number_of_Loans__c';
+import RECORD_TYPE_FIELD from '@salesforce/schema/TPO_Pool__c.RecordType.Name';
 
 export default class LenderDealImportAction extends LightningElement {
   @api recordId;

@@ -43,8 +43,8 @@
                 <field>Deal_Lost_Reason__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Hold_Reason__c</field>
+                <behavior>Edit</behavior>
+                <field>In_Process_of_Withdrawn_or_Rejected__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -93,14 +93,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Lender__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_When__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Broker_Fee_Paid_By_Whom__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -154,15 +146,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Loan_Coordinator__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Closer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Foreign_National__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -302,6 +294,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Broker_Fees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_By_Whom__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_When__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -529,11 +529,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Export_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -552,6 +547,11 @@
             <actionName>FeedItem.ContentNote</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>PrintableView</actionName>
@@ -578,6 +578,17 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Account__c</fields>
+        <fields>Lender__c</fields>
+        <fields>Close_Date__c</fields>
+        <fields>Properties_Matched__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Lost_Deal_Analysis__c.Deal__c</relatedList>
+        <sortField>Close_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <fields>ContactName</fields>
         <fields>Role</fields>
@@ -669,7 +680,19 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Lost_Deal_Analysis__c.Deal__c</relatedList>
+        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Piple_Line_Report_Data__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Title_Order__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

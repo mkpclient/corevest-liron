@@ -108,6 +108,10 @@
                 <behavior>Edit</behavior>
                 <field>Expires_in_Days__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Review__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Foreign_National_picklist__c</fullName>
+    <description>A foreign national is any person who is not a national of the United States. A national of the United States is an individual that is a U.S. citizen, lawful permanent resident (green card holder), or “Protected Person” i.e. political asylum holder. Any individual who is present in the U.S. on a temporary immigration visa is considered a foreign national.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Please indicate if this lead is a foreign national. A foreign national is any person who is not a national of the United States. A national of the United States is an individual that is a U.S. citizen, lawful permanent resident (green card holder), or “Protected Person” i.e. political asylum holder. Any individual who is present in the U.S. on a temporary immigration visa is considered a foreign national.</inlineHelpText>
+    <label>Foreign National</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <label>Yes</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -22,7 +22,6 @@ public with sharing class OpportunityProductHelperTest {
 
     Opportunity testDeal = Test_Helper.createTermDeal(testAcct, testCont);
 
-
     OpportunityLineItem oppLineItem = new OpportunityLineItem();
     oppLineItem.OpportunityId = testDeal.Id;
     oppLineItem.PricebookEntryId = standardPrice.Id;
@@ -39,17 +38,37 @@ public with sharing class OpportunityProductHelperTest {
 
     testDeal.Loan_Size__c = 1;
     testDeal.CloseDate = Date.newInstance(1990, 11, 14);
+    testDeal.Current_Loan_Amount__c = null;
+    testDeal.Final_Loan_Amount__c = null;
     update testDeal;
 
+    update opportunity_Helper.updateOppLineItems(new Map<Id, Opportunity>{testDeal.Id => testDeal}, 'ServiceDate', 'CloseDate');
+    update opportunity_Helper.updateOppLineItems(new Map<Id, Opportunity>{testDeal.Id => testDeal}, 'UnitPrice', 'Loan_Size__c');
+
     OpportunityLineItem updatedOli = [
-        SELECT Id, Product_Goal__c, UnitPrice, ProductCode, ServiceDate
-        FROM OpportunityLineItem
-        WHERE Id = :oppLineItem.Id
-        LIMIT 1
+      SELECT Id, Product_Goal__c, UnitPrice, ProductCode, ServiceDate
+      FROM OpportunityLineItem
+      WHERE Id = :oppLineItem.Id
+      LIMIT 1
     ];
 
-    System.assertEquals(testPg.Id, updatedOli.Product_Goal__c, 'Should have updated the product goal.');
-    System.assertEquals(testDeal.Loan_Size__c, updatedOli.UnitPrice, 'UnitPrice should match Loan Size.');
-    System.assertEquals(testDeal.CloseDate, updatedOli.ServiceDate, 'ServiceDate and CloseDate should match.');
+
+    System.assertEquals('Term_Loan', updatedOli.ProductCode, 'ProductCode should be Term_Loan');
+    System.assertEquals(
+      testDeal.Loan_Size__c,
+      updatedOli.UnitPrice,
+      'UnitPrice should match Loan Size.'
+    );
+    System.assertEquals(
+      testDeal.CloseDate,
+      updatedOli.ServiceDate,
+      'ServiceDate and CloseDate should match.'
+    );
+    System.assertEquals(
+      testPg.Id,
+      updatedOli.Product_Goal__c,
+      'Should have updated the product goal.'
+    );
+
   }
 }

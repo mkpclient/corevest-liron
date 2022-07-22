@@ -25,7 +25,9 @@
             } else {
               d.RT = "Ground Up Construction";
             }
-            if (d.Closer__c == "0055b00000P92byAAB") {
+            if (d.Closer__c == "0055b00000PkArFAAV") {
+              d.Closer = "Amy Piana";
+            } else if (d.Closer__c == "0055b00000P92byAAB") {
               d.Closer = "David Carrillo";
             } else if (d.Closer__c == "0050a00000MCPyLAAX") {
               d.Closer = "Kathy Perez";
@@ -41,8 +43,18 @@
               d.Closer = "Gina Lambis";
             } else if (d.Closer__c == "0050a00000L853XAAR") {
               d.Closer = "Nate Valline";
+            } else if (d.Closer__c == "0055b00000PkQo7AAF") {
+              d.Closer = "Paola De Sousa";
             } else if (d.Closer__c == "0055b00000Omc6lAAB") {
               d.Closer = "Ellie Young";
+            } else if (d.Closer__c == "0055b00000PlzpMAAR") {
+              d.Closer = "Kathleen Evans";
+            } else if (d.Closer__c == "0055b00000PlbGIAAZ") {
+              d.Closer = "Jolene Czarnota";
+            } else if (d.Closer__c == "0055b00000PlbGmAAJ") {
+              d.Closer = "Cassandra Balthasar";
+            } else if (d.Closer__c == "0055b00000Pm4VgAAJ") {
+              d.Closer = "Brian Campbell";
             } else {
               d.Closer = null;
             }
@@ -137,7 +149,9 @@
           el.RecordTypeId = "0120a0000019kcQAAQ";
         }
 
-        if (el.Closer == "David Carrillo") {
+        if (el.Closer == "Amy Piana") {
+          el.Closer__c = "0055b00000PkArFAAV";
+        } else if (el.Closer == "David Carrillo") {
           el.Closer__c = "0055b00000P92byAAB";
         } else if (el.Closer == "Kathy Perez") {
           el.Closer__c = "0050a00000MCPyLAAX";
@@ -153,8 +167,18 @@
           el.Closer__c = "005j000000FXxrDAAT";
         } else if (el.Closer == "Nate Valline") {
           el.Closer__c = "0050a00000L853XAAR";
+        } else if (el.Closer == "Paola De Sousa") {
+          el.Closer__c = "0055b00000PkQo7AAF";
         } else if (el.Closer == "Ellie Young") {
           el.Closer__c = "0055b00000Omc6lAAB";
+        } else if (el.Closer == "Kathleen Evans") {
+          el.Closer__c = "0055b00000PlzpMAAR";
+        } else if (el.Closer == "Jolene Czarnota") {
+          el.Closer__c = "0055b00000PlbGIAAZ";
+        } else if (el.Closer == "Cassandra Balthasar") {
+          el.Closer__c = "0055b00000PlbGmAAJ";
+        } else if (el.Closer == "Brian Campbell") {
+          el.Closer__c = "0055b00000Pm4VgAAJ";
         } else {
           el.Closer__c = null;
         }
@@ -269,7 +293,9 @@
                 d.RT = "Ground Up Construction";
               }
 
-              if (d.Closer__c == "0055b00000P92byAAB") {
+              if (d.Closer__c == "0055b00000PkArFAAV") {
+                d.Closer = "Amy Piana";
+              } else if (d.Closer__c == "0055b00000P92byAAB") {
                 d.Closer = "David Carrillo";
               } else if (d.Closer__c == "0050a00000MCPyLAAX") {
                 d.Closer = "Kathy Perez";
@@ -285,8 +311,18 @@
                 d.Closer = "Gina Lambis";
               } else if (d.Closer__c == "0050a00000L853XAAR") {
                 d.Closer = "Nate Valline";
+              } else if (d.Closer__c == "0055b00000PkQo7AAF") {
+                d.Closer = "Paola De Sousa";
               } else if (d.Closer__c == "0055b00000Omc6lAAB") {
                 d.Closer = "Ellie Young";
+              } else if (d.Closer__c == "0055b00000PlzpMAAR") {
+                d.Closer = "Kathleen Evans";
+              } else if (d.Closer__c == "0055b00000PlbGIAAZ") {
+                d.Closer = "Jolene Czarnota";
+              } else if (d.Closer__c == "0055b00000PlbGmAAJ") {
+                d.Closer = "Cassandra Balthasar";
+              } else if (d.Closer__c == "0055b00000Pm4VgAAJ") {
+                d.Closer = "Brian Campbell";
               } else {
                 d.Closer = null;
               }
@@ -388,8 +424,15 @@
     });
 
     let columnList = [];
+
+    let readOnlyColumns = [];
+
     for (let i = 0; i < columns.length; i++) {
       let label = columns[i].get("v.title");
+
+      if (columns[i].get("v.readOnly")) {
+        readOnlyColumns.push(columns[i].get("v.data"));
+      }
 
       if (
         !$A.util.isEmpty(label) &&
@@ -485,11 +528,18 @@
       if (!$A.util.isEmpty(property.Asset_ID__c)) {
         var index = propertyMap[property.Asset_ID__c];
         console.log(index);
-        var id = properties[index].Id;
+        // var id = properties[index].Id;
         property.Id = properties[index].Id;
+
+        readOnlyColumns.forEach((fieldName) => {
+          property[fieldName] = properties[index][fieldName];
+        });
 
         properties[index] = property;
       } else {
+        readOnlyColumns.forEach((fieldName) => {
+          delete property[x];
+        });
         properties.push(property);
       }
     }
@@ -553,7 +603,11 @@
               property.RT = "Ground Up Construction";
             }
 
-            if (property.Closer__c == "0050a00000MCPyLAAX") {
+            if (property.Closer__c == "0055b00000PkArFAAV") {
+              property.Closer = "Amy Piana";
+            } else if (property.Closer__c == "0055b00000P92byAAB") {
+              property.Closer = "David Carrillo";
+            } else if (property.Closer__c == "0050a00000MCPyLAAX") {
               property.Closer = "Kathy Perez";
             } else if (property.Closer__c == "0050a00000MBNARAA5") {
               property.Closer = "Jaime Chavez";
@@ -567,8 +621,18 @@
               property.Closer = "Gina Lambis";
             } else if (property.Closer__c == "0050a00000L853XAAR") {
               property.Closer = "Nate Valline";
+            } else if (property.Closer__c == "0055b00000PkQo7AAF") {
+              property.Closer = "Paola De Sousa";
             } else if (property.Closer__c == "0055b00000Omc6lAAB") {
               property.Closer = "Ellie Young";
+            } else if (property.Closer__c == "0055b00000PlzpMAAR") {
+              property.Closer = "Kathleen Evans";
+            } else if (property.Closer__c == "0055b00000PlbGIAAZ") {
+              property.Closer = "Jolene Czarnota";
+            } else if (property.Closer__c == "0055b00000PlbGmAAJ") {
+              property.Closer = "Cassandra Balthasar";
+            } else if (property.Closer__c == "0055b00000PlbGmAAJ") {
+              property.Closer = "Cassandra Balthasar";
             } else {
               property.Closer = null;
             }

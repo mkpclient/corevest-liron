@@ -27,16 +27,16 @@ public without sharing class BridgeLenderDealImportHelper {
     }
   
     @AuraEnabled
-    public static List<Lender_Deal_to_Deal__c> parseFileValues(
+    public static List<TPO_Pool_x_Deal__c> parseFileValues(
       String fileJson,
       Id recordId
     ) {
       Savepoint sp = Database.setSavepoint();
   
       try {
-        Lender_Deal__c ldRecord = [
+        TPO_Pool__c ldRecord = [
           SELECT Lender__r.Name, Lender__c
-          FROM Lender_Deal__c
+          FROM TPO_Pool__c
           WHERE Id = :recordId
         ];
   
@@ -148,14 +148,14 @@ public without sharing class BridgeLenderDealImportHelper {
           cleanMapMain
         );
   
-        List<Lender_Deal_to_Deal__c> newLdds = new List<Lender_Deal_to_Deal__c>();
+        List<TPO_Pool_x_Deal__c> newLdds = new List<TPO_Pool_x_Deal__c>();
   
         for(Map<String, String> m : cleanMapMain.values()) {
           String uniqueId = m.get('Loan ID');
           Opportunity deal = newDeals.get(uniqueId);
-          Lender_Deal_to_Deal__c ldd = new Lender_Deal_to_Deal__c();
+          TPO_Pool_x_Deal__c ldd = new TPO_Pool_x_Deal__c();
           ldd.Deal__c = deal.Id;
-          ldd.Lender_Deal__c = recordId;
+          ldd.TPO_Pool__c = recordId;
           ldd.Status__c = 'Decision Pending';
           newLdds.add(ldd);
         }
@@ -173,7 +173,7 @@ public without sharing class BridgeLenderDealImportHelper {
     public static Map<String, Opportunity> createDeals(
       Map<String, Map<String, String>> cleanMapMain,
       Map<String, Contact> contactMap,
-      Lender_Deal__c ldRecord
+      TPO_Pool__c ldRecord
     ) {
       Map<String, Opportunity> newDeals = new Map<String, Opportunity>();
       Map<String, Id> existingDeals = generateExistingDealsMap(cleanMapMain.keySet());
@@ -260,7 +260,7 @@ public without sharing class BridgeLenderDealImportHelper {
     public static Map<String, Contact> generateContactsMap(
       Map<String, String> emailToAccount,
       Map<String, Map<String, String>> cleanMapMain,
-      Lender_Deal__c ld
+      TPO_Pool__c ld
     ) {
       Map<String, Contact> retMap = new Map<String, Contact>();
       Map<String, Account> accountMap = generateAccountMap(
@@ -327,7 +327,7 @@ public without sharing class BridgeLenderDealImportHelper {
   
     public static Map<String, Account> generateAccountMap(
       List<String> accountNames,
-      Lender_Deal__c ld
+      TPO_Pool__c ld
     ) {
       Map<String, Account> accountMap = new Map<String, Account>();
       Set<String> accountNamesSet = new Set<String>();

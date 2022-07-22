@@ -6,7 +6,7 @@ global without sharing class PortalAPIDocument {
   public static Integer paginationStart;
   public static Integer paginationEnd;
   public static Boolean usePagination;
-
+  public static PortalAPIUser.PortalUser user;
   static Id recordId;
 
   @HttpGet
@@ -41,6 +41,9 @@ global without sharing class PortalAPIDocument {
 
     List<String> params = Restcontext.request.requestURI.split('/');
     portalId = params[3];
+
+    user = new PortalAPIUser.PortalUser(portalId);
+
     if (user.id != null) {
       recordId = params[4];
       String sobjectType = recordId.getSObjectType().getDescribe().getName();
@@ -50,11 +53,26 @@ global without sharing class PortalAPIDocument {
           //res.responseBody = Blob.valueOf(JSON.serialize(docData, true));
         } else {
           Document document = new Document(recordId);
+
           res.addHeader('Content-Type', 'application/json');
           res.responseBody = Blob.valueOf(JSON.serialize(document, true));
         }
       } else {
         List<Document> documents = getDocuments();
+
+        Map<Id, Document> contentVersionMap = new Map<Id, Document>();
+        for (Document doc : documents) {
+          contentVersionMap.put(doc.id, doc);
+        }
+
+        for (ContentVersion cv : [
+          SELECT Id, FileExtension
+          FROM ContentVersion
+          WHERE Id IN :contentVersionMap.keySet()
+        ]) {
+          contentVersionMap.get(cv.Id).FileExtension = cv.FileExtension;
+        }
+
         res.addHeader('Content-Type', 'application/json');
         res.responseBody = Blob.valueOf(JSON.serialize(documents, true));
       }
@@ -69,10 +87,6 @@ global without sharing class PortalAPIDocument {
   }
 
   public static List<Document> getDocuments() {
-    system.debug(portalId);
-    system.debug(recordId);
-    system.debug(paginationStart);
-    system.debug(paginationEnd);
     List<Document> documents = new List<Document>();
     List<Deal_Document__c> docs = [
       SELECT
@@ -112,6 +126,7 @@ global without sharing class PortalAPIDocument {
     String dealName;
     String fileName;
     String documentType;
+    public String fileExtension;
     DateTime addedOn;
     public Document(Id docId) {
       Deal_Document__c doc = [
@@ -138,6 +153,17 @@ global without sharing class PortalAPIDocument {
       this.docNumber = doc.Name;
       this.documentType = doc.Document_Type__c;
       this.addedOn = doc.Added_On__c;
+
+      if (this.fileName.contains('.')) {
+        this.fileName = this.fileName.substringBefore('.');
+      }
+
+      ContentVersion cv = [
+        SELECT Id, FileExtension
+        FROM ContentVersion
+        WHERE Id = :doc.ContentVersion_Id__c
+      ];
+      this.fileExtension = cv.FileExtension;
     }
 
     public Document(Deal_Document__c doc) {
@@ -148,6 +174,10 @@ global without sharing class PortalAPIDocument {
       this.documentType = doc.Document_Type__c;
       this.addedOn = doc.Added_On__c;
       this.address = doc.Property__r.Name;
+
+      if (this.fileName.contains('.')) {
+        this.fileName = this.fileName.substringBefore('.');
+      }
     }
   }
 }

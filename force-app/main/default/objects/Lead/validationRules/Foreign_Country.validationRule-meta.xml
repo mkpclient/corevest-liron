@@ -4,7 +4,7 @@
     <active>true</active>
     <errorConditionFormula>AND( 
 ISPICKVAL(Status, &apos;Qualified&apos;), 
-Foreign_National__c = TRUE, 
+ISPICKVAL(Foreign_National_picklist__c, &quot;Yes&quot;), 
 ISPICKVAL(Country__c, &quot;&quot;) 
 )</errorConditionFormula>
     <errorDisplayField>Country__c</errorDisplayField>

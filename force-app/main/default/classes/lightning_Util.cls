@@ -160,6 +160,8 @@ public without sharing class lightning_Util {
         Clarocity_Username__c,
         Valuation_Services_Username__c,
         Valuation_Services_Password__c,
+        US_RES_Username__c,
+        US_RES_Password__c,
         Email
       FROM User
       WHERE Id = :UserInfo.getUserId()
@@ -380,7 +382,8 @@ public without sharing class lightning_Util {
     return mapResults;
   } //GetDependentOptions
 
-  public String insertFileAndLink(String request) {
+  @AuraEnabled
+  public static String insertFileAndLink(String request) {
     Map<String, Object> req = (Map<String, Object>) JSON.deserializeUntyped(
       request
     );
@@ -407,7 +410,7 @@ public without sharing class lightning_Util {
       Visibility = 'AllUsers'
     );
 
-    return null;
+    return contentDocumentId;
   }
 
   @AuraEnabled(cacheable=true)

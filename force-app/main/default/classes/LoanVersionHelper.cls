@@ -28,7 +28,6 @@ public without sharing class LoanVersionHelper {
       SELECT
         Id,
         Name,
-        Deal_Loan_Number__c,
         (
           SELECT Id, Name, RecordTypeId
           FROM Loan_Versions__r

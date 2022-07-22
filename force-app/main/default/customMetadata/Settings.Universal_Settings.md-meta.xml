@@ -4,47 +4,63 @@
     <protected>false</protected>
     <values>
         <field>Alchemy_Portal_Dev_URL__c</field>
-        <value xsi:type="xsd:string">https://coreveststaging-api.alchemylms.com</value>
+        <value xsi:type="xsd:string">https://qaportalapi.cvest.com</value>
     </values>
     <values>
         <field>Alchemy_Production_URL__c</field>
         <value xsi:type="xsd:string">https://portalapi.cvest.com</value>
     </values>
     <values>
+        <field>Allow_SAB_CTC_Bypass__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Berkadia_CC_Emails__c</field>
-        <value xsi:type="xsd:string">sokun.soun@cvest.com;cj.suzuki@cvest.com;suzanne.nguyen@cvest.com;micaela.lumpkin@cvest.com;aileen.fallis@cvest.com;support@cvest.com;bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
     </values>
     <values>
         <field>Berkadia_To_Emails__c</field>
-        <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+    </values>
+    <values>
+        <field>Box_As_User__c</field>
+        <value xsi:type="xsd:string">268641442</value>
     </values>
     <values>
         <field>Box_Client_Id__c</field>
-        <value xsi:type="xsd:string">6j821cmxtkmpmy144abj7y94tgqshm8b</value>
+        <value xsi:type="xsd:string">xnk1rcroidzv5i13sk3okd9ca2kqjteb</value>
     </values>
     <values>
         <field>Box_Client_Secret__c</field>
-        <value xsi:type="xsd:string">npPwz6fxqMrEzFZOrJsOIiKEOprolPXn</value>
+        <value xsi:type="xsd:string">TH2cDRiAPgeAWzytZqcMTNvpwBjC0q6c</value>
     </values>
     <values>
         <field>Box_Subject_Id__c</field>
-        <value xsi:type="xsd:string">786745</value>
+        <value xsi:type="xsd:string">894018</value>
     </values>
     <values>
         <field>Box_Yardi_Bridge_Folder_Id__c</field>
-        <value xsi:type="xsd:string">147041409626</value>
+        <value xsi:type="xsd:string">164466925064</value>
     </values>
     <values>
         <field>Box_Yardi_Term_Folder_Id__c</field>
-        <value xsi:type="xsd:string">147042016627</value>
+        <value xsi:type="xsd:string">164465550072</value>
+    </values>
+    <values>
+        <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
+        <value xsi:type="xsd:string">0055b00000OIF3oAAH</value>
     </values>
     <values>
         <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com</value>
     </values>
     <values>
         <field>Bridge_Sec_Diligence_Review_Email_To__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com</value>
+    </values>
+    <values>
+        <field>Capital_Markets_Post_Closing_return_emai__c</field>
+        <value xsi:type="xsd:string">support@cvest.com</value>
     </values>
     <values>
         <field>Construction_Manager_Acquired_Loans__c</field>
@@ -52,10 +68,18 @@
     </values>
     <values>
         <field>Construction_Manager_CV_Originated__c</field>
-        <value xsi:type="xsd:string">0050a00000L854aAAB</value>
+        <value xsi:type="xsd:string">0050a00000L852oAAB</value>
+    </values>
+    <values>
+        <field>Disable_Account_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Disable_Advance_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Contact_Trigger__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -87,6 +111,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Disable_Swap_Rate_Update__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Duplicate_Property_Alert_Email__c</field>
         <value xsi:type="xsd:string">Jonathan.Lay@cvest.com;bryon.harland@cvest.com;Dan.Federico@cvest.com;Brad.Chmura@cvest.com</value>
     </values>
@@ -95,12 +123,24 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Enable_Beekin_API_Error_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_Beekin_API_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Enable_Clear_API_Response_Logging__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
-        <field>Enable_CoreLogic_API_Response_Logging__c</field>
+        <field>Enable_Clear_Capital_API_Logging__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_CoreLogic_API_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_Data_Tape_Change_Email__c</field>
@@ -111,12 +151,24 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Enable_HouseCanary_API_Error_Response_Lo__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Enable_HouseCanary_API_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Enable_LandGorilla_API__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Enable_Portal_User_Creation__c</field>
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Enable_SmartyStreets_API__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_Valuation_API_Response_Logging__c</field>
@@ -131,8 +183,56 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>HouseCanary_No_of_DataSync_Days__c</field>
+        <value xsi:type="xsd:double">1.0</value>
+    </values>
+    <values>
+        <field>LandGorilla_Endpoint__c</field>
+        <value xsi:type="xsd:string">https://clmapi.uat-landgorilla.com</value>
+    </values>
+    <values>
+        <field>LandGorilla_Password__c</field>
+        <value xsi:type="xsd:string">LandMine77&amp;</value>
+    </values>
+    <values>
+        <field>LandGorilla_Username__c</field>
+        <value xsi:type="xsd:string">jonathan.lay@cvest.com</value>
+    </values>
+    <values>
+        <field>LandGorllia_ApiName__c</field>
+        <value xsi:type="xsd:string">clm</value>
+    </values>
+    <values>
         <field>Num_of_Days_to_Transfer_Lead__c</field>
         <value xsi:type="xsd:double">90.0</value>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Bridge_IC__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Bridge_Mini_IC__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Bridge_Sub_IC__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Term_IC__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Term_Sub_IC__c</field>
+        <value xsi:type="xsd:double">4.0</value>
+    </values>
+    <values>
+        <field>Request_Beekin_Rental_Data_Validation__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Request_HouseCanary_Rental_Data_Validati__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_AVM_Sync_on_Pricing__c</field>
@@ -140,14 +240,18 @@
     </values>
     <values>
         <field>Require_AVM_Sync_on_UW_Submission__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_Address_Val_on_UW_Submit__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_Address_Valid_on_Pricing__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Require_Beekin_on_Pricing__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -156,7 +260,7 @@
     </values>
     <values>
         <field>Require_X_Author_Validation_on_UW_Submis__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>SecuritizationReview_Email_CC__c</field>
@@ -168,7 +272,11 @@
     </values>
     <values>
         <field>Send_Email_for_Bridge_Securitization_Rev__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
+        <value xsi:type="xsd:string">0055b00000OqMZpAAN</value>
     </values>
     <values>
         <field>Validated_Address_Threshold__c</field>
@@ -183,12 +291,16 @@
         <value xsi:type="xsd:string">CoreVest Loan Interface</value>
     </values>
     <values>
+        <field>Yardi_Interface_License_Long__c</field>
+        <value xsi:type="xsd:string">MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC</value>
+    </values>
+    <values>
         <field>Yardi_Interface_License__c</field>
         <value xsi:type="xsd:string">MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRt</value>
     </values>
     <values>
         <field>Yardi_Password__c</field>
-        <value xsi:type="xsd:string">PyL9JXi`c-eRz&amp;gt;B</value>
+        <value xsi:type="xsd:string">H7t4hsty!h3j7vrtXy2</value>
     </values>
     <values>
         <field>Yardi_Platform__c</field>

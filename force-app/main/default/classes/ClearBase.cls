@@ -32,7 +32,7 @@ public class ClearBase {
       this.Production_Endpoint = Clear_Api_Config__c.getOrgDefaults()
         .Production_Endpoint__c;
 
-      this.Person_Search_SubRoute = '/api/v2/person/searchResults';
+      this.Person_Search_SubRoute = '/api/v3/person/searchResults';
       this.Person_Report_SubRoute = '/api/v2/personReport/reportResults';
       this.Person_Risk_SubRoute = '/api/v2/riskinformperson/searchResults';
       this.Risk_Report_SubRoute = '/api/v2/riskInformPersonReport/reportResults';
@@ -108,7 +108,7 @@ public class ClearBase {
       );
       req.setMethod(method);
       req.setTimeout(120000);
-      //req.setEndpoint(endpoint + '/api/v2/person/searchResults');
+      //req.setEndpoint(endpoint + '/api/v3/person/searchResults');
       req.setHeader('Content-Type', 'application/xml');
       //return req;
     } catch (exception e) {
@@ -166,7 +166,7 @@ public class ClearBase {
       );
       req.setMethod(method);
       req.setTimeout(120000);
-      //req.setEndpoint(endpoint + '/api/v2/person/searchResults');
+      //req.setEndpoint(endpoint + '/api/v3/person/searchResults');
       req.setHeader('Content-Type', 'application/xml');
     } catch (exception e) {
       System.debug('The following exception has occurred: ' + e.getMessage());
@@ -174,13 +174,14 @@ public class ClearBase {
     return req;
   }
   @auraenabled
-  public static Map<String, String> getContactDetailforRiskSearch(ID id) {
+  public static Map<String, String> getContactDetailforRiskSearch(Id id) {
     Map<String, String> resultlist = new Map<String, String>();
     try {
       system.debug('id:::::' + id);
       list<Deal_Contact__c> dealContactList = new List<Deal_Contact__c>();
       list<Contact> ContactList = new List<Contact>();
       list<string> ContactIDList = new List<string>();
+
       for (Deal_Contact__c dc : [
         SELECT id, name, Contact__c
         FROM Deal_Contact__c
@@ -189,6 +190,7 @@ public class ClearBase {
       ]) {
         ContactIDList.add(dc.Contact__c);
       }
+
       system.debug('ContactIDList:::::' + ContactIDList);
 
       string message = 'Get Response from Risk Search.';
@@ -267,7 +269,9 @@ public class ClearBase {
                 'getContactDetailforRiskSearch:GroupId===risk' + GroupId
               );
               update clearResultlist;
+
               String JsonclearResultlist = JSON.serialize(clearResultlist);
+
 
               Deal_Contact__c dcObj = new Deal_Contact__c();
               dcObj.id = id;
@@ -312,10 +316,21 @@ public class ClearBase {
       }
       //return resultlist;
     } catch (exception e) {
-      System.debug('The following exception has occurred: ' + e.getMessage());
+      System.debug('The following exception has occurred: ' + e.getMessage() + ' on line ' + e.getLineNumber());
+      resultlist.put('errorMessage', e.getMessage());
+      return resultlist;
+
     }
     return resultlist;
   }
+
+
+  @future
+  public static void performUpdateDmlInFuture(String sobjectJson) {
+    update (SObject) JSON.deserialize(sobjectJson, SObject.class);
+  }
+
+
   @auraenabled
   public static String riskPersonInfo(list<Clear_Result__c> clearResultlist) {
     DOM.Document doc = new DOM.Document();
@@ -393,10 +408,10 @@ public class ClearBase {
         response = res.getBody();
       } else {
         res.setBody(
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
+          '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
         );
         res.setStatusCode(200);
-        response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
+        response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
       }
 
       String Link;
@@ -413,9 +428,9 @@ public class ClearBase {
         Link = '';
       }
 
-      System.enqueueJob(
-        new APILoggerQueueable(req, res, clearResultlist[0].id, false)
-      );
+      // System.enqueueJob(
+      //   new APILoggerQueueable(req, res, clearResultlist[0].id, false)
+      // );
       return Link;
     } catch (Exception e) {
       System.enqueueJob(
@@ -484,7 +499,19 @@ public class ClearBase {
     //if(conlist[0].Birthdate != null){
 
     message = 'Get the Person Search Report.';
-    String xmlstring = DomXmlUserInfo(conlist);
+
+    if(conlist == null) {
+      retrunlist.put('errorMessage', 'Your request could not be processed due to incomplete contact details.');
+      return retrunlist;
+    }
+    String xmlstring;
+    
+    try {
+      xmlstring = DomXmlUserInfo(conlist);
+    } catch (Exception e) {
+      retrunlist.put('errorMessage', 'Your request could not be processed due to incomplete contact details.');
+      return retrunlist;
+    }
     system.debug('getContactDetailforPersonSearch:  xmlstring==' + xmlstring);
     Http http = new Http();
     HTTPResponse res = new HTTPResponse();
@@ -502,10 +529,10 @@ public class ClearBase {
         response = res.getBody();
       } else {
         res.setBody(
-          '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
+          '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
         );
         res.setStatusCode(200);
-        response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
+        response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
       }
       system.debug('response::==' + response);
       system.debug('res.getStatusCode()::::' + res.getStatusCode());
@@ -693,7 +720,7 @@ public class ClearBase {
                 new APILoggerQueueable(req, res, id, nextQueue)
               );
             } else {
-              message = 'Not get Response for Person Search.';
+              message = 'Failed to get a response from Person Search.';
               System.CalloutException e = new System.CalloutException();
               e.setMessage(message);
               throw e;
@@ -708,13 +735,16 @@ public class ClearBase {
           throw e;
         }
       } else {
-        message = 'Error occurred.Please try again.';
+        message = 'Error occurred. Please try again.';
         System.CalloutException ce = new System.CalloutException();
         ce.setMessage(res.getStatusCode() + ': ' + res.getStatus());
         throw ce;
       }
     } catch (Exception er) {
       System.enqueueJob(new APILoggerQueueable(req, res, id, er));
+
+      retrunlist.put('errorMessage', er.getMessage());
+      return retrunlist;
     }
     /*  }else{
                 message='Please Enter Date of Birth first.'; 
@@ -810,7 +840,7 @@ public class ClearBase {
     );
     DOM.Document doc = new DOM.Document();
     dom.XmlNode products = doc.createRootElement(
-      'ps:PersonSearchRequest',
+      'ps:PersonSearchRequestV3',
       null,
       null
     );
@@ -1437,8 +1467,10 @@ public class ClearBase {
     String typeofReport,
     String dealRecordId
   ) {
+
     Map<String, String> resultMap = new Map<String, String>();
     string errorMsg;
+
     try {
       list<string> ContactIDList = new List<string>();
       for (Deal_Contact__c dc : [
@@ -1472,7 +1504,6 @@ public class ClearBase {
         clearResultlist[0].Group_ID_for_Risk_search__c
       );
       system.debug('typeofReport' + typeofReport);
-
       if (typeofReport == 'PersonSearchReport') {
         if (
           clearResultlist[0].Group_ID_for_Person_Search__c != null &&
@@ -1499,7 +1530,7 @@ public class ClearBase {
           }
           if (typeofReport == 'RiskSearchReport') {
             xmlString = DomXmlpersonriskInfosec(GroupID);
-            errorMsg = 'Risk search';
+            errorMsg = 'Risk Score';
           }
 
           Http http = new Http();
@@ -1519,10 +1550,10 @@ public class ClearBase {
               response = res.getBody();
             } else {
               res.setBody(
-                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
+                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
               );
               res.setStatusCode(200);
-              response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
+              response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
             }
 
             System.debug('GetReport: response::' + response);
@@ -1564,26 +1595,57 @@ public class ClearBase {
                   errorMsg +
                   ' button to get latest group ID.'
                 );
+                resultMap.put(
+                  'errorMessage',
+                  'Please click on ' +
+                  errorMsg +
+                  ' button to get latest group ID.'
+                );
               } else {
-                resultMap.put('message', 'Error occurred pelase try again.');
+                resultMap.put('message', 'Error occurred please try again.');
+                resultMap.put(
+                  'errorMessage',
+                  'Error occurred please try again.'
+                );
               }
             }
 
             System.enqueueJob(new APILoggerQueueable(req, res, id, false));
           } catch (Exception e) {
             System.enqueueJob(new APILoggerQueueable(req, res, id, e));
+            throw e;
           }
         } else {
-          resultMap.put('message', 'please click ' + errorMsg + ' first.');
+          if(String.isEmpty(errorMsg)) {
+            resultMap.put('message', 'Unable to retrieve data from ' + typeofReport + ' or the data returned is empty.');
+            resultMap.put(
+              'errorMessage',
+              'Unable to retrieve data from ' + typeofReport + ' or the data returned is empty.'
+            );
+          } else {
+            resultMap.put('message', 'Please click ' + errorMsg + ' first.');
+            resultMap.put(
+              'errorMessage',
+              'Please click ' + errorMsg + ' first.'
+            );
+          }
+
         }
       } else {
-        resultMap.put('message', 'please click ' + errorMsg + ' first.');
+        resultMap.put('message', 'Please click ' + errorMsg + ' first.');
+        resultMap.put(
+          'errorMessage',
+          'Please click ' + errorMsg + ' first.'
+        );
       }
     } catch (exception e) {
       System.debug('The following exception has occurred: ' + e.getMessage());
+      resultMap.put('errorMessage', e.getMessage());
+      return resultMap;
     }
     return resultMap;
   }
+
   @auraenabled
   public static Map<String, String> riskReport(ID id) {
     Map<String, String> resultMap = new Map<String, String>();
@@ -1617,10 +1679,10 @@ public class ClearBase {
             response = res.getBody();
           } else {
             res.setBody(
-              '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
+              '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>'
             );
             res.setStatusCode(200);
-            response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
+            response = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
           }
           System.debug('riskReport:response::' + response);
           DOM.Document document = new DOM.Document();
@@ -1726,9 +1788,9 @@ public class ClearBase {
         response = res.getBody();
       }
       else{
-        res.setBody('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>');
+        res.setBody('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>');
         res.setStatusCode(200);
-        response='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v2/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
+        response='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ns2:PersonResults xmlns:ns2="http://clear.thomsonreuters.com/api/search/2.0"><Status><StatusCode>200</StatusCode><SubStatusCode>0</SubStatusCode></Status><Uri>https://s2s.beta.thomsonreuters.com/api/v3/person/searchResults/8a57c89268a623ec016909c791112578</Uri><GroupCount>1</GroupCount></ns2:PersonResults>';
       } */
 
       system.debug('finalresponse::::' + finalresponse);

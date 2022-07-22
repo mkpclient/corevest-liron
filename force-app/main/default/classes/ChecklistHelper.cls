@@ -21,30 +21,34 @@ public without sharing class ChecklistHelper {
     }
 
     Map<String, List<Checklist_Item_Config__mdt>> recordTypeConfigMap = new Map<String, List<Checklist_Item_Config__mdt>>();
-    for (Checklist_Item_Config__mdt checklistConfig : [
-      SELECT
-        Id,
-        RecordType__c,
-        Responsible_Party__c,
-        Approver__c,
-        Milestone__c,
-        Uploader__c,
-        Reviewer__c,
-        Checklist_Type__c,
-        Checklist_Item_Name__c,
-        sObject__c,
-        Type__c,
-        Use_Historical_Uploads__c,
-        Document_Structure__c,
-        Label,
-        Document_Structure__r.Folder_Structure_String__c,
-        Document_Structure__r.Document_Type__c
-      FROM Checklist_Item_Config__mdt
-      WHERE
-        RecordType__c IN :oppRecordTypeMap.values()
-        AND sObject__c = 'Opportunity'
-        AND Type__c != NULL
-    ]) {
+    for (
+      Checklist_Item_Config__mdt checklistConfig : [
+        SELECT
+          Id,
+          RecordType__c,
+          Responsible_Party__c,
+          Approver__c,
+          Milestone__c,
+          Uploader__c,
+          Reviewer__c,
+          Checklist_Type__c,
+          Checklist_Item_Name__c,
+          sObject__c,
+          Type__c,
+          Use_Historical_Uploads__c,
+          Document_Structure__c,
+          Label,
+          Document_Structure__r.Folder_Structure_String__c,
+          Document_Structure__r.Document_Type__c,
+          Is_Bulk__c
+        // Is_Property_Level__c
+        FROM Checklist_Item_Config__mdt
+        WHERE
+          RecordType__c IN :oppRecordTypeMap.values()
+          AND sObject__c = 'Opportunity'
+          AND Type__c != NULL
+      ]
+    ) {
       system.debug(checklistConfig.Label);
       if (!recordTypeConfigMap.containsKey(checklistConfig.RecordType__c)) {
         recordTypeConfigMap.put(
@@ -62,21 +66,26 @@ public without sharing class ChecklistHelper {
     Map<Id, Checklist__c> dealChecklistMap = new Map<Id, Checklist__c>();
     Map<Id, Checklist_Section__c> dealSectionMap = new Map<Id, Checklist_Section__c>();
     for (Id oppId : oppRecordTypeMap.keySet()) {
-      Checklist__c checklist = new Checklist__c();
-      checklist.Deal__c = oppId;
-      dealChecklistMap.put(oppId, checklist);
+      String recordTypeName = oppRecordTypeMap.get(oppId);
+      if (recordTypeConfigMap.containsKey(recordTypeName)) {
+        Checklist__c checklist = new Checklist__c();
+        checklist.Deal__c = oppId;
+        dealChecklistMap.put(oppId, checklist);
+      }
     }
 
     //system.debug(dealChecklistMap.values());
     insert dealChecklistMap.values();
 
     for (Id oppId : oppRecordTypeMap.keySet()) {
-      Checklist_Section__c section = new Checklist_Section__c();
-      section.Type__c = 'Opportunity';
-      section.Deal__c = oppId;
-      section.Checklist__c = dealChecklistMap.get(oppId).Id;
-      section.Name = 'Deal';
-      dealSectionMap.put(section.Deal__c, section);
+      if (dealChecklistMap.containsKey(oppId)) {
+        Checklist_Section__c section = new Checklist_Section__c();
+        section.Type__c = 'Opportunity';
+        section.Deal__c = oppId;
+        section.Checklist__c = dealChecklistMap.get(oppId).Id;
+        section.Name = 'Deal';
+        dealSectionMap.put(section.Deal__c, section);
+      }
     }
 
     insert dealSectionMap.values();
@@ -102,6 +111,12 @@ public without sharing class ChecklistHelper {
           item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
           item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
           item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
+          item.Approver__c = itemConfig.Approver__c;
+          item.Uploader__c = itemConfig.Approver__c;
+          item.Reviewer__c = itemConfig.Reviewer__c;
+          item.Is_Bulk__c = itemConfig.Is_Bulk__c;
+          // item.Is_Property_Level__c = itemConfig.Is_Property_Level__c;
+
           if (itemConfig.Type__c == 'Upload') {
             item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
           } else if (itemConfig.Type__c == 'Action') {
@@ -112,12 +127,9 @@ public without sharing class ChecklistHelper {
         }
       }
     }
-
-    // system.debug(checklistItems);
     insert checklistItems;
-
-    // Map<Id, Checklist__c> checklist = new
   }
+
   @future
   public static void createChecklistSectionProperty(Set<Id> propertyIds) {
     Map<String, Id> recordTypeMap = new Map<String, Id>();
@@ -169,7 +181,11 @@ public without sharing class ChecklistHelper {
         Document_Structure__c,
         Document_Structure__r.Folder_Structure_String__c,
         Label,
-        Document_Structure__r.Document_Type__c
+        Document_Structure__r.Document_Type__c,
+        Approver__c,
+        Uploader__c,
+        Reviewer__c,
+        Is_Bulk__c
       FROM Checklist_Item_Config__mdt
       WHERE
         RecordType__c IN :oppRecordTypeMap.values()
@@ -209,7 +225,7 @@ public without sharing class ChecklistHelper {
     }
 
     insert propertySectionMap.values();
-    system.debug(recordTypeConfigMap);
+    // system.debug(recordTypeConfigMap);
     List<Checklist_Item__c> checklistItems = new List<Checklist_Item__c>();
     for (Id oppId : oppRecordTypeMap.keySet()) {
       String recordTypeName = oppRecordTypeMap.get(oppId);
@@ -233,7 +249,10 @@ public without sharing class ChecklistHelper {
               item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
               item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
               item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
-
+              item.Approver__c = itemConfig.Approver__c;
+              item.Uploader__c = itemConfig.Uploader__c;
+              item.Reviewer__c = itemConfig.Reviewer__c;
+              item.Is_Bulk__c = itemCOnfig.Is_Bulk__c;
               if (itemConfig.Type__c == 'Upload') {
                 item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
               } else if (itemConfig.Type__c == 'Action') {
@@ -250,7 +269,7 @@ public without sharing class ChecklistHelper {
     insert checklistItems;
   }
 
-  public static void createChecklistSectionSponsor(Set<Id> dealContactIds) {
+  public static void createChecklistDealContact(Set<Id> dealContactIds) {
     Map<String, Id> recordTypeMap = new Map<String, Id>();
 
     for (RecordType rt : [
@@ -265,7 +284,16 @@ public without sharing class ChecklistHelper {
     Map<Id, List<Deal_Contact__c>> dealContactMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Deal_Contact__c dealContact : [
-      SELECT Id, Name, Contact__c, Deal__c, Deal__r.RecordType.DeveloperName
+      SELECT
+        Id,
+        Name,
+        Contact__c,
+        Deal__c,
+        Deal__r.RecordType.DeveloperName,
+        Vendor_Type__c,
+        Entity_Type__c,
+        Contact__r.Name,
+        Account__r.Name
       FROM Deal_Contact__c
       WHERE Id IN :dealContactIds
     ]) {
@@ -282,7 +310,15 @@ public without sharing class ChecklistHelper {
       dealContactMap.get(dealContact.Deal__c).add(dealContact);
     }
 
-    system.debug(oppRecordTypeMap);
+    for (Checklist_Section__c section : [
+      SELECT Id, Deal_Contact__c
+      FROM Checklist_Section__c
+      WHERE Deal_Contact__c IN :dealContactMap.keySet()
+    ]) {
+      dealContactMap.remove(section.Deal_Contact__c);
+    }
+
+    // system.debug(oppRecordTypeMap);
 
     Map<String, List<Checklist_Item_Config__mdt>> recordTypeConfigMap = new Map<String, List<Checklist_Item_Config__mdt>>();
     for (Checklist_Item_Config__mdt checklistConfig : [
@@ -298,11 +334,14 @@ public without sharing class ChecklistHelper {
         Use_Historical_Uploads__c,
         Document_Structure__r.Folder_Structure_String__c,
         Label,
-        Document_Structure__r.Document_Type__c
+        Document_Structure__r.Document_Type__c,
+        Approver__c,
+        Uploader__c,
+        Reviewer__c
       FROM Checklist_Item_Config__mdt
       WHERE
         RecordType__c IN :oppRecordTypeMap.values()
-        AND sObject__c = 'Sponsor'
+        AND sObject__c IN ('Sponsor', 'Legal', 'Guarantor')
         AND Type__c != NULL
     ]) {
       if (!recordTypeConfigMap.containsKey(checklistConfig.RecordType__c)) {
@@ -327,13 +366,30 @@ public without sharing class ChecklistHelper {
       for (
         Deal_Contact__c dealContact : dealContactMap.get(checklist.Deal__c)
       ) {
+        String dcType = '';
+        if (dealContact.Entity_Type__c != null) {
+          dcType = dealContact.Entity_Type__c;
+          if (dcType == 'Applicant') {
+            dcType = 'Sponsor';
+          }
+        } else if (dealContact.Vendor_Type__c != null) {
+          if (dealCOntact.Vendor_Type__c == 'Lender Legal Counsel') {
+            dcType = 'Legal';
+          } else {
+            dcType = dealContact.Entity_Type__c;
+          }
+        }
         String recordTypeName = dealContact.Deal__r.RecordType.DeveloperName;
         if (recordTypeConfigMap.containsKey(recordTypeName)) {
           Checklist_Section__c section = new Checklist_Section__c();
           section.Checklist__c = checklist.Id;
           section.Deal_Contact__c = dealContact.Id;
-          section.Name = dealContact.Name;
-          section.Type__c = 'Sponsor';
+          if (dealContact.Entity_Type__c != null) {
+            section.Name = dealContact.Contact__r.Name;
+          } else if (dealContact.Vendor_Type__c != null) {
+            section.Name = dealContact.Account__r.Name;
+          }
+          section.Type__c = dcType;
           dealContactSectionMap.put(dealContact.Id, section);
         }
       }
@@ -351,28 +407,47 @@ public without sharing class ChecklistHelper {
           )
         ) {
           for (Deal_Contact__c dealContact : dealContactMap.get(oppId)) {
-            Checklist_Item__c item = new Checklist_Item__c();
-            if (dealContactSectionMap.containsKey(dealContact.Id)) {
-              item.Checklist_Section__c = dealContactSectionMap.get(
-                  dealContact.Id
-                )
-                .Id;
-              item.Deal_Contact__c = dealContact.Id;
-              item.Status__c = 'Pending';
-              item.Responsible_Party__c = itemConfig.Responsible_Party__c;
-              item.Milestone__c = itemConfig.Milestone__c;
-              item.Checklist_Type__c = itemConfig.Checklist_Type__c;
-              item.Name = itemConfig.Checklist_Item_Name__c;
-              item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
-              item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
-              item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
-              if (itemConfig.Type__c == 'Upload') {
-                item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
-              } else if (itemConfig.Type__c == 'Action') {
-                item.RecordTypeId = recordTypeMap.get('Task'); //'012Z0000000aZRUIA2';
+            String dcType = '';
+            if (dealContact.Entity_Type__c != null) {
+              dcType = dealContact.Entity_Type__c;
+              if (dcType == 'Applicant') {
+                dcType = 'Sponsor';
               }
+            } else if (dealContact.Vendor_Type__c != null) {
+              if (dealCOntact.Vendor_Type__c == 'Lender Legal Counsel') {
+                dcType = 'Legal';
+              } else {
+                dcType = dealContact.Entity_Type__c;
+              }
+            }
 
-              checklistItems.add(item);
+            if (itemConfig.sobject__c == dcType) {
+              Checklist_Item__c item = new Checklist_Item__c();
+              if (dealContactSectionMap.containsKey(dealContact.Id)) {
+                item.Checklist_Section__c = dealContactSectionMap.get(
+                    dealContact.Id
+                  )
+                  .Id;
+                item.Deal_Contact__c = dealContact.Id;
+                item.Status__c = 'Pending';
+                item.Responsible_Party__c = itemConfig.Responsible_Party__c;
+                item.Milestone__c = itemConfig.Milestone__c;
+                item.Checklist_Type__c = itemConfig.Checklist_Type__c;
+                item.Name = itemConfig.Checklist_Item_Name__c;
+                item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
+                item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
+                item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
+                item.Approver__c = itemConfig.Approver__c;
+                item.Uploader__c = itemConfig.Approver__c;
+                item.Reviewer__c = itemConfig.Reviewer__c;
+                if (itemConfig.Type__c == 'Upload') {
+                  item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
+                } else if (itemConfig.Type__c == 'Action') {
+                  item.RecordTypeId = recordTypeMap.get('Task'); //'012Z0000000aZRUIA2';
+                }
+
+                checklistItems.add(item);
+              }
             }
           }
         }

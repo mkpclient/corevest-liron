@@ -160,7 +160,15 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>API Logs</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Request_Endpoint__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Response_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Callout_Failed__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATEDBY_USER</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Deal__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

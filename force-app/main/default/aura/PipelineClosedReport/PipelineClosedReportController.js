@@ -5,7 +5,7 @@
 		$A.util.removeClass(component.find('spinner'), 'slds-hide');
 		component.find('download').set('v.disabled', true);
 		var fields = new Set();
-		helper.PIPELINE_FIELDS.forEach( field => fields.add(field));
+		helper.PIPELINE_FIELDSSEL.forEach( field => fields.add(field));
 		helper.CLOSED_FIELDS.forEach( field => fields.add(field) );
 		fields.delete('');
 		fields.add('Awaiting_Kickoff_Call__c');
@@ -18,29 +18,33 @@
 		helper.STAGES.forEach( field => pipelineWhereClause += '\'' + field + '\', ' );
 		pipelineWhereClause = pipelineWhereClause.substr(0, pipelineWhereClause.lastIndexOf(','));
 		pipelineWhereClause += ')';
-		pipelineWhereClause += ' AND Type =\'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\')';
-		pipelineWhereClause += ' OR (Type =\'Term Loan\' AND StageName = \'Closed Won\' AND Account_Name__c != \'Inhouse Test Account\' AND CloseDate = THIS_MONTH)';
+		pipelineWhereClause += ' AND Type =\'Term Loan\' AND Account.Name != \'Inhouse Test Account\' AND Lender__c LIKE \'%CoreVest%\')';
+		pipelineWhereClause += ' OR (Type =\'Term Loan\' AND StageName = \'Closed Won\' AND Account.Name != \'Inhouse Test Account\' AND Lender__c LIKE \'%CoreVest%\' AND CloseDate = THIS_MONTH)';
 
 		var pipelineOrderBy = "Awaiting_Kickoff_Call__c ASC, Anticipated_Closing_Date__c ASC, StageName DESC ";
 
-		var pipelineQuery = component.get('c.getRecordList');
-
+        var processPipleline ='P';
+		//var pipelineQuery = component.get('c.getRecordList');
+		var pipelineQuery = component.get('c.getRecordListPileLineRpt');
 		pipelineQuery.setParams({
 			fields : fieldList,
 			sobjectType : 'Opportunity',
 			whereClause : pipelineWhereClause,
-			orderBy : pipelineOrderBy
+			orderBy : pipelineOrderBy,
+            calledFor : processPipleline
 		});
 
-		var closedWhereClause = 'StageName IN (\'Closed Won\',\'Matured\',\'Paid Off\',\'Sold\') AND Type = \'Term Loan\' AND Account_Name__c != \'Inhouse Test Account\' AND CloseDate != THIS_MONTH';
+		var closedWhereClause = 'StageName IN (\'Closed Won\',\'Matured\',\'Paid Off\',\'Sold\') AND Type = \'Term Loan\' AND Account.Name != \'Inhouse Test Account\' AND Lender__c LIKE \'%CoreVest%\' AND CloseDate != THIS_MONTH';
 		var closedOrderBy = 'CloseDate ASC';
-
-		var closedQuery = component.get('c.getRecordList');
+		processPipleline ='C';
+		//var closedQuery = component.get('c.getRecordList');
+		var closedQuery = component.get('c.getRecordListPileLineRpt');        
 		closedQuery.setParams({
 			fields : fieldList,
 			sobjectType : 'Opportunity',
 			whereClause : closedWhereClause,
-			orderBy : closedOrderBy
+			orderBy : closedOrderBy,
+            calledFor : processPipleline
 		});
 
 		var pipelineData = [];

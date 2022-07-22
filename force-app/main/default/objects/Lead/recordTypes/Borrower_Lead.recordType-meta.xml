@@ -10,6 +10,14 @@
             <fullName>Borrower</fullName>
             <default>true</default>
         </values>
+        <values>
+            <fullName>Broker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lender</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Channel__c</picklist>
@@ -54,6 +62,10 @@
         </values>
         <values>
             <fullName>2021</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2022</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1017,6 +1029,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Custodian__c</picklist>
+        <values>
+            <fullName>US Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wells Fargo</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Desired_Loan_Amount__c</picklist>
         <values>
             <fullName>%24100k to %24500k</fullName>
@@ -1234,6 +1257,17 @@
         </values>
         <values>
             <fullName>Under 660</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2678,6 +2712,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -3255,13 +3293,263 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Lending_Geography__c</picklist>
+        <values>
+            <fullName>Alabama</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Alaska</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Arizona</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Arkansas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>California</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Colorado</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Connecticut</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Delaware</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>District of Columbia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Florida</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Georgia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hawaii</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Idaho</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Illinois</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Indiana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Iowa</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kansas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kentucky</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Louisiana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maine</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Maryland</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Massachusetts</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michigan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Minnesota</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mississippi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Missouri</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Montana</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nebraska</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nevada</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Hampshire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Jersey</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New Mexico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New York</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>North Carolina</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>North Dakota</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ohio</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oklahoma</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Oregon</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pennsylvania</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Puerto Rico</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rhode Island</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>South Carolina</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>South Dakota</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tennessee</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Texas</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>US Virgin Islands</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Utah</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vermont</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Virginia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Washington</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>West Virginia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wisconsin</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wyoming</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loan_Origination_System_LOS__c</picklist>
+        <values>
+            <fullName>Alfred</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>LendingWise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Proprietary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>The Mortgage Office</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Loan_Product_s__c</picklist>
         <values>
             <fullName>Build to Rent Complete</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Credit Line</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Fix and Flip Credit Line</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Freddie Mac Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ground Up Construction Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily Loan</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3289,7 +3577,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Single Asset Bridge Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Single Project Bridge Loan</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Single Property Rental Loan</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3309,6 +3605,37 @@
         </values>
         <values>
             <fullName>Refinance</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Loan_Servicing_Sub_Servicer__c</picklist>
+        <values>
+            <fullName>BSI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Berkadia</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Del Toro</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In-House</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ShellPoint</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>StateBridge</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3412,13 +3739,87 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Preferred_Appraisal_Company__c</picklist>
+        <values>
+            <fullName>Accurate Group</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Appraisal Nation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clear Capital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Nationwide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Non-AMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>TriServ</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Universal Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valuation Services AMC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Preferred_Construction_Management_Co__c</picklist>
+        <values>
+            <fullName>BuildZig</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In-House</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Land Gorilla</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trinity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Property_Type__c</picklist>
+        <values>
+            <fullName>2 Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3 Unit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4 Unit</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Condo</fullName>
             <default>false</default>
         </values>
         <values>
+            <fullName>Corporate</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Mixed-Use</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3430,6 +3831,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>PUD</fullName>
             <default>false</default>
         </values>
@@ -3438,7 +3843,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Single Family</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Student Housing</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Townhome</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vacation Rental</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3553,6 +3970,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Strategic Account 2022</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Top Account</fullName>
             <default>false</default>
         </values>
@@ -3615,6 +4036,21 @@
         </values>
         <values>
             <fullName>Rental Aggregation</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Warehouse_Lender__c</picklist>
+        <values>
+            <fullName>Axos Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bank of California</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wells Fargo</fullName>
             <default>false</default>
         </values>
     </picklistValues>

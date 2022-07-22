@@ -37,6 +37,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_Remaining__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Fee_Netted__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -63,6 +67,10 @@
                 <behavior>Readonly</behavior>
                 <field>Aggregate_Advance_Fee_PreAdvance__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Total__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -78,6 +86,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Advance_Group_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Advance_Num__c</field>
             </layoutItems>
             <layoutItems>
@@ -87,6 +99,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Lender__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Property_Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -104,15 +120,23 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Title_Review_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HUD_Settlement_Statement_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Funding_Shield_Cert_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Target_Advance_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Wire_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Property_Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -150,6 +174,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Maturity_Date_Calculation_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Deal_Expiration_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -205,15 +233,6 @@
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
-        <detailHeading>false</detailHeading>
-        <editHeading>false</editHeading>
-        <label>Information</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <style>TwoColumnsTopToBottom</style>
-    </layoutSections>
-    <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
@@ -260,6 +279,10 @@
                 <behavior>Edit</behavior>
                 <field>Exception_Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception_Approval_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -276,6 +299,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Onboarded_at_Servicer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Deal_Field_History__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -332,10 +359,6 @@
                 <field>BlackSquare_Fee_Adjustment__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Show_Inspection_Fee_Column__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Inspection_Fee_Subtotal__c</field>
             </layoutItems>
@@ -362,6 +385,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Purchase_Funded_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Subtotal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Report_Fee_Adjustment__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -397,8 +428,25 @@
                 <behavior>Edit</behavior>
                 <field>Distinct_Counties__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_Fees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Is_Assigned_User__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>false</customLabel>
+        <detailHeading>false</detailHeading>
+        <editHeading>false</editHeading>
+        <label>Information</label>
+        <layoutColumns/>
+        <layoutColumns/>
+        <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -428,6 +476,11 @@
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>Advance__c.Complete</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Advance__c.Uncomplete</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
@@ -452,12 +505,24 @@
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Advance__c.Complete</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>3</sortOrder>
-        </platformActionListItems>
     </platformActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Num_of_Items__c</fields>
+        <fields>Percent_of_Items_Completed__c</fields>
+        <relatedList>Post_Closing_Section__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Post_Closing_Section__c</fields>
+        <fields>Recording_Status__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>Post_Closing_Item__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>Wire_Number__c</fields>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IO_Months_Through_Fully_Extended_Term__c</fullName>
+    <description>IO Number of Months through Fully Extended Loan Term. Calculation done on the CLO Data Tape.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>IO Number of Months through Fully Extended Loan Term</inlineHelpText>
+    <label>IO Months Through Fully Extended Term</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

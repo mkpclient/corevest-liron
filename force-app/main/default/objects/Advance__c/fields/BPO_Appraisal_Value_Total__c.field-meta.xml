@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>BPO_Appraisal_Value_Total__c</fullName>
     <externalId>false</externalId>
-    <label>BPO Appraisal Value Total</label>
+    <label>Appraisal Value Total</label>
     <summarizedField>Property_Advance__c.BPO_Appraisal_Value__c</summarizedField>
     <summaryForeignKey>Property_Advance__c.Advance__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>

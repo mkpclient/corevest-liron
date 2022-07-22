@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Borrowed_on_Bridge__c</fullName>
+    <description>Borrowed_on_Bridge_Loans__c +  Borrowed_Multifamily_CRE__c used for commissions</description>
+    <externalId>false</externalId>
+    <formula>Borrowed_on_Bridge_Loans__c + Borrowed_on_CRE_SAB_Loans__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total Actual Funded amount across all Bridge Products</inlineHelpText>
+    <label>Total Borrowed on Bridge</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

@@ -9,6 +9,7 @@
 		let params = event.getParam('arguments');
 		//let queryString = `SELECT Id, SystemModStamp FROM StaticResource WHERE Name = '${component.get('v.StaticResourceName')}'`;
 		let data = params.data;
+		
         //console.log("StaticResourceName==>"+component.get('v.StaticResourceName'));
 		component.find('util').getFileFromStaticResource(component.get('v.StaticResourceName'), params.fileName)
 		.then($A.getCallback(response => {
@@ -28,6 +29,7 @@
 				// expressions.Parser.filter = {};
 				//expressions.filters = {};
 				console.log(expressions);
+				console.log(zip);
 
 				// expressions.filters.formatCurrency = function(input){
 				// 	if(!input) return input;
@@ -48,7 +50,7 @@
 
 				var angularParser = function(tag) {
 
-					//console.log(tag);
+					console.log(tag);
 
 					return {
 						get: tag === '.' ? function(s){ return s;} : function(s) {

@@ -27,6 +27,11 @@
                 <label>Servicer Fee</label>
             </value>
             <value>
+                <fullName>Title Fee</fullName>
+                <default>false</default>
+                <label>Title Fee</label>
+            </value>
+            <value>
                 <fullName>Valuation Fee</fullName>
                 <default>false</default>
                 <label>Valuation Fee</label>

@@ -47,6 +47,11 @@
                 <default>false</default>
                 <label>2021</label>
             </value>
+            <value>
+                <fullName>2022</fullName>
+                <default>false</default>
+                <label>2022</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>CAMP</controllingFieldValue>
@@ -341,6 +346,48 @@
             <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
             <controllingFieldValue>MBA Regional</controllingFieldValue>
             <valueName>2021</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
+            <controllingFieldValue>Mastermind Summit</controllingFieldValue>
+            <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MAMP</controllingFieldValue>
+            <controllingFieldValue>Crittenden</controllingFieldValue>
+            <controllingFieldValue>BiggerPockets</controllingFieldValue>
+            <controllingFieldValue>IMN Middle Market</controllingFieldValue>
+            <controllingFieldValue>FAMP</controllingFieldValue>
+            <controllingFieldValue>CRELC</controllingFieldValue>
+            <controllingFieldValue>CREFC</controllingFieldValue>
+            <controllingFieldValue>ADC Roadshow</controllingFieldValue>
+            <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>ACOF</controllingFieldValue>
+            <controllingFieldValue>Pitbull</controllingFieldValue>
+            <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>
+            <controllingFieldValue>New England Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>Real Wealth Network</controllingFieldValue>
+            <controllingFieldValue>Collective Genius</controllingFieldValue>
+            <controllingFieldValue>MBA/CREF</controllingFieldValue>
+            <controllingFieldValue>ABS West</controllingFieldValue>
+            <controllingFieldValue>NAMB Regional</controllingFieldValue>
+            <controllingFieldValue>IMN East</controllingFieldValue>
+            <controllingFieldValue>RealShare (Orange County)</controllingFieldValue>
+            <controllingFieldValue>Western States CREF</controllingFieldValue>
+            <controllingFieldValue>Five Star</controllingFieldValue>
+            <controllingFieldValue>SFR Expo</controllingFieldValue>
+            <controllingFieldValue>Real Investor Roundtable</controllingFieldValue>
+            <controllingFieldValue>ABS  East</controllingFieldValue>
+            <controllingFieldValue>NAMB National</controllingFieldValue>
+            <controllingFieldValue>Keyspire</controllingFieldValue>
+            <controllingFieldValue>CA Realtors Expo</controllingFieldValue>
+            <controllingFieldValue>Americatalyst</controllingFieldValue>
+            <controllingFieldValue>NARPM Convention</controllingFieldValue>
+            <controllingFieldValue>MBA Annual Convention &amp; Expo</controllingFieldValue>
+            <controllingFieldValue>AAPL</controllingFieldValue>
+            <controllingFieldValue>New York Real Estate Expo</controllingFieldValue>
+            <controllingFieldValue>Motor City Mortgage Expo</controllingFieldValue>
+            <controllingFieldValue>MBA Regional</controllingFieldValue>
+            <valueName>2022</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

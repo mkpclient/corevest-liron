@@ -16,7 +16,7 @@
     var advance = {
       sobjectType: "Advance__c",
       Deal__c: property.Deal__c,
-      Status__c: "Pending",
+      // Status__c: "Pending",
       // Property_Record_Type__c: renoType
     };
 

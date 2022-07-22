@@ -16,12 +16,20 @@
                 <field>Status_Description__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Appraisal_Replacement_Cost_Value__c</field>
+                <behavior>Readonly</behavior>
+                <field>Appraiser_as_Rehab_LTV__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>No_of_Stories__c</field>
+                <field>Internal_as_Rehab_Value__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Internal_as_Rehab_LTV__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Post_Close_Appraisal__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -415,6 +423,10 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>CLO_Asset_Details__c.Appraisal__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

@@ -129,6 +129,29 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>rcsfl__hvs_disposition__c</picklist>
+        <values>
+            <fullName>Call Back Later</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Left Voicemail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Meaningful Connect</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Interested</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unqualified</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>ringdna__Call_Direction__c</picklist>
         <values>
             <fullName>Inbound</fullName>

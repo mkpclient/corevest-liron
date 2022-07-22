@@ -10,6 +10,8 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>LOC_Loan_Type__c</controllingField>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -22,6 +24,60 @@
                 <default>false</default>
                 <label>Non-Recourse</label>
             </value>
+            <value>
+                <fullName>Limited - Bad Boy</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Limited - Bad Boy</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>Non-Recourse (No Cash Management)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Recourse (No Cash Management)</label>
+            </value>
+            <value>
+                <fullName>Non-Recourse (Springing Cash Management)</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Non-Recourse (Springing Cash Management)</label>
+            </value>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Yes</label>
+            </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Investor DSCR</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
+            <controllingFieldValue>Purchased Bridge</controllingFieldValue>
+            <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <controllingFieldValue>Build to Rent</controllingFieldValue>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Loan</controllingFieldValue>
+            <valueName>Recourse</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Investor DSCR</controllingFieldValue>
+            <controllingFieldValue>Purchased Bridge</controllingFieldValue>
+            <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
+            <controllingFieldValue>Build to Rent</controllingFieldValue>
+            <controllingFieldValue>Term Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Loan</controllingFieldValue>
+            <valueName>Non-Recourse</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

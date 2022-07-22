@@ -7,6 +7,18 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Advance_Fee_Cap__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Advance_Fee__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Advance_Period__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Amortization_Term__c</field>
         <value xsi:type="xsd:string">360 months</value>
     </values>
@@ -23,6 +35,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Exit_Fee__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Floor_Percent__c</field>
         <value xsi:type="xsd:double">1.55</value>
     </values>
@@ -35,16 +51,20 @@
         <value xsi:type="xsd:string">0 months</value>
     </values>
     <values>
-        <field>Initial_LTC__c</field>
+        <field>Interest_Rate_Type__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Initial_LTV__c</field>
+        <field>Interest_Rate__c</field>
         <value xsi:nil="true"/>
     </values>
     <values>
         <field>Loan_Term__c</field>
         <value xsi:type="xsd:string">7 Year</value>
+    </values>
+    <values>
+        <field>Max_LTC_Percent__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Max_LTV_Percent_for_Foreign_National__c</field>
@@ -64,7 +84,7 @@
     </values>
     <values>
         <field>Product_Sub_Type__c</field>
-        <value xsi:type="xsd:string">Fixed Rate Long Term Loan</value>
+        <value xsi:type="xsd:string">Long Term Rental</value>
     </values>
     <values>
         <field>Product_Type__c</field>
@@ -87,6 +107,14 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Repayment_Period__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Revolving__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Stepdown_Prepayment_Period__c</field>
         <value xsi:type="xsd:string">N/A</value>
     </values>
@@ -96,10 +124,10 @@
     </values>
     <values>
         <field>YM_Par_Prepayment_New_Client__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">81 Months</value>
     </values>
     <values>
         <field>YM_Par_Prepayment_Repeat_Client__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">78 Months</value>
     </values>
 </CustomMetadata>

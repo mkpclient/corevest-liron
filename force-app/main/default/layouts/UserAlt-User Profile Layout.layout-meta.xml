@@ -48,6 +48,10 @@
                 <behavior>Required</behavior>
                 <field>TimeZoneSidKey</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Originating_Company__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

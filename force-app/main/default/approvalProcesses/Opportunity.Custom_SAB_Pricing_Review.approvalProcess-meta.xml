@@ -23,6 +23,10 @@
         </approvalActions>
         <assignedApprover>
             <approver>
+                <name>amelia.cunningham@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
                 <name>caf-it@cvest.com</name>
                 <type>user</type>
             </approver>

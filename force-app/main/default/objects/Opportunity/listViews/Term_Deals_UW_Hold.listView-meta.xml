@@ -7,7 +7,6 @@
     <columns>Anticipated_Closing_Date__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
-    <columns>Hold_Reason__c</columns>
     <columns>Days_In_UW_Hold__c</columns>
     <columns>Owner_Name__c</columns>
     <columns>Underwriter__c</columns>

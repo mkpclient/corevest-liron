@@ -25,11 +25,6 @@
                 <default>false</default>
                 <label>Refinance/Purchase</label>
             </value>
-            <value>
-                <fullName>Cash Out Refi</fullName>
-                <default>false</default>
-                <label>Cash Out Refi</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

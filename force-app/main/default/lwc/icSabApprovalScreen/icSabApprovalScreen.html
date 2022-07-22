@@ -1,0 +1,174 @@
+<template>
+  <template if:true={deal}>
+    <div class="dashboard-section">
+      <lightning-record-view-form
+        record-id={deal.Id}
+        object-api-name="Opportunity"
+      >
+        <div
+          style="display: inline-block"
+          class="slds-p-horizontal_small slds-grid slds-wrap"
+        >
+          <template for:each={dealFields} for:item="field">
+            <div
+              style="display: inline-block"
+              key={field.fieldName}
+              class="slds-col slds-size_1-of-2 slds-p-around_x-small"
+            >
+            <template if:true={field.isUrl}>
+              <div class="slds-form-element__control">
+                <span
+                  class="slds-form-element__label"
+                  if:true={field.customLabel}
+                  >{field.customLabel}</span
+                >
+                <div class="slds-form-element__static">
+                  <lightning-formatted-url value={field.value} label={field.label} target="_blank"></lightning-formatted-url>
+                </div>
+              </div>
+            </template>
+            <template if:false={field.isUrl}>
+              <span class="slds-form-element__label" if:true={field.customLabel}
+                >{field.customLabel}</span
+              >
+              <lightning-output-field
+                field-name={field.fieldName}
+                variant={field.variant}
+              >
+              </lightning-output-field>
+            </template>
+            </div>
+          </template>
+        </div>
+      </lightning-record-view-form>
+    </div>
+  </template>
+  <template if:true={recordId}>
+    <div class="dashboard-section">
+      <button class="section" value="creditMemo" onclick={showSection}>
+        <span class="marker"> + </span>
+        &nbsp; Credit Memo Information
+      </button>
+      <div
+        style="display: inline-block"
+        class="slds-p-horizontal_small slds-grid slds-wrap"
+        if:true={showCreditMemoInfo}
+      >
+        <template for:each={creditMemoFields} for:item="field">
+          <div
+            style="display: inline-block"
+            key={field.label}
+            class="slds-col slds-size_1-of-2 slds-p-around_x-small"
+          >
+            <lightning-input label={field.label} value={field.value} readonly>
+            </lightning-input>
+          </div>
+        </template>
+      </div>
+    </div>
+  </template>
+
+  <div class="dashboard-section">
+    <button class="section" value="credSummary" onclick={showSection}>
+      <span class="marker"> + </span>
+      &nbsp; Credit Summary
+    </button>
+    <lightning-record-view-form
+      record-id={deal.Id}
+      object-api-name="Opportunity"
+    >
+      <div
+        style="display: inline-block"
+        class="slds-p-horizontal_small slds-grid slds-wrap"
+        if:true={showCredSummary}
+      >
+        <template
+          for:each={creditSummaryFields}
+          for:item="field"
+          for:index="idx"
+        >
+          <div
+            style="display: inline-block"
+            key={field.key}
+            class="slds-col slds-size_1-of-2 slds-p-around_x-small"
+          >
+            <template if:false={field.isBorrowerField}>
+              <template if:false={field.isGuarantors}>
+                <span
+                  class="slds-form-element__label"
+                  if:true={field.customLabel}
+                  >{field.customLabel}</span
+                >
+                <lightning-output-field
+                  field-name={field.fieldName}
+                  variant={field.variant}
+                >
+                </lightning-output-field>
+              </template>
+            </template>
+            <template if:true={field.isBorrowerField}>
+              <lightning-input
+                type={field.type}
+                label={field.label}
+                value={field.value}
+                readonly
+              ></lightning-input>
+            </template>
+            <template if:true={field.isGuarantors}>
+              <span class="slds-form-element__label">{field.label}</span>
+              <div class="slds-pill_container">
+                <template for:each={guarantors} for:item="g">
+                  <span key={g.label} class="slds-pill slds-pill_link">
+                    <a href={g.href} class="slds-pill__action" title={g.label} target="_blank">
+                      <span class="slds-pill__label">{g.label}</span>
+                    </a>
+                    </span>
+                </template>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+    </lightning-record-view-form>
+  </div>
+  <template for:each={properties} for:item="prop">
+    <div key={prop.Id} class="dashboard-section">
+      <c-ic-sab-approval-property
+        header="Loan Details"
+        record-id={prop.Id}
+        header-name={prop.Name}
+        record-api-name="Property__c"
+      ></c-ic-sab-approval-property>
+    </div>
+  </template>
+  <template for:each={properties} for:item="prop">
+    <div key={prop.Id} class="dashboard-section">
+      <c-ic-sab-approval-property
+        header="Valuation"
+        record-id={prop.Id}
+        header-name={prop.Name}
+        record-api-name="Property__c"
+      ></c-ic-sab-approval-property>
+    </div>
+  </template>
+  <div class="dashboard-section">
+    <template if:true={borrowerId}>
+      <c-ic-sab-approval-property
+      header="Borrower Profile"
+      record-id={borrowerId}
+      record-api-name="Deal_Contact__c"
+      guarantors={guarantors}
+    ></c-ic-sab-approval-property>
+    </template>
+  </div>
+  <div class="dashboard-section">
+    <template if:true={borrowerId}>
+      <c-ic-sab-approval-property
+      header="Borrower Structure"
+      record-id={borrowerId}
+      record-api-name="Deal_Contact__c"
+      guarantors={guarantors}
+    ></c-ic-sab-approval-property>
+    </template>
+  </div>
+</template>

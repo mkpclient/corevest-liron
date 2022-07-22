@@ -80,20 +80,8 @@
                 <field>REO_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Loan_Document_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Title_Review_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -101,11 +89,23 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Appraisal_Replacement_Cost_Value__c</field>
+                <field>Estimated_Min_Rent__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>No_of_Stories__c</field>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>UPB_Before_Payoff__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Occupied_Units__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Occupancy_Pct__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -403,6 +403,10 @@
                 <behavior>Edit</behavior>
                 <field>Asset_Management_Comments__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Servicer_Import__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
@@ -554,6 +558,22 @@
                 <behavior>Readonly</behavior>
                 <field>Deal_Refinanced_With__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Deal_Record_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>RecordType__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>RecordType_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Record_Type_Text__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -669,6 +689,9 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
+        <fields>Estimated_Rent__c</fields>
+        <fields>Estimated_Max_Rent__c</fields>
+        <fields>Estimated_Min_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -679,14 +702,36 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Property_Address__c</fields>
-        <fields>Property_City__c</fields>
-        <fields>Rent_Amount__c</fields>
-        <fields>Source__c</fields>
-        <fields>Date_Provided__c</fields>
-        <relatedList>Property_Rent__c.Property__c</relatedList>
-        <sortField>Date_Provided__c</sortField>
-        <sortOrder>Desc</sortOrder>
+        <relatedList>Property_Sales_history__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Property_Mortgage_lien_all__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>HouseCanaryForReporting__c.RelatedProperty__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Custodial_Exception__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Title_Order__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Released_Collateral__c</fields>
+        <fields>UPB_at_Release__c</fields>
+        <fields>Completed_date__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Days_to_Resolve__c</fields>
+        <relatedList>Partial_Release__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

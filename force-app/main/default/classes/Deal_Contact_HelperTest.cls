@@ -1,6 +1,7 @@
 @isTest
 public class Deal_Contact_HelperTest {
   static testMethod void testMethod1() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -104,6 +105,8 @@ public class Deal_Contact_HelperTest {
     conts[0].Net_Worth__c = 1000;
     conts[0].Rental_Units_Owned__c = '20';
     conts[0].Years_of_Experience1__c = 3;
+    conts[0].Credit_Score_Date__c = system.today();
+    conts[0].Legal_Name__c = 'Some Legal Name Update Test';
     update conts;
 
     insert new Deal_Contact__c(
@@ -134,6 +137,7 @@ public class Deal_Contact_HelperTest {
   }
 
   static testMethod void testMethodDelete() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);

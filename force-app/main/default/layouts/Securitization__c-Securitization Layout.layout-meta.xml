@@ -35,6 +35,10 @@
                 <behavior>Edit</behavior>
                 <field>CREFC_License_Fee_Rate__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Redemption_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -143,6 +147,7 @@
         <fields>ACCOUNT.NAME</fields>
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>OPPORTUNITY.TYPE</fields>
+        <fields>OPPORTUNITY.STAGE_NAME</fields>
         <fields>Final_Loan_Amount__c</fields>
         <fields>Total_Properties__c</fields>
         <fields>Total_Units__c</fields>

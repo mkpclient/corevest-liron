@@ -10,5 +10,5 @@ ISCHANGED(Name),
  NOT($Profile.Name = &quot;System Administrator&quot;)
 )</errorConditionFormula>
     <errorDisplayField>Name</errorDisplayField>
-    <errorMessage>You are not authorized to update the Advance #</errorMessage>
+    <errorMessage>The Advance # cannot be updated</errorMessage>
 </ValidationRule>

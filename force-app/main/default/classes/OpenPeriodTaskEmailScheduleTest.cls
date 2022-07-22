@@ -12,19 +12,19 @@ private class OpenPeriodTaskEmailScheduleTest {
         String uniqueName2=orgId+dateString+RandomId+'2';
 
             
-        User oneUser = new User(Alias = 'standt', Email='standarduser@testorg.com', 
+        User oneUser = new User(Alias = 'standt', Email='standarduser@cvest.com', 
         EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US', 
         LocaleSidKey='en_US', ProfileId = profileDetail.Id, IsActive = true,
         TimeZoneSidKey='America/New_York', UserName=uniqueName + '@test' + orgId + '.org');
         insert oneUser;
         
-        User twoUser = new User(Alias = 'standt', Email='standarduser1@testorg.com', 
+        User twoUser = new User(Alias = 'standt', Email='standarduser1@cvest.com', 
         EmailEncodingKey='UTF-8', LastName='Testing1', LanguageLocaleKey='en_US', 
         LocaleSidKey='en_US', ProfileId = profileDetail.Id, IsActive = false,
         TimeZoneSidKey='America/New_York', UserName=uniqueName1 + '@test' + orgId + '.org');
         insert twoUser;
         
-        User threeUser = new User(Alias = 'standt', Email='standarduser2@testorg.com', 
+        User threeUser = new User(Alias = 'standt', Email='standarduser2@cvest.com', 
         EmailEncodingKey='UTF-8', LastName='Testing2', LanguageLocaleKey='en_US', 
         LocaleSidKey='en_US', ProfileId = profileDetail.Id, IsActive = true,
         TimeZoneSidKey='America/New_York', UserName=uniqueName2 + '@test' + orgId + '.org');
@@ -44,8 +44,10 @@ private class OpenPeriodTaskEmailScheduleTest {
         
     insert a;
 
-Contact cont = test_Helper.createContact(a);    
+Contact cont = test_Helper.createContact(a); 
         
+       
+       
   Opportunity opp = new Opportunity();
     opp.Name = 'test';
     opp.OwnerId = oneUser.id;
@@ -58,6 +60,7 @@ Contact cont = test_Helper.createContact(a);
     opp.Loan_Size__c = 2000000;
     opp.AccountId = a.Id;
     opp.Contact__c = cont.Id;
+    opp.Product_Sub_Type__c = 'Long Term Rental';
 	opp.Term_Loan_Type__c = '5 Year';
     opp.Final_Loan_Amount__c = 100;
     opp.Deal_Intro_Source__c = 'Hotline';
@@ -65,7 +68,7 @@ Contact cont = test_Helper.createContact(a);
     opp.Apex_Context__c = true;
     //opp.Loan_in_Default__c = false;
 
-   // opp.Updated_Loan_Maturity_Date__c = System.today().addMonths(9);
+    //opp.Updated_Loan_Maturity_Date__c = System.today().addMonths(9);
     opp.RecordTypeId = [
       SELECT Id
       FROM RecordType
@@ -77,10 +80,17 @@ Contact cont = test_Helper.createContact(a);
     opp.Term_Loan_Type__c = '5 Year';
     opp.YM_Prepayment_Penalty__c = '34 Months';
 	opp.First_Payment_Date__c = System.today().addmonths(-22);
+    system.debug('first payment1' + System.today().addmonths(-22));
+
 
     insert opp;
-        opportunity myOpp = [SELECT Open_Period_Begins__c FROM Opportunity Where ID =:opp.ID];
-system.debug('date?'+ myOpp.Open_Period_Begins__c);
+        opportunity myOpp = [SELECT Open_Period_Begins__c,Term_Loan_Type__c, YM_Prepayment_Penalty__c, First_Payment_Date1__c FROM Opportunity Where ID =:opp.ID];
+
+        system.debug('date?'+ myOpp.Open_Period_Begins__c);
+        system.debug('payment formula1'+ myOpp.First_Payment_Date1__c);
+        system.debug('ym pen'+ myOpp.YM_Prepayment_Penalty__c);
+        system.debug('term type'+ myOpp.Term_Loan_Type__c);
+
         
   Opportunity opp2 = new Opportunity();
     opp2.Name = 'test';
@@ -92,6 +102,7 @@ system.debug('date?'+ myOpp.Open_Period_Begins__c);
     opp2.StageName = 'Closed Won';
     opp2.Type = 'Term Loan';
     opp2.Term_Loan_Type__c = '5 Year';
+    opp2.Product_Sub_Type__c = 'Long Term Rental';
 
     opp2.Loan_Size__c = 2000000;
     opp2.AccountId = a.Id;
@@ -115,16 +126,17 @@ system.debug('date?'+ myOpp.Open_Period_Begins__c);
     opp2.Term_Loan_Type__c = '5 Year';
     opp2.YM_Prepayment_Penalty__c = '34 Months';
 	opp2.First_Payment_Date__c = System.today().addmonths(-25);
-
+system.debug('first payment2' + System.today().addmonths(-25));
     insert opp2;
-     
- 	opportunity myOpp2 = [SELECT Open_Period_Begins__c FROM Opportunity Where ID =:opp2.ID];
+
+ 	opportunity myOpp2 = [SELECT Open_Period_Begins__c, First_Payment_Date1__c FROM Opportunity Where ID =:opp2.ID];
 	system.debug('date2?'+ myOpp2.Open_Period_Begins__c);
+        system.debug('payment formula2'+ myOpp2.First_Payment_Date1__c);
         
         
 
          test.startTest();
-         OpenPeriodTaskEmailScheduled myClass = new OpenPeriodTaskEmailScheduled();   
+         TermsheetThirtyDayNotification myClass = new TermsheetThirtyDayNotification();   
          String chron = '0 0 21 * * ?';        
          system.schedule('Test Sched', chron, myClass);
          System.debug(myClass);

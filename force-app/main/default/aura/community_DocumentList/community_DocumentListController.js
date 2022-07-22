@@ -56,7 +56,20 @@
         console.log(component.get("v.fieldList"));
         helper.queryRecordsList(component);
       } else if (state === "ERROR") {
-        console.log("error");
+        let errors = response.getError();
+        if(errors) {
+          if(errors[0] && errors[0].message) {
+            for(let i = 0; i < errors.length; i++) {
+              console.error("Error: " + errors[i].message);
+            }
+          } else {
+            console.error("Error: Unknown error");
+          }
+        } else {
+          console.error("Error: Unknown error");
+        }
+      } else {
+        console.error('STATE : ' + state);
       }
     });
 
@@ -70,9 +83,21 @@
         var user = JSON.parse(response.getReturnValue());
 
         $A.enqueueAction(action);
+      } else if (state === "ERROR") {
+        let errors = response.getError();
+        if(errors) {
+          if(errors[0] && errors[0].message) {
+            for(let i = 0; i < errors.length; i++) {
+              console.error("Error: " + errors[i].message);
+            }
+          } else {
+            console.error("Error: Unknown error");
+          }
+        } else {
+          console.error("Error: Unknown error");
+        }
       } else {
-        console.log("error");
-        console.log(response);
+        console.error('STATE : ' + state);
       }
     });
     $A.enqueueAction(action1);

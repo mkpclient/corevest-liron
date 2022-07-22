@@ -13,9 +13,9 @@ public without sharing class ApprovalHistory_lightningController {
     'Term_IC_Approval',
     'Bridge_IC_Approval',
     'Term_Sub_IC',
-    'Bridge_Sub_IC'
+    'Bridge_Sub_IC',
+    'Bridge_Mini_Sub_IC'
   };
-
 
   @AuraEnabled
   public static String recallApproval(Id processId) {
@@ -183,7 +183,8 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Approval_Status__c,
         Deal__r.Apex_Context__c,
         CreatedDate,
-        Resolution__c
+        Resolution__c,
+        ProcessName__c
       FROM Approval_History__c
       WHERE Deal__c = :recordId
       ORDER BY LastModifiedDate DESC
@@ -272,7 +273,7 @@ public without sharing class ApprovalHistory_lightningController {
           if (termEntryIntoUWApprover) {
             ah.Verified__c = true;
           }
-        } else if (processName == 'Submit_Bridge_Deal_to_UW_Approval') {
+        } else if (processName == 'Submit_Bridge_Deal_to_UW_Approval' || processName == 'Submit_SAB_Deal_to_UW_Approval') {
           if (bridgeEntryIntoUWApprover) {
             ah.Verified__c = true;
           }
@@ -341,8 +342,9 @@ public without sharing class ApprovalHistory_lightningController {
       }
     }
 
-    Boolean b = submitterId == UserInfo.getUserId() || (String.isNotEmpty(ahList[0].ProcessName__c) && IC_APPROVAL_NAMES.contains(ahList[0].ProcessName__c) && roleName == 'Underwriter');
+    Boolean b = submitterId == UserInfo.getUserId() || (ahList.size() > 0 && String.isNotEmpty(ahList[0].ProcessName__c) && IC_APPROVAL_NAMES.contains(ahList[0].ProcessName__c) && roleName == 'Underwriter');
 
+    
     returnWrapper rw = new returnWrapper();
     rw.ahList = ahList;
     rw.isSubmitter = b;
@@ -398,8 +400,10 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Product_Sub_Type__c,
         Deal__r.LOC_Program_Type__c,
         Deal__r.RecordType.DeveloperName,
+        Deal__r.Project_Strategy__c,
         Parent_Status__c,
         Process_Id__c,
+        ProcessName__c,
         Process_Instance_Id__c,
         Status__c,
         Step_Item_Id__c,
@@ -452,6 +456,7 @@ public without sharing class ApprovalHistory_lightningController {
         hw.loanType = ahc.Deal__r.Type;
         hw.productType = ahc.Deal__r.LOC_Loan_Type__c;
         hw.productSubType = ahc.Deal__r.Product_Sub_Type__c;
+        hw.projectStrategy = ahc.Deal__r.Project_Strategy__c;
         hw.loanStage = ahc.Deal_Stage_At_Time_of_Submission__c;
         hw.pricingType = ahc.Deal__r.LOC_Program_Type__c;
 
@@ -553,6 +558,7 @@ public without sharing class ApprovalHistory_lightningController {
     String loanType;
     String productType;
     String productSubType;
+    String projectStrategy;
     String loanStage;
     String pricingType;
     // String status;

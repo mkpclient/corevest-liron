@@ -8,7 +8,6 @@ public class oppchatterhelper {
         List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = new List<deal_chatter_deal_approval_chatter_link__c>();
         for (FeedItem fI :newList )
         {
-        	System.debug('FI.Parent_Id__c :' +fI.ParentId);
        		List<Custom_Chatter_Mapping__c> custChatList = [SELECT Deal__c FROM Custom_Chatter_Mapping__c where id = :fI.ParentId Limit 1 ];
 
        		if (CustChatList.size() > 0)
@@ -26,7 +25,6 @@ public class oppchatterhelper {
                 newFI.ParentId = custChatList[0].Deal__c;
                 newfeeditem.add(newFI);
                 newChtrLink.Deal_Approval_Chatter_Id__c = fI.id;
-                System.debug('newChtrLink.Deal_Approval_Chatter_Id__c :' +newChtrLink.Deal_Approval_Chatter_Id__c);
                 newChtrLinkList.add(newChtrLink);
             }   
         }
@@ -39,7 +37,6 @@ public class oppchatterhelper {
             {
             newChtrLinkList[i].DealChatterId__c = newfeeditem[i].id;
             newChtrLinkList[i].is_chatter_related__c = true;
-			System.debug('newChtrLink[i].DealChatterId__c :' +newChtrLinkList[i].DealChatterId__c);
             }            
         }        
 
@@ -58,14 +55,11 @@ public class oppchatterhelper {
         {
         for (FeedItem fI :newList )
         {
-        	System.debug('fI.id :' +fI.id);
-            System.debug('fI.Body :' +fI.Body);
             afterupdateran = true;
             List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = [SELECT DealChatterId__c, Deal_Approval_Chatter_Id__c 
                                                                                 FROM deal_chatter_deal_approval_chatter_link__c WHERE is_chatter_related__c = true and DealChatterId__c = :fI.id Limit 1];
             if (newChtrLinkList.size() > 0)
             {
-                system.debug('This is a Deal id and approval id is' +newChtrLinkList[0].Deal_Approval_Chatter_Id__c);
                processingId = newChtrLinkList[0].Deal_Approval_Chatter_Id__c; 
             }
             
@@ -76,7 +70,6 @@ public class oppchatterhelper {
 
                 if (newChtrLinkList.size() > 0)
                 {
-                    system.debug('This is a approval id and the deal id is' +newChtrLinkList[0].DealChatterId__c);
                     processingId = newChtrLinkList[0].DealChatterId__c;
                 }
             }
@@ -109,13 +102,11 @@ public class oppchatterhelper {
         
         for (FeedItem fI :oldList )
         {
-        	System.debug('fI.id :' +fI.id);
             List<deal_chatter_deal_approval_chatter_link__c> newChtrLinkList = [SELECT id,DealChatterId__c, Deal_Approval_Chatter_Id__c 
                                                                                 FROM deal_chatter_deal_approval_chatter_link__c WHERE is_chatter_related__c = true 
                                                                                 and DealChatterId__c = :fI.id Limit 1];
             if (newChtrLinkList.size() > 0)
             {
-                system.debug('This is a Deal id and approval id is' +newChtrLinkList[0].id);
                DeleteId = newChtrLinkList[0].id;
                processingId = newChtrLinkList[0].Deal_Approval_Chatter_Id__c; 
             }
@@ -127,7 +118,6 @@ public class oppchatterhelper {
 
                 if (newChtrLinkList.size() > 0)
                 {
-                    system.debug('This is a approval id and the deal id is' +newChtrLinkList[0].DealChatterId__c);
                     DeleteId = newChtrLinkList[0].id;
                     processingId = newChtrLinkList[0].DealChatterId__c;
                 }

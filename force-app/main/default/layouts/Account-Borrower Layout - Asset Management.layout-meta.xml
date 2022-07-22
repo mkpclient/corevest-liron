@@ -65,20 +65,12 @@
                 <field>Top_Accounts_Imported_Leads_List__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Yardi_Vendor_Code__c</field>
+                <behavior>Readonly</behavior>
+                <field>Total_CRE_Loan_Commitment__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ABA__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Bank_Account__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Non_Borrower_Account_Type_c__c</field>
+                <behavior>Readonly</behavior>
+                <field>Total_Borrowed_on_Bridge__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -141,6 +133,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>In_Foreclosure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Refer_to_Asset_Management__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -383,14 +379,25 @@
         <fields>Deal_Loan_Number__c</fields>
         <fields>OPPORTUNITY.TYPE</fields>
         <fields>OPPORTUNITY.STAGE_NAME</fields>
+        <fields>Historical_Ontime_Payments_Percentage__c</fields>
         <fields>Loan_Size__c</fields>
         <fields>Final_Loan_Amount__c</fields>
         <fields>LOC_Commitment__c</fields>
-        <fields>Aggregate_Funding__c</fields>
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>Owner_Name__c</fields>
         <relatedList>RelatedOpportunityList</relatedList>
         <sortField>OPPORTUNITY.CLOSE_DATE</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Deal__c</fields>
+        <fields>Lender__c</fields>
+        <fields>Close_Date__c</fields>
+        <fields>Properties_Matched__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Lost_Deal_Analysis__c.Account__c</relatedList>
+        <sortField>Close_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>

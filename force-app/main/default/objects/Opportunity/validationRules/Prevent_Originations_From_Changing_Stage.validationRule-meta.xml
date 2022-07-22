@@ -10,9 +10,7 @@
 OR(
  $Profile.Name = &quot;Relationship Manager&quot;,
  $Profile.Name = &quot;Origination Manager&quot;,
- $Profile.Name = &quot;Sales Analyst&quot;,
- $Profile.Name = &quot;Sales Analyst Bridge Operations Hybrid&quot;,
- $Profile.Name = &quot;Sales Analyst Term Operations Hybrid&quot;
+ $Profile.Name = &quot;Sales Analyst&quot;
 )
 )</errorConditionFormula>
     <errorMessage>Once a Deal is in Underwriting, only the Operations team can update the Stage of the Deal</errorMessage>

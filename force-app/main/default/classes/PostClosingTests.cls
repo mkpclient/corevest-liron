@@ -6,6 +6,7 @@ private class PostClosingTests {
 
     public static TestMethod void UTOppInsert(){
         test_Helper.setUpProduct2();
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
 		Contact cont = test_Helper.createContact( acc );
 		Opportunity opp = test_Helper.createOpportunity( acc, cont );

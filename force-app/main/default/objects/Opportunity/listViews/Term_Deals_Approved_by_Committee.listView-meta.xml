@@ -8,7 +8,6 @@
     <columns>Final_Loan_Amount__c</columns>
     <columns>Final_Spread__c</columns>
     <columns>Final_Swap__c</columns>
-    <columns>Final_Interest_Rate__c</columns>
     <columns>Referral_Source_Contact__c</columns>
     <columns>YSP_perc__c</columns>
     <columns>Broker_Fee_Paid_Date__c</columns>

@@ -23,10 +23,12 @@ public with sharing class ApplicationHelper {
 
   @AuraEnabled
   public static Map<String, String> convertApplication(
-    Map<String, String> params
+    Map<String, String> params,
+    List<String> recordTypes
   ) {
     try {
       system.debug(params);
+      system.debug(recordTypes);
       String recordId = params.get('recordId');
       Application__c app = [
         SELECT Id, Contact__c, Lead__c, Lead__r.ConvertedContactId
@@ -74,15 +76,44 @@ public with sharing class ApplicationHelper {
         recordTypeMap.put(rt.DeveloperName, rt.Id);
       }
 
-      if (application.loan_Type__c == 'bridge') {
+      List<Opportunity> opps = new List<Opportunity>();
+      if (
+        application.loan_Type__c == 'Build for Rent' ||
+        application.Loan_Type__c == 'Credit Line' ||
+        application.Loan_Type__c == 'Bridge Loan'
+      ) {
         opp.RecordTypeId = recordTypeMap.get('LOC_Loan');
         opp.CloseDate = system.today().addDays(75);
-      } else if (application.loan_Type__c == 'term') {
+      } else if (application.loan_Type__c == 'Rental Portfolio') {
         opp.RecordTypeId = recordTypeMap.get('Term_Loan');
         opp.CloseDate = system.today().addDays(65);
-      }
+      } else if (application.loan_Type__c == 'rental') {
+        if (recordTypes[0] == 'Bridge and Rental') {
+          opp.RecordTypeId = recordTypeMap.get('Term_Loan');
+          opp.CloseDate = system.today().addDays(65);
+        } else {
+          opp.RecordTypeId = recordTypeMap.get('LOC_Loan');
+          opp.CloseDate = system.today().addDays(75);
+        }
 
-      insert opp;
+        if (recordTypes.size() > 1) {
+          Opportunity opp1 = opp.clone(false, false, false, false);
+          if (recordTypes[1] == 'term') {
+            opp1.RecordTypeId = recordTypeMap.get('Term_Loan');
+            opp1.CloseDate = system.today().addDays(65);
+          } else {
+            opp1.RecordTypeId = recordTypeMap.get('LOC_Loan');
+            opp1.CloseDate = system.today().addDays(75);
+          }
+
+          opps.add(opp1);
+        }
+
+        //system.debug(recordTypes);
+      }
+      opps.add(opp);
+      insert opps;
+      //insert opp;
       response.put('oppId', opp.Id);
       application.Deal__c = opp.Id;
       update application;
@@ -106,6 +137,17 @@ public with sharing class ApplicationHelper {
           Entity_Type__c = 'Sponsor'
         )
       );
+
+      if (opps.size() > 0) {
+        dcs.add(
+          new Deal_Contact__c(
+            Contact__c = application.Contact__c,
+            Deal__c = opps[0].Id,
+            Deal_Contact_Type__c = 'Individual',
+            Entity_Type__c = 'Sponsor'
+          )
+        );
+      }
 
       insert dcs;
 
@@ -214,6 +256,12 @@ public with sharing class ApplicationHelper {
         prop.Vacancy_Repairs__c = property.Vacancy_RepairsMaintenance__c;
         prop.Year_Built__c = property.Year_Built__c;
         prop.Zipcode__c = property.Zipcode__c;
+
+        if (opps.size() > 1) {
+          Property__c prop1 = prop.clone(false, false, false, false);
+          prop1.Deal__c = opps[0].Id;
+          properties.add(prop1);
+        }
 
         properties.add(prop);
       }

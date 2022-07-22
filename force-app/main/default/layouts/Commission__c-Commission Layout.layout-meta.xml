@@ -62,12 +62,12 @@
                 <field>Commission_Total__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Quarter_Start_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Product_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Quarter_End_Date__c</field>
+                <field>CRE_Multi_Deal__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -98,6 +98,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Total_Borrowed_on_Term__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Quarter_Start_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Quarter_End_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Repeat_Borrower__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

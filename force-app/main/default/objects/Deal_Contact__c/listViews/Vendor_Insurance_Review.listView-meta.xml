@@ -33,6 +33,8 @@
     </filters>
     <label>Vendor - Insurance Review</label>
     <sharedTo>
+        <role>Loan_Management</role>
+        <role>Loan_Management_Manager</role>
         <role>Manager</role>
         <role>Term</role>
     </sharedTo>

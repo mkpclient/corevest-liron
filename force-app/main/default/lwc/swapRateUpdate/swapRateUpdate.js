@@ -33,7 +33,7 @@ export default class SwapRateUpdate extends LightningElement {
             {
             const event = new ShowToastEvent({
                 title: 'Warning!',
-                message: 'Failed to update the Swap Rate. The deal must be Term, not rate locked, not in Withdrawn or Rejected Stage, and Term Loan Type not blank. Please check the swap rate to make sure it is not blank.',
+                message: 'Failed to update the Swap Rate. The deal must be Term, not rate locked, not in Withdrawn or Rejected Stage, and Term Loan Type not blank. Please check the most recent swap rate record to make sure it is not blank.',
                 Varient: 'warning'
             });
             this.dispatchEvent(event);

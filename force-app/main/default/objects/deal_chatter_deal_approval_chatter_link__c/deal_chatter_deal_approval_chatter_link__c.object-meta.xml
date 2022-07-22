@@ -143,23 +143,23 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Stores deal chatter and deal approval chatter link ids</description>
+    <description>Object to hold link between chatter id created in deal approval chatter and deal chatter</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>true</enableReports>
-    <enableSearch>true</enableSearch>
+    <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>deal chatter deal approval chatter link</label>
+    <label>Deal Chatter and deal Approval Chatter</label>
     <nameField>
-        <label>deal_chatter_deal_approval_chatter_link Name</label>
+        <label>Deal Chatter and deal Approval Chatter L Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>deal chatter deal approval chatter link</pluralLabel>
+    <pluralLabel>Deal Chatter and deal Approval Chatters</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>

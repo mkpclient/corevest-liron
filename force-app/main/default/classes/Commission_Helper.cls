@@ -86,7 +86,11 @@ public class Commission_Helper {
       }
 
       for (Commission__c comm : newList) {
-        if (comm.Loan_Type__c == 'Term Loan') {
+        if (
+          comm.Loan_Type__c == 'Term Loan' ||
+          (comm.Loan_Type__c == 'Bridge Loan' &&
+          comm.Product_Type__c == 'Multifamily/CRE')
+        ) {
           termCommIds.add(comm.id);
           system.debug('term loan size' + termCommIds.size());
         } else if (
@@ -131,7 +135,9 @@ public class Commission_Helper {
             Quota__c,
             Deal__c,
             Quarter_Start_Date__c,
-            Quarter_End_Date__c
+            Quarter_End_Date__c,
+            Commission_Total__c,
+            Commission_Total__r.Id
           FROM Commission__c
           WHERE Commission_detail__c = NULL AND Deal__c IN :myMap.keySet()
         ];
@@ -185,15 +191,14 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
 
-              // myCommTotals.add(myCommTotal);
-                      insert myCommTotal;
-
+              myCommTotals.add(myCommTotal);
+              // insert myCommTotal;
 
               bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
               bComm.Quarter_Start_Date__c = quarterStartDate;
               bComm.Quarter_End_Date__c = quarterEndDate;
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               commsToUpdate.add(bComm);
             } else if (
               commTotalMap2.containsKey(bComm.Owner__c) &&
@@ -219,14 +224,14 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
 
-              // myCommTotals.add(myCommTotal);
-              insert myCommTotal;
+              myCommTotals.add(myCommTotal);
+              // insert myCommTotal;
 
               bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
               bComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               bComm.Quarter_End_Date__c = QuarterEndDateLastQ;
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               commsToUpdate.add(bComm);
             } else if (
               commTotalMap2LastQ.containsKey(bComm.Owner__c) &&
@@ -242,6 +247,20 @@ public class Commission_Helper {
               commsToUpdate.add(bComm);
             }
             //commsTotals.add(myCommTotal);
+          }
+        }
+
+        if (myCommTotals.size() > 0) {
+          insert myCommTotals;
+        }
+
+        for (Commission__c com : commsToUpdate) {
+          if (
+            com.Commission_Total__r != null &&
+            String.isNotBlank(com.Commission_Total__r.Id)
+          ) {
+            com.Commission_Total__c = com.Commission_Total__r.Id;
+            com.Commission_Total__r = null;
           }
         }
 
@@ -422,7 +441,8 @@ public class Commission_Helper {
             Quota__c,
             Commission_Total__c,
             Quarter_Start_Date__c,
-            Quarter_End_Date__c
+            Quarter_End_Date__c,
+            Commission_Total__r.Id
           FROM Commission__c
           WHERE
             (Loan_Type__c = 'Bridge Loan'
@@ -430,7 +450,7 @@ public class Commission_Helper {
             AND id IN :newList
         ];
 
-        //List<Commission_Total__c> commsTotals = new List<Commission_Total__c>();
+        List<Commission_Total__c> commsTotals = new List<Commission_Total__c>();
 
         if (myCommissions.size() > 0) {
           system.debug(myCommissions.size());
@@ -452,13 +472,13 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDate;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              insert myCommTotal;
-              //commsTotals.add(myCommTotal);
+              // insert myCommTotal;
+              commsTotals.add(myCommTotal);
               // myCommTotals.add(myCommTotal);
 
               //bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               bComm.Quarter_Start_Date__c = quarterStartDate;
               bComm.Quarter_End_Date__c = quarterEndDate;
               commsToUpdate.add(bComm);
@@ -486,15 +506,15 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
 
-              //commsTotals.add(myCommTotal);
+              commsTotals.add(myCommTotal);
               // myCommTotals.add(myCommTotal);
-              insert myCommTotal;
+              // insert myCommTotal;
 
               //bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
               bComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               bComm.Quarter_End_Date__c = QuarterEndDateLastQ;
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               commsToUpdate.add(bComm);
             } else if (
               bComm.Owner__c == commTotalMap2LastQ.get(bComm.Owner__c) &&
@@ -509,6 +529,21 @@ public class Commission_Helper {
               bComm.Commission_Total__c = commTotalMapLastQ.get(bComm.Owner__c);
               commsToUpdate.add(bComm);
             }
+          }
+        }
+
+        if (commsTotals.size() > 0) {
+          insert commsTotals;
+        }
+
+        for (Commission__c c : commsToUpdate) {
+          if (
+            String.isEmpty(c.Commission_Total__c) &&
+            c.Commission_Total__r != null &&
+            String.isNotBlank(c.Commission_Total__r.Id)
+          ) {
+            c.Commission_Total__c = c.Commission_Total__r.Id;
+            c.Commission_Total__r = null;
           }
         }
 
@@ -544,6 +579,8 @@ public class Commission_Helper {
         list<Commission__c> commRecords = [
           SELECT
             id,
+            Commission_Total__c,
+            Commission_Total__r.Id,
             Quota__c,
             Commission_Amount1__c,
             Deal_Close_Date__c,
@@ -551,9 +588,14 @@ public class Commission_Helper {
             Final_Loan_Amount__c,
             Quarter_Start_Date__c,
             Quarter_End_Date__c,
-            Owner__c
+            Owner__c,
+            Product_Type__c
           FROM Commission__c
-          WHERE Loan_Type__c = 'Term Loan' AND Id IN :termCommIds
+          WHERE
+            (Loan_Type__c = 'Term Loan'
+            OR (Loan_Type__c = 'Bridge Loan'
+            AND Product_Type__c = 'Multifamily/CRE'))
+            AND Id IN :termCommIds
         ];
 
         list<ForecastingQuota> quotaBridge = new List<ForecastingQuota>();
@@ -599,7 +641,7 @@ public class Commission_Helper {
           quotaMapBridge.put(q.QuotaOwnerId, q.QuotaAmount);
         } */
 
-        //List<Commission_Total__c> commTotalsToInsert = new List<Commission_Total__c>();
+        List<Commission_Total__c> commTotalsToInsert = new List<Commission_Total__c>();
 
         for (Commission__c myComm : commRecords) {
           system.debug('term loop line 84');
@@ -614,6 +656,7 @@ public class Commission_Helper {
           ) {
             system.debug('owner id' + myComm.Owner__c);
             system.debug('map owner id' + commTotalMap.get(myComm.Owner__c));
+            //above 10million x.5
             if (
               myComm.Deal__r.Account.Borrowed_on_Term_Loans__c -
               myComm.Final_Loan_Amount__c >= 10000000
@@ -624,15 +667,15 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDate;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
-				insert myCommTotal;
-              //commTotalsToInsert.add(myCommTotal);
+              // insert myCommTotal;
+              commTotalsToInsert.add(myCommTotal);
 
               //myCommTotals.add(myCommTotal);
-              system.debug('comm total' + myCommTotal.id);
+              // system.debug('comm total' + myCommTotal.id);
 
               myComm.Commission_Amount1__c = commAmount * .5;
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDate;
               myComm.Quarter_End_Date__c = quarterEndDate;
 
@@ -644,13 +687,13 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDate;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
-			insert myCommTotal;
-              //commTotalsToInsert.add(myCommTotal);
+              // insert myCommTotal;
+              commTotalsToInsert.add(myCommTotal);
               // myCommTotals.add(myCommTotal);
               //system.debug('com total 2' +myCommTotal.id);
 
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDate;
               myComm.Quarter_End_Date__c = quarterEndDate;
 
@@ -702,14 +745,14 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
 
-              //commTotalsToInsert.add(myCommTotal);
-				insert myCommTotal;
+              commTotalsToInsert.add(myCommTotal);
+              // insert myCommTotal;
               //myCommTotals.add(myCommTotal);
-              system.debug('comm total' + myCommTotal.id);
+              // system.debug('comm total' + myCommTotal.id);
 
               myComm.Commission_Amount1__c = commAmount * .5;
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               myComm.Quarter_End_Date__c = quarterEndDateLastQ;
 
@@ -721,13 +764,13 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDateLastQ;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
-				insert myCommTotal;
-              //commTotalsToInsert.add(myCommTotal);
+              // insert myCommTotal;
+              commTotalsToInsert.add(myCommTotal);
               // myCommTotals.add(myCommTotal);
               //system.debug('com total 2' +myCommTotal.id);
 
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               myComm.Quarter_End_Date__c = quarterEndDateLastQ;
 
@@ -767,13 +810,16 @@ public class Commission_Helper {
           }
         }
 
-      /* if (commTotalsToInsert.size() > 0) {
-          try {
-            insert commTotalsToInsert;
-          } catch (DmlException err) {
-            System.debug(err);
+        if (commTotalsToInsert.size() > 0) {
+          insert commTotalsToInsert;
+        }
+
+        for(Commission__c c : commsToUpsert) {
+          if(String.isEmpty(c.Commission_Total__c) && c.Commission_Total__r != null && String.isNotBlank(c.Commission_Total__r.Id)) {
+            c.Commission_Total__c = c.Commission_Total__r.Id;
+            c.Commission_Total__r = null;
           }
-        }*/
+        }
 
         if (commsToUpsert.size() > 0) {
           system.debug('upsert comms' + commsToUpsert.size());
@@ -809,7 +855,11 @@ public class Commission_Helper {
       }
 
       for (Commission__c comm : newList) {
-        if (comm.Loan_Type__c == 'Term Loan') {
+        if (
+          comm.Loan_Type__c == 'Term Loan' ||
+          (comm.Loan_Type__c == 'Bridge Loan' &&
+          comm.Product_Type__c == 'Multifamily/CRE')
+        ) {
           termCommIds.add(comm.id);
           system.debug('term loan size' + termCommIds.size());
         } else if (
@@ -850,7 +900,9 @@ public class Commission_Helper {
             Deal__c,
             Advance__r.Wire_Date__c,
             Quarter_Start_Date__c,
-            Quarter_End_Date__c
+            Quarter_End_Date__c,
+            Commission_Total__c,
+            Commission_Total__r.Id
           FROM Commission__c
           WHERE Commission_detail__c = NULL AND Deal__c IN :myMap.keySet()
         ];
@@ -885,7 +937,7 @@ public class Commission_Helper {
           }
         }
 
-        //List<Commission_Total__c> allCommsTotals = new List<Commission_Total__c>();
+        List<Commission_Total__c> allCommsTotals = new List<Commission_Total__c>();
         if (myBridgeCommissions.size() > 0) {
           system.debug(myBridgeCommissions.size());
           for (Commission__c bComm : myBridgeCommissions) {
@@ -911,13 +963,13 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDateLastQ;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              //allCommsTotals.add(myCommTotal);
+              allCommsTotals.add(myCommTotal);
               //myCommTotals.add(myCommTotal);
-              insert myCommTotal;
+              // insert myCommTotal;
 
               bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               bComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               bComm.Quarter_End_Date__c = quarterEndDateLastQ;
               commsToUpdate.add(bComm);
@@ -927,13 +979,13 @@ public class Commission_Helper {
               myCommTotal.Quarter_End_Date__c = quarterEndDate;
               myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              //allCommsTotals.add(myCommTotal);
-              insert myCommTotal;
+              allCommsTotals.add(myCommTotal);
+              // insert myCommTotal;
               //myCommTotals.add(myCommTotal);
 
               bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
               bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
-              bComm.Commission_Total__c = myCommTotal.Id;
+              bComm.Commission_Total__r = myCommTotal;
               bComm.Quarter_Start_Date__c = quarterStartDate;
               bComm.Quarter_End_Date__c = quarterEndDate;
               commsToUpdate.add(bComm);
@@ -941,13 +993,16 @@ public class Commission_Helper {
           }
         }
 
-        /*if (allCommsTotals.size() > 0) {
-          try {
-            insert allCommsTotals;
-          } catch (DmlException err) {
-            System.debug(err);
+        if (allCommsTotals.size() > 0) {
+          insert allCommsTotals;
+        }
+
+        for(Commission__c c  : commsToUpdate) {
+          if(String.isEmpty(c.Commission_Total__c) && c.Commission_Total__r != null && String.isNotBlank(c.Commission_Total__r.Id)) {
+            c.Commission_Total__c = c.Commission_Total__r.Id;
+            c.Commission_Total__r = null;
           }
-        }*/
+        }
 
         if (commsToUpdate.size() > 0) {
           try {
@@ -1005,7 +1060,8 @@ public class Commission_Helper {
             Commission_Total__c,
             advance__r.Wire_Date__c,
             Quarter_Start_Date__c,
-            Quarter_End_Date__c
+            Quarter_End_Date__c,
+            Commission_Total__r.Id
           FROM Commission__c
           WHERE
             (Loan_Type__c = 'Bridge Loan'
@@ -1014,7 +1070,7 @@ public class Commission_Helper {
         ];
 
         system.debug(myCommissions.size());
-        //List<Commission_Total__c> commsTotalsForInsertion = new List<Commission_Total__c>();
+        List<Commission_Total__c> commsTotalsForInsertion = new List<Commission_Total__c>();
         for (Commission__c bComm : myCommissions) {
           Commission_Total__c myCommTotal = new Commission_Total__c();
           if (
@@ -1037,13 +1093,13 @@ public class Commission_Helper {
             myCommTotal.Quarter_End_Date__c = quarterEndDateLastQ;
             myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
             myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
-            //commsTotalsForInsertion.add(myCommTotal);
-            insert myCommTotal;
+            commsTotalsForInsertion.add(myCommTotal);
+            // insert myCommTotal;
 
             //myCommTotals.add(myCommTotal);
 
             bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
-            bComm.Commission_Total__c = myCommTotal.Id;
+            bComm.Commission_Total__r = myCommTotal;
             bComm.Quarter_Start_Date__c = quarterStartDateLastQ;
             bComm.Quarter_End_Date__c = quarterEndDateLastQ;
             commsToUpdate.add(bComm);
@@ -1054,13 +1110,13 @@ public class Commission_Helper {
             myCommTotal.Term_Quota__c = quotaMapTerm.get(bComm.Owner__c);
             myCommTotal.Bridge_Quota__c = quotaMapBridge.get(bComm.Owner__c);
 
-            //commsTotalsForInsertion.add(myCommTotal);
+            commsTotalsForInsertion.add(myCommTotal);
             // myCommTotals.add(myCommTotal);
-            insert myCommTotal;
+            // insert myCommTotal;
 
             //bComm.Commission_detail__c = myMap.get(bComm.Deal__c);
             bComm.Quota__c = quotaMapBridge.get(bComm.Owner__c);
-            bComm.Commission_Total__c = myCommTotal.Id;
+            bComm.Commission_Total__r = myCommTotal;
             bComm.Quarter_Start_Date__c = quarterStartDate;
             bComm.Quarter_End_Date__c = quarterEndDate;
             commsToUpdate.add(bComm);
@@ -1068,13 +1124,16 @@ public class Commission_Helper {
           /// finish commission here 7/6/2021
         }
 
-        /*if (commsTotalsForInsertion.size() > 0) {
-          try {
-            insert commsTotalsForInsertion;
-          } catch (DmlException err) {
-            System.debug(err);
+        if (commsTotalsForInsertion.size() > 0) {
+          insert commsTotalsForInsertion;
+        }
+
+        for(Commission__c c : commsToUpdate) {
+          if(String.isEmpty(c.Commission_Total__c) && c.Commission_Total__r != null && String.isNotBlank(c.Commission_Total__r.Id)) {
+            c.Commission_Total__c = c.Commission_Total__r.Id;
+            c.Commission_Total__r = null;
           }
-        }*/
+        }
 
         if (commsToUpdate.size() > 0) {
           system.debug('comm updated' + commsToUpdate.size());
@@ -1097,13 +1156,16 @@ public class Commission_Helper {
           SELECT
             id,
             Quota__c,
+            Commission_Total__c,
+            Commission_Total__r.Id,
             Quarter_Start_Date__c,
             Deal_Close_Date__c,
             Quarter_End_Date__c,
             Commission_Amount1__c,
             Deal__r.Account.Borrowed_on_Term_Loans__c,
             Final_Loan_Amount__c,
-            Owner__c
+            Owner__c,
+            Product_Type__c
           FROM Commission__c
           WHERE Id IN :termCommIds
         ];
@@ -1138,7 +1200,7 @@ public class Commission_Helper {
           }
         }
 
-        //List<Commission_Total__c> commsTotalsForInsertion = new List<Commission_Total__c>();
+        List<Commission_Total__c> commsTotalsForInsertion = new List<Commission_Total__c>();
         for (Commission__c myComm : commRecords) {
           system.debug('term loop line 84');
           decimal commAmount = myComm.Commission_Amount1__c;
@@ -1161,14 +1223,14 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
 
-              //commsTotalsForInsertion.add(myCommTotal);
-              insert myCommTotal;
+              commsTotalsForInsertion.add(myCommTotal);
+              // insert myCommTotal;
               //myCommTotals.add(myCommTotal);
-              system.debug('comm total' + myCommTotal.id);
+              // system.debug('comm total' + myCommTotal.id);
 
               myComm.Commission_Amount1__c = commAmount * .5;
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               myComm.Quarter_End_Date__c = quarterEndDateLastQ;
 
@@ -1181,13 +1243,13 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
 
-              //commsTotalsForInsertion.add(myCommTotal);
+              commsTotalsForInsertion.add(myCommTotal);
               // myCommTotals.add(myCommTotal);
-              insert myCommTotal;
-              system.debug('com total 2ID' + myCommTotal.id);
+              // insert myCommTotal;
+              // system.debug('com total 2ID' + myCommTotal.id);
 
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.Id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDateLastQ;
               myComm.Quarter_End_Date__c = quarterEndDateLastQ;
 
@@ -1236,12 +1298,12 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
               //myCommTotals.add(myCommTotal);
-              //commsTotalsForInsertion.add(myCommTotal);
-              insert myCommTotal;
+              commsTotalsForInsertion.add(myCommTotal);
+              // insert myCommTotal;
 
               myComm.Commission_Amount1__c = commAmount * .5;
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDate;
               myComm.Quarter_End_Date__c = quarterEndDate;
 
@@ -1255,12 +1317,12 @@ public class Commission_Helper {
               myCommTotal.Term_Quota__c = quotaMapTerm.get(myComm.Owner__c);
               myCommTotal.Bridge_Quota__c = quotaMapBridge.get(myComm.Owner__c);
               //myCommTotals.add(myCommTotal);
-              //commsTotalsForInsertion.add(myCommTotal);
-              insert myCommTotal;
-              system.debug('com total 2ID' + myCommTotal.id);
+              commsTotalsForInsertion.add(myCommTotal);
+              // insert myCommTotal;
+              // system.debug('com total 2ID' + myCommTotal.id);
 
               myComm.quota__c = quotaMapTerm.get(myComm.Owner__c);
-              myComm.Commission_Total__c = myCommTotal.id;
+              myComm.Commission_Total__r = myCommTotal;
               myComm.Quarter_Start_Date__c = quarterStartDate;
               myComm.Quarter_End_Date__c = quarterEndDate;
 
@@ -1268,13 +1330,16 @@ public class Commission_Helper {
             }
           }
 
-          /*if (commsTotalsForInsertion.size() > 0) {
-            try {
-              insert commsTotalsForInsertion;
-            } catch (DmlException err) {
-              System.debug(err);
+          if (commsTotalsForInsertion.size() > 0) {
+            upsert commsTotalsForInsertion;
+          }
+
+          for(Commission__c c : commsToUpsert) {
+            if(String.isEmpty(c.Commission_Total__c) && c.Commission_Total__r != null && String.isNotBlank(c.Commission_Total__r.Id)) {
+              c.Commission_Total__c = c.Commission_Total__r.Id;
+              c.Commission_Total__r = null;
             }
-          }*/
+          }
 
           if (commsToUpsert.size() > 0) {
             try {
@@ -1488,6 +1553,8 @@ public class Commission_Helper {
       commTotal.Id = i;
       commTotal.Total_Bridge_Commission__c = 0;
       commTotal.Total_Term_Commission__c = 0;
+      commTotal.Total_Bridge_CRE_MultiFamily_Commission__c = 0;
+      commTotal.CRE_Multi_Advance_Commission__c = 0;
 
       commTotalMap.put(i, commTotal);
     }
@@ -1502,6 +1569,21 @@ public class Commission_Helper {
       Commission_Total__c commTotal = commTotalMap.get(comTotalId);
       commTotal.Total_Term_Commission__c = (Decimal) ar.get('tot');
     }
+    // add for CRE
+    for (AggregateResult ar : [
+      SELECT Commission_Total__c parent, SUM(Commission_Amount1__c) tot
+      FROM Commission__c
+      WHERE
+        (Loan_Type__c = 'Bridge Loan'
+        OR Loan_Type__c = 'SAB Loan')
+        AND CRE_Multi_Deal__c = FALSE
+        AND Commission_Total__c IN :commTotalIds
+      GROUP BY Commission_Total__c
+    ]) {
+      Id comTotalId = (Id) ar.get('parent');
+      Commission_Total__c commTotal = commTotalMap.get(comTotalId);
+      commTotal.Total_Bridge_Commission__c = (Decimal) ar.get('tot');
+    }
 
     for (AggregateResult ar : [
       SELECT Commission_Total__c parent, SUM(Commission_Amount1__c) tot
@@ -1509,12 +1591,32 @@ public class Commission_Helper {
       WHERE
         (Loan_Type__c = 'Bridge Loan'
         OR Loan_Type__c = 'SAB Loan')
+        AND CRE_Multi_Deal__c = TRUE
+        AND Advance__c = NULL
         AND Commission_Total__c IN :commTotalIds
       GROUP BY Commission_Total__c
     ]) {
       Id comTotalId = (Id) ar.get('parent');
       Commission_Total__c commTotal = commTotalMap.get(comTotalId);
-      commTotal.Total_Bridge_Commission__c = (Decimal) ar.get('tot');
+      commTotal.Total_Bridge_CRE_MultiFamily_Commission__c = (Decimal) ar.get(
+        'tot'
+      );
+    }
+
+    for (AggregateResult ar : [
+      SELECT Commission_Total__c parent, SUM(Commission_Amount1__c) tot
+      FROM Commission__c
+      WHERE
+        (Loan_Type__c = 'Bridge Loan'
+        OR Loan_Type__c = 'SAB Loan')
+        AND CRE_Multi_Deal__c = TRUE
+        AND Advance__c != NULL
+        AND Commission_Total__c IN :commTotalIds
+      GROUP BY Commission_Total__c
+    ]) {
+      Id comTotalId = (Id) ar.get('parent');
+      Commission_Total__c commTotal = commTotalMap.get(comTotalId);
+      commTotal.CRE_Multi_Advance_Commission__c = (Decimal) ar.get('tot');
     }
 
     update commTotalMap.values();
@@ -1528,7 +1630,7 @@ public class Commission_Helper {
     list<id> myCommsTotalsIdTerm = new List<id>();
 
     myCommissions = [
-      SELECT id, Loan_Type__c, Commission_Total__c
+      SELECT id, Loan_Type__c, Commission_Total__c, Advance__c
       FROM Commission__c
       WHERE Id IN :aggId
     ];
@@ -1536,17 +1638,21 @@ public class Commission_Helper {
     for (Commission__c myComms : myCommissions) {
       system.debug('future comm size' + myCommissions.size());
       if (
-        myComms.Loan_Type__c == 'Bridge Loan' ||
-        myComms.Loan_Type__c == 'SAB Loan'
+        (myComms.Loan_Type__c == 'Bridge Loan' ||
+        myComms.Loan_Type__c == 'SAB Loan') && myComms.Advance__c != null
       ) {
         myCommsTotalsIdBridge.add(myComms.Commission_Total__c);
-      } else if (myComms.Loan_Type__c == 'Term Loan') {
+      } else if (
+        (myComms.Loan_Type__c == 'Term Loan' ||
+        myComms.Loan_Type__c == 'Bridge Loan') && myComms.Advance__c == null
+      ) {
         myCommsTotalsIdTerm.add(myComms.Commission_Total__c);
       }
     }
+    //bridge and Multifamily/CRE from advances
     if (myCommsTotalsIdBridge.size() > 0) {
       system.debug(myCommsTotalsIdBridge.size());
-      list<Commission_Total__c> commissionTotalsList = [
+      list<Commission_Total__c> commissionTotalsListNonCre = [
         SELECT
           id,
           Total_Bridge_Commission__c,
@@ -1554,21 +1660,58 @@ public class Commission_Helper {
           (
             SELECT Id, Commission_Amount1__c
             FROM Commissions__r
-            WHERE Loan_Type__c = 'Bridge Loan' OR Loan_Type__c = 'SAB Loan'
+            WHERE
+              (Loan_Type__c = 'Bridge Loan'
+              OR Loan_Type__c = 'SAB Loan')
+              AND CRE_Multi_Deal__c != TRUE
+              AND Product_Type__c != 'Multifamily/CRE'
           )
         FROM Commission_Total__c
         WHERE id IN :myCommsTotalsIdBridge
       ];
-      for (Commission_Total__c comm : commissionTotalsList) {
+
+      for (Commission_Total__c comm : commissionTotalsListNonCre) {
         comm.Total_Bridge_Commission__c = 0;
         for (Commission__c commItem : comm.Commissions__r) {
           comm.Total_Bridge_Commission__c += commItem.Commission_Amount1__c;
         }
       }
-      update commissionTotalsList;
+      update commissionTotalsListNonCre;
+
+      list<Commission_Total__c> commissionTotalsListCreAdvance = [
+        SELECT
+          id,
+          Total_Bridge_Commission__c,
+          Total_Term_Commission__c,
+          Total_Bridge_CRE_MultiFamily_Commission__c,
+          CRE_Multi_Advance_Commission__c,
+          (
+            SELECT Id, Commission_Amount1__c
+            FROM Commissions__r
+            WHERE
+              (Loan_Type__c = 'Bridge Loan'
+              OR Loan_Type__c = 'SAB Loan')
+              AND CRE_Multi_Deal__c = TRUE
+              AND Product_Type__c = 'Multifamily/CRE'
+              AND Advance__c != NULL
+          )
+        FROM Commission_Total__c
+        WHERE id IN :myCommsTotalsIdTerm
+      ];
+
+      for (Commission_Total__c comm : commissionTotalsListCreAdvance) {
+        comm.CRE_Multi_Advance_Commission__c = 0;
+        for (Commission__c commItem : comm.Commissions__r) {
+          comm.CRE_Multi_Advance_Commission__c += commItem.Commission_Amount1__c;
+        }
+      }
+      update commissionTotalsListCreAdvance;
     }
+
+    //term and Multifamily/CRE from deal level
     if (myCommsTotalsIdTerm.size() > 0) {
       system.debug(myCommsTotalsIdTerm.size());
+      //term calc
       list<Commission_Total__c> commissionTotalsList = [
         SELECT
           id,

@@ -14,10 +14,10 @@
 		        <div class="slds-truncate" title="Draw #">Draw #</div>
 		      </th>
 		      <th scope="col">
-		        <div class="slds-truncate" title="Account Name">Amount</div>
+		        <div class="slds-truncate" title="Amount">Amount</div>
 		      </th>
 		      <th scope="col">
-		        <div class="slds-truncate" title="Close Date">Date</div>
+		        <div class="slds-truncate" title="Date">Date</div>
 		      </th>
 		    </tr>
 		  </thead>
@@ -36,7 +36,7 @@
 			      </td>
 			      <td data-label="Close Date">
 			        <div class="slds-truncate" title="{!record.Draw_Date__c}">
-			        	<lightning:formattedDateTime value="{!record.Draw_Date__c}" day="2-digit" month="2-digit" year="2-digit" />
+			        	<lightning:formattedDateTime value="{!record.Draw_Date__c}" day="2-digit" month="2-digit" year="2-digit" timeZone="UTC" />
 			        </div>
 			      </td>
 			    </tr>

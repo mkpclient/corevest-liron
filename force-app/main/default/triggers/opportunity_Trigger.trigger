@@ -2,11 +2,15 @@ trigger opportunity_Trigger on Opportunity(
   before update,
   after update,
   after insert,
-  before insert
+  before insert,
+  before delete
 ) {
   Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings'); //lightning_Controller.queryUniversalSettings();
   //if(!opportunity_Helper.isRecursive){
   if (Test.isRunningTest() || !settings.Disable_Opportunity_Trigger__c) {
+    if(Trigger.isBefore && Trigger.isDelete) {
+      opportunity_Helper.beforeDelete(Trigger.old);
+    }
     if (Trigger.isBefore && Trigger.isInsert) {
       opportunity_Helper.beforeInsert(Trigger.new);
     }

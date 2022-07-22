@@ -1,4 +1,4 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, api, wire, track } from "lwc";
 
 import getRecordDetails from "@salesforce/apex/ConfirmationOfTermsController.getRecordDetails";
 
@@ -14,6 +14,12 @@ import underwriterReject from "@salesforce/apex/ConfirmationOfTermsController.un
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 import getApprovalPicklists from "@salesforce/apex/ConfirmationOfTermsController.getApprovalPicklists";
+import getPicklistValues from "@salesforce/apex/lightning_Util.getPicklistValues";
+
+import CONTACT_FIELD from "@salesforce/schema/Opportunity.Contact__c";
+import LOAN_TERM_FIELD from "@salesforce/schema/Opportunity.Term_Loan_Type__c";
+import { getFieldValue, getRecord } from "lightning/uiRecordApi";
+import getDependentPicklistValues from "@salesforce/apex/ConfirmationOfTermsController.getDependentPicklistValues";
 
 export default class ConfirmationTerms extends LightningElement {
   @api
@@ -26,7 +32,7 @@ export default class ConfirmationTerms extends LightningElement {
 
   comments = {};
   submissionDetails = {};
-  currentDetails = {};
+  @track currentDetails = {};
 
   isCloserPanel = false;
   isEnabledCloserPanel = false;
@@ -38,14 +44,173 @@ export default class ConfirmationTerms extends LightningElement {
   showButtonsCloser = false;
   showButtonsOriginator = false;
   showButtonsUnderwriter = false;
+  localAmortizationStatusOptions = [{ label: "", value: "" }];
+
+  localServicerOptions = [{ label: "", value: "" }];
 
   closerReviewComment = "";
   origingatorReviewComment = "";
   underwriterReviewComment = "";
+  ymPrepayOptions = [{ label: "", value: "" }];
+  stepDownPrepayOptions = [{ label: "", value: "" }];
 
   isRejection = false;
 
   isInApproval = false;
+
+  formUpdated = false;
+
+  contactId;
+  loanTerm;
+
+  ymSelectionLocal = "";
+  stepdownSelectionLocal = "";
+
+  @wire(getRecord, {
+    recordId: "$recordId",
+    fields: [CONTACT_FIELD, LOAN_TERM_FIELD]
+  })
+  dealWired({ data, error }) {
+    if (data) {
+      this.contactId = data.fields.Contact__c.value;
+      const loanTerm = data.fields.Term_Loan_Type__c.value;
+      this.loanTerm = loanTerm;
+
+      getDependentPicklistValues({ loanTerm })
+        .then((res) => {
+          if (
+            res["YM_Prepayment_Penalty__c"] &&
+            res["YM_Prepayment_Penalty__c"].length > 0
+          ) {
+            const ymPrepayOptions = res["YM_Prepayment_Penalty__c"].map(
+              (option) => {
+                return { label: option, value: option };
+              }
+            );
+            this.ymPrepayOptions = ymPrepayOptions;
+          }
+          if (
+            res["Stepdown_Prepayment_Period__c"] &&
+            res["Stepdown_Prepayment_Period__c"].length > 0
+          ) {
+            const stepDownPrepayOptions = res[
+              "Stepdown_Prepayment_Period__c"
+            ].map((option) => {
+              return { label: option, value: option };
+            });
+            this.stepDownPrepayOptions = stepDownPrepayOptions;
+          }
+          console.log("ymPrepayOptions", this.ymPrepayOptions);
+          console.log("stepDownPrepayOptions", this.stepDownPrepayOptions);
+        })
+        .catch((error) => {
+          let message = "Unknown error";
+          if (Array.isArray(error.body)) {
+            message = error.body.map((e) => e.message).join(", ");
+          } else if (typeof error.body.message === "string") {
+            message = error.body.message;
+          }
+          this.showErrorToast(message);
+        });
+    } else if (error) {
+      let message = "Unknown error";
+      if (Array.isArray(error.body)) {
+        message = error.body.map((e) => e.message).join(", ");
+      } else if (typeof error.body.message === "string") {
+        message = error.body.message;
+      }
+      this.showErrorToast(message);
+    }
+  }
+
+  get ymYesNoOptions() {
+    return [
+      { label: "Yes", value: "Yes" },
+      { label: "No", value: "No" }
+    ];
+  }
+
+  get ymSelection() {
+    return this.ymSelectionLocal;
+  }
+
+  set ymSelection(val) {
+    this.ymSelectionLocal = val;
+  }
+
+  get stepdownSelection() {
+    return this.stepdownSelectionLocal;
+  }
+
+  set stepdownSelection(val) {
+    this.stepdownSelectionLocal = val;
+  }
+
+  get requireStepdownDescription() {
+    return this.stepdownSelection.toLowerCase() === "other";
+  }
+
+  get ymPicklistsDisabled() {
+    return this.originationsFieldsDisabled;
+  }
+
+  get showContactNameField() {
+    return this.currentDetails.servicerContactName == "Need to Update";
+  }
+
+  get showContactAddressFields() {
+    return this.currentDetails.servicerContactAddress == "Need to Update";
+  }
+
+  get showContactPhoneField() {
+    return this.currentDetails.servicerContactPhone == "Need to Update";
+  }
+
+  get showContactEmailField() {
+    return this.currentDetails.servicerContactEmail == "Need to Update";
+  }
+
+  get showServicerContactForm() {
+    return (
+      this.contactId &&
+      (this.showContactNameField ||
+        this.showContactAddressFields ||
+        this.showContactPhoneField ||
+        this.showContactEmailField)
+    );
+  }
+
+  get originatorButtonLabel() {
+    return !this.showServicerContactForm
+      ? "Submit"
+      : this.formUpdated
+      ? "Submit and Save"
+      : "Submit without Saving";
+  }
+
+  get originatorButtonVariant() {
+    return this.formUpdated ? "brand" : "neutral";
+  }
+
+  handleFormChange() {
+    this.formUpdated = true;
+  }
+
+  handleFormError(evt) {
+    evt.preventDefault();
+    evt.stopImmediatePropagation();
+    this.showErrorToast(evt.detail.detail);
+    this.showButtonsOriginator = true;
+    this.template.querySelector("c-modal").hideSpinner();
+  }
+
+  handleFormSubmit(evt) {
+    evt.preventDefault();
+    console.log("submitting");
+    const fields = evt.detail.fields;
+    console.log({ ...fields });
+    this.template.querySelector("lightning-record-edit-form").submit(fields);
+  }
 
   historyChange(event) {
     const processInstanceId = event.detail.value;
@@ -116,7 +281,7 @@ export default class ConfirmationTerms extends LightningElement {
         this.showButtonsCloser = parsedResults.isCloserPanel;
         this.showButtonsOriginator = parsedResults.isOriginatorPanel;
         this.showButtonsUnderwriter = parsedResults.isUnderWriterPanel;
-        
+
         // console.log("isCloserPanel=>", this.isCloserPanel);
         // console.log("isEnabledCloserPanel=>", this.isEnabledCloserPanel);
         // console.log(
@@ -137,6 +302,56 @@ export default class ConfirmationTerms extends LightningElement {
       });
   }
 
+  getAmortizationStatusPicklistvalues() {
+    getPicklistValues({
+      sobjectType: "Approval_History__c",
+      fieldName: "Amortization_Status__c"
+    })
+      .then((results) => {
+        console.log(results);
+        const currentOptions = [];
+
+        if (results.length > 0) {
+          results.forEach((element) => {
+            currentOptions.push({
+              label: element,
+              value: element
+            });
+          });
+        }
+
+        this.amortizationStatusOptions = currentOptions;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  getServicerContactPicklistvalues() {
+    getPicklistValues({
+      sobjectType: "Approval_History__c",
+      fieldName: "Servicer_Contact_Name__c"
+    })
+      .then((results) => {
+        console.log(results);
+        const currentOptions = [];
+
+        if (results.length > 0) {
+          results.forEach((element) => {
+            currentOptions.push({
+              label: element,
+              value: element
+            });
+          });
+        }
+
+        this.servicerOptions = currentOptions;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   init() {
     getApprovalPicklists({ recordId: this.recordId })
       .then((results) => {
@@ -154,6 +369,8 @@ export default class ConfirmationTerms extends LightningElement {
 
         this.getRecordDetails();
         this.getWrapperBundle();
+        this.getServicerContactPicklistvalues();
+        this.getAmortizationStatusPicklistvalues();
       })
       .catch((error) => {
         console.log(error);
@@ -170,11 +387,20 @@ export default class ConfirmationTerms extends LightningElement {
   openModal(event) {
     console.log("open modal");
     let validated = true;
-
+    console.log("contact id", this.contactId);
     if (this.isUnderWriterPanel && this.isEnabledUnderwriterPanel) {
+      const requiredFields = [
+        ...this.template.querySelectorAll('[data-required="true"]')
+      ];
+      validated = requiredFields.reduce((val, inp) => {
+        inp.reportValidity();
+        return val && inp.checkValidity();
+      }, validated);
       //do validation for the values to be populated;
-      if(!this.currentDetails.amortizationStatus) {
-        const amortizationStatus = this.template.querySelector(['[data-field="amortizationStatus"]']);
+      if (!this.currentDetails.amortizationStatus) {
+        const amortizationStatus = this.template.querySelector(
+          'lightning-combobox[data-field="amortizationStatus"]'
+        );
         amortizationStatus.required = true;
         amortizationStatus.reportValidity();
         validated = false;
@@ -182,11 +408,55 @@ export default class ConfirmationTerms extends LightningElement {
     }
 
     if (this.isOriginatorPanel && this.isEnabledOriginatorPanel) {
+      const requiredFields = [
+        ...this.template.querySelectorAll('[data-required="true"]')
+      ];
+      validated = requiredFields.reduce((val, inp) => {
+        inp.reportValidity();
+        return val && inp.checkValidity();
+      }, validated);
       if (!this.currentDetails.depositCollected) {
-        const depositCollected = this.template
-        .querySelector(['[data-field="depositCollected"]']);
+        const depositCollected = this.template.querySelector([
+          '[data-field="depositCollected"]'
+        ]);
         depositCollected.required = true;
         depositCollected.reportValidity();
+        validated = false;
+      }
+
+      if (!this.currentDetails.servicerContactName) {
+        const servicerContactName = this.template.querySelector([
+          '[data-field="servicerContactName"]'
+        ]);
+        servicerContactName.required = true;
+        servicerContactName.reportValidity();
+        validated = false;
+      }
+
+      if (!this.currentDetails.servicerContactAddress) {
+        const servicerContactAddress = this.template.querySelector([
+          '[data-field="servicerContactAddress"]'
+        ]);
+        servicerContactAddress.required = true;
+        servicerContactAddress.reportValidity();
+        validated = false;
+      }
+
+      if (!this.currentDetails.servicerContactEmail) {
+        const servicerContactEmail = this.template.querySelector([
+          '[data-field="servicerContactEmail"]'
+        ]);
+        servicerContactEmail.required = true;
+        servicerContactEmail.reportValidity();
+        validated = false;
+      }
+
+      if (!this.currentDetails.servicerContactPhone) {
+        const servicerContactPhone = this.template.querySelector([
+          '[data-field="servicerContactPhone"]'
+        ]);
+        servicerContactPhone.required = true;
+        servicerContactPhone.reportValidity();
         validated = false;
       }
     }
@@ -198,6 +468,8 @@ export default class ConfirmationTerms extends LightningElement {
       this.underwriterReviewComment = "";
 
       this.template.querySelector("c-modal").openModal();
+    } else {
+      this.showErrorToast("Please fill all the required fields");
     }
   }
 
@@ -263,6 +535,7 @@ export default class ConfirmationTerms extends LightningElement {
       // console.log(comment);
       this.showButtonsCloser = false;
       this.template.querySelector("c-modal").showSpinner();
+
       submitApproval({ recordId, comment, submissionDetails })
         .then((results) => {
           console.log("approval went through");
@@ -280,6 +553,30 @@ export default class ConfirmationTerms extends LightningElement {
           this.template.querySelector("c-modal").hideSpinner();
         });
     }
+  }
+
+  handleFormSuccess() {
+    const comment = this.origingatorReviewComment;
+    const recordId = this.recordId;
+    const currentDetails = JSON.stringify(this.currentDetails);
+    const comments = JSON.stringify(this.comments);
+
+    orignationsApproval({ recordId, comment, currentDetails, comments })
+      .then((results) => {
+        console.log("approval went through");
+        this.template.querySelector("c-modal").hideSpinner();
+
+        this.closeModal();
+        this.showButtonsOriginator = true;
+        this.init();
+      })
+      .catch((error) => {
+        console.log("error");
+        console.log(error);
+        this.showErrorToast(error.body.message);
+        this.showButtonsOriginator = true;
+        this.template.querySelector("c-modal").hideSpinner();
+      });
   }
 
   submitOriginator(event) {
@@ -320,22 +617,26 @@ export default class ConfirmationTerms extends LightningElement {
       // console.log(comment);
       this.showButtonsOriginator = false;
       this.template.querySelector("c-modal").showSpinner();
-      orignationsApproval({ recordId, comment, currentDetails, comments })
-        .then((results) => {
-          console.log("approval went through");
-          this.template.querySelector("c-modal").hideSpinner();
+      if (this.showServicerContactForm) {
+        this.template.querySelector(`[data-name="hidden-submit"]`).click();
+      } else {
+        orignationsApproval({ recordId, comment, currentDetails, comments })
+          .then((results) => {
+            console.log("approval went through");
+            this.template.querySelector("c-modal").hideSpinner();
 
-          this.closeModal();
-          this.showButtonsOriginator = true;
-          this.init();
-        })
-        .catch((error) => {
-          console.log("error");
-          console.log(error);
-          this.showErrorToast(error.body.message);
-          this.showButtonsOriginator = true;
-          this.template.querySelector("c-modal").hideSpinner();
-        });
+            this.closeModal();
+            this.showButtonsOriginator = true;
+            this.init();
+          })
+          .catch((error) => {
+            console.log("error");
+            console.log(error);
+            this.showErrorToast(error.body.message);
+            this.showButtonsOriginator = true;
+            this.template.querySelector("c-modal").hideSpinner();
+          });
+      }
     }
   }
 
@@ -403,6 +704,29 @@ export default class ConfirmationTerms extends LightningElement {
     // console.log(fieldName);
 
     this.currentDetails[fieldName] = value;
+    if (fieldName == "stepdownPrepayment") {
+      this.stepdownSelection = value;
+    }
+    if (fieldName == "yieldMaintenance") {
+      this.ymSelection = value;
+      if (value != "Yes") {
+        this.currentDetails["stepdownPrepayment"] = "N/A";
+        this.currentDetails["ymParPrepayment"] = "N/A";
+        this.stepDownPrepayOptions = [...this.stepDownPrepayOptions, {label: "N/A", value: "N/A"}];
+        this.ymPrepayOptions = [...this.ymPrepayOptions, {label: "N/A", value: "N/A"}];
+      } else {
+        this.currentDetails["stepdownPrepayment"] = "";
+        this.currentDetails["ymParPrepayment"] = "";
+        const stepdownPrepayOptions = this.stepDownPrepayOptions.filter(
+          (option) => option.value != "N/A"
+        );
+        const ymParPrepayOptions = this.ymPrepayOptions.filter(
+          (option) => option.value != "N/A"
+        );
+        this.stepDownPrepayOptions = [...stepdownPrepayOptions];
+        this.ymPrepayOptions = [...ymParPrepayOptions];
+      }
+    }
     // console.log("handle current details update");
   }
 
@@ -441,11 +765,19 @@ export default class ConfirmationTerms extends LightningElement {
   }
 
   get amortizationStatusOptions() {
-    return [
-      { label: "", value: "" },
-      { label: "Loan Amortized", value: "Loan Amortized" },
-      { label: "Interest Only", value: "Interest Only" }
-    ]
+    return this.localAmortizationStatusOptions;
+  }
+
+  set amortizationStatusOptions(val) {
+    this.localAmortizationStatusOptions = val;
+  }
+
+  get servicerOptions() {
+    return this.localServicerOptions;
+  }
+
+  set servicerOptions(val) {
+    this.localServicerOptions = val;
   }
 
   showErrorToast(message) {

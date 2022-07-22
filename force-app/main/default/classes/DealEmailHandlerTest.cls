@@ -2,6 +2,7 @@
 public without sharing class DealEmailHandlerTest {
   @isTest
   public static void DealEmailHandlertest_UnitTest() {
+    test_Helper.createDealLoanNumber();
     Account acc = Test_Helper.createAccount();
     Contact cont = Test_Helper.createContact(acc);
     Opportunity o = new Opportunity();

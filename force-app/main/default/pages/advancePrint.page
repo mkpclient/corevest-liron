@@ -22,7 +22,6 @@
                 page-break-inside: avoid !important;
             }
 
-
             h4 {
                 font-weight: normal;
                 text-align: center;
@@ -163,7 +162,6 @@
                 table-layout: fixed;
                 width: 100%;
                 border-collapse: collapse;
-                
             }
 
             .table-fixed td,
@@ -966,6 +964,11 @@
                         BPO/Appraisal Fee
                     </div>
                 </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Report Fees
+                    </div>
+                </th>
                 <th class="cell-large">
                     <div class="table-header grayscale">
                         Doc Fee
@@ -1004,7 +1007,7 @@
                         <apex:outputText value="{!property.Property__r.ZipCode__c}" />
                     </td>
                     <td style="overflow-wrap: break-word;word-break: break-all;">
-                        <apex:outputText value="{!property.Property__r.Title_Company__r.Name}" />
+                        <apex:outputText value="{!property.Escrow_Agent__r.Name}" />
                     </td>
                     <td>
                         <apex:outputText value="{0, number, Currency}">
@@ -1054,6 +1057,11 @@
                     <td>
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!property.BPO_Appraisal_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Report_Fee_Total__c}" />
                         </apex:outputText>
                     </td>
                     <td>
@@ -1152,6 +1160,13 @@
                         </apex:outputText>
                     </div>
                 </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
                 <td>
                     <div class="table-sum grayscale">
                         <apex:outputText value="{0, number, Currency}">
@@ -1231,6 +1246,13 @@
                     <div class="table-sum thin-line grayscale">
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Adjustment__c}" />
                         </apex:outputText>
                     </div>
                 </td>
@@ -1328,6 +1350,13 @@
                     <div class="table-sum grayscale">
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Total__c}" />
                         </apex:outputText>
                     </div>
                 </td>
@@ -1440,6 +1469,11 @@
                         Appraisal Fee
                     </div>
                 </th>
+                <th class="cell-large" style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-header grayscale">
+                        Report Fees
+                    </div>
+                </th>
                 <th class="cell-large" style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
                     <div class="table-header grayscale">
                         Inspection Fee
@@ -1525,6 +1559,11 @@
                     <td>
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!property.BPO_Appraisal_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                    <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!property.Report_Fee_Total__c}" />
                         </apex:outputText>
                     </td>
                     <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
@@ -1626,6 +1665,13 @@
                         </apex:outputText>
                     </div>
                 </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Subtotal__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
                 <td style="{!IF(or(Advance__c.Inspection_Fee_Total__c == null, Advance__c.Inspection_Fee_Total__c == 0), 'display:none;', '')}">
                     <div class="table-sum grayscale">
                         <apex:outputText value="{0, number, Currency}">
@@ -1711,6 +1757,13 @@
                     <div class="table-sum thin-line grayscale">
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Adjustment__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum thin-line grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Adjustment__c}" />
                         </apex:outputText>
                     </div>
                 </td>
@@ -1808,6 +1861,13 @@
                     <div class="table-sum grayscale">
                         <apex:outputText value="{0, number, Currency}">
                             <apex:param value="{!Advance__c.BPO_Appraisal_Fee_Total__c}" />
+                        </apex:outputText>
+                    </div>
+                </td>
+                <td style="{!IF(or(Advance__c.Report_Fee_Subtotal__c == null, Advance__c.Report_Fee_Subtotal__c == 0), 'display:none;', '')}">
+                    <div class="table-sum grayscale">
+                        <apex:outputText value="{0, number, Currency}">
+                            <apex:param value="{!Advance__c.Report_Fee_Total__c}" />
                         </apex:outputText>
                     </div>
                 </td>

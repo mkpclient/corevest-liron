@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tax_History_Total_Assessed_Value__c</fullName>
+    <description>The total assessed value of both land and improvements (before exemptions, if any) as reported on the county tax/assessment roll in the indicated year.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total assessed value of both land and improvements (before exemptions, if any) as reported on the county tax/assessment roll in the indicated year.</inlineHelpText>
+    <label>Tax History Total Assessed Value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

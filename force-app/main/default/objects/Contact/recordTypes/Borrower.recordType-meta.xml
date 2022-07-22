@@ -5,6 +5,25 @@
     <compactLayoutAssignment>Contact_Compact_Layout</compactLayoutAssignment>
     <label>Borrower</label>
     <picklistValues>
+        <picklist>Approval_Status__c</picklist>
+        <values>
+            <fullName>Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fully Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Partially Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Conference_Year__c</picklist>
         <values>
             <fullName>2015</fullName>
@@ -32,6 +51,10 @@
         </values>
         <values>
             <fullName>2021</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2022</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -118,6 +141,17 @@
         </values>
         <values>
             <fullName>Single Occurrence</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1208,6 +1242,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -1301,6 +1339,10 @@
         </values>
         <values>
             <fullName>Dennis Spivey Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dominion Group</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1549,6 +1591,10 @@
         </values>
         <values>
             <fullName>Rent Range</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revolution Realty Capital</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1947,6 +1993,10 @@
         </values>
         <values>
             <fullName>Strategic Account 2021</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategic Account 2022</fullName>
             <default>false</default>
         </values>
         <values>

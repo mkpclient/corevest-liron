@@ -35,11 +35,11 @@
 		component.set('v.selectedRowsCount', 0);
 	},
 
-	/*openReport: function(component, event, helper) {
+	openReport: function(component, event, helper) {
 		let recordId = component.get('v.recordId');
 		let reportUrl = '/lightning/r/Report/00O0a000005C8byEAC/view?fv0=' + recordId;
 		window.open(reportUrl);
-	},*/
+	},
 
 	
 	toggleSelectAll: function(component, event, helper) {

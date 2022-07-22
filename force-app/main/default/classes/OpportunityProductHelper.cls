@@ -84,8 +84,7 @@ public with sharing class OpportunityProductHelper {
   ) {
     Map<String, Map<Integer, Map<Integer, Id>>> returnedMap = new Map<String, Map<Integer, Map<Integer, Id>>>();
 
-
-    for(String pcode : PRODUCT_GOAL_NAME_MAP.values()) {
+    for (String pcode : PRODUCT_GOAL_NAME_MAP.values()) {
       returnedMap.put(pcode, new Map<Integer, Map<Integer, Id>>());
     }
 

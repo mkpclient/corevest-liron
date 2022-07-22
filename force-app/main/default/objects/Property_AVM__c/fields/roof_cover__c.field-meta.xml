@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>roof_cover__c</fullName>
+    <description>Material the roof is made of. One of [Aluminum, Asbestos, Asphalt, Bermuda, Built-up, Composition Shingle, Concrete, Fiberglass, Gravel/Rock, Gypsum, Masonite/ Cement Shake, Metal, Other, Roll Composition, Slate, Steel, Shingle (Not Wood), Tar &amp; Gravel, Tile, Urethane, Wood, Wood Shake/ Shingles]</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Material the roof is made of. One of [Aluminum, Asbestos, Asphalt, Bermuda, Built-up, Composition Shingle, Concrete, Fiberglass, Gravel/Rock, Gypsum, Masonite/ Cement Shake, Metal, Other, Roll Composition, Slate, Steel, Shingle (Not Wood), Tar &amp; Gravel, Tile, Urethane, Wood, Wood Shake/ Shingles]</inlineHelpText>
+    <label>Roof cover</label>
+    <length>50</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

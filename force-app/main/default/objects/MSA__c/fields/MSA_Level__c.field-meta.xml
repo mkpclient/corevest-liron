@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MSA_Level__c</fullName>
+    <description>Metropolitan Statistical Area Level</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Metropolitan Statistical Area Level</inlineHelpText>
+    <label>MSA Level</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Level A - Areas of 1 million or more</fullName>
+                <default>false</default>
+                <label>Level A - Areas of 1 million or more</label>
+            </value>
+            <value>
+                <fullName>Level B - Areas of 250,000 tp 999,999</fullName>
+                <default>false</default>
+                <label>Level B - Areas of 250,000 tp 999,999</label>
+            </value>
+            <value>
+                <fullName>Level C - Areas of 100,00 to 249,999</fullName>
+                <default>false</default>
+                <label>Level C - Areas of 100,00 to 249,999</label>
+            </value>
+            <value>
+                <fullName>Level D - Areas of less than 100,00</fullName>
+                <default>false</default>
+                <label>Level D - Areas of less than 100,00</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

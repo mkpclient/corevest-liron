@@ -52,16 +52,12 @@
                 <behavior>Readonly</behavior>
                 <field>Warehouse_Line__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Fee_Netted__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_Interest_Reserves__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Remaining_Interest_Reserve__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Close_Date__c</field>
@@ -73,14 +69,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Current_UPB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Current_UPB_Interest_Reserve__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Loan_Sizing_Completed_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>

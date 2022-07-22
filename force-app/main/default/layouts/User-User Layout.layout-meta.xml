@@ -16,6 +16,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Originating_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>dsfs__DSProSFUsername__c</field>
             </layoutItems>
             <layoutItems>
@@ -51,6 +55,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Combo_Rental_Portfolio_Docusign_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Scheduled_Deactivation_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

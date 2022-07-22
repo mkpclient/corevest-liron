@@ -4,6 +4,7 @@ import query from "@salesforce/apex/lightning_Util.query";
 
 export default class DupeList extends LightningElement {
   @api recordId = "0065b00000pezH2AAI";
+  dealType = 'Term';
   dupeList = [];
   connectedCallback() {
     // if (!this.isChild) {
@@ -20,6 +21,11 @@ export default class DupeList extends LightningElement {
 
   async queryDupes() {
     const dupes = await queryDupes({ dealId: this.recordId });
+    const res = await query({ queryString: "SELECT Id, RecordType.DeveloperName FROM Opportunity WHERE Id = '" + this.recordId + "'" });
+    if(!res[0].RecordType.DeveloperName.toLowerCase().includes('term')){
+      this.dealType = 'Bridge';
+    }
+
     console.log("---dupes--");
     console.log(dupes);
     this.dupeList = dupes;

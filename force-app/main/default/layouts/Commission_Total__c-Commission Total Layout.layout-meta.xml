@@ -43,6 +43,14 @@
                 <behavior>Readonly</behavior>
                 <field>Total_Attainment__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Total_Bridge_CRE_MultiFamily_Commission__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CRE_Multi_Advance_Commission__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

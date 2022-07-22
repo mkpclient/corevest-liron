@@ -3,9 +3,22 @@
     <fullName>Uploader__c</fullName>
     <externalId>false</externalId>
     <label>Uploader</label>
-    <length>255</length>
     <required>false</required>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Applicant</fullName>
+                <default>false</default>
+                <label>Applicant</label>
+            </value>
+            <value>
+                <fullName>Sponsor</fullName>
+                <default>false</default>
+                <label>Sponsor</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

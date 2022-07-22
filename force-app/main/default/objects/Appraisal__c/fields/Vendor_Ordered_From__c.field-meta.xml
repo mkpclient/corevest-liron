@@ -20,9 +20,9 @@
                 <label>Appraisal Nation</label>
             </value>
             <value>
-                <fullName>Clear Capital</fullName>
+                <fullName>BBG</fullName>
                 <default>false</default>
-                <label>Clear Capital</label>
+                <label>BBG</label>
             </value>
             <value>
                 <fullName>Clarocity Valuation Services</fullName>
@@ -30,19 +30,24 @@
                 <label>Clarocity Valuation Services</label>
             </value>
             <value>
+                <fullName>Clear Capital</fullName>
+                <default>false</default>
+                <label>Clear Capital</label>
+            </value>
+            <value>
                 <fullName>CoreVest Finance</fullName>
                 <default>false</default>
                 <label>CoreVest Finance</label>
             </value>
             <value>
+                <fullName>EBI</fullName>
+                <default>false</default>
+                <label>EBI</label>
+            </value>
+            <value>
                 <fullName>Martin Montserrat</fullName>
                 <default>false</default>
                 <label>Martin Montserrat</label>
-            </value>
-            <value>
-                <fullName>BBG</fullName>
-                <default>false</default>
-                <label>BBG</label>
             </value>
             <value>
                 <fullName>Other</fullName>
@@ -58,6 +63,11 @@
                 <fullName>ServiceLink-Bofi</fullName>
                 <default>false</default>
                 <label>ServiceLink-Bofi</label>
+            </value>
+            <value>
+                <fullName>US RES</fullName>
+                <default>false</default>
+                <label>US RES</label>
             </value>
             <value>
                 <fullName>Valuation Services AMC</fullName>

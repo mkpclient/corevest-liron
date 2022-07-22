@@ -2,15 +2,17 @@ import { api, track, LightningElement } from "lwc";
 import { CloseActionScreenEvent } from "lightning/actions";
 import returnDeal from "@salesforce/apex/IcApprovalController.returnDeal";
 import sendEmail from "@salesforce/apex/IcApprovalController.sendEmail";
-import { ShowToastEvent } from 'lightning/platformShowToastEvent'
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class IcApprovalInterface extends LightningElement {
   @api recordId;
   @track isRendered = false;
+  hasNoFinalTier = true;
   possibleAttachments;
   selectedAttachments = [];
   recipients;
   data;
+  deal;
   errorMessage;
   formats = [
     "font",
@@ -35,6 +37,43 @@ export default class IcApprovalInterface extends LightningElement {
     "blockquote",
     "direction"
   ];
+  
+  get isSABDeal() {
+    return this.deal != null && this.deal.Record_Type_Name__c === "Single_Asset_Bridge_Loan"
+  }
+
+  submitForm = () => {
+    this.template.querySelector("[data-name='submitButton']").click();
+  };
+
+  handleSubmit = evt => {
+    evt.preventDefault();
+    const fields = evt.detail.fields;
+    this.template.querySelector('lightning-record-edit-form').submit(fields);
+    this.isRendered = false;
+  }
+
+  handleSuccess = () => {
+    this.hasNoFinalTier = false
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: "Success",
+        message: "Record updated. You may now submit this deal for the IC Approval Process.",
+        variant: "success"
+      }));
+    this.isRendered = true;
+  };
+
+  handleFormError = (evt) => {
+    this.isRendered = true;
+    this.dispatchEvent(
+      new ShowToastEvent({
+        title: "Error",
+        message: evt.detail.detail,
+        variant: "error"
+      })
+    );
+  };
 
   closeModal = () => {
     this.dispatchEvent(new CloseActionScreenEvent());
@@ -57,49 +96,46 @@ export default class IcApprovalInterface extends LightningElement {
 
   sendEmail = async () => {
     let toastEvent;
-    const mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if(this.selectedAttachments.length < 1) {
+    const mailformat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (this.selectedAttachments.length < 1 && !this.isSABDeal) {
       toastEvent = {
         title: "Please select an attachment.",
-        message:
-          "You cannot send an email without an attacment.",
+        message: "You cannot send an email without an attachment.",
         variant: "error"
       };
     } else if (!this.data.recipients) {
       toastEvent = {
         title: "No recipient found.",
-        message:
-          "Please enter at least one recipient's email address.",
+        message: "Please enter at least one recipient's email address.",
         variant: "error"
       };
     } else if (this.data.recipients) {
       const recEmails = this.data.recipients.split(";");
-      for(let i = 0; i < recEmails.length; i++) {
-        if(!recEmails[i].trim().match(mailformat)) {
+      for (let i = 0; i < recEmails.length; i++) {
+        if (!recEmails[i].trim().match(mailformat)) {
           toastEvent = {
             title: "Invalid email address",
-            message:
-              recEmails[i] + " is not a valid email address",
+            message: recEmails[i] + " is not a valid email address",
             variant: "error"
           };
         }
       }
     } else if (this.data.cc) {
       const recEmails = this.data.cc.split(";");
-      for(let i = 0; i < recEmails.length; i++) {
-        if(!recEmails[i].trim().match(mailformat)) {
+      for (let i = 0; i < recEmails.length; i++) {
+        if (!recEmails[i].trim().match(mailformat)) {
           toastEvent = {
             title: "Invalid email address",
-            message:
-              recEmails[i] + " is not a valid email address",
+            message: recEmails[i] + " is not a valid email address",
             variant: "error"
           };
         }
       }
     }
 
-    if(toastEvent) {
-      this.dispatchEvent(new ShowToastEvent({...toastEvent}));
+    if (toastEvent) {
+      this.dispatchEvent(new ShowToastEvent({ ...toastEvent }));
       return;
     }
     const res = await sendEmail({
@@ -113,8 +149,7 @@ export default class IcApprovalInterface extends LightningElement {
     } else {
       const event = new ShowToastEvent({
         title: "Email Sent",
-        message:
-          "Your email for IC Approval has been succesfully sent.",
+        message: "Your email for IC Approval has been succesfully sent.",
         variant: "success"
       });
       this.dispatchEvent(event);
@@ -135,6 +170,11 @@ export default class IcApprovalInterface extends LightningElement {
         this.errorMessage = data.Error[0];
       } else {
         console.log(data);
+        const deal = data.Deal[0];
+        this.deal = deal;
+        this.hasNoFinalTier =
+          !deal.hasOwnProperty("Final_Sponsor_Tier__c") &&
+          !deal.Final_Sponsor_Tier__c;
         this.data = {
           recordId: this.recordId,
           recipients: data.Recipients[0].join(";"),
@@ -144,7 +184,7 @@ export default class IcApprovalInterface extends LightningElement {
           cc: data.CC.filter((c) => !!c).join(";"),
           approvalType: data.ApprovalType[0]
         };
-        console.log(data.ApprovalType[0])
+        console.log(data.ApprovalType[0]);
 
         this.possibleAttachments = data.ContentVersions.map((el) => ({
           Id: el.Id,

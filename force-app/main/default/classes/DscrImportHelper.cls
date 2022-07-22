@@ -17,22 +17,22 @@ public without sharing class DscrImportHelper {
 
 
   public static Id retrieveHouseAccountUserId() {
-    List<User> contacts = [SELECT Id FROM USer WHERE Name = 'House Account'];
+    List<User> contacts = [SELECT Id FROM User WHERE Name = 'House Account'];
 
     return contacts.size() > 0 ? contacts[0].Id : UserInfo.getUserId();
   }
 
   @AuraEnabled
-  public static List<Lender_Deal_to_Deal__c> parseFileValues(
+  public static List<TPO_Pool_x_Deal__c> parseFileValues(
     String fileJson,
     Id recordId
   ) {
     Savepoint sp = Database.setSavepoint();
 
     try {
-      Lender_Deal__c ldRecord = [
+      TPO_Pool__c ldRecord = [
         SELECT Lender__r.Name, Lender__c
-        FROM Lender_Deal__c
+        FROM TPO_Pool__c
         WHERE Id = :recordId
       ];
 
@@ -145,7 +145,7 @@ public without sharing class DscrImportHelper {
         cleanedMapList
       );
 
-      List<Lender_Deal_to_Deal__c> newLdds = new List<Lender_Deal_to_Deal__c>();
+      List<TPO_Pool_x_Deal__c> newLdds = new List<TPO_Pool_x_Deal__c>();
       Set<String> newLoanIds = newDeals.keySet();
       for(Map<String, String> m : cleanedMapList) {
         if(!newLoanIds.contains(m.get('Loan ID'))) {
@@ -153,9 +153,9 @@ public without sharing class DscrImportHelper {
         }
         String uniqueId = m.get('Loan ID');
         Opportunity deal = newDeals.get(uniqueId);
-        Lender_Deal_to_Deal__c ldd = new Lender_Deal_to_Deal__c();
+        TPO_Pool_x_Deal__c ldd = new TPO_Pool_x_Deal__c();
         ldd.Deal__c = deal.Id;
-        ldd.Lender_Deal__c = recordId;
+        ldd.TPO_Pool__c = recordId;
         ldd.Status__c = 'Decision Pending';
         newLdds.add(ldd);
         newLoanIds.remove(uniqueId);
@@ -174,7 +174,7 @@ public without sharing class DscrImportHelper {
   public static Map<String, Opportunity> createDeals(
     List<Map<String, String>> cleanedMapList,
     Map<String, Contact> contactMap,
-    Lender_Deal__c ldRecord,
+    TPO_Pool__c ldRecord,
     Set<String> loanIDs
   ) {
 
@@ -266,7 +266,7 @@ public without sharing class DscrImportHelper {
   public static Map<String, Contact> generateContactsMap(
     Map<String, String> emailToAccount,
     List<Map<String, String>> cleanedMapList,
-    Lender_Deal__c ld
+    TPO_Pool__c ld
   ) {
     Map<String, Contact> retMap = new Map<String, Contact>();
     Map<String, Account> accountMap = generateAccountMap(
@@ -333,7 +333,7 @@ public without sharing class DscrImportHelper {
 
   public static Map<String, Account> generateAccountMap(
     List<String> accountNames,
-    Lender_Deal__c ld
+    TPO_Pool__c ld
   ) {
     Map<String, Account> accountMap = new Map<String, Account>();
     Set<String> accountNamesSet = new Set<String>();
@@ -477,7 +477,22 @@ public without sharing class DscrImportHelper {
       deal.Stepdown_Prepayment_Period__c = m.get('Prepayment Type').replaceAll('/', ',');
     }
 
-    deal.Foreign_National__c = String.isNotEmpty(m.get('Foreign National (Y/N)')) ? m.get('Foreign National (Y/N)') == 'Y' : false;
+    // deal.Foreign_National__c = String.isNotEmpty(m.get('Foreign National (Y/N)')) ? m.get('Foreign National (Y/N)') == 'Y' : false;
+
+    if(String.isNotEmpty(m.get('Foreign National (Y/N)')) && 
+    DATA_TRANSFORMATION_MAP.containsKey('Foreign_National_picklist__c')) {
+      Map<String, Data_Transformation__mdt> dtMap = DATA_TRANSFORMATION_MAP.get(
+        'Foreign_National_picklist__c'
+      );
+      if (dtMap.containsKey(m.get('Foreign National (Y/N)').trim())) {
+        deal.Foreign_National_picklist__c = dtMap.get(m.get('Foreign National (Y/N)')).Updated_Data__c;
+      }
+    } else if (
+      String.isNotEmpty(m.get('Foreign National (Y/N)')) &&
+      !DATA_TRANSFORMATION_MAP.containsKey('Foreign_National_picklist__c')
+    ) {
+      deal.Foreign_National_picklist__c = m.get('Foreign National (Y/N)');
+    }
 
     if (
       String.isNotEmpty(m.get('IO Term')) &&

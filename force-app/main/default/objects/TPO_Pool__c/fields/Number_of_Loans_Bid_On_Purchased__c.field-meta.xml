@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Loans_Bid_On_Purchased__c</fullName>
+    <description>This is a count of the Loans being bid on or purchased</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is a count of the Loans being bid on or purchased</inlineHelpText>
+    <label># of Loans Bid On/Purchased</label>
+    <summaryFilterItems>
+        <field>TPO_Pool_x_Deal__c.Status__c</field>
+        <operation>notEqual</operation>
+        <value>No Bid</value>
+    </summaryFilterItems>
+    <summaryForeignKey>TPO_Pool_x_Deal__c.TPO_Pool__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

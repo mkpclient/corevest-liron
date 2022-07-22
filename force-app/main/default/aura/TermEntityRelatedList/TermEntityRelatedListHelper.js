@@ -176,7 +176,8 @@
       "Net_Worth__c",
       "Background_Risk_Number__c",
       "Liquidity__c",
-      "Years_of_Experience1__c"
+      "Years_of_Experience1__c",
+      "Legal_Name__c"
     ];
 
     component

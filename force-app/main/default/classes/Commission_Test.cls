@@ -3,6 +3,11 @@ private class Commission_Test {
   //term
   //Term no Comm total current quarter
   //
+  @testSetup
+  static void dataSetup() {
+    Test_Helper.createDealLoanNumber();
+  }
+  
   @isTest
   static void Commissiontest1() {
     // 1st term condition
@@ -15,7 +20,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -28,24 +33,43 @@ private class Commission_Test {
 
     insert origU;
 
-    Account acc = test_Helper.createAccount();
-    acc.Alternate_Phone__c = '7777777777';
-    update acc;
-    Contact cont = test_Helper.createContact(acc);
-    cont.MobilePhone = '2222222222';
-    cont.Phone = '9999999999';
+    Account a = new Account();
+    a.Name = 'test';
+    a.BillingCountry = 'United States';
+    a.BillingState = 'California';
+    a.Introductions_Source__c = 'Hotline';
+    a.Introduction_Subsource__c = 'Main';
+    a.Alternate_Phone__c = '5555555555';
+    insert a;
+
+    Contact c = new Contact();
+    c.FirstName = 'test';
+    c.LastName = 'test';
+    c.MailingCountry = 'United States';
+    c.MailingState = 'California';
+    c.AccountId = a.Id;
+    c.MobilePhone = '5555555555';
+    c.Phone = '7777777777';
+    c.Experian__c = 700;
+    c.TransUnion__c = 710;
+    c.Equifax__c = 700;
+    c.Years_of_Experience__c = 10;
+    c.Rental_Units_Owned__c = '5';
+    c.Sponsor_Tier__c = 'Tier 1';
+    c.Experience__c = 5;
+    insert c;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = System.today();
     topp1.StageName = 'Closed Won';
     topp1.Loan_Size__c = 2000000;
-    topp1.AccountId = acc.Id;
-    topp1.Contact__c = cont.Id;
+    topp1.AccountId = a.Id;
+    topp1.Contact__c = c.Id;
     topp1.OwnerId = origU.id;
     topp1.CAF_YSP__c = null;
     topp1.Type = 'Term Loan';
-    topp1.CAF_Upfront_Fee__c = 2;
+   // topp1.CAF_Upfront_Fee__c = 2;
     topp1.Final_Loan_Amount__c = 1000000;
     topp1.Deal_Intro_Source__c = 'Hotline';
     topp1.Deal_Intro_Sub_Source__c = 'Main';
@@ -58,6 +82,9 @@ private class Commission_Test {
     .Id;
     insert topp1;
 
+          topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
+      
     Commission_Detail__c commDetail = new Commission_Detail__c();
     commDetail.Deal__c = topp1.Id;
     commDetail.Commission_Type__c = 'Direct';
@@ -65,16 +92,20 @@ private class Commission_Test {
     commDetail.Approval_Status__c = 'Pending';
 
     insert commDetail;
+      
+system.debug('caf fee'+topp1.CAF_Upfront_Fee__c);
+      system.debug('caf fee'+topp1.Name);
 
     Commission_Detail__c commDetailUpdate = [
       SELECT Approval_Status__c
       FROM Commission_Detail__c
       WHERE id = :commDetail.Id
     ];
-
+      Test.startTest();
     commDetailUpdate.Approval_Status__c = 'Approved';
 
     update commDetailUpdate;
+      Test.stopTest();
   }
   @isTest
   static void Commissiontest2() {
@@ -87,7 +118,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -130,6 +161,9 @@ private class Commission_Test {
     .Id;
     insert topp2;
 
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
+      
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = System.today();
@@ -152,7 +186,9 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
-
+          
+      topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
     list<account> myaccountTotalTermAmount = [
       SELECT Borrowed_on_Term_Loans__c
       FROM account
@@ -205,7 +241,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -247,7 +283,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
-
+          topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
     myCommissionTotal.Quarter_Start_Date__c = quarterStartDate;
@@ -295,7 +332,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -337,7 +374,9 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
-
+          topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
+      
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = System.today();
@@ -360,6 +399,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
@@ -389,8 +430,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
   // Term w Comm Total last quarter
   @isTest
@@ -432,7 +474,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -474,6 +516,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
@@ -543,7 +587,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -585,6 +629,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -608,7 +654,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
-
+          topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
     myCommissionTotal.Quarter_Start_Date__c = quarterStartDate;
@@ -643,8 +690,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
   // Term w last quarter commission only
   @isTest
@@ -686,7 +734,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -701,7 +749,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -743,6 +791,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -815,7 +865,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -857,6 +907,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -880,6 +932,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -902,8 +956,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
 
   @isTest
@@ -945,7 +1000,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -960,7 +1015,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1002,6 +1057,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1025,6 +1082,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1049,8 +1108,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
 
   @isTest
@@ -1092,7 +1152,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1107,7 +1167,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1149,6 +1209,9 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
+      
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1172,6 +1235,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1202,8 +1267,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
   @isTest
   static void Commissiontest11() {
@@ -1244,7 +1310,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1259,7 +1325,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1301,6 +1367,9 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+      
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1368,7 +1437,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1383,7 +1452,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1425,6 +1494,9 @@ private class Commission_Test {
     ]
     .Id;
     insert topp2;
+      
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1448,6 +1520,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1472,8 +1546,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
 
   @isTest
@@ -1515,7 +1590,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1530,7 +1605,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1572,6 +1647,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1639,7 +1716,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1654,7 +1731,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1697,6 +1774,9 @@ private class Commission_Test {
     .Id;
     insert topp2;
 
+                topp2.CAF_Upfront_Fee__c = 2;
+update topp2;
+      
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = quarterStartDateLastQ.addDays(5);
@@ -1719,6 +1799,8 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
+                topp1.CAF_Upfront_Fee__c = 2;
+update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1743,8 +1825,9 @@ private class Commission_Test {
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-
+test.startTest();
     update commDetailUpdate;
+      test.stopTest();
   }
 
   // Bridge
@@ -1759,7 +1842,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1802,13 +1885,18 @@ private class Commission_Test {
     ]
     .Id;
     insert topp1;
-
-    Commission__c myCommission = new Commission__c();
-    myCommission.Commission_Amount1__c = 1230;
-    myCommission.Deal__c = topp1.id;
-    myCommission.Owner__c = origU.id;
-    myCommission.Loan_Type__c = 'Bridge Loan';
-    insert myCommission;
+      
+    List<Commission__c> comms = new List<Commission__c>();
+    for(Integer i = 0; i <= 151; i++) {
+      Commission__c myCommission = new Commission__c();
+      myCommission.Commission_Amount1__c = 1230;
+      myCommission.Deal__c = topp1.id;
+      myCommission.Owner__c = origU.id;
+      myCommission.Loan_Type__c = 'Bridge Loan';
+      comms.add(myCommission);
+    }
+    // USING THIS TO TEST DML LIMITS //
+    insert comms;
   }
 
   @isTest
@@ -1850,7 +1938,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1865,7 +1953,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1970,7 +2058,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1985,7 +2073,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2103,7 +2191,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2118,7 +2206,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2232,7 +2320,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2247,7 +2335,7 @@ private class Commission_Test {
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2357,7 +2445,7 @@ private class Commission_Test {
 
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2481,6 +2569,7 @@ private class Commission_Test {
       Wire_Date__c = quarterStartDate
     );
     insert adv;
+    Test.startTest();
 
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
@@ -2492,7 +2581,6 @@ private class Commission_Test {
 
     insert padv;
 
-    Test.startTest();
 
     update opp;
     adv.Wire_Date__c = quarterStartDate.addDays(4);
@@ -2502,6 +2590,7 @@ private class Commission_Test {
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
+      test.stopTest();
   }
   static testMethod void Commissiontest26() {
     //internal
@@ -2545,7 +2634,7 @@ private class Commission_Test {
 
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2669,6 +2758,7 @@ private class Commission_Test {
       Wire_Date__c = quarterStartDateLastQ
     );
     insert adv;
+    Test.startTest();
 
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
@@ -2680,7 +2770,6 @@ private class Commission_Test {
 
     insert padv;
 
-    Test.startTest();
 
     update opp;
     adv.Wire_Date__c = quarterStartDateLastQ.addDays(2);
@@ -2690,6 +2779,7 @@ private class Commission_Test {
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
+      test.stopTest();
   }
 
   static testMethod void Commissiontest27() {
@@ -2734,7 +2824,7 @@ private class Commission_Test {
 
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2863,6 +2953,7 @@ private class Commission_Test {
       Wire_Date__c = quarterStartDateLastQ
     );
     insert adv;
+    Test.startTest();
 
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
@@ -2874,7 +2965,6 @@ private class Commission_Test {
 
     insert padv;
 
-    Test.startTest();
 
     update opp;
     adv.Wire_Date__c = quarterStartDateLastQ.addDays(2);
@@ -2884,6 +2974,7 @@ private class Commission_Test {
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
+      test.stopTest();
   }
   static testMethod void Commissiontest28() {
     //internal
@@ -2927,7 +3018,7 @@ private class Commission_Test {
 
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3051,6 +3142,7 @@ private class Commission_Test {
       Wire_Date__c = quarterStartDate
     );
     insert adv;
+    Test.startTest();
 
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
@@ -3062,7 +3154,6 @@ private class Commission_Test {
 
     insert padv;
 
-    Test.startTest();
 
     update opp;
     adv.Wire_Date__c = system.today();
@@ -3072,6 +3163,7 @@ private class Commission_Test {
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
+      test.stopTest();
   }
   static testMethod void Commissiontest29() {
     //internal
@@ -3115,7 +3207,7 @@ private class Commission_Test {
 
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3240,6 +3332,8 @@ private class Commission_Test {
     );
     insert adv;
 
+          Test.startTest();
+
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
@@ -3250,7 +3344,6 @@ private class Commission_Test {
 
     insert padv;
 
-    Test.startTest();
 
     update opp;
     adv.Wire_Date__c = system.today();
@@ -3260,6 +3353,7 @@ private class Commission_Test {
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
+      test.stopTest();
   }
   @isTest
   static void Commissiontest30() {
@@ -3301,7 +3395,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3412,7 +3506,7 @@ private class Commission_Test {
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',

@@ -22,7 +22,6 @@ public without sharing class ClarocityAPI {
     String authToken = '';
     String authURI = '/login';
     String authEndpoint = baseEndpoint + authURI + '?';
-    String respBody = '<?xml version="1.0" encoding="UTF-8"?><ValuationVision_data><User><code>200</code><key>XRL96EJ9YGQ6WA47S224</key><expire>86400</expire></User></ValuationVision_data>';
 
     Map<String, String> reqMap = new Map<String, String>();
     reqMap.put('email', username);
@@ -43,6 +42,7 @@ public without sharing class ClarocityAPI {
     req.setTimeout(120000);
     req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
     req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
+    String respBody = '<?xml version="1.0" encoding="UTF-8"?><ValuationVision_data><User><code>200</code><key>XRL96EJ9YGQ6WA47S224</key><expire>86400</expire></User></ValuationVision_data>';
 
     if (!Test.isRunningTest()) {
       HttpResponse resp = new Http().send(req);
@@ -163,98 +163,70 @@ public without sharing class ClarocityAPI {
 
     String generatedBody = generateBody(reqMap, '----7MA4YWxkTrZu0gW');
     system.debug(generatedBody);
-    HttpRequest req;
-    HttpResponse resp;
 
-    try {
-      req = new HttpRequest();
-      req.setHeader(
-        'Content-Type',
-        'multipart/form-data; boundary=----7MA4YWxkTrZu0gW'
-      );
-      req.setMethod('POST');
-      req.setEndpoint(submitEndpoint);
+    HttpRequest req = new HttpRequest();
+    req.setHeader(
+      'Content-Type',
+      'multipart/form-data; boundary=----7MA4YWxkTrZu0gW'
+    );
+    req.setMethod('POST');
+    req.setEndpoint(submitEndpoint);
 
-      req.setTimeout(120000);
-      req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
-      req.setHeader(
-        'Content-Length',
-        String.ValueOf(req.getBodyAsBlob().size())
-      );
+    req.setTimeout(120000);
+    req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
+    req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
 
-      String respBody = '<ValuationVision_data><Order><success>true</success><code>200</code><orderid>1234</orderid><message>Order Created</message></Order></ValuationVision_data>';
+    String respBody = '<ValuationVision_data><Order><success>true</success><code>200</code><orderid>1234</orderid><message>Order Created</message></Order></ValuationVision_data>';
 
-      if (!Test.isRunningTest()) {
-        resp = new Http().send(req);
-        respBody = resp.getBody();
-      }
-
-      system.debug(respBody);
-      String statusCode = respBody.substringBetween('<code>', '</code>');
-
-      system.debug(statusCode);
-      if (statusCode != '200' && statusCode != '201') {
-        String message = respBody.substringBetween('<message>', '</message>');
-
-        if (message == 'This order is duplicated') {
-          Appraisal__c appraisal = new Appraisal__c();
-
-          //praisal.Appraisal_Firm_Transaction_ID__c = String.valueOf(respMap.get('appraisal_id'));
-          // appraisal.Appraisal_Firm_Transaction_ID__c = ((String)respMap.get('appraisal_id')).replaceAll('ANS-', '');
-          appraisal.Appraisal_Firm_Order_Id__c = respBody.substringBetween(
-            '<orderid>',
-            '</orderid>'
-          );
-          appraisal.Comments_to_Vendor__c = comments;
-          appraisal.Order_Received_Date__c = system.now();
-          appraisal.Status__c = 'Duplicate';
-
-          if (!Test.isRunningTest()) {
-            System.enqueueJob(
-              new APILoggerQueueable(req, resp, property.Id, false)
-            );
-          }
-
-          return appraisal;
-        } else {
-          CalloutException e = new CalloutException();
-          e.setMessage(message);
-          throw e;
-        }
-      }
-
-      if (!Test.isRunningTest()) {
-        System.enqueueJob(
-          new APILoggerQueueable(req, resp, property.Id, false)
-        );
-      }
-
-      Appraisal__c appraisal = new Appraisal__c();
-
-      //praisal.Appraisal_Firm_Transaction_ID__c = String.valueOf(respMap.get('appraisal_id'));
-      // appraisal.Appraisal_Firm_Transaction_ID__c = ((String)respMap.get('appraisal_id')).replaceAll('ANS-', '');
-      appraisal.Appraisal_Firm_Transaction_ID__c = respBody.substringBetween(
-        '<orderid>',
-        '</orderid>'
-      );
-      appraisal.Appraisal_Firm_Order_Id__c = respBody.substringBetween(
-        '<orderid>',
-        '</orderid>'
-      );
-      appraisal.Comments_to_Vendor__c = comments;
-      appraisal.Order_Received_Date__c = system.now();
-
-      return appraisal;
-    } catch (Exception e) {
-      System.enqueueJob(new APILoggerQueueable(req, resp, property.Id, e));
-      throw new AuraHandledException(e.getMessage());
+    if (!Test.isRunningTest()) {
+      HttpResponse resp = new Http().send(req);
+      respBody = resp.getBody();
     }
+    system.debug(respBody);
+    String statusCode = respBody.substringBetween('<code>', '</code>');
+    system.debug(statusCode);
+    if (statusCode != '200' && statusCode != '201') {
+      String message = respBody.substringBetween('<message>', '</message>');
+
+      if (message == 'This order is duplicated') {
+        Appraisal__c appraisal = new Appraisal__c();
+
+        //praisal.Appraisal_Firm_Transaction_ID__c = String.valueOf(respMap.get('appraisal_id'));
+        // appraisal.Appraisal_Firm_Transaction_ID__c = ((String)respMap.get('appraisal_id')).replaceAll('ANS-', '');
+        appraisal.Appraisal_Firm_Order_Id__c = respBody.substringBetween(
+          '<orderid>',
+          '</orderid>'
+        );
+        appraisal.Comments_to_Vendor__c = comments;
+        appraisal.Order_Received_Date__c = system.now();
+        appraisal.Status__c = 'Duplicate';
+        return appraisal;
+      } else {
+        throw new AuraHandledException(message);
+      }
+    }
+
+    Appraisal__c appraisal = new Appraisal__c();
+
+    //praisal.Appraisal_Firm_Transaction_ID__c = String.valueOf(respMap.get('appraisal_id'));
+    // appraisal.Appraisal_Firm_Transaction_ID__c = ((String)respMap.get('appraisal_id')).replaceAll('ANS-', '');
+    appraisal.Appraisal_Firm_Transaction_ID__c = respBody.substringBetween(
+      '<orderid>',
+      '</orderid>'
+    );
+    appraisal.Appraisal_Firm_Order_Id__c = respBody.substringBetween(
+      '<orderid>',
+      '</orderid>'
+    );
+    appraisal.Comments_to_Vendor__c = comments;
+    appraisal.Order_Received_Date__c = system.now();
+
+    return appraisal;
   }
 
   public static Map<String, Object> checkOrder(
     String orderId,
-    String recordType,
-    Id appraisalId
+    String recordType
   ) {
     String checkURI = '/orderstatus';
 
@@ -291,58 +263,45 @@ public without sharing class ClarocityAPI {
     system.debug(orderid);
 
     String generatedBody = generateBody(reqMap, '----7MA4YWxkTrZu0gW');
-    HttpRequest req;
-    HttpResponse resp;
+    HttpRequest req = new HttpRequest();
+    req.setHeader(
+      'Content-Type',
+      'multipart/form-data; boundary=----7MA4YWxkTrZu0gW'
+    );
+    req.setMethod('POST');
+    req.setEndpoint(checkEndpoint);
 
-    try {
-      req = new HttpRequest();
-      req.setHeader(
-        'Content-Type',
-        'multipart/form-data; boundary=----7MA4YWxkTrZu0gW'
-      );
-      req.setMethod('POST');
-      req.setEndpoint(checkEndpoint);
+    req.setTimeout(120000);
+    req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
+    req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
 
-      req.setTimeout(120000);
-      req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
-      req.setHeader(
-        'Content-Length',
-        String.ValueOf(req.getBodyAsBlob().size())
-      );
+    String respBody = '<ValuationVision_data><Order><code>200</code><status>2</status><description>Unassigned</description></Order></ValuationVision_data>';
 
-      String respBody = '<ValuationVision_data><Order><code>200</code><status>2</status><description>Unassigned</description></Order></ValuationVision_data>';
-
-      if (!Test.isRunningTest()) {
-        resp = new Http().send(req);
-        respBody = resp.getBody();
-      }
-
-      system.debug(checkEndpoint);
-
-      system.debug(respBody);
-
-      String statusCode = respBody.substringBetween('<code>', '</code>');
-
-      if (statusCode != '200' && statusCode != '201') {
-        CalloutException e = new CalloutException();
-        e.setMessage(respBody.substringBetween('<message>', '</message>'));
-        throw e;
-      }
-
-      Map<String, String> respMap = new Map<String, String>();
-      respMap.put('status', respBody.substringBetween('<status>', '</status>'));
-      respMap.put(
-        'description',
-        respBody.substringBetween('<description>', '</description>')
-      );
-
-      System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, false));
-
-      return respMap;
-    } catch (Exception e) {
-      System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, e));
-      throw new AuraHandledException(e.getMessage());
+    if (!Test.isRunningTest()) {
+      HttpResponse resp = new Http().send(req);
+      respBody = resp.getBody();
     }
+
+    system.debug(checkEndpoint);
+
+    system.debug(respBody);
+
+    String statusCode = respBody.substringBetween('<code>', '</code>');
+
+    if (statusCode != '200' && statusCode != '201') {
+      throw new AuraHandledException(
+        respBody.substringBetween('<message>', '</message>')
+      );
+    }
+
+    Map<String, String> respMap = new Map<String, String>();
+    respMap.put('status', respBody.substringBetween('<status>', '</status>'));
+    respMap.put(
+      'description',
+      respBody.substringBetween('<description>', '</description>')
+    );
+
+    return respMap;
   }
 
   @future(callout=true)
@@ -408,42 +367,31 @@ public without sharing class ClarocityAPI {
       appraisal.appraisal_firm_transaction_id__c +
       '&key=' +
       authToken;
+    HttpRequest req = new HttpRequest();
+    req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.setMethod('GET');
+    req.setEndpoint(retrieveEndpoint);
 
-    HttpRequest req;
-    HttpResponse resp;
+    req.setTimeout(120000);
+    // req.setBodyAsBlob(Blob.valueOf(generatedBody)); //(body);
+    // req.setHeader('Content-Length', String.ValueOf(req.getBodyAsBlob().size()));
+
     String respBody = '<ValuationVision_data><orderid>1304</orderid><ordertype>BPOLite</ordertype><order_status>Completed</order_status><XMLData><mime_type>text/xml</mime_type><data>VGhpcyB3aWxsIGJlIGFuIGVuY29kZWQgZmlsZS4=</data></XMLData><PDF><mime_type>application/pdf</mime_type><data>VGhpcyB3aWxsIGJlIGFuIGVuY29kZWQgZmlsZS4=</data></PDF> <code>200</code></ValuationVision_data>';
 
-    try {
-      req = new HttpRequest();
-      req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
-      req.setMethod('GET');
-      req.setEndpoint(retrieveEndpoint);
-
-      req.setTimeout(120000);
-
-
-      if (!Test.isRunningTest()) {
-        resp = new Http().send(req);
-        respBody = resp.getBody();
-      }
-      system.debug(JSON.serialize(respBody));
-
-      String statusCode = respBody.substringBetween('<code>', '</code>');
-
-      if (statusCode != '200' && statusCode != '201') {
-        CalloutException e = new CalloutException();
-        e.setMessage(respBody.substringBetween('<message>', '</message>'));
-        throw e;
-      }
-      processRetrieveOrderCv(appraisalId, appraisal, respBody, new APILoggerQueueable(req, resp, appraisalId, false));
-    } catch (Exception e) {
-      System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, e));
-      throw new AuraHandledException(e.getMessage());
+    if (!Test.isRunningTest()) {
+      HttpResponse resp = new Http().send(req);
+      respBody = resp.getBody();
     }
 
-  }
+    system.debug(JSON.serialize(respBody));
 
-  public static void processRetrieveOrderCv(String appraisalId, Appraisal__c appraisal, String respBody, APILoggerQueueable queueable) {
+    String statusCode = respBody.substringBetween('<code>', '</code>');
+
+    if (statusCode != '200' && statusCode != '201') {
+      throw new AuraHandledException(
+        respBody.substringBetween('<message>', '</message>')
+      );
+    }
 
     List<ContentVersion> cvs = new List<ContentVersion>();
     String xmlFileId = '';
@@ -496,6 +444,34 @@ public without sharing class ClarocityAPI {
     pdfCv.PathOnClient = propertyAddress + '.pdf';
     cvs.add(pdfCv);
 
+    // for(Object f : (List<Object>)respMap.get('result')){
+    //     Map<String, Object> file = (Map<String, Object>)f;
+
+    //     String fileName = (String)file.get('document_filename');
+    //     String documentURL = (String)file.get('document_url');
+    //     system.debug(fileName);
+    //     HttpRequest fileRequest = new HttpRequest();
+    //     fileRequest.setMethod('GET');
+    //     fileRequest.setEndpoint(documentURL);
+
+    //     Blob blobbody = Blob.valueOf('adffa.txt');
+
+    //     if(!Test.isRunningTest()){
+    //         HttpResponse resp = new Http().send(fileRequest);
+    //         blobbody = resp.getBodyAsBlob();
+    //     }else{
+    //         StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalXMLTest' LIMIT 1];
+    //         blobbody = xml.body;
+    //     }
+
+    //     ContentVersion cv = new ContentVersion();
+    //     cv.ContentLocation = 'S';
+    //     cv.VersionData = blobbody;
+    //     cv.Title = fileName;
+    //     cv.PathOnClient = fileName;
+    //     cvs.add(cv);
+    // }
+
     if (cvs.size() > 0) {
       insert cvs;
 
@@ -534,8 +510,10 @@ public without sharing class ClarocityAPI {
         }
       }
 
-      system.enqueueJob(new AppraisalParser(needAppraisals, queueable));
+      system.enqueueJob(new AppraisalParser(needAppraisals));
     }
+
+    //Map<String, String> respMap = new Map<String, String>();
   }
 
   public static string generateBody(

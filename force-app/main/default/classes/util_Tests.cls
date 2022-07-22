@@ -4,6 +4,7 @@ private class util_Tests {
     //static List<Account> testAccounts = testDataFactory.createTestRecords(new Account[10]);
 
     static TestMethod void util_Tests_UnitTest(){
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
 		Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );
@@ -13,9 +14,11 @@ private class util_Tests {
             util.queryOppAndChildren(opp.Id, 'Opportunity', 'Property__c', 'Properties__r');
             util.queryRecordAndChildren(opp.Id, 'Opportunity', 'Property__c', 'Properties__r');
             util.getFieldTypeMap('Opportunity');
-            //util.getMappedObjectById('Opportunity',opp.id);
+            util.getFieldDescribeMap('Opportunity');
+            // util.getMappedObjectById('Opportunity',opp.id);
             util.getFullObjectById('Opportunity',opp.Id);
             util.queryRecords('SELECT Id FROM User LIMIT 1');
+            util.queryRecords('Opportunity', 'Name != null', 'CreatedDate ASC');
             util.queryRecordAllFields(opp.Id);
             util.queryRecordsAllFields(new Set<Id>{opp.Id});
             util.idToSObject(opp.Id);
