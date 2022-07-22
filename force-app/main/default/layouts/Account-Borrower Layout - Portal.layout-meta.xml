@@ -4,7 +4,8 @@
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>CreateSurveyInvitation</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
+    <excludeButtons>DataDotComAccountInsights</excludeButtons>
+    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
@@ -116,7 +117,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Checklist__c.Account__c</relatedList>
+        <relatedList>Checklist_Section__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Item__c.Account__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

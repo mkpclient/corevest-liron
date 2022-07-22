@@ -64,6 +64,10 @@
             <fullName>2021</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>2022</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Country__c</picklist>
@@ -1253,6 +1257,17 @@
         </values>
         <values>
             <fullName>Under 660</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2697,6 +2712,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -3933,6 +3952,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Round_Robin_CX_Portal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Strategic_Top_Account__c</picklist>
         <values>
             <fullName>Strategic Account 2018</fullName>
@@ -3948,6 +3978,10 @@
         </values>
         <values>
             <fullName>Strategic Account 2021</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategic Account 2022</fullName>
             <default>false</default>
         </values>
         <values>

@@ -113,7 +113,8 @@ public without sharing class AlchemyAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
-    //system.debug(req.getBody());
+    system.debug(req.getBody());
+    system.debug(url);
     // req.setHeader('C')
 
     Integer statusCode = 200;
@@ -193,6 +194,8 @@ public without sharing class AlchemyAPI {
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
     system.debug(req.getBody());
+    system.debug(url);
+    req.setTimeout(120000);
     // req.setHeader('C')
 
     Integer statusCode = 200;

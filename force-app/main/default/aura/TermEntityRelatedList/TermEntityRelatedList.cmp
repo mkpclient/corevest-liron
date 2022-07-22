@@ -157,14 +157,14 @@
                 columnWidth="13"
               />
 
-              <!-- <c:DataTableColumn label="Company Name"
-               name="Contact__r.Account.Name"
-               sortable="true"
-               displayType="text"
-               isEditable="false"
-               linkToRecord="Contact__r.AccountId"
-
-           /> -->
+              <c:DataTableColumn
+                label="Legal Name"
+                name="Legal_Name__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Legal_Name__c.isUpdateable}"
+                columnWidth="15"
+              />
 
               <c:DataTableColumn
                 label="Phone"

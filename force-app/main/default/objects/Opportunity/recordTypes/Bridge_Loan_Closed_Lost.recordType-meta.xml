@@ -1577,6 +1577,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -2048,10 +2052,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Economics Downturn</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Existing Rate Lower</fullName>
             <default>false</default>
         </values>
@@ -2061,10 +2061,6 @@
         </values>
         <values>
             <fullName>Failed to Qualify</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>In Process of Withdrawal%2FRejected</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2085,10 +2081,6 @@
         </values>
         <values>
             <fullName>Money Laundering</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Other %E2%80%93 See Deal Notes</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2120,15 +2112,22 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Slip Up Deal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Terms Not Accepted</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Won through another broker</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Discount_Fee__c</picklist>
+        <values>
+            <fullName>1 pt rate buy down %2F -25 BPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2 pt rate buy down %2F -50 BPS</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2310,6 +2309,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Frequency_of_Operating_Statements__c</picklist>
         <values>
             <fullName>N%2FA</fullName>
@@ -2363,6 +2373,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Funding_Method__c</picklist>
+        <values>
+            <fullName>Broker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Flip Funder</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Table Funded</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Traditional</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Funding_Status__c</picklist>
         <values>
             <fullName>Dry</fullName>
@@ -2411,6 +2440,10 @@
         <picklist>Index_Floor__c</picklist>
         <values>
             <fullName>0%2E00%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>0%2E10%25</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2497,19 +2530,19 @@
     <picklistValues>
         <picklist>Index__c</picklist>
         <values>
-            <fullName>1M SOFR</fullName>
+            <fullName>1M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>1Y SOFR</fullName>
+            <fullName>1Y Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>3M SOFR</fullName>
+            <fullName>3M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>6M SOFR</fullName>
+            <fullName>6M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3011,6 +3044,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Points_on_Repayments__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Product_Category__c</picklist>
         <values>
             <fullName>Holder</fullName>
@@ -3166,9 +3210,32 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Rate_Based_On__c</picklist>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SOFR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Swap</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Treasury</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Rate_Lock_Picklist__c</picklist>
         <values>
-            <fullName>Early Rate Lock</fullName>
+            <fullName>Early Rate Locked</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Standard Rate Locked</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3312,6 +3379,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>0%2E10%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>0%2E15%25</fullName>
             <default>false</default>
         </values>
@@ -3395,19 +3466,19 @@
     <picklistValues>
         <picklist>Requested_Index__c</picklist>
         <values>
-            <fullName>1M SOFR</fullName>
+            <fullName>1M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>1Y SOFR</fullName>
+            <fullName>1Y Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>3M SOFR</fullName>
+            <fullName>3M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>6M SOFR</fullName>
+            <fullName>6M Term SOFR</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3528,7 +3599,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>5%2C5%2C5%2C5%2C5%2C4%2C3%2C2%2C0%2C0</fullName>
+            <fullName>5%2C5%2C5%2C5%2C5%2C4%2C3%2C2</fullName>
             <default>false</default>
         </values>
         <values>

@@ -9,6 +9,7 @@
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
     <valueSet>
+        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -25,6 +26,21 @@
                 <fullName>Rejected</fullName>
                 <default>false</default>
                 <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Not Reviewed</fullName>
+                <default>false</default>
+                <label>Not Reviewed</label>
+            </value>
+            <value>
+                <fullName>Reviewed</fullName>
+                <default>false</default>
+                <label>Reviewed</label>
+            </value>
+            <value>
+                <fullName>Archived</fullName>
+                <default>false</default>
+                <label>Archived</label>
             </value>
         </valueSetDefinition>
     </valueSet>

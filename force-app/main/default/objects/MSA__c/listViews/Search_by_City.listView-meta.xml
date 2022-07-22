@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Search_by_City</fullName>
+    <columns>NAME</columns>
+    <columns>MSA_Name__c</columns>
+    <columns>CBSA_Name__c</columns>
+    <columns>County__c</columns>
+    <columns>City__c</columns>
+    <columns>Zip_Code__c</columns>
+    <columns>Area_Code__c</columns>
+    <columns>State_Code__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>City__c</field>
+        <operation>contains</operation>
+        <value>65th</value>
+    </filters>
+    <label>Search by City</label>
+</ListView>

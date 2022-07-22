@@ -30,10 +30,6 @@
                 <behavior>Readonly</behavior>
                 <field>Net_Funding__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Title_Company__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

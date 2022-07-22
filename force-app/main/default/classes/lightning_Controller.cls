@@ -9,6 +9,27 @@ public without sharing class lightning_Controller {
   public static Boolean dataTapeSaving = false;
 
   @AuraEnabled
+  public static Map<Id, Boolean> generateReadAccessMap(List<Id> recordIds){
+    try {
+      Map<Id,Boolean> returnMap = new Map<Id,Boolean>();
+      List<UserRecordAccess> uras = [
+        SELECT RecordId, HasReadAccess
+        FROM UserRecordAccess
+        WHERE UserId=:UserInfo.getUserId()
+        AND RecordId IN : recordIds
+      ];
+
+      for(UserRecordAccess ura : uras){
+        returnMap.put(ura.RecordId, ura.HasReadAccess);
+      }
+
+      return returnMap;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static List<sObject> fetchLookUpValues(
     String searchKeyWord,
     String ObjectName
@@ -272,15 +293,15 @@ public without sharing class lightning_Controller {
         .subStringAfterLast('.') +
       '.salesforce.com'
     );
-    if (res.get('endpoint').contains('full')) {
-      res.put('endpoint', 'https://cs215.salesforce.com');
-    } else if (
-      res.get('endpoint').contains('colonyamericanfinance.salesforce') ||
-      res.get('endpoint').contains('cvest.salesforce') ||
-      res.get('endpoint').contains('corevest.salesforce')
+    if (
+      res.get('endpoint') == 'https://colonyamericanfinance.salesforce.com/' ||
+      res.get('endpoint') == 'https://cvest.salesforce.com/' ||
+      res.get('endpoint') == 'https://corevest.salesforce.com/'
     ) {
       res.put('endpoint', 'https://na54.salesforce.com');
-    } 
+    } else if (res.get('endpoint').contains('full')) {
+      res.put('endpoint', 'https://cs215.salesforce.com');
+    }
 
     return JSON.serialize(res);
   }
@@ -353,6 +374,7 @@ public without sharing class lightning_Controller {
 
     String queryString = 'SELECT ';
     for (String field : fields) {
+      if (field != 'LegalCounsel')
       queryString += field + ', ';
     }
 
@@ -412,9 +434,223 @@ public without sharing class lightning_Controller {
       }
     }
     //return database.query(queryString);
+    
     return objs;
   }
 
+//CIP-2354 and CIP-2490 - Raj Sirivlu - 7/14/2022. Begin.   
+ @AuraEnabled
+  public static List<sObject> getRecordListPileLineRpt(
+    String parentId,
+    String parentFieldName,
+    String sobjectType,
+    List<String> fields,
+    String sortCol,
+    String sortDir,
+    String whereClause,
+    String orderBy,
+    String calledFor
+  ) {
+
+     
+    List<Piple_Line_Report_Data__c> pipeLineClosedReportList = new List<Piple_Line_Report_Data__c>();         
+    if (sobjectType.equalsIgnoreCase('Property__c')) {
+      fields.add('recordTypeId');
+    }
+
+    String queryString = 'SELECT ';
+    for (String field : fields) {
+      if (field != 'LegalCounsel')
+      queryString += field + ', ';
+    }
+
+    queryString = queryString.substringBeforeLast(',');
+    queryString += ' FROM ' + sobjectType;
+
+    queryString += ' WHERE '; //+  parentFieldName + ' = \'' + parentId + '\'';
+
+    if (String.isNotBlank(parentFieldName) && String.isNotBlank(parentId)) {
+      queryString += parentFieldName + ' = \'' + parentId + '\'';
+      if (String.isNotBlank(whereClause)) {
+        queryString += ' AND ';
+      }
+    }
+
+    if (String.isNotBlank(whereClause)) {
+      queryString += whereClause ;
+    }
+
+    if (String.isNotBlank(orderBy)) {
+      queryString += ' Order BY ' + orderBy;
+    } else if (String.isNotBlank(sortCol)) {
+      queryString += ' ORDER BY ' + sortCol + ' ' + sortDir;
+    }
+
+    List<sObject> objs = new List<sObject>();
+
+
+	List<Sobject> CombinedItems=new List<Sobject>();
+	CombinedItems.addAll(objs);
+    System.Debug('RS999 queryString :' +queryString);    
+    objs = database.query(queryString);
+    System.Debug('RS999 objs :' +objs);
+    if (sobjectType.equalsIgnoreCase('Property__c')) {
+      Map<string, String> propIds = new Map<string, String>();
+      for (sObject sobj : objs) {
+        propIds.put((String) sobj.get('id'), (String) sobj.get('recordTypeId'));
+      }
+      system.debug('--prop ids--');
+      system.debug(propIds);
+      Map<String, dupcheck__dc3Duplicate__c> duplicateCheckRecords = checkDuplicateFound(
+        propIds
+      );
+      System.debug('duplicateCheckRecords----->' + duplicateCheckRecords);
+        
+      for (sObject sobj : objs) {
+        if (
+          duplicateCheckRecords.containsKey((String) sobj.get('id')) //&& (String)sobj.get('Status__c')=='Active')
+        ) {
+          sobj.put('Possible_Duplicate__c', true);
+        } else {
+          sobj.put('Possible_Duplicate__c', false);
+        }
+      }
+    }
+
+     Map<ID,Piple_Line_Report_Data__c> dealIdMap = new Map<ID,Piple_Line_Report_Data__c>();
+      
+	 for (sObject sobj : objs) {
+
+   		Piple_Line_Report_Data__c pipeLineClosedReport = new Piple_Line_Report_Data__c(); 
+	    pipeLineClosedReport.Anticipated_Closing_Date__c 					= (Date) sobj.get('Anticipated_Closing_Date__c');         
+        pipeLineClosedReport.Name 											= (String) sobj.get('Name');
+        pipeLineClosedReport.Loan_Purpose__c 								= (String) sobj.get('Loan_Purpose__c');          
+        pipeLineClosedReport.Deal_Loan_Number__c 							= (String) sobj.get('Deal_Loan_Number__c');  
+        pipeLineClosedReport.Introductions_Source__c 						= (String) sobj.getSObject('Account').get('Introductions_Source__c'); 
+        pipeLineClosedReport.Recourse__c 									= (String) sobj.get('Recourse__c');   
+        pipeLineClosedReport.Cash_Management__c 							= (String) sobj.get('Cash_Management__c');   
+        pipeLineClosedReport.Term_Loan_Type__c 								= (String) sobj.get('Term_Loan_Type__c');   
+        pipeLineClosedReport.LTV__c 										= (Decimal) sobj.get('LTV__c');   
+        pipeLineClosedReport.Amortization_Term__c 							= (String) sobj.get('Amortization_Term__c');   
+        pipeLineClosedReport.Spread_BPS__c 									= (Decimal) sobj.get('Spread_BPS__c');   
+        pipeLineClosedReport.Floor__c 										= (Decimal) sobj.get('Floor__c');   
+        pipeLineClosedReport.State_Percentages__c 							= (String) sobj.get('State_Percentages__c');   
+        pipeLineClosedReport.StageName__c 									= (String) sobj.get('StageName');   
+        pipeLineClosedReport.Current_Loan_Amount__c 						= (Decimal) sobj.get('Current_Loan_Amount__c');   
+        pipeLineClosedReport.OwnerId__c 									= (String) sobj.getSObject('Owner').get('LastName');   
+        pipeLineClosedReport.Underwriter__c 								= (String) sobj.getSObject('Underwriter__r')?.get('Initials__c');    
+        pipeLineClosedReport.Loan_Coordinator__c 							= (String) sobj.getSObject('Loan_Coordinator__r')?.get('Initials__c');  
+        pipeLineClosedReport.Closer__c 										= (String) sobj.getSobject('Closer__r')?.get('Initials__c');  
+        pipeLineClosedReport.Title__c 										= (String)  sobj.getSObject('Title__r')?.get('Name');
+        pipeLineClosedReport.Third_Party_Title_Name__c 						= (String)  sobj.getSObject('Third_Party_Title__r')?.get('Name');
+        pipeLineClosedReport.Are_Assets_Coming_Off_Bridge_Line__c 			= (String)  sobj.get('Are_Assets_Coming_Off_Bridge_Line__c');   
+        pipeLineClosedReport.Are_Assets_Being_RFNC_From_Existing_Term__c	= (String)  sobj.get('Are_Assets_Being_RFNC_From_Existing_Term__c');   
+        pipeLineClosedReport.Warehouse_Line__c 								= (String)  sobj.get('Warehouse_Line__c');   
+        pipeLineClosedReport.Anticipated_IC_Approval__c 					= (date)    sobj.get('Anticipated_IC_Approval__c');   
+        pipeLineClosedReport.Kickoff_Date__c 								= (date)    sobj.get('Kickoff_Date__c');   
+        pipeLineClosedReport.Days_In_Underwriting__c 						= (Decimal) sobj.get('Days_In_Underwriting__c');   
+        pipeLineClosedReport.CloseDate__c 									= (date)    sobj.get('CloseDate');   
+        pipeLineClosedReport.Final_Spread__c 								= (Decimal) sobj.get('Final_Spread__c');   
+        pipeLineClosedReport.Loan_Size__c 									= (Decimal) sobj.get('Loan_Size__c');   
+        pipeLineClosedReport.Final_Loan_Amount__c 							= (Decimal) sobj.get('Final_Loan_Amount__c');   
+        pipeLineClosedReport.Awaiting_Kickoff_Call__c 						= (Boolean) sobj.get('Awaiting_Kickoff_Call__c');   
+        pipeLineClosedReport.In_Process_of_Withdrawn_or_Rejected__c 		= (Boolean) sobj.get('In_Process_of_Withdrawn_or_Rejected__c');   
+        String Id = (String) sobj.get('id');         
+		pipeLineClosedReport.deal__c = Id;    
+        dealIdMap.put(Id,pipeLineClosedReport);         
+      }    
+
+      	
+        List<OpportunityTeamMember> OppTeamMembers =[SELECT OpportunityId,Name FROM OpportunityTeamMember where TeamMemberRole = 'Legal Team' 
+                                                     and OpportunityId IN :dealIdMap.keyset() and Name !=Null];
+		Map<id,String> oppTeamMembersMap = new Map<id,String>();
+    
+      
+		If (OppTeamMembers.Size() > 0)
+        {
+          For (OpportunityTeamMember OppTeamMem : OppTeamMembers)
+          {
+			if (oppTeamMembersMap.containskey(OppTeamMem.OpportunityId))
+			{
+                String Names = oppTeamMembersMap.get(OppTeamMem.OpportunityId) + ',' + OppTeamMem.Name;
+                oppTeamMembersMap.remove(OppTeamMem.OpportunityId);
+                oppTeamMembersMap.put(OppTeamMem.OpportunityId,Names);
+			}
+			Else
+			{
+			 oppTeamMembersMap.put(OppTeamMem.OpportunityId,OppTeamMem.Name);
+			}
+          }		
+		}
+
+        List<Deal_Contact__c> dealContacts = [ SELECT Deal__c, Vendor_Type__c , Contact__r.name FROM Deal_Contact__c 
+                                                WHERE Deal__c IN :dealIdMap.keyset() 
+                                                AND Vendor_Type__c IN ('Lender Legal Counsel','3rd Party Title','Title and Escrow') 
+                                                AND Contact__r.name != null order by Vendor_Type__c  ,Contact__r.name desc ];
+      
+   	
+		Map<id,List<Deal_Contact__c>> dealContactsMap = new Map<id,List<Deal_Contact__c>>();
+     
+		If (OppTeamMembers.Size() > 0)
+        {
+          For (Deal_Contact__c dealContact : dealContacts)
+          {
+			if (dealContactsMap.containskey(dealContact.Deal__c))
+			{
+				dealContactsMap.get(dealContact.Deal__c).add(dealContact); 
+			}
+			Else
+			{
+			dealContactsMap.put(dealContact.deal__c,new List<Deal_Contact__c>{dealContact});
+			}
+          }		
+		 }
+
+        String legalCouncil ='';
+		Boolean legalCouncilFound;
+        String thirdPartyTitle = '';
+        String titleEscrow = '';
+    
+		for (id processingDealId :dealIdMap.Keyset()) 
+		{
+		legalCouncilFound = False;
+   		Piple_Line_Report_Data__c pipeLineClosedReport = dealIdMap.get(processingDealId);
+          
+        If (oppTeamMembersMap.Containskey(processingDealId) )
+        {
+			pipeLineClosedReport.LegalCounsel__c =oppTeamMembersMap.get(processingDealId);
+			legalCouncilFound = True;
+		}
+
+        If (dealContactsMap.Containskey(processingDealId) )
+        {
+          For (Deal_Contact__c dealContact : dealContactsMap.get(processingDealId))
+          {
+            if (dealContact.Vendor_Type__c == 'Lender Legal Counsel' && !legalCouncilFound)
+            {
+              pipeLineClosedReport.LegalCounsel__c = dealContact.Contact__r.name;
+            }
+            if (dealContact.Vendor_Type__c == '3rd Party Title')
+            {
+              pipeLineClosedReport.Third_Party_Title__c = dealContact.Contact__r.name;
+            }
+            if (dealContact.Vendor_Type__c == 'Title and Escrow')
+            {
+              pipeLineClosedReport.Title_and_Escrow__c = dealContact.Contact__r.name;
+            }                        
+          }
+        }
+           
+		pipeLineClosedReportList.add(pipeLineClosedReport);            
+        } //for (id processingDealId :dealIdMap.Keyset())
+    
+    if (calledFor == 'P')  return pipeLineClosedReportList;  
+      
+ 	return objs;      
+  }
+  //CIP-2354 and CIP-2490 - Raj Sirivlu - 7/14/2022. End.   
+   
+    
   //CIP-2111 - Raj Sirivlu - 1/13/2022. Begin. Added new method getrecordList1 as a clone of getrecordList and changed how the ids are processed.
   @AuraEnabled
   public static List<sObject> getRecordListPropAdva(
@@ -477,6 +713,7 @@ public without sharing class lightning_Controller {
     system.debug('RS queryString :' + queryString);
     List<sObject> objs = new List<sObject>();
     objs = database.query(queryString);
+      
     // System.debug('Possible_Duplicate__c 111----->');
     if (sobjectType.equalsIgnoreCase('Property__c')) {
       // System.debug('Possible_Duplicate__c----->');
@@ -498,13 +735,17 @@ public without sharing class lightning_Controller {
         } else {
           sobj.put('Possible_Duplicate__c', false);
         }
+
       }
     }
 
+	      
+      
     return objs;
   }
   //CIP-2111 - Raj Sirivlu - 1/13/2022. End. Added new method getrecordList1 as a clone of getrecordList and changed how the ids are processed.
 
+//    
   @AuraEnabled
   public static List<sobject> getRecords(
     String parentId,
@@ -548,7 +789,7 @@ public without sharing class lightning_Controller {
     //system.debug(objs);
     return database.query(queryString);
   }
-
+   
   @AuraEnabled
   public static List<sObject> getRelatedList(
     String parentId,
@@ -573,7 +814,6 @@ public without sharing class lightning_Controller {
     if (String.isNotBlank(orderClause)) {
       queryString += ' ORDER BY ' + orderClause;
     }
-    system.debug('RS:' + queryString);
     //queryString += ' LIMIT ' + maxRecords;
     //queryString += ' OFFSET ' + skipRecords;
 
@@ -1038,6 +1278,7 @@ resultsData.add(new propertyListWrapper(sobj, 'No', null, null));
       SELECT Id, Title
       FROM ContentDocument
       WHERE Title = :fileName
+      ORDER BY SystemModstamp DESC //RAJ
       LIMIT 1
     ];
     System.debug(1);
@@ -1479,7 +1720,8 @@ resultsData.add(new propertyListWrapper(sobj, 'No', null, null));
       'Require_AVM_Sync_on_UW_Submission__c',
       'Require_X_Author_Validation_on_Pricing__c',
       'Require_X_Author_Validation_on_UW_Submis__c',
-      'Validated_Address_Threshold__c'
+      'Validated_Address_Threshold__c',
+      'Request_Beekin_Rental_Data_Validation__c'  
     };
 
     String queryString = 'SELECT ';

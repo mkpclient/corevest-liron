@@ -13,7 +13,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Decision Required</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>Decision Required</label>
             </value>
             <value>

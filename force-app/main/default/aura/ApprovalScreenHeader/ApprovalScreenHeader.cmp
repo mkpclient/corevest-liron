@@ -12,7 +12,7 @@
   <aura:attribute name="comments" type="String" />
   <aura:attribute name="response" type="String" />
   <aura:attribute name="approvalName" type="String" />
-
+  <aura:attribute name="isIcApproval" type="Boolean" default="false" />
   <aura:attribute name="glcModalOpen" type="Boolean" />
 
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -51,11 +51,12 @@
           <!-- <aura:if
             isTrue="{!or(v.approvalName == 'Bridge_LOC_Pricing_Review', v.approvalName == 'Term_Pricing_Review', v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review')}"
           > -->
+          <aura:if isTrue="{!!v.isIcApproval}" >
             <lightning:button
               label="Require GLC Approval"
               onclick="{!c.toggleGLC}"
             />
-          <!-- </aura:if> -->
+          </aura:if>
           <button
             class="slds-button slds-button_neutral"
             onclick="{!c.openApproval}"
@@ -187,6 +188,23 @@
             </aura:if>
 
             <aura:if
+              isTrue="{!v.approvalName == 'Submit_SAB_Deal_to_UW_Approval'}"
+            >
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Underwriter__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Loan_Coordinator__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Closer__c"
+              ></lightning:inputField>
+            </aura:if>
+
+            <aura:if
               isTrue="{!v.approvalName == 'Submit_Term_Deal_to_UW_Approval'}"
             >
               <lightning:inputField
@@ -207,7 +225,7 @@
               ></lightning:inputField>
             </aura:if>
 
-            <aura:if
+            <!-- <aura:if
               isTrue="{!and(or(v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review'), v.userRole != 'Capital Markets')}"
             >
               <lightning:inputField
@@ -222,7 +240,7 @@
                 aura:id="fields"
                 fieldName="Closer__c"
               ></lightning:inputField>
-            </aura:if>
+            </aura:if> -->
           </lightning:recordEditForm>
 
           <div class="slds-form-element">

@@ -1,13 +1,15 @@
 @isTest
 private class AppraisalTests {
     static testmethod void mergeTest(){
+        test_Helper.createDealLoanNumber();
         Account acc = Test_Helper.createAccount();
         Contact cont = Test_Helper.createContact( acc );
         Opportunity opp = Test_Helper.createOpportunity( acc, cont );
         opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
         List<Property__c> properties = Test_Helper.createProperties(opp);
         Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
-
+        appraisal.Status__c = 'Complete-Delivered';
+        update appraisal;
         Test.startTest();
             AppraisalMergeController.initMergeScreen(opp.Id);
         Test.stopTest();
@@ -25,6 +27,7 @@ private class AppraisalTests {
 
         insert cv;
         Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id LIMIT 1].ContentDocumentId;
+        test_Helper.createDealLoanNumber();
         Account acc = Test_Helper.createAccount();
         Contact cont = Test_Helper.createContact( acc );
         Opportunity opp = Test_Helper.createOpportunity( acc, cont );
@@ -59,6 +62,7 @@ private class AppraisalTests {
 
         insert cv;
         Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id LIMIT 1].ContentDocumentId;
+        test_Helper.createDealLoanNumber();
         Account acc = Test_Helper.createAccount();
         Contact cont = Test_Helper.createContact( acc );
         Opportunity opp = Test_Helper.createOpportunity( acc, cont );

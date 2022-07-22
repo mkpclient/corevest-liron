@@ -6,7 +6,7 @@
     <label>Deal 2</label>
     <referenceTo>Opportunity</referenceTo>
     <relationshipLabel>Applications (Deal 2)</relationshipLabel>
-    <relationshipName>Applications_2</relationshipName>
+    <relationshipName>Applications</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>

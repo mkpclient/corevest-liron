@@ -43,10 +43,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Country__c</field>
             </layoutItems>
             <layoutItems>
@@ -56,6 +52,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Approved_Third_Party_Originators__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -106,6 +106,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -263,6 +267,14 @@
                 <field>Interest_Reserves__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Current_Interest_Reserves_Paid__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Current_Interest_Reserves_Remaining__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Loan_Effective_Date__c</field>
             </layoutItems>
@@ -325,10 +337,6 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Original_UPB__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Current_UPB__c</field>
@@ -411,10 +419,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>State_Specific_Calculations__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Trustee_Full_Address__c</field>
             </layoutItems>
         </layoutColumns>
@@ -489,54 +493,59 @@
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Generate_Documents</actionName>
+            <actionName>Opportunity.New_Individual</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
+            <actionName>Opportunity.Generate_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Export_Documents</actionName>
+            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Bridge_Data_Tape</actionName>
+            <actionName>Opportunity.Export_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
+            <actionName>Opportunity.Bridge_Data_Tape</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>FeedItem.ContentNote</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>PrintableView</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>7</sortOrder>
+            <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Task</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>8</sortOrder>
+            <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
+            <sortOrder>10</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Bridge_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>10</sortOrder>
+            <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>11</sortOrder>
+            <sortOrder>12</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -553,6 +562,16 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Property__c</fields>
+        <fields>Date__c</fields>
+        <fields>Interest_Reserves_Payment__c</fields>
+        <fields>Original_Interest_Reserves__c</fields>
+        <fields>New_Remaining_Interest_Reserve__c</fields>
+        <fields>Remaining_Interest_Reserve__c</fields>
+        <relatedList>Interest_Reserves__c.Deal__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Subject__c</fields>
@@ -662,14 +681,6 @@
         <fields>CREATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Covenant__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

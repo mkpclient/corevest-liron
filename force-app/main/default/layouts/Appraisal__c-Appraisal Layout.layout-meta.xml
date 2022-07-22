@@ -21,6 +21,10 @@
                 <behavior>Required</behavior>
                 <field>Deal__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Post_Close_Appraisal__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -198,6 +202,10 @@
                 <field>Deal_Document__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_COD__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>UpdatedPropertyData__c</field>
             </layoutItems>
@@ -216,12 +224,20 @@
                 <field>Appraised_After_Repair_Value__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Appraiser_as_Rehab_LTV__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>This_Appraisal_is_Made__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Valuation_Scope__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Reviewer__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -238,6 +254,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Appraiser__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Management_Company_text__c</field>
             </layoutItems>
             <layoutItems>
@@ -246,11 +266,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Product_Type_Addons__c</field>
+                <field>Order_Received_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Order_Received_Date__c</field>
+                <field>Order_Accepted_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -318,6 +338,10 @@
                 <behavior>Readonly</behavior>
                 <field>Number_of_Comments__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Comments_to_Vendor__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -338,6 +362,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>LOMOS_Id__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>External_Record_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

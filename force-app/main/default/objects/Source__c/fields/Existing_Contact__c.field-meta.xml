@@ -6,7 +6,7 @@
     <label>Existing Contact</label>
     <referenceTo>Contact</referenceTo>
     <relationshipLabel>Source (Existing Contact)</relationshipLabel>
-    <relationshipName>Source2</relationshipName>
+    <relationshipName>SourceDelete</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

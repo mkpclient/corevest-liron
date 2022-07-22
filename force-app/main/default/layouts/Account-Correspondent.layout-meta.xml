@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>DataDotComAccountInsights</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
-    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -108,6 +105,10 @@
                 <behavior>Edit</behavior>
                 <field>MERS_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Refer_to_Asset_Management__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -124,6 +125,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Legal_Structure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Principals__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -430,7 +435,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Checklist__c.Account__c</relatedList>
+        <relatedList>Checklist_Section__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Item__c.Account__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

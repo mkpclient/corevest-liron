@@ -72,6 +72,11 @@
                 <default>false</default>
                 <label>Wholesaler</label>
             </value>
+            <value>
+                <fullName>Refinance</fullName>
+                <default>false</default>
+                <label>Refinance</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

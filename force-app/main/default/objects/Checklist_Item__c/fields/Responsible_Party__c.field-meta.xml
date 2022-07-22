@@ -11,8 +11,23 @@
             <sorted>false</sorted>
             <value>
                 <fullName>Underwriter</fullName>
-                <default>true</default>
+                <default>false</default>
                 <label>Underwriter</label>
+            </value>
+            <value>
+                <fullName>Closer</fullName>
+                <default>false</default>
+                <label>Closer</label>
+            </value>
+            <value>
+                <fullName>Loan Manager</fullName>
+                <default>true</default>
+                <label>Loan Manager</label>
+            </value>
+            <value>
+                <fullName>Loan Manager/Underwriter</fullName>
+                <default>false</default>
+                <label>Loan Manager/Underwriter</label>
             </value>
         </valueSetDefinition>
     </valueSet>

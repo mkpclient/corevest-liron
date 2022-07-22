@@ -150,6 +150,11 @@
                 <default>false</default>
                 <label>Valuations Review</label>
             </value>
+            <value>
+                <fullName>Warehouse Lender</fullName>
+                <default>false</default>
+                <label>Warehouse Lender</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

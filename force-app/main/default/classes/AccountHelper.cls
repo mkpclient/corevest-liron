@@ -55,6 +55,28 @@ public class AccountHelper {
     }
   }
 
+  public static void afterInsert(List<Account> newList) {
+    Map<Id, String> accountRecordTypeMap = new Map<Id, String>();
+    for (RecordType rt : [
+      SELECT Id, DeveloperName
+      FROM RecordType
+      WHERE sobjectType = 'Account'
+    ]) {
+      accountRecordTypeMap.put(rt.Id, rt.DeveloperName);
+    }
+
+    Set<Id> lenderIds = new Set<Id>();
+    for (Account acc : newList) {
+      if (accountRecordTypeMap.get(acc.RecordTypeId) == 'Lender') {
+        lenderIds.add(acc.Id);
+      }
+    }
+
+    if (lenderIds.size() > 0) {
+      ChecklistHelper.createChecklistAccount(lenderIds);
+    }
+  }
+
   // function to run before an Account is edited
   public static void beforeUpdate(
     List<Account> newList,

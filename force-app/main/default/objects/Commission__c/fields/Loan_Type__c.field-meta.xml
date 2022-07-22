@@ -31,6 +31,11 @@
                 <default>false</default>
                 <label>Single Rental Loan</label>
             </value>
+            <value>
+                <fullName>Acquired Bridge Loan</fullName>
+                <default>false</default>
+                <label>Acquired Bridge Loan</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

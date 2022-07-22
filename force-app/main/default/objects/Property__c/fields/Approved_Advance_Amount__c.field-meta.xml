@@ -10,6 +10,7 @@ IF(Override_Advance_Amount__c = 0,
     <externalId>false</externalId>
     <formula>IF(OR(
  TEXT(Status__c) = &apos;Active&apos;,
+ TEXT(Status__c) = &apos;Sold&apos;,
  TEXT(Status__c) = &apos;Paid Off&apos;),
   Approved_Advance_Amount_Used__c,
 Initial_Disbursement_Remaining__c + Reno_Advance_Amount__c

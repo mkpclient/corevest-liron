@@ -9,7 +9,7 @@ CONTAINS(Deal__r.RecordType.DeveloperName, &apos;LOC&apos;)
 IF( 
 CONTAINS(Deal__r.RecordType.DeveloperName, &apos;Term&apos;), 
 &apos;Term_Loan&apos;, 
-&apos;&apos; 
+Deal__r.RecordType.DeveloperName
 ) 
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>

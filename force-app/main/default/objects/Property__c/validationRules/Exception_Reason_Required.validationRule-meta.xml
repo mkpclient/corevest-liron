@@ -2,11 +2,11 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Exception_Reason_Required</fullName>
     <active>true</active>
-    <description>If the Exception field is marked True, then the Exception Reason textbox can&apos;t be blank.</description>
+    <description>If the Insurance Exception field is marked True, then the Insurance Exception Reason textbox can&apos;t be blank.</description>
     <errorConditionFormula>AND(
 ISPICKVAL(Exception__c, &quot;YES&quot;),
 ISBLANK(Exception_Reason__c)
 )</errorConditionFormula>
     <errorDisplayField>Exception_Reason__c</errorDisplayField>
-    <errorMessage>Please provide an Exception Reason to explain why the Exception field is marked True.</errorMessage>
+    <errorMessage>Please provide an Insurance Exception Reason to explain why the Insurance Exception field is marked True.</errorMessage>
 </ValidationRule>

@@ -137,11 +137,12 @@
                         console.log(records);
                         if(records['StageName']==='Closed Won'){
                             records['StageName']='Closed';
-                        } else if (records['StageName']==='Underwriting'){
-                            records['StageName']='In Underwriting';
-                        } else if (records['StageName']==='UW Hold'){
+                        }else if(records['StageName']==='Underwriting'){
                             records['StageName']='In Underwriting';
                         }
+                            else if(records['StageName']==='UW Hold'){
+                                records['StageName']='In Underwriting';
+                            }                        	
 
                         //clonerecordsToDisplay[i]= records;
                     }
@@ -241,11 +242,12 @@
                         console.log(records);
                         if(records['StageName']==='Closed Won'){
                             records['StageName']='Closed';
-                        } else if (records['StageName']==='In Underwriting'){
+                        }else if(records['StageName']==='In Underwriting'){
                             records['StageName']='Underwriting Hold';
-                        } else if (records['StageName']==='Underwriting'){
-                            records['StageName']='Underwriting Hold';
-                        }                        	
+                        }
+                            else if(records['StageName']==='Underwriting'){
+                                records['StageName']='Underwriting Hold';
+                            }                        	
 
                         //clonerecordsToDisplay[i]= records;
                     }

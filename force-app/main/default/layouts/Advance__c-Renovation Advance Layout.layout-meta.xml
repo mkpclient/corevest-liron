@@ -239,10 +239,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Deal_Total_Holdback__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Prop_Total_Holdback__c</field>
             </layoutItems>
         </layoutColumns>

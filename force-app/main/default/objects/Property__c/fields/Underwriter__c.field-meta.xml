@@ -2,8 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Underwriter__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
-    <description>Underwriter lookup field on the Property object.</description>
+    <description>Underwriter user lookup field on the Property object.</description>
     <externalId>false</externalId>
+    <inlineHelpText>User who is the underwriter for this property (may be different than the underwriter for the deal associated with this property).</inlineHelpText>
     <label>Underwriter</label>
     <referenceTo>User</referenceTo>
     <relationshipName>Properties2</relationshipName>

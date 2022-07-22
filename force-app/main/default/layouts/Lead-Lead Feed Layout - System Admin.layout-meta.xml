@@ -4,6 +4,7 @@
     <customButtons>pi__Send_Pardot_Email</customButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <feedLayout>
         <autocollapsePublisher>true</autocollapsePublisher>
@@ -114,6 +115,14 @@
                 <behavior>Edit</behavior>
                 <field>Do_Not_Re_Assign__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Last_Login__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Round_Robin_CX_Portal__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -221,7 +230,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -616,6 +625,16 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ChangeOwnerOne</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>CallHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>0</sortOrder>
@@ -649,16 +668,6 @@
             <actionName>Event</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>ChangeOwnerOne</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>8</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

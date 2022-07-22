@@ -116,7 +116,7 @@
                   data="Property_Type__c"
                   title="Property Type"
                   type="dropdown"
-                  source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Multifamily', 'SFR', 'Townhome']"
+                  source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Mixed Use', 'Multifamily', 'SFR', 'Townhome']"
                 />
                 <c:hotColumn
                   data="Number_of_Units__c"
@@ -593,6 +593,11 @@
                   source="['Yes', 'No']"
                 />
                 <c:hotColumn
+                  data="Yardi_Id__c"
+                  title="Yardi ID"
+                  readOnly="true"
+                />
+                <c:hotColumn
                   data="Status__c"
                   type="dropdown"
                   source="['Due Diligence', 'Pending', 'Closing', 'On Hold', 'Cancelled']"
@@ -610,7 +615,7 @@
                   title="Closer"
                   type="dropdown"
                   width="50"
-                  source="['Any Piana', 'David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Joseph Felice', 'Kathy Perez', 'Nate Valline']"
+                  source="['Amy Piana', 'Brian Campbell', 'Cassandra Balthasar', 'Gina Lambis', 'Jenna Taylor', 'Jolene Czarnota', 'Joseph Felice', 'Kathleen Evans', 'Nate Valline', 'Paola De Sousa']"
                 />
                 <c:hotColumn
                   data="Funding_Status__c"

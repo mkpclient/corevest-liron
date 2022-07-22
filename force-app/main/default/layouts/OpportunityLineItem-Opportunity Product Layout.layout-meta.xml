@@ -27,8 +27,8 @@
                 <field>Product_Goal__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Month_Year__c</field>
+                <behavior>Edit</behavior>
+                <field>Funding_Status__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

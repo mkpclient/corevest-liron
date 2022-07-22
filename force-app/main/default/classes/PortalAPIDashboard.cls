@@ -921,7 +921,7 @@ global without sharing class PortalAPIDashboard {
         deal.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
         deal.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
       ) {
-        this.loanType = 'Bridge Loan';
+        this.loanType = 'Single Asset Bridge Loan';
       }
       if (deal.Loc_Loan_Type__c == 'Multifamily/CRE') {
         this.loanType = 'Multifamily';
@@ -1207,7 +1207,7 @@ global without sharing class PortalAPIDashboard {
         opp.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
         opp.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
       ) {
-        this.portalProductType = 'Bridge Loan';
+        this.portalProductType = 'Single Asset Bridge Loan';
       }
       if (opp.Loc_Loan_Type__c == 'Multifamily/CRE') {
         this.portalProductType = 'Multifamily';

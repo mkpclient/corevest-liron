@@ -2,6 +2,7 @@
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>ChangeOwnerOne</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>CreateOrder</excludeButtons>
     <excludeButtons>CreatePdf</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>PrintableView</excludeButtons>
@@ -222,6 +223,11 @@
             <actionName>Quote.Soft_Quote</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>CreatePdf</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>7</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>

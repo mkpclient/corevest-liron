@@ -36,7 +36,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Initial_Advance__c</field>
+                <field>Max_Initial_Loan_Amount_Input__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -177,14 +181,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Legal_Description__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception_Reason__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -373,6 +369,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Appraisal_Sync__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -666,6 +666,14 @@
                 <behavior>Edit</behavior>
                 <field>Insurance_Expiration_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception_Reason__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -762,10 +770,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Special_Asset_Associate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Remedy_Plan__c</field>
             </layoutItems>
             <layoutItems>
@@ -806,93 +810,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Loan_Amount_Per_Unit__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <style>TwoColumnsLeftToRight</style>
-    </layoutSections>
-    <layoutSections>
-        <customLabel>true</customLabel>
-        <detailHeading>true</detailHeading>
-        <editHeading>true</editHeading>
-        <label>Servicer Details</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Loan_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Id__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Loan_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Servicer_Investor_Loan_Number__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>First_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Last_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Date_Of_Last_Payment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Next_Payment_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Next_Due_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Payment_History__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Last_Servicer_Import__c</field>
-            </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Original_UPB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Current_UPB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reserve_Balance__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Original_Interest_Rate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Current_Interest_Rate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Interest_Rate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Accrued_Interest__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -1042,10 +959,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Advance_Fee__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
                 <field>Origination_Fee_Perc__c</field>
             </layoutItems>
             <layoutItems>
@@ -1136,9 +1049,14 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
+            <actionName>Property__c.New_Draw</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Property__c.New_Appraisal</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Property__c.Update_Advance_Amounts_Reno</actionName>
@@ -1156,44 +1074,14 @@
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Property__c.New_Draw</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Property__c.New_Appraisal</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Property__c.New_Forbearance</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Property__c.Make_Special_Asset_Flow</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>ChangeRecordType</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>8</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>PrintableView</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>10</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Delete</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Task</actionName>
@@ -1215,6 +1103,31 @@
             <actionType>QuickAction</actionType>
             <sortOrder>15</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Property__c.Make_Special_Asset_Flow</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ChangeRecordType</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>PrintableView</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Delete</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>11</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.ContentNote</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>9</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -1230,6 +1143,15 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Date__c</fields>
+        <fields>Interest_Reserves_Payment__c</fields>
+        <fields>Original_Interest_Reserves__c</fields>
+        <fields>New_Remaining_Interest_Reserve__c</fields>
+        <fields>Remaining_Interest_Reserve__c</fields>
+        <relatedList>Interest_Reserves__c.Property__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <fields>NAME</fields>
@@ -1352,11 +1274,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Insurance_Coverage_Amount__c</fullName>
+    <externalId>false</externalId>
+    <inlineHelpText>Include the amount of any extended coverage, if disclosed</inlineHelpText>
+    <label>Insurance Coverage Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

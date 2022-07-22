@@ -22,6 +22,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Legal_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Title</field>
             </layoutItems>
             <layoutItems>
@@ -99,6 +103,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Uploaded_File_URL__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Last_Login__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -185,6 +193,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>NPS_Score__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Home_Country__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -606,7 +622,7 @@
         <fields>CREATED_DATE</fields>
         <relatedList>Source__c.Contact_Converted_Into__c</relatedList>
         <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedContentNoteList</relatedList>

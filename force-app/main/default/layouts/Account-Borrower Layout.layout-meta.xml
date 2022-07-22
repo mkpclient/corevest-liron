@@ -126,6 +126,10 @@
                 <behavior>Edit</behavior>
                 <field>In_Foreclosure__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Refer_to_Asset_Management__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -290,6 +294,11 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Event</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>CallHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>0</sortOrder>
@@ -338,11 +347,6 @@
             <actionName>Account.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>9</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Event</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>10</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -407,6 +411,17 @@
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Deal__c</fields>
+        <fields>Lender__c</fields>
+        <fields>Close_Date__c</fields>
+        <fields>Properties_Matched__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Lost_Deal_Analysis__c.Account__c</relatedList>
+        <sortField>Close_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
         <fields>TASK.WHAT_NAME</fields>
@@ -438,7 +453,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Checklist__c.Account__c</relatedList>
+        <relatedList>Checklist_Section__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Item__c.Account__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

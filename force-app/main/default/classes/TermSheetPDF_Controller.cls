@@ -21,6 +21,21 @@ public with sharing class TermSheetPDF_Controller {
 
   public Property__c sabProperty { get; set; }
   public List<Property__c> allProperties { get; set; }
+    
+
+  public Integer numTermLoanMonths {
+    get {
+      Integer monthsVal = null;
+      if(this.record != null) {
+        String loanTermMonths = this.record.Term_Loan_Type_Months__c;
+        if(String.isNotEmpty(loanTermMonths)) {
+          monthsVal = Integer.valueOf(loanTermMonths.substringBefore(' months'));
+        }
+      }
+      return monthsVal;
+  }
+  private set;
+  }
 
   public TermSheetPDF_Controller(
     ApexPages.standardController standardController
@@ -132,7 +147,8 @@ public with sharing class TermSheetPDF_Controller {
           Property_Type__c,
           County__c,
           Number_of_Units__c,
-          Is_Parent__c
+          Is_Parent__c,
+          Is_Sub_Unit__c
         FROM Property__c
         WHERE
           Deal__c = :record.Id
@@ -143,7 +159,7 @@ public with sharing class TermSheetPDF_Controller {
           property.Property_Type__c == 'Multifamily' ||
           property.Property_Type__c == 'Mixed Use'
         ) {
-          if (property.Is_Parent__c == true) {
+          if (property.Is_Sub_Unit__c == false) {
             properties.add(property);
           }
         } else {

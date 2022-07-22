@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Loan_Effective_Date__c</fullName>
-    <description>The date the Loan Documents are drafted</description>
+    <description>Bridge Use</description>
     <externalId>false</externalId>
-    <inlineHelpText>The date the Loan Documents are drafted</inlineHelpText>
-    <label>Loan Agreement Date</label>
+    <label>Loan Effective Date</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>true</trackHistory>

@@ -11,68 +11,103 @@
         ></lightning-formatted-text>
       </template>
       <template if:false={errorMessage}>
-        <lightning-input
-          type="email"
-          label="Sender"
-          value={data.user.Email}
-          data-name="user"
-          onchange={handleChange}
-          disabled
-        ></lightning-input>
-        <lightning-input
-          type="text"
-          label="Recipient"
-          value={data.recipients}
-          data-name="recipients"
-          onchange={handleChange}
-        ></lightning-input>
-        <lightning-input
-          type="text"
-          label="CC"
-          value={data.cc}
-          data-name="cc"
-          onchange={handleChange}
-        ></lightning-input>
-        <template if:true={possibleAttachments}>
-          <c-email-attachments-lwc
-            possibilities={possibleAttachments}
-            onselect={handleSelect}
-          ></c-email-attachments-lwc>
+        <template if:true={hasNoFinalTier}>
+          <lightning-formatted-text
+            value="Final Credit Tier is required before an IC Approval process can begin."
+          ></lightning-formatted-text>
+          <br />
+          <lightning-record-edit-form
+            object-api-name="Opportunity"
+            record-id={recordId}
+            onsuccess={handleSuccess}
+            onsubmit={handleSubmit}
+          >
+            <lightning-input-field
+              field-name="Final_Sponsor_Tier__c"
+              required
+            ></lightning-input-field>
+            <lightning-button variant="brand" type="submit" label="Save" style="display:none;" data-name="submitButton">
+            </lightning-button>
+          </lightning-record-edit-form>
         </template>
-        <lightning-input
-          type="text"
-          label="Subject"
-          placeholder="Subject"
-          value={data.subject}
-          data-name="subject"
-          onchange={handleChange}
-        ></lightning-input>
-        <lightning-input-rich-text
-          label="Message"
-          label-visible="true"
-          placeholder="Write message here..."
-          formats={formats}
-          value={data.emailBody}
-          onchange={handleChange}
-          data-name="emailBody"
-        ></lightning-input-rich-text>
-      </template>
-      <div slot="footer">
-        <lightning-button
-          variant="neutral"
-          label="Cancel"
-          class="slds-m-left_x-small"
-          onclick={closeModal}
-        ></lightning-button>
-        <template if:false={errorMessage}>
+        <template if:false={hasNoFinalTier}>
+          <lightning-input
+            type="email"
+            label="Sender"
+            value={data.user.Email}
+            data-name="user"
+            onchange={handleChange}
+          ></lightning-input>
+          <lightning-input
+            type="text"
+            label="Recipient"
+            value={data.recipients}
+            data-name="recipients"
+            onchange={handleChange}
+          ></lightning-input>
+          <lightning-input
+            type="text"
+            label="CC"
+            value={data.cc}
+            data-name="cc"
+            onchange={handleChange}
+          ></lightning-input>
+          <template if:false={isSABDeal}>
+            <template if:true={possibleAttachments}>
+              <c-email-attachments-lwc
+                possibilities={possibleAttachments}
+                onselect={handleSelect}
+              ></c-email-attachments-lwc>
+            </template>
+          </template>
+          <lightning-input
+            type="text"
+            label="Subject"
+            placeholder="Subject"
+            value={data.subject}
+            data-name="subject"
+            onchange={handleChange}
+          ></lightning-input>
+          <lightning-input-rich-text
+            label="Message"
+            label-visible="true"
+            placeholder="Write message here..."
+            formats={formats}
+            value={data.emailBody}
+            onchange={handleChange}
+            data-name="emailBody"
+          ></lightning-input-rich-text>
+        </template>
+        <div slot="footer">
           <lightning-button
-            variant="brand"
-            label="Send Email"
+            variant="neutral"
+            label="Cancel"
             class="slds-m-left_x-small"
-            onclick={sendEmail}
+            onclick={closeModal}
           ></lightning-button>
-        </template>
-      </div>
+          <template if:false={errorMessage}>
+            <template if:false={hasNoFinalTier}>
+              <lightning-button
+                variant="brand"
+                label="Send Email"
+                class="slds-m-left_x-small"
+                onclick={sendEmail}
+              ></lightning-button>
+            </template>
+            <template if:true={hasNoFinalTier}>
+              <lightning-button
+                variant="brand"
+                label="Save and Proceed"
+                class="slds-m-left_x-small"
+                onclick={submitForm}
+              ></lightning-button>
+            </template>
+          </template>
+        </div>
+      </template>
+    </template>
+    <template if:false={isRendered}>
+      <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </template>
   </lightning-quick-action-panel>
 </template>

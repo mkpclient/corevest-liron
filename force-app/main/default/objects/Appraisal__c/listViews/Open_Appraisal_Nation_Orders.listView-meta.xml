@@ -8,7 +8,7 @@
     <columns>CREATED_DATE</columns>
     <columns>CREATEDBY_USER</columns>
     <columns>Status__c</columns>
-    <columns>Appraisal_Due_Date_Time__c</columns>
+    <columns>Estimated_Completion_Date__c</columns>
     <columns>Appraisal_Firm_Transaction_ID__c</columns>
     <columns>Appraisal_Firm_Order_ID__c</columns>
     <filterScope>Everything</filterScope>
@@ -24,7 +24,7 @@
     <filters>
         <field>Status__c</field>
         <operation>notEqual</operation>
-        <value>Cancelled,Complete-Delivered</value>
+        <value>Cancelled,Complete-Delivered,Complete-Undelivered</value>
     </filters>
     <filters>
         <field>Prevent_Auto_Refresh__c</field>

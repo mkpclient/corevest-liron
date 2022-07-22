@@ -87,6 +87,10 @@
                 <behavior>Edit</behavior>
                 <field>Other_Income_2__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -263,11 +267,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

@@ -248,7 +248,7 @@
               wrapper.Name !== "Trailing Loan Docs"
             ) {
               advanceWrappers.push(wrapper);
-            } else {
+            } else if (wrapper.Name !== "Principal Loan Docs") {
               dealWrappers.push(wrapper);
             }
           });

@@ -13,6 +13,10 @@
             <fullName>Escrow</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
@@ -21,7 +25,22 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Origination</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Capital_Partner_Release__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -78,6 +97,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Inspection_Method__c</picklist>
+        <values>
+            <fullName>Sitewire</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Trinity</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Lender__c</picklist>
         <values>
             <fullName>5 Arch Funding Corp%2E</fullName>
@@ -104,7 +134,7 @@
         </values>
         <values>
             <fullName>Pending</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
 </RecordType>

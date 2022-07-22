@@ -2,6 +2,7 @@
 private class ConfirmationOfTermsTests {
   @isTest
   private static void testMethod1() {
+    test_Helper.createDealLoanNumber();
     Account a = new Account();
     a.Name = 'test';
     a.BillingCountry = 'United States';
@@ -42,12 +43,13 @@ private class ConfirmationOfTermsTests {
     opp.Name = 'Test opportunity';
     opp.CloseDate = System.today();
     opp.StageName = 'Initial Review';
+    opp.Foreign_National_picklist__c = 'No';
     opp.AccountId = a.id;
     opp.Contact__c = c.id;
     opp.OwnerId = UserInfo.getUserId();
     opp.CAF_Analyst__c = UserInfo.getUserId();
     opp.Underwriter__c = u.Id;
-    opp.CLoser__c = UserInfo.getUserId();
+    opp.Closer__c = UserInfo.getUserId();
     // opp.
     insert opp;
 

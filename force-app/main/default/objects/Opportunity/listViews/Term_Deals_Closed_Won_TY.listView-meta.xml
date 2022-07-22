@@ -5,7 +5,6 @@
     <columns>Current_Loan_Amount__c</columns>
     <columns>Origination_Fee__c</columns>
     <columns>Final_Loan_Amount__c</columns>
-    <columns>Final_Interest_Rate__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
     <columns>YSP_perc__c</columns>
     <columns>Broker_Fee_Paid_Date__c</columns>
@@ -29,7 +28,7 @@
     <filters>
         <field>OPPORTUNITY.CLOSE_DATE</field>
         <operation>equals</operation>
-        <value>LAST_YEAR</value>
+        <value>THIS_YEAR</value>
     </filters>
     <label>Term Deals - Closed Won TY</label>
 </ListView>

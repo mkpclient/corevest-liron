@@ -67,6 +67,11 @@
                 <default>false</default>
                 <label>Retired/Not Active</label>
             </value>
+            <value>
+                <fullName>Business Relationship Terminated</fullName>
+                <default>false</default>
+                <label>Business Relationship Terminated</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

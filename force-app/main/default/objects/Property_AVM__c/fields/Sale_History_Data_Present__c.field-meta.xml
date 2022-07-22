@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sale_History_Data_Present__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Sale history  Data Present</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Sale history  Data Present</inlineHelpText>
+    <label>Sale History Data Present</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

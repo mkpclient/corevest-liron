@@ -10,7 +10,7 @@
   IF(ISBLANK(Override_Reno_Advance_Amount__c),
    MIN(  
    IF(NOT(ISPICKVAL(Deal__r.LOC_Loan_Type__c, &quot;Single Asset (1-4 Unit)&quot;)) &amp;&amp; NOT(ISPICKVAL(Deal__r.LOC_Loan_Type__c, &quot;Single Asset (5-10 Unit)&quot;)), 
-    Max_Total_Loan_Amount__c - Max_Initial_Loan_Amount__c,
+     Max_Total_Loan_Amount_Input__c  - Max_Initial_Loan_Amount_Input__c ,
     Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c),
    Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c,
    Acquisition_Price__c * Deal__r.Renovation_Limit__c,

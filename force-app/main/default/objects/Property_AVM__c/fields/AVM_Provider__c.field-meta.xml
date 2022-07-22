@@ -18,6 +18,16 @@
                 <default>false</default>
                 <label>Red Bell</label>
             </value>
+            <value>
+                <fullName>Beekin</fullName>
+                <default>false</default>
+                <label>Beekin</label>
+            </value>
+            <value>
+                <fullName>HouseCanary</fullName>
+                <default>false</default>
+                <label>HouseCanary</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

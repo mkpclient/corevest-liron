@@ -36,16 +36,8 @@
                 <field>Legal_Fee__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Amortization_Term__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>IO_Term__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Term_Loan_Type__c</field>
+                <behavior>Edit</behavior>
+                <field>Borrower__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

@@ -20,6 +20,16 @@
                 <default>false</default>
                 <label>No Renovation</label>
             </value>
+            <value>
+                <fullName>Long Term Rental</fullName>
+                <default>false</default>
+                <label>Long Term Rental</label>
+            </value>
+            <value>
+                <fullName>Short Term Rental</fullName>
+                <default>false</default>
+                <label>Short Term Rental</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

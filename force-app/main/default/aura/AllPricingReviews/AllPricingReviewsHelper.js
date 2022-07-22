@@ -12,6 +12,7 @@
         , 'LOC_Loan_Type__c'
         , 'Product_Sub_Type__c'
         , 'LOC_Program_Type__c'
+		, 'Project_Strategy__c'
 		, 'Deal_Stage_At_Time_of_Submission__c'
 	],
 

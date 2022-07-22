@@ -21,16 +21,15 @@
 							<lightning:spinner aura:id="spinner" class="slds-hide" variant="brand" size="small" />
 	      		</lightning:layoutItem>
 	      	</lightning:layout>
-			  <div class="slds-modal__container">
-	      <div class="slds-modal__content slds-grid slds-grow" id="modal-content-id-1">
+	      <div class="slds- modal__content slds-grid slds-grow" id="modal-content-id-1">
 
-	        <!-- <div class="slds-grid slds-grid_vertical"> -->
+	        <div class="slds-grid slds-grid_vertical">
 	       
 	          <div class="slds-scrollable slds-grow">
 	            <table role="grid" class="slds-table slds-table_fixed-layout slds-table_bordered slds-table_resizable-cols slds-no-row-hover slds-scrollable_none">
 	              <thead>
 	                <tr class="slds-line-height_reset">
-	                  <th scope="col" style="width: 2.10rem;"></th>
+	                  <th scope="col" style="width: 3.75rem;"></th>
 	                  <th aria-label="Name" class="slds-is-sortable slds-is-resizable slds-text-title_caps" scope="col">
 	                    <a href="javascript:void(0);" class="slds-th__action slds-text-link_reset" tabindex="-1">
 	                      <span class="slds-assistive-text">Sort </span>
@@ -166,7 +165,6 @@
 	          </div>
 	        </div>
 	      </div>
-		<!-- </div> -->
 	</div>
 
 	      <!-- <div class="slds-modal__container slds-hide" aura:id="prompt"> -->

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Report_Fee_Adjustment__c</fullName>
+    <description>Allows staff to manually add to or subtract from the Report Fee Subtotal on the Advance to update the Report Fee Total</description>
+    <externalId>false</externalId>
+    <label>Report Fee Adjustment</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

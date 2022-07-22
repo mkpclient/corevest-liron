@@ -20,7 +20,7 @@ trigger deal_Contact_Trigger on Deal_Contact__c(
         'Deal_Contact__c',
         'afterInsert'
       );
-      // ChecklistHelper.createChecklistSectionApplicant(Trigger.newMap.keySet());
+      //ChecklistHelper.createChecklistSectionSponsor(Trigger.newMap.keySet());
     }
     if (Trigger.isBefore && Trigger.isUpdate) {
       // Deal_Contact__c_Helper.beforeUpdate(Trigger.New, Trigger.Old);
@@ -35,10 +35,10 @@ trigger deal_Contact_Trigger on Deal_Contact__c(
       );
     }
     if (Trigger.isBefore && Trigger.isDelete) {
-      //  Deal_Contact__c_Helper.beforeDelete(Trigger.New);
+      Deal_Contact_Helper.beforeDelete(Trigger.Old);
     }
     if (Trigger.isAfter && Trigger.isDelete) {
-      //  Deal_Contact__c_Helper.afterDelete(Trigger.New, Trigger.Old);
+      // Deal_Contact_Helper.afterDelete(Trigger.Old);
     }
     if (Trigger.isAfter && Trigger.isUndelete) {
       //  Deal_Contact__c_Helper.afterUndelete(Trigger.Old);

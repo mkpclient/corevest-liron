@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Initial_Disbursement_Remaining__c</fullName>
     <externalId>false</externalId>
-    <formula>Initial_Disbursement__c - Initial_Disbursement_Used__c</formula>
+    <formula>Max_Initial_Loan_Amount_Input__c - Initial_Disbursement_Used__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Initial Disbursement Remaining</label>
     <precision>18</precision>

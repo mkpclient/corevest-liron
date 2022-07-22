@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup field for users to select the related appraisal record for the related property and this CLO Asset Details record</description>
+    <externalId>false</externalId>
+    <label>Appraisal</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>This appraisal record is related to the same Property record as the CLO Asset Details record is.</errorMessage>
+        <filterItems>
+            <field>$Source.Related_Property__c</field>
+            <operation>equals</operation>
+            <valueField>Appraisal__c.Property__c</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
+    <referenceTo>Appraisal__c</referenceTo>
+    <relationshipLabel>CLO Asset Details</relationshipLabel>
+    <relationshipName>CLO_Asset_Details</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

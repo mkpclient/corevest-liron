@@ -13,6 +13,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>36 months</fullName>
+                <default>false</default>
+                <label>36 months</label>
+            </value>
+            <value>
                 <fullName>60 months</fullName>
                 <default>false</default>
                 <label>60 months</label>

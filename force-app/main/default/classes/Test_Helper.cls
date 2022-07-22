@@ -29,6 +29,17 @@ public with sharing class Test_Helper {
   //  return f;
   // }
 
+  public static List<Deal_Loan_Number__c> createDealLoanNumber() {
+    List<Deal_Loan_Number__c> settings = new List<Deal_Loan_Number__c>{
+      new Deal_Loan_Number__c(
+        Next_Loan_Number__c = '11111'
+      )
+    };
+
+    insert settings;
+    return settings;
+  }
+
   public static void setupProduct2() {
     Product2 prod = new Product2(
       Name = 'Single Rental Loan',
@@ -80,9 +91,13 @@ public with sharing class Test_Helper {
     insert pbe3;
   }
 
+  private static String nameRandomiser() {
+    return String.valueOf(Math.random() * 1000000);
+  }
+
   public static Account createAccount() {
     Account a = new Account();
-    a.Name = 'Test Helper Account';
+    a.Name = 'Test Helper Account' + nameRandomiser();
     a.BillingCountry = 'United States';
     a.BillingState = 'California';
     a.Introductions_Source__c = 'Hotline';
@@ -146,6 +161,7 @@ public with sharing class Test_Helper {
     c.Rental_Units_Owned__c = '5';
     c.Sponsor_Tier__c = 'Tier 1';
     c.Experience__c = 5;
+    c.Legal_Name__c = 'Legal Name Test';
     insert c;
     return c;
   }
@@ -597,7 +613,7 @@ public with sharing class Test_Helper {
   public static User createBridgeOperationsUser() {
     User u = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',

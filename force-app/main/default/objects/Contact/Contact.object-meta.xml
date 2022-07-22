@@ -373,6 +373,7 @@
         <searchResultsAdditionalFields>CONTACT.EMAIL</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.CREATED_DATE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CONTACT.RECORDTYPE</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

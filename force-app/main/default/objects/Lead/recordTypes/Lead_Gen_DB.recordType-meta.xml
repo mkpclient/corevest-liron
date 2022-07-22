@@ -1020,11 +1020,19 @@
     <picklistValues>
         <picklist>Custodian__c</picklist>
         <values>
+            <fullName>Deutsche Bank</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>US Bank</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Wells Fargo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wilmington Trust</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1138,6 +1146,17 @@
         <picklist>Estimated_Credit_Score__c</picklist>
         <values>
             <fullName>620-649</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3080,7 +3099,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Compass</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>LendingWise</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Liquid Logics</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mortgage Automator</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3141,11 +3172,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Cohen Financial</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Del Toro</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>FCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Faye Servicing</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3275,11 +3314,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>FastApp</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Incenter</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Nationwide</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Non-AMC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ServiceLink</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3299,6 +3350,14 @@
         <picklist>Preferred_Construction_Management_Co__c</picklist>
         <values>
             <fullName>BuildZig</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CSFI Loan Management</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Hasz Fund Control</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3442,6 +3501,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Round_Robin_CX_Portal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Strategic_Top_Account__c</picklist>
         <values>
             <fullName>Strategic Account 2018</fullName>
@@ -3516,7 +3586,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Churchill</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cross River</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Wells Fargo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Western Alliance</fullName>
             <default>false</default>
         </values>
     </picklistValues>

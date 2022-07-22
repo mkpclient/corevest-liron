@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <formula>BPO_Appraisal_Fee_Subtotal__c + BPO_Appraisal_Fee_Adjustment__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>BPO Appraisal Fee Total</label>
+    <label>Appraisal Fee Total</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>

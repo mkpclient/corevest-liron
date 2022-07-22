@@ -37,6 +37,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_Remaining__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Fee_Netted__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -62,6 +66,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Aggregate_Advance_Fee_PreAdvance__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Total__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -292,6 +300,10 @@
                 <behavior>Edit</behavior>
                 <field>Onboarded_at_Servicer__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Deal_Field_History__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -374,6 +386,14 @@
                 <behavior>Readonly</behavior>
                 <field>Purchase_Funded_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Subtotal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Report_Fee_Adjustment__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -407,6 +427,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Distinct_Counties__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_Fees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Is_Assigned_User__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -478,6 +506,23 @@
             <sortOrder>8</sortOrder>
         </platformActionListItems>
     </platformActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Num_of_Items__c</fields>
+        <fields>Percent_of_Items_Completed__c</fields>
+        <relatedList>Post_Closing_Section__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Post_Closing_Section__c</fields>
+        <fields>Recording_Status__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>Post_Closing_Item__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>Wire_Number__c</fields>

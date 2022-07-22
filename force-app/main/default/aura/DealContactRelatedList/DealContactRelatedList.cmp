@@ -1,0 +1,737 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Deal_Contact__c" />
+
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" />
+  <aura:attribute name="editMode" type="Boolean" default="false" />
+  <aura:attribute name="componentType" type="String" default="Individuals" />
+  <!-- <aura:attribute name="recordList" type="String" /> -->
+
+  <aura:attribute name="permissionsMap" type="Map" />
+
+  <aura:attribute
+    name="title"
+    type="String"
+    default="Loan Application Entities"
+  />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="pageSize" type="Integer" default="25" />
+
+  <!--Clear API attributes-->
+  <aura:attribute name="showClearAPIModal" type="boolean" default="false" />
+  <aura:attribute name="contactIdsForClearAPI" type="String[]" />
+  <aura:attribute name="dealContactIds" type="String[]" />
+  <aura:attribute name="dealRecordId" type="String" />
+  <aura:attribute
+    name="showClearBackgroundButton"
+    type="Boolean"
+    default="true"
+  />
+
+  <!-- Soft Pull attributes -->
+  <aura:attribute name="showSoftPullModal" type="boolean" default="false" />
+  <aura:attribute name="contactIDForSoftPull" type="String[]" />
+  <aura:attribute
+    name="showCreditSoftPullButton"
+    type="Boolean"
+    default="true"
+  />
+
+  <aura:handler
+    name="pageChangeEvent"
+    event="c:DataTablePageChangeEvent"
+    action="{!c.handlePageChangeEvent}"
+    phase="capture"
+  />
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+  <aura:handler
+    name="newEntity"
+    event="c:NewRecordEvent"
+    action="{!c.addRecord}"
+  />
+  <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+
+  <!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+
+  <lightning:card>
+    <aura:set attribute="title">
+      <aura:if isTrue="{!v.componentType != 'Loan Entities'}">
+        <lightning:icon
+          iconName="standard:groups"
+          size="medium"
+          class="cmp-icon"
+        />
+      </aura:if>
+      <aura:if isTrue="{!v.componentType == 'Loan Entities'}">
+        <lightning:icon
+          iconName="standard:home"
+          size="medium"
+          class="cmp-icon"
+        />
+      </aura:if>
+      <span class="slds-m-left--medium"> {!v.title} </span>
+    </aura:set>
+
+    <aura:if isTrue="{!v.showClearAPIModal}">
+      <c:clearApiPersonSearch
+        showClearAPIModal="{!v.showClearAPIModal}"
+        contactIdList="{!v.contactIdsForClearAPI}"
+        dealContactIdsList="{!v.dealContactIds}"
+        dealRecordId="{!v.dealRecordId}"
+      />
+    </aura:if>
+
+    <aura:set attribute="actions">
+      <lightning:layout horizontalAlign="end">
+        <aura:if isTrue="{!v.showClearBackgroundButton}">
+          <lightning:layoutItem>
+            <lightning:button
+              variant="brand"
+              onclick="{!c.callclearAPiModel}"
+              label="Background Check"
+            >
+            </lightning:button>
+          </lightning:layoutItem>
+        </aura:if>
+        <aura:if isTrue="{!v.componentType == 'Construction and Closing'}">
+          <aura:if
+            isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isCreateable : 'false'}"
+          >
+            <lightning:layoutItem>
+              <lightning:button
+                variant="neutral"
+                label="New"
+                onclick="{!c.addRow}"
+              />
+            </lightning:layoutItem>
+          </aura:if>
+        </aura:if>
+        <lightning:layoutItem padding="horizontal-medium">
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isDeletable : 'false'}"
+        >
+          <lightning:layoutItem>
+            <lightning:button variant="base" onclick="{!c.delete}">
+              <lightning:buttonIcon
+                iconName="utility:delete"
+                variant="bare"
+                alternativeText="Delete"
+              />
+            </lightning:button>
+          </lightning:layoutItem>
+        </aura:if>
+      </lightning:layout>
+    </aura:set>
+    <ui:scrollerWrapper>
+      <aura:if isTrue="{!v.componentType == 'Individuals'}">
+        <aura:if isTrue="{!!empty(v.permissionsMap)}">
+          <c:DataTable
+            aura:id="dataTable"
+            tableClass="slds-table slds-table_bordered slds-table_edit_container"
+          >
+            <aura:set attribute="columns">
+              <!-- <c:DataTableColumn label="Name"
+               name="Name"
+               sortable="true"
+               displayType="text"
+               isEditable="false"
+           /> -->
+
+              <!-- selectOptions="[
+                {'label': '- -Select One- -', 'value': ''},
+                         {'label': 'Broker', 'value':'Broker' },
+                         {'label': 'Borrower', 'value': 'Borrower'},
+                         {'label': 'Applicant', 'value': 'Applicant'},
+                         {'label': 'Pledgor', 'value':'Pledgor' },
+                         {'label': 'Guarantor', 'value':'Guarantor' },
+                         {'label': 'Sponsor', 'value':'Sponsor' },
+
+                     ]" -->
+              <c:DataTableColumn
+                label="Role"
+                name="Entity_Type__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Name"
+                name="Contact__r.Name"
+                linkToRecord="Contact__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Legal Name"
+                name="Legal_Name__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Legal_Name__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Phone"
+                name="Contact__r.Phone"
+                sortable="true"
+                displayType="text"
+                columnWidth="15"
+                isEditable="{!v.permissionsMap.Zip__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Email"
+                name="Contact__r.Email"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="14"
+              />
+              <c:DataTableColumn
+                label="Tier"
+                name="Sponsor_Tier__c"
+                sortable="false"
+                displayType="select"
+                columnWidth="15"
+                isEditable="{!v.permissionsMap.Sponsor_Tier__c.isUpdateable}"
+                selectOptions="[
+                                                      {'label': '--Select One--', 'value': ''},
+                                                      {'label': 'Tier 1', 'value': 'Tier 1' },
+                                                      {'label': 'Tier 2', 'value': 'Tier 2'},
+                                                      {'label': 'Tier 3', 'value':'Tier 3' },
+                                                      {'label': 'Tier 4', 'value': 'Tier 4'}
+                                                      ]"
+              />
+
+              <c:DataTableColumn
+                label="Number of Projects"
+                name="Experience__c"
+                sortable="false"
+                displayType="number"
+                columnWidth="15"
+                isEditable="{!v.permissionsMap.Experience__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Liquidity"
+                name="Liquidity__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="15"
+                isEditable="{!v.permissionsMap.Liquidity__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Experian"
+                name="Experian__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.Experian__c.isUpdateable}"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="TransUnion"
+                name="TransUnion__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.TransUnion__c.isUpdateable}"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Equifax"
+                name="Equifax__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.Equifax__c.isUpdateable}"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Mid Credit Score"
+                name="Middle_Credit_Score__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Credit Score Date"
+                name="Credit_Score_Date__c"
+                sortable="true"
+                displayType="date"
+                isEditable="{!v.permissionsMap.Credit_Score_Date__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Risk Number"
+                name="Clear_Result__r.Risk_Number__c"
+                linkToRecord="Clear_Result__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Background_Risk_Number__c.isUpdateable}"
+                columnWidth="7"
+              />
+            </aura:set>
+
+            <!-- optional -->
+
+            <aura:set attribute="pageNumber" value="1" />
+            <aura:set attribute="pageSize" value="{!v.pageSize}" />
+            <aura:set attribute="sortColumnName" value="Name" />
+            <aura:set attribute="sortDirection" value="desc" />
+            <aura:set attribute="editMode" value="{!v.editMode}" />
+            <!-- <aura:set
+              attribute="tableClass"
+              value="slds-table  slds-table- -bordered slds-table- -fixed-layout slds-no-cell-focus"
+            /> -->
+          </c:DataTable>
+        </aura:if>
+      </aura:if>
+
+      <aura:if isTrue="{!v.componentType == 'Guarantor and Sponsor'}">
+        <aura:if isTrue="{!!empty(v.permissionsMap)}">
+          <c:DataTable
+            aura:id="dataTable"
+            tableClass="slds-table slds-table_bordered"
+          >
+            <aura:set attribute="columns">
+              <c:DataTableColumn
+                label="Role"
+                name="Entity_Type__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Primary Guarantor"
+                name="Primary_Guarantor__c"
+                sortable="false"
+                displayType="boolean"
+                isEditable="{!v.permissionsMap.Primary_Guarantor__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Name"
+                name="Contact__r.Name"
+                linkToRecord="Contact__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="20"
+              />
+
+              <c:DataTableColumn
+                label="Legal Name"
+                name="Legal_Name__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Legal_Name__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Percentage Owned"
+                name="Percentage_Owned__c"
+                displayType="percent"
+                sortable="true"
+                columnWidth="20"
+                isEditable="{!v.permissionsMap.Percentage_Owned__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Credit Tier"
+                name="Sponsor_Tier__c"
+                sortable="false"
+                displayType="select"
+                isEditable="{!v.permissionsMap.Sponsor_Tier__c.isUpdateable}"
+                columnWidth="20"
+                selectOptions="[
+                                                      {'label': '--Select One--', 'value': ''},
+                                                      {'label': 'Tier 1', 'value': 'Tier 1' },
+                                                      {'label': 'Tier 2', 'value': 'Tier 2'},
+                                                      {'label': 'Tier 3', 'value':'Tier 3' },
+                                                      {'label': 'Tier 4', 'value': 'Tier 4'}
+                                                      ]"
+              />
+
+              <c:DataTableColumn
+                label="Number of Projects"
+                name="Experience__c"
+                sortable="false"
+                displayType="number"
+                isEditable="{!v.permissionsMap.Experience__c.isUpdateable}"
+                columnWidth="20"
+              />
+
+              <c:DataTableColumn
+                label="Liquidity"
+                name="Liquidity__c"
+                sortable="false"
+                displayType="currency"
+                isEditable="{!v.permissionsMap.Liquidity__c.isUpdateable}"
+                columnWidth="30"
+              />
+
+              <c:DataTableColumn
+                label="Experian"
+                name="Experian__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.Experian__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="TransUnion"
+                name="TransUnion__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.TransUnion__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Equifax"
+                name="Equifax__c"
+                sortable="true"
+                displayType="number"
+                isEditable="{!v.permissionsMap.Equifax__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Mid Credit Score"
+                name="Middle_Credit_Score__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Credit Score Date"
+                name="Credit_Score_Date__c"
+                sortable="true"
+                displayType="date"
+                isEditable="{!v.permissionsMap.Credit_Score_Date__c.isUpdateable}"
+                columnWidth="15"
+              />
+
+              <c:DataTableColumn
+                label="Net Worth"
+                name="Net_Worth__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="30"
+                isEditable="{!v.permissionsMap.Net_Worth__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Annual Income 2020"
+                name="Annual_Income_2_Years_Ago__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="30"
+                isEditable="{!v.permissionsMap.Annual_Income_2_Years_Ago__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Annual Income 2021"
+                name="Annual_Income_Last_Year__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="30"
+                isEditable="{!v.permissionsMap.Annual_Income_Last_Year__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Cash Position"
+                name="Cash_Position__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="30"
+                isEditable="{!v.permissionsMap.Cash_Position__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Cash Equivalent"
+                name="Cash_Equivalent__c"
+                sortable="false"
+                displayType="currency"
+                columnWidth="30"
+                isEditable="{!v.permissionsMap.Cash_Equivalent__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Years Experience"
+                name="Years_of_Experience1__c"
+                sortable="false"
+                displayType="number"
+                columnWidth="20"
+                isEditable="{!v.permissionsMap.Years_of_Experience__c.isUpdateable}"
+              />
+
+              <c:DataTableColumn
+                label="Rental Units Owned"
+                name="Rental_Units_Owned__c"
+                sortable="false"
+                displayType="text"
+                columnWidth="20"
+                isEditable="{!v.permissionsMap.Rental_Units_Owned__c.isUpdateable}"
+              />
+            </aura:set>
+
+            <!-- optional -->
+
+            <aura:set attribute="pageNumber" value="1" />
+            <aura:set attribute="pageSize" value="{!v.pageSize}" />
+            <aura:set attribute="sortColumnName" value="Name" />
+            <aura:set attribute="sortDirection" value="desc" />
+            <aura:set attribute="editMode" value="{!v.editMode}" />
+          </c:DataTable>
+        </aura:if>
+      </aura:if>
+
+      <aura:if isTrue="{!v.componentType == 'Loan Entities'}">
+        <aura:if isTrue="{!!empty(v.permissionsMap)}">
+          <c:DataTable aura:id="dataTable">
+            <aura:set attribute="columns">
+              <c:DataTableColumn
+                label="Entity Role"
+                name="Entity_Type__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Name"
+                name="Business_Entity__r.Name"
+                linkToRecord="Business_Entity__c"
+                sortable="true"
+                displayType="text"
+                isEditable="false"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Entity Type"
+                name="Company_Type__c"
+                sortable="false"
+                displayType="select"
+                isEditable="{!v.permissionsMap.Company_Type__c.isUpdateable}"
+                columnWidth="10"
+                selectOptions="[
+                             {'label': '--Select One--', 'value': ''},
+                             {'label': 'Limited Liability Company', 'value': 'Limited Liability Company' },
+                             {'label': 'Corporation', 'value': 'Corporation'},
+                             {'label': 'Limited Partnership', 'value':'Limited Partnership' },
+                             {'label': 'General Partnership', 'value':'General Partnership' },
+                             {'label': 'Other', 'value': 'Other'}
+                             ]"
+              />
+
+              <c:DataTableColumn
+                label="Company Jurisdiction"
+                name="Company_Jurisdiction__c"
+                sortable="false"
+                displayType="text"
+                columnWidth="10"
+                isEditable="false"
+              />
+
+              <c:DataTableColumn
+                label="Operating Agreement Date"
+                name="Operating_Agreement_Date__c"
+                sortable="false"
+                displayType="date"
+                columnWidth="15"
+                isEditable="{!v.permissionsMap.Operating_Agreement_Date__c.isUpdateable}"
+              />
+            </aura:set>
+
+            <!-- optional -->
+
+            <aura:set attribute="pageNumber" value="1" />
+            <aura:set attribute="pageSize" value="{!v.pageSize}" />
+            <aura:set attribute="sortColumnName" value="Name" />
+            <aura:set attribute="sortDirection" value="desc" />
+            <aura:set attribute="editMode" value="{!v.editMode}" />
+            <!-- <aura:set
+              attribute="tableClass"
+              value="slds-table  slds-table- -bordered slds-table- -fixed-layout slds-no-cell-focus"
+            /> -->
+          </c:DataTable>
+        </aura:if>
+      </aura:if>
+
+      <aura:if isTrue="{!v.componentType == 'Construction and Closing'}">
+        <aura:if isTrue="{!!empty(v.permissionsMap)}">
+          <c:DataTable aura:id="dataTable">
+            <aura:set attribute="columns">
+              <c:DataTableColumn
+                label="Entity"
+                name="Entity_Type__c"
+                sortable="true"
+                displayType="select"
+                isEditable="{!v.permissionsMap.Entity_Type__c.isUpdateable}"
+                columnWidth="7"
+                selectOptions="[
+             {'label': '--Select One--', 'value': ''},
+             {'label': 'Architect', 'value': 'Architect'},
+             {'label': 'Contractor', 'value': 'Contractor'},
+             {'label': 'Engineer', 'value': 'Engineer'},
+             {'label': 'EscrowAgent', 'value':'EscrowAgent' },
+             {'label': 'TitleCompany', 'value':'TitleCompany' }
+           ]"
+              />
+
+              <c:DataTableColumn
+                label="Company Name"
+                name="Company_Name__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Company_Name__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Email"
+                name="Email__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Email__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Phone"
+                name="Phone__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Phone__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Street"
+                name="Street__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Street__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="City"
+                name="City__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.City__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="State"
+                name="State__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.State__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Zip Code"
+                name="Zip__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Zip__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Contact Name"
+                name="Contact_Full_Name__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Contact_Full_Name__c.isUpdateable}"
+                columnWidth="10"
+              />
+
+              <c:DataTableColumn
+                label="Contact Title"
+                name="Contact_Title__c"
+                sortable="true"
+                displayType="text"
+                isEditable="{!v.permissionsMap.Contact_Title__c.isUpdateable}"
+                columnWidth="10"
+              />
+            </aura:set>
+
+            <!-- optional -->
+
+            <aura:set attribute="pageNumber" value="1" />
+            <aura:set attribute="pageSize" value="{!v.pageSize}" />
+            <aura:set attribute="sortColumnName" value="Name" />
+            <aura:set attribute="sortDirection" value="desc" />
+            <aura:set attribute="editMode" value="{!v.editMode}" />
+            <!-- <aura:set
+              attribute="tableClass"
+              value="slds-table  slds-table- -bordered slds-table- -fixed-layout slds-no-cell-focus"
+            /> -->
+          </c:DataTable>
+        </aura:if>
+      </aura:if>
+    </ui:scrollerWrapper>
+    <aura:set attribute="footer">
+      <div class="{!v.editMode ? '' : 'slds-hide' }">
+        <lightning:button
+          variant="neutral"
+          label="Cancel"
+          onclick="{!c.toggleEdit}"
+        />
+        <lightning:button
+          variant="brand"
+          label="Save"
+          onclick="{!c.saveRows}"
+        />
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <c:util aura:id="util" />
+
+  <!-- <c:NewTermEntity aura:id="newEntity" defaults="{'Deal_Contact_Type__c': 'Entity', 'sobjectType': 'Deal_Contact__c'}" parentId="{!v.recordId}" parentFieldName="Deal__c" /> -->
+</aura:component>

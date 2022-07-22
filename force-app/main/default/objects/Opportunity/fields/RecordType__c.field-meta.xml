@@ -21,11 +21,14 @@ IF(
  CONTAINS(RecordType.DeveloperName, &apos;Single_Asset_Bridge&apos;), 
  &apos;Single Asset Bridge&apos;, 
 IF(
+ CONTAINS(RecordType.DeveloperName, &apos;Table_Funded&apos;), 
+ &apos;Table Funded Bridge&apos;, 
+IF(
  CONTAINS(RecordType.DeveloperName, &apos;Acquired_Bridge_Loan&apos;), 
- &apos;Acquired Bridge&apos;, 
+ &apos;Acquired Bridge Loan&apos;, 
  &apos;&apos;
  ) 
-)))))</formula>
+))))))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Used in Apex Classes and other Meta Data</inlineHelpText>
     <label>Basic Record Type</label>

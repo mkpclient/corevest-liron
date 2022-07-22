@@ -49,27 +49,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Approver__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Uploader__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reviewer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Comments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>External_Comments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Is_Bulk__c</field>
+                <field>Account__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -154,9 +134,6 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
-        <relatedList>RelatedFileList</relatedList>
-    </relatedLists>
-    <relatedLists>
         <fields>NAME</fields>
         <fields>Document_Type__c</fields>
         <fields>File_Name__c</fields>
@@ -167,6 +144,10 @@
         <relatedList>Deal_Document__c.Checklist_Item__c</relatedList>
         <sortField>Document_Type__c</sortField>
         <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Comment__c.Checklist_Item__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

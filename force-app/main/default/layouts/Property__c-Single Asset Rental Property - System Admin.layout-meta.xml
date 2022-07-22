@@ -83,6 +83,10 @@
                 <behavior>Edit</behavior>
                 <field>REO_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -735,6 +739,9 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
+        <fields>Estimated_Max_Rent__c</fields>
+        <fields>Estimated_Min_Rent__c</fields>
+        <fields>Estimated_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -759,11 +766,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

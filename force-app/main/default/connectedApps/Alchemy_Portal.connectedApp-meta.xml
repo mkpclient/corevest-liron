@@ -3,8 +3,8 @@
     <contactEmail>mcastillo@mkpartners.com</contactEmail>
     <label>Alchemy Portal</label>
     <oauthConfig>
-        <callbackUrl>https://test.salesforce.com</callbackUrl>
-        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdMdcd1nyKSAp7Yx.0XoeWjLi1FPz1lq3kdhmDRn7WK2HTeCJQZoyzhq7sEk0</consumerKey>
+        <callbackUrl>https://login.salesforce.com</callbackUrl>
+        <consumerKey>3MVG9XfKTWtUp0bLnVpAkVkJnrtrHRklZqmniIyGOiLccG54nh3tWRswFZtFTl5bIm1XTfJJRt1v8GkMVA1SR</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

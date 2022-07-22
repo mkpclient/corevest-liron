@@ -4,7 +4,7 @@
     <businessStatus>DeprecateCandidate</businessStatus>
     <description>No Longer Used</description>
     <externalId>false</externalId>
-    <label>Other Rate</label>
+    <label>Index Rate</label>
     <precision>7</precision>
     <required>false</required>
     <scale>3</scale>

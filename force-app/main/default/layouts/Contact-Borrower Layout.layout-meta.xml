@@ -23,6 +23,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Legal_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Title</field>
             </layoutItems>
             <layoutItems>
@@ -95,10 +99,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Marital_Status__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>CTM_Ring_Time__c</field>
             </layoutItems>
             <layoutItems>
@@ -107,11 +107,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Sponsor_Tier__c</field>
+                <field>Top_Accounts_Imported_Leads_List__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Top_Accounts_Imported_Leads_List__c</field>
+                <field>Portal_Last_Login__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -211,6 +211,14 @@
                 <behavior>Readonly</behavior>
                 <field>Last_Activity_Email_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Home_Country__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -232,6 +240,69 @@
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Sponsor Information</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorFirstName__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorLastName__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorHomeAddress__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorCity__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorEmailAddress__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorPhoneNumber__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorMobilePhone__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorMiddleName__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorDateofBirth__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorState__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SponsorZipCode__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sponsor_Tier__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Marital_Status__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -1357,7 +1428,7 @@
         <fields>CREATED_DATE</fields>
         <relatedList>Source__c.Contact_Converted_Into__c</relatedList>
         <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedContentNoteList</relatedList>

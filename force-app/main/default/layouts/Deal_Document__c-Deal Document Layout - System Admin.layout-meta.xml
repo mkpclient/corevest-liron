@@ -89,7 +89,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Closer__c</field>
+                <field>X2nd_Underwriter__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -113,11 +113,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Assignment_Document__c</field>
+                <field>Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Property_Closer__c</field>
+                <field>Approved_On__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -140,6 +140,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Reviewed_By__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Reviewed_By_Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -220,6 +224,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Borrower_Term_Sheet_Signature_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Portal_Error_Message__c</field>
             </layoutItems>
         </layoutColumns>
@@ -229,8 +237,8 @@
                 <field>TermSheet_sent_to_Portal__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Borrower_Term_Sheet_Signature_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>Deal_Term_Sheet_Signed__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -265,6 +273,10 @@
                 <behavior>Edit</behavior>
                 <field>Public__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Closer__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -290,6 +302,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Checklist_Item__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Review__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -327,14 +343,19 @@
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>Share</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>FeedItem.ContentPost</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
+            <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>5</sortOrder>
+            <sortOrder>6</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>

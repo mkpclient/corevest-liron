@@ -13,7 +13,7 @@
     <filters>
         <field>RecordType__c</field>
         <operation>equals</operation>
-        <value>Single_Asset_Bridge</value>
+        <value>Single_Asset_Bridge_Loan</value>
     </filters>
     <label>SAB Checklists</label>
 </ListView>

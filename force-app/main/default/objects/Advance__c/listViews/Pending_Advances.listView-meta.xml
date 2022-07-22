@@ -7,7 +7,6 @@
     <columns>Target_Advance_Date__c</columns>
     <columns>Expired__c</columns>
     <columns>Days_Remaining__c</columns>
-    <columns>Amount__c</columns>
     <columns>Aggregate_Funding__c</columns>
     <columns>RECORDTYPE</columns>
     <columns>CREATEDBY_USER</columns>

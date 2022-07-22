@@ -1,20 +1,32 @@
 <template>
   <template if:true={checklist}>
-    <lightning-progress-indicator
-      current-step={currentMilestone}
-      type="path"
-      class="slds-m-bottom_medium"
-    >
-      <template for:each={milestones} for:item="milestone">
-        <lightning-progress-step
-          label={milestone}
-          value={milestone}
-          key={milestone}
-          onclick={handleMilestoneClick}
-          data-milestone={milestone}
-        ></lightning-progress-step>
-      </template>
-    </lightning-progress-indicator>
+    <lightning-layout multiple-rows horizontal-align="end">
+      <lightning-layout-item size="12">
+        <lightning-progress-indicator
+          current-step={currentMilestone}
+          type="path"
+          class=""
+        >
+          <template for:each={milestones} for:item="milestone">
+            <lightning-progress-step
+              label={milestone}
+              value={milestone}
+              key={milestone}
+              onclick={handleMilestoneClick}
+              data-milestone={milestone}
+            ></lightning-progress-step>
+          </template>
+        </lightning-progress-indicator>
+      </lightning-layout-item>
+      <lightning-layout-item size="12" padding="around-small">
+        <lightning-button
+          label="Mark as Current Milestone"
+          variant="brand"
+          class="slds-float_right"
+          onclick={updateStage}
+        ></lightning-button>
+      </lightning-layout-item>
+    </lightning-layout>
 
     <lightning-tabset variant="scoped" class="slds-m-top_medium">
       <template for:each={sectionTypes} for:item="type">
@@ -33,18 +45,60 @@
                         <lightning-button
                           data-id={section.id}
                           data-type="upload"
-                          label="Approve All"
-                          onclick={approveAll}
-                        >
-                        </lightning-button>
-                        <lightning-button
-                          data-id={section.id}
-                          data-type="upload"
+                          data-isproperty={section.showPropertyActions}
                           label="Add Item"
                           onclick={newItem}
                         ></lightning-button>
                       </div>
-                      <table
+                      <lightning-button-menu
+                        label="Actions"
+                        onselect={handleMassUploadAction}
+                        data-id={section.id}
+                        data-type="upload"
+                      >
+                        <lightning-menu-item
+                          value="Completed"
+                          label="Complete"
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                          value="In Progress (Open)"
+                          label="In Progress (Open)"
+                        ></lightning-menu-item>
+                        <!-- <lightning-menu-item
+                          value="Rejected"
+                          label="Reject"
+                        ></lightning-menu-item> -->
+                        <lightning-menu-item
+                          value="Not Started"
+                          label="Not Started"
+                        ></lightning-menu-item>
+                        <template if:true={showDelete}>
+                          <lightning-menu-item
+                            value="delete"
+                            label="Delete"
+                          ></lightning-menu-item>
+                        </template>
+                        <template if:true={section.showPropertyActions}>
+                          <lightning-menu-item
+                            value="massDeleteProperty"
+                            label="Mass Delete From All Properties"
+                          ></lightning-menu-item>
+                        </template>
+                      </lightning-button-menu>
+                      <c-custom-data-table
+                        key-field="id"
+                        data={section.uploadItems}
+                        columns={docColumns}
+                        onupload={handleUploadFinished}
+                        data-id={section.id}
+                        data-type="upload"
+                        onrowaction={handleRowAction}
+                        onsave={handleSave}
+                        draft-values={draftValues}
+                        show-row-number-column="false"
+                      >
+                      </c-custom-data-table>
+                      <!-- <table
                         class="slds-table slds-table_cell-buffer slds-table_bordered"
                         aria-label="Example default base table of Opportunities"
                       >
@@ -146,7 +200,6 @@
                                   >
                                 </template>
                               </td>
-                              <!-- <td role="gridcell"></td> -->
                               <td role="gridcell">
                                 <lightning-formatted-text
                                   value={item.responsibleParty}
@@ -189,21 +242,10 @@
                                 </lightning-button-menu>
                               </td>
 
-                              <!-- <td role="gridcell"> -->
-                              <!-- <lightning-button-menu
-                                  alternative-text="Show menu"
-                                  menu-alignment="auto"
-                                >
-                                  <lightning-menu-item
-                                    value="edit"
-                                    label="Edit"
-                                  ></lightning-menu-item>
-                                </lightning-button-menu> -->
-                              <!-- </td> -->
                             </tr>
                           </template>
                         </tbody>
-                      </table>
+                      </table> -->
                     </lightning-accordion-section>
                   </lightning-accordion>
                 </template>
@@ -214,18 +256,48 @@
                         <lightning-button
                           data-id={section.id}
                           data-type="task"
-                          label="Approve All"
-                          onclick={approveAll}
-                        >
-                        </lightning-button>
-                        <lightning-button
-                          data-id={section.id}
-                          data-type="task"
                           label="Add Item"
                           onclick={newItem}
+                          data-isproperty={section.showPropertyActions}
                         ></lightning-button>
                       </div>
-                      <table
+                      <lightning-button-menu
+                        label="Actions"
+                        onselect={handleMassUploadAction}
+                        data-id={section.id}
+                        data-type="task"
+                      >
+                        <lightning-menu-item
+                          value="Completed"
+                          label="Completed"
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                          value="In Progress (Open)"
+                          label="In Progress (Open)"
+                        ></lightning-menu-item>
+                        <lightning-menu-item
+                          value="Not Started"
+                          label="Not Started"
+                        ></lightning-menu-item>
+                        <template if:true={showDelete}>
+                          <lightning-menu-item
+                            value="delete"
+                            label="Delete"
+                          ></lightning-menu-item>
+                        </template>
+                      </lightning-button-menu>
+                      <c-custom-data-table
+                        key-field="id"
+                        data={section.taskItems}
+                        columns={tColumns}
+                        onrowaction={handleRowAction}
+                        data-id={section.id}
+                        onsave={handleSave}
+                        draft-values={draftValues}
+                        data-type="task"
+                      >
+                      </c-custom-data-table>
+                      <!-- <table
                         class="slds-table slds-table_cell-buffer slds-table_bordered"
                         aria-label="Example default base table of Opportunities"
                       >
@@ -358,7 +430,7 @@
                             </tr>
                           </template>
                         </tbody>
-                      </table>
+                      </table> -->
                     </lightning-accordion-section>
                   </lightning-accordion>
                 </template>
@@ -379,6 +451,7 @@
       onsave={init}
       milestone={currentMilestone}
     ></c-checklist-item-new>
+    <c-checklist-comments oncomment={init}></c-checklist-comments>
 
     <c-checklist-documents></c-checklist-documents>
     <c-checklist-item-edit onsave={init}></c-checklist-item-edit>

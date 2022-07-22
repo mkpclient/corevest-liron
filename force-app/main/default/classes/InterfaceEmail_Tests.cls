@@ -1,4 +1,4 @@
-@isTest
+@isTest(seeAllData=true)
 private class InterfaceEmail_Tests {
 
 
@@ -12,11 +12,11 @@ private class InterfaceEmail_Tests {
             });
         }
         Email_Addresses__c BETH = InterfaceEmail_LightningController.queryEmailAddress('Beth O\'Brien');
-        Email_Addresses__c RYAN = InterfaceEmail_LightningController.queryEmailAddress('Ryan McBride');
+        // Email_Addresses__c RYAN = InterfaceEmail_LightningController.queryEmailAddress('Ryan McBride');
         Email_Addresses__c CHRIS = InterfaceEmail_LightningController.queryEmailAddress('Chris Hoeffel');
         Email_Addresses__c BRIDGE_LIST = InterfaceEmail_LightningController.queryEmailAddress('Bridge Term Sheet Mailing List');
         Email_Addresses__c TERM_LIST = InterfaceEmail_LightningController.queryEmailAddress('Term Sheet Mailing List');
-        upsert new List<Email_Addresses__c>{BETH,RYAN,CHRIS,BRIDGE_LIST,TERM_LIST};
+        upsert new List<Email_Addresses__c>{BETH,CHRIS,BRIDGE_LIST,TERM_LIST};
   
     }
 

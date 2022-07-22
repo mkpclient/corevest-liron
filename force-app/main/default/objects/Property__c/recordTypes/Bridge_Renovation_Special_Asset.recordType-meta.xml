@@ -77,6 +77,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Attachment_Type__c</picklist>
+        <values>
+            <fullName>Attached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Detached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SemiDetached</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Certificate_of_Occupancy__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -102,7 +117,7 @@
         <picklist>Exception__c</picklist>
         <values>
             <fullName>No</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Yes</fullName>
@@ -234,7 +249,15 @@
     <picklistValues>
         <picklist>Occupancy_Status__c</picklist>
         <values>
+            <fullName>Occupied%2FLong Term Lease</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Occupied%2FLong Term Rental</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Occupied%2FShort Term Lease</fullName>
             <default>false</default>
         </values>
         <values>
@@ -285,6 +308,21 @@
         </values>
         <values>
             <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Post_Close_Appraisal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - internal value provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - pending internal value</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -416,10 +454,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Paid Off</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Payoff Pending</fullName>
             <default>false</default>
         </values>
@@ -459,6 +493,10 @@
         <picklist>Servicer_Name__c</picklist>
         <values>
             <fullName>Cohen</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FCI</fullName>
             <default>false</default>
         </values>
         <values>

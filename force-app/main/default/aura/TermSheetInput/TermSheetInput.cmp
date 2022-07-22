@@ -1,5 +1,5 @@
 <aura:component
-  controller="TermSheetInput_LightningController"
+controller="TermSheetInput_LightningController"
   implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable,force:lightningQuickActionWithoutHeader"
 >
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -16,6 +16,7 @@
   <aura:attribute name="generateDocPermission" type="String" />
   <aura:attribute name="generatedDoc" type="Boolean" default="false" />
   <aura:attribute name="commissionTypes" type="List" />
+  <aura:attribute name="showCheckboxes" type="Boolean" default="true" />
 
   <aura:html tag="style">
     .cuf-content { padding: 0 0rem !important; } .slds-p-around--medium {
@@ -94,6 +95,7 @@
                 >
               </div>
             </div>
+            <div aura:id="checkboxes">
             <aura:if
               isTrue="{!or(v.recordType == 'LOC_Loan', v.recordType == 'Single_Asset_Bridge_Loan')}"
             >
@@ -137,7 +139,7 @@
                 </div>
               </div>
             </aura:if>
-
+            
             <aura:if isTrue="{!v.recordType == 'Term_Loan'}">
               <div class="slds-form-element">
                 <div class="slds-form-element__control">
@@ -220,6 +222,7 @@
                 
               </div>
             </div> -->
+          </div>
           </div>
         </div>
 

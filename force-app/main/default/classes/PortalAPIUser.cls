@@ -24,8 +24,39 @@ global without sharing class PortalAPIUser {
           Phone,
           Entry_Id__c
         FROM Lead
-        WHERE Entry_Id__c = :entryId
+        WHERE
+          Entry_Id__c = :entryId
+          AND Alchemy_Portal_Id__c != NULL
+          AND Alchemy_Portal_Id__c != 'xx'
       ];
+
+      if (!Test.isRunningTest()) {
+        while (leads.size() == 0) {
+          Long startTime = DateTime.now().getTime();
+          Long finishTime = DateTime.now().getTime();
+          while ((finishTime - startTime) < 9000) {
+            //sleep for 9s
+            finishTime = DateTime.now().getTime();
+          }
+
+          leads = [
+            SELECT
+              Id,
+              FirstName,
+              LastName,
+              Alchemy_Portal_Id__c,
+              Email,
+              Form_Title__c,
+              Phone,
+              Entry_Id__c
+            FROM Lead
+            WHERE
+              Entry_Id__c = :entryId
+              AND Alchemy_Portal_Id__c != NULL
+              AND Alchemy_Portal_Id__c != 'xx'
+          ];
+        }
+      }
 
       if (leads.size() > 0) {
         Map<String, String> responseBody = new Map<String, String>();
@@ -36,6 +67,9 @@ global without sharing class PortalAPIUser {
         responseBody.put('email', leads[0].Email);
         responseBody.put('formTitle', leads[0].Form_Title__c);
         responseBody.put('entryId', leads[0].Entry_Id__c);
+
+        system.debug(responseBody);
+
         res.addHeader('Content-Type', 'application/json');
         res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
       } else {
@@ -137,10 +171,14 @@ global without sharing class PortalAPIUser {
     public String contactId;
     public String accountId;
 
+    public String companyName;
+
     public String title;
     public String alternativeEmail;
     public String licenseNo;
     public Decimal yearsOfExperience;
+
+    public DateTime lastLogin;
 
     public PortalUser(String portalId) {
       Id contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
@@ -176,7 +214,9 @@ global without sharing class PortalAPIUser {
             Alternative_Email__c,
             License_No__c,
             Years_of_Experience__c,
-            Title
+            Account.Name,
+            Title,
+            Portal_Last_Login__c
           FROM Contact
           WHERE Id = :contactId
           LIMIT 1
@@ -209,6 +249,8 @@ global without sharing class PortalAPIUser {
         this.alternativeEmail = c.Alternative_Email__c;
         this.licenseNo = c.License_No__c;
         this.yearsOfExperience = c.Years_of_Experience__c;
+        this.companyName = c.Account.Name;
+        this.lastLogin = c.Portal_Last_Login__c;
       } else if (leadId != null) {
         Lead l = [
           SELECT
@@ -231,7 +273,8 @@ global without sharing class PortalAPIUser {
             Home_City__c,
             Home_State__c,
             Home_Zip__c,
-            Home_Country__c
+            Home_Country__c,
+            Company
           FROM Lead
           WHERE Id = :leadId
           LIMIT 1
@@ -257,6 +300,8 @@ global without sharing class PortalAPIUser {
         this.homeState = l.Home_State__c;
         this.homeCountry = l.Home_Country__c;
         this.homeZip = l.Home_Zip__c;
+        this.companyName = l.Company;
+        this.lastLogin = l.Portal_Last_Login__c;
       }
     }
 
@@ -329,6 +374,7 @@ global without sharing class PortalAPIUser {
         c.Alternative_Email__c = this.alternativeEmail;
         c.License_No__c = this.licenseNo;
         c.Years_of_Experience__c = this.yearsOfExperience;
+        c.Portal_Last_Login__c = this.lastLogin;
 
         record = c;
       } else if (this.leadId != null) {
@@ -352,6 +398,7 @@ global without sharing class PortalAPIUser {
         l.Home_Zip__c = this.homeZip;
         l.Home_Country__c = this.homeCountry;
         l.Home_State__c = this.homeState;
+        l.Portal_Last_Login__c = this.lastLogin;
 
         record = l;
       }
@@ -390,6 +437,7 @@ global without sharing class PortalAPIUser {
         c.Alternative_Email__c = this.alternativeEmail;
         c.License_No__c = this.licenseNo;
         c.Years_of_Experience__c = this.yearsOfExperience;
+        c.Portal_Last_Login__c = this.lastLogin;
 
         record = c;
       } else if (sobjectType == 'Lead') {
@@ -414,6 +462,7 @@ global without sharing class PortalAPIUser {
         l.Home_Zip__c = this.homeZip;
         l.Home_Country__c = this.homeCountry;
         l.Home_State__c = this.homeState;
+        l.Portal_Last_Login__c = this.lastLogin;
 
         record = l;
       }

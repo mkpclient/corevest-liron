@@ -2,22 +2,23 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Prevent_stage_updated_to_UW</fullName>
     <active>true</active>
-    <description>This will prevent an Originations user from updating the Stage of a Deal to Underwriting or Submitted into Underwriting.</description>
+    <description>This will prevent an Users from updating the Stage of a Deal to Underwriting or Submitted into Underwriting.</description>
     <errorConditionFormula>AND(
- Apex_Context__c = false,
  ISCHANGED(StageName),
- OR(
-  $Profile.Name = &quot;Origination Manager&quot;,
-  $Profile.Name = &quot;Sales Analyst Bridge Operations Hybrid&quot;,
-  $Profile.Name = &quot;Sales Analyst Term Operations Hybrid&quot;,
-  $Profile.Name = &quot;Relationship Manager&quot;,
-  $Profile.Name = &quot;Sales Analyst&quot;),
+  PRIORVALUE(StageName) = &quot;Initial Review&quot;,
+  PRIORVALUE(StageName) = &quot;Data Tape Received&quot;,
+  PRIORVALUE(StageName) = &quot;Term Sheet Issued&quot;,
+  PRIORVALUE(StageName) = &quot;Term Sheet Signed&quot;,
+  PRIORVALUE(StageName) = &quot;Term Sheet Signed/Deposit Collected&quot;,
+ 
  OR( 
   TEXT(StageName) = &quot;Underwriting&quot;,
-  TEXT(StageName) = &quot;Submitted to Underwriting&quot;),
- OR(  
-  ISPICKVAL(Type , &apos;Term Loan&apos;),
-  ISPICKVAL(Type , &apos;Bridge Loan&apos;))
+  TEXT(StageName) = &quot;Loan Processing&quot;,
+  TEXT(StageName) = &quot;UW Hold&quot;,
+  TEXT(StageName) = &quot;Processing Hold&quot;,
+  TEXT(StageName) = &quot;Submitted to Underwriting&quot;,
+  TEXT(StageName) = &quot;Approved by Committee&quot;
+ )
 )</errorConditionFormula>
-    <errorMessage>You have chosen an invalid Stage.  If you are trying to submit your Deal for approval into Underwriting, please use the &quot;Submit to UW&quot; button.</errorMessage>
+    <errorMessage>You have chosen an invalid Stage.  If you are trying to submit your Deal for approval into Underwriting/Loan Processing, please use the &quot;Submit to UW&quot; button.</errorMessage>
 </ValidationRule>

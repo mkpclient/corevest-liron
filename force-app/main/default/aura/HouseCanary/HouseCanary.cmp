@@ -1,0 +1,388 @@
+<aura:component controller="HouseCanaryAPI" implements="force:hasRecordId,flexipage:availableForAllPageTypes">
+  <aura:attribute name="properties" type="List" />
+  <aura:attribute name="tableData" type="Object" />
+  <aura:attribute name="columns" type="List" />
+  <aura:attribute name="selectedRows" type="List" default="[]" />
+  <aura:attribute name="selectedRowsCount" type="Integer" default="0" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="pageSize" type="Integer" default="15" />
+  <aura:attribute name="test" type="String" />
+  <aura:attribute name="compProperty" type="Object" />
+  <aura:attribute name="HouseCanarySyncAllowed" type="String" />    
+  <aura:attribute name="valueReport" type="Boolean" default="false"/>
+  <aura:attribute name="valueReportPreMessage" type="Boolean" default="False"/> 
+  <aura:attribute name="OKtocallValueReport" type="Boolean" default="False"/>     
+  <aura:handler name="init" value="{! this }" action="{! c.onInit }"/>
+  <aura:attribute name="CurrentUser" type="Object"/>    
+  <aura:attribute name="CurrentDeal" type="Object"/> 
+  <aura:attribute name="stage" type="String" />      
+  <aura:attribute name="ShowValueReport" type="String" default="No"/> 
+  <aura:attribute name="ShowValue" type="String" default="No"/>     
+  <ltng:require styles="{!$Resource.multilineToastCSS}" />
+    
+<force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
+                  fields="Profile.Name"
+                  targetFields="{!v.CurrentUser}"
+                  recordUpdated="{!c.recordUpdate}" /> 
+    
+<force:recordData recordId="{!v.recordId}"
+                  fields="Current_Stage__c"
+                  targetFields="{!v.CurrentDeal}"
+                  recordUpdated="{!c.recordUpdateDeal}" />     
+
+  <lightning:card>
+		<aura:set attribute="title" >
+			<lightning:icon iconName="standard:home" size="medium" />
+			<span class="slds-m-left--medium">
+				Properties ({!v.properties.length})
+			</span>
+		</aura:set>
+
+    <aura:set attribute="actions">
+	<lightning:layout horizontalAlign="space">
+            <aura:if isTrue="{!v.ShowValue == 'Yes'}">         
+                <lightning:layoutItem class="slds-m-right_x-small">
+                    <lightning:button variant="brand" label="Value Analysis Sync"  onclick="{!c.getHouseCanaryData}" />
+                </lightning:layoutItem>
+            </aura:if>                     
+            <aura:if isTrue="{!v.ShowValueReport == 'Yes'}">        
+                <lightning:layoutItem class="slds-m-right_x-small">
+                    <lightning:button variant="brand" label="Value Report-Static Link" onclick="{!c.valueReportMsg}" />
+                </lightning:layoutItem>  
+            </aura:if>     
+             <aura:if isTrue="{!v.ShowValue == 'No'}">         
+                <lightning:layoutItem class="slds-m-right_x-small">
+                    <lightning:button variant="brand" label="Value Analysis Sync" disabled = "true"  onclick="{!c.getHouseCanaryData}" />
+                </lightning:layoutItem>
+            </aura:if>                     
+            <aura:if isTrue="{!v.ShowValueReport == 'No'}">        
+                <lightning:layoutItem class="slds-m-right_x-small">
+                    <lightning:button variant="brand" label="Value Report-Static Link" disabled = "true" onclick="{!c.valueReportMsg}" />
+                </lightning:layoutItem>  
+            </aura:if> 
+        <!--
+          		<lightning:layoutItem class="slds-m-right_x-small">
+            		<lightning:button variant="brand" label="Tax History" onclick="{!c.openReportsh}" />
+          		</lightning:layoutItem>    
+          		<lightning:layoutItem class="slds-m-right_x-small">
+            		<lightning:button variant="brand" label="Mortgage Lien" onclick="{!c.openReportml}" />
+          		</lightning:layoutItem>                 
+          		<lightning:layoutItem class="slds-m-right_x-small">
+            		<lightning:button variant="brand" label="Sale History" onclick="{!c.openReportsh}" />
+          		</lightning:layoutItem>
+          		<lightning:layoutItem class="slds-m-right_x-small">
+            		<lightning:button variant="brand" label="Block Crime" onclick="{!c.openReportsh}" />
+          		</lightning:layoutItem> 
+		-->         
+
+	</lightning:layout>
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem >
+          <lightning:button variant="base" onclick="{!c.refresh}" >
+            <lightning:buttonIcon iconName="utility:refresh" variant="bare" alternativeText="Refresh"/>
+          </lightning:button>
+        </lightning:layoutItem>
+      </lightning:layout>
+	  <lightning:spinner class="" aura:id="spinner" variant="brand" />
+	</aura:set>
+
+
+    <h1>Selected Rows: {! v.selectedRowsCount }</h1>
+
+    <div class="slds-is-relative">
+  		<ui:scrollerWrapper class="scroller">
+        <table class="slds-table slds-table_bordered">
+          <thead>
+            <tr class="slds-line-height_reset">
+              <th class="slds-text-title_caps slds-text-align_right" scope="col" style="width: 3.25rem;">
+                <div class="slds-th__action slds-th__action_form">
+                  <lightning:input type="checkbox" onchange="{! c.toggleSelectAll }" checked="{! v.selectedRowsCount != 0 }"/>
+                </div>
+              </th>
+              <aura:iteration items="{! v.columns }" var="column">
+                <th class="slds-text-title_caps slds-is-resizable slds-is-sortable" scope="col">
+                  <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" style="height : 4rem;">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                      <span class="slds-truncate slds-cell-wrap">{! column.label }</span>
+                    </div>
+                  </a>
+                </th>
+              </aura:iteration>
+            </tr>
+          </thead>
+          <tbody>
+            <aura:iteration items="{! v.tableData }" var="row" indexVar="indexVar">
+              <tr class="slds-hint-parent">
+               <!--  <aura:if isTrue="{! row.Show_select_check_box == 'Yes'}"> -->
+                <td class="slds-text-align_right">
+                  <lightning:input type="checkbox" checked="{! row.Selected }" onchange="{! c.updateSelectedRowsCount }"/>
+                </td>
+               <!--  </aura:if> -->
+                <!-- <aura:if isTrue="{! row.Show_select_check_box != 'Yes'}"> 
+				<td class="slds-text-align_right"></td>
+                </aura:if>-->                  
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.RelativeUrl }" target="_top">{! row.Name }</a></div>
+                </th>
+                <td>
+                  <div class="slds-truncate">{! row.City__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.State__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate" >{! row.ZipCode__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.APN__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Monthly_Rent__c }</div>
+                </td>                   
+                <td>
+                  <div class="slds-truncate">{! row.Borrower_Opinion_of_Current_Value__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Property_Type__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.no_of_stories}</div>
+                </td>          
+                <td>
+                  <div class="slds-truncate">{! row.Number_of_Beds__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Number_of_Bath__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Square_Feet__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Year_Built__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Last_Sale_Date__c }</div>
+                </td>
+                <td>
+                  <div class="slds-truncate">{! row.Last_Sale_Price__c }</div>
+                </td>
+                <td>
+                </td>                  
+                <td>
+                  <div class="slds-truncate"></div>
+                </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+              </tr>
+
+              <aura:if isTrue="{! row.Invalid_Address__c == true }">
+                <tr class="slds-hint-parent redbellColor">
+                  <td class="slds-text-align_right"></td>
+                  <th scope="row" class="diff">
+                    <div class="slds-truncate">Invalid Address</div>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </aura:if>
+
+              <aura:if isTrue="{! row.House_Canary_Address__c != null }">
+                <tr class="slds-hint-parent redbellColor">
+                  <td class="slds-text-align_right"></td>
+                  <th scope="row" class="{! row.Diff_House_Canary_Address__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Address__c }</div>
+                  </th>
+                  <td class="{! row.Diff_House_Canary_City__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_City__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_State__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_State__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Zip__c ? 'diff' : '' }">
+                    <div class="slds-truncate" >{! row.House_Canary_Zip__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_APN__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_APN__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Estimated_Rent__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Estimated_Rent__c }</div>
+                  </td>                        
+                  <td class="{! row.Diff_House_Canary_Calculated_Price__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Calculated_Price__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Property_Type__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Property_Type__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_no_of_stories__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_no_of_stories__c }</div>
+                  </td>  
+                  <td class="{! row.Diff_House_Canary_Beds__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Beds__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Baths__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Baths__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Square_Feet__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Square_Feet__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Year_Built__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Year_Built__c	 }</div>
+                  </td>
+                   <td class="{! row.Diff_House_Canary_Last_Sale_Date__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Last_Sale_Date__c }</div>
+                  </td>
+                  <td class="{! row.Diff_House_Canary_Last_Sale_Price__c ? 'diff' : '' }">
+                    <div class="slds-truncate">{! row.House_Canary_Last_Sale_Price__c }</div>
+                  </td>
+                  <td>
+                    <div class="slds-truncate">{! row.House_Canary_Tax_Year }</div>
+                  </td>
+                  <td>
+                    <div class="slds-truncate">{! row.House_Canary_Tax_Amt }</div>
+                  </td> 
+                    
+				<aura:if isTrue="{! row.House_Canary_Mortgage_Lien != 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.House_Canary_Mortgage_Lien_Rpt}" target="_blank" rel="noopener noreferrer" >{! row.House_Canary_Mortgage_Lien}</a></div>
+                </th>  
+				</aura:if>  
+				<aura:if isTrue="{! row.House_Canary_Mortgage_Lien == 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate">{! row.House_Canary_Mortgage_Lien}</div>
+                </th>  
+				</aura:if>  
+                    
+				<aura:if isTrue="{! row.House_Canary_Sale_History != 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.House_Canary_Sale_History_Rpt}" target="_blank" rel="noopener noreferrer" >{! row.House_Canary_Sale_History}</a></div>
+                </th>  
+				</aura:if>  
+				<aura:if isTrue="{! row.House_Canary_Sale_History == 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate">{! row.House_Canary_Sale_History}</div>
+                </th>  
+				</aura:if> 
+                    
+			<!--	<aura:if isTrue="{! row.House_Canary_Block_Crime != 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.House_Canary_Block_Crime_Rpt}" >{! row.House_Canary_Block_Crime}</a></div>
+                </th>  
+				</aura:if>  
+				<aura:if isTrue="{! row.House_Canary_Block_Crime == 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate">{! row.House_Canary_Block_Crime}</div>
+                </th>  
+				</aura:if> -->
+                    
+				<aura:if isTrue="{! row.House_Canary_Tax_History != 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.House_Canary_Tax_History_Rpt}" target="_blank" rel="noopener noreferrer" >{! row.House_Canary_Tax_History}</a></div>
+                </th>  
+				</aura:if>  
+				<aura:if isTrue="{! row.House_Canary_Tax_History == 'No'}">                    
+                <th scope="row">
+                  <div class="slds-truncate">{! row.House_Canary_Tax_History}</div>
+                </th>  
+				</aura:if> 
+                    
+                <th scope="row">
+                  <div class="slds-truncate"><a href="{! row.value_report_static_Link__c }" >{! row.value_report_static_Link__c_link}</a></div>
+                </th>                     
+                </tr>
+              </aura:if>
+            </aura:iteration>
+          </tbody>
+        </table>
+      </ui:scrollerWrapper>
+    </div>
+
+
+    <aura:set attribute="footer">
+      <aura:if isTrue="{! false }">
+        <div>
+          <span>
+            <span class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}">First</span>
+            <a disabled="true" class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.firstPage}">First</a>
+          </span>
+          &nbsp;
+          <span>
+            <span class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}">Previous</span>
+            <a class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.prevPage}">Previous</a>
+          </span>
+          &nbsp;
+          <span>
+            <span class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Next</span>
+            <a class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.nextPage}">Next</a>
+          </span>
+          &nbsp;
+          <span>
+            <span class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}">Last</span>
+            <a class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}" onclick="{!c.lastPage}">Last</a>
+          </span>
+        </div>
+        <div>{!(v.currentPage - 1)*v.pageSize + 1 + ' - ' + ((v.currentPage) * v.pageSize lt v.properties.length ? (v.currentPage) * v.pageSize : v.properties.length) + ' of ' + v.properties.length} </div>
+      </aura:if>
+    </aura:set>
+
+  </lightning:card>
+
+  <aura:if isTrue="{! v.compProperty != null }">
+    <c:CompsTable compProperty="{! v.compProperty }"/>
+  </aura:if>
+    
+ 	<aura:if isTrue="{!v.valueReportPreMessage}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                 <div class="slds-modal__container">   
+                	<header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Confirm Value Report</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p><b>Please confirm its going to cost $5 per property per click    
+ 						<lightning:input type="checkbox" 
+                                         name="OKtocallValueReport" 
+                                         label="  I confirm"  
+                                         aura:id="OKtocallValueReport"  
+                                         Checked="{!v.OKtocallValueReport}"
+                                         required="true"
+                                         />
+                      </b></p>
+                    </div>                        
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.valueReportMsgClose }"/>
+                        <lightning:button variant="brand"
+                                          label="OK"
+                                          title="OK"
+                                          onclick="{!c.getHouseCanaryData1}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>    
+
+</aura:component>

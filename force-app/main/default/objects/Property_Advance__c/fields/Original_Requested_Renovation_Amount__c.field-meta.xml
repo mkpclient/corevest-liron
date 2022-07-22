@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Original_Requested_Renovation_Amount__c</fullName>
+    <description>The amount requested for this Construction funding</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount requested for this Construction funding</inlineHelpText>
+    <label>Original Requested Renovation Amount</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

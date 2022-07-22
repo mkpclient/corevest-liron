@@ -8,7 +8,7 @@
       queryString = `SELECT Id, StageName, RecordType.DeveloperName, Product_Sub_Type__c,LOC_Loan_Type__c, Type `; // Trivikram- Added LOC_Loan_Type__c
       queryString += `FROM Opportunity WHERE Id = '${recordId}'`;
     } else if (sobjectType == "Advance__c") {
-      queryString = `SELECT Id, Deal__r.StageName, Deal__r.RecordType.DeveloperName, Deal__r.Product_Sub_Type__c, Deal__r.LOC_Loan_Type__c, Deal__r.Type `; // Trivikram- Added Deal__r.LOC_Loan_Type__c
+      queryString = `SELECT Id, Deal__c, Deal__r.StageName, Deal__r.RecordType.DeveloperName, Deal__r.Product_Sub_Type__c, Deal__r.LOC_Loan_Type__c, Deal__r.Type `; // Trivikram- Added Deal__r.LOC_Loan_Type__c
       queryString += `FROM Advance__c WHERE Id = '${recordId}'`;
     }
 
@@ -21,11 +21,13 @@
         filterFields["RecordType"] = result[0].RecordType.DeveloperName;
         filterFields["ProductSubType"] = result[0].Product_Sub_Type__c;
         filterFields["ProductType"] = result[0].LOC_Loan_Type__c; // Trivikram
+        component.set("v.dealId", result[0].Id);
       } else if (sobjectType == "Advance__c") {
         filterFields["StageName"] = result[0].Deal__r.StageName;
         filterFields["RecordType"] = result[0].Deal__r.RecordType.DeveloperName;
         filterFields["ProductSubType"] = result[0].Deal__r.Product_Sub_Type__c;
         filterFields["ProductType"] = result[0].Deal__r.LOC_Loan_Type__c; // Trivikram
+        component.set("v.dealId", result[0].Deal__c);
       }
 
       component.set("v.filterFields", filterFields);
@@ -60,7 +62,12 @@
         helper.createBridgeICMemoCmp(component, event);
       } else if (val == "Funding Memo") {
         helper.createSABICMemoCmp(component, event);
-      } else {
+      } else if (val == "Loan Approval Request Form") {
+        helper.createLoanApprovalRequestFormCmp(component, event);
+      } else if ( val == "Schedule A") {
+        component.set("v.generateScheduleA", true);
+      }
+        else {
         window.open(val, "_blank");
       }
     }
@@ -69,6 +76,9 @@
     component.set("v.showAssignmentSets", component.find("assignments").get("v.value") == "Assignment Sets");
   },
   cancel: function (component, event, helper) {
+    if(component.get("v.generateScheduleA") == true){
+      component.set("v.generateScheduleA", false);
+    }
     $A.get("e.force:closeQuickAction").fire();
   }
 });

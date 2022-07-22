@@ -35,7 +35,10 @@ global without sharing class PortalAPIBroker {
           WHERE Id = :applicationId
           LIMIT 1
         ];
-        dealId = application.Deal__c;
+
+        if (dealId == null) {
+          dealId = application.Deal__c;
+        }
       }
 
       List<Contact> existingContacts = [
@@ -123,7 +126,7 @@ global without sharing class PortalAPIBroker {
           opp.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
           opp.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
         ) {
-          dealType = 'Bridge Loan';
+          dealType = 'Single Asset Bridge Loan';
         }
         if (opp.Loc_Loan_Type__c == 'Multifamily/CRE') {
           dealType = 'Multifamily';
@@ -148,7 +151,7 @@ global without sharing class PortalAPIBroker {
         } else if (dealType == 'Credit Line') {
           loanType = 'Credit Line';
         } else if (dealType == 'Bridge Loan') {
-          loanType = 'Bridge Loan';
+          loanType = 'Single Asset Bridge Loan';
         } else if (dealType == 'Multifamily') {
           loanType = 'Multifamily';
         } else if (dealType == 'Model Home Lease') {
@@ -157,8 +160,6 @@ global without sharing class PortalAPIBroker {
           // loanType = 'Rental';
         }
       }
-
-      system.debug(dealType);
 
       Application__c app = new Application__c();
       app.Alchemy_User_Id__c = borrowerId;

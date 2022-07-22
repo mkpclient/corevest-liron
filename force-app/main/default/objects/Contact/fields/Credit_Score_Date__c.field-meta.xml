@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Credit_Score_Date__c</fullName>
+    <description>Date the last time Credit was ran</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date the last time Credit was ran</inlineHelpText>
+    <label>Credit Score Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

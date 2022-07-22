@@ -24,17 +24,13 @@ export default class DupeListModal extends NavigationMixin(LightningElement) {
     }
   }
 
-  queryDupes(dupes) {
+  queryDupes(dupeList) {
     //
     //const idList = [];
-    const dupeList = [];
     const idSet = new Set();
-    dupes.forEach((dupe) => {
-      if (`'${dupe.sourceId}'` != `'${dupe.matchId}'`) {
-        idSet.add(`'${dupe.sourceId}'`);
-        idSet.add(`'${dupe.matchId}'`);
-        dupeList.push(dupe);
-      }
+    dupeList.forEach((dupe) => {
+      idSet.add(`'${dupe.sourceId}'`);
+      idSet.add(`'${dupe.matchId}'`);
     });
 
     const propertyFields = [
@@ -60,9 +56,7 @@ export default class DupeListModal extends NavigationMixin(LightningElement) {
         }
 
         dupeList.forEach((dupe) => {
-          if (dupe.sourceId == dupe.matchId) {
-            // do nothing
-          } else if (property.Id === dupe.sourceId) {
+          if (property.Id === dupe.sourceId) {
             dupe.source = property;
             dupe.href = `/lightning/r/Property__c/${dupe.source.Id}/view`;
             dupe.deal_href = `/lightning/r/Opportunity/${dupe.source.Deal__c}/view`;
@@ -79,6 +73,7 @@ export default class DupeListModal extends NavigationMixin(LightningElement) {
         dupe.key = `${dupe.source.Id}-${dupe.match.Id}`;
       });
 
+      //console.log(dupeList);
       this.dupeList = dupeList;
       this.template.querySelector("c-modal").hideSpinner();
     });

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Standard_Cant_Be_Ground_Up_Construction</fullName>
+    <active>true</active>
+    <description>Prevents &quot;Ground up Construction&quot; Project Strategy and selecting &quot;Standard&quot; for LOC_Program_Type__c
+but can be bypassed by Admin and integration users</description>
+    <errorConditionFormula>AND(
+NOT( $Profile.Name= &quot;System Administrator&quot;),
+NOT( $Profile.Name= &quot;Integration&quot;),
+ISPICKVAL( Project_Strategy__c, &quot;Ground Up Construction&quot; ), ISPICKVAL(LOC_Program_Type__c, &quot;Standard&quot;)
+)</errorConditionFormula>
+    <errorMessage>Program Type must be Custom for Ground up Construction Strategy</errorMessage>
+</ValidationRule>

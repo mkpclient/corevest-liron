@@ -57,6 +57,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>MSA_Lookup__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Year_Built__c</field>
             </layoutItems>
             <layoutItems>
@@ -78,6 +82,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>REO_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -283,14 +291,6 @@
                 <behavior>Edit</behavior>
                 <field>Other_Income_2__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Gross_Yield__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Net_Yield__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -386,6 +386,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Asset_Management_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Servicer_Import__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -696,11 +700,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Property__c.Upload_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -709,6 +708,11 @@
             <actionName>PrintableView</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>FeedItem.ContentNote</actionName>
@@ -794,6 +798,9 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
+        <fields>Estimated_Max_Rent__c</fields>
+        <fields>Estimated_Min_Rent__c</fields>
+        <fields>Estimated_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -818,11 +825,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

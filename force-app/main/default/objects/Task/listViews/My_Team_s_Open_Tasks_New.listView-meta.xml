@@ -19,6 +19,7 @@
         <role>Bridge_Manager</role>
         <role>Manager</role>
         <role>Origination_Manager</role>
+        <role>Post_Closing</role>
         <role>Post_Closing_Manager</role>
     </sharedTo>
 </ListView>

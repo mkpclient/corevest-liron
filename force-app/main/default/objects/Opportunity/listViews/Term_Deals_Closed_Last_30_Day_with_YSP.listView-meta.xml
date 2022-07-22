@@ -4,7 +4,6 @@
     <columns>OPPORTUNITY.NAME</columns>
     <columns>Current_Loan_Amount__c</columns>
     <columns>Final_Loan_Amount__c</columns>
-    <columns>Final_Interest_Rate__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
     <columns>Owner_Name__c</columns>
     <columns>Underwriter__c</columns>

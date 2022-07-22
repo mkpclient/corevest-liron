@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>CreateSurveyInvitation</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
-    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
+    <excludeButtons>DataDotComAccountInsights</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
@@ -27,6 +26,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Site</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Investor_Code__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -64,6 +67,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>RecordTypeId</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Account_Status__c</field>
             </layoutItems>
             <layoutItems>
@@ -73,10 +80,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Approval_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -101,6 +104,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Notes__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Refer_to_Asset_Management__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -391,11 +398,6 @@
             <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>AccountHierarchy</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>EmailHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>1</sortOrder>
@@ -424,6 +426,11 @@
             <actionName>ChangeRecordType</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>6</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>AccountHierarchy</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>PrintableView</actionName>
@@ -479,7 +486,12 @@
         <fields>ACCOUNT.NAME</fields>
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>OPPORTUNITY.RECORDTYPE</fields>
+        <fields>Deal_Code__c</fields>
+        <fields>Yardi_ID__c</fields>
+        <fields>Purchase_Date__c</fields>
         <relatedList>Opportunity.Approved_Third_Party_Originators__c</relatedList>
+        <sortField>Purchase_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -534,6 +546,14 @@
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Section__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Item__c.Account__c</relatedList>
+    </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -541,7 +561,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8B000000IdGb</masterLabel>
+        <masterLabel>00h5b00000CgHkh</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

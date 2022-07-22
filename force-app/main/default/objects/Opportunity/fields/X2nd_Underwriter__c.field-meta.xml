@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2nd_Underwriter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Second underwriter shadowing the primary underwriter on the deal. Second underwriter is sometimes an intern or a new hire.</description>
+    <externalId>false</externalId>
+    <label>2nd Underwriter</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Deals2ndunderwriter</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

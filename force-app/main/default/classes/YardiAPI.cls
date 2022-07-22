@@ -199,10 +199,10 @@ public without sharing class YardiAPI {
 
       if (
         deal.Third_Party_Title__c != null &&
-        !vendorMap.containsKey(deal.Title__r.Yardi_Vendor_Code__c)
+        !vendorMap.containsKey(deal.Third_Party_Title__r.Yardi_Vendor_Code__c)
       ) {
-        Account acc = deal.Title__r;
-        vendorMap.put(deal.Title__r.Yardi_Vendor_Code__c, acc);
+        Account acc = deal.Third_Party_Title__r;
+        vendorMap.put(deal.Third_Party_Title__r.Yardi_Vendor_Code__c, acc);
       }
     }
 
@@ -224,11 +224,14 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.BillingStreet + '"';
-
+      String vendorName = acc.Name;
+      if (vendorName.contains(',')) {
+        vendorName = '"' + acc.Name + '"';
+      }
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += vendorName + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -407,11 +410,17 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.Name + '"';
+      // billingStreet.replaceAll(',', ' ');
+
+      String vendorName = acc.Name;
+      if (vendorName.contains(',')) {
+        vendorName = '"' + vendorName + '"';
+      }
 
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += vendorName + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -943,7 +952,7 @@ public without sharing class YardiAPI {
       approvedAdvanceAmount += advance.BPO_Appraisal_Fee_Adjustment__c;
       approvedAdvanceAmount += advance.Daily_Interest_Rate_Adjustment__c;
       approvedAdvanceAmount += advance.Doc_Prep_Fee_Adjustment__c;
-      approvedAdvanceAmount += advance.BlackSquare_Fee_Total__c;
+      approvedAdvanceAmount -= advance.BlackSquare_Fee_Total__c;
 
       String yardiPropertyId = '';
       Decimal advAmtMax = null;
@@ -1219,7 +1228,7 @@ public without sharing class YardiAPI {
       ) {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
-          '<Amount>' +
+          '<Amount>-' +
           String.valueOf(advance.BlackSquare_Fee_Total__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>2188-0000</AccountId>';
@@ -1265,7 +1274,9 @@ public without sharing class YardiAPI {
             Origination_Fee__c,
             Deposit_Amount__c,
             Bridge_Payoff__c,
-            Installment_Comment__c
+            Installment_Comment__c,
+            Legal_Fee__c,
+            Discount_Fee_Number__c
           FROM Loan_Versions__r
           WHERE
             RecordType.DeveloperName = 'Schedule_of_Lender_Cost'
@@ -1286,7 +1297,9 @@ public without sharing class YardiAPI {
           Origination_Fee__c,
           Deposit_Amount__c,
           Bridge_Payoff__c,
-          Installment_Comment__c
+          Installment_Comment__c,
+          Legal_Fee__c,
+          Discount_Fee_Number__c
         FROM Loan_Version__c
         WHERE Deal__c = :deal.Id
         ORDER BY CreatedDate DESC
@@ -1323,6 +1336,11 @@ public without sharing class YardiAPI {
 
     totalAmount -= schedule.Stub_Interest__c != null
       ? schedule.Stub_Interest__c
+      : 0;
+
+    totalAmount -= schedule.Legal_Fee__c != null ? schedule.Legal_Fee__c : 0;
+    totalAmount -= schedule.Discount_Fee_Number__c != null
+      ? schedule.Discount_Fee_Number__c
       : 0;
 
     String vendorYardiId = '';
@@ -1461,6 +1479,34 @@ public without sharing class YardiAPI {
       invoiceRegister += '<CashAccountId></CashAccountId>';
       invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
       invoiceRegister += '<Notes>' + entityName + '</Notes>';
+      invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
+      invoiceRegister += '</Detail>';
+    }
+
+    if (schedule != null && schedule.Legal_Fee__c != null) {
+      invoiceRegister += '<Detail>';
+      invoiceRegister +=
+        '<Amount>-' +
+        String.valueOf(schedule.Legal_Fee__c) +
+        '</Amount>';
+      invoiceRegister += '<AccountId>4627-0000</AccountId>';
+      invoiceRegister += '<CashAccountId></CashAccountId>';
+      invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
+      invoiceRegister += '<Notes>' + entityName + '</Notes>';
+      invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
+      invoiceRegister += '</Detail>';
+    }
+
+    if (schedule != null && schedule.Discount_Fee_Number__c != null) {
+      invoiceRegister += '<Detail>';
+      invoiceRegister +=
+        '<Amount>-' +
+        String.valueOf(schedule.Discount_Fee_Number__c) +
+        '</Amount>';
+      invoiceRegister += '<AccountId>9737-0000</AccountId>';
+      invoiceRegister += '<CashAccountId></CashAccountId>';
+      invoiceRegister += '<PropertyId>' + deal.Yardi_ID__c + '</PropertyId>';
+      invoiceRegister += '<Notes>' + entityName + ' - Rate Buydown</Notes>';
       invoiceRegister += '<Segment1>2101 Term Funding</Segment1>';
       invoiceRegister += '</Detail>';
     }

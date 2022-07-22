@@ -4,7 +4,7 @@
     <businessStatus>Active</businessStatus>
     <description>Term Use</description>
     <externalId>false</externalId>
-    <label>Final Swap</label>
+    <label>Final Swap/Treasury Rate</label>
     <precision>4</precision>
     <required>false</required>
     <scale>2</scale>

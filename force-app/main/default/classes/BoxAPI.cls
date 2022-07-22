@@ -92,7 +92,13 @@ public without sharing class BoxAPI {
         new APILoggerQueueable(request, response, parentId, false)
       );
     } catch (Exception e) {
-      System.enqueueJob(new APILoggerQueueable(request, response, parentId, e));
+      if (e.getMessage() == 'Read timed out') {
+        uploadFile(fileBody, fileName, folderId, parentId);
+      } else {
+        System.enqueueJob(
+          new APILoggerQueueable(request, response, parentId, e)
+        );
+      }
     }
   }
 

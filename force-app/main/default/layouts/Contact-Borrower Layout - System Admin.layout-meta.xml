@@ -24,6 +24,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Legal_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Title</field>
             </layoutItems>
             <layoutItems>
@@ -93,6 +97,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>InvestmentExperience__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Last_Login__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -183,6 +191,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Borrowed_on_Term_Loans__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Home_Country__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -653,6 +669,21 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>SendEmail</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>17</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Contact.New_Loan_Referral_Action</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>18</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Contact.Event</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>19</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>CallHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>0</sortOrder>
@@ -737,21 +768,6 @@
             <actionType>QuickAction</actionType>
             <sortOrder>16</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>SendEmail</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>17</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Contact.New_Loan_Referral_Action</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>18</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Contact.Event</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>19</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -792,7 +808,7 @@
         <fields>CREATED_DATE</fields>
         <relatedList>Source__c.Contact_Converted_Into__c</relatedList>
         <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>

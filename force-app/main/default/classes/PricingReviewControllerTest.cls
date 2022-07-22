@@ -2,11 +2,12 @@
 public with sharing class PricingReviewControllerTest {
     @isTest
     public static void testMethod1() {
-        Account acc = test_Helper.createAccount();
-        Contact cont = test_Helper.createContact(acc);
-        Opportunity opp = test_Helper.createOpportunity(acc, cont);
-        Test.startTest();
-        PricingReviewRequest_LightningController.startApproval(
+      test_Helper.createDealLoanNumber();
+      Account acc = test_Helper.createAccount();
+      Contact cont = test_Helper.createContact(acc);
+      Opportunity opp = test_Helper.createOpportunity(acc, cont);
+      Test.startTest();
+      PricingReviewRequest_LightningController.startApproval(
           opp.Id,
           'Opportunity',
           'comments',

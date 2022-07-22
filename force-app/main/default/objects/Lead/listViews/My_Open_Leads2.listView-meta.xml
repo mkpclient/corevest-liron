@@ -20,7 +20,7 @@
     <filters>
         <field>LEAD.RECORDTYPE</field>
         <operation>equals</operation>
-        <value>Lead.Leads</value>
+        <value>Lead.Borrower_Lead,Lead.Broker_Lead,Lead.Leads,Lead.Lender_Lead</value>
     </filters>
     <filters>
         <field>LEAD.STATUS</field>

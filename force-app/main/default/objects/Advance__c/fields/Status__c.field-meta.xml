@@ -16,14 +16,49 @@
                 <label>Pending</label>
             </value>
             <value>
-                <fullName>Completed</fullName>
+                <fullName>Received</fullName>
                 <default>false</default>
-                <label>Completed</label>
+                <label>Received</label>
+            </value>
+            <value>
+                <fullName>Hold</fullName>
+                <default>false</default>
+                <label>Hold</label>
+            </value>
+            <value>
+                <fullName>Pending Inspection</fullName>
+                <default>false</default>
+                <label>Pending Inspection</label>
+            </value>
+            <value>
+                <fullName>Pending Inspection Report Revision</fullName>
+                <default>false</default>
+                <label>Pending Inspection Report Revision</label>
+            </value>
+            <value>
+                <fullName>Pending Approval</fullName>
+                <default>false</default>
+                <label>Pending Approval</label>
+            </value>
+            <value>
+                <fullName>Pending Capital Partner Release</fullName>
+                <default>false</default>
+                <label>Pending Capital Partner Release</label>
+            </value>
+            <value>
+                <fullName>Pending Release</fullName>
+                <default>false</default>
+                <label>Pending Release</label>
             </value>
             <value>
                 <fullName>Cancelled</fullName>
                 <default>false</default>
                 <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
             </value>
         </valueSetDefinition>
     </valueSet>

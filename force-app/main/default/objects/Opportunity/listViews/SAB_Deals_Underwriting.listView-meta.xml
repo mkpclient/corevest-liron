@@ -9,6 +9,8 @@
     <columns>Underwriter__c</columns>
     <columns>Owner_Name__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Product_Sub_Type__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>OPPORTUNITY.RECORDTYPE</field>
@@ -18,7 +20,7 @@
     <filters>
         <field>OPPORTUNITY.STAGE_NAME</field>
         <operation>equals</operation>
-        <value>Initial Review,Data Tape Received,Issue Term Sheet/Order Appraisal,Term Sheet Issued,Term Sheet Signed/Deposit Collected,Submitted to Underwriting,Loan Processing,Underwriting,Approved by Committee,UW Hold</value>
+        <value>Loan Processing,Processing Hold,Underwriting,UW Hold,Approved by Committee</value>
     </filters>
     <label>SAB Deals - Underwriting</label>
     <sharedTo>

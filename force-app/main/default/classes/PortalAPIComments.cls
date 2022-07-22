@@ -17,49 +17,79 @@ global without sharing class PortalAPIComments {
     RestRequest req = RestContext.request;
     RestResponse res = Restcontext.response;
 
-    Map<String, Object> body = (Map<String, Object>) System.JSON.deserializeUntyped(
-      req.requestBody.toString()
-    );
+    //system.debug(req.requestBody.toString());
 
-    String portalUserId = (String) body.get('userId');
+    List<String> params = Restcontext.request.requestURI.split('/');
 
-    String contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
-    String leadId = AlchemyAPI.getLeadIdByAlchemyId(portalUserId);
+    system.debug(Restcontext.request.requestURI);
+    system.debug(params);
+    if (params.size() == 4) {
+      String action = params[3];
 
-    if (contactId != null || leadId != null) {
-      //   Id propertyId = body.get('propertyId');
-      //   Id dealId = body.get('dealId');
-      //   Id documentId = body.get('documentId');
+      Boolean flag = action == 'unread';
 
-      Comment__c comment = new Comment__c();
-      comment.Deal__c = (Id) body.get('loanId');
-      comment.Property__c = (Id) body.get('propertyId');
-      comment.Application__c = (Id) body.get('applicationId');
-      comment.Deal_Document__c = (Id) body.get('documentId');
-      comment.Contact__c = contactId;
-      comment.Lead__c = leadId;
-      comment.Body__c = (String) body.get('body');
-      comment.Alchemy_Portal_Id__c = portalUserId;
-      if (body.containsKey('commentId')) {
-        comment.Comment__c = (String) body.get('commentId');
+      List<Object> commentIds = (List<Object>) System.JSON.deserializeUntyped(
+        req.requestBody.toString()
+      );
+
+      List<Comment__c> comments = new List<Comment__c>();
+      for (Object commentId : commentIds) {
+        comments.add(new Comment__c(Id = (Id) commentId, Unread__c = flag));
       }
-      comment.Subject__c = (String) body.get('subject');
 
-      insert comment;
+      update comments;
 
       Map<String, String> responseBody = new Map<String, String>();
       responseBody.put('status', 'success');
-      responseBody.put('message', 'Comment successfully inserted');
-
+      responseBody.put('message', '');
       res.addHeader('Content-Type', 'application/json');
       res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
     } else {
-      Map<String, String> responseBody = new Map<String, String>();
-      responseBody.put('status', 'error');
-      responseBody.put('message', 'User Id not found');
+      Map<String, Object> body = (Map<String, Object>) System.JSON.deserializeUntyped(
+        req.requestBody.toString()
+      );
 
-      res.addHeader('Content-Type', 'application/json');
-      res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
+      String portalUserId = (String) body.get('userId');
+
+      String contactId = AlchemyAPI.getContactIdByAlchemyId(portalUserId);
+      String leadId = AlchemyAPI.getLeadIdByAlchemyId(portalUserId);
+
+      if (contactId != null || leadId != null) {
+        //   Id propertyId = body.get('propertyId');
+        //   Id dealId = body.get('dealId');
+        //   Id documentId = body.get('documentId');
+
+        Comment__c comment = new Comment__c();
+        comment.Deal__c = (Id) body.get('loanId');
+        comment.Property__c = (Id) body.get('propertyId');
+        comment.Application__c = (Id) body.get('applicationId');
+        comment.Deal_Document__c = (Id) body.get('documentId');
+        comment.Contact__c = contactId;
+        comment.Lead__c = leadId;
+        comment.Body__c = (String) body.get('body');
+        comment.Alchemy_Portal_Id__c = portalUserId;
+        comment.Checklist_Item__c = (Id) body.get('itemId');
+        if (body.containsKey('commentId')) {
+          comment.Comment__c = (String) body.get('commentId');
+        }
+        comment.Subject__c = (String) body.get('subject');
+
+        insert comment;
+
+        Map<String, String> responseBody = new Map<String, String>();
+        responseBody.put('status', 'success');
+        responseBody.put('message', 'Comment successfully inserted');
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
+      } else {
+        Map<String, String> responseBody = new Map<String, String>();
+        responseBody.put('status', 'error');
+        responseBody.put('message', 'User Id not found');
+
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
+      }
     }
   }
 
@@ -101,7 +131,8 @@ global without sharing class PortalAPIComments {
       commentType == 'propertyId' ||
       commentType == 'applicationId' ||
       commentType == 'documentId' ||
-      commentType == 'userId'
+      commentType == 'userId' ||
+      commentType == 'itemId'
     ) {
       if (commentType == 'loanId') {
         Id dealId = params[4];
@@ -117,6 +148,9 @@ global without sharing class PortalAPIComments {
       } else if (commentType == 'userId') {
         String userId = params[4];
         comments = getCommentsByUserId(userId);
+      } else if (commentType == 'itemId') {
+        String itemId = params[4];
+        comments = getCommentsByItemId(itemId);
       }
 
       List<Comment> commentsList = new List<Comment>();
@@ -235,7 +269,9 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Checklist_Item__c,
+        Unread__c
       FROM Comment__c
       WHERE Id = :commentId
       LIMIT 1
@@ -280,7 +316,9 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Checklist_Item__c,
+        Unread__c
       FROM Comment__c
       WHERE
         Alchemy_Portal_Id__c = :portalId
@@ -408,9 +446,46 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_item__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE Deal__c = :dealId
+      ORDER BY CreatedDate DESC
+    ];
+  }
+
+  public static List<Comment__c> getCommentsByItemId(Id itemId) {
+    return [
+      SELECT
+        Id,
+        Deal__c,
+        Lead__c,
+        Lead__r.Name,
+        Contact__r.Name,
+        Contact__c,
+        Application__c,
+        Body__c,
+        Alchemy_Portal_Id__c,
+        Submitted_From_Portal__c,
+        Deal_Document__c,
+        Property__c,
+        CreatedDate,
+        Owner.Name,
+        Owner.Id,
+        Subject__c,
+        Comment__c,
+        Owner_Image__c,
+        Application__r.Name,
+        Property__r.Name,
+        Deal__r.Name,
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_Item__c,
+        Checklist_Item__r.Name
+      FROM Comment__c
+      WHERE Checklist_Item__c = :itemId
       ORDER BY CreatedDate DESC
     ];
   }
@@ -439,7 +514,10 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_item__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE Property__c = :propertyId
       ORDER BY CreatedDate DESC
@@ -470,7 +548,10 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_item__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE Application__c = :applicationId
       ORDER BY CreatedDate DESC
@@ -502,7 +583,10 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_item__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE Deal_Document__c = :documentId
       ORDER BY CreatedDate DESC
@@ -536,7 +620,10 @@ global without sharing class PortalAPIComments {
         Application__r.Name,
         Property__r.Name,
         Deal__r.Name,
-        Deal_Document__r.Name
+        Deal_Document__r.Name,
+        Unread__c,
+        Checklist_item__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE
         (Lead__c = :leadId
@@ -588,6 +675,10 @@ global without sharing class PortalAPIComments {
     public String applicationName;
     @AuraEnabled
     public String documentName;
+    @AuraEnabled
+    public Boolean isUnread = false;
+    @AuraEnabled
+    public String itemId;
 
     public Comment(Comment__c comment) {
       this.body = comment.Body__c;
@@ -598,7 +689,7 @@ global without sharing class PortalAPIComments {
       this.documentId = comment.Deal_Document__c;
       this.commentDate = comment.CreatedDate;
       this.commentId = comment.Comment__c;
-
+      this.isUnread = comment.Unread__c;
       if (comment.Submitted_From_Portal__c) {
         this.submitterId = comment.Alchemy_Portal_Id__c;
 
@@ -632,6 +723,7 @@ global without sharing class PortalAPIComments {
       this.loanName = comment.Deal__r.Name;
       this.propertyName = comment.Property__r.Name;
       this.documentName = comment.Deal_Document__r.Name;
+      this.itemId = comment.Checklist_Item__c;
     }
   }
 }

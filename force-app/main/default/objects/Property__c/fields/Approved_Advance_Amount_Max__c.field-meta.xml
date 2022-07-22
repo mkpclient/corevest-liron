@@ -8,7 +8,7 @@ IF(Override_Advance_Amount__c = 0,
     Override_Advance_Amount__c
 )</description>
     <externalId>false</externalId>
-    <formula>Initial_Disbursement__c + Approved_Renovation_Holdback__c</formula>
+    <formula>Max_Initial_Loan_Amount_Input__c + Approved_Renovation_Holdback__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Max that can be funded for the Initial Disbursement and the Renovation Advances</inlineHelpText>
     <label>Approved Advance Amount Max</label>

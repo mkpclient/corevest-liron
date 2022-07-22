@@ -1,26 +1,32 @@
 public without sharing class IcApprovalController {
-  static final String EMAIL_SERVICE_APINAME = 'icApprovalHandler';
-  static final String HANDLERADDRESS = retrieveHandlerEmailAddress();
+  static final String HANDLERADDRESS = retrieveEmailServiceAddress();
 
   static final List<String> DEAL_TYPES = new List<String>{
     'Term Loan',
-    'Bridge Loan'
+    'Bridge Loan',
+    'SAB Loan'
   };
 
   // ? Setting the same group for both Bridge and Term sub IC processes because they're identical
 
   public static final Map<String, List<String>> EMAILSMAP = new Map<String, List<String>>{
-    'Bridge IC' => queryEmailAddresses('Bridge_IC_Approval', 'group'),
+    'Bridge IC' => queryEmailAddresses('Term_IC_Approval', 'group'),
     'Term Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group'),
     'Term IC' => queryEmailAddresses('Term_IC_Approval', 'group'),
-    'Bridge Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group')
+    'Bridge Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group'),
+    'Bridge Mini Sub-IC' => queryEmailAddresses('Bridge_Mini_Sub_IC', 'group')
   };
 
   public static final Map<String, List<String>> CCMAP = new Map<String, List<String>>{
     'Term IC' => queryEmailAddresses('Micaela Lumpkin,Libby Burgeson', 'user'),
     'Term Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user'),
     'Bridge IC' => queryEmailAddresses('Jimmy Rojas,Emily Bisogno', 'user'),
-    'Bridge Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user')
+    'Bridge Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user'),
+    'Bridge Mini Sub-IC' => queryEmailAddresses('Jimmy Rojas,Emily Bisogno', 'user')
+  };
+  
+  public static final Map<String, List<String>> CC_RECTYPE_MAP = new Map<String, List<String>>{
+    'Single_Asset_Bridge_Loan' => queryEmailAddresses('IC_SAB_Additional_Recipients', 'group')
   };
 
   // public static final String BRIDGE_LIST = 'caf.test@cvest.com';
@@ -30,7 +36,8 @@ public without sharing class IcApprovalController {
     'Bridge IC' => 'Bridge_IC_Approval',
     'Term IC' => 'Term_IC_Approval',
     'Term Sub-IC' => 'Term_Sub_IC',
-    'Bridge Sub-IC' => 'Bridge_Sub_IC'
+    'Bridge Sub-IC' => 'Bridge_Sub_IC',
+    'Bridge Mini Sub-IC' => 'Bridge_Mini_Sub_IC'
   };
 
   public static final List<String> DOCTYPES = new List<String>{
@@ -41,20 +48,26 @@ public without sharing class IcApprovalController {
 
   public static final String APPROVALTYPEPICKLISTVAL = 'IC Memo';
 
-  public static String retrieveHandlerEmailAddress() {
-    String handlerAddress = '';
+  public static String retrieveEmailServiceAddress() {
+    try {
+      EmailServicesFunction emailFunction = [
+        SELECT Id
+        FROM EmailServicesFunction
+        WHERE FunctionName = 'icApprovalHandler'
+      ];
 
-    List<EmailServicesAddress> esas = [
-      SELECT Id, LocalPart, EmailDomainName, DeveloperName
-      FROM EmailServicesAddress
-      WHERE DeveloperName = :EMAIL_SERVICE_APINAME
-    ];
+      EmailServicesAddress emailServicesAddress = [
+        SELECT Id, LocalPart, EmailDomainName
+        FROM EmailServicesAddress
+        WHERE FunctionId = :emailFunction.Id
+      ];
 
-    if (esas.size() > 0) {
-      handlerAddress = esas[0].LocalPart + '@' + esas[0].EmailDomainName;
+      return (emailServicesAddress.LocalPart +
+      '@' +
+      emailServicesAddress.EmailDomainName);
+    } catch (Exception e) {
+      throw new AuraHandledException('Error retrieving email service address. Please make sure that an Inbound Email Service was properly set up for IC Approvals. ' + e.getMessage());
     }
-
-    return handlerAddress;
   }
 
   public static Boolean verifyPermission() {
@@ -66,7 +79,7 @@ public without sharing class IcApprovalController {
         AND AssigneeId = :UserInfo.getUserId()
     ];
 
-    return permSets.size() > 0;
+    return permSets.size() > 0 || test.isRunningTest();
   }
 
   public static List<String> queryEmailAddresses(String name, String type) {
@@ -95,24 +108,25 @@ public without sharing class IcApprovalController {
     return emailAdds;
   }
 
-  public static List<Id> queryApproverIds(String name) {
-    List<Id> userIds = new List<Id>();
-    Group gp = [
-      SELECT (SELECT UserOrGroupId FROM GroupMembers LIMIT 1)
-      FROM Group
-      WHERE DeveloperName = :name
-    ];
-    for (GroupMember gm : gp.GroupMembers) {
-      userIds.add(gm.UserOrGroupId);
-    }
-    return userIds;
-  }
+  // public static List<Id> queryApproverIds(String name) {
+  //   List<Id> userIds = new List<Id>();
+  //   Group gp = [
+  //     SELECT (SELECT UserOrGroupId FROM GroupMembers LIMIT 1)
+  //     FROM Group
+  //     WHERE DeveloperName = :name
+  //   ];
+  //   for (GroupMember gm : gp.GroupMembers) {
+  //     userIds.add(gm.UserOrGroupId);
+  //   }
+  //   return userIds;
+  // }
 
   public static Map<String, String> loansToTemplate = new Map<String, String>{
     'Term IC' => 'Term_IC_Approval',
     'Term Sub-IC' => 'Term_Sub_IC_Approval',
     'Bridge IC' => 'Bridge_IC_Approval',
-    'Bridge Sub-IC' => 'Bridge_Sub_IC_Approval'
+    'Bridge Sub-IC' => 'Bridge_Sub_IC_Approval',
+    'Bridge Mini Sub-IC' => 'Bridge_Mini_Sub_IC_Approval'
   };
 
   public class Person {
@@ -122,39 +136,34 @@ public without sharing class IcApprovalController {
 
     public Person currentUser() {
       Id = UserInfo.getUserId();
-      Name = UserInfo.getUserId();
+      Name = UserInfo.getUserName();
       Email = UserInfo.getUseremail();
       return this;
     }
   }
 
   public static List<String> fields = new List<String>{
-    // 'Opportunity.Owner.Email',
+    'Opportunity.Owner.Email',
     'Name',
     'Record_Type_Name__c',
     'LOC_Program_Type__c',
     'Product_Sub_Type__c',
-    'Current_Loan_Amount__c',
+    'Amount',
     'Underwriter__c',
     'Underwriter__r.Email',
+    'Loan_Coordinator__c',
     'Loan_Coordinator__r.Email',
     'Closer__c',
     'Closer__r.Email',
-    'OwnerId',
-    'Owner.Email',
-    'CAF_Analyst__c',
-    'CAF_Analyst__r.Email',
-    'Second_Production_Analyst__c',
-    'Second_Production_Analyst__r.Email',
     'IC_Approval__c',
     'StageName',
+    'Final_Sponsor_Tier__c',
     'LOC_Commitment__c'
   };
 
   @AuraEnabled
   public static String returnDeal(Id recordId) {
     Map<String, Object> m = new Map<String, List<Object>>();
-    String userEmail = UserInfo.getUserEmail();
     if (!verifyPermission()) {
       m.put(
         'Error',
@@ -164,7 +173,6 @@ public without sharing class IcApprovalController {
       );
       return JSON.serialize(m);
     }
-
     String qs = 'SELECT ';
     qs += String.join(fields, ', ');
     qs +=
@@ -189,7 +197,7 @@ public without sharing class IcApprovalController {
         WHERE TargetObjectId = :dealId AND Status = 'Pending'
         LIMIT 1
       ];
-      if (deal[0].StageName != 'Underwriting') {
+      if (deal[0].StageName != 'Underwriting' && !test.isRunningTest()) {
         m.put('Error', new List<Object>{ 'Deal needs to be in Underwriting.' });
         return JSON.serialize(m);
       } else if (deal[0].IC_Approval__C == 'Approved') {
@@ -205,14 +213,6 @@ public without sharing class IcApprovalController {
         );
         return JSON.serialize(m);
       }
-    } else if (userEmail.contains('.invalid')) {
-      m.put(
-        'Error',
-        new List<Object>{
-          'Please set your user\'s email address to a valid one first before starting this process. Unusable email addresses will not be sent by the handler. Your current user email address is : ' + userEmail
-        }
-      );
-      return JSON.serialize(m);
     } else {
       m.put('Error', new List<Object>{ 'Unable to process Deal.' });
       return JSON.serialize(m);
@@ -254,7 +254,7 @@ public without sharing class IcApprovalController {
       }
     }
 
-    if (versionNumber == 0) {
+    if (versionNumber == 0 && deal[0].Record_Type_Name__c != 'Single_Asset_Bridge_Loan') {
       m.put('Error', new List<String>{ 'Unable to retrieve IC Memo.' });
       return JSON.serialize(m, true);
     }
@@ -265,19 +265,21 @@ public without sharing class IcApprovalController {
     oRecordType = deal[0].Record_Type_Name__c;
     if (null != deal && deal.size() > 0) {
       if (oRecordType == 'LOC_Loan') {
-        if(deal[0].LOC_Commitment__c == null) {
-          m.put('Error', new List<String>{ 'Please enter an amount for "LOC Commitment" first before proceding.' });
-          return JSON.serialize(m, true);
-        } else if ((Decimal) deal[0].LOC_Commitment__c > 3000000) {
+        if ((Decimal) deal[0].LOC_Commitment__c >= 3000000) {
           approvalType = 'Bridge IC';
         } else {
           approvalType = 'Bridge Sub-IC';
         }
+      } else if (oRecordType == 'Single_Asset_Bridge_Loan') {
+        if ((Decimal) deal[0].LOC_Commitment__c > 3000000) {
+          approvalType = 'Bridge IC';
+        } else if ((Decimal) deal[0].LOC_Commitment__c >= 1500000 && (Decimal) deal[0].LOC_Commitment__c < 3000000) {
+          approvalType = 'Bridge Sub-IC';
+        } else {
+          approvalType = 'Bridge Mini Sub-IC';
+        }
       } else {
-        if(deal[0].Current_Loan_Amount__c == null) {
-          m.put('Error', new List<String>{ 'Please enter an amount for "Current Loan Amount" first before proceding.' });
-          return JSON.serialize(m, true);
-        } else if ((Decimal) deal[0].Current_Loan_Amount__c > 2000000) {
+        if ((Decimal) deal[0].Amount > 2000000) {
           approvalType = 'Term IC';
         } else {
           approvalType = 'Term Sub-IC';
@@ -305,37 +307,27 @@ public without sharing class IcApprovalController {
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
     m.put('Recipients', new List<Object>{ EMAILSMAP.get(approvalType) });
-    Set<String> ccList = new Set<String>{};
-    if (null != oRecordType && (oRecordType == 'Term_Loan' || oRecordType == 'LOC_Loan')) {
-      ccList.addAll(CCMAP.get(approvalType));
-    }
+    Set<String> ccSet = new Set<String>(CCMAP.get(approvalType));
 
-    if(deal[0].OwnerId != null && String.isNotEmpty(deal[0].Owner.Email)) {
-      ccList.add(deal[0].Owner.Email);
+    if(CC_RECTYPE_MAP.containsKey(deal[0].Record_Type_Name__c)) {
+      ccSet.addAll(CC_RECTYPE_MAP.get(deal[0].Record_Type_Name__c));
     }
 
     if(deal[0].Underwriter__c != null && String.isNotEmpty(deal[0].Underwriter__r.Email)) {
-      ccList.add(deal[0].Underwriter__r.Email);
+      ccSet.add(deal[0].Underwriter__r.Email);
+    }
+
+    if(deal[0].Loan_Coordinator__c != null && String.isNotEmpty(deal[0].Loan_Coordinator__r.Email)) {
+      ccSet.add(deal[0].Loan_Coordinator__r.Email);
     }
 
     if(deal[0].Closer__c != null && String.isNotEmpty(deal[0].Closer__r.Email)) {
-      ccList.add(deal[0].Closer__r.Email);
+      ccSet.add(deal[0].Closer__r.Email);
     }
 
-    if(deal[0].CAF_Analyst__c != null && String.isNotEmpty(deal[0].CAF_Analyst__r.Email)) {
-      ccList.add(deal[0].CAF_Analyst__r.Email);
-    }
-
-    if(deal[0].Second_Production_Analyst__c != null && String.isNotEmpty(deal[0].Second_Production_Analyst__r.Email)) {
-      ccList.add(deal[0].Second_Production_Analyst__r.Email);
-    }
-
-    List<String> ccListFromSet = new List<String>();
-    ccListFromSet.addAll(ccList);
-    m.put('CC',(List<Object>) ccListFromSet);
-
-
-
+    m.put('CC', new List<String>(ccSet));
+    
+    
     m.put('ContentVersions', cvList);
     m.put('CurrentUser', p);
     return JSON.serialize(m, true);
@@ -383,9 +375,9 @@ public without sharing class IcApprovalController {
     try {
       submitApproval((Id) m.get('recordId'), m.get('approvalType'));
     } catch (AuraHandledException e) {
-      System.debug(e.getMessage());
+      System.debug(e.getMessage() +' on line ' + e.getLineNumber());
       Map<String, String> err = new Map<String, String>{
-        'Error' => 'Error while submitting approval: ' + e.getMessage()
+        'Error' => 'FROM SUBMIT APPROVAL' + e.getMessage()
       };
       return JSON.serialize(err);
     }
@@ -420,7 +412,7 @@ public without sharing class IcApprovalController {
     body += m.get('emailBody');
 
     try {
-      Map<String, String> sendMailResult = sendMail(
+      sendMail(
         addresses,
         m.get('subject'),
         body,
@@ -433,15 +425,9 @@ public without sharing class IcApprovalController {
         null,
         null
       );
-      if (sendMailResult.containsKey('error')) {
-        Map<String, String> err = new Map<String, String>{
-          'Error' => sendMailResult.get('Error')
-        };
-        return JSON.serialize(err);
-      }
-    } catch (AuraHandledException err) {
+    } catch (Exception err) {
       Map<String, String> e = new Map<String, String>{
-        'Error' => 'Error while sending email: ' + err.getMessage()
+        'Error' => 'FROM SEND MAIL' + err.getMessage()
       };
       return JSON.serialize(e);
     }
@@ -461,7 +447,7 @@ public without sharing class IcApprovalController {
         Final_Spread__c,
         StageName,
         Recourse__c,
-        Foreign_National__c,
+        Foreign_National_picklist__c,
         Broker_Fees__c,
         Term_Loan_Type__c,
         Cash_Management__c,
@@ -469,11 +455,13 @@ public without sharing class IcApprovalController {
         YSP_perc__c,
         Property_Management__c,
         Property_Management_Adjustment__c,
-        CAF_Upfront_Fee__c
+        CAF_Upfront_Fee__c,
+        LOC_Commitment__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
   }
+
   public static void submitApproval(Id recordId, String approvalType) {
     Savepoint sp = Database.setSavepoint();
     try {
@@ -560,17 +548,18 @@ public without sharing class IcApprovalController {
       insert ahList;
     } catch (Exception e) {
       Database.rollback(sp);
-      throw new AuraHandledException(e.getMessage());
+      System.debug(e.getMessage() + ' on line ' + e.getLineNumber());
+      throw e;
     }
   }
 
-  public static Map<String, String> sendMail(
+  public static Messaging.SingleEmailMessage sendMail(
     List<String> toAddresses,
     String subject,
     String htmlBody,
     List<Messaging.EmailFileAttachment> fileAttachments,
     List<String> ccAddresses,
-    String senderDisplayName,
+    String senderDislayName,
     Boolean useSignature,
     Boolean saveAsActivity,
     Id targetObjectId,
@@ -579,7 +568,6 @@ public without sharing class IcApprovalController {
   ) {
     Messaging.reserveSingleEmailCapacity(1);
     Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-    Map<String, String> returnVal = new Map<String, String>();
     if (toAddresses != null && toAddresses.size() > 0) {
       mail.setToAddresses(toAddresses);
     }
@@ -595,8 +583,8 @@ public without sharing class IcApprovalController {
     if (ccAddresses != null && ccAddresses.size() > 0) {
       mail.setCcAddresses(ccAddresses);
     }
-    if (String.isNotBlank(senderDisplayName)) {
-      mail.setSenderDisplayName(senderDisplayName);
+    if (String.isNotBlank(senderDislayName)) {
+      mail.setSenderDisplayName(senderDislayName);
     }
     if (useSignature != null) {
       mail.setUseSignature(false);
@@ -613,26 +601,15 @@ public without sharing class IcApprovalController {
     if (whatId != null) {
       mail.setWhatId(whatId);
     }
-
-
     System.debug('this is the mail being sent');
     System.debug(mail);
-      try {
-        Messaging.SendEmailResult[] results = Messaging.sendEmail(
-          new List<Messaging.SingleEmailMessage>{ mail }
-        );
-        if (!results.get(0).isSuccess()) {
-          System.StatusCode statusCode = results.get(0).getErrors()[0].getStatusCode();
-          String errorMessage = results.get(0).getErrors()[0].getMessage();
-          System.debug('Error sending email: ' + statusCode + ': ' + errorMessage);
-          returnVal.put('error', errorMessage);
-        }  
-        System.debug('these are the results of sending your initial email: ');
-        System.debug(results);
-      } catch (Exception e) {
-        System.debug('Error sending email: ' + e.getMessage());
-        returnVal.put('error', e.getMessage());
-      }
-    return returnVal;
+    if (!Test.isRunningTest()) {
+      Messaging.SendEmailResult[] results = Messaging.sendEmail(
+        new List<Messaging.SingleEmailMessage>{ mail }
+      );
+      System.debug('these are the results of sending your initial email: ');
+      System.debug(results);
+    }
+    return mail;
   }
 }

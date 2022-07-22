@@ -20,11 +20,19 @@
         <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
+                <name>cynthia.martinez@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
                 <name>gregg.moore@cvest.com</name>
                 <type>user</type>
             </approver>
             <approver>
                 <name>jimmy.rojas@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
+                <name>sommer.neyts@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>

@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
-        <value xsi:type="xsd:string">SAB;Commercial;BTR</value>
+        <value xsi:type="xsd:string">Commercial;BTR</value>
     </values>
     <values>
         <field>Additional_C2C_Filtering__c</field>
-        <value xsi:type="xsd:string">SAB;Commercial;BTR</value>
+        <value xsi:type="xsd:string">Commercial;BTR</value>
     </values>
     <values>
         <field>Borrower_Access__c</field>
@@ -60,6 +60,10 @@
     </values>
     <values>
         <field>Include_for_Term_Sheet_Approval__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Legal_Review__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -148,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Diligence Review</value>
+        <value xsi:type="xsd:string">Diligence Review;Lender Underwriter</value>
     </values>
     <values>
         <field>sObject__c</field>

@@ -162,6 +162,7 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Property AVMs</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

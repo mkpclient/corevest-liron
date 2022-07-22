@@ -1,24 +1,24 @@
 public with sharing class ApplicationHelper {
   public static void beforeInsert(List<Application__c> newList) {
-    Map<String, Id> recordTypeMap = new Map<String, Id>();
+    // Map<String, Id> recordTypeMap = new Map<String, Id>();
 
-    for (RecordType rt : [
-      SELECT Id, DeveloperName
-      FROM RecordType
-      WHERE Sobjecttype = 'Application__c'
-    ]) {
-      recordTypeMap.put(rt.DeveloperName, rt.Id);
-    }
+    // for (RecordType rt : [
+    //   SELECT Id, DeveloperName
+    //   FROM RecordType
+    //   WHERE Sobjecttype = 'Application__c'
+    // ]) {
+    //   recordTypeMap.put(rt.DeveloperName, rt.Id);
+    // }
 
-    for (Application__c app : newList) {
-      if (app.Loan_Type__c == 'rental') {
-        app.RecordTypeId = recordTypeMap.get('Rental');
-      } else if (app.Loan_Type__c == 'term') {
-        app.RecordTypeId = recordTypeMap.get('Term');
-      } else if (app.Loan_Type__c == 'bridge') {
-        app.RecordTypeId = recordTypeMap.get('Bridge');
-      }
-    }
+    // for (Application__c app : newList) {
+    //   if (app.Loan_Type__c == 'rental') {
+    //     app.RecordTypeId = recordTypeMap.get('Rental');
+    //   } else if (app.Loan_Type__c == 'term') {
+    //     app.RecordTypeId = recordTypeMap.get('Term');
+    //   } else if (app.Loan_Type__c == 'bridge') {
+    //     app.RecordTypeId = recordTypeMap.get('Bridge');
+    //   }
+    //}
   }
 
   @AuraEnabled
@@ -52,10 +52,58 @@ public with sharing class ApplicationHelper {
           Lead__r.ConvertedContactId,
           Contact__r.AccountId,
           Loan_Purpose__c,
-          Loan_Desired_Amount__c
+          Loan_Desired_Amount__c,
+          Felony__c,
+          On_Financial_Sanction_List__c,
+          Deliquent_Or_Default_On_Any_Debt__c,
+          Pending_Litigations__c,
+          Property_Violations_Investigations_5yr__c,
+          Outstanding_Judgements__c,
+          Is_Lawsuit_Defendant__c,
+          Portfolio_Properties_Litigations__c,
+          Is_Permanent_Resident_Alien__c,
+          Is_US_Citizen__c,
+          Is_Foreign_National__c
         FROM Application__c
         WHERE Id = :recordId
       ];
+
+      Contact contact = new Contact(Id = application.contact__c);
+      contact.HaveYouBeenConvictFelony_Quest__c = application.Felony__c
+        ? 'Yes'
+        : 'No';
+      contact.HaveYouIdNationalTreasury_Quest__c = application.On_Financial_Sanction_List__c
+        ? 'Yes'
+        : 'No';
+      contact.Are_You_Delinquent_Default_Fed_Debt__c = application.Deliquent_Or_Default_On_Any_Debt__c
+        ? 'Yes'
+        : 'No';
+      contact.DoYouCurrentPendingLitig_Quest__c = application.Pending_Litigations__c
+        ? 'Yes'
+        : 'No';
+      contact.InLastFiveYrsPropCited_Quest__c = application.Property_Violations_Investigations_5yr__c
+        ? 'Yes'
+        : 'No';
+      contact.DoYouCurrJudgeAgainst_Quest__c = application.Outstanding_Judgements__c
+        ? 'Yes'
+        : 'No';
+      contact.Are_You_Currently_A_Defendant_Lawsuit__c = application.Is_Lawsuit_Defendant__c
+        ? 'Yes'
+        : 'No';
+      contact.Are_You_Currently_Pending_Existing_Prop__c = application.Portfolio_Properties_Litigations__c
+        ? 'Yes'
+        : 'No';
+      contact.Are_You_A_Perm_Resident_Alien__c = application.Is_Permanent_Resident_Alien__c
+        ? 'Yes'
+        : 'No';
+      contact.Are_You_A_Foreign_National__c = application.Is_Foreign_National__c
+        ? 'Yes'
+        : 'No';
+      contact.AreYouAUSCitizen_Quest__c = application.Is_US_Citizen__c
+        ? 'Yes'
+        : 'No';
+
+      update contact;
 
       String name = params.get('Name');
       Opportunity opp = new Opportunity();
@@ -80,7 +128,7 @@ public with sharing class ApplicationHelper {
       if (
         application.loan_Type__c == 'Build for Rent' ||
         application.Loan_Type__c == 'Credit Line' ||
-        application.Loan_Type__c == 'Bridge Loan' ||
+        application.Loan_Type__c == 'Single Asset Bridge Loan' ||
         application.Loan_Type__c == 'Multifamily'
       ) {
         opp.RecordTypeId = recordTypeMap.get('LOC_Loan');
@@ -88,8 +136,8 @@ public with sharing class ApplicationHelper {
       } else if (application.loan_Type__c == 'Rental Portfolio') {
         opp.RecordTypeId = recordTypeMap.get('Term_Loan');
         opp.CloseDate = system.today().addDays(65);
-      } else if (application.loan_Type__c == 'rental') {
-        if (recordTypes[0] == 'Bridge and Rental') {
+      } else if (application.loan_Type__c == 'Bridge and Rental') {
+        if (recordTypes[0] == 'term') {
           opp.RecordTypeId = recordTypeMap.get('Term_Loan');
           opp.CloseDate = system.today().addDays(65);
         } else {
@@ -117,6 +165,11 @@ public with sharing class ApplicationHelper {
       //insert opp;
       response.put('oppId', opp.Id);
       application.Deal__c = opp.Id;
+
+      if (opps.size() > 1) {
+        application.Deal_2__c = opps[0].Id;
+      }
+
       update application;
 
       List<Deal_Contact__c> dcs = new List<Deal_Contact__c>();
@@ -242,6 +295,10 @@ public with sharing class ApplicationHelper {
 
         if (property.Property_Type__c == 'townhom') {
           property.Property_Type__c = 'townhome';
+        }
+
+        if (property.Property_Type__c == '1-4 Unit') {
+          property.Property_Type__c = '2-4 Unit';
         }
 
         prop.Property_Type__c = property.Property_Type__c;

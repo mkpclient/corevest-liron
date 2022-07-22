@@ -103,6 +103,10 @@
                 <behavior>Edit</behavior>
                 <field>Mortgage_Investor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -144,10 +148,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>LTV__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -323,14 +323,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Borrower_Name_SR__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Borrowing_Entity_Name_SR__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Origination_Channel_SR__c</field>
             </layoutItems>
         </layoutColumns>
@@ -375,6 +367,26 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ChangeOwnerOne</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Upload_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>PrintableView</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
@@ -403,26 +415,6 @@
             <actionName>Opportunity.Event</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>9</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>PrintableView</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>3</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>ChangeOwnerOne</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>1</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Upload_Documents</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>2</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -517,11 +509,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
+        <fields>Funding_Vehicle__c</fields>
+        <fields>Include_Yes_No__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

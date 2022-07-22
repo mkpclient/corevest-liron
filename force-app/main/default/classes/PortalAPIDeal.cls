@@ -199,7 +199,7 @@ global with sharing class PortalAPIDeal {
 
         String queryString = 'SELECT ';
         queryString += String.join(new List<String>(fields), ',');
-        queryString += ' ,Contact__r.Name, Application__r.Term_Sheet_Sent__c ';
+        queryString += ' ,Contact__r.Name, Application__r.Term_Sheet_Sent__c, Application__r.Deal__r.Name, Application__r.Deal__c ';
         queryString += ' ,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
         queryString += ' (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone, User.Portal_Profile_Pic__c FROM OpportunityTeamMembers) ';
 
@@ -212,7 +212,7 @@ global with sharing class PortalAPIDeal {
           new List<String>(applicationFieldNames),
           ','
         );
-        applicationQueryString += ' FROM Applications__r';
+        applicationQueryString += ', Deal__r.Name, Lead__r.Name, Contact__r.Name FROM Applications__r';
 
         queryString += ', (' + applicationQueryString + ')';
 
@@ -364,7 +364,7 @@ global with sharing class PortalAPIDeal {
         o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
         o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
       ) {
-        this.loanType = 'Bridge Loan';
+        this.loanType = 'Single Asset Bridge Loan';
       }
       if (o.Loc_Loan_Type__c == 'Multifamily/CRE') {
         this.loanType = 'Multifamily';
@@ -459,7 +459,7 @@ global with sharing class PortalAPIDeal {
         o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
         o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
       ) {
-        this.productType = 'Bridge Loan';
+        this.productType = 'Single Asset Bridge Loan';
       }
       if (o.Loc_Loan_Type__c == 'Multifamily/CRE') {
         this.productType = 'Multifamily';

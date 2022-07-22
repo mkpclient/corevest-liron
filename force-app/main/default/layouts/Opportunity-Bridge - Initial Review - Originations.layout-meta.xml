@@ -92,6 +92,10 @@
                 <behavior>Edit</behavior>
                 <field>Lender__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -144,15 +148,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Loan_Coordinator__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Closer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -242,6 +246,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>GLC_Approved__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>GLC_Required__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -576,11 +584,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Add_Guarantor</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -589,6 +592,11 @@
             <actionName>Opportunity.New_Individual</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Grant_Portal_Access</actionName>
@@ -669,11 +677,6 @@
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>18</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Update_Swap_Rate</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>19</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -835,14 +838,6 @@
         <fields>CREATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Covenant__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

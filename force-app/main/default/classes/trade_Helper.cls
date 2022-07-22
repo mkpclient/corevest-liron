@@ -7,58 +7,58 @@ public class trade_Helper {
     * @description
     * @param
     **/
-    public static void beforeInsert(List<Trade__c> newList){
-        Map<Id, List<Trade__c>> tradeMap = new Map<Id, List<Trade__c>>();
-        for(Trade__c trade : newList){
-            if(String.isBlank(trade.Name)){
-                //tradeMap.put(trade.Correspondent__c, trade);
-                if(!tradeMap.containsKey(trade.Correspondent__c)){
-                    tradeMap.put(trade.Correspondent__c, new List<Trade__c>());
-                }
+     public static void beforeInsert(List<Trade__c> newList){
+         Map<Id, List<Trade__c>> tradeMap = new Map<Id, List<Trade__c>>();
+         for(Trade__c trade : newList){
+             if(String.isBlank(trade.Name)){
+                 //tradeMap.put(trade.Correspondent__c, trade);
+                 if(!tradeMap.containsKey(trade.Correspondent__c)){
+                     tradeMap.put(trade.Correspondent__c, new List<Trade__c>());
+                 }
 
-                tradeMap.get(trade.Correspondent__c).add(trade);
-            }
+                 tradeMap.get(trade.Correspondent__c).add(trade);
+             }
             
-        }
+         }
 
-        for(Account a : [SELECT Id, Name, (Select Id FROM Trades__r) FROM Account WHERE Id IN : tradeMap.keySet()]){
-            if(a.Trades__r.size() > 0){
+         for(Account a : [SELECT Id, Name, (Select Id FROM Trades__r) FROM Account WHERE Id IN : tradeMap.keySet()]){
+             if(a.Trades__r.size() > 0){
                 
-                for(Integer i = 0; i < tradeMap.get(a.Id).size(); i++){
-                    tradeMap.get(a.Id)[i].Name = String.valueOf(a.Trades__r.size() + 1 + i); 
-                }
-            }else{
+                 for(Integer i = 0; i < tradeMap.get(a.Id).size(); i++){
+                     tradeMap.get(a.Id)[i].Name = String.valueOf(a.Trades__r.size() + 1 + i); 
+                 }
+             }else{
                
-                for(Integer i = 0; i < tradeMap.get(a.Id).size(); i++){
-                    tradeMap.get(a.Id)[i].Name = String.valueOf(1+i);
-                }
-            }
+                 for(Integer i = 0; i < tradeMap.get(a.Id).size(); i++){
+                     tradeMap.get(a.Id)[i].Name = String.valueOf(1+i);
+                 }
+             }
 
 
-            String abbr = '';
+             String abbr = '';
 
-            for(String name : a.Name.split(' ')){
-                if(String.isNotBlank(name)){
-                    abbr += name.substring(0,1);
-                }
-            }
+             for(String name : a.Name.split(' ')){
+                 if(String.isNotBlank(name)){
+                     abbr += name.substring(0,1);
+                 }
+             }
 
-            for(Trade__c trade : tradeMap.get(a.Id)){
-                trade.Account_Abbreviation__c = abbr;
+             for(Trade__c trade : tradeMap.get(a.Id)){
+                 trade.Account_Abbreviation__c = abbr;
 
-                for(Integer i = trade.Name.length(); i < 4; i++ ){
-                    trade.Name = '0' + trade.Name;
-                }
+                 for(Integer i = trade.Name.length(); i < 4; i++ ){
+                     trade.Name = '0' + trade.Name;
+                 }
 
-                trade.Name = abbr + '-' + trade.Name;
+                 trade.Name = abbr + '-' + trade.Name;
 
-            }
-
-
+             }
 
 
-        }
-    }
+
+
+         }
+     }
 
     /**
     * @name afterInsert

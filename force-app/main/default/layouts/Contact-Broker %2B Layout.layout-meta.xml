@@ -123,6 +123,10 @@
                 <behavior>Readonly</behavior>
                 <field>utm_Campaign_Source__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Last_Login__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -289,6 +293,16 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Contact.New_Loan_Referral_Action</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>13</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Contact.Event</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>14</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>CallHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>0</sortOrder>
@@ -352,16 +366,6 @@
             <actionName>SendEmail</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Contact.New_Loan_Referral_Action</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>13</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Contact.Event</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>14</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

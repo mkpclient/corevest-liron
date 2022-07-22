@@ -30,7 +30,7 @@
                 <name>locpricingrequests@cvest.com</name>
                 <type>user</type>
             </approver>
-            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
         </assignedApprover>
         <label>Underwriter and Capital Markets Review</label>
         <name>Underwriter_and_Capital_Markets_Review</name>
@@ -86,7 +86,7 @@
         <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
         <userHierarchyField>Manager</userHierarchyField>
     </nextAutomatedApprover>
-    <processOrder>8</processOrder>
+    <processOrder>6</processOrder>
     <recallActions>
         <action>
             <name>Current_Approval_Process_NULL</name>

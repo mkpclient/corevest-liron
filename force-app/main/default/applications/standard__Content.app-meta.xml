@@ -15,4 +15,7 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>TPO_Pool__c</tabs>
+    <tabs>Custodial_Exception__c</tabs>
 </CustomApplication>

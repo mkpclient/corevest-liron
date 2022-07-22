@@ -9,7 +9,7 @@ Opportunity.CAF_Analyst__r.Email + &apos;;&apos; +
 Opportunity.Loan_Coordinator__r.Email + &apos;;&apos; +
 Opportunity.Owner.Email + &apos;;&apos; +
 Opportunity.Co_Originator__r.Email + &apos;;&apos; + 
-Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + 
+Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; +
 &apos;micaela.lumpkin@cvest.com;gregg.moore@cvest.com;behnam.hoss@cvest.com;dealhandler@k-2bh7wkoo683pchiov12ni6j453cr34w4pg7vofaxhrpqh5ugzj.j-l4sceas.na159.apex.salesforce.com&apos;</formula>
     </fieldOverrides>
     <fieldOverrides>
@@ -18,12 +18,11 @@ Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; +
     </fieldOverrides>
     <fieldOverrides>
         <field>Subject</field>
-        <formula>&apos;Rate Lock - &apos; + Opportunity.Name + &apos; #&apos; +  Opportunity.Deal_Loan_Number__c</formula>
+        <formula>&apos;Rate Lock - &apos; + Opportunity.Name + &apos; #&apos; + Opportunity.Deal_Loan_Number__c</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>ToAddress</field>
-        <formula>&apos;matthew.orrino@cvest.com&apos; + &apos;;&apos; + 
-&apos;leah.granovskaya@cvest.com&apos; + &apos;;&apos; + &apos;conor.flannery@redwoodtrust.com&apos; + &apos;;&apos; + &apos;bo.stern@redwoodtrust.com&apos; + &apos;;&apos; + &apos;Erica.Dippold@cvest.com&apos; + &apos;;&apos; + &apos;katie.goldenberg@cvest.com&apos;</formula>
+        <formula>&apos;leah.granovskaya@cvest.com&apos; + &apos;;&apos; + &apos;conor.flannery@redwoodtrust.com&apos; + &apos;;&apos; + &apos;bo.stern@redwoodtrust.com&apos;</formula>
     </fieldOverrides>
     <label>Rate Lock Email</label>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>

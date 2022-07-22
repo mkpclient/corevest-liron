@@ -162,6 +162,21 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIApplicationProperty.doPost();
+
+    Application__c application = new APplication__c(
+      Id = applicationId,
+      Loan_Type__c = 'Single Asset Bridge Loan'
+    );
+    application.Status__c = 'Completed';
+    update application;
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/application/af-sdba/prefill/sab';
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIApplication.doGet();
   }
 
   static testMethod void dashboardTests() {
@@ -305,7 +320,7 @@ private class PortalAPITests {
   static testMethod void commentTests() {
     Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
     RestRequest request = new RestRequest();
-    request.requestUri = BASE_URL + '/services/apexrest/portal/application/';
+    request.requestUri = BASE_URL + 'services/apexrest/portal/comments';
     request.httpMethod = 'POST';
     request.addHeader('Content-Type', 'application/json');
 
@@ -320,7 +335,7 @@ private class PortalAPITests {
     PortalAPIComments.doPost();
 
     request = new RestRequest();
-    request.requestUri = BASE_URL + '/services/apexrest/portal/application/';
+    request.requestUri = BASE_URL + 'services/apexrest/portal/comments';
     request.httpMethod = 'POST';
     request.addHeader('Content-Type', 'application/json');
 
@@ -340,6 +355,38 @@ private class PortalAPITests {
 
     request = new RestRequest();
     request.requestUri = 'apexrest/portal/comments/loanId/' + opp.Id;
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIComments.doGet();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/propertyId/' + opp.Id;
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIComments.doGet();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/documentId/' + opp.Id;
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIComments.doGet();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/itemId/' + opp.Id;
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIComments.doGet();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/userId/' + opp.Id;
     request.httpMethod = 'GET';
 
     RestContext.request = request;
@@ -395,6 +442,12 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIComments.doGet();
+
+    Test.startTest();
+    MessageCenterController.getAllComments(opp.Id);
+    Comment__c comments = [SELECT Id FROM Comment__c LIMIT 1];
+    MessageCenterController.getCommentsById(comments.Id);
+    Test.stopTest();
   }
 
   static testMethod void termsheetTests() {
@@ -466,6 +519,16 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPITermSheet.doGet();
+
+    Test.startTest();
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/timeline/af-sdba';
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPITimeline.doGet();
+    Test.stopTest();
   }
 
   static testMethod void userTests() {
@@ -579,7 +642,6 @@ private class PortalAPITests {
     );
 
     insert dc;
-
     Test.startTest();
     Property__c prop = new Property__c();
     prop.Property_Type__c = 'SFR';
@@ -597,6 +659,16 @@ private class PortalAPITests {
     request.httpMethod = 'GET';
     RestContext.request = request;
     RestContext.response = new RestResponse();
+
+    PortalAPIDocumentVault.doGet();
+
+    request = new RestRequest();
+    request.requestUri =
+      'apexrest/portal/documentvault/af-sdba/vault/' + prop.Id;
+    request.httpMethod = 'GET';
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+
     PortalAPIDocumentVault.doGet();
 
     request = new RestRequest();
@@ -614,6 +686,54 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doGet();
 
+    Test.stopTest();
+    // Checklist_ITem__c item = [
+    //   SELECT Id
+    //   FROM Checklist_Item__c
+    //   WHERE RecordType.DeveloperName = 'Document_Upload'
+    //   LIMIT 1
+    // ];
+  }
+
+  static testMethod void documentTests2() {
+    Contact cont = [SELECT Id, AccountId FROM Contact LIMIT 1];
+
+    Opportunity topp1 = new Opportunity();
+    topp1.Name = 'documentTests';
+    topp1.CloseDate = System.today();
+    topp1.StageName = 'Initial Review';
+    topp1.Loan_Size__c = 2000000;
+    topp1.AccountId = cont.AccountId;
+    topp1.Contact__c = cont.Id;
+    topp1.Final_Loan_Amount__c = 100;
+    topp1.Deal_Intro_Source__c = 'Hotline';
+    topp1.Deal_Intro_Sub_Source__c = 'Main';
+    topp1.Apex_Context__c = true;
+    topp1.Term_Loan_Type__c = '5 Year';
+    topp1.YM_Prepayment_Penalty__c = '48 Months';
+    topp1.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
+    ]
+    .Id;
+    insert topp1;
+
+    //topp1.Term_Sheet_Issued__c = System.today();
+    // update topp1;
+
+    Deal_Contact__c dc = new Deal_Contact__c(
+      Contact__c = cont.Id,
+      Deal__c = topp1.Id,
+      Deal_Contact_Type__c = 'Individual',
+      Entity_Type__c = 'Sponsor' //if statement based on record type.
+    );
+
+    insert dc;
+
+    Test.startTest();
+    RestRequest request = new RestRequest();
+    RestContext.response = new RestResponse();
     ContentVersion cv = new ContentVersion(
       Title = 'test.txt',
       PathOnClient = 'test.txt',
@@ -630,12 +750,6 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doGet();
 
-    // Checklist_ITem__c item = [
-    //   SELECT Id
-    //   FROM Checklist_Item__c
-    //   WHERE RecordType.DeveloperName = 'Document_Upload'
-    //   LIMIT 1
-    // ];
     Checklist__c checklist = new Checklist__c();
     checklist.Deal__c = topp1.Id;
     insert checklist;
@@ -666,7 +780,7 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doPost();
-    Test.stopTest();
+    // Test.stopTest();
 
     request = new RestRequest();
     request.requestUri = 'apexrest/portal/documents/af-sdba/' + topp1.Id;
@@ -713,6 +827,8 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doPost();
+
+    Test.stopTest();
   }
 
   static testMethod void apiTests() {
@@ -767,6 +883,8 @@ private class PortalAPITests {
     .Id;
     insert topp2;
 
+    Test.startTest();
+
     RestRequest request = new RestRequest();
     request.requestUri = 'apexrest/portal/checklist/milestones/' + topp2.Id;
     request.httpMethod = 'GET';
@@ -799,6 +917,8 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIChecklist.doGet();
+
+    Test.stopTest();
   }
 
   static testMethod void apiTests3() {
@@ -847,6 +967,28 @@ private class PortalAPITests {
 
     PortalAPIBroker.doPost();
 
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/broker/invite/';
+    request.httpMethod = 'POST';
+
+    body = new Map<String, String>();
+    Application__c application = new Application__c();
+    insert application;
+    body.put('brokerId', 'af-sdba');
+    body.put('borrowerEmail', 'test@example.com');
+    body.put('borrowerFirstName', 'firstname');
+    body.put('borrowerLastName', 'lastname');
+    body.put('borrowerLastName', 'test company');
+    body.put('borrowerId', 'af-sdaa');
+    body.put('applicationId', application.Id);
+
+    request.requestBody = Blob.valueOf(JSON.serialize(body));
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+
+    PortalAPIBroker.doPost();
+
     Test.stopTest();
   }
 
@@ -855,6 +997,16 @@ private class PortalAPITests {
     Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
     request.requestUri = 'apexrest/portal/fundings/' + opp.Id + '/new/';
     request.httpMethod = 'POST';
+
+    ContentVersion cv = new ContentVersion(
+      Title = 'test.txt',
+      PathOnClient = 'test.txt',
+      VersionData = Blob.valueOf('test.txt'),
+      Uploaded_From_Portal_Id__c = 'af-sdba',
+      Linked_to_Record__c = true
+    );
+
+    insert cv;
 
     Map<String, Object> body = new Map<String, Object>();
 
@@ -880,7 +1032,8 @@ private class PortalAPITests {
     body.put('interiorContact', 'Interior Contact');
     body.put('interiorAccessPOCPhone', '555-555-5555');
     body.put('interiorAccessPOCPhone', 'interior@example.com');
-
+    body.put('settlementStatementId', cv.Id);
+    body.put('purchaseContractId', cv.Id);
     List<Map<String, Object>> funding = new List<Map<String, Object>>();
     funding.add(body);
 
@@ -888,5 +1041,15 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIFunding.doPost();
+
+    Test.startTest();
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/timeline/af-sdba';
+    request.httpMethod = 'GET';
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPITimeline.doGet();
+    Test.stopTest();
   }
 }

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Renovation_Advance_Amount_Used__c</fullName>
-    <description>Bridge Use</description>
+    <description>The amount of the Renovation Advance that has been funded
+Bridge Use</description>
     <externalId>false</externalId>
     <inlineHelpText>The amount of the Renovation Advance that has been funded</inlineHelpText>
     <label>Renovation Advance Amount Funded</label>

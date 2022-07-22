@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exception_Status_Custodian__c</fullName>
+    <description>“Pending” if the bank is still including in the feed; “Resolved” if bank has removed it from the feed</description>
+    <externalId>false</externalId>
+    <inlineHelpText>“Pending” if the bank is still including in the feed; “Resolved” if bank has removed it from the feed</inlineHelpText>
+    <label>Exception Status Custodian</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Resolved</fullName>
+                <default>false</default>
+                <label>Resolved</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

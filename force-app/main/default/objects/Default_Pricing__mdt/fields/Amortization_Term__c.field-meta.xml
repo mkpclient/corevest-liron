@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Amortization_Term__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Amortization Term</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>360 months</fullName>
+                <default>true</default>
+                <label>360 months</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

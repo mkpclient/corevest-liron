@@ -3,7 +3,7 @@
     <fullName>Net_Funding__c</fullName>
     <businessStatus>Active</businessStatus>
     <externalId>false</externalId>
-    <formula>Approved_Advance_Amount_Calc__c -  Origination_Fee__c - Advance_Fee__c - BPO_Appraisal_Fee__c - Doc_Prep_Fee__c - BlackSquare_Fee__c - Daily_Interest_Rate_Total__c - Inspection_Fee__c</formula>
+    <formula>Approved_Advance_Amount_Calc__c -  Origination_Fee__c - Advance_Fee__c - IF(Advance__r.Appraisal_Fee_Netted__c,BPO_Appraisal_Fee__c,0) - Doc_Prep_Fee__c - BlackSquare_Fee__c - Daily_Interest_Rate_Total__c - Inspection_Fee__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Net Funding</label>
     <precision>18</precision>

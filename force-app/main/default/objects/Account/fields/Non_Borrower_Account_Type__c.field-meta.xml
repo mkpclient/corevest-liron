@@ -211,6 +211,11 @@
                 <label>Vendor</label>
             </value>
             <value>
+                <fullName>Warehouse Lender</fullName>
+                <default>false</default>
+                <label>Warehouse Lender</label>
+            </value>
+            <value>
                 <fullName>Wholesale</fullName>
                 <default>false</default>
                 <label>Wholesale</label>

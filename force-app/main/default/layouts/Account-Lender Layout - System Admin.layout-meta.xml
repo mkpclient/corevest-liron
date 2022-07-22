@@ -30,6 +30,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Investor_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Phone</field>
             </layoutItems>
             <layoutItems>
@@ -64,6 +68,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>RecordTypeId</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Account_Status__c</field>
             </layoutItems>
             <layoutItems>
@@ -73,10 +81,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Approval_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -101,6 +105,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Account_Notes__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Refer_to_Asset_Management__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -437,34 +445,39 @@
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>AccountHierarchy</actionName>
+            <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>PrintableView</actionName>
+            <actionName>AccountHierarchy</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Account.Task</actionName>
-            <actionType>QuickAction</actionType>
+            <actionName>PrintableView</actionName>
+            <actionType>StandardButton</actionType>
             <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Account.Log_a_Call</actionName>
+            <actionName>Account.Task</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>10</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>SendEmail</actionName>
+            <actionName>Account.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Account.Opportunity</actionName>
+            <actionName>SendEmail</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Account.Opportunity</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>13</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -484,13 +497,6 @@
         <relatedList>RelatedContactList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Lender_Deal__c.Lender__c</relatedList>
-        <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
         <fields>OPPORTUNITY.NAME</fields>
         <fields>OPPORTUNITY.STAGE_NAME</fields>
         <fields>OPPORTUNITY.AMOUNT</fields>
@@ -502,7 +508,12 @@
         <fields>ACCOUNT.NAME</fields>
         <fields>OPPORTUNITY.CLOSE_DATE</fields>
         <fields>OPPORTUNITY.RECORDTYPE</fields>
+        <fields>Deal_Code__c</fields>
+        <fields>Yardi_ID__c</fields>
+        <fields>Purchase_Date__c</fields>
         <relatedList>Opportunity.Approved_Third_Party_Originators__c</relatedList>
+        <sortField>Purchase_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -557,6 +568,14 @@
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Section__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Checklist_Item__c.Account__c</relatedList>
+    </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
@@ -564,7 +583,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8B000000If8X</masterLabel>
+        <masterLabel>00h5b00000CgHki</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

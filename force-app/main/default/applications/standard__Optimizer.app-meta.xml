@@ -13,6 +13,9 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
+    <tabs>Swap_Rate__c</tabs>
+    <tabs>TPO_Pool__c</tabs>
+    <tabs>Custodial_Exception__c</tabs>
     <uiType>Lightning</uiType>
     <workspaceConfig>
         <mappings>
@@ -31,10 +34,19 @@
             <tab>Comment__c</tab>
         </mappings>
         <mappings>
+            <tab>Custodial_Exception__c</tab>
+        </mappings>
+        <mappings>
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
             <tab>Loan_Version__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Swap_Rate__c</tab>
+        </mappings>
+        <mappings>
+            <tab>TPO_Pool__c</tab>
         </mappings>
         <mappings>
             <tab>standard-OrgMetric</tab>

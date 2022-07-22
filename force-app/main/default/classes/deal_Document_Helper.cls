@@ -10,7 +10,7 @@ public class deal_Document_Helper {
    **/
   public static void beforeInsert(List<Deal_Document__c> newList) {
     Map<Id, List<Deal_Document__c>> oppMap = new Map<Id, List<Deal_Document__c>>();
-
+    Map<Id, List<Deal_Document__c>> propMap = new Map<Id, List<Deal_Document__c>>();
     Map<Id, List<Deal_Document__c>> needDealAdvances = new Map<Id, List<Deal_Document__c>>();
     Map<Id, List<Deal_Document__c>> needDealProperty = new Map<Id, List<Deal_Document__c>>();
 
@@ -65,13 +65,19 @@ public class deal_Document_Helper {
         }
         oppMap.get(doc.Deal__c).add(doc);
       }
+      // if (doc.Property__c != null) {
+      //   if (doc.Property__c != null) {
+      //     propMap.put(doc.Deal__c, new List<Deal_Document__c>());
+      //   }
+      //   propMap.get(doc.Deal__c).add(doc);
+      // }
 
       if (String.isNotBlank(doc.Document_Structure_Id__c)) {
         docStructureIds.add(doc.Document_Structure_Id__c);
       }
     }
 
-    if (oppMap.size() > 0) {
+    if (oppMap.size() > 0 || propMap.size() > 0) {
       Map<Id, Map<String, Checklist_Item__c>> itemMap = new Map<Id, Map<String, Checklist_Item__c>>();
       for (Checklist_Item__c item : [
         SELECT Id, Document_Type__c, Checklist_Section__r.Checklist__r.Deal__c
@@ -92,14 +98,17 @@ public class deal_Document_Helper {
       }
 
       for (Deal_Document__c doc : newList) {
-        if (doc.Checklist_Item__c == null && doc.Deal__c != null) {
-          if (
-            itemMap.containsKey(doc.Deal__c) &&
-            itemMap.get(doc.Deal__c).containsKey(doc.Document_Type__c)
-          ) {
-            doc.Checklist_Item__c = itemMap.get(doc.Deal__c)
-              .get(doc.Document_Type__c)
-              .Id;
+        if (doc.Checklist_Item__c == null) {
+          if (doc.Deal__c != null) {
+            if (
+              itemMap.containsKey(doc.Deal__c) &&
+              itemMap.get(doc.Deal__c).containsKey(doc.Document_Type__c)
+            ) {
+              doc.Status__c = 'Not Reviewed';
+              doc.Checklist_Item__c = itemMap.get(doc.Deal__c)
+                .get(doc.Document_Type__c)
+                .Id;
+            }
           }
         }
       }
@@ -142,7 +151,8 @@ public class deal_Document_Helper {
             Upload_Notification_Loan_Coordinator__c,
             Upload_Notification_Originations__c,
             Upload_Notification_Underwriter__c,
-            Document_Type__c
+            Document_Type__c,
+            Legal_Review__c
           FROM Document_Structure__mdt
           WHERE Id IN :docStructureIds
         ]
@@ -180,6 +190,8 @@ public class deal_Document_Helper {
             .Upload_Notification_Originations__c;
           doc.Upload_Notification_Underwriter__c = docStructure
             .Upload_Notification_Underwriter__c;
+          doc.Legal_Review__c = docStructure
+            .Legal_Review__c;
         }
       }
     }
@@ -206,7 +218,7 @@ public class deal_Document_Helper {
         FROM Checklist_Item__c
         WHERE Id IN :itemIds
       ]) {
-        item.Status__c = 'Pending';
+        item.Status__c = 'Uploaded';
         items.add(item);
       }
 
@@ -244,6 +256,27 @@ public class deal_Document_Helper {
         } else if (!newList[i].Reviewed__c) {
           newList[i].Reviewed_By__c = null;
           newList[i].Reviewed_On__c = null;
+        }
+      }
+
+      if (newList[i].Status__c != oldList[i].Status__c) {
+        if (newList[i].Status__c == 'Approved') {
+          newList[i].Approved_On__c = system.now();
+          newList[i].Approved_By__c = UserInfo.getUserId();
+        }
+
+        if (newList[i].Status__c == 'Not Reviewed') {
+          newList[i].Approved_On__c = null;
+          newList[i].Approved_By__c = null;
+          newList[i].Reviewed_On__c = null;
+          newList[i].Reviewed_By__c = null;
+
+          newList[i].Reviewed__c = false;
+        }
+
+        if (newList[i].Status__c == 'Rejected') {
+          newList[i].Approved_On__c = null;
+          newList[i].Approved_By__c = null;
         }
       }
 
@@ -415,7 +448,8 @@ public class deal_Document_Helper {
   ) {
     Set<Id> updateAppraisals = new Set<Id>();
 
-    Map<Id,Deal_Document__c> updateFileNamesMap = new Map<Id,Deal_Document__c>();//CIP 2152. 1/25/2022. Raj Sirivolu.
+    Map<Id, Deal_Document__c> updateFileNamesMap = new Map<Id, Deal_Document__c>(); //CIP 2152. 1/25/2022. Raj Sirivolu.
+    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
@@ -425,13 +459,15 @@ public class deal_Document_Helper {
         updateAppraisals.add(newList[i].Id);
       }
 
-        //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
-	    if ((newList[i].File_Name__c  != oldList[i].File_Name__c ) && !String.isblank(newList[i].File_Name__c) 
-      && !String.isblank(oldList[i].File_Name__c))
-      {
-          updateFileNamesMap.put(newList[i].Attachment_Id__c ,newList[i]); 
+      //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+      if (
+        (newList[i].File_Name__c != oldList[i].File_Name__c) &&
+        !String.isblank(newList[i].File_Name__c) &&
+        !String.isblank(oldList[i].File_Name__c)
+      ) {
+        updateFileNamesMap.put(newList[i].Attachment_Id__c, newList[i]);
       }
-        //CIP 2152. 1/25/2022. Raj Sirivolu.End  
+      //CIP 2152. 1/25/2022. Raj Sirivolu.End
 
       if (
         newList[i].Document_Type__c == 'Term Sheet' &&
@@ -441,7 +477,23 @@ public class deal_Document_Helper {
       ) {
         AlchemyAPI.sendTermSheet(newList[i].Deal__c, newList[i].Id);
       }
+
+      if (
+        newList[i].Status__c != oldList[i].Status__c &&
+        newList[i].Checklist_Item__c != null
+      ) {
+        if (newList[i].Status__c == 'Rejected') {
+          items.add(
+            new Checklist_Item__c(
+              Id = newList[i].Checklist_Item__c,
+              Status__c = 'In Progress (Open)'
+            )
+          );
+        }
+      }
     }
+
+    update items;
 
     if (updateAppraisals.size() > 0) {
       List<Appraisal__c> appraisalsToUpdate = new List<Appraisal__c>();
@@ -459,17 +511,20 @@ public class deal_Document_Helper {
       }
     }
 
-       //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
-   List<ContentDocument > contentdocList = new List<ContentDocument >();
+    //CIP 2152. 1/25/2022. Raj Sirivolu.Begin
+    List<ContentDocument> contentdocList = new List<ContentDocument>();
 
-   for (ContentDocument contentdoc : [SELECT Id,Title from ContentDocument  where id in :updateFileNamesMap.keyset()])          
-   {
-                  contentdoc.Title = updateFileNamesMap.get(contentdoc.id).File_Name__c ;
-       			  contentdocList.add(contentdoc);
-   }
-   
-   update contentdocList;
-   //CIP 2152. 1/25/2022. Raj Sirivolu.End   
+    for (ContentDocument contentdoc : [
+      SELECT Id, Title
+      FROM ContentDocument
+      WHERE id IN :updateFileNamesMap.keyset()
+    ]) {
+      contentdoc.Title = updateFileNamesMap.get(contentdoc.id).File_Name__c;
+      contentdocList.add(contentdoc);
+    }
+
+    update contentdocList;
+    //CIP 2152. 1/25/2022. Raj Sirivolu.End
   }
 
   /**

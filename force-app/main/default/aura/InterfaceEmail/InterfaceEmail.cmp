@@ -79,7 +79,7 @@
             <div class="recipients section">
               <label class="slds-form-element__label">Recipient</label>
               <div class="slds-pill_container custom-padding-input">
-                {!v.recipients[0]}; {!v.recipients[1]}; {!v.recipients[2]}
+                {!v.recipients[0]}; {!v.recipients[1]}; {!v.recipients[2]}; {!v.recipients[3]}; {!v.recipients[4]}
               </div>
             </div>
 

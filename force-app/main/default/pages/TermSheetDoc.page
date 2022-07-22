@@ -152,6 +152,10 @@
         border-left: solid 1px #bebebe;
       }
 
+      .hidden {
+        display:none;
+      }
+
       table#hrdftrtbl {
         margin: 0in 0in 0in 9in;
       }
@@ -385,8 +389,17 @@
             <td class="row-description">
               The interest rate for the Loan shall be fixed at a rate equal to
               the sum of (a) the
-              <apex:outputText value=" {!Opportunity.Term_Loan_Type__c}" /> Swap
-              Rate as of the Closing (see defined term below) Date, subject to a
+              <span
+              style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year','inline','none')}"
+              >
+                <apex:outputText value="{!Opportunity.Term_Loan_Type__c}" />
+              </span>
+              <span
+              style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year','inline','none')}"
+              >
+                5 Year
+              </span>
+              <apex:outputText value="{!Opportunity.Rate_Based_On__c} " /> Rate as of the Closing (see defined term below) Date, subject to a
               floor of
               <apex:outputText value=" {0,number,###.00}">
                 <apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>% and (b)
@@ -455,17 +468,17 @@
                 style="display:{!IF(includeBrokerFee = false && Opportunity.Loan_Size__c >= 1000000,'inline','none')}"
               >
                 <apex:outputText value="{0, number, ##.00}">
-                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount, due at closing
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the Loan Amount, due at Closing
               </div>
               <div
                 style="display:{!IF(includeBrokerFee = true && Opportunity.Loan_Size__c >= 1000000,'inline','none')}"
               >
                 <apex:outputText value="{0, number, ##.00}">
-                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount paid to CoreVest and
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the Loan Amount paid to CoreVest and
                 <apex:outputText value="{0, number, 0.00}%">
                   <apex:param value="{! Opportunity.Broker_Fees__c}"
                 /></apex:outputText>
-                paid to the broker
+                paid to the broker, due at Closing
               </div>
             </td>
           </tr>
@@ -481,19 +494,29 @@
               >
                 The greater of $7,500 or
                 <apex:outputText value="{0, number, ##.00}">
-                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount, due at closing
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the Loan Amount, due at Closing
               </div>
               <div
                 style="display:{!IF(includeBrokerFee = true && Opportunity.Loan_Size__c < 1000000,'inline','none')}"
               >
                 The greater of $7,500 or
                 <apex:outputText value="{0, number, ##.00}">
-                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the loan amount paid to CoreVest and
+                  <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>% of the Loan Amount paid to CoreVest and
                 <apex:outputText value="{0, number, 0.00}%">
                   <apex:param value="{! Opportunity.Broker_Fees__c}"
                 /></apex:outputText>
-                paid to the broker
+                paid to the broker, due at Closing
               </div>
+            </td>
+          </tr>
+          <tr style="{!IF(Opportunity.Discount_Fee__c == null || Opportunity.Discount_Fee__c == 'None', 'display: none;', 'page-break-inside: avoid;')}">
+            <td class="row-title">
+              Discount Points:
+            </td>
+            <td class="row-description">
+              <apex:outputText value="{0} of the Loan Amount, due at Closing">
+                <apex:param value="{!IF(Opportunity.Discount_Fee__c == '1 pt rate buy down / -25 BPS', '1%', '2%')}" />
+              </apex:outputText>
             </td>
           </tr>
           <tr style="page-break-inside: avoid">
@@ -501,10 +524,10 @@
               Closing:
             </td>
             <td class="row-description">
-              Approximately sixty (60) days from the execution of this Summary
+              Approximately forty-five (45) days from the execution of this Summary
               of Terms (provided timely delivery of Due Diligence), on or about
               <apex:outputText value=" {0,date,MMMM d',' yyyy}">
-                <apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 60}" /></apex:outputText>. Any loan closing more than sixty (60) days after execution of
+                <apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 45}" /></apex:outputText>. Any loan closing more than forty-five (45) days after execution of
               Summary of Terms may be subject to additional underwriting fees.
             </td>
           </tr>
@@ -563,7 +586,11 @@
                       border: none;
                     "
                   >
-                    Reserves required for taxes, insurance, capital expenditures
+                    Reserves required for taxes, insurance
+                    <span
+                      style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'inline','none')}"
+                      >, capital expenditures</span
+                    >
                     <span
                       style="display:{!IF(Opportunity.Recourse__c != 'Recourse' && Opportunity.Cash_Management__c != 'None', 'inline','none')}"
                       >, advance rent and cash collateral</span
@@ -605,7 +632,7 @@
                       border: none;
                     "
                   >
-                    <span
+                    <!-- <span
                       style="display:{!IF(Opportunity.Total_Units__c >= 20 && (Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null), 'inline','none')}"
                       >One (1) month of principal and interest</span
                     >
@@ -620,7 +647,32 @@
                     <span
                       style="display:{!IF(Opportunity.Total_Units__c < 20 && Opportunity.IO_Term__c != '0 months', 'inline','none')}"
                       >One (1) month of interest</span
+                    > -->
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 1, 'inline','none')}"
+                      >One (1) month of</span
                     >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 2, 'inline','none')}"
+                      >Two (2) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 3, 'inline','none')}"
+                      >Three (3) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 4, 'inline','none')}"
+                      >Four (4) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.Holdback_Multiplier__c == 5, 'inline','none')}"
+                      >Five (5) months of</span
+                    >
+                    <span
+                      style="display:{!IF(Opportunity.IO_Term__c == '0 months' || Opportunity.IO_Term__c == null, 'inline','none')}"
+                      >principal and </span
+                    >
+                    interest
                   </td>
                   <td
                     style="
@@ -654,137 +706,137 @@
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
                     >
-                      34th month after origination
+                      34th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '36 Months', 'inline','none')}"
                     >
-                      36th month after origination
+                      36th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '42 Months', 'inline','none')}"
                     >
-                      42nd month after origination
+                      42nd Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '48 Months', 'inline','none')}"
                     >
-                      48th month after origination
+                      48th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '52 Months', 'inline','none')}"
                     >
-                      52nd month after origination
+                      52nd Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '53 Months', 'inline','none')}"
                     >
-                      53th month after origination
+                      53th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '54 Months', 'inline','none')}"
                     >
-                      54th month after origination
+                      54th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '55 Months', 'inline','none')}"
                     >
-                      55th month after origination
+                      55th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '56 Months', 'inline','none')}"
                     >
-                      56th month after origination
+                      56th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '57 Months', 'inline','none')}"
                     >
-                      57th month after origination
+                      57th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '58 Months', 'inline','none')}"
                     >
-                      58th month after origination
+                      58th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '60 Months', 'inline','none')}"
                     >
-                      60th month after origination
+                      60th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '61 Months', 'inline','none')}"
                     >
-                      61st month after origination
+                      61st Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '66 Months', 'inline','none')}"
                     >
-                      66th month after origination
+                      66th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '72 Months', 'inline','none')}"
                     >
-                      72nd month after origination
+                      72nd Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '77 Months', 'inline','none')}"
                     >
-                      77th month after origination
+                      77th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '78 Months', 'inline','none')}"
                     >
-                      78th month after origination
+                      78th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '81 Months', 'inline','none')}"
                     >
-                      81st month after origination
+                      81st Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '84 Months', 'inline','none')}"
                     >
-                      84th month after origination
+                      84th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '96 Months', 'inline','none')}"
                     >
-                      96th month after origination
+                      96th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '102 Months', 'inline','none')}"
                     >
-                      102nd month after origination
+                      102nd Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '108 Months', 'inline','none')}"
                     >
-                      108th month after origination
+                      108th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '112 Months', 'inline','none')}"
                     >
-                      112th month after origination
+                      112th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '113 Months', 'inline','none')}"
                     >
-                      113th month after origination
+                      113th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '114 Months', 'inline','none')}"
                     >
-                      114th month after origination
+                      114th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '117 Months', 'inline','none')}"
                     >
-                      117th month after origination
+                      117th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '120 Months', 'inline','none')}"
                     >
-                      120th month after origination
+                      120th Payment Date
                     </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == 'Date of Maturity' || Opportunity.YM_Prepayment_Penalty__c == 'N/A', 'inline','none')}"
@@ -810,7 +862,7 @@
           <tr
             style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A' && Opportunity.Stepdown_Prepayment_Period__c != null, 'page-break-inside:avoid;', 'display:none;')}"
           >
-            <td class="row-title">Stepdown Par Prepayment Period:</td>
+            <td class="row-title">Prepayment Premium:</td>
             <td class="row-description">
               <span
                 style="display:{!IF(Opportunity.Stepdown_Prepayment_Period__c == '3,2,1', 'inline','none')}"
@@ -1022,7 +1074,9 @@
               of the principal amount of the Loan
             </td>
           </tr>
-          <tr style="page-break-inside: avoid">
+          <tr
+            style="{!IF(Opportunity.Term_Loan_Type__c != '30 Year','page-break-inside:avoid;','display:none;')}"
+          >
             <td class="row-title">
               Reporting:
             </td>
@@ -1154,7 +1208,7 @@
               </tr>
             </table>
           </p>
-          <p>Acknowledged and agreed as of ____________________ by:</p>
+          <p>Acknowledged and agreed as of ___________________________________________ by:</p>
           <p>SPONSOR</p>
           <p>____________________</p>
           <p>
@@ -1441,11 +1495,15 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
             <td class="definition-title">
               Pledgor:
             </td>
-            <td class="definition">
-              A newly-formed, single purpose, Delaware limited liability company
-              acceptable to Lender if the Loan is $5,000,000 or above or an
-              entity or individual acceptable to Lender following due diligence
-              if the Loan is below $5,000,000.
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
+              A newly-formed, single purpose, Delaware limited liability
+              company acceptable to Lender.
+            </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'definition', 'hidden')}">
+              A newly-formed, single purpose, Delaware limited liability
+              company acceptable to Lender if the Loan is $5,000,000 or above
+              or an entity or individual acceptable to Lender following due
+              diligence if the Loan is below $5,000,000.
             </td>
           </tr>
           <tr style="page-break-inside: avoid">
@@ -1639,21 +1697,21 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
               requirements set forth in the loan documents, Borrower shall have
               the right to release individual Properties comprising part of the
               Portfolio through the payment of release prices equal to 120% of
-              the allocated loan amount of the individual Properties released
+              the initial allocated loan amount of the individual Properties released
               (plus the applicable
               <span
                 style="{!IF(Opportunity.Stepdown_Prepayment_Period__c != 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
-                >Yield Maintenance Premium</span
+                >Prepayment Premium</span
               >
               <span
                 style="{!IF(Opportunity.Stepdown_Prepayment_Period__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}"
                 >Prepayment Premium</span
               >, interest on the amount prepaid through the end of the interest
               accrual period in which the release occurs and out-of-pocket fees
-              and expenses of Lender); provided (i) pro forma DSCR (see defined
-              term below) following such release of the remaining Properties
-              shall exceed the greater of (A) Required DSCR and (B) DSCR as of
-              the fiscal quarter ended immediately preceding such release, and
+              and expenses of Lender); provided (i) pro forma Rent to Debt Service Ratio (see defined
+              term below) of the remaining Properties following such release
+              shall equal or exceed the greater of (A) Required Rent to Debt Service Ratio and (B) actual Rent to Debt Service Ratio as of
+              the last day of the most recent calendar month ended immediately preceding such release, and
               (ii) other customary conditions are satisfied.
             </p>
               <span
@@ -1749,22 +1807,36 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
               consent may be withheld in Lender's sole and absolute discretion.
             </td>
           </tr>
-          <tr>
+          <tr
+            style="{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'page-break-inside:avoid;', 'display:none;')}"
+          >
             <td class="definition-title">
               Reporting:
             </td>
-            <td class="definition">
-              Borrower shall provide to Lender (i) if the Loan is non-recourse,
-              balance sheets, statements of operations, equity holders' capital
-              and cash flows for each calendar year as set forth in the Summary
-              of Terms, (ii) if the Loan is non-recourse, unaudited balance
-              sheets, statements of operations, equity holders' capital and cash
-              flows for each calendar quarter along with a statement in
-              reasonable detail calculating the underwritten net operating
-              income of Borrower for such calendar quarter, (iii) monthly rent
-              rolls delivered quarterly and (iv) other reports reasonably
-              requested by Lender, in each case certified true and correct by an
-              officer of Borrower.
+            <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'definition', 'hidden')}">
+              Borrower shall provide to Lender (i) if the Loan is
+              non-recourse, balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar year as set
+              forth in the Summary of Terms, (ii) if the Loan is non-recourse,
+              unaudited balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar quarter along
+              with a statement in reasonable detail calculating the
+              underwritten net operating income of Borrower for such calendar
+              quarter, (iii) monthly rent rolls delivered quarterly and (iv)
+              other reports reasonably requested by Lender, in each case
+              certified true and correct by an officer of Borrower.
+            </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
+              Borrower shall provide to Lender (i) if the Loan is
+              non-recourse, balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar year as set
+              forth in the Summary of Terms, (ii) if the Loan is non-recourse,
+              unaudited balance sheets, statements of operations, equity
+              holders’ capital and cash flows for each calendar quarter along
+              with a statement in reasonable detail calculating the
+              underwritten net operating income of Borrower for such calendar
+              quarter  and (iv) other reports reasonably requested by Lender, 
+              in each case certified true and correct by an officer of Borrower.
             </td>
           </tr>
           <tr
@@ -1945,13 +2017,20 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
             </td>
           </tr>
           <tr>
-            <td class="definition-title">
+            <td class="sub-definition-title">
               Reserves:
             </td>
-            <td class="definition">
+            <td class="sub-definition">
+              <span style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'inline','none')}">
               Borrower shall establish and fund reserves at Closing and on an
-              ongoing basis for taxes, insurance, capital expenditures, advance
+              ongoing basis for taxes, Insurance, capital expenditures, advance
               rent and cash collateral, as follows:
+              </span>
+              <span style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year', 'inline','none')}">
+                Borrower shall establish and fund reserves at Closing and on an
+                ongoing basis for taxes, Insurance, advance
+                rent and cash collateral, as follows:
+              </span>
               <table style="border: none">
                 <tr>
                   <td
@@ -2040,7 +2119,7 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
                     thirty (30) days before due.
                   </td>
                 </tr>
-                <tr>
+                <tr style="{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'page-break-inside:avoid;', 'display:none;')}">
                   <td class="sub-definition-title">
                     Capital Expenditures:
                   </td>
@@ -2104,7 +2183,9 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
                     interest which shall be held for the life of the Loan.
                   </td>
                 </tr>
-                <tr>
+                <tr
+                  style="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'page-break-inside:avoid;', 'display:none;')}"
+                >
                   <td class="sub-definition-title">
                     Advance Rent:
                   </td>
@@ -2960,6 +3041,12 @@ Except if any Oregon property is included in the portfolio in which case the fol
           />
           <apex:inputField value="{!Opportunity.IO_Term__c}" rendered="false" />
           <apex:inputField value="{!Opportunity.Stepdown_Prepayment_Period__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Term_Loan_Type__c}"
+            rendered="false"
+          />
+          <apex:inputField value="{!Opportunity.Holdback_Multiplier__c}"
             rendered="false"
           />
         </apex:form>

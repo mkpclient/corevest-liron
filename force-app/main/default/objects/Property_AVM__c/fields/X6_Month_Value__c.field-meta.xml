@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X6_Month_Value__c</fullName>
+    <description>Forecasted rental value information for 6 months with ZIP level Rental Price Index</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Forecasted rental value information for 6 months with ZIP level Rental Price Index</inlineHelpText>
+    <label>6 Month Value</label>
+    <precision>8</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

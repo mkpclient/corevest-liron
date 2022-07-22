@@ -9,6 +9,7 @@
     <aura:attribute name="recordType" type="String" default="down" />
     <aura:attribute name="loanType" type="String" default="down" />
     <aura:attribute name="productType" type="String" default="down" />
+    <aura:attribute name="projectStrategy" type="String" default="down" />
     
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
     
@@ -53,6 +54,14 @@
                             Product Type
                             <span onclick="{!c.sort}">
                                 <lightning:icon iconName="{!'utility:' + v.productType}" size="xx-small" title="productType-down" />
+                            </span>
+                        </div>
+                    </th>
+                    <th scope="col">
+                        <div title="productType">
+                            Project Strategy
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.projectStrategy}" size="xx-small" title="productType-down" />
                             </span>
                         </div>
                     </th>
@@ -117,6 +126,9 @@
                             <aura:if isTrue="{!record.loanType == 'Bridge Loan' || record.loanType == 'SAB Loan'}">
                             {!record.productType} w/ {!record.productSubType}
                             </aura:if>
+                        </td>
+                        <td>
+                            {!record.projectStrategy}
                         </td>
                         <td>
                             {!record.loanStage}

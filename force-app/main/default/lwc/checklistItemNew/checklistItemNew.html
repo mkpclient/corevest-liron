@@ -41,7 +41,7 @@
                 field-name="Responsible_Party__c"
               ></lightning-input-field>
             </lightning-layout-item>
-            <lightning-layout-item size="12"
+            <!-- <lightning-layout-item size="12"
               ><lightning-input-field
                 field-name="Comments__c"
               ></lightning-input-field>
@@ -50,7 +50,7 @@
               <lightning-input-field
                 field-name="External_Comments__c"
               ></lightning-input-field
-            ></lightning-layout-item>
+            ></lightning-layout-item> -->
           </lightning-layout>
         </lightning-record-edit-form>
       </template>
@@ -58,6 +58,14 @@
     <div slot="footer">
       <lightning-button label="Close" onclick={close}></lightning-button>
       <lightning-button label="Save" onclick={save}></lightning-button>
+      <template if:true={showMassSave}>
+        <lightning-button
+          label="Mass Save"
+          onclick={saveMass}
+          variant="brand"
+          class="slds-m-left_small"
+        ></lightning-button>
+      </template>
     </div>
   </c-modal>
 </template>

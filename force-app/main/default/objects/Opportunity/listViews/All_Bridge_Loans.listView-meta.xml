@@ -4,7 +4,6 @@
     <columns>OPPORTUNITY.NAME</columns>
     <columns>ACCOUNT.NAME</columns>
     <columns>Contact__c</columns>
-    <columns>LOC_Commitment__c</columns>
     <columns>Loan_Size__c</columns>
     <columns>LOC_Loan_Type__c</columns>
     <columns>Submission_Date__c</columns>
@@ -14,6 +13,7 @@
     <columns>Date_Change_From_Loan_Processing_to_UW__c</columns>
     <columns>Anticipated_IC_Approval__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Underwriter__c</columns>
     <columns>Owner_Name__c</columns>
     <columns>Borrower_Entity__c</columns>
     <filterScope>Everything</filterScope>

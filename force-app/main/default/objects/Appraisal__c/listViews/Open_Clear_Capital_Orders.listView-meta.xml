@@ -11,7 +11,6 @@
     <columns>Appraisal_Due_Date_Time__c</columns>
     <columns>Estimated_Completion_Date__c</columns>
     <columns>UPDATEDBY_USER</columns>
-    <columns>Appraisal_Firm_Order_ID__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Appraisal_Firm_Transaction_ID__c</field>

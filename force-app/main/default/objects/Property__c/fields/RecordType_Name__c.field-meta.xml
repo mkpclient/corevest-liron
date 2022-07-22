@@ -7,7 +7,7 @@
     <formula>RecordType.DeveloperName</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Formula to reference the Record Type Developer Name</inlineHelpText>
-    <label>Record Type Developer Name</label>
+    <label>RecordType Name</label>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>

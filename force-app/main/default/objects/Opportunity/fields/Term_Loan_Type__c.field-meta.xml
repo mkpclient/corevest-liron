@@ -2,12 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Term_Loan_Type__c</fullName>
     <externalId>false</externalId>
-    <label>Term Loan Type</label>
+    <label>Loan Term</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Product_Sub_Type__c</controllingField>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -36,5 +37,29 @@
                 <label>30 Year</label>
             </value>
         </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>Long Term Rental</controllingFieldValue>
+            <valueName>5 Year</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>Long Term Rental</controllingFieldValue>
+            <valueName>7 Year</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>Long Term Rental</controllingFieldValue>
+            <valueName>10 Year</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>Long Term Rental</controllingFieldValue>
+            <valueName>30 Year</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Long Term Rental</controllingFieldValue>
+            <valueName>3 Year</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

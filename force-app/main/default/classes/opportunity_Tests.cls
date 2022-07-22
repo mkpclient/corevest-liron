@@ -67,7 +67,7 @@ public with sharing class opportunity_Tests {
   static testMethod void opportunity_TermTest02() {
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser1@testorg.com',
+      Email = 'standarduser1@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -75,14 +75,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser2@testorg.com',
+      Email = 'standarduser2@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -90,14 +90,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -105,14 +105,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser4@testorg.com',
+      Email = 'standarduser4@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -120,14 +120,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser5@testorg.com',
+      Email = 'standarduser5@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -135,14 +135,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser6@testorg.com',
+      Email = 'standarduser6@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -150,14 +150,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser7@testorg.com',
+      Email = 'standarduser7@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -165,14 +165,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser8@testorg.com',
+      Email = 'standarduser8@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -180,14 +180,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser9@testorg.com',
+      Email = 'standarduser9@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -195,14 +195,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser10@testorg.com',
+      Email = 'standarduser10@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -210,14 +210,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser11@testorg.com',
+      Email = 'standarduser11@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -225,14 +225,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser12@testorg.com',
+      Email = 'standarduser12@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -240,14 +240,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser13@testorg.com',
+      Email = 'standarduser13@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -255,14 +255,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser14@testorg.com',
+      Email = 'standarduser14@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -270,7 +270,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -307,7 +307,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -315,14 +315,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -330,14 +330,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -345,14 +345,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -360,14 +360,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -375,14 +375,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -390,14 +390,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -405,14 +405,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -420,14 +420,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -435,14 +435,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -450,14 +450,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -465,14 +465,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -480,14 +480,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -495,14 +495,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -510,7 +510,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -552,7 +552,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -560,14 +560,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -575,14 +575,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -590,14 +590,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -605,14 +605,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -620,14 +620,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -635,14 +635,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -650,14 +650,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -665,14 +665,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -680,14 +680,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -695,14 +695,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -710,14 +710,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -725,14 +725,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -740,14 +740,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -755,7 +755,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -804,7 +804,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -812,14 +812,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -827,14 +827,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -842,14 +842,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -857,14 +857,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -872,14 +872,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -887,14 +887,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -902,14 +902,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -917,14 +917,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -932,14 +932,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -947,14 +947,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
-    User lcU = new User(
-      Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+    User uwU3 = new User(
+      Alias = 'underw',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -962,14 +962,44 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'underwriter3@cvest.com'
+    );
+    //insert p;
+    insert uwU3;
+
+    User uwU4 = new User(
+      Alias = 'underw',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'underwriter4@cvest.com'
+    );
+    //insert p;
+    insert uwU4;
+
+    User lcU = new User(
+      Alias = 'loanco',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -977,14 +1007,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -992,14 +1022,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1007,7 +1037,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1044,6 +1074,7 @@ public with sharing class opportunity_Tests {
     topp1.StageName = 'Underwriting';
     topp1.Current_Loan_Amount__c = 2000000;
     topp1.Underwriter__c = uwU.Id;
+    topp1.X2nd_Underwriter__c = uwU3.Id;
     topp1.Loan_Coordinator__c = lcU.Id;
     topp1.Closer__c = closerU.Id;
     topp1.Kickoff_Date__c = System.today();
@@ -1057,7 +1088,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1065,14 +1096,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1080,14 +1111,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1095,14 +1126,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1110,14 +1141,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1125,14 +1156,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1140,14 +1171,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1155,14 +1186,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1170,14 +1201,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1185,14 +1216,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1200,14 +1231,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1215,14 +1246,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1230,14 +1261,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1245,14 +1276,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1260,7 +1291,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1321,7 +1352,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1329,14 +1360,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1344,14 +1375,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1359,14 +1390,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1374,14 +1405,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1389,14 +1420,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1404,14 +1435,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1419,14 +1450,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1434,14 +1465,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1449,14 +1480,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1464,14 +1495,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1479,14 +1510,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1494,14 +1525,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1509,14 +1540,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1524,7 +1555,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1587,7 +1618,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1595,14 +1626,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1610,14 +1641,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1625,14 +1656,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1640,14 +1671,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1655,14 +1686,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1670,14 +1701,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1685,14 +1716,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1700,14 +1731,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1715,14 +1746,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1730,14 +1761,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1745,14 +1776,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1760,14 +1791,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1775,14 +1806,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1790,7 +1821,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1855,7 +1886,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1863,14 +1894,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1878,14 +1909,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1893,14 +1924,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1908,14 +1939,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1923,14 +1954,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1938,14 +1969,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1953,14 +1984,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1968,14 +1999,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1983,14 +2014,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -1998,14 +2029,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2013,14 +2044,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2028,14 +2059,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2043,14 +2074,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2058,7 +2089,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2124,7 +2155,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2132,14 +2163,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2147,14 +2178,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2162,14 +2193,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2177,14 +2208,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2192,14 +2223,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2207,14 +2238,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2222,14 +2253,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2237,14 +2268,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2252,14 +2283,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2267,14 +2298,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2282,14 +2313,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2297,14 +2328,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2312,14 +2343,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2327,7 +2358,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2395,7 +2426,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2403,14 +2434,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2418,14 +2449,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2433,14 +2464,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2448,14 +2479,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2463,14 +2494,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2478,14 +2509,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2493,14 +2524,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2508,14 +2539,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2523,14 +2554,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2538,14 +2569,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2553,14 +2584,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2568,14 +2599,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2583,14 +2614,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2598,7 +2629,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2609,7 +2640,22 @@ public with sharing class opportunity_Tests {
       WHERE Name = 'TERM TEST 123'
       LIMIT 1
     ];
+//raj
+    List<Loan_Version__c> loanVersionList = new List<Loan_Version__c>();
+    Loan_Version__c loanVersion = new Loan_Version__c();
+    loanVersion.Deal__c = topp1.id;
+    loanVersion.Finalized__c = True;
+    loanVersion.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion);
+      
+    Loan_Version__c loanVersion1 = new Loan_Version__c();    
+    loanVersion1.Deal__c = topp1.id;
+    loanVersion1.Finalized__c = True;    
+    loanVersion1.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion1);      
 
+	Insert loanVersionList;
+//raj    
     Test.startTest();
     Securitization__c sec = test_Helper.createSecuritization();
 
@@ -2688,7 +2734,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2696,14 +2742,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2711,14 +2757,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2726,14 +2772,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2741,14 +2787,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2756,14 +2802,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2771,14 +2817,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2786,14 +2832,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2801,14 +2847,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2816,14 +2862,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2831,14 +2877,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2846,14 +2892,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2861,14 +2907,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2876,14 +2922,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2891,18 +2937,34 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
-
+    
     Opportunity topp1 = [
       SELECT Id
       FROM Opportunity
       WHERE Name = 'TERM TEST 123'
       LIMIT 1
     ];
+//raj
+    List<Loan_Version__c> loanVersionList = new List<Loan_Version__c>();
+    Loan_Version__c loanVersion = new Loan_Version__c();
+    loanVersion.Deal__c = topp1.id;
+    loanVersion.Finalized__c = True;
+    loanVersion.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion);
+      
+    Loan_Version__c loanVersion1 = new Loan_Version__c();    
+    loanVersion1.Deal__c = topp1.id;
+    loanVersion1.Finalized__c = True;    
+    loanVersion1.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion1);      
 
+	Insert loanVersionList;
+//raj       
+     
     Test.startTest();
     Securitization__c sec = test_Helper.createSecuritization();
 
@@ -2976,7 +3038,7 @@ public with sharing class opportunity_Tests {
     List<User> newUsers = new List<User>();
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2984,14 +3046,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -2999,14 +3061,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3014,14 +3076,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3029,14 +3091,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3044,14 +3106,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3059,14 +3121,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3074,14 +3136,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3089,14 +3151,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3104,14 +3166,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3119,14 +3181,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3134,14 +3196,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3149,14 +3211,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3164,14 +3226,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3179,7 +3241,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -3191,6 +3253,22 @@ public with sharing class opportunity_Tests {
       LIMIT 1
     ];
 
+//raj
+    List<Loan_Version__c> loanVersionList = new List<Loan_Version__c>();
+    Loan_Version__c loanVersion = new Loan_Version__c();
+    loanVersion.Deal__c = topp1.id;
+    loanVersion.Finalized__c = True;
+    loanVersion.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion);
+      
+    Loan_Version__c loanVersion1 = new Loan_Version__c();    
+    loanVersion1.Deal__c = topp1.id;
+    loanVersion1.Finalized__c = True;    
+    loanVersion1.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion1);      
+
+	Insert loanVersionList;
+//raj       
     Test.startTest();
     Securitization__c sec = test_Helper.createSecuritization();
 
@@ -3356,7 +3434,7 @@ public with sharing class opportunity_Tests {
   static testMethod void opportunity_SABTest() {
     User origU = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3364,14 +3442,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3379,14 +3457,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
 
     User origU3 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3394,14 +3472,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
 
     User origU4 = new User(
       Alias = 'orig',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3409,14 +3487,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
 
     User analystU = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3424,14 +3502,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
 
     User analystU2 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3439,14 +3517,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
 
     User analystU3 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3454,14 +3532,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
 
     User analystU4 = new User(
       Alias = 'analyst',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3469,14 +3547,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
 
     User uwU = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3484,14 +3562,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
 
     User uwU2 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3499,14 +3577,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User lcU = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3514,14 +3592,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
 
     User lcU2 = new User(
       Alias = 'loanco',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3529,14 +3607,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
 
     User closerU = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3544,14 +3622,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
 
     User closerU2 = new User(
       Alias = 'clos',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -3559,7 +3637,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -3603,14 +3681,14 @@ public with sharing class opportunity_Tests {
     Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
     User u = new User(
       Alias = 'standt',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
       LocaleSidKey = 'en_US',
       ProfileId = p.Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'afafadfavvte@teada.com'
+      UserName = 'afafadfavvte@cvest.com'
     );
     //insert p;
     insert u;
@@ -3684,14 +3762,14 @@ public with sharing class opportunity_Tests {
     Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User'];
     User u = new User(
       Alias = 'standt',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
       LocaleSidKey = 'en_US',
       ProfileId = p.Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'afafadfavvte@teada.com'
+      UserName = 'afafadfavvte@cvest.com'
     );
     //insert p;
     insert u;
@@ -4060,7 +4138,7 @@ public with sharing class opportunity_Tests {
       Document_Loaded__c = true,
       Is_Deleted__c = false
     );
-
+    Test.startTest();
     insert doc;
     System.debug(
       'RS999 - 5 Total Number of SOQL Queries allowed in this apex code context: ' +
@@ -4071,7 +4149,6 @@ public with sharing class opportunity_Tests {
       Doc_String__c = 'Loan Document;Title Policies|Miscellaneous'
     );
 
-    Test.startTest();
     insert docInfo;
     System.debug(
       'RS999 - 6 Total Number of SOQL Queries allowed in this apex code context: ' +
@@ -4206,7 +4283,7 @@ public with sharing class opportunity_Tests {
     Account testAcc = [
       SELECT Id
       FROM Account
-      WHERE Name = 'Test Helper Account'
+      WHERE Name like 'Test Helper Account%'
     ];
     Contact testCtc = [SELECT Id FROM Contact WHERE AccountId = :testAcc.Id];
     Opportunity testDeal = Test_Helper.createTermDeal(testAcc, testCtc);
@@ -4250,7 +4327,7 @@ public with sharing class opportunity_Tests {
     Account testAcc = [
       SELECT Id
       FROM Account
-      WHERE Name = 'Test Helper Account'
+      WHERE Name Like 'Test Helper Account%'
     ];
     Contact testCtc = [SELECT Id FROM Contact WHERE AccountId = :testAcc.Id];
     Opportunity testDeal = Test_Helper.createTermDeal(testAcc, testCtc);

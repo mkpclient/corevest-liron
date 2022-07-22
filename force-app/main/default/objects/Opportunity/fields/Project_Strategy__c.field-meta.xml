@@ -76,16 +76,6 @@ Collateralized Loan Obligation (CLO): a single security backed by a pool of debt
                 <default>false</default>
                 <label>Renovate and Rent</label>
             </value>
-            <value>
-                <fullName>Long Term Rental</fullName>
-                <default>false</default>
-                <label>Long Term Rental</label>
-            </value>
-            <value>
-                <fullName>Short Term Rental</fullName>
-                <default>false</default>
-                <label>Short Term Rental</label>
-            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
@@ -140,14 +130,6 @@ Collateralized Loan Obligation (CLO): a single security backed by a pool of debt
         <valueSettings>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Build to Rent</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Term Loan</controllingFieldValue>
-            <valueName>Long Term Rental</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Term Loan</controllingFieldValue>
-            <valueName>Short Term Rental</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

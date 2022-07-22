@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -120,7 +124,7 @@
     </values>
     <values>
         <field>Sort__c</field>
-        <value xsi:type="xsd:double">1.0</value>
+        <value xsi:type="xsd:double">2.0043</value>
     </values>
     <values>
         <field>Stage_Required__c</field>
@@ -144,11 +148,11 @@
     </values>
     <values>
         <field>Vendor_Access__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Servicer</value>
     </values>
     <values>
         <field>sObject__c</field>

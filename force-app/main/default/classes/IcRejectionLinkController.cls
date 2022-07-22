@@ -7,7 +7,7 @@ public without sharing class IcRejectionLinkController {
 
   public static final String IC_REJECTED_TEMPLATE = 'IC_Reversed_Email';
 
-  public static final String EXEC_PROFILE_NAME = 'Executive';
+  public static final String PERMISSION_SET_NAME = 'IC_Approval_Allow_Rejection_Through_Link';
 
   public static Boolean unhideToast {
     get {
@@ -82,7 +82,9 @@ public without sharing class IcRejectionLinkController {
       }
 
       addlRecipIds.add(deal.OwnerId);
-      addlRecipIds.add(deal.Underwriter__c);
+      if(String.isNotEmpty(deal.Underwriter__c)) {
+        addlRecipIds.add(deal.Underwriter__c);
+      }
 
       if (deal.Record_Type_Name__c == 'Term_Loan') {
         termDealIdsByRecipients.put(deal.Id, addlRecipIds);
@@ -110,14 +112,11 @@ public without sharing class IcRejectionLinkController {
     String handlerAddress = '';
 
     if (esas.size() > 0) {
-      handlerAddress = esas[0].LocalPart + '@' + esas[0].EmailDomainName;
+      handlerAddress =
+        esas[0].LocalPart +
+        '@' +
+        esas[0].EmailDomainName;
     }
-
-    OrgWideEmailAddress[] owea = [
-      SELECT Id
-      FROM OrgWideEmailAddress
-      WHERE Address = 'caf-apps@cvest.com'
-    ];
 
     List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
 
@@ -129,11 +128,11 @@ public without sharing class IcRejectionLinkController {
         termEmail.setTemplateId(tempId);
         termEmail.setTargetObjectId(deal.Contact__c);
         termEmail.setTreatTargetObjectAsRecipient(false);
-        termEmail.setToAddresses(recpIds);
-        termEmail.setWhatId(tOpptId);
-        if(owea.size() > 0) {
-          termEmail.setOrgWideEmailAddressId(owea[0].Id);
+        if(recpIds.size() > 0) {
+          termEmail.setToAddresses(recpIds);
         }
+        termEmail.setWhatId(tOpptId);
+        termEmail.setReplyTo('caf-apps@cvest.com');
         if (handlerAddress != '') {
           termEmail.setCcAddresses(new List<String>{ handlerAddress });
         }
@@ -150,11 +149,11 @@ public without sharing class IcRejectionLinkController {
         bridgeEmail.setTemplateId(tempId);
         bridgeEmail.setTargetObjectId(deal.Contact__c);
         bridgeEmail.setTreatTargetObjectAsRecipient(false);
-        bridgeEmail.setToAddresses(recpIds);
-        bridgeEmail.setWhatId(bOpptId);
-        if(owea.size() > 0) {
-          bridgeEmail.setOrgWideEmailAddressId(owea[0].Id);
+        if(recpIds.size() > 0) {
+          bridgeEmail.setToAddresses(recpIds);
         }
+        bridgeEmail.setWhatId(bOpptId);
+        bridgeEmail.setReplyTo('caf-apps@cvest.com');
         if (handlerAddress != '') {
           bridgeEmail.setCcAddresses(new List<String>{ handlerAddress });
         }
@@ -181,29 +180,31 @@ public without sharing class IcRejectionLinkController {
 
   public static void rejectDeal() {
     List<ProcessInstance> processInstances = [
-      SELECT Id, Status, ProcessDefinition.Name
-      // ,
-      // (
-      //   SELECT Id, StepStatus, Actor.Name, Comments
-      //   FROM StepsAndWorkitems
-      //   WHERE ActorId = :UserInfo.getUserId()
-      // )
+      SELECT
+        Id,
+        Status,
+        ProcessDefinition.Name
+        // ,
+        // (
+        //   SELECT Id, StepStatus, Actor.Name, Comments
+        //   FROM StepsAndWorkitems
+        //   WHERE ActorId = :UserInfo.getUserId()
+        // )
       FROM ProcessInstance
       WHERE
         ProcessDefinition.Name LIKE '%IC%'
         AND Status = 'Approved'
         AND TargetObjectId = :deal.Id
-      ORDER BY CreatedDate DESC
+        ORDER BY CreatedDate Desc
     ];
 
     if (processInstances.size() > 0) {
-      List<Profile> profiles = [
-        SELECT Id
-        FROM Profile
-        WHERE Id = :UserInfo.getProfileId() AND Name = :EXEC_PROFILE_NAME
+
+      List<PermissionSetAssignment> permissionAssignments = [
+        SELECT Id,PermissionSet.Name FROM PermissionSetAssignment WHERE AssigneeId=:UserInfo.getUserId() AND PermissionSet.Name = :PERMISSION_SET_NAME
       ];
 
-      Boolean allowRejectionByUser = profiles.size() > 0;
+      Boolean allowRejectionByUser = permissionAssignments.size() > 0;
 
       if (allowRejectionByUser || Test.isRunningTest()) {
         if (deal.IC_Approval__c != 'Approved') {
@@ -212,7 +213,7 @@ public without sharing class IcRejectionLinkController {
           toastVariant = 'error';
           return;
         }
-
+        
         Opportunity o = new Opportunity(
           Id = deal.Id,
           IC_Approval__c = null,
@@ -230,8 +231,8 @@ public without sharing class IcRejectionLinkController {
           toastVariant = 'success';
         } catch (Exception e) {
           Database.rollback(sp);
-          toastTitle = 'Deal Rejection Failed';
-          toastMessage = 'Error on Line ' + e.getLineNumber() + ': ' + e.getMessage();
+          toastTitle = 'Deal Rejection Failed. Error on Line ' + e.getLineNumber();
+          toastMessage = e.getMessage();
           toastVariant = 'error';
         }
       } else {
@@ -247,7 +248,9 @@ public without sharing class IcRejectionLinkController {
   }
 
   public static void createApprovalHistory(String approvalType) {
-    String ahProcessName = approvalType + ' Process';
+    String ahProcessName = (approvalType != 'Term Sub-IC' || approvalType != 'Bridge Sub-IC')
+    ? approvalType + ' Process'
+    : approvalType;
     Approval_History__c ahc = new Approval_History__c(
       Parent_Status__c = 'Rejected',
       Deal__c = deal.Id,
@@ -266,9 +269,10 @@ public without sharing class IcRejectionLinkController {
 
     if (deal.Final_Spread__c != null) {
       ahc.Spread__c = deal.Final_Spread__c;
+      // ahc.Spread__c *= 100;
     }
 
-    if (deal.CAF_Upfront_Fee__c != null) {
+    if(deal.CAF_Upfront_Fee__c != null) {
       ahc.Origination_Fee__c = deal.CAF_Upfront_Fee__c;
     }
 

@@ -51,21 +51,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Account_Onboarding_Status__c</picklist>
-        <values>
-            <fullName>Initial Opportunity</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Negotiation</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Onboarded</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Account_Status__c</picklist>
         <values>
             <fullName>Active</fullName>
@@ -621,6 +606,10 @@
             <fullName>2021</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>2022</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Custodian__c</picklist>
@@ -834,6 +823,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Bobby Ash Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -927,6 +920,10 @@
         </values>
         <values>
             <fullName>Dennis Spivey Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dominion Group</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1175,6 +1172,10 @@
         </values>
         <values>
             <fullName>Rent Range</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revolution Realty Capital</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1608,13 +1609,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Non_Borrower_Account_Type_c__c</picklist>
-        <values>
-            <fullName>Title and Escrow</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Originated_Product_Type__c</picklist>
         <values>
             <fullName>Consumer</fullName>
@@ -1764,6 +1758,10 @@
         </values>
         <values>
             <fullName>Strategic Account 2021</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Strategic Account 2022</fullName>
             <default>false</default>
         </values>
         <values>

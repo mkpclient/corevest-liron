@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Formation_Documents__c</fullName>
+    <externalId>false</externalId>
+    <label>Formation Documents</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Assignment Affidavit</fullName>
+                <default>false</default>
+                <label>Assignment Affidavit</label>
+            </value>
+            <value>
+                <fullName>Assign of Leases</fullName>
+                <default>false</default>
+                <label>Assign of Leases</label>
+            </value>
+            <value>
+                <fullName>Assign of Leases - CA</fullName>
+                <default>false</default>
+                <label>Assign of Leases - CA</label>
+            </value>
+            <value>
+                <fullName>Assign of Leases - PA</fullName>
+                <default>false</default>
+                <label>Assign of Leases - PA</label>
+            </value>
+            <value>
+                <fullName>Cert of Borrower</fullName>
+                <default>false</default>
+                <label>Cert of Borrower</label>
+            </value>
+            <value>
+                <fullName>Cert of Occupancy</fullName>
+                <default>false</default>
+                <label>Cert of Occupancy</label>
+            </value>
+            <value>
+                <fullName>CONSTRUCTION Guaranty</fullName>
+                <default>false</default>
+                <label>CONSTRUCTION Guaranty</label>
+            </value>
+            <value>
+                <fullName>CONSTRUCTION Loan Agreement</fullName>
+                <default>false</default>
+                <label>CONSTRUCTION Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>CONSTRUCTION Loan Agreement w/interest reserve</fullName>
+                <default>false</default>
+                <label>CONSTRUCTION Loan Agreement w/interest reserve</label>
+            </value>
+            <value>
+                <fullName>DOT - AR</fullName>
+                <default>false</default>
+                <label>DOT - AR</label>
+            </value>
+            <value>
+                <fullName>DOT - AZ</fullName>
+                <default>false</default>
+                <label>DOT - AZ</label>
+            </value>
+            <value>
+                <fullName>DOT - CA</fullName>
+                <default>false</default>
+                <label>DOT - CA</label>
+            </value>
+            <value>
+                <fullName>DOT - CO</fullName>
+                <default>false</default>
+                <label>DOT - CO</label>
+            </value>
+            <value>
+                <fullName>DOT - CT</fullName>
+                <default>false</default>
+                <label>DOT - CT</label>
+            </value>
+            <value>
+                <fullName>DOT - DC</fullName>
+                <default>false</default>
+                <label>DOT - DC</label>
+            </value>
+            <value>
+                <fullName>DOT - FL - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - FL - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - FL - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - FL - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - GA</fullName>
+                <default>false</default>
+                <label>DOT - GA</label>
+            </value>
+            <value>
+                <fullName>DOT - HI - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - HI - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - HI - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - HI - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - ID</fullName>
+                <default>false</default>
+                <label>DOT - ID</label>
+            </value>
+            <value>
+                <fullName>DOT - IL - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - IL - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - IL - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - IL - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - KY</fullName>
+                <default>false</default>
+                <label>DOT - KY</label>
+            </value>
+            <value>
+                <fullName>DOT - MA - ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - MA - ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - MA - PERSON</fullName>
+                <default>false</default>
+                <label>DOT - MA - PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - MD</fullName>
+                <default>false</default>
+                <label>DOT - MD</label>
+            </value>
+            <value>
+                <fullName>DOT - MI - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - MI - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - MI - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - MI - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - NC</fullName>
+                <default>false</default>
+                <label>DOT - NC</label>
+            </value>
+            <value>
+                <fullName>DOT - NH - ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - NH - ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - NH - PERSON</fullName>
+                <default>false</default>
+                <label>DOT - NH - PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - NJ - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - NJ - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - NJ - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - NJ - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - NM</fullName>
+                <default>false</default>
+                <label>DOT - NM</label>
+            </value>
+            <value>
+                <fullName>DOT - NY</fullName>
+                <default>false</default>
+                <label>DOT - NY</label>
+            </value>
+            <value>
+                <fullName>DOT - OH - ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - OH - ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - OH - PERSON</fullName>
+                <default>false</default>
+                <label>DOT - OH - PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - OR</fullName>
+                <default>false</default>
+                <label>DOT - OR</label>
+            </value>
+            <value>
+                <fullName>DOT - PA - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - PA - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - PA - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - PA - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - SC - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - SC - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - SC - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - SC - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - TN</fullName>
+                <default>false</default>
+                <label>DOT - TN</label>
+            </value>
+            <value>
+                <fullName>DOT - TX</fullName>
+                <default>false</default>
+                <label>DOT - TX</label>
+            </value>
+            <value>
+                <fullName>DOT - UT</fullName>
+                <default>false</default>
+                <label>DOT - UT</label>
+            </value>
+            <value>
+                <fullName>DOT - VA - TRUSTEE IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - VA - TRUSTEE IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - VA - TRUSTEE IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - VA - TRUSTEE IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - WA</fullName>
+                <default>false</default>
+                <label>DOT - WA</label>
+            </value>
+            <value>
+                <fullName>DOT - WI - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - WI - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - WI - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - WI - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>DOT - WY - BORROWER IS ENTITY</fullName>
+                <default>false</default>
+                <label>DOT - WY - BORROWER IS ENTITY</label>
+            </value>
+            <value>
+                <fullName>DOT - WY - BORROWER IS PERSON</fullName>
+                <default>false</default>
+                <label>DOT - WY - BORROWER IS PERSON</label>
+            </value>
+            <value>
+                <fullName>Env Indemnity</fullName>
+                <default>false</default>
+                <label>Env Indemnity</label>
+            </value>
+            <value>
+                <fullName>Extension Agreement</fullName>
+                <default>false</default>
+                <label>Extension Agreement</label>
+            </value>
+            <value>
+                <fullName>Extension Agreement - Built-in</fullName>
+                <default>false</default>
+                <label>Extension Agreement - Built-in</label>
+            </value>
+            <value>
+                <fullName>Guaranty</fullName>
+                <default>false</default>
+                <label>Guaranty</label>
+            </value>
+            <value>
+                <fullName>Instructions</fullName>
+                <default>false</default>
+                <label>Instructions</label>
+            </value>
+            <value>
+                <fullName>Instructions - Interest Reserve</fullName>
+                <default>false</default>
+                <label>Instructions - Interest Reserve</label>
+            </value>
+            <value>
+                <fullName>Instructions Title &amp; Escrow</fullName>
+                <default>false</default>
+                <label>Instructions Title &amp; Escrow</label>
+            </value>
+            <value>
+                <fullName>Instructions Title &amp; Escrow - Interest Reserve</fullName>
+                <default>false</default>
+                <label>Instructions Title &amp; Escrow - Interest Reserve</label>
+            </value>
+            <value>
+                <fullName>Limited Guaranty</fullName>
+                <default>false</default>
+                <label>Limited Guaranty</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement</fullName>
+                <default>false</default>
+                <label>Loan Agreement</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement - &gt;6mo ext.</fullName>
+                <default>false</default>
+                <label>Loan Agreement - &gt;6mo ext.</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement - Interest Reserve</fullName>
+                <default>false</default>
+                <label>Loan Agreement - Interest Reserve</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement - No Rehab</fullName>
+                <default>false</default>
+                <label>Loan Agreement - No Rehab</label>
+            </value>
+            <value>
+                <fullName>Loan Agreement - Release Prices</fullName>
+                <default>false</default>
+                <label>Loan Agreement - Release Prices</label>
+            </value>
+            <value>
+                <fullName>Note - As Drawn</fullName>
+                <default>false</default>
+                <label>Note - As Drawn</label>
+            </value>
+            <value>
+                <fullName>Note - Fully Drawn</fullName>
+                <default>false</default>
+                <label>Note - Fully Drawn</label>
+            </value>
+            <value>
+                <fullName>OR Application</fullName>
+                <default>false</default>
+                <label>OR Application</label>
+            </value>
+            <value>
+                <fullName>OR Rate Lock</fullName>
+                <default>false</default>
+                <label>OR Rate Lock</label>
+            </value>
+            <value>
+                <fullName>OR Right to Appraisal</fullName>
+                <default>false</default>
+                <label>OR Right to Appraisal</label>
+            </value>
+            <value>
+                <fullName>Pacaso Loan Docs</fullName>
+                <default>false</default>
+                <label>Pacaso Loan Docs</label>
+            </value>
+            <value>
+                <fullName>PA Disclosure</fullName>
+                <default>false</default>
+                <label>PA Disclosure</label>
+            </value>
+            <value>
+                <fullName>Request for EOI</fullName>
+                <default>false</default>
+                <label>Request for EOI</label>
+            </value>
+            <value>
+                <fullName>Request for Prelim Title</fullName>
+                <default>false</default>
+                <label>Request for Prelim Title</label>
+            </value>
+            <value>
+                <fullName>SC Appraisal Waiver</fullName>
+                <default>false</default>
+                <label>SC Appraisal Waiver</label>
+            </value>
+            <value>
+                <fullName>Signing Instructions</fullName>
+                <default>false</default>
+                <label>Signing Instructions</label>
+            </value>
+            <value>
+                <fullName>Term Sheet</fullName>
+                <default>false</default>
+                <label>Term Sheet</label>
+            </value>
+            <value>
+                <fullName>Unanimous Written</fullName>
+                <default>false</default>
+                <label>Unanimous Written</label>
+            </value>
+            <value>
+                <fullName>W-9</fullName>
+                <default>false</default>
+                <label>W-9</label>
+            </value>
+            <value>
+                <fullName>Wire Instructions</fullName>
+                <default>false</default>
+                <label>Wire Instructions</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

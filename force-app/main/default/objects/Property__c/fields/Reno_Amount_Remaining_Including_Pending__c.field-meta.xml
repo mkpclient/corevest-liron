@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reno_Amount_Remaining_Including_Pending__c</fullName>
+    <description>The amount of the Renovation Advance not yet funded including Advances that are pending</description>
+    <externalId>false</externalId>
+    <formula>Approved_Renovation_Holdback__c - Reno_Amount_Funded_Pending__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>The amount of the Renovation Advance not yet funded including Advances that are pending</inlineHelpText>
+    <label>Reno Amount Remaining Including Pending</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <type>Currency</type>
+</CustomField>

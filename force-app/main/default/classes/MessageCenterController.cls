@@ -27,7 +27,10 @@ public without sharing class MessageCenterController {
           Owner.Id,
           Subject__c,
           Comment__c,
-          Owner_Image__c
+          Owner_Image__c,
+          Checklist_Item__c,
+          Unread__c,
+          Checklist_Item__r.Name
         FROM Comment__c
         WHERE
           Comment__c = NULL
@@ -35,7 +38,8 @@ public without sharing class MessageCenterController {
           OR Property__r.Deal__c = :recordId
           OR Property__c = :recordId
           OR Deal_Document__c = :recordId
-          OR Application__c = :recordId)
+          OR Application__c = :recordId
+          OR Checklist_Item__r.Checklist_Section__r.Checklist__r.Deal__c = :recordId)
         ORDER BY CreatedDate DESC
       ]) {
         comments.add(new PortalAPIComments.Comment(comment));

@@ -322,7 +322,7 @@
                             </td>
                             <td style = "text-align:center;border: 1px solid black;">
                                 <apex:outputText value="{0, number, Currency}">
-                                    <apex:param value="{!property.Approved_Advance_Amount__c}" />
+                                    <apex:param value="{!property.Approved_Advance_Amount_Calc__c}" />
                                 </apex:outputText>
                             </td>
                             <td style = "text-align:center;border: 1px solid black;">

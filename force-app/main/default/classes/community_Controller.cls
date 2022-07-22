@@ -318,11 +318,13 @@ public without sharing class community_Controller {
       'Approved by Committee',
       'UW Hold',
       'Closed Won',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
     Set<String> termClosedStages = new Set<String>{
       'Closed Won',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
 
     Set<String> bridgeStages = new Set<String>{
@@ -336,21 +338,23 @@ public without sharing class community_Controller {
       'Closed Won',
       'Matured',
       'Expired',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
     Set<String> bridgeClosedStages = new Set<String>{
       'Matured',
       'Expired',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
 
-    queryString += 'AND ((StageName IN : termStages AND RecordType__c =\'Term\') OR (StageName IN : bridgeStages AND RecordType__c =\'Bridge\'))';
+    queryString += 'AND ((StageName IN : termStages AND RecordType__c =\'Term\') OR (StageName IN : bridgeStages AND RecordType__c LIKE \'%Bridge%\'))';
 
     // // queryString += ' AND StageName IN : stages';
     if (showOnlyOpen != null && showOnlyOpen) {
       //queryString += ' AND (StageName = \'Underwriting\' OR StageName =\'Approved by Committee\' OR StageName =\'UW Hold\' OR StageName =\'Data Tape Received\' OR StageName =\'Term Sheet Issues\' OR StageName =\'Term Sheet Signed/Desposit Collected\'OR StageName =\'Initial Review\')';
       // queryString += ' AND StageName NOT IN : closedStages';
-      queryString += ' AND ( (StageName NOT IN : termClosedStages AND RecordType__c =\'Term\') OR (StageName NOT IN : bridgeClosedStages AND RecordType__c =\'Bridge\') )';
+      queryString += ' AND ( (StageName NOT IN : termClosedStages AND RecordType__c =\'Term\') OR (StageName NOT IN : bridgeClosedStages AND RecordType__c LIKE \'%Bridge%\') )';
     }
 
     if (showOnlyTerm != null && showOnlyTerm) {
@@ -358,7 +362,7 @@ public without sharing class community_Controller {
     }
 
     if (showOnlyTerm != null && showOnlyBridge) {
-      queryString += ' AND (RecordType__c =\'Bridge\')';
+      queryString += ' AND (RecordType__c LIKE \'%Bridge%\')';
     }
 
     if (String.isNotBlank(whereClause)) {
@@ -434,13 +438,15 @@ public without sharing class community_Controller {
       'Closed Won',
       'Withdrawn',
       'Rejected',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
     Set<String> termClosedStages = new Set<String>{
       'Closed Won',
       'Withdrawn',
       'Rejected',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
 
     Set<String> bridgeStages = new Set<String>{
@@ -448,6 +454,7 @@ public without sharing class community_Controller {
       'Term SHeet Signed/Deposit Collected',
       'Submitted to Underwriting',
       'Loan Processing',
+      'Processing Hold',
       'Underwriting',
       'Approved by Committee',
       'UW Hold',
@@ -456,14 +463,16 @@ public without sharing class community_Controller {
       'Expired',
       'Withdrawn',
       'Rejected',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
     Set<String> bridgeClosedStages = new Set<String>{
       'Matured',
       'Expired',
       'Withdrawn',
       'Rejected',
-      'Paid Off'
+      'Paid Off',
+      'Sold'
     };
 
     queryString += 'AND ((StageName IN : termStages AND RecordType__c =\'Term\') OR (StageName IN : bridgeStages AND RecordType__c =\'Bridge\'))';

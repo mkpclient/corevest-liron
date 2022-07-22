@@ -16,6 +16,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Originating_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>dsfs__DSProSFUsername__c</field>
             </layoutItems>
             <layoutItems>
@@ -29,6 +33,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enable_Task_Alert_on_Due_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Profile_Pic__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -51,6 +59,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Combo_Rental_Portfolio_Docusign_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Scheduled_Deactivation_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

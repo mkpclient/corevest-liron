@@ -32,6 +32,7 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
+    'Foreign_National_picklist__c',
     'Deposit_Amount_Requested__c',
     'YSP_perc__c',
     'Rate_Lock_Picklist__c'
@@ -68,7 +69,6 @@ public without sharing class TermSheetInput_LightningController {
     //'Rate__c',
     // 'Origination_Fee__c',
     'Requested_Origination_Fee__c',
-    'Requested_Draw_Fee__c',
     'Requested_Exit_Fee__c',
     'Broker_Fees__c',
     'Owner_Name__c',
@@ -83,6 +83,7 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
+    'Foreign_National_picklist__c',
     'Deposit_Amount_Requested__c',
     'Broker_Fee_Paid_By_Whom__c',
     'Broker_Fee_Paid_When__c'
@@ -106,7 +107,8 @@ public without sharing class TermSheetInput_LightningController {
     'Requested_Interest_Type__c',
     'Requested_Origination_Fee__c',
     'Requested_Draw_Fee__c',
-    'Requested_Exit_Fee__c',
+    // 'Requested_Exit_Fee__c',
+    'Extension_Period_Days__c',
     'Broker_Fees__c',
     'Owner_Name__c',
     'Owner_Phone__c',
@@ -120,6 +122,7 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode',
     'Contact__r.Phone',
     'Contact__r.Email',
+    'Foreign_National_picklist__c',
     'Deposit_Amount_Requested__c',
     'Broker_Fee_Paid_By_Whom__c',
     'Broker_Fee_Paid_When__c'
@@ -137,6 +140,7 @@ public without sharing class TermSheetInput_LightningController {
     'Contact__r.MailingPostalCode' => 'Primary Contact Mailing Postal Code',
     'Contact__r.Phone' => 'Primary Contact Business Phone',
     'Contact__r.Email' => 'Primary Contact Email Address',
+    'Foreign_National_picklist__c' => 'Foreign National',
     'Name' => 'Name',
     'Loan_Size__c' => 'Requested Loan Size',
     'CAF_Upfront_Fee__c' => 'CAF Upfront Fee',
@@ -177,6 +181,7 @@ public without sharing class TermSheetInput_LightningController {
     'Requested_Reno_Limit__c' => 'Requested Reno Limit (% Acq Cost)',
     'Line_Expiration__c' => 'Requested Line Term',
     'Extension_Fee__c' => 'Extension Fee',
+    'Extension_Period_Days__c' => 'Extension Term (Months)',
     'Broker_Fees__c' => 'Broker Fee %',
     'Draw_Period__c' => 'Requested Advance Period',
     'Requested_Interest_Type__c' => 'Requested Interest Type',
@@ -252,6 +257,8 @@ public without sharing class TermSheetInput_LightningController {
     ) {
       m.get('incorrectLoanType').add('true');
     }
+
+    m.put('Approved', new List<String>{ 'true' });
 
     if (
       (o.RecordType.DeveloperName == 'LOC_Loan' ||
@@ -338,6 +345,13 @@ public without sharing class TermSheetInput_LightningController {
     // }
 
     if (
+      o.RecordType.DeveloperName == 'Single_Asset_Bridge_Loan' &&
+      nullFields.contains('Distinct States')
+    ) {
+      nullFields.remove(nullFields.indexOf('Distinct States'));
+    }
+
+    if (
       (o.RecordType.DeveloperName == 'LOC_Loan' ||
       o.RecordType.DeveloperName.contains('Bridge')) &&
       o.LOC_Program_Type__c != null &&
@@ -351,9 +365,63 @@ public without sharing class TermSheetInput_LightningController {
     }
     System.debug(m);
 
+    m.put('Checkboxes', new List<String>{ 'true' });
+
+    if (
+      retrieveTemplateName(o) != 'Other'
+    ) {
+      m.put('Checkboxes', new List<String>{ 'false' });
+    }
+
     m.put('record', new List<String>{ JSON.serialize(o) });
 
     return m;
+  }
+
+  public static String retrieveTemplateName(Opportunity o) {
+    String templateName = 'Other';
+    String projStrategy = String.isNotEmpty(o.Project_Strategy__c)
+      ? o.Project_Strategy__c
+      : '';
+    String prodType = String.isNotEmpty(o.LOC_Loan_Type__c)
+      ? o.LOC_Loan_Type__c
+      : '';
+
+    if (prodType == 'Build to Rent') {
+      return 'BridgeCAFL_Form_Termsheet_Construction';
+    }
+
+    if (prodType == 'Multifamily/CRE') {
+      switch on projStrategy {
+        when 'Conversion to Multifamily' {
+          templateName = 'BridgeMultifamily_Renovation_Term_Sheet';
+        }
+        when 'Multifamily GUC' {
+          templateName = 'BridgeCAFL_Form_Termsheet_Construction';
+        }
+        when else {
+          if (projStrategy.toLowerCase().contains('clo')) {
+            templateName = 'BridgeCRE_CLO_MF_Term_Sheet';
+          } else if (
+            (new List<String>{
+                'Multifamily Heavy Lift',
+                'Multifamily Light Lift',
+                'Multifamily Lease-Up/No Rehab'
+              })
+              .contains(projStrategy) &&
+            String.isNotEmpty(o.Renovation_Funding__c)
+          ) {
+            templateName = o.Renovation_Funding__c == 'Yes'
+              ? 'BridgeMultifamily_Renovation_Term_Sheet'
+              : o.Renovation_Funding__c == 'No'
+                  ? 'BridgeMultifamily_No_Renovation_Term_She'
+                  : templateName;
+          }
+        }
+      }
+    }
+
+    return templateName;
   }
 
   public static Opportunity queryOpportunity(Id recordId) {
@@ -368,7 +436,9 @@ public without sharing class TermSheetInput_LightningController {
         Include_Prop_Sub_Text__c,
         Include_3_Months_Min_Interest__c,
         Broker_Fees__c,
-        Referral_Source_Contact__c
+        Referral_Source_Contact__c,
+        Project_Strategy__c,
+        Renovation_Funding__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
@@ -622,58 +692,56 @@ public without sharing class TermSheetInput_LightningController {
     }
 
     if ((String) m.get('Generate_Word_Doc') == 'true') {
-      if (recordType == 'Term_Loan') {
+      if (o.LOC_Loan_Type__c == 'Term Loan') {
         String termLoanString = '/apex/TermSheetDoc?id=';
         String docReference = stringTerm(termLoanString, o.Id, splitDate, i, s);
         p = new PageReference(docReference);
         createContent(i, o, recordType, p, true);
         return docReference;
+      } else if (
+        o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
+        o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+      ) {
+        String assetString = '/apex/SingleAssetBridgeTermSheetDoc?id=';
+        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+        p = new PageReference(docReference);
+        createContent(i, o, recordType, p, true);
+        return docReference;
       } else {
-        if (
-          o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
-          o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)' ||
-          o.LOC_Loan_Type__c == 'Multifamily/CRE'
-        ) {
-          String assetString = '/apex/SingleAssetBridgeTermSheetDoc?id=';
-          String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-          p = new PageReference(docReference);
-          createContent(i, o, recordType, p, true);
-          return docReference;
-        } else {
-          String bridgeString = '/apex/BridgeTermSheetDoc?id=';
-          String docReference = stringTerm(bridgeString, o.Id, splitDate, i, s);
-          p = new PageReference(docReference);
-          createContent(i, o, recordType, p, true);
-          System.debug('this is the pageReference');
-          System.debug(docReference);
-          return docReference;
-        }
+        String bridgeString = '/apex/BridgeTermSheetDoc?id=';
+        String docReference = stringTerm(bridgeString, o.Id, splitDate, i, s);
+        p = new PageReference(docReference);
+        createContent(i, o, recordType, p, true);
+        System.debug('this is the pageReference');
+        System.debug(docReference);
+        return docReference;
       }
     } else {
-      if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
-        // Date d = Date.newInstance(Integer.valueOf(splitDate[0]), Integer.valueOf(splitDate[1]), Integer.valueOf(splitDate[2]));
-        // p = new PageReference('/apex/BridgeTermSheetPDF?id=' + o.Id + '&month=' +Integer.valueOf(splitDate[1])+ '&day=' +Integer.valueOf(splitDate[2])+ '&year=' + Integer.valueOf(splitDate[0]));
-
-        if (
-          o.LOC_Loan_Type__c.contains('Single Asset') ||
-          o.LOC_Loan_Type__c == 'Multifamily/CRE'
-        ) {
-          p = new PageReference(
-            stringTerm(
-              '/apex/SingleAssetBridgeTermSheet?id=',
-              o.Id,
-              splitDate,
-              i,
-              s
-            )
-          );
-        } else {
-          p = new PageReference(
-            stringTerm('/apex/BridgeTermSheetPDF?id=', o.Id, splitDate, i, s)
-          );
-        }
-      } else if (recordType == 'Term_Loan') {
-        // p = new PageReference('/apex/TermSheetPDF?id=' + o.Id + '&month=' +Integer.valueOf(splitDate[1])+ '&day=' +Integer.valueOf(splitDate[2])+ '&year=' + Integer.valueOf(splitDate[0]));
+      if(retrieveTemplateName(o) != 'Other') {
+        String assetString = '/apex/' + retrieveTemplateName(o) + '?id=';
+        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+        p = new PageReference(docReference);
+        createContent(i, o, recordType, p, true);
+        return docReference;
+      } else if (o.LOC_Loan_Type__c == 'Term Loan') {
+        p = new PageReference(
+          stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
+        );
+      } else if (o.LOC_Loan_Type__c == 'Credit Line') {
+        p = new PageReference(
+          stringTerm('/apex/BridgeTermSheetPDF?id=', o.Id, splitDate, i, s)
+        );
+      } else if (o.LOC_Loan_Type__c.contains('Single Asset')) {
+        p = new PageReference(
+          stringTerm(
+            '/apex/SingleAssetBridgeTermSheet?id=',
+            o.Id,
+            splitDate,
+            i,
+            s
+          )
+        );
+      } else {
         p = new PageReference(
           stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
         );

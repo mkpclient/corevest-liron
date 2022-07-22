@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Block_Crime_Data_Present__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>House Canary Block crime Data Present</description>
+    <externalId>false</externalId>
+    <label>Block Crime Data Present</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

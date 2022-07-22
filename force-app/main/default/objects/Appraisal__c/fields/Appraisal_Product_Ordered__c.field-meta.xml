@@ -94,6 +94,11 @@
                 <default>false</default>
                 <label>Post Disaster Inspection</label>
             </value>
+            <value>
+                <fullName>Desktop Summary Appraisal</fullName>
+                <default>false</default>
+                <label>Desktop Summary Appraisal</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

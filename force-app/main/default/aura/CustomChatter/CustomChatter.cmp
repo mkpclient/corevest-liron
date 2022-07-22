@@ -4,8 +4,8 @@
     <aura:attribute name="customChatterId" type="String" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
    
-    <!-- <aura:if isTrue="{! not(empty(v.customChatterId))}"> -->
-        <forceChatter:publisher context="RECORD" recordId="0068B000002jMM4QAM" />
-        <forceChatter:feed type="Record" subjectId="0068B000002jMM4QAM" />
-    <!-- </aura:if> -->
+    <aura:if isTrue="{! not(empty(v.customChatterId))}">
+        <forceChatter:publisher context="RECORD" recordId="{!v.customChatterId}" />
+        <forceChatter:feed type="Record" subjectId="{!v.customChatterId}" />
+    </aura:if>
 </aura:component>

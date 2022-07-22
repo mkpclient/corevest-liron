@@ -9,6 +9,8 @@ import {
 
 import calcMessage from "@salesforce/messageChannel/ScheduleLoanAgreementMessage__c";
 import Interest_Rate_Type__c from "@salesforce/schema/Loan_Version__ChangeEvent.Interest_Rate_Type__c";
+import DISCOUNT_FEE_FIELD from "@salesforce/schema/Opportunity.Discount_Fee__c";
+import { getPicklistValues } from "lightning/uiObjectInfoApi";
 
 export default class ScheduleOfLenderCostsNew extends LightningElement {
   @api deal;
@@ -16,10 +18,18 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   @api recordId;
   @api val1234 = 456;
   subscription = null;
+  discountFeeValLocal;
+  earlyRateLockAmountLocal = null;
 
   calculatedFields = {};
   loanFees = [];
+  discountFeeOptions = [];
   //@api loanVersion = {};
+
+
+  get dealRecId() {
+    return this.deal.RecordTypeId;
+  }
 
   @wire(MessageContext)
   messageContext;
@@ -28,8 +38,35 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     super();
   }
 
+  @wire(getPicklistValues, { recordTypeId: "$dealRecId", fieldApiName: DISCOUNT_FEE_FIELD })
+  wireValues({ error, data }){
+    if (data) {
+      console.log(data);
+      const opts = [];
+      data.values.forEach(el => {
+        opts.push({
+          label: el.label,
+          value: el.value
+        })
+      });
+
+      this.discountFeeOptions = opts;
+    }
+    else if (error) {
+      console.error(error.body.message);
+    }
+  }
+
   connectedCallback() {
     console.log("init of new");
+    
+    this.updateCalculatedFields();
+
+    this.subscribeMessageChannel();
+  }
+
+  @api
+  refreshPage() {
     this.updateCalculatedFields();
 
     this.subscribeMessageChannel();
@@ -62,8 +99,11 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     console.log("--receiving message--");
     console.log(message);
     //this.calculatedFields();
-
+    if(message.hasOwnProperty("Early_Rate_Lock_Amount__c")){
+      this.earlyRateLockAmount = message.Early_Rate_Lock_Amount__c;
+    }
     if (message.type === "init") {
+      
       this.updateCalculatedFields();
     }
   }
@@ -73,6 +113,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     console.log("inside a func");
     //const calculatedFields = this.calculatedFields;
     let calculatedFields = {
+      Early_Lock_Deposit__c: this.earlyRateLockAmount,
       Final_Interest_Rate__c: this.finalInterestRateCalc(),
       Calculated_Origination_Fee__c: this.finalorignalfeeCalc(),
       Required_Holdback_Reserve__c: this.totalHoldbackReserveCalc(),
@@ -93,7 +134,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Net_Proceeds_to_Borrower__c: this.netProceedsBorrowerCalc(),
       Total_Uses__c: this.totalUsesCalc(),
       Holdback_Reserve_Override__c: this.deal.Holdback_Reserve_Override__c,
-      Interest_Rate_Type__c: this.deal.Interest_Rate_Type__c,
+      Interest_Rate_Type__c: this.rateType,
       Total_Annual_Tax__c: this.deal.Total_Annual_Tax__c,
       Reserve_Tax__c: this.deal.Reserve_Tax__c,
       Total_Annual_Insurance__c: this.deal.Total_Annual_Insurance__c,
@@ -108,6 +149,8 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
         .Holdback_Reserve_Month_Multiplier__c,
       Installment_Comment__c: this.deal.Installment_Comment__c
     };
+
+    this.discountFeeVal = this.discountFeeCalculation();
     //console.log("--updating--");
     //console.log(`scheduleData-${this.recordId}`);
 
@@ -137,11 +180,28 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   get interestRateTypes() {
     const options = [
       { label: "", value: "" },
-      { label: "Fixed", value: "Fixed" },
+      { label: "Amortized", value: "Amortized" },
+      { label: "Partial I/O", value: "Partial I/O" },
       { label: "Interest Only", value: "Interest Only" }
     ];
 
     return options;
+  }
+
+  get rateType() {
+    const amTerm = this.deal.Amortization_Term__c && this.deal.Amortization_Term__c.toLowerCase();
+    const ioTerm = this.deal.IO_Term__c && this.deal.IO_Term__c.toLowerCase();
+    const baseCriteriaVal = "0 months";
+    
+    return (
+      amTerm == baseCriteriaVal && ioTerm != baseCriteriaVal
+      ? "Interest Only"
+      : amTerm != baseCriteriaVal && ioTerm == baseCriteriaVal
+      ? "Amortized"
+      : amTerm != baseCriteriaVal && ioTerm != baseCriteriaVal
+      ? "Partial I/O"
+      : ""
+    )
   }
 
   // get holdbackReserve() {
@@ -182,7 +242,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     //console.log("indicative_rate");
     //console.log(Indicative_Rate);
 
-    if (this.deal.Interest_Rate_Type__c == "Fixed") {
+    if (this.rateType == "Amortized") {
       if (PV && Indicative_Rate) {
         // //PMT= (PV*Rate*(1+Rate)^nper)/[(1+Rate)^nper - 1]
         var rate = parseFloat(((Indicative_Rate / 12 / 100) * 365) / 360);
@@ -192,7 +252,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
         val = pmt;
       }
-    } else if (this.deal.Interest_Rate_Type__c == "Interest Only") {
+    } else if (this.rateType == "Interest Only" || this.rateType == "Partial I/O") {
       // if (PV && Indicative_Rate && this.deal.IO_Term__c) {
       //   //IPMT = pmt + (1+rate)^(nper-1)*(pv *rate - pmt)
       //   var rate = parseFloat((Indicative_Rate * 365) / (12 * 360 * 100));
@@ -244,6 +304,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   totalSourcesCalc() {
     var TotalSources = null;
     var Deposit_Amount = 0;
+    let earlyrate = isNaN(this.earlyRateLockAmount) ? 0 : parseFloat(this.earlyRateLockAmount);
     if (this.deal.Current_Loan_Amount__c && this.deal.Deposit_Amount__c) {
       var Final_Loan_Amount = parseFloat(this.deal.Current_Loan_Amount__c);
       if (this.deal.Deposit_Amount__c != null || this.deal.Deposit_Amount__c != 0) {
@@ -251,7 +312,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       } else {
         Deposit_Amount = 0;
       }
-      TotalSources = parseFloat(Final_Loan_Amount + Deposit_Amount).toFixed(2);
+      TotalSources = parseFloat(Final_Loan_Amount + Deposit_Amount + earlyrate).toFixed(2);
     }
 
     return TotalSources;
@@ -335,6 +396,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     var Lender_Diligence_Out_of_Pocket = 0;
     var cfcorevestpurchaser = 0;
     var legalFee = 0;
+    const discountFee = this.showDiscountFeeField ? this.discountFeeVal : 0;
     let CalculatedOriginationFee = this.finalorignalfeeCalc();
     if (CalculatedOriginationFee) {
       Origination_Fee = parseFloat(CalculatedOriginationFee).toFixed(2);
@@ -364,7 +426,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
           parseFloat(stubInterest) +
           parseFloat(Lender_Diligence_Out_of_Pocket) +
           parseFloat(cfcorevestpurchaser) +
-          parseFloat(legalFee)
+          parseFloat(legalFee) + discountFee
       )
     ).toFixed(2);
 
@@ -704,7 +766,18 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     // console.log(event.target.value);
     // console.log(event.target.getAttribute("data-field"));
     const deal = JSON.parse(JSON.stringify(this.deal));
-    deal[event.target.getAttribute("data-field")] = event.target.value;
+    const fieldName = event.target.getAttribute("data-field");
+    const value = event.target.value;
+    if(fieldName == "Current_Loan_Amount__c" && this.showEarlyRateLockField) {
+      this.earlyRateLockAmount = value * 0.01;
+    }
+    if(fieldName == "Early_Lock_Deposit__c") {
+      this.earlyRateLockAmount = value;
+      this.updateCalculatedFields();
+
+      return;
+    }
+    deal[fieldName] = value;
     this.deal = deal;
     this.updateCalculatedFields();
   }
@@ -724,7 +797,14 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       }
     });
 
+    let discountFee = '', discountFeeNumber = 0;
+
+    if(deal.Discount_Fee__c) {
+      discountFee = deal.Discount_Fee__c;
+    }
+
     let loanVersion = {
+      Early_Lock_Deposit__c: calculatedFields.Early_Lock_Deposit__c,
       Final_Loan_Amount__c: deal.Current_Loan_Amount__c,
       Deposit_Amount__c: deal.Deposit_Amount__c,
       Deal_Loan_Number__c: deal.Deal_Loan_Number__c,
@@ -774,11 +854,56 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Holdback_Reserve_Override__c: deal.Holdback_Reserve_Override__c,
       Holdback_Reserve_Month_Multiplier__c:
         deal.Holdback_Reserve_Month_Multiplier__c,
-      Term__c: deal.Term_Loan_Type__c
+      Term__c: deal.Term_Loan_Type__c,
+      Discount_Fee__c: discountFee,
+      Discount_Fee_Number__c: this.discountFeeVal,
     };
 
     // console.log(loanVersion);
 
     return loanVersion;
+  }
+  
+  discountFeeCalculation() {
+    if (!this.showDiscountFeeField || !this.deal.Discount_Fee__c) {
+      return 0;
+    }
+
+    const discFee = this.deal.Discount_Fee__c.replace(/[^0-9.]/g,'|').split('|')[0];
+    const discFeePct = parseFloat(discFee) / 100;
+    return discFeePct * this.deal.Current_Loan_Amount__c;
+  }
+
+  get showEarlyRateLockField() {
+    return this.deal.Rate_Lock_Picklist__c == "Early Rate Locked";
+  }
+  
+  @api
+  get earlyRateLockAmount() {
+    if(this.earlyRateLockAmountLocal === null && this.showEarlyRateLockField && this.deal.Current_Loan_Amount__c) {
+      return parseFloat(this.deal.Current_Loan_Amount__c) * 0.01;
+    } else {
+      return parseFloat(this.earlyRateLockAmountLocal);
+    }
+  }
+
+  set earlyRateLockAmount(value) {
+    if(value === null  && this.showEarlyRateLockField && this.deal.Current_Loan_Amount__c) {
+      this.earlyRateLockAmountLocal = parseFloat(this.deal.Current_Loan_Amount__c) * 0.01;
+    } else {
+      this.earlyRateLockAmountLocal = isNaN(parseFloat(value)) ? value : parseFloat(parseFloat(value).toFixed(2));
+    }
+  }
+
+  get discountFeeVal() {
+    return this.discountFeeValLocal;
+  }
+
+  set discountFeeVal(val) {
+    this.discountFeeValLocal = val;
+  }
+
+  get showDiscountFeeField() {
+    return this.deal.Term_Loan_Type__c == "30 Year";
   }
 }

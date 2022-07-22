@@ -16,6 +16,53 @@
         <template>Process_Builder_Emails/Active_Property_Status_Update_Alert</template>
     </alerts>
     <alerts>
+        <fullName>Property_Created_LOC_only</fullName>
+        <description>Property Created - LOC only</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Co-Originator</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Originator</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Sales Analyst</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <recipients>
+            <recipient>Sales Manager</recipient>
+            <type>opportunityTeam</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Process_Builder_Emails/Property_Created_on_Portal</template>
+    </alerts>
+    <alerts>
+        <fullName>Property_created_by_Originations_User</fullName>
+        <ccEmails>corevestit@cvest.com</ccEmails>
+        <description>Property created by Originations User</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Bridge_Funding</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>daniel.han@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nadeem.elsewehy@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>Process_Builder_Emails/Property_Created_on_Portal</template>
+    </alerts>
+    <alerts>
         <fullName>Property_created_through_the_Portal</fullName>
         <ccEmails>corevestit@cvest.com</ccEmails>
         <description>Property created through the Portal</description>
@@ -31,25 +78,4 @@
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Property_Created_on_Portal</template>
     </alerts>
-    <fieldUpdates>
-        <fullName>Exception_Reason_update</fullName>
-        <description>Update the Exception Reason textbox on the property object.</description>
-        <field>Exception_Reason__c</field>
-        <name>Exception Reason update</name>
-        <notifyAssignee>false</notifyAssignee>
-        <operation>Null</operation>
-        <protected>false</protected>
-        <reevaluateOnChange>false</reevaluateOnChange>
-    </fieldUpdates>
-    <rules>
-        <fullName>Exception Reason Update to Blank</fullName>
-        <actions>
-            <name>Exception_Reason_update</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>true</active>
-        <description>If the Exception field is changed from Yes to No, clear out any text in the Exception Reason field.</description>
-        <formula>ISPICKVAL( Exception__c, &quot;NO&quot;)</formula>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
 </Workflow>

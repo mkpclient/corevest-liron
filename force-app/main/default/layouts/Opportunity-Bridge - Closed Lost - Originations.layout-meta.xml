@@ -94,6 +94,10 @@
                 <behavior>Readonly</behavior>
                 <field>Lender__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -146,15 +150,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Loan_Coordinator__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Closer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Foreign_National__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -294,6 +298,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Broker_Fees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_By_Whom__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Broker_Fee_Paid_When__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -555,11 +567,6 @@
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Update_Swap_Rate</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -578,9 +585,13 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Account__c</fields>
-        <fields>CREATED_DATE</fields>
+        <fields>Lender__c</fields>
         <fields>Close_Date__c</fields>
+        <fields>Properties_Matched__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>Lost_Deal_Analysis__c.Deal__c</relatedList>
+        <sortField>Close_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>ContactName</fields>
@@ -673,11 +684,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
+        <fields>Funding_Vehicle__c</fields>
+        <fields>Include_Yes_No__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

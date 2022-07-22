@@ -2,7 +2,36 @@
   <c-modal title="Documents">
     <div slot="body">
       <lightning-card>
-        <div slot="actions">
+        <lightning-button-menu label="Actions" onselect={handleMassAction}>
+          <lightning-menu-item
+            value="Approved"
+            label="Approve"
+          ></lightning-menu-item>
+          <lightning-menu-item
+            value="Rejected"
+            label="Reject"
+          ></lightning-menu-item>
+          <lightning-menu-item
+            value="Reviewed"
+            label="Review"
+          ></lightning-menu-item>
+          <lightning-menu-item
+            value="Not Reviewed"
+            label="Not Reviewed"
+          ></lightning-menu-item>
+          <lightning-menu-item
+            value="archive"
+            label="Archive"
+          ></lightning-menu-item>
+        </lightning-button-menu>
+        <c-custom-data-table
+          key-field="Id"
+          data={documents}
+          columns={columns}
+          onrowaction={handleRowAction}
+        >
+        </c-custom-data-table>
+        <!--<div slot="actions">
           <lightning-button
             label="Reject Document"
             variant="destructive"
@@ -15,9 +44,9 @@
             onclick={approveDocuments}
           >
           </lightning-button>
-        </div>
+        </div> -->
 
-        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+        <!-- <table class="slds-table slds-table_cell-buffer slds-table_bordered">
           <thead>
             <tr class="slds-line-height_reset">
               <th
@@ -31,16 +60,16 @@
               <th class="" scope="col">
                 <div class="" title="Status">Status</div>
               </th>
-              <!-- <th class="" scope="col">
+              <th class="" scope="col">
                 <div class="" title="Reviewed By">Added On</div>
-              </th> -->
+              </th>
               <th class="" scope="col">
                 <div class="" title="Reviewed By">Reviewed By</div>
               </th>
 
-              <!-- <th class="" scope="col">
+              <th class="" scope="col">
                   <div class="" title="Reviewed On">Reviewed On</div>
-                </th> -->
+                </th>
             </tr>
           </thead>
           <tbody>
@@ -70,9 +99,9 @@
                   <td data-label="Account Name">
                     <div class="" title="Reviewed By">{document.Status__c}</div>
                   </td>
-                  <!-- <td data-label="Account Name">
+                  <td data-label="Account Name">
                     <div class="">{document.Added_On__c}</div>
-                  </td> -->
+                  </td>
                   <td data-label="Account Name">
                     <div class="" title="Reviewed By">
                       <template if:true={document.Reviewed_By__c}>
@@ -80,18 +109,18 @@
                       </template>
                     </div>
                   </td>
-                  <!-- <td data-label="Close Date">
+                  <td data-label="Close Date">
                       <div class="" title="Reviewed On">
                         <lightning-formatted-date-time
                           value={document.Reviewed_On__c}
                         ></lightning-formatted-date-time>
                       </div>
-                    </td> -->
+                    </td>
                 </tr>
               </template>
             </template>
           </tbody>
-        </table>
+        </table> -->
       </lightning-card>
     </div>
     <div slot="footer">

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Interest_Reserves__c</fullName>
+    <externalId>false</externalId>
+    <label>Current Interest Reserves Paid</label>
+    <summarizedField>Interest_Reserves__c.Interest_Reserves_Payment__c</summarizedField>
+    <summaryForeignKey>Interest_Reserves__c.Property__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

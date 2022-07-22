@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <formula>Deal__r.Record_Type_Name__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>Deal RecordType</label>
+    <label>Deal Record Type Developer Name</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

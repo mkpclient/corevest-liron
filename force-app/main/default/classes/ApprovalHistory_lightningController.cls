@@ -13,9 +13,9 @@ public without sharing class ApprovalHistory_lightningController {
     'Term_IC_Approval',
     'Bridge_IC_Approval',
     'Term_Sub_IC',
-    'Bridge_Sub_IC'
+    'Bridge_Sub_IC',
+    'Bridge_Mini_Sub_IC'
   };
-
 
   @AuraEnabled
   public static String recallApproval(Id processId) {
@@ -182,9 +182,9 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Owner.Name,
         Deal__r.Approval_Status__c,
         Deal__r.Apex_Context__c,
-        Deal__r.Underwriter__c,
         CreatedDate,
-        Resolution__c
+        Resolution__c,
+        ProcessName__c
       FROM Approval_History__c
       WHERE Deal__c = :recordId
       ORDER BY LastModifiedDate DESC
@@ -208,17 +208,6 @@ public without sharing class ApprovalHistory_lightningController {
     ]) {
       idMap.put(piw.Id, piw.ProcessInstance.ProcessDefinition.DeveloperName);
     }
-
-    Boolean allowUnderwriterRecall = false;
-
-    List<OpportunityTeamMember> otmList = [
-      SELECT
-        Id
-      FROM OpportunityTeamMember
-      WHERE OpportunityId = :recordId
-      AND UserId = :UserInfo.getUserId()
-      AND TeamMemberRole = 'Underwriter'
-    ];
 
     for (Approval_History__c ah : ahList) {
       if (
@@ -279,88 +268,83 @@ public without sharing class ApprovalHistory_lightningController {
         // 	//m.put('Verified', verified);
         //     //ah.Verified__c
         // }
-        if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
-          ah.Verified__c = true;
-        } else {
-          if (processName == 'Submit_Term_Deal_to_UW_Approval') {
-            if (termEntryIntoUWApprover) {
-              ah.Verified__c = true;
-            }
-          } else if (processName == 'Submit_Bridge_Deal_to_UW_Approval') {
-            if (bridgeEntryIntoUWApprover) {
-              ah.Verified__c = true;
-            }
-          } else if (capitalMarketsPricingApprover) {
-            if (null != o.Approved_by_Capital_Markets__c) {
+
+        if (processName == 'Submit_Term_Deal_to_UW_Approval') {
+          if (termEntryIntoUWApprover) {
+            ah.Verified__c = true;
+          }
+        } else if (processName == 'Submit_Bridge_Deal_to_UW_Approval' || processName == 'Submit_SAB_Deal_to_UW_Approval') {
+          if (bridgeEntryIntoUWApprover) {
+            ah.Verified__c = true;
+          }
+        } else if (capitalMarketsPricingApprover) {
+          if (null != o.Approved_by_Capital_Markets__c) {
+            // if (o.Approval_Status__c == 'Approved'){
+            //     o = modifyOpportunity(o);
+
+            // }
+            // ah.Verified__c = true;
+          } else {
+            ah.Verified__c = true;
+          }
+          roleName = 'Capital Markets';
+        } else if (processName == 'Bridge_LOC_Pricing_Review') {
+          if (bridgePricingApprover) {
+            if (null != o.Approved_by_Underwriter__c) {
               // if (o.Approval_Status__c == 'Approved'){
               //     o = modifyOpportunity(o);
-  
               // }
               // ah.Verified__c = true;
             } else {
               ah.Verified__c = true;
             }
-            roleName = 'Capital Markets';
-          } else if (processName == 'Bridge_LOC_Pricing_Review') {
-            if (bridgePricingApprover) {
-              if (null != o.Approved_by_Underwriter__c) {
-                // if (o.Approval_Status__c == 'Approved'){
-                //     o = modifyOpportunity(o);
-                // }
-                // ah.Verified__c = true;
-              } else {
-                ah.Verified__c = true;
-              }
+          }
+          roleName = 'Underwriter';
+        } else if (processName == 'Term_Pricing_Review' || processName == 'Term_Repricing_Review') {
+          if (termPricingApprover) {
+            if (null != o.Approved_by_Underwriter__c) {
+              // if (o.Approval_Status__c == 'Approved'){
+              //     o = modifyOpportunity(o);
+              // }
+              // ah.Verified__c = true;
+            } else {
+              ah.Verified__c = true;
             }
-            roleName = 'Underwriter';
-          } else if (processName == 'Term_Pricing_Review' || processName == 'Term_Repricing_Review') {
-            if (termPricingApprover) {
-              if (null != o.Approved_by_Underwriter__c) {
-                // if (o.Approval_Status__c == 'Approved'){
-                //     o = modifyOpportunity(o);
-                // }
-                // ah.Verified__c = true;
-              } else {
-                ah.Verified__c = true;
-              }
+          }
+          roleName = 'Underwriter';
+        } else if (processName == 'Custom_SAB_Pricing_Review') {
+          if (sabPricingApprover) {
+            if (null != o.Approved_by_Underwriter__c) {
+              // if (o.Approval_Status__c == 'Approved'){
+              //     o = modifyOpportunity(o);
+              // }
+              // ah.Verified__c = true;
+            } else {
+              ah.Verified__c = true;
             }
-            roleName = 'Underwriter';
-          } else if (processName == 'Custom_SAB_Pricing_Review') {
-            if (sabPricingApprover) {
-              if (null != o.Approved_by_Underwriter__c) {
-                // if (o.Approval_Status__c == 'Approved'){
-                //     o = modifyOpportunity(o);
-                // }
-                // ah.Verified__c = true;
-              } else {
-                ah.Verified__c = true;
-              }
+          }
+          roleName = 'Underwriter';
+        } else if (processName == 'Standard_SAB_Pricing_Review') {
+          if (sabPricingApprover) {
+            if (null != o.Approved_by_Underwriter__c) {
+              // if (o.Approval_Status__c == 'Approved'){
+              //     o = modifyOpportunity(o);
+              // }
+            } else {
+              ah.Verified__c = true;
             }
-            roleName = 'Underwriter';
-          } else if (processName == 'Standard_SAB_Pricing_Review') {
-            if (sabPricingApprover) {
-              if (null != o.Approved_by_Underwriter__c) {
-                // if (o.Approval_Status__c == 'Approved'){
-                //     o = modifyOpportunity(o);
-                // }
-              } else {
-                ah.Verified__c = true;
-              }
-            }
-            roleName = 'Underwriter';
-          } 
-        }
-
-        
-
-        if(IC_APPROVAL_NAMES.contains(processName) && (otmList.size() > 0 || ah.Deal__r.Underwriter__c == UserInfo.getUserId()) || IcApprovalController.verifyPermission()){
-          allowUnderwriterRecall = true;
+          }
+          roleName = 'Underwriter';
+        } 
+        if (IC_APPROVAL_NAMES.contains(processName) && ah.Actor__c == UserInfo.getUserId()) {
+          ah.Verified__c = true;
         }
       }
     }
 
-    Boolean b = submitterId == UserInfo.getUserId() || allowUnderwriterRecall;
+    Boolean b = submitterId == UserInfo.getUserId() || (ahList.size() > 0 && String.isNotEmpty(ahList[0].ProcessName__c) && IC_APPROVAL_NAMES.contains(ahList[0].ProcessName__c) && roleName == 'Underwriter');
 
+    
     returnWrapper rw = new returnWrapper();
     rw.ahList = ahList;
     rw.isSubmitter = b;
@@ -416,8 +400,10 @@ public without sharing class ApprovalHistory_lightningController {
         Deal__r.Product_Sub_Type__c,
         Deal__r.LOC_Program_Type__c,
         Deal__r.RecordType.DeveloperName,
+        Deal__r.Project_Strategy__c,
         Parent_Status__c,
         Process_Id__c,
+        ProcessName__c,
         Process_Instance_Id__c,
         Status__c,
         Step_Item_Id__c,
@@ -440,14 +426,11 @@ public without sharing class ApprovalHistory_lightningController {
       SELECT Id, ProcessDefinition.Name
       FROM ProcessInstance
       WHERE ID IN :processIds
+      AND ProcessDefinition.Name LIKE '%Pricing Review%'
     ]) {
-      if (
-        pi.ProcessDefinition.Name.contains(
-          'Pricing Review'
-        ) /* || pi.ProcessDefinition.Name.contains('Pricing_Review')*/
-      ) {
+
         pricingReviewIds.add(pi.Id);
-      }
+        
     }
 
     Map<Id, historyWrapper> m = new Map<Id, historyWrapper>();
@@ -473,6 +456,7 @@ public without sharing class ApprovalHistory_lightningController {
         hw.loanType = ahc.Deal__r.Type;
         hw.productType = ahc.Deal__r.LOC_Loan_Type__c;
         hw.productSubType = ahc.Deal__r.Product_Sub_Type__c;
+        hw.projectStrategy = ahc.Deal__r.Project_Strategy__c;
         hw.loanStage = ahc.Deal_Stage_At_Time_of_Submission__c;
         hw.pricingType = ahc.Deal__r.LOC_Program_Type__c;
 
@@ -574,6 +558,7 @@ public without sharing class ApprovalHistory_lightningController {
     String loanType;
     String productType;
     String productSubType;
+    String projectStrategy;
     String loanStage;
     String pricingType;
     // String status;

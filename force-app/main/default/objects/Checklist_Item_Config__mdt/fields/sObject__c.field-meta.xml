@@ -41,6 +41,11 @@
                 <label>Account</label>
             </value>
             <value>
+                <fullName>Guarantor</fullName>
+                <default>false</default>
+                <label>Guarantor</label>
+            </value>
+            <value>
                 <fullName>Borrower</fullName>
                 <default>false</default>
                 <isActive>false</isActive>

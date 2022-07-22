@@ -294,6 +294,7 @@
         <searchResultsAdditionalFields>Introduction_Subsource__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>LEAD.STATUS</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Owner_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Applicant_Type__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Created_Date_Time__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>Private</sharingModel>

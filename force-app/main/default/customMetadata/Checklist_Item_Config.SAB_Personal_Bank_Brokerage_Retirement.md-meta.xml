@@ -19,6 +19,10 @@
         <value xsi:type="xsd:string">Personal_Bank_Brokerage_Retirement_sab</value>
     </values>
     <values>
+        <field>Is_Bulk__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Is_Property_Level__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -28,7 +32,7 @@
     </values>
     <values>
         <field>RecordType__c</field>
-        <value xsi:type="xsd:string">Single_Asset_Bridge</value>
+        <value xsi:type="xsd:string">Single_Asset_Bridge_Loan</value>
     </values>
     <values>
         <field>Responsible_Party__c</field>

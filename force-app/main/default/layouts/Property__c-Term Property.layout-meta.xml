@@ -79,6 +79,10 @@
                 <behavior>Edit</behavior>
                 <field>REO_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -279,14 +283,6 @@
                 <behavior>Edit</behavior>
                 <field>Other_Income_2__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Gross_Yield__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Net_Yield__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -382,6 +378,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Asset_Management_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_Servicer_Import__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -534,6 +534,22 @@
                 <behavior>Readonly</behavior>
                 <field>Deal_Refinanced_With__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Deal_Record_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>RecordType__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>RecordType_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Record_Type_Text__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -649,6 +665,9 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
+        <fields>Estimated_Max_Rent__c</fields>
+        <fields>Estimated_Min_Rent__c</fields>
+        <fields>Estimated_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -659,11 +678,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

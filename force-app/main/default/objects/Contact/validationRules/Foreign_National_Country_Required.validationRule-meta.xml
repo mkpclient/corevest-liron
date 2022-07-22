@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Foreign_National_Country_Required</fullName>
+    <active>true</active>
+    <description>For borrower contacts only - if the Foreign National field is marked Yes, user must provide the country.</description>
+    <errorConditionFormula>AND(
+RecordType.Name = &quot;Borrower&quot;,
+ISPICKVAL( Foreign_National__c, &quot;Yes&quot;),
+ISPICKVAL( Home_Country__c, &quot;&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>Home_Country__c</errorDisplayField>
+    <errorMessage>Since this contact is a foreign national, please select the country they are from.</errorMessage>
+</ValidationRule>

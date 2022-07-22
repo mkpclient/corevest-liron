@@ -9,8 +9,8 @@
   AND(
    ISPICKVAL( Advance__r.Deal__r.Broker_Fee_Paid_When__c , &apos;Each Initial Advance&apos;) ,
    ISPICKVAL( Advance__r.Deal__r.Broker_Fee_Paid_By_Whom__c , &apos;CoreVest&apos;))) ,
- Property__r.Advance_Fee__c  - Property__r.Broker_Advance_Fee_Perc__c,
- Property__r.Advance_Fee__c
+ Property__r.Deal__r.Fee__c - Property__r.Broker_Advance_Fee_Perc__c,
+ Property__r.Deal__r.Fee__c
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Advance Fee % minus the Broker Fee % based on Broker Fee Paid When and Broker Fee Paid by Whom</inlineHelpText>

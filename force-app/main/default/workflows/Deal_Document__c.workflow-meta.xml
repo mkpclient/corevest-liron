@@ -50,8 +50,23 @@
             <field>Underwriter__c</field>
             <type>userLookup</type>
         </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Portal_User_Uploaded_Doc</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Document_Created_Determination_Notice</fullName>
+        <description>Deal Document Created - Determination Notice</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>michael.tran@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Document_Created</template>
     </alerts>
     <alerts>
         <fullName>DilligenceDocumentSubmissionEmail</fullName>
@@ -111,6 +126,34 @@
         <senderAddress>integrations@cvest.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Process_Builder_Emails/Notify_Closer_when_Title_Review_Vendor_Upload_Document</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_Loan_Manager_when_Document_get_uploaded_on_Deal</fullName>
+        <description>Notify Loan Manager when Document get uploaded</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Loan_Coordinator__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderAddress>integrations@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Process_Builder_Emails/Notify_to_Loan_Manager_when_doc_upload</template>
+    </alerts>
+    <alerts>
+        <fullName>Notify_UW_when_UW_Document_gets_uploaded</fullName>
+        <description>Notify UW when UW Document gets uploaded</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderAddress>integrations@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Process_Builder_Emails/Notify_UW_when_UW_doc_upload</template>
     </alerts>
     <alerts>
         <fullName>SAB_Closing_Portal_User_has_Uploaded_a_Document</fullName>
@@ -181,6 +224,10 @@
             <field>Underwriter__c</field>
             <type>userLookup</type>
         </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Portal_User_Uploaded_Doc</template>
     </alerts>
@@ -202,6 +249,10 @@
         </recipients>
         <recipients>
             <field>Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -388,6 +439,10 @@
         </recipients>
         <recipients>
             <field>Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
             <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>

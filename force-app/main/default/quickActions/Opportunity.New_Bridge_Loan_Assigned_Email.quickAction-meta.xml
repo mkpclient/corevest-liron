@@ -19,7 +19,7 @@
     <fieldOverrides>
         <field>ToAddress</field>
         <formula>Opportunity.Underwriter__r.Email + &apos;;&apos; + 
-Opportunity.Closer__r.Email + &apos;;&apos; + 
+Opportunity.Closer__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; +
 Opportunity.Loan_Coordinator__r.Email</formula>
     </fieldOverrides>
     <label>New Bridge Loan Assigned Email</label>

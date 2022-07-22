@@ -17,11 +17,10 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
                                                            Account.OwnerId, Account.Owner.Email,Account.Owner.LastName,
                                                            Account.Owner.FirstName, Name, Open_Period_Begins__c, YM_Prepayment_Penalty__c, 
                                                            Stepdown_Prepayment_Period__c, YM_Prepayment_Penalty_Description__c, Deal_Intro_Sub_Source__c,
-                                                           CAF_YSP__c, Referral_Source__c, Referral_Source_Contact__c, Account.Name, Account_Introduction_Source__c
+                                                           CAF_YSP__c, Referral_Source__c,Referral_Source__r.Name, Referral_Source_Contact__c, Referral_Source_Contact__r.Name, Account.Name, Account_Introduction_Source__c
         FROM Opportunity 
         WHERE Type = 'Term Loan'
 		AND StageName = 'Closed Won'
-		AND Open_Period_Begins__c != null 
 		AND (Open_Period_Begins__c =: System.today() 
 		OR Open_Period_Begins__c =: System.today().addMonths(12)
 		OR Open_Period_Begins__c =: System.today().addMonths(9)
@@ -44,14 +43,26 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
     date closeDateDt = myDeals[i].CloseDate;
                 
     //for date format            
-    string openPeriodDtString = openPeriodDt.month()+'/'+openPeriodDt.day()+'/'+openPeriodDt.year();
-    string closeDateDtString = closeDateDt.month()+'/'+closeDateDt.day()+'/'+closeDateDt.year();
+    String openPeriodDtString = myDeals[i].Open_Period_Begins__c ==null?' ':openPeriodDt.month()+'/'+openPeriodDt.day()+'/'+openPeriodDt.year();
+    String closeDateDtString = myDeals[i].CloseDate==null?' ' : closeDateDt.month()+'/'+closeDateDt.day()+'/'+closeDateDt.year();
+
+    String loanType =  myDeals[i].Type == null? ' ':myDeals[i].Type;      
+    String originatorFirstName = myDeals[i].Owner.FirstName== null? ' ': myDeals[i].Owner.FirstName;
+    String originatorLastName = myDeals[i].Owner.LastName== null? ' ': myDeals[i].Owner.LastName;
+    String ymParPrepaymentPeriod = myDeals[i].YM_Prepayment_Penalty__c== null? ' ': myDeals[i].YM_Prepayment_Penalty__c;
+    String stepdownPrepaymentPeriod = myDeals[i].Stepdown_Prepayment_Period__c== null? ' ': myDeals[i].Stepdown_Prepayment_Period__c;
+    String stepdownPrepaymentPeriodDescription = myDeals[i].YM_Prepayment_Penalty_Description__c== null? ' ': myDeals[i].YM_Prepayment_Penalty_Description__c;                    
+    String dealIntroSource= myDeals[i].Deal_Intro_Source__c == null? ' ': myDeals[i].Deal_Intro_Source__c;
+    String dealIntroSubSource= myDeals[i].Deal_Intro_Sub_Source__c == null? ' ': myDeals[i].Deal_Intro_Sub_Source__c;              
+    String cafYsp = myDeals[i].CAF_YSP__c == null? ' ': myDeals[i].CAF_YSP__c ;
+    String referralSourceAccount = myDeals[i].Referral_Source__c== null? ' ': myDeals[i].Referral_Source__r.Name;
+    String referralSourceContact = myDeals[i].Referral_Source_Contact__c== null? ' ': myDeals[i].Referral_Source_Contact__r.Name;
+    String accountName = myDeals[i].Account.Name == null? ' ': myDeals[i].Account.Name ;                
+    String accountIntroSource = myDeals[i].Account_Introduction_Source__c == null? ' ' : myDeals[i].Account_Introduction_Source__c;
                 
-    //replaces origininal if statement
+                
     string originatorId = myDeals[i].Owner.IsActive == true? myDeals[i].OwnerId : myDeals[i].Account.Owner.Id; 
-    //string originatorName = myDeals[i].Owner.IsActive == true? myDeals[i].Owner.FirstName + ' ' + myDeals[i].Owner.LastName : myDeals[i].Account.Owner.FirstName + ' ' + myDeals[i].Account.Owner.LastName;
         
-               // if(myDeals[i].Owner.isActive == true){
                
                     Task myTask = new Task();
                     myTask.OwnerId = originatorId;
@@ -61,7 +72,6 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
                     myTask.Type = 'Reminder';
                     myTasks.add(myTask);
                     
-                //single email message 
     Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
     string toEmailAddresses = myDeals[i].Owner.IsActive == true? myDeals[i].Owner.Email:myDeals[i].Account.Owner.Email;
     message.toAddresses = new String[] { toEmailAddresses , 'nadeem.elsewehy@cvest.com' };
@@ -72,7 +82,7 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
     message.setSaveAsActivity(false);
     //message.setWhatId(myDeals[i].id);        
                 
-    message.subject = 'Deal '+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
+    message.subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
     	
     if ( owea.size() > 0 ) {
     message.setOrgWideEmailAddressId(owea.get(0).Id);
@@ -84,94 +94,35 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
 
 'Deal: ' + myDeals[i].Name + '\n\n'+
 
-'Loan Type: ' + myDeals[i].Type + '\n\n'+
+'Loan Type: ' + loanType + '\n\n'+
         
-'Originator: ' + myDeals[i].Owner.FirstName + ' ' + myDeals[i].Owner.LastName +'\n\n'+
+'Originator: ' + originatorFirstName + ' ' + originatorLastName +'\n\n'+
 
 'Close Date: ' + closeDateDtString + '\n\n'+
 
 'Open Period Begins: '+ openPeriodDtString + '\n\n'+
 
-'YM Par Prepayment Period: '+ myDeals[i].YM_Prepayment_Penalty__c +'\n\n'+
+'YM Par Prepayment Period: '+ ymParPrepaymentPeriod +'\n\n'+
 
-'Stepdown Prepayment Period:' +myDeals[i].Stepdown_Prepayment_Period__c +'\n\n'+
+'Stepdown Prepayment Period:' +stepdownPrepaymentPeriod +'\n\n'+
 
-'Stepdown Prepayment Period Description: '+ myDeals[i].YM_Prepayment_Penalty_Description__c +'\n\n'+
+'Stepdown Prepayment Period Description: '+ stepdownPrepaymentPeriodDescription +'\n\n'+
                     
-'Deal Intro Source: '+ myDeals[i].Deal_Intro_Source__c +';' + myDeals[i].Deal_Intro_Sub_Source__c +'\n\n'+
+'Deal Intro Source: '+ dealIntroSource +'; ' + dealIntroSubSource +'\n\n'+
 
-'CAF YSP: '+myDeals[i].CAF_YSP__c+ '\n\n'+
+'CAF YSP: '+cafYsp+ '\n\n'+
 
-'Referral Source Account: '+myDeals[i].Referral_Source__c +'\n\n'+
+'Referral Source Account: '+referralSourceAccount +'\n\n'+
 
-'Referral Source Contact: '+myDeals[i].Referral_Source_Contact__c +'\n\n'+
+'Referral Source Contact: ' + referralSourceContact +'\n\n'+
 
-'Account Name: '+myDeals[i].Account.Name +'\n\n'+
+'Account Name: '+accountName +'\n\n'+
     
-'Account Intro Source: '+ myDeals[i].Account_Introduction_Source__c+'\n\n'+
-                
- '# of Deals'+myDeals.size();
+'Account Intro Source: '+ accountIntroSource;
 
     
 	messages.add(message);
-   // }
-                
-             /*   else{
-                    Task myTask = new Task();
-                    myTask.OwnerId = myDeals[i].Account.Owner.Id;
-                    myTask.Subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' +myDeals[i].Open_Period_Begins__c;
-                    myTask.WhatId = myDeals[i].Id;
-                    myTask.Status = 'Open';
-                    myTask.Type = 'Reminder';
-                    myTasks.add(myTask);
-                    
-    Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-    message.toAddresses = new String[] { myDeals[i].Account.Owner.Email, 'nadeem.elsewehy@cvest.com' };
-	message.setSaveAsActivity(false);
-	message.setReplyTo('integrations@cvest.com');
-	//message.setSenderDisplayName('Cvest Reminders');
-    message.subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' +myDeals[i].Open_Period_Begins__c;
-                    
-    if ( owea.size() > 0 ) {
-        message.setOrgWideEmailAddressId(owea.get(0).Id);}
-                    
-    date openPeriodDt = myDeals[i].Open_Period_Begins__c;
-    date closeDateDt = myDeals[i].CloseDate;
-    string openPeriodDtString = openPeriodDt.month()+'/'+openPeriodDt.day()+'/'+openPeriodDt.year();
-    string closeDateDtString = closeDateDt.month()+'/'+closeDateDt.day()+'/'+closeDateDt.year();
-                    
-    message.plainTextBody = 'Hello,\n\n' + 
-'This is an update regarding the Maturity Date for your deal.\n\n'+
-
-'Deal: ' + myDeals[i].Name + '\n\n'+
-
-'Loan Type: ' + myDeals[i].Type + '\n\n'+
-        
-'Originator: ' + myDeals[i].Account.Owner.FirstName + ' ' + myDeals[i].Account.Owner.LastName +'\n\n'+
-
-'Close Date: ' + closeDateDtString + '\n\n'+
-
-'Open Period Begins: '+ openPeriodDtString + '\n\n'+
-
-'YM Par Prepayment Period: '+ myDeals[i].YM_Prepayment_Penalty__c +'\n\n'+
-
-'Stepdown Prepayment Period:' +myDeals[i].Stepdown_Prepayment_Period__c +'\n\n'+
-
-'Stepdown Prepayment Period Description: '+ myDeals[i].YM_Prepayment_Penalty_Description__c +'\n\n'+
-                    
-'Deal Intro Source: '+ myDeals[i].Deal_Intro_Source__c +';' + myDeals[i].Deal_Intro_Sub_Source__c +'\n\n'+
-
-'CAF YSP: '+myDeals[i].CAF_YSP__c+ '\n\n'+
-
-'Referral Source Account: '+myDeals[i].Referral_Source__c +'\n\n'+
-
-'Referral Source Contact: '+myDeals[i].Referral_Source_Contact__c +'\n\n'+
-
-'Account Name: '+myDeals[i].Account.Name +'\n\n'+
-    
-'Account Intro Source: '+ myDeals[i].Account_Introduction_Source__c;
-	messages.add(message);
-                }*/
+  
 
             }
         }

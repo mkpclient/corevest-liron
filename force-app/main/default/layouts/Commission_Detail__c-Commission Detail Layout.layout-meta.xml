@@ -73,6 +73,10 @@
                 <behavior>Edit</behavior>
                 <field>Internal_Referral_Fee_Bypass__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Repeat_Borrower__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

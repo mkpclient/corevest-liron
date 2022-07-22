@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>jonathan.lay@cvest.com</contactEmail>
+    <label>CorvestDevAlchemy2</label>
+    <oauthConfig>
+        <callbackUrl>https://corevestdev1.wpengine.com/?callback=gravityformssalesforce</callbackUrl>
+        <consumerKey>3MVG9XfKTWtUp0bJ.mAIpdmMSscma151Z2rY2FSfCP4T2SjO7r_CcLA512Y0o9dtCfWob6qPmbCszqFZ5iACc</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>true</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Full</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

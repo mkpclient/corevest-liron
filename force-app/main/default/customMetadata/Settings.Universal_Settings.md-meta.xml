@@ -4,47 +4,59 @@
     <protected>false</protected>
     <values>
         <field>Alchemy_Portal_Dev_URL__c</field>
-        <value xsi:type="xsd:string">https://coreveststaging-api.alchemylms.com</value>
+        <value xsi:type="xsd:string">https://stagingportalapi.cvest.com</value>
     </values>
     <values>
         <field>Alchemy_Production_URL__c</field>
         <value xsi:type="xsd:string">https://portalapi.cvest.com</value>
     </values>
     <values>
+        <field>Allow_SAB_CTC_Bypass__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Berkadia_CC_Emails__c</field>
-        <value xsi:type="xsd:string">sokun.soun@cvest.com;cj.suzuki@cvest.com;suzanne.nguyen@cvest.com;micaela.lumpkin@cvest.com;aileen.fallis@cvest.com;support@cvest.com;bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
     </values>
     <values>
         <field>Berkadia_To_Emails__c</field>
-        <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+    </values>
+    <values>
+        <field>Box_As_User__c</field>
+        <value xsi:type="xsd:string">257409297</value>
     </values>
     <values>
         <field>Box_Client_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">6j821cmxtkmpmy144abj7y94tgqshm8b</value>
     </values>
     <values>
         <field>Box_Client_Secret__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">npPwz6fxqMrEzFZOrJsOIiKEOprolPXn</value>
     </values>
     <values>
         <field>Box_Subject_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">786745</value>
     </values>
     <values>
         <field>Box_Yardi_Bridge_Folder_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">147041409626</value>
     </values>
     <values>
         <field>Box_Yardi_Term_Folder_Id__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">147042016627</value>
+    </values>
+    <values>
+        <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
+        <value xsi:type="xsd:string">0055b00000OIF3oAAH</value>
     </values>
     <values>
         <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
-        <value xsi:type="xsd:string">ldecastro@mkpartners.com;logins+cvest@mkpartners.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com</value>
     </values>
     <values>
         <field>Bridge_Sec_Diligence_Review_Email_To__c</field>
-        <value xsi:type="xsd:string">bryon.harland@cvest.com;bryonlh@gmail.com</value>
+        <value xsi:type="xsd:string">bryon.harland@cvest.com</value>
     </values>
     <values>
         <field>Construction_Manager_Acquired_Loans__c</field>
@@ -52,10 +64,18 @@
     </values>
     <values>
         <field>Construction_Manager_CV_Originated__c</field>
-        <value xsi:type="xsd:string">0050a00000L854aAAB</value>
+        <value xsi:type="xsd:string">0050a00000L852oAAB</value>
+    </values>
+    <values>
+        <field>Disable_Account_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Disable_Advance_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Contact_Trigger__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -96,11 +116,23 @@
     </values>
     <values>
         <field>Enable_BOX_API_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_Beekin_API_Error_Response_Logging__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Enable_Beekin_API_Response_Logging__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_Clear_API_Response_Logging__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Enable_Clear_Capital_API_Logging__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_CoreLogic_API_Response_Logging__c</field>
@@ -124,23 +156,67 @@
     </values>
     <values>
         <field>Enable_Valuation_API_Response_Logging__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Enable_Yardi_API_Response_Logging__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Enable_Yardi_API__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>HouseCanary_No_of_DataSync_Days__c</field>
+        <value xsi:type="xsd:double">0.0</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_Bridge__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_SAB__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_Term__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Num_of_Days_to_Transfer_Lead__c</field>
         <value xsi:type="xsd:double">90.0</value>
     </values>
     <values>
+        <field>Number_of_Approvers_for_Bridge_IC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Bridge_Mini_IC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Bridge_Sub_IC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Term_IC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Number_of_Approvers_for_Term_Sub_IC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Post_Close_Appraisal_Reduction__c</field>
+        <value xsi:type="xsd:double">10.0</value>
+    </values>
+    <values>
+        <field>Request_Beekin_Rental_Data_Validation__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Require_AVM_Sync_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Require_AVM_Sync_on_UW_Submission__c</field>
@@ -148,19 +224,19 @@
     </values>
     <values>
         <field>Require_Address_Val_on_UW_Submit__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Require_Address_Valid_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Require_X_Author_Validation_on_Pricing__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Require_X_Author_Validation_on_UW_Submis__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>SecuritizationReview_Email_CC__c</field>
@@ -175,43 +251,47 @@
         <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
+        <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
+        <value xsi:type="xsd:string">0055b00000OqMZpAAN</value>
+    </values>
+    <values>
         <field>Validated_Address_Threshold__c</field>
         <value xsi:type="xsd:double">50.0</value>
     </values>
     <values>
         <field>Yardi_Database__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
     </values>
     <values>
         <field>Yardi_Interface_Entity__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">CoreVest Loan Interface</value>
     </values>
     <values>
         <field>Yardi_Interface_License_Long__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRtDiy7/jLCkikuUFJmowM1Nf9kYvdgPSuYy0IZ+9qFtibLSzwYDb0s9zMeJrYp+ZLv7IdaT1EYp1vaUD6HDjDIi3ChbXCmTvF5I73MuG40kiD6VgjbC</value>
     </values>
     <values>
         <field>Yardi_Interface_License__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">MIIBEAYJKwYBBAGCN1gDoIIBATCB/gYKKwYBBAGCN1gDAaCB7zCB7AIDAgABAgJoAQICAIAEAAQQzhEWqkdnFLc52mo5Fj0SiwSByKWbrHWWNpYruAm/OaOaJ2/EQd2t2fHQyKiCUyWdQpci/bAH1B6KhpjwTAfJPMVwot4Y7cMisnawcbBPqJyqcytHJ0pIxLmQlbGohLupESGsUDbET3vmJdSrrKF904JfvNHtNFeuRxA0htRszRslQ3qrtRt</value>
     </values>
     <values>
         <field>Yardi_Password__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">PyL9JXi`c-eRz&amp;gt;B</value>
     </values>
     <values>
         <field>Yardi_Platform__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">SQL Server</value>
     </values>
     <values>
         <field>Yardi_Server_Name__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
     </values>
     <values>
         <field>Yardi_URL__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">https://www.yardiaspla2.com</value>
     </values>
     <values>
         <field>Yardi_Username__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">SFitf</value>
     </values>
 </CustomMetadata>

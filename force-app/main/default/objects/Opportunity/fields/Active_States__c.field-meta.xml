@@ -306,357 +306,459 @@
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Alabama</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Alaska</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Arizona</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Arkansas</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>California</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Colorado</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Connecticut</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Delaware</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>District of Columbia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Florida</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Georgia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Hawaii</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Idaho</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Illinois</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Indiana</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Iowa</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Kansas</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Kentucky</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Louisiana</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Maine</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Maryland</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Massachusetts</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Michigan</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Minnesota</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Mississippi</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Missouri</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Montana</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Nebraska</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Nevada</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>New Hampshire</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>New Jersey</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>New Mexico</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>New York</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>North Carolina</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>North Dakota</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Ohio</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Oklahoma</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Oregon</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Pennsylvania</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Rhode Island</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>South Carolina</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>South Dakota</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Tennessee</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Texas</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Utah</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Vermont</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Virginia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Washington</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>West Virginia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Wisconsin</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Model Home Lease</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>
             <controllingFieldValue>Build to Rent</controllingFieldValue>
             <valueName>Wyoming</valueName>

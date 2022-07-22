@@ -1,0 +1,167 @@
+<aura:component
+  implements="force:hasRecordId,force:lightningQuickAction"
+  controller="documentUploader_Controller"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="propertyId" type="String" />
+  <aura:attribute name="propertyUploaderFacet" type="Aura.Component[]" />
+  <aura:attribute name="propertyOptions" type="Object[]" />
+  <aura:attribute name="advanceId" type="String" />
+  <aura:attribute name="advanceUploaderFacet" type="Aura.Component[]" />
+  <aura:attribute name="advanceOptions" type="Object[]" />
+  <aura:attribute name="saving" type="Boolean" default="false" />
+
+  <aura:attribute name="dealSingleSelected" type="Boolean" default="true" />
+  <aura:attribute name="dealBulkSelected" type="Boolean" default="false" />
+  <aura:attribute
+    name="propertySingleSelected"
+    type="Boolean"
+    default="false"
+  />
+  <aura:attribute name="propertyBulkSelected" type="Boolean" default="false" />
+  <aura:attribute name="advanceSingleSelected" type="Boolean" default="false" />
+  <aura:attribute name="advanceBulkSelected" type="Boolean" default="false" />
+
+  <aura:attribute name="dealSelected" type="Boolean" default="false" />
+  <aura:attribute name="propertySelected" type="Boolean" default="false" />
+  <aura:attribute name="advanceSelected" type="Boolean" default="false" />
+
+  <aura:attribute name="recordType" type="String" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+  <lightning:tabset
+    variant="scoped"
+    class="{!v.saving ? 'no-click' : ''}"
+    aura:id="deal"
+  >
+    <lightning:tab label="Deal" onactive="{!c.handleSelect}" id="deal">
+      <lightning:tabset variant="default">
+        <lightning:tab
+          label="Single"
+          onactive="{!c.handleActive}"
+          id="dealSingle"
+        >
+          <aura:if isTrue="{!and(v.dealSingleSelected, v.dealSelected)}">
+            <aura:if isTrue="{!!empty(v.recordType)}">
+              <!-- {!v.recordType} -->
+              <c:DocumentUploader
+                recordId="{#v.recordId}"
+                recordType="{!v.recordType}"
+              />
+            </aura:if>
+          </aura:if>
+        </lightning:tab>
+        <lightning:tab label="Bulk" id="dealBulk" onactive="{!c.handleActive}">
+          <aura:if isTrue="{!and(v.dealBulkSelected, v.dealSelected)}">
+            <aura:if isTrue="{!!empty(v.recordType)}">
+              <c:DocumentUploader
+                recordId="{#v.recordId}"
+                uploadType="bulk"
+                recordType="{!v.recordType}"
+              />
+            </aura:if>
+          </aura:if>
+        </lightning:tab>
+      </lightning:tabset>
+    </lightning:tab>
+    <lightning:tab
+      label="Properties"
+      onactive="{!c.handleSelect}"
+      id="property"
+    >
+      <lightning:tabset variant="default">
+        <lightning:tab
+          label="By Property"
+          id="propertySingle"
+          onactive="{!c.handleActive}"
+        >
+          <aura:if
+            isTrue="{!and(v.propertySingleSelected, v.propertySelected)}"
+          >
+            <lightning:select
+              name="propertySelect"
+              label="Select a property"
+              value="{!v.propertyId}"
+              aura:id="propertySelect"
+              onchange="{!c.propertyIdChange}"
+            >
+              <aura:iteration items="{!v.propertyOptions}" var="option">
+                <option value="{!option.value}">{!option.label}</option>
+              </aura:iteration>
+            </lightning:select>
+            <aura:if
+              isTrue="{! and(!empty(v.propertyId), !empty(v.recordType))}"
+            >
+              <c:DocumentUploader
+                recordId="{!v.propertyId}"
+                sobjectType="Property__c"
+                recordType="{!v.recordType}"
+              />
+            </aura:if>
+          </aura:if>
+        </lightning:tab>
+        <lightning:tab
+          label="By Document Type"
+          id="propertyBulk"
+          onactive="{!c.handleActive}"
+        >
+          <aura:if isTrue="{!and(v.propertyBulkSelected, v.propertySelected)}">
+            <c:DocumentUploader
+              recordId="{#v.recordId}"
+              uploadType="bulk"
+              sobjectType="Property__c"
+              propertyOptions="{#v.propertyOptions}"
+              recordType="{!v.recordType}"
+            />
+          </aura:if>
+        </lightning:tab>
+      </lightning:tabset>
+    </lightning:tab>
+    <lightning:tab label="Advances" onactive="{!c.handleSelect}" id="advance">
+      <lightning:tabset variant="default">
+        <lightning:tab
+          label="By Advance"
+          id="advanceSingle"
+          onactive="{!c.handleActive}"
+        >
+          <aura:if isTrue="{!and(v.advanceSingleSelected, v.advanceSelected)}">
+            <lightning:select
+              name="advanceSelect"
+              label="Select a advance"
+              value="{!v.advanceId}"
+              aura:id="advanceSelect"
+              onchange="{!c.advanceIdChange}"
+            >
+              <aura:iteration items="{!v.advanceOptions}" var="option">
+                <option value="{!option.value}">{!option.label}</option>
+              </aura:iteration>
+            </lightning:select>
+            <aura:if isTrue="{! !empty(v.advanceId)}">
+              <c:DocumentUploader
+                recordId="{!v.advanceId}"
+                sobjectType="advance__c"
+                recordType="{!v.recordType}"
+              />
+            </aura:if>
+          </aura:if>
+        </lightning:tab>
+        <lightning:tab
+          label="By Document Type"
+          id="advanceBulk"
+          onactive="{!c.handleActive}"
+        >
+          <aura:if isTrue="{!and(v.advanceBulkSelected, v.advanceSelected)}">
+            <c:DocumentUploader
+              recordId="{#v.recordId}"
+              uploadType="bulk"
+              sobjectType="Advance__c"
+              propertyOptions="{#v.advanceOptions}"
+              recordType="{!v.recordType}"
+            />
+          </aura:if>
+        </lightning:tab>
+      </lightning:tabset>
+    </lightning:tab>
+  </lightning:tabset>
+</aura:component>

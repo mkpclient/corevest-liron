@@ -32,6 +32,10 @@
                 <behavior>Readonly</behavior>
                 <field>RecordType__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -183,7 +187,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>X2nd_Underwriter__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -708,6 +712,11 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Opportunity.Add_Guarantor</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -716,11 +725,6 @@
             <actionName>Opportunity.New_Individual</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Grant_Portal_Access</actionName>
@@ -796,11 +800,6 @@
             <actionName>SendEmail</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>17</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Update_Swap_Rate</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>18</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
@@ -918,14 +917,6 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

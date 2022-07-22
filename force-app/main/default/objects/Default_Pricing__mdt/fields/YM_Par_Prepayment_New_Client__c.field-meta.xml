@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>YM_Par_Prepayment_New_Client__c</fullName>
+    <description>YM Par Prepayment Period for a new borrower</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>YM Par Prepayment Period for a new borrower</inlineHelpText>
+    <label>YM Par Prepayment New Client</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>54 Months</fullName>
+                <default>false</default>
+                <label>54 Months</label>
+            </value>
+            <value>
+                <fullName>57 Months</fullName>
+                <default>false</default>
+                <label>57 Months</label>
+            </value>
+            <value>
+                <fullName>60 Months</fullName>
+                <default>true</default>
+                <label>60 Months</label>
+            </value>
+            <value>
+                <fullName>78 Months</fullName>
+                <default>false</default>
+                <label>78 Months</label>
+            </value>
+            <value>
+                <fullName>81 Months</fullName>
+                <default>false</default>
+                <label>81 Months</label>
+            </value>
+            <value>
+                <fullName>114 Months</fullName>
+                <default>false</default>
+                <label>114 Months</label>
+            </value>
+            <value>
+                <fullName>117 Months</fullName>
+                <default>false</default>
+                <label>117 Months</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

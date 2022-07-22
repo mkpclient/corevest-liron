@@ -78,6 +78,14 @@
           />
 
           <c:DataTableColumn
+            label="Group Name"
+            name="Advance_Group_Name__c"
+            linkToRecord="Id"
+            sortable="true"
+            isEditable="false"
+          />
+
+          <c:DataTableColumn
             label="Wire Date"
             name="Wire_Date__c"
             sortable="true"

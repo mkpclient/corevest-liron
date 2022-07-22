@@ -1,0 +1,917 @@
+<apex:page standardController="Opportunity" extensions="TermSheetPDF_Controller" contentType="application/x-unknown"
+    cache="true">
+
+    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='<a target="_blank" href="http://www.w3.org/TR/REC-html40" rel="nofollow">http://www.w3.org/TR/REC-html40</a>'>
+
+    <head>
+        <style type="text/css">
+            p.MsoHeader,
+            li.MsoHeader,
+            div.MsoHeader {
+                margin: 0in;
+                margin-top: .0001pt;
+                mso-pagination: widow-orphan;
+                tab-stops: center 3.0in right 6.0in;
+                
+            }
+
+            @page Section1 {
+                size: 8.5in 11.0in;
+                /* margin:0.5in 0.5in 0.5in 0.5in; */
+                margin: .5in 1in 1in 1in;
+                mso-header-margin: 0.5in;
+                mso-header: h1;
+                mso-footer: f1;
+                mso-footer-margin: 0.5in;
+                mso-paper-source: 0;
+            }
+            
+            .lineClose {
+                text-align: center;
+            }
+
+            div.Section1 {
+                page: Section1;
+            }
+
+            /*Below is the style to prevent the repetition of header and Footer.. Cheers!!! */
+
+            table#hrdftrtbl {
+                margin: 0in 0in 0in 9in;
+            }
+
+            @page {
+                @bottom-right {
+                    content: element(footer);
+                }
+            }
+
+            div.header {
+                /* text-align: left; */
+                /* background: url("{! $Resource.corevestLogo }") no-repeat; */
+                /* width: 320px;
+                height: 68px; */
+                /* margin top: 2in; */
+                padding: 10px;
+                position: running(header);
+                display: block;
+            }
+
+            .pagenumber:before {
+                content: counter(page);
+            }
+
+            .pagecount:before {
+                content: counter(pages);
+            }
+
+            .pagebreak {
+                page-break-before: always;
+            }
+
+            div.footer {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+                text-align: center;
+                font-family: Times;
+            }
+
+            div.spinitials {
+                display: block;
+                padding: 5px;
+                position: running(footer);
+                text-align: right;
+                font-family: Times;
+            }
+
+            .pagenumber:before {
+                content: counter(page);
+            }
+
+            .pagecount:before {
+                content: counter(pages);
+            }
+
+            .avoid-pagebreak {
+                page-break-inside: avoid;
+            }
+
+            .paragraph-title {
+                text-align: center;
+                font-family: Times;
+                font-size: 11pt;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            .paragraph {
+                font-family: Times;
+                font-size: 11pt;
+                line-height: 1.3;
+                text-align: justify;
+                text-indent: 40px;
+            }
+
+            .row-title {
+                font-family: Times;
+                font-size: 11pt;
+                width: 10%;
+                font-weight: bold;
+                vertical-align: top;
+                padding: 2px 6px;
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
+
+            .row-description {
+                font-family: Times;
+                font-size: 11pt;
+                width: 90%;
+                padding: 2px 6px;
+                vertical-align: top;
+                margin-bottom: 25px;
+                border: solid 2px #ffffff;
+            }
+           
+
+            .limitor-list {
+                list-style-type: none;
+            }
+
+            .sigsection {
+                page-break-inside: avoid;
+            }
+
+            .signing-section {
+                text-decoration: underline;
+                color: white;
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                border-color: black;
+            }
+                       .mark {
+                background-color: yellow;
+                color: black;
+                }
+
+        </style>
+    </head>
+        <body>
+                <div class="Section1">
+                <div class="header">
+                <div>
+                    <apex:image url="https://cvest.my.salesforce.com/servlet/servlet.ImageServer?id=0150a000001fqte&oid=00Dj0000000L4sC" />
+                </div>
+            </div>
+            <div class="footer">
+                <div></div>
+            </div>
+                </div>
+         <div class="content">
+                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                    <!-- <apex:outputText value="{!TEXT(MONTH(Opportunity.Term_Sheet_Issued__c)) & '/' & TEXT(DAY(Opportunity.Term_Sheet_Issued__c)) & '/' & TEXT(YEAR(Opportunity.Term_Sheet_Issued__c))}" /> -->
+                    <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+                        <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}" /></apex:outputText>
+                </p>
+                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                    <apex:outputText value="{!Opportunity.Name}"/>
+                    <br />
+                    <apex:outputText value="{!Opportunity.Primary_Contact__c}"/>
+                                        <br />
+
+                    <apex:outputField value="{!Opportunity.Account.BillingStreet}" />
+                    <br />
+                    <apex:outputText value="{!Opportunity.Account.BillingCity}, " />
+                    <apex:outputText value="{!Opportunity.Account.Billing_State_Code__c} " rendered="{!NOT (ISBLANK(Opportunity.Account.BillingState))}"
+                    />
+                    <apex:outputText value="{!Opportunity.Account.BillingPostalCode}" />
+                    <br />
+
+                    <span style="{!IF(NOT(Opportunity.Account.BillingCountry == 'United States'), 'page-break-inside:avoid;', 'display:none;')}">
+                        <apex:outputText value="{!Opportunity.Account.BillingCountry}" rendered="{!NOT(Opportunity.Account.BillingCountry == 'United States')}"
+                        />
+                        <br />
+                    </span>
+                    <apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c } " /> ("
+                    <strong>Sponsor</strong>")  
+                </p>
+               
+                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                   <apex:outputText value=" ${0,number} Loan Proposal to the acquisition an  an {1,number}-property [portfolio] located {2}">
+                        <apex:param value="{!Opportunity.Loan_Size__c}" />
+                        <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, allProperties[0].Number_of_Units__c, 0)}" />
+                        <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, 'in ' + allProperties[0].City__c + ', ' + allProperties[0].State__c, 'at ' + allProperties[0].Name + ' ' + allProperties[0].City__c + ', ' + allProperties[0].State__c)}" />
+                    </apex:outputText> (the "Property")
+                </p>
+                <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
+                    <apex:outputText value="{! 'Dear ' & Opportunity.Contact__r.FirstName}" />:
+                </p>
+
+                <p class="paragraph">
+                    CoreVest American Finance Lender LLC or an affiliated entity ("
+                    <strong>Lender</strong>") is pleased to present this summary proposal to provide a secured line of credit for
+                    the purchase and financing of eligible residential properties. As further set forth below, this proposal
+                    is for discussion purposes only and is neither an expressed nor implied commitment to provide any financing
+                    or to provide or purchase any loans or securities in connection with the transactions contemplated hereby.
+                </p>
+                
+                                <table style="table-layout: fixed; width:95vw;" cellspacing="0">
+                    <colgroup>
+                        <col class="short" />
+                        <col class="long" />
+                    </colgroup>
+
+                    <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Borrower:
+                        </td>
+                         <td class="row-description">
+                         A bankruptcy-remote, Delaware single-purpose limited liability company ("the LLC") acceptable to Lender.  The LLC will include <apex:outputText value="{!' ' & Opportunity.Contact__r.Name}" /> ("Sponsor") or an affiliate of Sponsor approved by Lender as an equity owner and as managing member or manager.  Lender reserves the right to approve any other equity owners and/or managers in the LLC prior to closing, and no transfers, pledges or assignments of direct or indirect equity interests shall be permitted.  Borrower shall be prohibited from engaging in any other business activities and shall otherwise meet applicable rating agency criteria with respect to qualifying as a bankruptcy remote entity, including, but not limited to, the existence of 
+                         <span style="background-color: #FFFF00">[one (1) independent manager and springing member - FOR LOANS > $20MM],  [two (2) independent managers and springing member - FOR LOANS > $50MM].</span>
+                         </td>
+                        </tr>
+                        
+                       <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Guarantor:
+                        </td>
+                         <td class="row-description">
+                         The undersigned "Sponsor", on a joint and several basis, and/or such individuals or entities acceptable to Lender following due diligence.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Pledgor:
+                        </td>
+                         <td class="row-description">
+                         A bankruptcy remote, Delaware single purpose limited liability company, acceptable to Lender following due diligence, which shall be the sole member of Borrower. Pledgor shall be prohibited from engaging in any other business activities and shall otherwise meet applicable rating agency criteria with respect to qualifying as a bankruptcy remote entity, including, but not limited to, the existence of one (1) independent manager and springing member.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Net Worth and
+                            Liquidity 
+                            Requirement:
+                        </td>
+                         <td class="row-description">
+                         Prior to Loan closing, Guarantor shall evidence a minimum net worth of not less than 100% of the Loan Amount and minimum cash liquidity of not less than 10% of the Loan Amount based on readily marketable securities and bank accounts within the United States of America.  Following Loan closing these requirements must be maintained at all times and shall be tested quarterly based on unaudited compiled financial statements with supporting bank account statements.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Property:
+                        </td>
+                         <td class="row-description">
+                         Existing <!--<apex:outputText value="{!Property.Name}" />-->property located in <apex:outputText value="{!allProperties[0].City__c}" />, <apex:outputText value="{!allProperties[0].State__c}" />, comprised of <span style="background-color: #FFFF00"><apex:outputText value="{0,number}"><apex:param value="{!allProperties[0].Number_of_Units__c}"/></apex:outputText></span> residential units (each, a "Residential Unit") and <span style="background-color: #FFFF00">[X]</span> Commercial units (each, a "Commercial Unit")]. No portion of the Property may at any time be occupied by Borrower, Guarantor or any interest owner, or affiliate or relative thereof.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Loan Purpose:
+                        </td>
+                         <td class="row-description">
+                         Acquisition and renovation of the Property.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Closing:
+                        </td>
+                         <td class="row-description">
+                         Anticipated to be sixty (60) days from the execution of this Loan Proposal (provided timely delivery of Due Diligence).
+                         </td>
+                        </tr>
+                        
+                        <tr>
+                        <td class="row-title">
+                            Loan Amount:
+                        </td>
+                         <td class="row-description">
+                        <p>
+                        Maximum Loan Amount of <apex:outputText value=" ${0,number} "><apex:param value="{!Opportunity.Loan_Size__c}" /></apex:outputText> , subject to confirmation and determined by Lender as follows: the Maximum Allocated Loan Amount will be the lesser of: 
+                        (a) <apex:outputText value="{0,number,0}%">
+    <apex:param value="{!Opportunity.Requested_LTV_Max__c}"/></apex:outputText>
+ of the <strong>"As-Stabilized"</strong> market value of the Property as determined by Lender based on an appraisal of the Property prepared by an appraiser selected by Lender and in form and scope acceptable to Lender ("As-Stabilized Value") ;
+ (b) <apex:outputText value="{0,number,0}%">
+    <apex:param value="{!Opportunity.Requested_LTC_Max__c}"/></apex:outputText> of (i) the purchase price paid for the Property as determined by Lender plus (ii) the eligible project costs necessary to achieve Completion of the Improvements on the Property plus operating expenses and the Interest Allocation discussed below as set forth in the Budget approved by Lender prior to Loan closing ("Eligible Project Costs") and as more fully described in the loan documents and (c) the ‘as-is' debt yield shall be no less than <span class="mark">[  ]</span>% defined as ratio of annualized underwritten net cash flow as determined by Lender.
+                        </p>
+                        <p>
+                        The initial advance is anticipated to be the lesser of; 
+                        (a) <span style="background-color: #FFFF00">$[x]</span>; 
+                        (b) <apex:outputText value="{0,number,0}%">
+    <apex:param value="{!Opportunity.Requested_LTV_Max__c}"/></apex:outputText> of Eligible Project Costs and 
+    (c) <apex:outputText value="{0,number,0}%">
+    <apex:param value="{!Opportunity.Requested_LTC_Max__c}"/></apex:outputText> of the "As-Is" appraised value as determined by Lender based on the appraisal of the Property prepared by an appraiser selected by Lender and in form and scope acceptable to Lender (<strong>"As-Is Value"</strong>) (<strong>"Initial Advance"</strong>). The remaining portion of the Maximum Loan Amount for the Property (the <strong>"Renovation Loan Proceeds"</strong>) will be advanced in multiple advances (each an <strong>"Advance"</strong>) to pay for Eligible Project Costs per the Lender approved Budget. Upon Borrower's request and upon satisfaction of certain requirements as detailed in the Loan Documents, which may include, without limitation, Lender's approval of renovation draws, Lender's review and approval of and inspection of engineer's site observation reports, Lender will advance funds from the Renovation Loan Proceeds to Borrower (but not more often than once per calendar month) to reimburse Borrower or pay approved third parties. The Renovation Loan Proceeds are estimated to be <span style="background-color: #FFFF00">$[x]</span> subject to confirmation by Lender. See Exhibit A - "Sources and Uses.  After 24 months, any unadvanced Renovation Loan Proceeds funds may be advanced by Lender, in Lender's sole and absolute discretion, into a Lender controlled escrow account for future disbursement.
+                        </p>
+                        <p>
+                        Lender shall determine minimum Property performance metrics (the "Minimum Renovation Performance") during underwriting and in consideration with Borrower's business plan. Lender will not be obligated to release Renovation Loan Proceeds to Borrower if Borrower fails to maintain the Minimum Renovation Performance, and/or upon the occurrence and continuation of a Cash Management Trigger Period. 
+                        </p>
+                        <p>
+                        At all times until completion of the Renovation work, Borrower and Guarantor shall be required to keep the Loan "in balance". The Loan shall be deemed to be in balance only when the sum of the undisbursed Loan proceeds plus any equity contributions equals or exceeds the amount necessary to complete the Renovation work.
+                        </p>
+                        
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Borrower
+                            Equity Contribution:
+                        </td>
+                         <!-- <td class="row-description">
+                         $<span class="mark">[     ]</span> of invested equity capital to be evidenced at Loan closing (<strong>"Borrower Equity Contribution"</strong>), subject to confirmation as determined by Lender prior to Loan Closing based on the appraisal.
+                         </td> -->
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                            Loan Term:
+                        </td>
+                         <td class="row-description">
+                         <apex:outputText value="{!Opportunity.LOC_Term__c}"/> (<strong>"Stated Maturity Date"</strong>).
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Extension Options:
+                        </td>
+                         <td class="row-description">
+                         <span class="mark">[One / Two], [  ]</span>-month extension option(s) subject to extension requirements below. During the extension options, the monthly debt service payment will include principal and interest payments based upon a 30-year amortization schedule.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Interest Rate:
+                        </td>
+                         <td class="row-description">
+                         <p>The Loan will bear interest at a floating rate per annum equal to Term SOFR plus the&nbsp;<apex:outputText value="{0,number,0}%"><apex:param value="{!Opportunity.Requested_Index_Margin__c}" /></apex:outputText> (<strong>"Interest Rate"</strong>), adjusted monthly and provided Term SOFR shall not be less than the Term SOFR Floor. Interest will be paid monthly in arrears on the tenth day of each calendar month for accrued interest for the preceding calendar month (each an <strong>"Interest Accrual Period"</strong>).  Interest will be calculated based on a 360-day year and the actual number of days elapsed (Actual/360) and will accrue on any unpaid principal balance. As used herein, the following terms shall have the meanings set forth below:</p>
+                         <p><strong>"Interest Adjustment Date"</strong> means, for any Interest Accrual Period, the date that is two U.S. Government Securities Business Days prior to the first day of such Interest Accrual Period.</P>
+                         <p><strong>"Margin"</strong> means&nbsp;<apex:outputText value="{0,number,0}%"><apex:param value="{!Opportunity.Requested_Index_Margin__c}" /></apex:outputText>.</p>
+                         <p><strong>"SOFR"</strong> means a rate equal to the secured overnight financing rate as administered by the Federal Reserve Bank of New York (or a successor administrator of the secured overnight financing rate).</p>
+                         <p><strong>"Term SOFR"</strong> means, for the initial Interest Accrual Period and for any subsequent Interest Accrual Period, the rate per annum equal to the forward-looking term rate based on SOFR for a one-month tenor as of the Interest Adjustment Date, as published by the CME Group Benchmark Administration Limited (or a successor administrator of such rate), as determined by Lender; provided that if as of 5:00 p.m. U.S. Central Time on any day of determination Term SOFR has not been published, then Term SOFR shall mean such rate as of the first U.S. Government Securities Business Day preceding such day of determination for which a Term SOFR was published so long as such first preceding U.S. Government Securities Business Day is not more than three U.S. Government Securities Business Days prior to such day of determination. </p>
+                         <p><strong>"Term SOFR Floor"</strong> means&nbsp;<apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" /> per annum.</p>
+                         <p><strong>"U.S. Government Securities Business Day"</strong> means any day except for (i) a Saturday, (ii) a Sunday or (iii) a day on which the Securities Industry and Financial Markets Association recommends that the fixed income departments of its members be closed for the entire day for purposes of trading in United States government securities.</p>
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Interest Rate
+                           Cap Agreement:
+                        </td>
+                         <td class="row-description">
+                         Prior to or contemporaneously with Loan Closing, Borrower, at its cost, shall enter into an Interest Rate Cap Agreement with a counterparty acceptable to Lender and with a Term SOFR cap strike price equal to <span class="mark">[2.0]%</span> (the "Strike Price") or such other cap strike rate designated by Lender prior to Loan closing.  The Interest Rate Protection Agreement (i) shall be in a form and substance reasonably acceptable to Lender, (ii) shall be for a period equal to the term of the Loan; provided, however, that such period may be shorter than the full term of the Loan in the event that (A) the term is not less than two years; (B) not less than thirty (30) days prior to the expiration of such term such Interest Rate Protection Agreement is renewed or replaced by a new Interest Rate Protection Agreement with a Strike Price that is the greater of (1.) 2.0% or (2.) 1.0% above the then current SOFR rate; and otherwise complying with all the requirements of the Loan Agreement; and (C) any renewed or replacement Interest Rate Protection Agreement is subject to the Collateral Assignment of Interest Rate Protection Agreement, and Borrower and Counterparty have executed such consents and acknowledgments as Lender shall reasonably request confirming same; and (iii) shall have an initial notional amount equal to the Loan Amount. 
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Interest Rate
+                           Amortization:
+                        </td>
+                         <td class="row-description">
+                           Interest Only
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Origination Fee:
+                        </td>
+                         <td class="row-description">
+                         <apex:outputText value="{0,number,0}%">  <apex:param value="{!Opportunity.Requested_Origination_Fee__c}"/> </apex:outputText> of the Maximum Loan Amount payable at Closing, which fee shall be fully earned and non-refundable to Borrower.
+                         </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                           Exit Fee:
+                        </td>
+                         <td class="row-description">
+                           1.00% of the Maximum Loan Amount, waived if Lender or its affiliate refinances the Loan.                          </td>
+                        </tr>
+                        
+                        <tr>
+                        <td class="row-title">
+                           [Minimum Interest/
+                            Spread Maintenance]:
+                        </td>
+                         <td class="row-description">
+                         <p>[With respect to any payment or prepayment of the outstanding principal balance of the Loan (or acceleration of the outstanding principal balance of the Loan) on or prior to the Minimum Interest Maintenance End Date, Borrower shall pay Lender an amount equal to twenty four (24) months’ interest on the Loan Amount at an estimated applicable Interest Rate, determined by Lender prior to loan closing, less the aggregate amount of regular, monthly non-default interest that has accrued and been paid by Borrower to Lender through the date of prepayment with respect to the Loan (the “Minimum Interest Maintenance Premium”; provided that, if such prepayment occurs following an Event of Default, Borrower shall pay to Lender an amount equal to the greater of (i) the Minimum Interest Maintenance Premium, or (ii) five percent (5%) of the unpaid principal balance of the Loan as of the date of such prepayment. As used herein, “Minimum Interest Maintenance End Date” means the date Lender has received Monthly Interest Payments equal to the Minimum Interest Maintenance Premium..] [USE FOR MINIMUM INTEREST]</p>
+                         <p>[With respect to any payment or prepayment of the outstanding principal balance of the Loan (or acceleration of the outstanding principal balance of the Loan) made on or prior to [______________] (the “Spread Maintenance End Date”), Borrower shall pay Lender an amount equal to the product of the following: (a) the amount of such repayment, multiplied by (b) the Margin, multiplied by (c) a fraction (expressed as a percentage) having a numerator equal to the number of days from the commencement of the next Interest Accrual Period through and including the Spread Maintenance End Date, and the denominator of which is 360 (the “Spread Maintenance Premium”); provided that, if such prepayment occurs following an Event of Default, Borrower shall pay to Lender an amount equal to the greater of (i) the Spread Maintenance Premium, or (ii) five percent (5%) of the unpaid principal balance of the Loan as of the date of such prepayment. [USE FOR SPREAD MAINTENANCE]</p>
+                       </td>
+                        </tr>   
+                        
+                        <tr>
+                        <td class="row-title">
+                        Extension Fee:
+                        </td>
+                         <td class="row-description">
+                         0.50% of the Maximum Loan Amount payable prior to execution of each Extension
+                       </td>
+                        </tr>   
+                        
+                        <tr>
+                        <td class="row-title">
+                        Extension Option 
+                        Requirements: 
+
+                        </td>
+                         <td class="row-description">
+                          <p>a) No default or event of default has occurred and is then continuing,</p>
+                          <p>b) Borrower shall have delivered to Lender an irrevocable notice requesting such   extension at least 60 days but no more than 180 days prior to the stated maturity date,</p>
+                          <p>c) Borrower shall have paid Lender the Extension Fee for each extension period and</p>
+                          <p>d) The Loan must be in balance through extended maturity with Borrower depositing necessary Balancing Funds prior to the stated maturity date (see "Loan in Balance" below),</p>
+                          <p>e) The Renovation Work must be Complete, including issuance of a permanent certificate of occupancy for each Residential Unit on or before the Initial Stated Maturity Date,</p>
+                          <p>f) Purchase of a replacement Interest Rate Cap Agreement with a term equal to or greater than the duration of such extension on the same terms and conditions as provided in "Interest Rate Cap Agreement" above; provided that the strike price for such replacement Rate Cap shall be set such that, when added to the Interest Rate, it would result in a DSCR of at least 1.00x,</p>
+                          <p>g) The Debt Yield shall be no less than [   ]% for the 1st extension and [   ]% for the 2nd extension on the effective date of such extension, based on the Property's normalized trailing twelve-month and on the most current rent roll and trailing twelve-months operating expenses from the most recent income statement, as determined by Lender,</p>
+                          <p>h) The DSCR shall be no less than 1.25x for each extension, or minimum agency DSCR requirements based on the prevailing agency interest rates and amortization schedule on the effective date of such extension, as determined by Lender;</p>
+                          <p>i) there has been no material adverse change in Guarantor's financial condition, as determined by Lender, and Guarantor shall have delivered to Lender a Compliance Certificate dated as of the then stated maturity date, with all supporting documentation, evidencing Guarantor is in compliance with Guarantor’s minimum liquidity and net worth covenants;</p>
+                          <p>j) An LTV ratio of no greater than [  ]% as tested by an updated appraisal and </p>
+                          <p>k) The Improvements must be 90% occupied at pro-forma rents.</p>
+                          
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Prepayment
+                        Premium:
+                        </td>
+                         <td class="row-description">
+                         Provided no Event of Default is continuing, Borrower may prepay the loan at any time, in whole but not in part, provided that on or prior to such prepayment Lender shall have received thirty (30) days' prior written notice in accordance with the Loan Documents, as well as the <span class="mark">[Minimum Interest/Spread Maintenance]</span> and the Exit Fee. If such prepayment occurs on a day other than a payment date, Borrower shall also pay all interest which otherwise would have been earned on the outstanding principal balance of the Loan during the month of prepayment had the prepayment not occurred.
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Permanent
+                        Financing:
+                        </td>
+                         <td class="row-description">
+                         Although Lender shall be under no obligation to provide permanent financing, Lender shall be granted the right of first offer to provide permanent financing for the Property in accordance with products then offered by Lender and/or its affiliates. Permanent financing rights will be more specifically described in the Loan Documents. 
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Leasing:
+                        </td>
+                         <td class="row-description">
+                        The Residential Units shall be leased only to Eligible Tenants pursuant to Eligible Leases. As used herein, <strong>"Eligible Lease"</strong> means a written Lease that (a) is executed by an Eligible Tenant and Borrower, (b)  has an initial term (together with all renewal options) of not less than one (1) year and not greater than two (2) years, (c)  has a rental rate and terms consistent with rates and terms then prevailing in the local market where the Property is located, (d) covers 100% of the square footage of the applicable Residential Unit and (e) otherwise complies with the leasing requirements to be set forth in the Loan Agreement. As used herein, <strong>"Eligible Tenant"</strong> means a bona fide third-party tenant of a Residential Unit who satisfies each of the following criteria:  (a)  Borrower screened the tenant and determined the tenant had sufficient financial resources to satisfy its obligations under the Lease (pursuant to screening criteria and protocol approved by Lender prior to Loan closing), (b) the tenant is not subject to an ongoing bankruptcy, (c) the tenant is not affiliated with or related to Borrower or Guarantor; (d) the Tenant will be the occupant of the Residential Unit subject to the Lease.                        
+                        </td>
+                        </tr>  
+                         
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Collateral:
+                        </td>
+                         <td class="row-description">
+                       The Loan shall be secured by, among other things, (a) a first priority mortgage/deed of trust on the Property; (b) a first priority blanket assignment of all leases and rents with respect to the Property; (c) a first priority security interest in all other property and assets of the Borrower; (d) a collateral assignment of the Interest Rate Cap Agreement; and (e) a pledge of the 100% of the equity interests in the Borrower if any equity pledge is required.                      
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Recourse:
+                        </td>
+                         <td class="row-description">
+The Loan will be full recourse to Borrower. The Loan will be non-recourse to Guarantor except that Guarantor shall execute at Loan closing : (a) a Guaranty with Lender’s standard carve-outs which include, among other things, fraud, misrepresentation, misappropriation of funds, unauthorized debt, unauthorized transfer of title or direct or indirect equity interests in Borrower, voluntary bankruptcy, collusive involuntary bankruptcy, breach of SPE covenants/provisions and Borrower’s obligations under the environmental indemnity agreement, and (b) a Completion Guaranty, guaranteeing (i) timely and lien-free Completion of the Improvements, (ii) Borrower’s obligation to keep the Loan in balance in accordance with the terms of the loan agreement, including, among other things, depositing Balancing Funds with Lender, (iii) the payment of property taxes, insurance premiums and interest on the Loan as and when due [DELETE (iv) IF NO ADDITIONAL EQUITY CONTRIBUTION[, and (iv) Borrower’s obligation to invest Borrower’s Additional Equity Contribution in the time and manner set forth in the loan documents].
+
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Property 
+                        Management:
+                        </td>
+                         <td class="row-description">
+                       Management of the Property shall be conducted by an entity acceptable to Lender. The
+                       management agreement and the fees thereunder shall be subordinate to the Loan Documents (including payment of debt service), shall be assigned to Lender and shall provide that such agreement may be terminated by Lender, or by Borrower at Lender's direction, without penalty or fee. In no event shall management fees exceed 4.00% of annual gross rental revenue. If (i) at any time, the Debt Service Coverage Ratio is less than 1.05x, (ii) the Property Management company shall be the subject of a bankruptcy or become insolvent, the property manager's gross negligence, malfeasance or willful misconduct or an event of default or material default by occurs under the Management Agreement beyond any applicable grace and cure periods, or (iii) fifty percent (50%) or more of the direct or indirect ownership interest in Manager has changed or Control of Manager has changed,(iv) continuation of an event of default under the Loan or (v) if the Debt Yield of the Property (as determined by Lender) shall be less than 4.00% at any time during the first 24 months of the Term, Borrower shall, at the request of Lender, terminate the Management Agreement and replace the Manager with a manager approved by Lender on terms and conditions satisfactory to Lender.
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Reporting
+                        Requirement:
+                        </td>
+                         <td class="row-description">
+                        Borrower will provide Lender with Borrower and Guarantor financial statements and bank statements on a quarterly basis during the Loan Term accompanied by a compliance certificate executed by Guarantor, evidencing Guarantor's compliance with the net worth and liquidity covenants.  Borrower, Guarantor and their affiliates will provide Lender with such additional reports as Lender requires for transactions of the type described in this Loan proposal.  In addition, Borrower will provide Lender, a management prepared certified rent roll on a monthly basis.
+                       </td>
+                        </tr>  
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Late Fee:
+                        </td>
+                         <td class="row-description">
+                         5.00% of the amount of any payment which is not made when due.
+                       </td>
+                        </tr> 
+                         
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Default Interest:
+                        </td>
+                         <td class="row-description">
+                        Interest Rate + 5.00%, but not to exceed the highest rate permitted by applicable law.
+                       </td>
+                        </tr> 
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        Additional
+                        Indebtedness:
+                        </td>
+                         <td class="row-description">
+                        No additional debt is permitted. Trade payables to be capped as agreed in the Loan Documents.
+                       </td>
+                        </tr> 
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                        No Transfers:
+                        </td>
+                         <td class="row-description">
+                        Transfers of interests in the Property and transfers of direct and indirect equity interests in Borrower and pledges of the direct and indirect equity interests in Borrower are not permitted.
+                       </td>
+                        </tr> 
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                       Secondary
+                       Market
+                       Transaction:
+                        </td>
+                         <td class="row-description">
+                        Lender may, either at the closing of the Loan or following the closing sell all or a portion of the Loan by certificates, participations, securities or pari passu notes evidencing whole or component interests therein, through one or more public or private offerings (each, a <strong>"Secondary Market Transaction"</strong>). Therefore, Borrower and Guarantor shall cooperate with Lender and its affiliates in connection with any Secondary Market Transaction and the Loan Documents will contain Lender's standard provisions requiring the assistance of Borrower and Guarantor in connection with any Secondary Market Transaction. Without limiting the foregoing in connection with a Secondary Market Transaction, Lender may require severing the Loan into two or more separate notes and/or participation interests including, but not limited to separate senior and junior notes, participations or components. Such notes or components may be assigned different interest rates, so long as the initial weighted average of such interest rates is the same as the applicable rate immediately prior to such severance. The cost and expenses of any Secondary Market Transaction work initiated after the Loan closing will be performed at Lender's sole cost and expense, unless such costs are required as a result of a Borrower action or request in connection with the Loan and other than any costs of Borrower, including, without limitation, the fees of any attorneys engaged by Borrower, which shall be borne by Borrower.
+                       </td>
+                        </tr> 
+                        
+                                                                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                       Due Diligence:
+                        </td>
+                         <td class="row-description">
+                       With respect to the origination of the Loan, Lender shall satisfy itself in its sole discretion with respect to (i) the financial condition and reputation of the Borrower, Pledgor, if applicable, Guarantor, and their respective direct and indirect equity owners, (ii) the feasibility, viability, quality and valuation of the Property, including but not limited to a Lender's approval of the appraisal, zoning, property condition and environmental reports (iii) Borrower's organizational documents (including without limitation, evidence that Borrower is duly qualified to do business in state where the Property is located), purchase and sale agreement, (iv) an ALTA survey, (v) lender's title insurance policy, and (iv) such financial information and references with respect to the Borrower and its members (and other direct and indirect owners) and Guarantor, as required by Lender. 
+                       </td>
+                        </tr>
+                        
+                        <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                       Springing 
+                       Interest Reserve:
+                        </td>
+                         <td class="row-description">
+                       If the debt service coverage ratio for the Loan at any point during the term after the 12th Monthly Payment Date (including but not limited to on the first business day of each calendar quarter during any given year) is less than 1.25x (<strong>"Threshold DSCR"</strong>) as calculated by Lender based on a trailing income and normalized expense basis (such basis to be determined by Lender during underwriting of the Loan) and using the then current Interest Rate on the then outstanding Loan Amount, then an interest reserve in an amount equal to no less than three (3) months of debt service payable on the Loan shall be established and such funds shall be deposited by Borrower in an account controlled by Lender (the <strong>"Springing Interest Reserve" </strong>).  Borrower shall deposit such funds in the Springing Interest Reserve within ten (10) days of notice from Lender.  Funds shall be withdrawn from the Springing Interest Reserve at Lender's discretion only to the extent that operating income generated from the Property is insufficient to pay monthly debt service on the Loan.  Borrower shall replenish the Springing Interest Reserve if and when the balance in the Springing Interest Reserve falls below 1 month of debt service at the then current Interest Rate on the then outstanding Loan Amount to a minimum of 3 months of debt service at the then current interest rate on the then outstanding Loan Amount.  
+                       </td>
+                        </tr> 
+                        
+ 
+                        
+                                                <tr style="page-break-inside:avoid;">
+                        <td class="row-title">
+                       Tax and Insurance and
+                       Capital Expenditures
+                       Escrow:  
+                        </td>
+                         <td class="row-description">
+                       <p>Borrower shall establish and fund reserves at Closing and on an ongoing basis for taxes, insurance, and capital expenditures as follows: </p>
+
+                <p><strong><u>Taxes</u></strong>: Deposit at Closing sufficient funds to pay all taxes due on, or within 30 days of, the Closing Date and monthly thereafter an amount equal to one twelfth (1/12) of annual real estate taxes that Lender estimates will be payable in the ensuing twelve (12) months or such reasonable amounts as may be reasonably requested by Lender. Absent an event of default, Lender shall release funds to pay tax bills when due, so long as such bills are provided to Lender not less than thirty (30) days before due.  Notwithstanding the foregoing, so long as taxes are being paid from proceeds of the loan as set forth in the budget, Borrower shall have no obligation to fund the Tax Reserve on a monthly basis until such time as loan proceeds are no longer being used to pay for taxes.</p>
+
+                <p><strong><u>Insurance</u></strong>: Lender shall receive evidence at Closing that Borrower has paid in full all insurance costs for the Property for the ensuing twelve (12) months. Thereafter, Borrower will deposit with Lender on a monthly basis, one twelfth (1/12) of the annual insurance costs for the Property that Lender estimates will be payable or such other amounts as may be reasonably requested by Lender. Absent an event of default, Lender shall release funds to pay insurance premiums when due, so long as such invoices are provided to Lender not less than thirty (30) days before due.  Notwithstanding the foregoing, so long as insurance costs are being paid from proceeds of the loan as set forth in the budget, Borrower shall have no obligation to fund the Insurance Reserve on a monthly basis until such time as loan proceeds are no longer being used to pay for insurance costs.</p>
+
+                <p><strong><u>Capital Expenditures</u></strong>: Deposit at Closing and monthly thereafter an amount reasonably determined by Lender to provide a reserve for the payment of anticipated capital expenditures with respect to the Property. Actual payments shall be made by Borrower and reimbursed by Lender subject to (i) receipt by Lender of an officer's certificate in form and substance satisfactory to Lender and (ii) satisfaction of other customary conditions specified in the Loan Documents. </p>
+
+                       </td>
+                        </tr> 
+                        
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Deferred 
+                        Maintenance 
+                        Reserve: 
+                    </td>
+                    <td class="row-description">
+                         At closing, Borrower shall establish a deferred maintenance reserve in an amount equal to 125% of estimated repair costs, if any (as detailed in the engineering report obtained by Lender during the underwriting process) (the <strong>"Deferred Maintenance Reserve"</strong>), and such funds shall be deposited in an account controlled by Lender.  Funds may be withdrawn from the Deferred Maintenance Reserve pursuant to Lender's standard disbursement guidelines.
+                    </td>
+                </tr>
+                
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Cash Management: 
+                    </td>
+                    <td class="row-description">
+                         Borrower shall (i) establish and maintain an account at an eligible institution directed by Lender for purpose of collecting rents ( <strong>"Rent Deposit Account"</strong>), (ii) cause all rents to be directly deposited therein by all tenants of the Property (and all other monies received by Borrower or Property Manager with respect to the Property shall be deposited therein within two (2) business days of receipt by Borrower or Property Manager), and (iii) enter into a deposit account control agreement in favor of Lender in respect of the Rent Deposit Account. As long as no Trigger Event exists, all amounts in the Rent Deposit Account shall be swept into an operating account of Borrower no less frequently than weekly. During a Cash Management Period, all rents deposited into the Rent Deposit Account shall be swept into an account controlled by Lender (the <strong>"Cash Management Account"</strong>) for disbursement in accordance with the Loan Documents, with 100% of the net cash flow from the Property (after application to Lender expenses, mandatory prepayments (if any), debt service, reserves and budgeted and approved operating expenses) to be swept into the Cash Collateral Reserve.
+                    </td>
+                </tr>
+                        
+                     <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Cash Management
+                        Period: 
+                    </td>
+                    <td class="row-description">
+                    Shall commence upon a Trigger Event and shall continue until a Cash Management Termination Event.
+                    </td>
+                </tr>
+                        
+                        
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Trigger Event: 
+                    </td>
+                    <td class="row-description">
+                    means the occurrence of either (i) an event of default under the Loan Documents or (ii) a Low Debt Service Period (see defined term below) occurs or (iii) the failure of the Borrower at any time to maintain the Minimum Debt Yield (defined as a debt yield equal to or greater than <span class="mark">[   ]%</span>) or (iv) the failure by the Borrower to maintain the Minimum Renovation Performance in accordance to the Loan Documents.
+                    </td>
+                </tr>
+                  
+                   <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Low Debt Service
+                        Period: 
+                    </td>
+                    <td class="row-description">
+                   Occurs after the 12th Monthly Payment Date and when DSCR is less than the Minimum DSCR (see defined term below) and ends when Borrower achieves a DSCR greater than or equal to the Threshold DSCR (see defined term above) for two consecutive calendar quarters.
+                    </td>
+                </tr>      
+                        
+                        
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                       Low Debt Service
+                       Period:
+                    </td>
+                    <td class="row-description">
+                    <p>A Trigger Event occurs after the 12th Monthly Payment Date and when DSCR is less than the Minimum DSCR (see defined term below) and ends when either the Borrower achieves a DSCR greater than or equal to the Threshold DSCR (see defined term above) for two consecutive calendar quarters or Borrower maintains a Debt Yield equal to or greater of the Minimum Debt Yield for two consecutive calendar quarters.</p> 
+                    <p><u>DSCR:</u> <span class="Paragraph">  Ratio of (i) underwritten net operating income for the twelve (12) months ended on any date of determination to (ii) the monthly loan payment amount on the Loan multiplied by twelve (12), as further described in the Loan Documents.</span></p>
+                    <p><u>Minimum DSCR</u>:  <span class="Paragraph"> 1.15x</span></p>
+                    </td>
+                </tr>  
+                
+                 <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Conditions Precedent
+                        To Closing: 
+                    </td>
+                    <td class="row-description">
+                        Conditions precedent to Closing, include, among other things, in Lender's sole and absolute discretion: (i) approval of Lender's investment committee; (ii) satisfactory completion of Due Diligence and other conditions described herein; (iii) accuracy of representations and warranties; (iv) satisfactory Loan Documents; (v) Lender's title insurance; (vi) evidence the Property is in compliance with all applicable laws, including zoning, building and safety laws and ordinances; (vii) receipt and approval of the as-is and as-stabilized appraised values of the Property and any other information or documentation concerning the Property as Lender may request; (viii) recordation of a first lien security instrument against the Property; (ix) receipt of the collateral assignment of the Interest Rate Cap Agreement and counterparty's consent thereto and review and approval of the Interest Rate Cap Agreement; and (x) and (xi) review and approval of opinions of Borrower's counsel (including organizational existence, due authorization and enforceability, and for loans greater than $20,000,000, non-consolidation) with respect to Borrower, Guarantor, Pledgor, and such other affiliates of Borrower, Pledgor and Guarantor as Lender determines.  Sponsor acknowledges that Lender shall have no obligation to make the Loan and shall be subject to Lender's approval, in its sole and absolute discretion.                    </td>
+                </tr>   
+   
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Expense Deposit:
+                    </td>
+                    <td class="row-description">
+                    This signed Loan Proposal must be accompanied by an expense deposit of <apex:outputText value=" ${0,number} ">
+<apex:param value="{!Opportunity.Deposit_Amount_Requested__c}" />
+                    </apex:outputText>
+ (<strong>"Expense Deposit"</strong>) to cover a portion of estimated costs of due diligence and documentation.  All expenses actually incurred by Lender in connection with the Loan will be paid by Sponsor and Borrower regardless of whether the Loan closes for any reason whatsoever.  These expenses shall include but not be limited to Lender's due diligence, legal fees, appraisal fee, environmental database searches, environmental site assessment and report(s), zoning and property condition reports, entity searches, fees and costs of Lender's consultant, including site inspection, title review, and all other third-party expenses related to the Loan closing.  Moreover, if prior to the Loan closing, Lender determines that the Expense Deposit will be insufficient to pay all expenses, at Lender's request, Sponsor shall promptly deliver to Lender funds in the amount of such shortfall.  In the event that the Loan closes, any unused portion of the Expense Deposit will be credited to Borrower at closing or returned to Borrower if the Loan does not close. 
+                                  </td>
+
+                </tr>   
+   
+                      <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        USA Patriot Act
+                        Notice:
+                    </td>
+                    <td class="row-description">
+                   The Lender hereby notifies the Borrower that, pursuant to the requirements of the USA Patriot Act (Title III of Pub. L. 107-56 (signed into law October 26, 2001)) (the <strong>"Act"</strong>), the Lender is required to obtain, verify and record information that identifies the Borrower and the Guarantor and their respective direct and indirect owners as required by Lender, any non-member managers and all signatories to the Loan Documents, which information includes the name and address of the Borrower and the Guarantor (and their constituent members, partners and principals as required by Lender) and other information that will allow the Lender to comply with the Act and other "know your customer" requirements. 
+               </td>
+                </tr> 
+                
+                     <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Brokers:
+                    </td>
+                    <td class="row-description">
+                    Sponsor shall indemnify and hold harmless Lender and its affiliates against any and all loss, cost, damage, liability and expenses suffered or incurred by Lender or its affiliates arising out of, or in connection with, any claims by brokers, agents or finders claiming to have assisted or represented Sponsor in connection with the Loan.
+               </td>
+                </tr> 
+                
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Attorney's Fees:
+                    </td>
+                    <td class="row-description">
+                    In the event any party shall institute any action or proceeding against the other party relating to this Loan Proposal, the party not prevailing in such action or proceeding shall reimburse the prevailing party for its disbursements incurred in connection therewith and for its reasonable attorneys' fees and costs.
+               </td>
+                </tr> 
+                
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Governing Law:
+                    </td>
+                    <td class="row-description">
+                    This Loan Proposal and the Loan Documents shall be governed by the laws of the State of New York, except that the attachment, perfection and priority of the mortgage/deed of trust shall be governed by the law of the State in which the Property is located.
+               </td>
+                </tr> 
+                
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Indemnification:
+                    </td>
+                    <td class="row-description">
+                        Borrower and Sponsor will hold harmless and indemnify Lender and its members, officers and affiliates (and the members and officers of such affiliates) against all liabilities, obligations, losses, damages, penalties, actions, judgments, suits, claims, costs, expenses or disbursements of any kind whatsoever, which may at any time be imposed on, incurred by or asserted against such person in connection with the Loan and/or any Property (<Strong>"Liabilities"</strong>), provided that such Liabilities are not solely arising from or a result of the gross negligence or willful misconduct of Lender.               </td>
+                </tr> 
+                
+                    <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Exclusivity:
+                    </td>
+                    <td class="row-description">
+                    Sponsor agrees that so long as Lender is willing to provide the Loan on the terms and conditions set forth herein, it will not negotiate or deal with any party to obtain financing in substitution of or in addition to the Loan with respect to the Property or any portion thereof or interest in the Property until the date that is three (3) months after the date hereof.  If the Loan does not close for any reason other than Lender's determination not to make the Loan despite Sponsor's cooperation, and Sponsor, or any of its affiliates, accepts financing of the Property, or any portion thereof or interest in the Property, or a commitment to finance the Property or any portion thereof or interest in the Property, from a party other than Lender within six (6) months following the date hereof, then Sponsor shall pay to Lender an amount equal to 2.0% of the Maximum Loan Amount (<strong>"Break Up Fee"</strong>) promptly upon receipt of such financing or acceptance of such commitment, as the case may be.  Any unused portion of the Expense Deposit shall be retained by Lender and applied towards the payment of the Breakup Fee.
+                                </td>
+
+                </tr> 
+                
+                  <tr style="page-break-inside:avoid;">
+                    <td class="row-title">
+                        Confidentiality:
+                    </td>
+                    <td class="row-description">
+                    Sponsor may use or be exposed to Lender's proprietary and confidential methodologies, procedures, processes, materials and loan documentation in the evaluation, negotiation and closing of the Loan.  Sponsor agrees to keep all such confidential information supplied by Lender (<strong>"Confidential Information"</strong>) confidential and only use the Confidential Information for the purpose of evaluating, negotiating and closing the Loan.  Sponsor agrees (i) the Confidential Information is proprietary and created by Lender for a new asset class, (ii) the Confidential Information provides Lender with a significant competitive advantage in becoming a leader in this asset class and (iii) any dissemination or disclosure of the Confidential Information will cause material harm to Lender.
+                </td>
+                </tr> 
+
+                        </table>
+                        
+                        <p style="font-family: Times; font-size: 11pt; line-height: 1.3;">
+                  This Loan Proposal does not purport to be and does not constitute a binding agreement among the parties, and the parties hereto shall have no obligations whatsoever, express or implied, written or oral, with regard to the Loan Proposal except for the provisions captioned "Expense Deposit", "Brokers", "Attorney's Fees", "Governing Law", "Indemnification", "Exclusivity" and "Confidentiality".  This Loan Proposal is for discussion purposes only and does not in any way whatsoever constitute a commitment to lend or an agreement to issue a commitment, and Lender has made no commitments or agreements whatsoever, express or implied, written or oral, to Sponsor or with regard to any of the matters covered by this Loan Proposal.  The terms of this Loan Proposal are not all-inclusive and should not be construed as to reflect all of the provisions to be included in the Loan Documents and may be varied as the Lender may determine in its sole and absolute discretion.  No oral agreements between or among the parties shall be binding under any circumstances at any time.  Sponsor acknowledges that Lender is under no obligation whatsoever to close the Loan.
+                      </p>  
+                              <p style="font-family: Times; font-size: 11pt; line-height: 1.3;">
+                              As evidenced by the signature below, Sponsor desires to proceed with negotiating terms as outlined above. Unless otherwise extended in writing by Lender, in its sole and absolute discretion, this Loan Proposal will expire on <apex:outputText value="{0, date, MMMM d','  yyyy}"><apex:param value="{!Opportunity.Term_Sheet_Expiration_Date__c }" /></apex:outputText>
+(the <strong>"Loan Proposal Expiration Date"</strong>).  Please indicate your willingness to deliver the Expense Deposit and proceed subject in all respects and for all purposes to the non-binding nature of this Loan Proposal (except as specifically herein provided) by signing below and returning this Loan Proposal with the Expense Deposit no later than the Loan Proposal Expiration Date. If this Loan Proposal is not signed and returned by the Loan Proposal Expiration Date together with the applicable Expense Deposit, we will assume that you have elected not to proceed with us regarding a loan.
+                      </p>  
+                                                             <!-- End Paragraphs -->
+
+                <!-- Begin Signature Section -->
+
+                <div class="sigsection" style="page-break-inside:avoid;">
+                    <p style="font-family: Times; font-size: 11pt; line-height: 1.3;">
+                        Please don't hesitate to call
+                        <apex:outputText value="{!' ' & Opportunity.Owner_Name__c}" /> at
+                        <apex:outputText value="{! ' ' & Opportunity.Owner_Phone__c}" /> if you have any questions.
+                    </p>
+                    <table style="font-family: Times; font-size: 11pt; width:100%;">
+                        <tr>
+                            <td>
+                                Sincerely,
+                            </td>
+                        </tr>
+                        <td>
+                            <br/>
+                            <br/>COREVEST AMERICAN FINANCE LENDER LLC,
+                            <br/>
+                            <br/>
+                        </td>
+                    </table>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="font-family: Times; font-size: 11pt; border:0px;">
+                                By: ____________________
+                                <br/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: Times; font-size: 11pt; border:0px;">
+                                Authorized Signatory
+                            </td>
+                        </tr>
+                    </table>
+                    <p style="font-family: Times; font-size: 11pt; line-height: 1.3;">
+                        Accepted and agreed to this
+                        <br/>
+                        <!--this ______ day of <apex:outputText value=" {0,date, MMMM}">
+                            <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}" /></apex:outputText>, <apex:outputText value=" {0,date, yyyy}">
+                            <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}" /></apex:outputText>-->
+                      
+                        <span class="signing-section">_________\d1\________</span>
+                        <br/>
+                        <br/> SPONSOR/GUARANTOR
+                        <br/>
+                    </p>
+                    <table style="border-color: white;">
+                        <tr>
+                            <td>
+                                <!--<span style="font-family: Times; color:white;">a1\\</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-family: Times; font-size: 11pt;">
+                                By:
+                            </td>
+                            <td style="font-family: Times; font-size: 11pt;">
+                                <strong>____________________</strong>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table>
+                        <tr>
+                            <td style="font-family: Times; font-size: 11pt;">
+                                NAME OF GUARANTOR (on behalf of Guarantor)
+                            </td>
+                            <td style="font-family: Times; font-size: 11pt;">
+                            </td>
+                        </tr>
+                        <tr>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                                                </tr>
+
+                       </table>
+                       
+                                    <h5 class="paragraph-title">WIRE INSTRUCTIONS FOR EXPENSE DEPOSIT</h5>
+                                    
+                                    <h4 class="lineClose">CoreVest American Finance Lender LLC</h4>
+
+                <table style="font-family: Times; font-size: 11pt;width= 100%;">
+ 
+                    <tr>
+                        <td>
+                            Please use the following wiring instructions for disbursements to CoreVest American Finance Lender LLC:
+                        </td>
+                    </tr>
+                    <br />
+<tr>
+                <td style="font-family: Times; font-size: 11pt;Width:50%">
+                        <p style="font-family: Times; font-size: 11pt; line-height: 1.3;page-break-inside:avoid;">
+                            BANK OF AMERICA N.A.
+                            <br /> 100 WEST 33RD STREET
+                            <br /> NEW YORK, NEW YORK 10001
+                            <br />
+                            ABA Routing Number: 026009593
+                            <br /> Account Name: CoreVest American Finance Lender LLC (Borrower Deposits)
+                            <br /> Account Number: 4451272357
+                            <br /> Reference: Bridge Loan/
+                            <apex:outputText value="{!Opportunity.Deal_Loan_Number__c}" />/
+                            <apex:outputText value="{!Opportunity.Name}" />
+                            <br />
+                        </p>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                    <br />
+                    <br />
+                    <div class="pagebreak">
+                       <h5 class="paragraph-title">Exhibit A - Estimated Sources Uses</h5>
+                    </div>
+                </div>
+                <table id='hrdftrtbl' border='1' cellspacing='0' cellpadding='0'>
+                    <tr>
+                        <td>
+                            <!--Header-->
+                            <div style='mso-element:header' id="h1">
+                                <p class="MsoHeader">
+                                    <table border="0" width="100%">
+                                        <tr>
+                                            <td width="30%"></td>
+                                            <td align="center" width="40%"></td>
+                                            <td align="right" width="30%"></td>
+                                        </tr>
+                                    </table>
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div style='mso-element:footer' id="f1" width="100%">
+                                <p class="MsoFooter" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="30%"></td>
+                                            <td align="center" width="40%">
+                                                <span style='mso-field-code: PAGE '></span>
+                                            </td>
+                                            <td align="right" width="30%">
+                                                <!--span style="font-size: 10pt;">Sponsor Initials ________</span-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            </body>
+    </html>
+</apex:page>

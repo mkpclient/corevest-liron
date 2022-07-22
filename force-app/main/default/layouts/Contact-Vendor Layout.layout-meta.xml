@@ -53,6 +53,10 @@
                 <behavior>Edit</behavior>
                 <field>HasOptedOutOfEmail</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Last_Login__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -331,7 +335,7 @@
         <fields>CREATED_DATE</fields>
         <relatedList>Source__c.Contact_Converted_Into__c</relatedList>
         <sortField>CREATED_DATE</sortField>
-        <sortOrder>Desc</sortOrder>
+        <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedContentNoteList</relatedList>

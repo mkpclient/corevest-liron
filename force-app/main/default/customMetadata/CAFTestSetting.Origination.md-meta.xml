@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>RecipientEmail__c</field>
-        <value xsi:type="xsd:string">jonathan.lay@cvest.com</value>
+        <value xsi:type="xsd:string">dan.federico@cvest.com</value>
     </values>
 </CustomMetadata>

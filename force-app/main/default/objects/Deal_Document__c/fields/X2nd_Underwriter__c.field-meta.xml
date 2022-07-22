@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>X2nd_Underwriter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Lookup field to 2nd underwriter field on deal. Used for notifications when documents are uploaded.</description>
+    <externalId>false</externalId>
+    <label>2nd Underwriter</label>
+    <referenceTo>User</referenceTo>
+    <relationshipName>Deal_Documents7</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

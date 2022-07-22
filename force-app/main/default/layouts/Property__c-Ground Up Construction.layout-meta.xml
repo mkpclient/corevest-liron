@@ -34,6 +34,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_Remaining__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Estimated_Rent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -174,14 +178,6 @@
                 <behavior>Edit</behavior>
                 <field>Legal_Description__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Exception_Reason__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -229,6 +225,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Email_Address__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Contact_Phone__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -378,6 +386,10 @@
                 <behavior>Readonly</behavior>
                 <field>Appraisal_Sync__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -459,6 +471,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Insurance_Expiration_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exception_Reason__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -712,10 +732,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Special_Asset_Associate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Remedy_Plan__c</field>
             </layoutItems>
             <layoutItems>
@@ -924,6 +940,15 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Date__c</fields>
+        <fields>Interest_Reserves_Payment__c</fields>
+        <fields>Original_Interest_Reserves__c</fields>
+        <fields>New_Remaining_Interest_Reserve__c</fields>
+        <fields>Remaining_Interest_Reserve__c</fields>
+        <relatedList>Interest_Reserves__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <excludeButtons>MassChangeOwner</excludeButtons>
         <fields>NAME</fields>
         <fields>Extension__c</fields>
@@ -1034,11 +1059,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Source_Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Match_Property__c</relatedList>
+        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

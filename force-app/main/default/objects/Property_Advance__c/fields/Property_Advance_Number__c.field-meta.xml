@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Property_Advance_Number__c</fullName>
     <externalId>false</externalId>
-    <formula>Advance__r.Advance_Num__c</formula>
+    <formula>VALUE(Name)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Property Advance Number</label>
     <precision>18</precision>

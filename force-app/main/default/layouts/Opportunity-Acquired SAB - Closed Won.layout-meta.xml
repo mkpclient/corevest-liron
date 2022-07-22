@@ -64,10 +64,6 @@
                 <behavior>Required</behavior>
                 <field>Approved_Third_Party_Originators__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>In_Process_of_Withdrawn_or_Rejected__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -116,7 +112,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -396,16 +392,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>PrintableView</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>10</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Task</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>11</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Edit_Underwriting</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -454,6 +440,16 @@
             <actionName>FeedItem.ContentNote</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>9</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>PrintableView</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Task</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Log_a_Call</actionName>
@@ -597,23 +593,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Lender_Deal_to_Deal__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Funding_Vehicle__c</fields>
+        <fields>Include_Yes_No__c</fields>
         <fields>Start_Date__c</fields>
         <fields>End_Date__c</fields>
-        <fields>Include_Yes_No__c</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

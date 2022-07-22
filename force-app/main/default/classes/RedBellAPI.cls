@@ -21,7 +21,8 @@ public class RedBellAPI {
 											AVM_C2_list_Price__c, AVM_C2_Lot_Size__c, AVM_C2_Percentage_Of_Valuation__c, AVM_C2_Square_Feet__c,AVM_C2_Square_Foot_Price__c, AVM_C2_State__c, AVM_C2_Target_Distance__c, AVM_C2_Tot_Dom__c, AVM_C2_Units__c, AVM_C2_Year_Built__c, AVM_C2_ZIP__c, AVM_C2_REO__c,
 											AVM_C3_Act_Dom__c, AVM_C3_Address__c, AVM_C3_Baths__c, AVM_C3_Beds__c, AVM_C3_City__c, AVM_C3_Comp_Type__c, AVM_C3_Garage__c, AVM_C3_Image__c, AVM_C3_Included_In_Calculation__c, AVM_C3_Last_Sale_Date__c,AVM_C3_Last_Sale_Price__c, AVM_C3_List_Date__c,
 											AVM_C3_List_Price__c, AVM_C3_Lot_Size__c, AVM_C3_Percentage_Of_Valuation__c, AVM_C3_Square_Feet__c,AVM_C3_Square_Foot_Price__c, AVM_C3_State__c, AVM_C3_Target_Distance__c, AVM_C3_Tot_Dom__c, AVM_C3_Units__c, AVM_C3_Year_Built__c, AVM_C3_Zip__c, AVM_C3_REO__c 
-											from Property_AVMs__r)
+											from Property_AVMs__r where recordtypeid in (SELECT Id FROM RecordType WHERE sobjecttype = 'Property_AVM__c' 
+                                                                                        and DeveloperName  = 'Red_Bell_AVM'))
                                         FROM Property__c
                                         WHERE
                                             Property__c.Deal__c = :recordId AND Status__c NOT IN ('Inactive','Cancelled','Rescinded')
@@ -272,6 +273,7 @@ public class RedBellAPI {
 		}
         //prop.Red_Bell_Loan_Number__c = aveResponse.ave.subject.loanNumber;
         avm.AVM_Provider__c = 'Red Bell';
+        avm.recordtypeid = [SELECT Id FROM RecordType WHERE sobjecttype = 'Property_AVM__c' and DeveloperName  = 'Red_Bell_AVM'].Id;
         avm.AVM_Address__c = aveResponse.ave.subject.address;
         avm.AVM_City__c = aveResponse.ave.subject.city;
         avm.AVM_State__c = aveResponse.ave.subject.state;
@@ -279,7 +281,7 @@ public class RedBellAPI {
         avm.AVM_Beds__c = aveResponse.ave.subject.bed;
         avm.AVM_Baths__c = aveResponse.ave.subject.bath;
         avm.AVM_Square_Feet__c = aveResponse.ave.subject.sqft;
-        avm.AVM_Year_Built__c = aveResponse.ave.subject.yearBuilt;
+        avm.AVM_Year_Built__c =  String.valueOf(aveResponse.ave.subject.yearBuilt);
         avm.AVM_REO__c = '0';
         avm.AVM_APN__c = aveResponse.ave.subject.apn;
         avm.AVM_Calculated_Price__c = aveResponse.ave.subject.calculatedPrice;

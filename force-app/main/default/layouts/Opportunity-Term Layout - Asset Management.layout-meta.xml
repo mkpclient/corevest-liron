@@ -31,6 +31,14 @@
                 <field>CloseDate</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Open_Period_Begins__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Stated_Maturity_Date__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Deal_Lost_Reason__c</field>
             </layoutItems>
@@ -86,6 +94,10 @@
                 <behavior>Edit</behavior>
                 <field>Mortgage_Investor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -122,15 +134,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>X2nd_Underwriter__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Loan_Coordinator__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Closer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -263,6 +275,14 @@
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>LOC_Loan_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Product_Sub_Type__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Loan_Purpose__c</field>
@@ -457,7 +477,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Seasoning__c</field>
+                <field>Seasoning_By_Property__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -1016,14 +1036,6 @@
         <relatedList>Application__c.Deal__c</relatedList>
         <sortField>Signature_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Application__c.Deal_2__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>dupcheck__dc3Duplicate__c.Property_Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

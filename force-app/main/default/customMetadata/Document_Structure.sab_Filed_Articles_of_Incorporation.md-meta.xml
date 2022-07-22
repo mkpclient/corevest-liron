@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:type="xsd:double">3.0</value>
     </values>
@@ -112,7 +116,7 @@
     </values>
     <values>
         <field>Required__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Required_for_Onboarding__c</field>
@@ -148,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Legal Counsel</value>
+        <value xsi:type="xsd:string">Legal Counsel;Lender Underwriter</value>
     </values>
     <values>
         <field>sObject__c</field>

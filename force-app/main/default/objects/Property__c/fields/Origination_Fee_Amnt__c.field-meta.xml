@@ -8,7 +8,7 @@
  ISBLANK(Override_Origination_Fee__c),
   IF(
    NOT(ISPICKVAL( Deal__r.LOC_Loan_Type__c , &apos;Credit Line&apos;)),  
-   Deal__r.CAF_Upfront_Fee__c * Approved_Advance_Amount_Max__c,
+   Deal__r.CAF_Upfront_Fee__c * ( Max_Initial_Loan_Amount_Input__c + Approved_Renovation_Holdback__c ) ,
   0),
 Override_Origination_Fee__c)</formula>
     <inlineHelpText>% of the Maximum Amount to be funded for this Property</inlineHelpText>
