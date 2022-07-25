@@ -196,9 +196,10 @@ public without sharing class TitleOrder_LightningHelper {
       ' FROM Opportunity WHERE Id = :dealId';
     Opportunity deal = Database.query(queryString);
 
-    ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest();
+    ServiceLinkAPI.ServiceLinkRequest qRequest = new ServiceLinkAPI.ServiceLinkRequest();
     qRequest.generateRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
-    ServiceLinkAPI.QuoteRequest qResponse = ServiceLinkAPI.performQuoteRequest(
+    ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
+      'QuoteRequest',
       qRequest
     );
     List<Title_Order__c> titleOrders = new List<Title_Order__c>();

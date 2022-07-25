@@ -1,10 +1,12 @@
 public without sharing class ServiceLinkAPI {
-  public static QuoteRequest performQuoteRequest(QuoteRequest qr) {
-    String url = '';
+  public static ServiceLinkRequest performQuoteRequest(ServiceLinkRequest sr) {
+    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI';
+    String username = 'tmbeta_corevest@svclnk.com';
+    String sisma = 'W0rkL!f3=ity';
     HttpRequest req = new HttpRequest();
     req.setBody(
       JSON.serialize(
-        new Map<String, QuoteRequest>{ 'QuoteRequest' => qr },
+        new Map<String, ServiceLinkRequest>{ 'QuoteRequest' => sr },
         true
       )
     );
@@ -12,6 +14,12 @@ public without sharing class ServiceLinkAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setHeader(
+      'Authorization',
+      'Basic ' +
+      EncodingUtil.base64Encode(Blob.valueOf(username + ':' + sisma))
+    );
+
     req.setTimeout(120000);
 
     Integer statusCode = 200;
@@ -22,9 +30,47 @@ public without sharing class ServiceLinkAPI {
     system.debug(res.getStatus());
     system.debug(res.getStatusCode());
     body = res.getBody();
-    Map<String, QuoteRequest> parsedBody = (Map<String, QuoteRequest>) JSON.deserialize(
+    Map<String, ServiceLinkRequest> parsedBody = (Map<String, ServiceLinkRequest>) JSON.deserialize(
       body,
-      Map<String, QuoteRequest>.class
+      Map<String, ServiceLinkRequest>.class
+    );
+    return parsedBody.values()[0];
+  }
+
+  public static ServiceLinkRequest performRequest(String reqType, ServiceLinkRequest sr) {
+    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI';
+    String username = 'tmbeta_corevest@svclnk.com';
+    String sisma = 'W0rkL!f3=ity';
+    HttpRequest req = new HttpRequest();
+    req.setBody(
+      JSON.serialize(
+        new Map<String, ServiceLinkRequest>{ reqType => sr },
+        true
+      )
+    );
+    req.setEndpoint(url);
+    req.setMethod('POST');
+    req.setHeader('Content-Type', 'application/json');
+    req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setHeader(
+      'Authorization',
+      'Basic ' +
+      EncodingUtil.base64Encode(Blob.valueOf(username + ':' + sisma))
+    );
+
+    req.setTimeout(120000);
+
+    Integer statusCode = 200;
+    String body = '';
+
+    HttpResponse res = new Http().send(req);
+    system.debug(res.getBody());
+    system.debug(res.getStatus());
+    system.debug(res.getStatusCode());
+    body = res.getBody();
+    Map<String, ServiceLinkRequest> parsedBody = (Map<String, ServiceLinkRequest>) JSON.deserialize(
+      body,
+      Map<String, ServiceLinkRequest>.class
     );
     return parsedBody.values()[0];
   }
@@ -68,7 +114,7 @@ public without sharing class ServiceLinkAPI {
     }
   }
 
-  public class OrderInquiry extends QuoteRequest {
+  public virtual class OrderInquiry extends QuoteRequest {
     public String IncomingTransactionId { get; set; }
     public String AssetID { get; set; }
     public String OrderNumber { get; set; }
@@ -118,5 +164,9 @@ public without sharing class ServiceLinkAPI {
 
       this.Documents = docsLocal;
     }
+  }
+
+  public virtual class ServiceLinkRequest extends OrderInquiry {
+
   }
 }
