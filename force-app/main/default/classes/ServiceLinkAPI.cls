@@ -38,7 +38,7 @@ public without sharing class ServiceLinkAPI {
   }
 
   public static ServiceLinkRequest performRequest(String reqType, ServiceLinkRequest sr) {
-    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI';
+    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI/CoreVest/' + reqType;
     String username = 'tmbeta_corevest@svclnk.com';
     String sisma = 'W0rkL!f3=ity';
     HttpRequest req = new HttpRequest();
@@ -68,11 +68,11 @@ public without sharing class ServiceLinkAPI {
     system.debug(res.getStatus());
     system.debug(res.getStatusCode());
     body = res.getBody();
-    Map<String, ServiceLinkRequest> parsedBody = (Map<String, ServiceLinkRequest>) JSON.deserialize(
+    ServiceLinkRequest parsedBody = (ServiceLinkRequest) JSON.deserialize(
       body,
-      Map<String, ServiceLinkRequest>.class
+      ServiceLinkRequest.class
     );
-    return parsedBody.values()[0];
+    return parsedBody;
   }
 
   public class TitleDocument {
@@ -83,6 +83,7 @@ public without sharing class ServiceLinkAPI {
     public String Base64FileData { get; set; }
   }
   public virtual class QuoteRequest {
+    public String timeStamp { get; set; }
     public String SourcePartyID { get; set; }
     public String DestinationPartyID { get; set; }
     public String QuoteID { get; set; } // CV unique ID for quote request
@@ -99,6 +100,7 @@ public without sharing class ServiceLinkAPI {
       ContentVersion cv,
       Integer sequenceNumber
     ) {
+      this.Document = new TitleDocument();
       this.SourcePartyID = 'COREVEST-SFR';
       this.DestinationPartyID = 'COREVEST-QUOTE';
       this.QuoteID = deal.id + '-' + String.valueOf(sequenceNumber).leftPad(3, '0');

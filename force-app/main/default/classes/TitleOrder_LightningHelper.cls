@@ -18,7 +18,7 @@ public without sharing class TitleOrder_LightningHelper {
     'Name'
   };
 
-  public static final Map<String,String> DATATAPE_FIELD_MAP = new Map<String,String>{
+  public static final Map<String, String> DATATAPE_FIELD_MAP = new Map<String, String>{
     'Asset_ID__c' => 'Asset ID',
     'Property_Name__c' => 'Property Name (Parent Property)',
     'APN__c' => 'APN',
@@ -89,6 +89,15 @@ public without sharing class TitleOrder_LightningHelper {
     'Appraisal_Replacement_Cost_Value__c' => 'Appraisal Replacement Cost Value'
   };
 
+  public static Deal_Document__c createDealDocument(String type, ContentVersion cv) {
+    Deal_Document__c dealDoc = new Deal_Document__c();
+    dealDoc.Type__c = type;
+    dealDoc.File_Name__c = cv.Title;
+    dealDoc.ContentVersion_Id__c = cv.Id;
+    dealDoc.Document_Type__c = DOCUMENT_TYPE;
+    return dealDoc;
+  }
+
   @AuraEnabled
   public static String retrieveData(Id dealId) {
     try {
@@ -156,14 +165,19 @@ public without sharing class TitleOrder_LightningHelper {
 
   @AuraEnabled
   public static String returnDataTapeJson(List<Id> propertyIds) {
-    String query = 'SELECT ' + String.join(new List<String>(DATATAPE_FIELD_MAP.keySet()), ', ') + ' FROM Property__c WHERE Id IN :propertyIds';
+    String query =
+      'SELECT ' +
+      String.join(new List<String>(DATATAPE_FIELD_MAP.keySet()), ', ') +
+      ' FROM Property__c WHERE Id IN :propertyIds';
 
     List<Property__c> props = Database.query(query);
-    List<Map<String,Object>> returnList = new List<Map<String,Object>>();
+    List<Map<String, Object>> returnList = new List<Map<String, Object>>();
 
-    for(Property__c p : props) {
-      Map<String,Object> objMap = new Map<String,Object>();
-      for(String key : DATATAPE_FIELD_MAP.keySet()) {
+    for (Property__c p : props) {
+      Map<String, Object> objMap = new Map<String, Object>();
+      List<String> keySet = new List<String>(DATATAPE_FIELD_MAP.keySet());
+      for (Integer i = keySet.size() - 1; i >= 0; i--) {
+        String key = keySet[i];
         objMap.put(DATATAPE_FIELD_MAP.get(key), p.get(key));
       }
       returnList.add(objMap);
@@ -173,7 +187,7 @@ public without sharing class TitleOrder_LightningHelper {
   }
 
   @AuraEnabled
-  public static void quoteRequest(List<Id> propertyIds, Id dealId, Id cvId) {
+  public static void quoteRequest(List<Id> propertyIds, Id dealId, Id cdId) {
     Integer numOfTitleOrders = [
       SELECT COUNT()
       FROM Title_Order__c
@@ -181,15 +195,19 @@ public without sharing class TitleOrder_LightningHelper {
     ];
 
     ContentVersion cv = [
-      SELECT ContentSize, VersionData
+      SELECT Id, ContentSize, VersionData,Title
       FROM ContentVersion
-      WHERE Id = :cvId
+      WHERE ContentDocumentId = :cdId
     ];
-    Deal_Document__c dealDoc = [
-      SELECT File_Name__c
-      FROM Deal_Document__c
-      WHERE ContentVersion_Id__c = :cvId
-    ];
+
+    System.debug(cv);
+
+    Deal_Document__c dealDoc = createDealDocument('Data Tape', cv);
+
+    dealDoc.Deal__c = dealId;
+    // insert dealDoc;
+    
+
     String queryString =
       'SELECT ' +
       String.join(DEAL_FIELDS, ',') +
@@ -197,11 +215,13 @@ public without sharing class TitleOrder_LightningHelper {
     Opportunity deal = Database.query(queryString);
 
     ServiceLinkAPI.ServiceLinkRequest qRequest = new ServiceLinkAPI.ServiceLinkRequest();
+    
     qRequest.generateRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
     ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
       'QuoteRequest',
       qRequest
     );
+
     List<Title_Order__c> titleOrders = new List<Title_Order__c>();
 
     for (Id propId : propertyIds) {
