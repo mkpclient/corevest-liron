@@ -727,6 +727,7 @@ private class lightning_Tests {
     opp.Final_Loan_Amount__c = 4000000;
     opp.Final_Spread__c = 2;
     opp.Final_Swap__c = 2;
+    opp.IC_Approval_Date__c = system.today();
     update opp;
 
     List<Property__c> property = new List<Property__c>();
@@ -817,7 +818,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee__c = 1;
     opp.Requested_Exit_Fee__c = 1;
     opp.Requested_Interest_Type__c = 'Floating';
-    opp.Requested_Rate_1_9_Months__c = 1;
+    opp.Requested_Rate_1_9_Months__c = null;
     opp.Requested_Revolving__c = 'No';
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
@@ -828,6 +829,7 @@ private class lightning_Tests {
     opp.Apex_Context__c = true;
     opp.Approval_Status__c = 'Pending';
     opp.Loan_Effective_Date__c = system.today();
+    opp.IC_Approval_Date__c = system.today();
     update opp;
 
     List<Property__c> property = new List<Property__c>();

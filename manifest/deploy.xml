@@ -1,38 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>ConfirmationOfTermsController</members>
+        <members>lightning_Controller</members>
+        <members>lightning_Tests</members>
         <name>ApexClass</name>
     </types>
-    <types>
-		<members>confirmationTerms</members>
-		<name>LightningComponentBundle</name>
-	</types>
-    <types>
-      <members>ConfirmationOfTermsEmail</members>
-      <name>ApexComponent</name>
-    </types>
-    <types>
-      <members>Servicer_Contact</members>
-      <name>GlobalValueSet</name>
-	</types>
-    <types>
-        <members>Approval_History__c.Contact_Address__c</members>
-        <members>Approval_History__c.Contact_Address_Comment__c</members>
-        <members>Approval_History__c.Contact_Email__c</members>
-        <members>Approval_History__c.Contact_Email_Comment__c</members>
-        <members>Approval_History__c.Contact_Name__c</members>
-        <members>Approval_History__c.Contact_Name_Comment__c</members>
-        <members>Approval_History__c.Contact_Phone__c</members>
-        <members>Approval_History__c.Contact_Phone_Comment__c</members>
-        <members>Approval_History__c.Servicer_Contact_Address__c</members>
-        <members>Approval_History__c.Servicer_Contact_Email__c</members>
-        <members>Approval_History__c.Servicer_Contact_Name__c</members>
-        <members>Approval_History__c.Servicer_Contact_Phone__c</members>
-        <members>Approval_History__c.Final_Spread__c</members>
-     <name>CustomField</name>
-    </types>
+    
     
     <version>53.0</version>
 </Package>
-<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r ConfirmationOfTermsTests -->
+<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r lightning_Tests -->

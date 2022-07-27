@@ -9,17 +9,51 @@ public without sharing class lightning_Controller {
   public static Boolean dataTapeSaving = false;
 
   @AuraEnabled
-  public static Map<Id, Boolean> generateReadAccessMap(List<Id> recordIds){
+  public static Map<Id, Boolean> generateReadAccessMap(List<Id> recordIds) {
     try {
-      Map<Id,Boolean> returnMap = new Map<Id,Boolean>();
-      List<UserRecordAccess> uras = [
-        SELECT RecordId, HasReadAccess
-        FROM UserRecordAccess
-        WHERE UserId=:UserInfo.getUserId()
-        AND RecordId IN : recordIds
-      ];
+      Map<Id, Boolean> returnMap = new Map<Id, Boolean>();
+      List<UserRecordAccess> uras = new List<UserRecordAccess>();
+      if (recordIds.size() > 200 || Test.isRunningTest()) {
+        List<List<Id>> recIdLists = new List<List<Id>>();
+        Integer n = 0;
+        List<Id> recIdTwoHun = new List<Id>();
+        for (Integer i = 0; i < recordIds.size(); i++) {
+          if (n == 200) {
+            recIdLists.add(recIdTwoHun);
+            recIdTwoHun = new List<Id>();
+            n = 0;
+          } else {
+            recIdTwoHun.add(recordIds[i]);
+            n++;
+          }
+        }
+        if(recIdTwoHun.size() > 0) {
+          recIdLists.add(recIdTwoHun);
+        }
+        Integer soqlCt = 0;
+        for (List<Id> recIds : recIdLists) {
+          if(soqlCt == 100) {
+            break;
+          }
+          List<UserRecordAccess> uraLocal = [
+            SELECT RecordId, HasReadAccess
+            FROM UserRecordAccess
+            WHERE UserId = :UserInfo.getUserId() AND RecordId IN :recIds
+          ];
+          uras.addAll(
+            uraLocal
+          );
+          soqlCt++;
+        }
+      } else {
+        uras = [
+          SELECT RecordId, HasReadAccess
+          FROM UserRecordAccess
+          WHERE UserId = :UserInfo.getUserId() AND RecordId IN :recordIds
+        ];
+      }
 
-      for(UserRecordAccess ura : uras){
+      for (UserRecordAccess ura : uras) {
         returnMap.put(ura.RecordId, ura.HasReadAccess);
       }
 
