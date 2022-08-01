@@ -176,6 +176,9 @@
                       isTrue="{!v.dealEdit.propType != null &amp;&amp; v.dealEdit.sabFieldDisplay == true}"
                     >
                       <li class="slds-var-p-around_small">
+                        Refinance Acquisition: {!v.dealEdit.refinanceAcquisition}
+                      </li>
+                      <li class="slds-var-p-around_small">
                         Indication or Property Type: {!v.dealEdit.propType}
                       </li>
                     </aura:if>

@@ -136,6 +136,7 @@
                   dealEdit.propertAddress = addressString;
                   dealEdit.initialAdvance = propRecord.Initial_Disbursement__c;
                   dealEdit.renovationAdvance = propRecord.Approved_Renovation_Holdback__c;
+                  dealEdit.refinanceAcquisition = propRecord.Refinance_Acquisition__c;
                   const recTypeName = propRecord.RecordType_Name__c.toLowerCase();
                   const propTypeMap = {
                     "bridge_no_renovation": "Non-Renovation",
@@ -146,6 +147,7 @@
                     dealEdit.propType = propTypeMap[recTypeName];
                   }
                 }
+                
                 dealEdit.nonSabFieldDisplay = false;
                 dealEdit.renovationAdvanceLabel = "Maximum Aggregate Renovation Advance Amount";
                 dealEdit.outsideAdvanceDateLabel = "Outside Completion Date";
@@ -687,6 +689,7 @@
   ],
 
   propertyFields: [
+    "Refinance_Acquisition__c",
     "Approved_Renovation_Holdback__c",
     "Approved_Advance_Amount__c",
     "Initial_Disbursement_Remaining__c",
