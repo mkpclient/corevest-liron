@@ -131,44 +131,59 @@ public without sharing class ServiceLinkAPI {
       this.InquiryType = 'REVISEDQUO';
       this.RequestorEmail = UserInfo.getUserEmail();
     }
+    
 
-    public void processDocuments(List<Deal_Document__c> dealDocs) {
-      List<TitleDocument> docsLocal = new List<TitleDocument>();
-      Map<String, Deal_Document__c> dealDocMap = new Map<String, Deal_Document__c>();
-      for(Deal_Document__c doc : dealDocs) {
-        dealDocMap.put(doc.ContentVersion_Id__c, doc);
-      }
+    
+  }
 
-      List<ContentVersion> cvs = [
-        SELECT Id, VersionData, ContentSize
-        FROM ContentVersion
-        WHERE Id IN :dealDocMap.keySet()
-      ];
+  public class LenderAttorney {
+    public String CompanyName;
+    public String FirstName;
+    public String LastName;
+    public String ContactEmail;
+    public String Address1;
+    public String Address2;
+    public String City;
+    public String State;
+    public String Zipcode;
+    public String Phone;
+    public String MobilePhone;
+  }
 
-      for(ContentVersion cv : cvs) {
-        TitleDocument doc = new TitleDocument();
-        Deal_Document__c dealDoc = dealDocMap.get(cv.Id);
-        String fileType = 'PDF';
-        String docType = dealDoc.Document_Type__c;
-        String docName = dealDoc.File_Name__c;
-        if(dealDoc.File_Name__c.containsIgnoreCase('xlsx')) {
-          fileType = 'XLSX';
-          docType = 'REVQUOTEREQ';
-          docName = 'Data tape for revised quote';
-        }
-        doc.Format = fileType;
-        doc.DocumentType = docType;
-        doc.DocumentName = docName;
-        doc.Size = cv.ContentSize;
-        doc.Base64FileData = EncodingUtil.base64Encode(cv.VersionData);
-        docsLocal.add(doc);
-      }
+  public class Property {
+    public String AssetID;
+    public String DestinationPartyID;
+    public Integer NumberOfUnits;
+    public String Address1;
+    public String Address2;
+    public String City;
+    public String State;
+    public String County;
+    public String Zipcode;
+    public String APN;
+    public String PropertyType;
+    public String AllocatedLoanAmount;
+    public String ParentProperty;
+    public String Remarks;
+    public String HOAExists;
+    public Decimal HOAAmount;
+    public Decimal SpecialAssessmentsAmt;
+    public Decimal ExistingDebtAmt;
+  }
 
-      this.Documents = docsLocal;
+  public virtual class QuoteAccepted extends OrderInquiry {
+    public String AnticipatedCloseDate { get; set; }
+    public TitleDocument Document { get; set; }
+    public LenderAttorney LenderAttorney { get; set;}
+    public List<Property> Properties { get; set; }
+     
+    public void setQuoteAcceptedDefault() {
+      this.Document.DocumentType = 'DATATAPE';
+      this.Document.Format = 'XLSX';
     }
   }
 
-  public virtual class ServiceLinkRequest extends OrderInquiry {
-
+  public virtual class ServiceLinkRequest extends QuoteAccepted {
+  
   }
 }

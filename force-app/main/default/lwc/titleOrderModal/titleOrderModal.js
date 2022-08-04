@@ -2,7 +2,7 @@ import { api, LightningElement } from "lwc";
 import returnDataTapeJson from "@salesforce/apex/TitleOrder_LightningHelper.returnDataTapeJson";
 import SheetJS2 from "@salesforce/resourceUrl/SheetJS2";
 import { loadScript } from "lightning/platformResourceLoader";
-import { deleteRecord, getRecord} from "lightning/uiRecordApi";
+import { deleteRecord, getRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import quoteRequest from "@salesforce/apex/TitleOrder_LightningHelper.quoteRequest";
 
@@ -10,9 +10,10 @@ export default class TitleOrderModal extends LightningElement {
   @api recordId;
   @api requestType;
   propertyIds = [];
-  @api isOpened = false;
+  @api requestTypeText;
   uploadedFile;
-  comments = '';
+  comments = "";
+  titleOrderIds = [];
 
   get pill() {
     if (!this.uploadedFile) {
@@ -42,7 +43,7 @@ export default class TitleOrderModal extends LightningElement {
   handleCommentInput(evt) {
     this.comments = evt.detail.value;
   }
-  
+
   handleFileRemove() {
     deleteRecord(this.uploadedFile.documentId)
       .then(() => {
@@ -76,13 +77,37 @@ export default class TitleOrderModal extends LightningElement {
   }
 
   @api
-  openModal(propIds) {
+  openModal(propIds, titleOrderIds) {
     this.propertyIds = [...propIds];
+    this.titleOrderIds = [...titleOrderIds];
+    if(this.requestType != "quoteRequest" && titleOrderIds.length === 0) {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Please select a Title Order first.",
+          message: "This request requires at least one title order record to proceed.",
+          variant: "error"
+        })
+      );
+      return;
+    }
     this.template.querySelector("c-modal").openModal();
   }
 
   async handleSubmit() {
-    await quoteRequest({ propertyIds : this.propertyIds, dealId : this.recordId, cdId: this.uploadedFile.documentId});
+    switch (this.requestType) {
+      case "quoteRequest":
+        await quoteRequest({
+          propertyIds: this.propertyIds,
+          dealId: this.recordId,
+          cdId: this.uploadedFile.documentId
+        });
+        break;
+      case "quoteAccepted":
+        console.log(JSON.stringify(this.titleOrderIds));
+        break;
+      default:
+        break;
+    }
   }
 
   closeModal() {

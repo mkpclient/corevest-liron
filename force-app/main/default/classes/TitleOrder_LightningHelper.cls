@@ -89,7 +89,10 @@ public without sharing class TitleOrder_LightningHelper {
     'Appraisal_Replacement_Cost_Value__c' => 'Appraisal Replacement Cost Value'
   };
 
-  public static Deal_Document__c createDealDocument(String type, ContentVersion cv) {
+  public static Deal_Document__c createDealDocument(
+    String type,
+    ContentVersion cv
+  ) {
     Deal_Document__c dealDoc = new Deal_Document__c();
     dealDoc.Type__c = type;
     dealDoc.File_Name__c = cv.Title;
@@ -121,7 +124,9 @@ public without sharing class TitleOrder_LightningHelper {
               All_Cleared_To_Close_Date__c,
               Comments__c,
               Title_Vendor__c,
-              Order_Number__c
+              Order_Number__c,
+              Quote_ID__c,
+              Bulk_Project_Order_Num__c
             FROM Title_Orders__r
             ORDER BY CreatedDate DESC
           )
@@ -195,7 +200,7 @@ public without sharing class TitleOrder_LightningHelper {
     ];
 
     ContentVersion cv = [
-      SELECT Id, ContentSize, VersionData,Title
+      SELECT Id, ContentSize, VersionData, Title
       FROM ContentVersion
       WHERE ContentDocumentId = :cdId
     ];
@@ -206,7 +211,6 @@ public without sharing class TitleOrder_LightningHelper {
 
     dealDoc.Deal__c = dealId;
     // insert dealDoc;
-    
 
     String queryString =
       'SELECT ' +
@@ -215,7 +219,7 @@ public without sharing class TitleOrder_LightningHelper {
     Opportunity deal = Database.query(queryString);
 
     ServiceLinkAPI.ServiceLinkRequest qRequest = new ServiceLinkAPI.ServiceLinkRequest();
-    
+
     qRequest.generateRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
     ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
       'QuoteRequest',
@@ -244,6 +248,51 @@ public without sharing class TitleOrder_LightningHelper {
     }
 
     performDmlFuture(JSON.serialize(titleOrders));
+  }
+
+  @AuraEnabled
+  public static void quoteAccepted(List<Id> titleOrderIds, Id dealId, Id cdId) {
+    try {
+      Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+      Set<String> propFields = schemaMap.get('Property__c')
+        .getDescribe()
+        .fields.getMap()
+        .keySet();
+      Set<String> toFields = schemaMap.get('Title_Order__c')
+        .getDescribe()
+        .fields.getMap()
+        .keySet();
+
+      String queryString =
+        'SELECT ' + String.join(new List<String>(toFields), ',');
+      for (String f : propFields) {
+        queryString += ',Property__r.' + f;
+      }
+      queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
+
+      List<Title_Order__c> titleOrders = Databse.query(queryString);
+      List<ServiceLinkAPI.ServiceLinkRequest> qRequests = new List<ServiceLinkAPI.ServiceLinkRequest>();
+
+      String currentQuoteId;
+      ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
+
+      for(Title_Order__c to : titleOrders) {
+        if(to.Quote_ID__c != currentQuoteId) {
+          if(String.isNotEmpty(currentQuoteId)) {
+            qRequests.push(qR);
+          }
+          qR = new ServiceLinkAPI.ServiceLinkRequest();
+          qR.setQuoteAcceptedDefault();
+          
+        } else {
+
+        }
+      }
+
+      
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
   }
 
   @future
@@ -330,6 +379,7 @@ public without sharing class TitleOrder_LightningHelper {
             System.URL.getSalesforceBaseUrl().toExternalForm() +
             '/' +
             titleOrder.Id;
+
           titleOrdersLocal.add(titleOrderval);
         }
       } else {

@@ -129,14 +129,14 @@
                       >
                         <div class="slds-checkbox">
                           <template if:true={titleOrder.showCheckbox}>
-                            <!-- <lightning-input
+                            <lightning-input
                               type="checkbox"
                               label="checkbox"
                               data-id={titleOrder.titleOrderId}
                               name="titleOrderCheckbox"
                               data-name="titleOrderCheckbox"
                               variant="label-hidden"
-                            ></lightning-input> -->
+                            ></lightning-input>
                           </template>
                         </div>
                       </td>
@@ -199,8 +199,8 @@
   </lightning-card>
     <c-title-order-modal
       onclose={handleCloseModal}
-      is-opened={isModalOpened}
       request-type={requestType}
       record-id={recordId}
+      request-type-text={requestTypeText}
     ></c-title-order-modal>
 </template>
