@@ -97,6 +97,70 @@ public without sharing class BridgePipelineHelper {
     return retColumns;
   }
 
+  @AuraEnabled
+  public static List<Property__c> queryProperties(){
+    try {
+      return  [
+        SELECT
+          Id,
+          Name,
+          Property_Type__c,
+          Status__c,
+          City__c,
+          State__c,
+          Refinance_Acquisition__c,
+          Acquisition_Price__c,
+          Funding_Probability__c,
+          Projected_Initial_Disbursement__c,
+          Initial_Disbursement__c,
+          Requested_Funding_Date__c,
+          Deal__c,
+          Deal__r.Account.Name,
+          Deal__r.Name,
+          Deal__r.Index__c,
+          Deal__r.Index_Margin__c,
+          Deal__r.Deal_Loan_Number__c,
+          Deal__r.StageName,
+          Deal__r.LOC_Loan_Type__c,
+          Deal__r.CloseDate,
+          Deal__r.Project_Strategy__c,
+          Deal__r.Warehouse_Line__c,
+          Deal__r.Loan_Size__c,
+          Deal__r.Owner.Full_Name__c,
+          Deal__r.LOC_Commitment__c,
+          Deal__r.Underwriter__c,
+          Deal__r.Underwriter__r.Name,
+          Deal__r.Closer__c,
+          Deal__r.Closer__r.Name,
+          Underwriter__c,
+          Underwriter__r.Name,
+          Closer__c,
+          Closer__r.Name,
+          Initial_Advance__c,
+          Initial_Advance__r.Name,
+          Initial_Advance__r.Target_Advance_Date__c,
+          Initial_Advance__r.Advance_Group_Name__c
+        FROM Property__c
+        WHERE
+          Deal__r.Account.Name != 'Inhouse Test Account'
+          AND Deal__r.RecordType.DeveloperName IN :DEALRECTYPES
+          AND Deal__r.StageName IN :DEALSTAGES
+          AND Status__c IN :PROPSTATUSES
+          AND (Initial_Advance__r.Target_Advance_Date__c = NEXT_N_DAYS:60
+          OR Initial_Advance__r.Target_Advance_Date__c < TODAY
+          OR Requested_Funding_Date__c = NEXT_N_DAYS:60
+          OR Requested_Funding_Date__c < TODAY)
+        ORDER BY
+          Initial_Advance__r.Target_Advance_Date__c ASC NULLS LAST,
+          Requested_Funding_Date__c ASC NULLS LAST,
+          Initial_Advance__r.Advance_Group_Name__c ASC NULLS LAST,
+          Name ASC
+      ];
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
   private static List<Map<String, String>> returnData() {
     Map<Id, Map<String, String>> parsedData = new Map<Id, Map<String, String>>();
     Map<Id, Set<String>> advPropTypes = new Map<Id, Set<String>>();
@@ -105,62 +169,7 @@ public without sharing class BridgePipelineHelper {
     Map<Id, Integer> refinanceCt = new Map<Id, Integer>();
     Map<Id, Integer> acqCt = new Map<Id, Integer>();
 
-    List<Property__c> props = [
-      SELECT
-        Id,
-        Name,
-        Property_Type__c,
-        Status__c,
-        City__c,
-        State__c,
-        Refinance_Acquisition__c,
-        Acquisition_Price__c,
-        Funding_Probability__c,
-        Projected_Initial_Disbursement__c,
-        Initial_Disbursement__c,
-        Requested_Funding_Date__c,
-        Deal__c,
-        Deal__r.Account.Name,
-        Deal__r.Name,
-        Deal__r.Index__c,
-        Deal__r.Index_Margin__c,
-        Deal__r.Deal_Loan_Number__c,
-        Deal__r.StageName,
-        Deal__r.LOC_Loan_Type__c,
-        Deal__r.CloseDate,
-        Deal__r.Project_Strategy__c,
-        Deal__r.Warehouse_Line__c,
-        Deal__r.Loan_Size__c,
-        Deal__r.Owner.Full_Name__c,
-        Deal__r.LOC_Commitment__c,
-        Deal__r.Underwriter__c,
-        Deal__r.Underwriter__r.Name,
-        Deal__r.Closer__c,
-        Deal__r.Closer__r.Name,
-        Underwriter__c,
-        Underwriter__r.Name,
-        Closer__c,
-        Closer__r.Name,
-        Initial_Advance__c,
-        Initial_Advance__r.Name,
-        Initial_Advance__r.Target_Advance_Date__c,
-        Initial_Advance__r.Advance_Group_Name__c
-      FROM Property__c
-      WHERE
-        Deal__r.Account.Name != 'Inhouse Test Account'
-        AND Deal__r.RecordType.DeveloperName IN :DEALRECTYPES
-        AND Deal__r.StageName IN :DEALSTAGES
-        AND Status__c IN :PROPSTATUSES
-        AND (Initial_Advance__r.Target_Advance_Date__c = NEXT_N_DAYS:60
-        OR Initial_Advance__r.Target_Advance_Date__c < TODAY
-        OR Requested_Funding_Date__c = NEXT_N_DAYS:60
-        OR Requested_Funding_Date__c < TODAY)
-      ORDER BY
-        Initial_Advance__r.Target_Advance_Date__c ASC NULLS LAST,
-        Requested_Funding_Date__c ASC NULLS LAST,
-        Initial_Advance__r.Advance_Group_Name__c ASC NULLS LAST,
-        Name ASC
-    ];
+    List<Property__c> props = queryProperties();
 
     for (Property__c p : props) {
       Id key = p.Id;

@@ -6,11 +6,19 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>BridgePipelineHelper</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
         <members>Advance__c.Batch_Approval__c</members>
         <members>Approval_History__c.Advance__c</members>
         <members>Approval_History__c.Batch_Approval__c</members>
         <name>CustomField</name>
     </types>
+    <types>
+		<members>Advance_Batch_Approvers</members>
+		<name>Group</name>
+	</types>
     <version>53.0</version>
 </Package>
 <!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r OpportunityMethodsTest,PaidOffSabPropertiesBatchTest -->
