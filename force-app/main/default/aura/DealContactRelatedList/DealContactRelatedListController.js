@@ -97,7 +97,7 @@
     },
   
     delete: function (component, event, helper) {
-      var table = component.find("dataTable");
+      var table = component.find("dataTable"), rowsChecked = [];
   
       table.getChecked(function (resp) {
         rowsChecked = resp;
@@ -113,7 +113,7 @@
     },
   
     callclearAPiModel: function (component, event, helper) {
-      var table = component.find("dataTable");
+      var table = component.find("dataTable"), rowsChecked = [];
   
       table.getChecked(function (resp) {
         rowsChecked = resp;
