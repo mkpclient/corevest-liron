@@ -1,0 +1,19 @@
+<template>
+  <lightning-card>
+    <h3 slot="title">Advances in this Approval</h3>
+    <div class="slds-p-horizontal_small">
+      <lightning-datatable
+        key-field="id"
+        data={tableData}
+        columns={columns}
+        hide-checkbox-column
+        default-sort-direction={defaultSortDirection}
+        sorted-direction={sortDirection}
+        sorted-by={sortedBy}
+        onsort={onHandleSort}
+      >
+        
+      </lightning-datatable>
+    </div>
+  </lightning-card>
+</template>

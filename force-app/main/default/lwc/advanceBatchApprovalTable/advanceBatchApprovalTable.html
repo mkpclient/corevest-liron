@@ -4,28 +4,72 @@
 
     <div class="slds-p-horizontal_small">
       <lightning-tabset>
-        <lightning-tab label="All Advances">
+        <lightning-tab label="All Advances" value="Name != null AND " onactive={handleTabChange}>
+          <lightning-card>
+            <lightning-datatable
+                key-field="id"
+                data={tableData}
+                columns={columns}
+                hide-checkbox-column
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}>    
+              >
+            </lightning-datatable>
+          </lightning-card>
+        </lightning-tab>
+        <lightning-tab label="Advances not in Approval" value="(Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND " onactive={handleTabChange}>
           <lightning-card>
             <div slot="actions">
-              <lightning-button label="Submit for Approval"></lightning-button>
+              <lightning-button label="Submit for Approval" onclick={handleSubmit}></lightning-button>
             </div>
             <lightning-datatable
                 key-field="id"
                 data={tableData}
-                columns={columns}>
-        </lightning-datatable>
+                columns={columns}
+                onrowselection={handleRowSelection}
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}>    
+              >
+            </lightning-datatable>
           </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances Due for Approval">
-          <lightning-datatable
+        <lightning-tab label="Advances with Pending Approval" value="(Batch_Approval__r.Approval_Status__c = 'Submitted' OR Batch_Approval__r.Approval_Status__c = 'Pending') AND " onactive={handleTabChange}>
+          <lightning-card>
+            <lightning-datatable
                 key-field="id"
                 data={tableData}
-                columns={columns}>
-        </lightning-datatable>
+                columns={columns}
+                hide-checkbox-column
+                default-sort-direction={defaultSortDirection}
+                sorted-direction={sortDirection}
+                sorted-by={sortedBy}
+                onsort={onHandleSort}>    
+              >
+            </lightning-datatable>
+          </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances not in Approval"> </lightning-tab>
-        <lightning-tab label="Advances with Pending Approval"> </lightning-tab>
       </lightning-tabset>
     </div>
   </lightning-card>
+  <c-modal title="Submit for Approval">
+    <div slot="body">
+      <lightning-record-edit-form object-api-name="Batch_Approval__c" onsuccess={handleSuccess}>
+        <lightning-messages> </lightning-messages>
+        <lightning-input-field field-name="Initial_Comments__c" required></lightning-input-field>
+      </lightning-record-edit-form>
+    </div>
+    <div slot="footer">
+      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+      <lightning-button
+        label="Submit"
+        onclick={handleSave}
+        variant="brand"
+        disabled={disableSave}
+      ></lightning-button>
+    </div>
+  </c-modal>
 </template>

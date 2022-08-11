@@ -1,22 +1,33 @@
 import query from "@salesforce/apex/lightning_Util.query";
 import { LightningElement } from "lwc";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import upsertRecords from "@salesforce/apex/lightning_Util.upsertRecords";
 
 const COLS = [
   {
+    label: "Approval Batch",
+    fieldName: "batchUrl",
+    type: "url",
+    typeAttributes: { label: { fieldName: "approvalBatch", target: "_blank" } },
+    sortable: true
+  },
+  {
     label: "Approval Status",
     fieldName: "approvalStatus",
-    type: "url",
-    typeAttributes: { label: { fieldName: "approvalStatus" } }
+    type: "text",
+    sortable: true
   },
   {
     label: "Approval Request Date",
     fieldName: "approvalReqDate",
-    type: "date"
+    type: "date",
+    sortable: true
   },
   {
     label: "Approved/Rejected Date",
     fieldName: "approvedRejectedDate",
-    type: "date"
+    type: "date",
+    sortable: true
   },
   {
     label: "Initial Submission Comments",
@@ -25,26 +36,26 @@ const COLS = [
   {
     label: "Approval Comments",
     fieldName: "approvalComments",
-    typeAttributes: {
-      tooltip: {
-        fieldName: "approvalComments"
-      }
-    }
+    type: "text",
+    wrapText: true
   },
   {
     label: "Requested Funding Date",
     fieldName: "reqFundingDate",
-    type: "date"
+    type: "date",
+    sortable: true
   },
   {
     label: "Advance Group or Property Name (if single asset)",
     fieldName: "advUrl",
     type: "url",
-    typeAttributes: { label: { fieldName: "advGroupOrPropName" } }
+    typeAttributes: { label: { fieldName: "advGroupOrPropName" } },
+    sortable: true
   },
   {
     label: "Property Status",
-    fieldName: "propStatus"
+    fieldName: "propStatus",
+    sortable: true
   },
   {
     label: "Property Cities",
@@ -57,26 +68,28 @@ const COLS = [
   {
     label: "Loan Commitment",
     fieldName: "loanCommitment",
-    type: "currency"
+    type: "currency",
+    sortable: true
   },
   {
     label: "Acquisition or Refinance",
-    fieldName: "refAcq"
+    fieldName: "refAcq",
+    wrapText: true
   },
   {
     label: "Acquisition Price",
     fieldName: "acqPrice",
-    type: "currency"
+    type: "currency",
+    sortable: true
   }
-
 ];
 
 const ADV_FIELDS_MAP = {
-  Batch_Approval__c: {
-    label: "Batch URL",
-    key: "batchUrl"
-  },
   Batch_Approval__r: {
+    Name: {
+      label: "Approval Batch",
+      key: "approvalBatch"
+    },
     Approval_Status__c: {
       label: "Approval Status",
       key: "approvalStatus"
@@ -144,6 +157,7 @@ const ADV_FIELDS = [
   "Name",
   "Target_Advance_Date__c",
   "Advance_Group_Name__c",
+  "Purchase_Price_Total__c",
   "Batch_Approval__r.CreatedDate",
   "Batch_Approval__c",
   "Batch_Approval__r.Approval_Status__c",
@@ -151,6 +165,7 @@ const ADV_FIELDS = [
   "Batch_Approval__r.Initial_Comments__c",
   "Batch_Approval__r.Approval_Comments__c",
   "Batch_Approval__r.Name",
+  "Batch_Approval__r.Id",
   "Deal__c",
   "Deal__r.Account.Name",
   "Deal__r.Name",
@@ -190,16 +205,17 @@ const PROP_FIELDS = [
 ];
 
 const PROP_WHERE_CLAUSE = `Property__r.Status__c IN ('${PROP_STATUSES.join(
-  ","
+  "','"
 )}')
-AND (Property__r.Requested_Funding_Date__c = NEXT_N_DAYS:60
+AND (Property__r.Requested_Funding_Date__c = NEXT_N_DAYS:10
   OR Property__r.Requested_Funding_Date__c < TODAY)
 `;
-
-const ADV_WHERE_CLAUSE = `Deal__r.Account.Name != 'Inhouse Test Account'
-AND Deal__r.RecordType.DeveloperName IN ('${DEAL_REC_TYPES.join("','")}')
+//Deal__r.Account.Name != 'Inhouse Test Account'
+const ADV_WHERE_CLAUSE = `Deal__r.RecordType.DeveloperName IN ('${DEAL_REC_TYPES.join(
+  "','"
+)}')
 AND Deal__r.StageName IN ('${DEAL_STAGES.join("','")}')
-AND (Target_Advance_Date__c = NEXT_N_DAYS:60
+AND (Target_Advance_Date__c = NEXT_N_DAYS:10
 OR Target_Advance_Date__c < TODAY)
 AND ((Loan_Type__c = 'Credit Line' AND Approved_Advance_Amount_Max_Total__c < 1000000) 
 OR (RecordType.DeveloperName = 'Construction_Advance'))
@@ -208,20 +224,115 @@ Target_Advance_Date__c ASC NULLS LAST,
 Advance_Group_Name__c ASC NULLS LAST,
 Name ASC`;
 export default class AdvanceBatchApprovalTable extends LightningElement {
-
   tableData = [];
   allData = [];
-
+  selectedAdvanceIds = [];
+  toastParams = {
+    title: "",
+    message: "",
+    variant: ""
+  };
+  additionalWhereClause = "";
+  disableSave = false;
   /**
-   * @name csvFieldMap 
+   * @name csvFieldMap
    * @type {Object}
    * @description key value pair of table keys and actual header for generation of the CSV file
    */
   csvFieldMap = {};
   columns = COLS;
-
+  defaultSortDirection = "asc";
+  sortDirection = "asc";
+  sortedBy = "approvalBatch";
 
   connectedCallback() {
+    this.queryAdvances();
+  }
+
+  sortBy(field, reverse, primer) {
+    const key = primer
+      ? function (x) {
+          return primer(x[field]);
+        }
+      : function (x) {
+          return x[field];
+        };
+
+    return function (a, b) {
+      a = key(a);
+      b = key(b);
+      return reverse * ((a > b) - (b > a));
+    };
+  }
+
+  onHandleSort(event) {
+    const { fieldName: sortedBy, sortDirection } = event.detail;
+    const cloneData = [...this.tableData];
+
+    cloneData.sort(this.sortBy(sortedBy, sortDirection === "asc" ? 1 : -1));
+    this.tableData = cloneData;
+    this.sortDirection = sortDirection;
+    this.sortedBy = sortedBy;
+  }
+
+  closeModal() {
+    this.template.querySelector("c-modal").closeModal();
+  }
+
+  openModal() {
+    this.template.querySelector("c-modal").openModal();
+  }
+
+  handleSubmit(evt) {
+    if (this.selectedAdvanceIds.length > 0) {
+      this.openModal();
+    } else {
+      this.toastParams = {
+        title: "Error",
+        message: "Please select at least one Advance first.",
+        variant: "error"
+      };
+      this.showToast();
+    }
+  }
+
+  handleSave(evt) {
+    this.disableSave = true;
+    this.template.querySelector("lightning-record-edit-form").submit();
+  }
+
+  async handleSuccess(evt) {
+    const batchId = evt.detail.id;
+    const advances = this.selectedAdvanceIds.map((a) => ({
+      Id: a,
+      Batch_Approval__c: batchId,
+      sobjectType: "Advance__c"
+    }));
+    await upsertRecords({ records: advances });
+    await this.generateCsv();
+    this.toastParams = {
+      title: "Success",
+      message: "Your approval has been submitted for review.",
+      variant: "success"
+    };
+    this.showToast();
+    this.closeModal();
+  }
+
+  showToast() {
+    const event = new ShowToastEvent(this.toastParams);
+    this.dispatchEvent(event);
+  }
+
+  handleRowSelection(evt) {
+    const selectedRows = evt.detail.selectedRows;
+    this.selectedAdvanceIds = selectedRows.map((v) => v.Id);
+  }
+
+  handleTabChange(evt) {
+    this.additionalWhereClause = evt.target.value;
+    this.tableData = [];
+    this.selectedAdvanceIds = [];
     this.queryAdvances();
   }
 
@@ -231,7 +342,10 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       ",Property__r."
     )}
       FROM Property_Advances__r WHERE ${PROP_WHERE_CLAUSE} ORDER BY Property__r.Requested_Funding_Date__c ASC NULLS LAST
-    ) FROM Advance__c WHERE Id IN (SELECT Advance__c FROM Property_Advance__c WHERE ${PROP_WHERE_CLAUSE}) AND ${ADV_WHERE_CLAUSE}`;
+    ) FROM Advance__c WHERE Id IN (SELECT Advance__c FROM Property_Advance__c WHERE ${PROP_WHERE_CLAUSE}) AND ${
+      this.additionalWhereClause + ADV_WHERE_CLAUSE
+    }`;
+
     const res = await query({ queryString });
 
     this.allData = res;
@@ -242,7 +356,10 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       let currData = { ...v };
       currData["advUrl"] = "/" + v.Id;
       if (v.Batch_Approval__c) {
-        currData["batchUrl"] = "/" + v.Batch_Approval__c;
+        currData["batchUrl"] = "/" + v.Batch_Approval__r.Id;
+      } else {
+        currData["batchUrl"] = "";
+        currData["approvalBatch"] = "";
       }
       for (const k in ADV_FIELDS_MAP) {
         if (v[k]) {
@@ -261,7 +378,6 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
           }
         }
       }
-
 
       // these columns need to be agregated from the children property through property_advance__c
       if (v.Property_Advances__r != null && v.Property_Advances__r.length > 0) {
@@ -290,8 +406,8 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
 
           // if statuses are all the same, keep value to that status. Otherwise, "Various"
 
-          if(pa.Property__r && pa.Property__r.Status__c) {
-            if(!propStatus) {
+          if (pa.Property__r && pa.Property__r.Status__c) {
+            if (!propStatus) {
               propStatus = pa.Property__r.Status__c;
             } else if (propStatus != pa.Property__r.Status__c) {
               propStatus = "Various";
@@ -335,6 +451,68 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     });
     this.tableData = tableDataLocal;
     this.csvFieldMap = csvMapLocal;
-    console.log(tableDataLocal);
+  }
+
+  async generateCsv() {
+    const prevWhereClause = this.additionalWhereClause;
+    this.additionalWhereClause = ` Id IN ('${this.selectedAdvanceIds.join("','")}') AND `;
+    await this.queryAdvances();
+
+    const keyArray = [];
+    const headerArray = [];
+
+    let csvString = "";
+    let rowEnd = "\n";
+
+    // pulling from COLS so it's in proper order.
+    COLS.forEach((c) => {
+      let { type, label, fieldName } = c;
+      if (type === "url") {
+        fieldName = c.typeAttributes.label.fieldName;
+      }
+      keyArray.push(fieldName);
+      headerArray.push(label);
+    });
+
+    csvString += headerArray.join(",");
+    csvString += rowEnd;
+
+    for (const data of this.tableData) {
+      let currArray = [];
+      for (const key of keyArray) {
+        if (data.hasOwnProperty(key)) {
+          if(key.toLowerCase().includes("date")) {
+            currArray.push(new Date(data[key]).getMonth() + "/" + new Date(data[key]).getDate() + "/" + new Date(data[key]).getFullYear());
+          } else {
+            currArray.push(data[key]);
+          }
+        } else {
+          currArray.push("");
+        }
+      }
+
+      csvString += currArray.join(",");
+      csvString += rowEnd;
+    }
+
+    // Creating anchor element to download
+    let downloadElement = document.createElement("a");
+
+    // This  encodeURI encodes special characters, except: , / ? : @ & = + $ # (Use encodeURIComponent() to encode these characters).
+    downloadElement.href =
+      "data:text/csv;charset=utf-8," + encodeURI(csvString);
+    downloadElement.target = "_self";
+    // CSV File Name
+    downloadElement.download = "test.csv";
+    // below statement is required if you are using firefox browser
+    document.body.appendChild(downloadElement);
+    // click() Javascript function to download CSV file
+    downloadElement.click();
+
+    this.tableData = [];
+    this.selectedAdvanceIds = [];
+    this.additionalWhereClause = prevWhereClause;
+    await this.queryAdvances();
+
   }
 }
