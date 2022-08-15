@@ -3,7 +3,8 @@
     <types>
         <members>batchApprovalPanel</members>
         <members>batchApprovalRelatedAdvance</members>
-        <name>advanceBatchApprovalTable</name>
+        <members>advanceBatchApprovalTable</members>
+        <name>LightningComponentBundle</name>
     </types>
     <types>
         <members>Batch_Approval__c</members>
@@ -14,6 +15,8 @@
         <members>BatchApprovalHelper</members>
         <members>BatchApproverHelper</members>
         <members>advance_Helper</members>
+        <members>AdvanceBatchApprovalHandler</members>
+        <members>UpsertBatch</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -30,6 +33,10 @@
     <types>
 		<members>Advance_Batch_Approvers</members>
 		<name>Group</name>
+	</types>
+    <types>
+		<members>BatchApprovalHandler</members>
+		<name>EmailServicesFunction</name>
 	</types>
     <version>53.0</version>
 </Package>

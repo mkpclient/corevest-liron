@@ -9,7 +9,7 @@ public without sharing class BatchApprovalHelper {
   }
 
   public static void afterInsert(Map<Id, Batch_Approval__c> newMap) {
-    createBatchApprovers(newMap.keySet());
+    createBatchApprovers(newMap.values());
   }
 
   public static void beforeUpdate(
@@ -35,6 +35,7 @@ public without sharing class BatchApprovalHelper {
   ) {
     Set<Id> rejectedIds = new Set<Id>();
     Set<Id> approvedIds = new Set<Id>();
+
     for (Batch_Approval__c newBa : newMap.values()) {
       Batch_Approval__c oldBa = oldMap.get(newBa.Id);
 
@@ -55,11 +56,43 @@ public without sharing class BatchApprovalHelper {
 
     if (rejectedIds.size() > 0) {
       updateApprovalHistories(rejectedIds, 'Rejected');
-      rejectAllApprovers(rejectedIds);
+      updateNonResponse(rejectedIds);
     }
 
     if (approvedIds.size() > 0) {
       updateApprovalHistories(approvedIds, 'Approved');
+      postApproveRejectChatter(approvedIds);
+    }
+  }
+
+  public static void postApproveRejectChatter(Set<Id> batchIds) {
+    List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
+    String approvedMessage  = 'This batch of advances has been approved by all approvers.';
+    String rejectedMessage = 'This batch of advances has been rejected by ';
+    for(Batch_Approval__c ba : [
+      SELECT Id, Submitted_By__c, Approval_Status__c,
+      (SELECT Id, Approver__c,Approver__r.Name, Status__c, Comments__c FROM Batch_Approvers__r)
+      FROM Batch_Approval__c
+      WHERE Id IN :batchIds
+    ]) {
+      List<Id> mentionIds = new List<Id>();
+      mentionIds.add(ba.Submitted_By__c);
+      String message = ba.Approval_Status__c == 'Approved' ? approvedMessage : rejectedMessage;
+
+      if(ba.Batch_Approvers__r !=null && ba.Batch_Approvers__r.size() > 0) {
+        for(Batch_Approver__c bapp : ba.Batch_Approvers__r) {
+          mentionIds.add(bapp.Approver__c);
+          if(ba.Approval_Status__c == 'Rejected' && bapp.Status__c == 'Rejected') {
+            message += bapp.Approver__r.Name + '\n Comment from Approver: ' + bapp.Comments__c;
+          }
+        }
+      }
+
+      feedElements.add(constructBatchChatterPost(message, ba.Id, mentionIds));
+    }
+
+    if(!test.isRunningTest()) {
+      postChatterBatch(feedElements);
     }
   }
 
@@ -79,41 +112,47 @@ public without sharing class BatchApprovalHelper {
     update appHistories;
   }
 
-  public static void rejectAllApprovers(Set<Id> batchIds) {
+  public static void updateNonResponse(Set<Id> batchIds) {
+    postApproveRejectChatter(batchIds);
     List<Batch_Approver__c> bApprovers = [
       SELECT Id, Status__c
       FROM Batch_Approver__c
-      WHERE Batch_Approval__c IN :batchIds AND Status__c != 'Rejected'
+      WHERE Batch_Approval__c IN :batchIds AND Status__c = 'Pending'
       FOR UPDATE
     ];
 
-    for(Batch_Approver__c ba : bApprovers) {
-      ba.Status__c = 'Rejected';
+    for (Batch_Approver__c ba : bApprovers) {
+      ba.Status__c = 'No Response';
     }
 
-    if(bApprovers.size() > 0) {
+    if (bApprovers.size() > 0) {
       update bApprovers;
     }
-    
   }
 
-  public static void createBatchApprovers(Set<Id> batchIds) {
+  public static void createBatchApprovers(List<Batch_Approval__c> batchIds) {
     List<Batch_Approver__c> approvers = new List<Batch_Approver__c>();
     Set<Id> apprIds = retrieveGroupMembers();
-
-    for (Id b : batchIds) {
+    List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
+    for (Batch_Approval__c b : batchIds) {
       for (Id a : apprIds) {
         Batch_Approver__c ba = new Batch_Approver__c();
         ba.Submitted_By__c = UserInfo.getUserId();
         ba.Status__c = 'Pending';
         ba.Approver__c = a;
-        ba.Batch_Approval__c = b;
+        ba.Batch_Approval__c = b.Id;
 
         approvers.add(ba);
       }
+
+      feedElements.add(constructBatchChatterPost('A new batch of advances have entered approval and require your review.\n Submitter Comment: ' + b.Initial_Comments__c, b.Id, new List<Id>(apprIds)));
     }
 
     insert approvers;
+
+    if(!test.isRunningTest()) {
+      postChatterBatch(feedElements);
+    }
   }
 
   @future
@@ -196,5 +235,62 @@ public without sharing class BatchApprovalHelper {
         ]
       )
       .keySet();
+  }
+
+  public static void postChatterBatch(
+    List<ConnectApi.BatchInput> feedElements
+  ) {
+    ConnectApi.BatchResult[] results = ConnectApi.ChatterFeeds.postFeedElementBatch(
+      Network.getNetworkId(),
+      feedElements
+    );
+    for (ConnectApi.BatchResult r : results) {
+      if (!r.isSuccess()) {
+        System.debug(
+          'Failed to insert chatter post with batch: ' + r.getErrorMessage()
+        );
+      }
+    }
+  }
+
+  public static ConnectApi.BatchInput constructBatchChatterPost(
+    String body,
+    Id subjectId,
+    List<Id> mentionIds
+  ) {
+    return new ConnectApi.BatchInput(
+      constructChatterPost(body, subjectId, mentionIds)
+    );
+  }
+
+  public static ConnectApi.FeedItemInput constructChatterPost(
+    String body,
+    Id subjectId,
+    List<Id> mentionIds
+  ) {
+    ConnectApi.FeedItemInput feedItemInput = new ConnectApi.FeedItemInput();
+
+    ConnectApi.MessageBodyInput messageBodyInput = new ConnectApi.MessageBodyInput();
+    messageBodyInput.messageSegments = new List<ConnectApi.MessageSegmentInput>();
+    if (mentionIds != null) {
+      for (Id mentionId : mentionIds) {
+        ConnectApi.MentionSegmentInput mentionSegmentInput = new ConnectApi.MentionSegmentInput();
+        mentionSegmentInput.id = mentionId;
+        messageBodyInput.messageSegments.add(mentionSegmentInput);
+        ConnectApi.TextSegmentInput textSegmentInput = new ConnectApi.TextSegmentInput();
+        textSegmentInput.text = ' ';
+        messageBodyInput.messageSegments.add(textSegmentInput);
+      }
+    }
+    if (String.isNotBlank(body)) {
+      ConnectApi.TextSegmentInput textSegmentInput = new ConnectApi.TextSegmentInput();
+      textSegmentInput.text = body;
+      messageBodyInput.messageSegments.add(textSegmentInput);
+    }
+
+    feedItemInput.body = messageBodyInput;
+    feedItemInput.feedElementType = ConnectApi.FeedElementType.FeedItem;
+    feedItemInput.subjectId = subjectId;
+    return feedItemInput;
   }
 }

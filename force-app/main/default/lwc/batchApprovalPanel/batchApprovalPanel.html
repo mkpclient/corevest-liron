@@ -4,7 +4,7 @@
     title="Approvers"
     icon-name="standard:account"
   >
-  <div     class="slds-p-around_small">
+  <div class="slds-p-around_small">
     <template if:true={batchApproverId}>
       <div slot="actions">
         <lightning-button
@@ -12,23 +12,32 @@
           variant="brand"
           name="approve"
           label="Approve"
+          value="Approved"
+          onclick={handleClick}
         ></lightning-button>
         <lightning-button
           class="slds-m-top_small"
           variant="destructive"
           name="reject"
           label="Reject"
+          value="Rejected"
+          onclick={handleClick}
         ></lightning-button>
       </div>
       <lightning-record-edit-form
         record-id={batchApproverId}
         object-api-name="Batch_Approver__c"
+        onsubmit={handleSubmit}
+        onsuccess={handleSuccess}
       >
         <lightning-messages> </lightning-messages>
         <lightning-input-field
           field-name="Comments__c"
           required
         ></lightning-input-field>
+        <div style="display:none;">
+          <lightning-button type="submit" data-name="submitButton"></lightning-button>
+        </div>
       </lightning-record-edit-form>
     </template>
     <template for:each={batchReadOnlyIds} for:item="id">

@@ -211,18 +211,14 @@ AND (Property__r.Requested_Funding_Date__c = NEXT_N_DAYS:10
   OR Property__r.Requested_Funding_Date__c < TODAY)
 `;
 //Deal__r.Account.Name != 'Inhouse Test Account'
-const ADV_WHERE_CLAUSE = `Deal__r.RecordType.DeveloperName IN ('${DEAL_REC_TYPES.join(
+const ADV_WHERE_CLAUSE = `(Deal__r.RecordType.DeveloperName IN ('${DEAL_REC_TYPES.join(
   "','"
 )}')
 AND Deal__r.StageName IN ('${DEAL_STAGES.join("','")}')
 AND (Target_Advance_Date__c = NEXT_N_DAYS:10
 OR Target_Advance_Date__c < TODAY)
 AND ((Loan_Type__c = 'Credit Line' AND Approved_Advance_Amount_Max_Total__c < 1000000) 
-OR (RecordType.DeveloperName = 'Construction_Advance'))
-ORDER BY
-Target_Advance_Date__c ASC NULLS LAST,
-Advance_Group_Name__c ASC NULLS LAST,
-Name ASC`;
+OR (RecordType.DeveloperName = 'Construction_Advance'))))`;
 export default class AdvanceBatchApprovalTable extends LightningElement {
   tableData = [];
   allData = [];
@@ -245,6 +241,12 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   sortDirection = "asc";
   sortedBy = "approvalBatch";
 
+  get advFullWhereClause() {
+    const onlyBatches = this.additionalWhereClause === "Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
+    const orderClause = " ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC";
+
+    return (onlyBatches ? this.additionalWhereClause : this.additionalWhereClause + ADV_WHERE_CLAUSE) + orderClause;
+  }
   connectedCallback() {
     this.queryAdvances();
   }
@@ -343,8 +345,10 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     )}
       FROM Property_Advances__r WHERE ${PROP_WHERE_CLAUSE} ORDER BY Property__r.Requested_Funding_Date__c ASC NULLS LAST
     ) FROM Advance__c WHERE Id IN (SELECT Advance__c FROM Property_Advance__c WHERE ${PROP_WHERE_CLAUSE}) AND ${
-      this.additionalWhereClause + ADV_WHERE_CLAUSE
+      this.advFullWhereClause
     }`;
+
+    console.log(queryString);
 
     const res = await query({ queryString });
 

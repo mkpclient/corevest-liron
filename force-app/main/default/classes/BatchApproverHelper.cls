@@ -18,8 +18,13 @@ public without sharing class BatchApproverHelper {
   ) {
     List<Batch_Approver__c> updateComments = new List<Batch_Approver__c>();
     Map<Id, Map<Id, Batch_Approver__c>> updateStatusMap = new Map<Id, Map<Id, Batch_Approver__c>>();
+    Map<Id, String> approvedMap = new Map<Id, String>();
     for (Batch_Approver__c newBa : newMap.values()) {
       Batch_Approver__c oldBa = oldMap.get(newBa.Id);
+
+      if(oldBa.Status__c != newBa.Status__c && newBa.Status__c == 'Approved') {
+        approvedMap.put(newBa.Batch_Approval__c, newBa.Approver_Name__c);
+      }
 
       if (
         oldBa.Comments__c != newBa.Comments__c &&
@@ -44,12 +49,45 @@ public without sharing class BatchApproverHelper {
       }
     }
 
+    if(approvedMap.size() > 0) {
+      postApprovalChatter(approvedMap);
+    }
+
     if (updateComments.size() > 0) {
       updateCommentsOnParent(updateComments);
     }
 
     if (updateStatusMap.size() > 0) {
       updateApprovalHistories(updateStatusMap);
+    }
+  }
+
+  public static void postApprovalChatter(Map<Id,String> appMap) {
+    List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
+
+    for(Batch_Approval__c ba : [
+      SELECT Id, Submitted_By__c,
+      (SELECT Id, Approver__c, Approver_Name__c, Comments__c, Status__c FROM Batch_Approvers__r)
+      FROM Batch_Approval__c WHERE Id IN :appMap.keySet()
+    ]) {
+      List<Id> mentionIds = new List<Id>();
+      mentionIds.add(ba.Submitted_By__c);
+      String comment = 'Approver comment: ';
+      if(ba.Batch_Approvers__r != null && ba.Batch_Approvers__r.size() > 0) {
+        for(Batch_Approver__c bapp : ba.Batch_Approvers__r) {
+          mentionIds.add(bapp.Approver__c);
+          if(appMap.get(ba.Id) == bapp.Approver_Name__c && bapp.Status__c == 'Approved') {
+            comment += bapp.Comments__c;
+          }
+        }
+      }
+
+      feedElements.add(BatchApprovalHelper.constructBatchChatterPost('This batch of advances has been approved by ' + appMap.get(ba.Id) + '.\n' + comment, ba.Id, mentionIds));
+
+    }
+
+    if(!test.isRunningTest()) {
+      BatchApprovalHelper.postChatterBatch(feedElements);
     }
   }
 

@@ -4,7 +4,7 @@
 
     <div class="slds-p-horizontal_small">
       <lightning-tabset>
-        <lightning-tab label="All Advances" value="Name != null AND " onactive={handleTabChange}>
+        <lightning-tab label="All Advances" value="(Batch_Approval__c != null OR " onactive={handleTabChange}>
           <lightning-card>
             <lightning-datatable
                 key-field="id"
@@ -19,7 +19,7 @@
             </lightning-datatable>
           </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances not in Approval" value="(Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND " onactive={handleTabChange}>
+        <lightning-tab label="Advances not in Approval" value="((Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND " onactive={handleTabChange}>
           <lightning-card>
             <div slot="actions">
               <lightning-button label="Submit for Approval" onclick={handleSubmit}></lightning-button>
@@ -37,7 +37,7 @@
             </lightning-datatable>
           </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances with Pending Approval" value="(Batch_Approval__r.Approval_Status__c = 'Submitted' OR Batch_Approval__r.Approval_Status__c = 'Pending') AND " onactive={handleTabChange}>
+        <lightning-tab label="Advances with Pending Approval" value="Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')" onactive={handleTabChange}>
           <lightning-card>
             <lightning-datatable
                 key-field="id"
