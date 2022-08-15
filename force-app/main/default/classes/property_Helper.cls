@@ -689,17 +689,15 @@ public without sharing class property_Helper {
 
     Set<Id> propertyIds = new Set<Id>();
 
-    if (newList.size() == 1) {
-      Map<String, String> params = new Map<String, String>{
+    /* if(newList.size() == 1) {
+      Map<String, String> params = new Map<String,String>{
         'recordId' => newList[0].Id
       };
-      if (!Test.isRunningTest()) {
-        Flow.Interview.Apex_Triggered_Dupe_One_Record dupeFlow = new Flow.Interview.Apex_Triggered_Dupe_One_Record(
-          params
-        );
-        dupeFlow.start();
+      if(!Test.isRunningTest()) {
+        Flow.Interview.Apex_Triggered_Dupe_One_Record dupeFlow = new Flow.Interview.Apex_Triggered_Dupe_One_Record(params);
+        dupeFlow.start();  
       }
-    }
+    }*/
     for (Integer i = 0; i < newList.size(); i++) {
       if (
         newList[i].Status__c != 'Inactive' &&
@@ -714,7 +712,6 @@ public without sharing class property_Helper {
         RECORDTYPE_MAP.get(newList[i].RecordTypeId).contains('Bridge')
       ) {
         opIds.add(newList[i].Deal__c);
-        system.debug('term included?' + opIds.size());
       }
 
       if (newList[i].Parent_Property__c != null) {
@@ -752,8 +749,6 @@ public without sharing class property_Helper {
 
     if (opIds.size() > 0) {
       rollupOpportunities(opIds);
-      // bridgeRollupOpportunities(opIds);
-      system.debug('term included?' + opIds.size());
     }
 
     if (termIds.size() > 0) {
@@ -765,53 +760,53 @@ public without sharing class property_Helper {
     }
 
     if (propertyIds.size() > 0) {
-      // LandGorillaAPI.processPropertiesForPostLoan(propertyIds);
       System.enqueueJob(new SmartyStreetsQueueable(new List<Id>(propertyIds)));
     }
-    //CIP-2286-RS.7/15/22.Begin.
+    /*
+//CIP-2286-RS.7/15/22.Begin.
     //for the new list of Properties which are in the dealMapclo assign all the fields
     List<CLO_Asset_Details__c> cloList = new List<CLO_Asset_Details__c>();
     for (Property__c iProp : newList) {
-      if (dealMapCLO.containsKey(iProp.Deal__c)) {
-        CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
-        //Properties fields assignment
-        clo.Property_Name__c = iProp.Property_Name__c;
-        clo.Property_Address__c = iProp.Name;
-        clo.Property_City__c = iProp.City__c;
-        clo.Property_State__c = iProp.State__c;
-        clo.Property_Zip_Code__c = iProp.ZipCode__c;
-        clo.Property_County__c = iProp.County__c;
-        clo.Year_Built__c = iProp.Year_Built__c;
-        clo.Property_Type__c = iProp.Property_Type__c;
-        clo.Number_of_Units__c = iProp.Number_of_Units__c;
-        clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
-        clo.First_Payment_Date__c = iProp.First_Payment_Date__c;
-        clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
-        clo.Related_Property__c = iProp.Id;
-        //Opportunity fields assignment
-        Opportunity op = new Opportunity();
-        clo.Deal_ID__c = iProp.Deal__c;
-        op = dealMapCLO.get(iProp.Deal__c);
-        clo.Deal_Loan_Number__c = op.Deal_Loan_Number__c;
-        clo.Loan_Purpose__c = op.Loan_Purpose__c;
-        clo.Borrower_Name__c = op.Borrower_Entity__c;
-        clo.Loan_Commitment_Original_Balance__c = op.LOC_Commitment__c;
-        clo.Note_Date__c = op.CloseDate;
-        //clo.First_Extension_Fee__c=op.Extension_Fee__c;
-        clo.Exit_Fee__c = op.Exit_Fee__c;
-        clo.Interest_Rate_Type__c = op.Interest_Rate_Type__c;
-        clo.Index_for_Floating_Rate__c = op.Index__c;
-        clo.SOFR_Floor__c = op.Floor__c;
-        clo.Appraisal_Stabilized_Occupancy__c = op.Total_ARV_LTV__c;
-        clo.Maturity_Date__c = op.Current_Line_Maturity_Date__c;
-        clo.Amortization_Term__c = op.Amortization_Term__c;
-        clo.Deal_Name__c = op.Name;
-        cloList.add(clo);
-      }
+		if(dealMapCLO.containsKey(iProp.Deal__c))
+        {
+            CLO_Asset_Details__c clo=new CLO_Asset_Details__c();
+            //Properties fields assignment
+        	clo.Property_Name__c = iProp.Property_Name__c;    
+            clo.Property_Address__c = iProp.Name;   
+            clo.Property_City__c = iProp.City__c;
+            clo.Property_State__c = iProp.State__c;
+            clo.Property_Zip_Code__c = iProp.ZipCode__c;
+            clo.Property_County__c = iProp.County__c;
+            clo.Year_Built__c = iProp.Year_Built__c;
+            clo.Property_Type__c = iProp.Property_Type__c;
+            clo.Number_of_Units__c = iProp.Number_of_Units__c;
+          	clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
+            clo.First_Payment_Date__c= iProp.First_Payment_Date__c;
+            clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
+            clo.Related_Property__c =iProp.Id;
+            //Opportunity fields assignment
+            Opportunity op = new Opportunity();
+            clo.Deal_ID__c = iProp.Deal__c;            
+            op = dealMapCLO.get(iProp.Deal__c);
+            clo.Deal_Loan_Number__c = op.Deal_Loan_Number__c;
+			clo.Loan_Purpose__c = op.Loan_Purpose__c;
+            clo.Borrower_Name__c = op.Borrower_Entity__c;
+            clo.Loan_Commitment_Original_Balance__c=op.LOC_Commitment__c;
+            clo.Note_Date__c=op.CloseDate;
+            //clo.First_Extension_Fee__c=op.Extension_Fee__c;
+            clo.Exit_Fee__c=op.Exit_Fee__c;
+            clo.Interest_Rate_Type__c=op.Interest_Rate_Type__c;
+            clo.Index_for_Floating_Rate__c=op.Index__c;
+            clo.SOFR_Floor__c=op.Floor__c;
+            clo.Appraisal_Stabilized_Occupancy__c=op.Total_ARV_LTV__c;
+            clo.Maturity_Date__c=op.Current_Line_Maturity_Date__c;
+            clo.Amortization_Term__c=op.Amortization_Term__c;
+            clo.Deal_Name__c = op.Name;
+            cloList.add(clo);
+        }
     }
-    if (cloList.size() > 0)
-      insert cloList;
-    //CIP-2286-RS.7/15/22.End
+    if(cloList.size()>0) insert cloList;
+    //CIP-2286-RS.7/15/22.End      */
   }
 
   public static Map<Id, Opportunity> avgDate(Map<Id, Opportunity> oppMap) {
@@ -1170,14 +1165,6 @@ public without sharing class property_Helper {
       // }
       //}
 
-      // CIP 2206 27 Apr 2022 Start
-
-      if (newList[i].Current_UPB__c == 0 && oldList[i].Current_UPB__c != 0) {
-        newList[i].UPB_Before_Payoff__c = oldList[i].Current_UPB__c;
-      }
-
-      // CIP 2206 27 Apr 2022 End
-
       if (
         (newList[i].Status__c != oldList[i].Status__c &&
         (newList[i].Status__c == 'Closing' ||
@@ -1410,10 +1397,6 @@ public without sharing class property_Helper {
     Set<Id> termIds = new Set<Id>();
     Set<Id> bothIds = new Set<Id>();
     Map<Id, String> refinanceBubble = new Map<Id, String>();
-    Map<String, Map<Id, Property__c>> propSnapshotMap = new Map<String, Map<Id, Property__c>>{
-      'Asset Paid Off' => new Map<Id, Property__c>(),
-      'Asset Sold' => new Map<Id, Property__c>()
-    };
 
     // Set<Id> smartyStreetIds = new Set<Id>();
     // Set<String> recordTypeIds = new Set<String>();
@@ -1458,21 +1441,6 @@ public without sharing class property_Helper {
         newList[i].Status__c == 'Closing')) && newList[i].Yardi_Id__c != null
       ) {
         sendToYardiCSV.add(newList[i].Id);
-      }
-
-      if (
-        newList[i].Status__c == 'Paid Off' &&
-        newList[i].Status__c != oldList[i].Status__c
-      ) {
-        Map<Id, Property__c> propMap = propSnapshotMap.get('Asset Paid Off');
-        propMap.put(newList[i].Id, newList[i]);
-        propSnapshotMap.put('Asset Paid Off', propMap);
-      }
-
-      if (oldList[i].REO_Date__c == null && newList[i].REO_Date__c != null) {
-        Map<Id, Property__c> propMap = propSnapshotMap.get('Asset Sold');
-        propMap.put(newList[i].Id, newList[i]);
-        propSnapshotMap.put('Asset Sold', propMap);
       }
 
       // for (String s : smartyStreetFields) {
@@ -1528,13 +1496,6 @@ public without sharing class property_Helper {
       }
     }
 
-    if (
-      propSnapshotMap.get('Asset Paid Off').size() > 0 ||
-      propSnapshotMap.get('Asset Sold').size() > 0
-    ) {
-      PropertySnapshotHelper.createPropertySnapshot(propSnapshotMap);
-    }
-
     //system.debug(recordTypeIds);
     System.debug('ids of properties: ');
     System.debug(bothIds);
@@ -1542,13 +1503,11 @@ public without sharing class property_Helper {
     if (bothIds.size() > 0) {
       rollupOpportunities(bothIds);
     }
-    if (bridgeOpIds.size() > 0) {
-      system.debug('bridgeopps' + bridgeOpIds.size());
-      bridgeRollupOpportunities(bridgeOpIds);
-    }
-    //RS-BEGIN
+    // if (bridgeOpIds.size() > 0) {
+    //   system.debug('bridgeopps' + bridgeOpIds.size());
+    //   bridgeRollupOpportunities(bridgeOpIds);
+    // }
     Map<Id, Opportunity> oppMapCLO = new Map<Id, Opportunity>(); //CIP-2286.RS.7/21/22.
-    //RS-END
     if (bothIds.size() > 0) {
       //sumStates(bothIds);
       //CPQ2100 - Raj Sirivolu- 1/6/22 - Added 2 fields, Account.Name, Contact__c and Approved_Third_Party_Originators__c to the below SOQL.
@@ -1588,6 +1547,7 @@ public without sharing class property_Helper {
             Project_Strategy__c,
             LOC_Commitment__c,
             CloseDate,
+            Floor__c,
             Name //CIP-2286.RS.7/21/22.End.
           FROM Opportunity
           WHERE Id IN :bothIds
@@ -1846,10 +1806,10 @@ public without sharing class property_Helper {
       system.debug(parentIds);
       rollupDelete(parentIds);
     }
-    if (bridgeOppToUpdate.size() > 0) {
-      bridgeRollupOpportunities(bridgeOppToUpdate);
-      system.debug('oldlistsize' + bridgeOppToUpdate.size());
-    }
+    // if (bridgeOppToUpdate.size() > 0) {
+    //   bridgeRollupOpportunities(bridgeOppToUpdate);
+    //   system.debug('oldlistsize' + bridgeOppToUpdate.size());
+    // }
     if (dealIds.size() > 0) {
       processDealMap(dealIds);
     }
@@ -2167,7 +2127,7 @@ public without sharing class property_Helper {
     //  }
   }
 
-  public static void bridgeRollupOpportunities(Set<Id> opIds) {
+  /*public static void bridgeRollupOpportunities(Set<Id> opIds) {
     Map<Id, Opportunity> opportunityMap = new Map<Id, Opportunity>();
 
     for (Id i : opIds) {
@@ -2198,7 +2158,7 @@ public without sharing class property_Helper {
       update opportunityMap.values();
     }
   }
-
+*/
   public static void attachVendors(
     Map<String, List<Property__c>> vendorMap,
     String vendorType
@@ -2471,14 +2431,16 @@ public without sharing class property_Helper {
       ((newProp.Status__c == 'Inactive' || newProp.Status__c == 'Cancelled') ||
       (newProp.Status__c != 'Inactive' &&
       newProp.Status__c != 'Cancelled' &&
-      (oldProp.Status__c == 'Inactive' || oldProp.Status__c == 'Cancelled')))) ||
+      (oldProp.Status__c == 'Inactive' ||
+      oldProp.Status__c == 'Cancelled')))) ||
       (newProp.State__c != oldProp.State__c ||
       newProp.State_Full__c != oldProp.State_Full__c ||
       newProp.MSA__c != oldProp.MSA__c ||
       newProp.County__c != oldProp.County__c ||
       newProp.Acquisition_Date__c != oldProp.Acquisition_Date__c ||
       newProp.Rehab_Costs__c != oldProp.Rehab_Costs__c ||
-      newProp.Borrower_Opinion_of_Current_Value__c != oldProp.Borrower_Opinion_of_Current_Value__c ||
+      newProp.Borrower_Opinion_of_Current_Value__c !=
+      oldProp.Borrower_Opinion_of_Current_Value__c ||
       newProp.Monthly_HOA_Fee__c != oldProp.Monthly_HOA_Fee__c ||
       newProp.ALA__c != oldProp.ALA__c);
   }
