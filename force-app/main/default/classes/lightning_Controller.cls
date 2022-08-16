@@ -9,17 +9,51 @@ public without sharing class lightning_Controller {
   public static Boolean dataTapeSaving = false;
 
   @AuraEnabled
-  public static Map<Id, Boolean> generateReadAccessMap(List<Id> recordIds){
+  public static Map<Id, Boolean> generateReadAccessMap(List<Id> recordIds) {
     try {
-      Map<Id,Boolean> returnMap = new Map<Id,Boolean>();
-      List<UserRecordAccess> uras = [
-        SELECT RecordId, HasReadAccess
-        FROM UserRecordAccess
-        WHERE UserId=:UserInfo.getUserId()
-        AND RecordId IN : recordIds
-      ];
+      Map<Id, Boolean> returnMap = new Map<Id, Boolean>();
+      List<UserRecordAccess> uras = new List<UserRecordAccess>();
+      if (recordIds.size() > 200 || Test.isRunningTest()) {
+        List<List<Id>> recIdLists = new List<List<Id>>();
+        Integer n = 0;
+        List<Id> recIdTwoHun = new List<Id>();
+        for (Integer i = 0; i < recordIds.size(); i++) {
+          if (n == 200) {
+            recIdLists.add(recIdTwoHun);
+            recIdTwoHun = new List<Id>();
+            n = 0;
+          } else {
+            recIdTwoHun.add(recordIds[i]);
+            n++;
+          }
+        }
+        if(recIdTwoHun.size() > 0) {
+          recIdLists.add(recIdTwoHun);
+        }
+        Integer soqlCt = 0;
+        for (List<Id> recIds : recIdLists) {
+          if(soqlCt == 100) {
+            break;
+          }
+          List<UserRecordAccess> uraLocal = [
+            SELECT RecordId, HasReadAccess
+            FROM UserRecordAccess
+            WHERE UserId = :UserInfo.getUserId() AND RecordId IN :recIds
+          ];
+          uras.addAll(
+            uraLocal
+          );
+          soqlCt++;
+        }
+      } else {
+        uras = [
+          SELECT RecordId, HasReadAccess
+          FROM UserRecordAccess
+          WHERE UserId = :UserInfo.getUserId() AND RecordId IN :recordIds
+        ];
+      }
 
-      for(UserRecordAccess ura : uras){
+      for (UserRecordAccess ura : uras) {
         returnMap.put(ura.RecordId, ura.HasReadAccess);
       }
 
@@ -438,7 +472,7 @@ public without sharing class lightning_Controller {
     return objs;
   }
 
-//RS.Begin
+//CIP-2354 and CIP-2490 - Raj Sirivlu - 7/14/2022. Begin.   
  @AuraEnabled
   public static List<sObject> getRecordListPileLineRpt(
     String parentId,
@@ -452,10 +486,8 @@ public without sharing class lightning_Controller {
     String calledFor
   ) {
 
-    System.Debug('rs999 - whereClause :' +whereClause);
-    System.Debug('rs999 fields :' +fields);      
-    System.Debug('RS999 - calledFor :' +calledFor);      
-    List<Piple_Line_Report_Data__c> pipeLineClosedReportList = new List<Piple_Line_Report_Data__c>();         //RS
+     
+    List<Piple_Line_Report_Data__c> pipeLineClosedReportList = new List<Piple_Line_Report_Data__c>();         
     if (sobjectType.equalsIgnoreCase('Property__c')) {
       fields.add('recordTypeId');
     }
@@ -480,7 +512,6 @@ public without sharing class lightning_Controller {
 
     if (String.isNotBlank(whereClause)) {
       queryString += whereClause ;
-      system.debug ('RS999 queryString : ' +queryString);
     }
 
     if (String.isNotBlank(orderBy)) {
@@ -489,16 +520,14 @@ public without sharing class lightning_Controller {
       queryString += ' ORDER BY ' + sortCol + ' ' + sortDir;
     }
 
-    system.debug('RS999 queryString : ' +queryString);
     List<sObject> objs = new List<sObject>();
 
 
 	List<Sobject> CombinedItems=new List<Sobject>();
 	CombinedItems.addAll(objs);
-    
-    //objs.addAll(legalCouncil);
-   // objs.add(19,'LegalCounsel');
+    System.Debug('RS999 queryString :' +queryString);    
     objs = database.query(queryString);
+    System.Debug('RS999 objs :' +objs);
     if (sobjectType.equalsIgnoreCase('Property__c')) {
       Map<string, String> propIds = new Map<string, String>();
       for (sObject sobj : objs) {
@@ -546,11 +575,8 @@ public without sharing class lightning_Controller {
         pipeLineClosedReport.Underwriter__c 								= (String) sobj.getSObject('Underwriter__r')?.get('Initials__c');    
         pipeLineClosedReport.Loan_Coordinator__c 							= (String) sobj.getSObject('Loan_Coordinator__r')?.get('Initials__c');  
         pipeLineClosedReport.Closer__c 										= (String) sobj.getSobject('Closer__r')?.get('Initials__c');  
-		//pipeLineClosedReport.LegalCounsel__c 								= 'Raj S LC'        ;         
         pipeLineClosedReport.Title__c 										= (String)  sobj.getSObject('Title__r')?.get('Name');
-		//pipeLineClosedReport.Title_and_Escrow__c                           	= 'Raj S Escr';
         pipeLineClosedReport.Third_Party_Title_Name__c 						= (String)  sobj.getSObject('Third_Party_Title__r')?.get('Name');
-       //	pipeLineClosedReport.Third_Party_Title__c                         	= 'Raj S 3rdPCon'; 
         pipeLineClosedReport.Are_Assets_Coming_Off_Bridge_Line__c 			= (String)  sobj.get('Are_Assets_Coming_Off_Bridge_Line__c');   
         pipeLineClosedReport.Are_Assets_Being_RFNC_From_Existing_Term__c	= (String)  sobj.get('Are_Assets_Being_RFNC_From_Existing_Term__c');   
         pipeLineClosedReport.Warehouse_Line__c 								= (String)  sobj.get('Warehouse_Line__c');   
@@ -565,14 +591,15 @@ public without sharing class lightning_Controller {
         pipeLineClosedReport.In_Process_of_Withdrawn_or_Rejected__c 		= (Boolean) sobj.get('In_Process_of_Withdrawn_or_Rejected__c');   
         String Id = (String) sobj.get('id');         
 		pipeLineClosedReport.deal__c = Id;    
-		//pipeLineClosedReportList.add(pipeLineClosedReport);         
         dealIdMap.put(Id,pipeLineClosedReport);         
       }    
-      
 
+      	
         List<OpportunityTeamMember> OppTeamMembers =[SELECT OpportunityId,Name FROM OpportunityTeamMember where TeamMemberRole = 'Legal Team' 
                                                      and OpportunityId IN :dealIdMap.keyset() and Name !=Null];
 		Map<id,String> oppTeamMembersMap = new Map<id,String>();
+    
+      
 		If (OppTeamMembers.Size() > 0)
         {
           For (OpportunityTeamMember OppTeamMem : OppTeamMembers)
@@ -593,8 +620,11 @@ public without sharing class lightning_Controller {
         List<Deal_Contact__c> dealContacts = [ SELECT Deal__c, Vendor_Type__c , Contact__r.name FROM Deal_Contact__c 
                                                 WHERE Deal__c IN :dealIdMap.keyset() 
                                                 AND Vendor_Type__c IN ('Lender Legal Counsel','3rd Party Title','Title and Escrow') 
-                                                AND Contact__r.name != null order by Vendor_Type__c  ,Contact__r.name desc];
+                                                AND Contact__r.name != null order by Vendor_Type__c  ,Contact__r.name desc ];
+      
+   	
 		Map<id,List<Deal_Contact__c>> dealContactsMap = new Map<id,List<Deal_Contact__c>>();
+     
 		If (OppTeamMembers.Size() > 0)
         {
           For (Deal_Contact__c dealContact : dealContacts)
@@ -614,11 +644,12 @@ public without sharing class lightning_Controller {
 		Boolean legalCouncilFound;
         String thirdPartyTitle = '';
         String titleEscrow = '';
+    
 		for (id processingDealId :dealIdMap.Keyset()) 
 		{
 		legalCouncilFound = False;
    		Piple_Line_Report_Data__c pipeLineClosedReport = dealIdMap.get(processingDealId);
-    	System.Debug('RS999 pipeLineClosedReport 1' +pipeLineClosedReport);            
+          
         If (oppTeamMembersMap.Containskey(processingDealId) )
         {
 			pipeLineClosedReport.LegalCounsel__c =oppTeamMembersMap.get(processingDealId);
@@ -627,7 +658,7 @@ public without sharing class lightning_Controller {
 
         If (dealContactsMap.Containskey(processingDealId) )
         {
-          For (Deal_Contact__c dealContact : dealContacts)
+          For (Deal_Contact__c dealContact : dealContactsMap.get(processingDealId))
           {
             if (dealContact.Vendor_Type__c == 'Lender Legal Counsel' && !legalCouncilFound)
             {
@@ -643,18 +674,15 @@ public without sharing class lightning_Controller {
             }                        
           }
         }
-    	System.Debug('RS999 pipeLineClosedReport 2' +pipeLineClosedReport);             
+           
 		pipeLineClosedReportList.add(pipeLineClosedReport);            
         } //for (id processingDealId :dealIdMap.Keyset())
-     
-    System.Debug('RS999 getRecordList - pipeLineClosedReportList' +pipeLineClosedReportList);
-    System.Debug('RS999 getRecordList - objs' +objs);
     
     if (calledFor == 'P')  return pipeLineClosedReportList;  
       
  	return objs;      
   }
-//RS.End     
+  //CIP-2354 and CIP-2490 - Raj Sirivlu - 7/14/2022. End.   
    
     
   //CIP-2111 - Raj Sirivlu - 1/13/2022. Begin. Added new method getrecordList1 as a clone of getrecordList and changed how the ids are processed.

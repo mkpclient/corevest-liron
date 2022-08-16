@@ -2,6 +2,7 @@ import query from "@salesforce/apex/lightning_Util.query";
 import { LightningElement } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import upsertRecords from "@salesforce/apex/lightning_Util.upsertRecords";
+import saveAttachment from "@salesforce/apex/lightning_Controller.saveAttachment";
 
 const COLS = [
   {
@@ -242,10 +243,17 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   sortedBy = "approvalBatch";
 
   get advFullWhereClause() {
-    const onlyBatches = this.additionalWhereClause === "Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
-    const orderClause = " ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC";
+    const onlyBatches =
+      this.additionalWhereClause ===
+      "Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
+    const orderClause =
+      " ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC";
 
-    return (onlyBatches ? this.additionalWhereClause : this.additionalWhereClause + ADV_WHERE_CLAUSE) + orderClause;
+    return (
+      (onlyBatches
+        ? this.additionalWhereClause
+        : this.additionalWhereClause + ADV_WHERE_CLAUSE) + orderClause
+    );
   }
   connectedCallback() {
     this.queryAdvances();
@@ -311,7 +319,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       sobjectType: "Advance__c"
     }));
     await upsertRecords({ records: advances });
-    await this.generateCsv();
+    await this.generateCsv(batchId);
     this.toastParams = {
       title: "Success",
       message: "Your approval has been submitted for review.",
@@ -457,9 +465,11 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     this.csvFieldMap = csvMapLocal;
   }
 
-  async generateCsv() {
+  async generateCsv(batchId) {
     const prevWhereClause = this.additionalWhereClause;
-    this.additionalWhereClause = ` Id IN ('${this.selectedAdvanceIds.join("','")}') AND `;
+    this.additionalWhereClause = ` ((Id IN ('${this.selectedAdvanceIds.join(
+      "','"
+    )}')) AND `;
     await this.queryAdvances();
 
     const keyArray = [];
@@ -485,8 +495,14 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       let currArray = [];
       for (const key of keyArray) {
         if (data.hasOwnProperty(key)) {
-          if(key.toLowerCase().includes("date")) {
-            currArray.push(new Date(data[key]).getMonth() + "/" + new Date(data[key]).getDate() + "/" + new Date(data[key]).getFullYear());
+          if (key.toLowerCase().includes("date")) {
+            currArray.push(
+              new Date(data[key]).getMonth() +
+                "/" +
+                new Date(data[key]).getDate() +
+                "/" +
+                new Date(data[key]).getFullYear()
+            );
           } else {
             currArray.push(data[key]);
           }
@@ -499,24 +515,24 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       csvString += rowEnd;
     }
 
-    // Creating anchor element to download
-    let downloadElement = document.createElement("a");
+    await saveAttachment({
+      parentId: batchId,
+      fileName: "advancesCSV.csv",
+      base64Data: btoa(csvString),
+      contentType: "text/csv"
+    });
 
-    // This  encodeURI encodes special characters, except: , / ? : @ & = + $ # (Use encodeURIComponent() to encode these characters).
-    downloadElement.href =
-      "data:text/csv;charset=utf-8," + encodeURI(csvString);
-    downloadElement.target = "_self";
-    // CSV File Name
-    downloadElement.download = "test.csv";
-    // below statement is required if you are using firefox browser
-    document.body.appendChild(downloadElement);
-    // click() Javascript function to download CSV file
-    downloadElement.click();
+    const batch = {
+      Id: batchId,
+      AttachmentPosted__c: true,
+      sobjectType: "Batch_Approval__c"
+    }
+
+    await upsertRecords({ records: [ batch ]});
 
     this.tableData = [];
     this.selectedAdvanceIds = [];
     this.additionalWhereClause = prevWhereClause;
     await this.queryAdvances();
-
   }
 }
