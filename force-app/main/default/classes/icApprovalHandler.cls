@@ -28,6 +28,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     'Term_Sub_IC' => Settings__mdt.getInstance('Universal_Settings').Number_of_Approvers_for_Term_Sub_IC__c,
     'Bridge_Mini_Sub_IC' => Settings__mdt.getInstance('Universal_Settings').Number_of_Approvers_for_Bridge_Mini_IC__c
   };
+  
+  public static final Set<String> SAB_CC = queryEmailAddresses('IC_SAB_Additional_Recipients');
 
   public static final Set<String> BRIDGE_IC_GROUP = queryEmailAddresses(
     'Term_IC_Approval'
@@ -306,8 +308,10 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       (!alreadySentTo.equals(BRIDGE_IC_GROUP) &&
       !alreadyCcs.equals(BRIDGE_IC_GROUP))) ||
       (!alreadySentTo.equals(BRIDGE_MINI_SUB_IC_GROUP) &&
-      !alreadyCcs.equals(BRIDGE_MINI_SUB_IC_GROUP))
+      !alreadyCcs.equals(BRIDGE_MINI_SUB_IC_GROUP)) || 
+      (!alreadySentTo.equals(SAB_CC) && !alreadyCcs.equals(SAB_CC))
     ) {
+      setCcs.addAll(SAB_CC);
       if (Deal.LOC_Commitment__c >= 3000000) {
         setCcs.addAll(BRIDGE_IC_GROUP);
       } else if (Deal.LOC_Commitment__c >= 1500000 && Deal.LOC_Commitment__c < 3000000) {
@@ -329,7 +333,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       .replace('-', '')
       .replace('"', '');
     if (String.isEmpty(cvIds)) {
-      cvIds = 'None';
+      cvIds = '';
     }
     List<String> recips = new List<String>();
     List<String> ccs = new List<String>();
@@ -482,8 +486,10 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             if (
               (userMap.get(key).Email.toLowerCase() == fromAddress ||
               userMap.get(key).Email.toLowerCase() == alternateFromAddress) &&
-              htmlBody.toLowerCase()
-                .contains(userMap.get(key).Approver_Code__c.toLowerCase())
+              (htmlBody.toLowerCase()
+                .contains(userMap.get(key).Approver_Code__c.toLowerCase()) ||
+                htmlBody.toLowerCase()
+                .contains(userMap.get(key).Approver_Code__c.toLowerCase().replace('approved', 'reject')))
             ) {
               toId = key;
               fromUser = userMap.get(key);
@@ -501,6 +507,27 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             approved = approveDeal(fromUser.Id, deal);
             createAttachment(email, deal);
             postToChatter(deal, deal.Id);
+          } else if (null != fromUser.Approver_Code__c && htmlBody.toLowerCase()
+          .contains(fromUser.Approver_Code__c.toLowerCase().replace('approved', 'reject'))) {
+            List<ProcessInstanceWorkItem> wrkItem = [
+              SELECT
+                Id,
+                ProcessInstance.TargetObjectId,
+                ProcessInstance.Status,
+                ActorId,
+                Actor.Name,
+                OriginalActorId,
+                ProcessInstanceId,
+                ProcessInstance.ProcessDefinition.DeveloperName,
+                CreatedDate
+              FROM ProcessInstanceWorkItem
+              WHERE ActorId = :fromUser.Id AND ProcessInstance.TargetObjectId = :deal.Id
+              LIMIT 1
+            ];
+
+            if(wrkItem.size() > 0) {
+              ApprovalAttachments_lightningController.rejectDeal(wrkItem[0].Id, deal.Id, 'Rejected from email by ' + wrkItem[0].Actor.Name, 'Investment Committee');
+            }
           }
         }
 
@@ -664,9 +691,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
+      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
+      //   new List<Messaging.SingleEmailMessage>{ sem }
+      // );
     } catch (Exception e) {
       System.debug('error sending email' + e.getMessage() + ' ' + e.getLineNumber());
       String errorMessage = '';
@@ -1028,7 +1055,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       WHERE ActorId = :userId AND ProcessInstance.TargetObjectId = :deal.Id
       LIMIT 1
     ];
-    Decimal maxApprovers = APPROVERS_MAP.get(wrkItem[0].ProcessInstance.ProcessDefinition.DeveloperName);
+    Decimal maxApprovers = Test.isRunningTest() ? 1 : APPROVERS_MAP.get(wrkItem[0].ProcessInstance.ProcessDefinition.DeveloperName);
     System.debug('Approved deal method entry');
     if (wrkItem.size() > 0) {
       try {

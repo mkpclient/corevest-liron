@@ -806,9 +806,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
+      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
+      //   new List<Messaging.SingleEmailMessage>{ sem }
+      // );
     } catch (Exception e) {
       String errorMessage = '';
       errorMessage += JSON.serialize(recipients);
