@@ -12,4 +12,3 @@ public class UpsertBatch implements Database.Batchable<sObject> {
     public void finish(Database.BatchableContext context) {
     }
   }
-  

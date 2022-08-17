@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>Rejected</label>
             </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <label>No Response</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

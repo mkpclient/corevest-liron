@@ -31,12 +31,23 @@
         <name>CustomField</name>
     </types>
     <types>
+		<members>IC_Advance_Approval_Templates</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Submitted</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Rejected</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Approved</members>
+		<name>EmailTemplate</name>
+	</types>
+    <types>
 		<members>Advance_Batch_Approvers</members>
 		<name>Group</name>
 	</types>
     <types>
 		<members>BatchApprovalHandler</members>
 		<name>EmailServicesFunction</name>
+	</types>
+    <types>
+		<members>Advance_Fundings_IC</members>
+		<name>CustomTab</name>
 	</types>
     <version>53.0</version>
 </Package>

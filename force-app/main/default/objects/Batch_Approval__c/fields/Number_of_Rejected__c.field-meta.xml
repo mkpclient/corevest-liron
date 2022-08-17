@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Number_of_Rejected__c</fullName>
+    <externalId>false</externalId>
+    <label>Number of Rejected</label>
+    <summaryFilterItems>
+        <field>Batch_Approver__c.Status__c</field>
+        <operation>equals</operation>
+        <value>Rejected</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Batch_Approver__c.Batch_Approval__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

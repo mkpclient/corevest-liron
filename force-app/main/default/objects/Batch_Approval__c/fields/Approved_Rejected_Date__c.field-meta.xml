@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Submitted_By__c</fullName>
-    <deleteConstraint>SetNull</deleteConstraint>
+    <fullName>Approved_Rejected_Date__c</fullName>
     <externalId>false</externalId>
-    <label>Submitted By</label>
-    <referenceTo>User</referenceTo>
-    <relationshipName>Batch_Approvals</relationshipName>
+    <label>Approved/Rejected Date</label>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Lookup</type>
+    <type>Date</type>
 </CustomField>
