@@ -4,52 +4,115 @@
 
     <div class="slds-p-horizontal_small">
       <lightning-tabset>
-        <lightning-tab label="All Advances" value="(Batch_Approval__c != null OR " onactive={handleTabChange}>
+        <lightning-tab
+          label="All Advances"
+          value="(Batch_Approval__c != null OR "
+          onactive={handleTabChange}
+        >
           <lightning-card>
-            <lightning-datatable
-                key-field="id"
-                data={tableData}
-                columns={columns}
-                hide-checkbox-column
-                default-sort-direction={defaultSortDirection}
-                sorted-direction={sortDirection}
-                sorted-by={sortedBy}
-                onsort={onHandleSort}>    
-              >
-            </lightning-datatable>
+            <template if:false={isLoading}>
+              <template if:true={hasData}>
+                <lightning-datatable
+                  key-field="id"
+                  data={tableData}
+                  columns={columns}
+                  hide-checkbox-column
+                  default-sort-direction={defaultSortDirection}
+                  sorted-direction={sortDirection}
+                  sorted-by={sortedBy}
+                  onsort={onHandleSort}
+                >
+                </lightning-datatable>
+              </template>
+              <template if:false={hasData}>
+                <c-custom-alert
+                  alert-text="No Data to Display"
+                  variant="Informational"
+                ></c-custom-alert>
+              </template>
+            </template>
+            <template if:true={isLoading}>
+              <lightning-spinner
+                alternative-text="Loading"
+                size="medium"
+              ></lightning-spinner>
+            </template>
           </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances not in Approval" value="((Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND " onactive={handleTabChange}>
+        <lightning-tab
+          label="Advances not in Approval"
+          value="((Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND "
+          onactive={handleTabChange}
+        >
           <lightning-card>
             <div slot="actions">
-              <lightning-button label="Submit for Approval" onclick={handleSubmit}></lightning-button>
+              <lightning-button
+                label="Submit for Approval"
+                onclick={handleSubmit}
+              ></lightning-button>
             </div>
-            <lightning-datatable
-                key-field="id"
-                data={tableData}
-                columns={columns}
-                onrowselection={handleRowSelection}
-                default-sort-direction={defaultSortDirection}
-                sorted-direction={sortDirection}
-                sorted-by={sortedBy}
-                onsort={onHandleSort}>    
-              >
-            </lightning-datatable>
+            <template if:false={isLoading}>
+              <template if:true={hasData}>
+                <lightning-datatable
+                  key-field="id"
+                  data={tableData}
+                  columns={columns}
+                  onrowselection={handleRowSelection}
+                  default-sort-direction={defaultSortDirection}
+                  sorted-direction={sortDirection}
+                  sorted-by={sortedBy}
+                  onsort={onHandleSort}
+                >
+                </lightning-datatable>
+              </template>
+              <template if:false={hasData}>
+                <c-custom-alert
+                  alert-text="No Data to Display"
+                  variant="Informational"
+                ></c-custom-alert>
+              </template>
+            </template>
+            <template if:true={isLoading}>
+              <lightning-spinner
+                alternative-text="Loading"
+                size="medium"
+              ></lightning-spinner>
+            </template>
           </lightning-card>
         </lightning-tab>
-        <lightning-tab label="Advances with Pending Approval" value="Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')" onactive={handleTabChange}>
+        <lightning-tab
+          label="Advances with Pending Approval"
+          value="Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')"
+          onactive={handleTabChange}
+        >
           <lightning-card>
-            <lightning-datatable
-                key-field="id"
-                data={tableData}
-                columns={columns}
-                hide-checkbox-column
-                default-sort-direction={defaultSortDirection}
-                sorted-direction={sortDirection}
-                sorted-by={sortedBy}
-                onsort={onHandleSort}>    
-              >
-            </lightning-datatable>
+            <template if:false={isLoading}>
+              <template if:true={hasData}>
+                <lightning-datatable
+                  key-field="id"
+                  data={tableData}
+                  columns={columns}
+                  hide-checkbox-column
+                  default-sort-direction={defaultSortDirection}
+                  sorted-direction={sortDirection}
+                  sorted-by={sortedBy}
+                  onsort={onHandleSort}
+                >
+                </lightning-datatable>
+              </template>
+              <template if:false={hasData}>
+                <c-custom-alert
+                  alert-text="No Data to Display"
+                  variant="Informational"
+                ></c-custom-alert>
+              </template>
+            </template>
+            <template if:true={isLoading}>
+              <lightning-spinner
+                alternative-text="Loading"
+                size="medium"
+              ></lightning-spinner>
+            </template>
           </lightning-card>
         </lightning-tab>
       </lightning-tabset>
@@ -57,9 +120,21 @@
   </lightning-card>
   <c-modal title="Submit for Approval">
     <div slot="body">
-      <lightning-record-edit-form object-api-name="Batch_Approval__c" onsuccess={handleSuccess}>
+      <template if:true={disableSave}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="medium"
+        ></lightning-spinner>
+      </template>
+      <lightning-record-edit-form
+        object-api-name="Batch_Approval__c"
+        onsuccess={handleSuccess}
+      >
         <lightning-messages> </lightning-messages>
-        <lightning-input-field field-name="Initial_Comments__c" required></lightning-input-field>
+        <lightning-input-field
+          field-name="Initial_Comments__c"
+          required
+        ></lightning-input-field>
       </lightning-record-edit-form>
     </div>
     <div slot="footer">

@@ -9,7 +9,7 @@ const COLS = [
     label: "Approval Batch",
     fieldName: "batchUrl",
     type: "url",
-    typeAttributes: { label: { fieldName: "approvalBatch", target: "_blank" } },
+    typeAttributes: { label: { fieldName: "approvalBatch" }, target: "_blank"  },
     sortable: true
   },
   {
@@ -50,7 +50,7 @@ const COLS = [
     label: "Advance Group or Property Name (if single asset)",
     fieldName: "advUrl",
     type: "url",
-    typeAttributes: { label: { fieldName: "advGroupOrPropName" } },
+    typeAttributes: { label: { fieldName: "advGroupOrPropName" },target: "_blank"  },
     sortable: true
   },
   {
@@ -241,6 +241,11 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   defaultSortDirection = "asc";
   sortDirection = "asc";
   sortedBy = "approvalBatch";
+  isLoading = false;
+
+  get hasData() {
+    return this.tableData.length > 0;
+  }
 
   get advFullWhereClause() {
     const onlyBatches =
@@ -311,6 +316,23 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     this.template.querySelector("lightning-record-edit-form").submit();
   }
 
+  handleError(error) {
+    let errMessage = 'An unexpected error has occured.';
+    if(error.hasOwnProperty("body") && Array.isArray(error.body)) {
+      errMessage = error.body.map(e => e.message).join("; ");
+    } else if(error.hasOwnProperty("body") && error.body.hasOwnProperty("message") && typeof error.body.message === 'string') {
+      errMessage = error.body.message;
+    }
+
+    this.toastParams = {
+      title: "Error",
+      message: errMessage,
+      variant: "error"
+    }
+
+    this.showToast();
+  }
+
   async handleSuccess(evt) {
     const batchId = evt.detail.id;
     const advances = this.selectedAdvanceIds.map((a) => ({
@@ -318,8 +340,20 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
       Batch_Approval__c: batchId,
       sobjectType: "Advance__c"
     }));
-    await upsertRecords({ records: advances });
-    await this.generateCsv(batchId);
+    try {
+      await upsertRecords({ records: advances });
+    } catch(err) {
+      this.handleError(err);
+      return;
+    }
+
+    try {
+      await this.generateCsv(batchId);
+    } catch(err) {
+      this.handleError(err);
+      return;
+    }
+    
     this.toastParams = {
       title: "Success",
       message: "Your approval has been submitted for review.",
@@ -327,6 +361,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     };
     this.showToast();
     this.closeModal();
+    this.disableSave = false;
   }
 
   showToast() {
@@ -347,6 +382,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   }
 
   async queryAdvances() {
+    this.isLoading = true;
     const queryString = `SELECT Id, ${ADV_FIELDS.join(",")}, (
       SELECT Id, ${PROP_ADV_FIELDS.join(",")}, Property__r.${PROP_FIELDS.join(
       ",Property__r."
@@ -463,6 +499,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     });
     this.tableData = tableDataLocal;
     this.csvFieldMap = csvMapLocal;
+    this.isLoading = false;
   }
 
   async generateCsv(batchId) {

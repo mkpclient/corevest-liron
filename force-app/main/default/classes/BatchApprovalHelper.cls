@@ -1,5 +1,10 @@
 public without sharing class BatchApprovalHelper {
   public static final String APPROVER_GROUP = 'Advance_Batch_Approvers';
+  public static final Map<String, String> TEMPLATE_MAP = new Map<String,String>{
+    'submitted' => 'Advance_Batch_Submitted',
+    'approved' => 'Advance_Batch_Approved',
+    'rejected' => 'Advance_Batch_Rejected'
+  };
 
   public static void beforeInsert(List<Batch_Approval__c> newList) {
     for (Batch_Approval__c ba : newList) {
@@ -33,9 +38,9 @@ public without sharing class BatchApprovalHelper {
     Map<Id, Batch_Approval__c> oldMap,
     Map<Id, Batch_Approval__c> newMap
   ) {
-    Set<Id> rejectedIds = new Set<Id>();
-    Set<Id> approvedIds = new Set<Id>();
-
+    Map<Id, Batch_Approval__c> rejectedBatches = new Map<Id, Batch_Approval__c>();
+    Map<Id,Batch_Approval__c> approvedMap = new Map<Id,Batch_Approval__c>();
+    Map<Id, Batch_Approval__c> submittedBatches = new Map<Id, Batch_Approval__c>();
     for (Batch_Approval__c newBa : newMap.values()) {
       Batch_Approval__c oldBa = oldMap.get(newBa.Id);
 
@@ -43,26 +48,99 @@ public without sharing class BatchApprovalHelper {
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
         newBa.Approval_Status__c == 'Rejected'
       ) {
-        rejectedIds.add(newBa.Id);
+        rejectedBatches.put(newBa.Id,newBa);
       }
 
       if (
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
         newBa.Approval_Status__c == 'Approved'
       ) {
-        approvedIds.add(newBa.Id);
+        approvedMap.put(newBa.Id, newBa);
+      }
+
+      if (
+        oldBa.AttachmentPosted__c != newBa.AttachmentPosted__c && newBa.AttachmentPosted__c
+      ) {
+        submittedBatches.put(newBa.Id, newBa);
       }
     }
 
-    if (rejectedIds.size() > 0) {
-      updateApprovalHistories(rejectedIds, 'Rejected');
-      updateNonResponse(rejectedIds);
+    if (rejectedBatches.size() > 0) {
+      updateApprovalHistories(rejectedBatches.keySet(), 'Rejected');
+      postApproveRejectChatter(rejectedBatches.keySet());
+      updateNonResponse(rejectedBatches.keySet());
+      sendEmail(rejectedBatches.values(), 'rejected');
     }
 
-    if (approvedIds.size() > 0) {
-      updateApprovalHistories(approvedIds, 'Approved');
-      postApproveRejectChatter(approvedIds);
+    if (approvedMap.size() > 0) {
+      updateApprovalHistories(approvedMap.keySet(), 'Approved');
+      postApproveRejectChatter(approvedMap.keySet());
+      updateNonResponse(approvedMap.keySet());
+      sendEmail(approvedMap.values(), 'approved');
     }
+
+    if(submittedBatches.size() > 0) {
+      aggregateAdvances(submittedBatches.keySet());
+      sendEmail(submittedBatches.values(), 'submitted');
+    }
+  }
+
+  public static void sendEmail(List<Batch_Approval__c> batchRecords, String type) {
+    Set<Id> approvers = retrieveGroupMembers();
+    String templateName = TEMPLATE_MAP.get(type);
+    List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+    Map<Id, Messaging.EmailFileAttachment> attachmentMap = new Map<Id, Messaging.EmailFileAttachment>();
+    EmailTemplate temp = [SELECT Id, Body, HtmlValue, Subject FROM EmailTemplate WHERE DeveloperName = :templateName];
+
+    Contact dummyContact = [SELECT Id FROM Contact WHERE Account.Name LIKE 'inhouse test%' AND Email != null LIMIT 1];
+    String handlerAddress = AdvanceBatchApprovalEmailHandler.retrieveEmailServiceAddress();
+    for(Attachment file : [
+      SELECT Id, Body, Name, ContentType, ParentId
+      FROM Attachment
+      WHERE ParentId IN :batchRecords
+      AND ContentType LIKE '%csv%'
+    ]) {
+      Messaging.EmailFileAttachment efa = new Messaging.EmailFileAttachment();
+      efa.setFileName(file.Name);
+      efa.setBody(file.Body);
+      efa.setContentType(file.ContentType);
+      attachmentMap.put(file.ParentId, efa);
+    }
+
+    for(Batch_Approval__c ba : batchRecords) {
+      List<String> recipients = new List<String>();
+      recipients.addAll(new List<Id>(approvers));
+      recipients.add(ba.Submitted_By__c);
+      Messaging.SingleEmailMessage em = new Messaging.SingleEmailMessage();
+      em.setToAddresses(recipients);
+      em.setCcAddresses(new List<String>{handlerAddress});
+      em.setReplyTo(handlerAddress);
+      em.setTargetObjectId(dummyContact.Id);
+      em.setTemplateId(temp.Id);
+      em.setWhatId(ba.Id);
+      em.setSaveAsActivity(false);
+      em.setTreatTargetObjectAsRecipient(false);
+      if(attachmentMap.containsKey(ba.Id)) {
+        em.setFileAttachments(new List<Messaging.EmailFileAttachment>{attachmentMap.get(ba.Id)});
+      }
+      emails.add(em);
+    }
+    
+    List<Messaging.SendEmailResult> results = Messaging.sendEmail(emails);
+
+    for(Messaging.SendEmailResult r : results) {
+      if(r.isSuccess()) {
+        System.debug('Email success sent.');
+        System.debug('Handler address: '  + handlerAddress);
+      } else {
+        for(Messaging.SendEmailError err : r.getErrors()) {
+          System.debug('The following error has occurred.');                    
+          System.debug(err.getStatusCode() + ': ' + err.getMessage());
+          System.debug('fields that affected this error: ' + err.getFields());
+        }
+      }
+    }
+
   }
 
   public static void postApproveRejectChatter(Set<Id> batchIds) {
@@ -113,7 +191,6 @@ public without sharing class BatchApprovalHelper {
   }
 
   public static void updateNonResponse(Set<Id> batchIds) {
-    postApproveRejectChatter(batchIds);
     List<Batch_Approver__c> bApprovers = [
       SELECT Id, Status__c
       FROM Batch_Approver__c

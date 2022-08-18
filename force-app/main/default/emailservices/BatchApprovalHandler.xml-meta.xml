@@ -4,12 +4,13 @@
     <attachmentOption>All</attachmentOption>
     <authenticationFailureAction>Bounce</authenticationFailureAction>
     <authorizationFailureAction>Bounce</authorizationFailureAction>
+    <errorRoutingAddress>ldecastro@mkpartners.com</errorRoutingAddress>
     <functionInactiveAction>Bounce</functionInactiveAction>
     <functionName>BatchApprovalHandler</functionName>
-    <isActive>false</isActive>
+    <isActive>true</isActive>
     <isAuthenticationRequired>false</isAuthenticationRequired>
-    <isErrorRoutingEnabled>false</isErrorRoutingEnabled>
+    <isErrorRoutingEnabled>true</isErrorRoutingEnabled>
     <isTextAttachmentsAsBinary>false</isTextAttachmentsAsBinary>
     <isTlsRequired>false</isTlsRequired>
-    <overLimitAction>Discard</overLimitAction>
+    <overLimitAction>Bounce</overLimitAction>
 </EmailServicesFunction>

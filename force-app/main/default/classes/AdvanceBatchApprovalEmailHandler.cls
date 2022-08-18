@@ -12,10 +12,12 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     Messaging.InboundEmail email,
     Messaging.InboundEnvelope envelope
   ) {
+    System.debug('EMAIL RECIEVED YAY');
     Messaging.InboundEmailResult result = new Messaging.InboundEmailresult();
-    String batchName = email.subject.substringBetween('#', ' ');
+    String batchName = email.subject.substringAfter('#');
+    System.debug('BATCH NAME : ' + batchName);
     String fromAddress = email.fromAddress;
-
+    
     Set<String> alreadySentTo = new Set<String>();
     Set<String> setEmails = new Set<String>();
     Set<String> approverEmails = new Set<String>();
@@ -56,7 +58,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     }
 
     List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
-
+    
     Integer characterLim = 6 + email.Subject.length() <= 80
       ? email.Subject.length()
       : 80 - 6;
@@ -89,7 +91,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         approverEmails.add(USERINFO_MAP.get(key).Email);
       }
 
-      Batch_Approver__c batchApprover = [
+      List<Batch_Approver__c> batchApprovers = [
         SELECT
           Id,
           Status__c,
@@ -100,10 +102,13 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
           Batch_Approval__c
         FROM Batch_Approver__c
         WHERE
-          Batch_Approval__r.Name = :batchName
+          Batch_Approval__c = :batchApproval[0].Id
           AND (Approver__r.Email = :fromAddress
           OR Approver__r.Email = :alternateAddress)
+          AND Status__c = 'Pending'
       ];
+
+      Batch_Approver__c batchApprover = batchApprovers.size() > 0 ? batchApprovers[0] : null;
 
       if (
         (fromAddress == batchApproval[0].Owner.Email ||
@@ -126,19 +131,6 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         }
         if (setCcs.size() > 0) {
           ccAddressesList.addAll(setCcs);
-        }
-
-        if (emailAddressesList.size() > 0 && ccAddressesList.size() > 0) {
-          sendEmail(
-            email,
-            batchApproval[0],
-            emailAddressesList,
-            ccAddressesList
-          );
-        } else if (emailAddressesList.size() > 0) {
-          sendEmail(email, batchApproval[0], emailAddressesList, null);
-        } else if (ccAddressesList.size() > 0) {
-          sendEmail(email, batchApproval[0], ccAddressesList, null);
         }
 
         List<String> listEmails = new List<String>();
@@ -199,8 +191,8 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
 
           if (null != fromUser.Approver_Code__c) {
             String rejectCode = fromUser.Approver_Code__c.replace(
-              'Approve',
-              'Reject'
+              'Approved',
+              'Rejected'
             );
             Boolean isApprover =
               htmlBody.toLowerCase()
@@ -226,31 +218,6 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
           }
           if (setCcs.size() > 0) {
             ccAddressesList.addAll(setCcs);
-          }
-
-          if (emailAddressesList.size() > 0 && ccAddressesList.size() > 0) {
-            sendEmail(
-              email,
-              batchApproval[0],
-              emailAddressesList,
-              ccAddressesList
-            );
-            System.debug(
-              'these are the people getting cced on the handler email'
-            );
-            System.debug(ccAddressesList);
-            System.debug('these are the people getting sent the handler email');
-            System.debug(emailAddressesList);
-          } else if (emailAddressesList.size() > 0) {
-            sendEmail(email, batchApproval[0], emailAddressesList, null);
-            System.debug('these are the people getting sent the handler email');
-            System.debug(emailAddressesList);
-          } else if (ccAddressesList.size() > 0) {
-            sendEmail(email, batchApproval[0], ccAddressesList, null);
-            System.debug(
-              'these are people who should be CCed getting sent the handler email b/c only new CCs appeared'
-            );
-            System.debug(emailAddressesList);
           }
 
           List<String> listEmails = new List<String>();
@@ -287,84 +254,6 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         ' found.';
     }
     return result;
-  }
-
-  public static void sendEmail(
-    Messaging.InboundEmail em,
-    Batch_Approval__c ba,
-    List<String> recipients,
-    List<String> ccUsers
-  ) {
-    System.debug('inside sendEmail');
-    Messaging.InboundEmail.BinaryAttachment[] binaryList = em.binaryattachments;
-    Messaging.InboundEmail.TextAttachment[] textList = em.textAttachments;
-
-    String subject = em.Subject;
-    String htmlBody = em.htmlBody.replace('<img src="">', '')
-      .replace('<img s', '<img width="500" s');
-
-    if (
-      em.htmlBody.indexOf(
-        'CoreVest American Finance Lender LLC. All Rights Reserved.'
-      ) != -1
-    ) {
-      String oneFooter = em.htmlBody.substring(
-        0,
-        em.htmlBody.indexOf(
-          'CoreVest American Finance Lender LLC. All Rights Reserved.'
-        )
-      );
-      htmlBody = oneFooter;
-    }
-    String fromAddress = em.fromAddress;
-
-    System.debug('ccUsers inside sendEmail: ');
-    System.debug(ccUsers);
-    Messaging.SingleEmailMessage sem = new Messaging.SingleEmailMessage();
-    sem.setCcAddresses(ccUsers);
-    sem.setSubject(subject);
-    sem.setReplyTo(handlerAddress);
-    sem.setToAddresses(recipients);
-    sem.setSenderDisplayName(fromAddress);
-    sem.setHtmlBody(htmlBody);
-
-    List<Messaging.EmailFileAttachment> attachmentsList = new List<Messaging.EmailFileAttachment>();
-    if (null != textList && textList.size() > 0) {
-      for (Messaging.InboundEmail.TextAttachment t : textList) {
-        attachmentsList.add(constructFileAttachment(t));
-      }
-      sem.setFileAttachments(attachmentsList);
-    }
-    if (null != binaryList && binaryList.size() > 0) {
-      for (Messaging.InboundEmail.BinaryAttachment b : binaryList) {
-        attachmentsList.add(constructFileAttachment(b));
-      }
-      sem.setFileAttachments(attachmentsList);
-    }
-
-    try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
-    } catch (Exception e) {
-      System.debug(
-        'error sending email' +
-        e.getMessage() +
-        ' ' +
-        e.getLineNumber()
-      );
-      String errorMessage = '';
-      errorMessage += JSON.serialize(recipients);
-      errorMessage += '<br/>' + ccUsers == null
-        ? 'null'
-        : JSON.serialize(ccUsers);
-      errorMessage += '<br/>' + JSON.serialize(fromAddress);
-      Messaging.SingleEmailMessage em1 = new Messaging.SingleEmailMessage();
-      em1.setSubject('mail error');
-      em1.setToAddresses(new List<String>{ 'ldecastro@mkpartners.com' });
-      em1.setHtmlBody('<html><body>' + errorMessage + '</html></body>');
-      Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
-    }
   }
 
   public static Map<Id, User> queryUserInfo(String name) {
@@ -565,30 +454,20 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
       }
     }
 
+    System.debug('recipient email ids');
+    System.debug(recipientEmailIds);
+
     String recipientStr = '';
-    System.debug('these are the recipients');
-    System.debug(recipients);
     if (null != recipients && recipients.size() > 0) {
       recipientStr = String.join(recipients, '; ');
     }
-    String newToIds = '';
-    if (null != recipientIds && recipientIds.size() > 0) {
-      newToIds = String.join(recipientIds, '; ');
-    }
-    System.debug('this is newToIds');
-    System.debug(newToIds);
+    
     String ccStr = '';
     if (null != ccEmails && ccEmails.size() > 0) {
-      for (String cc : ccEmails) {
-        ccStr += cc + '; ';
-      }
+      ccStr = String.join(ccEmails, '; ');
     }
-    ccStr.substringBeforeLast(';');
 
-    System.debug('this is the string value of recipients');
-    System.debug(String.valueOf(recipients));
 
-    System.debug('these are the headers');
     System.debug(em.headers);
     DateTime emailDate;
     if (em.headers != null) {
@@ -616,8 +495,11 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     if (null != ccStr && ccStr.length() > 0) {
       emm.CcAddress = ccStr;
     }
-    if (null != ccEmails && ccEmailIds.size() > 0) {
+    if (ccEmailIds.size() > 0) {
       emm.CcIds = ccEmailIds;
+    }
+    if(recipientEmailIds.size() > 0) {
+      emm.ToIds = recipientEmailIds;
     }
 
     emailMessages.add(emm);
@@ -643,8 +525,12 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
       if (null != ccStr && ccStr.length() > 0) {
         advEmm.CcAddress = ccStr;
       }
-      if (null != ccEmails && ccEmailIds.size() > 0) {
+      if (ccEmailIds.size() > 0) {
         advEmm.CcIds = ccEmailIds;
+      }
+
+      if(recipientEmailIds.size() > 0) {
+        advEmm.ToIds = recipientEmailIds;
       }
 
       emailMessages.add(advEmm);
@@ -662,44 +548,44 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
       sendExceptionEmails(ex);
     }
 
-    List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
-    Id recipientId;
-    if (recipientIds.size() > 0) {
-      recipientId = recipientIds[0];
-    }
+    // List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
+    // Id recipientId;
+    // if (recipientIds.size() > 0) {
+    //   recipientId = recipientIds[0];
+    // }
 
-    for (EmailMessage em1 : emailMessages) {
-      emrInserts.add(
-        constructEmailMessageRelation(
-          em1.Id,
-          recipients[0],
-          recipientId,
-          'ToAddress'
-        )
-      );
+    // for (EmailMessage em1 : emailMessages) {
+    //   emrInserts.add(
+    //     constructEmailMessageRelation(
+    //       em1.Id,
+    //       recipients[0],
+    //       recipientId,
+    //       'ToAddress'
+    //     )
+    //   );
 
-      emrInserts.add(
-        constructEmailMessageRelation(
-          em1.Id,
-          em.FromAddress,
-          uId,
-          'FromAddress'
-        )
-      );
-    }
+    //   emrInserts.add(
+    //     constructEmailMessageRelation(
+    //       em1.Id,
+    //       em.FromAddress,
+    //       uId,
+    //       'FromAddress'
+    //     )
+    //   );
+    // }
 
-    try {
-      Database.executeBatch(new UpsertBatch(emrInserts), 100);
-    } catch (Exception ex) {
-      System.debug('insert emailMessageRelation exception');
-      System.debug(ex.getLineNumber());
-      System.debug(ex.getStackTraceString());
-      System.debug(ex.getTypeName());
-      System.debug(ex.getMessage());
+    // try {
+    //   Database.executeBatch(new UpsertBatch(emrInserts), 100);
+    // } catch (Exception ex) {
+    //   System.debug('insert emailMessageRelation exception');
+    //   System.debug(ex.getLineNumber());
+    //   System.debug(ex.getStackTraceString());
+    //   System.debug(ex.getTypeName());
+    //   System.debug(ex.getMessage());
 
-      Database.rollback(sp);
-      sendExceptionEmails(ex);
-    }
+    //   Database.rollback(sp);
+    //   sendExceptionEmails(ex);
+    // }
   }
 
   public static void sendExceptionEmails(Exception ex) {
@@ -747,7 +633,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
       '\nApproval Comment: ' +
       ba.Comments__c;
 
-    insert ba;
+    update ba;
 
     List<Batch_Approver__c> unapprovedBas = [
       SELECT Id

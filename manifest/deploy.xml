@@ -4,6 +4,8 @@
         <members>batchApprovalPanel</members>
         <members>batchApprovalRelatedAdvance</members>
         <members>advanceBatchApprovalTable</members>
+        <members>batchApprovalInProgress</members>
+        <members>batchApprovalsTab</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
@@ -14,9 +16,8 @@
     <types>
         <members>BatchApprovalHelper</members>
         <members>BatchApproverHelper</members>
-        <members>advance_Helper</members>
-        <members>AdvanceBatchApprovalHandler</members>
-        <members>UpsertBatch</members>
+        <members>AdvanceBatchApprovalEmailHandler</members>
+    <members>UpsertBatch</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -28,6 +29,7 @@
         <members>Advance__c.Batch_Approval__c</members>
         <members>Approval_History__c.Advance__c</members>
         <members>Approval_History__c.Batch_Approval__c</members>
+        <members>Settings__mdt.Minimum_Advance_Batch_Approvers__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -47,8 +49,10 @@
 	</types>
     <types>
 		<members>Advance_Fundings_IC</members>
+        <members>Advance_Approval_Batches</members>
 		<name>CustomTab</name>
 	</types>
+    
     <version>53.0</version>
 </Package>
 <!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r OpportunityMethodsTest,PaidOffSabPropertiesBatchTest -->

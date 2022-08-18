@@ -450,15 +450,10 @@ public class advance_Helper {
 
     list<id> myAdvanceList = new List<id>();
 
-    Set<Id> batchIds = new Set<Id>();
-
     //CIP-2149 - Raj Sirivolu. 1/20/2022.Begin.
     Set<id> advanceProjUpdatesIds = new Set<id>();
     //CIP-2149 - Raj Sirivolu. 1/20/2022.End.
     for (Integer i = 0; i < newList.size(); i++) {
-      if(newList[i].Batch_Approval__c != null && oldList[i].Batch_Approval__c != newList[i].Batch_Approval__c) {
-        batchIds.add(newList[i].Batch_Approval__c);
-      }
       if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
         if (
           newList[i].Status__c != oldList[i].Status__c &&
@@ -578,10 +573,6 @@ public class advance_Helper {
       // ) {
       //   myAdvanceList.add(newList[i].id);
       // }
-    }
-
-    if(batchIds.size() > 0) {
-      BatchApprovalHelper.aggregateAdvances(batchIds);
     }
 
     List<Wire__c> wires = new List<Wire__c>();

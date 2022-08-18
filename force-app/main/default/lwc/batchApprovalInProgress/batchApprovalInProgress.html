@@ -19,12 +19,12 @@
       menu-alignment="bottom-right"
     >
       <lightning-menu-item
-        value="My IC Approvals"
-        label="My IC Approvals"
+        value="My Batch Approvals"
+        label="My Batch Approvals"
       ></lightning-menu-item>
       <lightning-menu-item
         value="All"
-        label="All IC Approvals"
+        label="All Batch Approvals"
       ></lightning-menu-item>
     </lightning-button-menu>
     <div class="slds-p-horizontal_small">
@@ -43,9 +43,17 @@
               ></lightning-formatted-date-time>
             </p>
             <p>
+              <strong>Approval for Week of: </strong>
+              <lightning-formatted-date-time
+                value={approval.weekOf}
+              ></lightning-formatted-date-time>
+            </p>
+            <p>
               <strong>Time since submission: </strong> {approval.timeSinceSub}
             </p>
             <p><strong>Approver Name: </strong> {approval.approverName}</p>
+            <p><strong>Number of Advances: </strong> {approval.noAdvances}</p>
+            <p><strong>Total Fundings: </strong> <lightning-formatted-number format-style="currency" currency-code="USD" value={approval.totalFunding}></lightning-formatted-number></p>
             <p>
               <strong>
                 <lightning-formatted-url
