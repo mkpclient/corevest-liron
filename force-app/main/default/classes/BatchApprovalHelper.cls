@@ -1,5 +1,6 @@
 public without sharing class BatchApprovalHelper {
   public static final String APPROVER_GROUP = 'Advance_Batch_Approvers';
+  public static final String RECIPIENT_GROUP = 'Advance_Batch_Additional_Recipients';
   public static final Map<String, String> TEMPLATE_MAP = new Map<String,String>{
     'submitted' => 'Advance_Batch_Submitted',
     'approved' => 'Advance_Batch_Approved',

@@ -17,7 +17,7 @@
         <members>BatchApprovalHelper</members>
         <members>BatchApproverHelper</members>
         <members>AdvanceBatchApprovalEmailHandler</members>
-    <members>UpsertBatch</members>
+        <members>UpsertBatch</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -40,6 +40,7 @@
 		<name>EmailTemplate</name>
 	</types>
     <types>
+        <members>Advance_Batch_Additional_Recipients</members>
 		<members>Advance_Batch_Approvers</members>
 		<name>Group</name>
 	</types>
