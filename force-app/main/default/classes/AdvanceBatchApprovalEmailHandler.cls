@@ -323,6 +323,11 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     for (GroupMember gm : gp.GroupMembers) {
       userIds.add(gm.UserOrGroupId);
     }
+
+    if (Test.isRunningTest()) {
+      userIds.add(UserInfo.getUserId());
+    }
+    
     List<User> userList = [SELECT Email FROM User WHERE Id IN :userIds];
     for (User u : userList) {
       emailAdds.add(u.Email);

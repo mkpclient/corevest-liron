@@ -18,6 +18,9 @@
         <members>BatchApproverHelper</members>
         <members>AdvanceBatchApprovalEmailHandler</members>
         <members>UpsertBatch</members>
+        <members>BatchApprovalHelperTests</members>
+        <members>AdvanceBatchApprovalHandlerTests</members>
+        <members>UpsertBatchTests</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -56,4 +59,4 @@
     
     <version>53.0</version>
 </Package>
-<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r OpportunityMethodsTest,PaidOffSabPropertiesBatchTest -->
+<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r BatchApprovalHelperTests,AdvanceBatchApprovalHandlerTests,UpsertBatchTests -->
