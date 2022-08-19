@@ -169,8 +169,10 @@
                 hasBorrowers
               ) {
                 component.set("v.hasBorrowerEntity", true);
+                dealEdit.showBorrowerEntity = true;
               } else {
                 component.set("v.hasBorrowerEntity", false);
+                dealEdit.showBorrowerEntity = false;
               }
               //Set default data
               //Autopopulate emails from Underwriter__c, Loan_Coordinator__c, Gina.Lambis@cvest.com; Paul.Basmajian@cvest.com; michael.tran@cvest.com; jessica.lievanos@cvest.com in the cc field when User clicks on the Send Email button.
