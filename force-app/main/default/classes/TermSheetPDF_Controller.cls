@@ -174,33 +174,41 @@ public with sharing class TermSheetPDF_Controller {
 
       this.allProperties = properties;
       Integer numProps = properties.size();
-      String recType = properties[0].RecordType_Name__c;
-      String propType = properties[0].Property_Type__c;
-      String procFeeType = numProps > 1
-        ? 'Portfolio'
-        : recType == 'Ground_Up_Construction'
-            ? 'New Construction'
-            : new List<String>{ 'Multifamily', 'Commercial' }.contains(propType)
-                ? 'Multifamily 5+'
-                : new List<String>{ 'SFR', 'Condo', 'Townhome', '2-4 Unit' }
-                      .contains(propType)
-                    ? 'Single Family'
-                    : '';
-      Decimal procFeeAmt = numProps >= 9
-        ? 1495
-        : numProps >= 2 &&
-            numProps <= 8
-            ? 1295
-            : recType == 'Ground_Up_Construction'
-                ? 1195
-                : new List<String>{ 'Multifamily', 'Commercial' }
-                      .contains(propType)
-                    ? 1295
-                    : new List<String>{ 'SFR', 'Condo', 'Townhome', '2-4 Unit' }
-                          .contains(propType)
-                        ? 995
-                        : 0;
-      this.processingFeeText = procFeeType + ': $' + procFeeAmt.format();
+      if (numProps > 0) {
+        String recType = properties[0].RecordType_Name__c;
+        String propType = properties[0].Property_Type__c;
+        String procFeeType = numProps > 1
+          ? 'Portfolio'
+          : recType == 'Ground_Up_Construction'
+              ? 'New Construction'
+              : new List<String>{ 'Multifamily', 'Commercial' }
+                    .contains(propType)
+                  ? 'Multifamily 5+'
+                  : new List<String>{ 'SFR', 'Condo', 'Townhome', '2-4 Unit' }
+                        .contains(propType)
+                      ? 'Single Family'
+                      : '';
+        Decimal procFeeAmt = numProps >= 9
+          ? 1495
+          : numProps >= 2 &&
+              numProps <= 8
+              ? 1295
+              : recType == 'Ground_Up_Construction'
+                  ? 1195
+                  : new List<String>{ 'Multifamily', 'Commercial' }
+                        .contains(propType)
+                      ? 1295
+                      : new List<String>{
+                              'SFR',
+                              'Condo',
+                              'Townhome',
+                              '2-4 Unit'
+                            }
+                            .contains(propType)
+                          ? 995
+                          : 0;
+        this.processingFeeText = procFeeType + ': $' + procFeeAmt.format();
+      }
 
       if (ApexPages.currentPage().getParameters().containsKey('s')) {
         String str = ApexPages.currentPage().getParameters().get('s');
