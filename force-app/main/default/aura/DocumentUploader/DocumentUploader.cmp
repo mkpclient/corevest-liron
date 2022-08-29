@@ -22,7 +22,7 @@
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
   <aura:attribute name="uploaderType" type="String" default="internal" />
   <aura:attribute name="message" type="String" default="" />
-
+  <aura:attribute name="contentVersionId" type="String" />
   <aura:attribute name="uploadType" type="String" default="single" />
 
   <aura:attribute name="validationMap" type="Map" default="{}" />
@@ -32,10 +32,6 @@
     type="LoanVersionValidator__c"
     aura:id="validator"
   /> 
-  <lightning:messageChannel
-  type="documentChannel__c"
-  aura:id="POVMC"
-  />
   <!-- <aura:if isTrue="{!v.uploaderType != 'portal'}">
     <c:loanVersionValidatorChannel
       aura:id="validator"
@@ -359,5 +355,9 @@
       />
     </lightning:layoutItem>
   </lightning:layout>
+
+  <aura:if isTrue="{!v.contentVersionId != null}">
+    <c:excelToJson aura:id="jsonConverter" contentVersionId="{!v.contentVersionId}" onparsefile="{!c.handleJsonConvert}" />
+  </aura:if>
   <!-- </aura:if> -->
 </aura:component>
