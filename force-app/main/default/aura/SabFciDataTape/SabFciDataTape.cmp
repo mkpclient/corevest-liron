@@ -1,0 +1,644 @@
+<aura:component
+  controller="lightning_Controller"
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickAction"
+>
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Property__c" />
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="tableInit" type="Boolean" default="false" />
+  <aura:attribute name="propertyList" type="Object[]" />
+
+  <aura:attribute name="errorMessages" type="List" />
+  <aura:attribute name="errorTitle" type="String" />
+  <aura:attribute name="dealStatus" type="String" />
+  <aura:attribute name="profileName" type="String" />
+  <aura:attribute name="hasMaturedPermission" type="Boolean" default="false" />
+
+  <aura:handler
+    name="importer"
+    event="c:DataTapeImportEvent"
+    action="{!c.handleImport}"
+  />
+
+  <ltng:require
+    scripts="{!join(',',$Resource.handsontable + '/handsontable/handsontable.full.min.js',
+						$Resource.xlsx_populate)}"
+    styles="{!$Resource.handsontable + '/handsontable/handsontable.full.min.css'}"
+    afterScriptsLoaded="{!c.init}"
+  />
+
+  <div class="row">
+    <div>
+      <div class="slds-page-header">
+        <div class="slds-media">
+          <div class="slds-media__figure">
+            <span
+              class="slds-icon_container slds-icon-standard-opportunity"
+              title="Description of icon when needed"
+            >
+            </span>
+          </div>
+          <div class="slds-media__body"></div>
+          <div>
+            <lightning:buttonGroup>
+              <lightning:button
+                label="Return to Deal"
+                onclick="{!c.navigateToRecord}"
+              />
+              <lightning:button
+                label="Import Data Tape"
+                onclick="{!c.showModal}"
+                disabled="{!and(or(v.dealStatus == 'Paid Off',or(v.dealStatus == 'Sold', v.dealStatus == 'Matured')),  and(!v.hasMaturedPermission, v.profileName != 'System Administrator'))}"
+              />
+              <lightning:button label="Export" onclick="{!c.export}" />
+              <lightning:button
+                label="Save"
+                variant="brand"
+                onclick="{!c.saveRows}"
+              />
+            </lightning:buttonGroup>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <aura:if isTrue="{!!empty(v.errorMessages)}">
+        <div>
+          <ui:message title="{!v.errorTitle}" severity="error" closable="false">
+            <aura:iteration items="{!v.errorMessages}" var="msg">
+              <p>{!msg}</p>
+            </aura:iteration>
+          </ui:message>
+        </div>
+      </aura:if>
+    </div>
+    <div class="flex">
+      <div style="height: 100%">
+        <lightning:spinner
+          alternativeText="Loading"
+          variant="brand"
+          aura:id="spinner"
+          class="slds-hide"
+        />
+        <div style="height: 100%">
+          <ui:scrollerWrapper class="scrollerSize">
+            <c:hotTable
+              data="{!v.propertyList}"
+              aura:id="hot-table"
+              fixedColumnsLeft="3"
+              allowActiveToggle="false"
+              allowInsert="{!!and(or(v.dealStatus == 'Paid Off',or(v.dealStatus == 'Sold', v.dealStatus == 'Matured')),  and(!v.hasMaturedPermission, v.profileName != 'System Administrator'))}"
+            >
+              <aura:set attribute="columns">
+                <c:hotColumn data="Asset_ID__c" title="Id" readOnly="true" />
+                <c:hotColumn
+                  data="RT"
+                  title="Property Record Type"
+                  type="dropdown"
+                  source="['No Renovation', 'Renovation', 'Ground Up Construction']"
+                />
+                <c:hotColumn
+                data="Servicer_Loan_Number__c"
+                title="FCI Loan No."
+                allowEmpty="false"
+                />
+                <c:hotColumn data="Yardi_Id__c" title="Yardi ID" />
+                <!-- INVESTOR LOAN NUMBER -->
+                <c:hotColumn
+                  data="Name"
+                  title="Street Address"
+                  allowEmpty="false"
+                />
+                <c:hotColumn data="City__c" title="City" allowEmpty="false" />
+                <c:hotColumn
+                  data="State__c"
+                  title="State"
+                  allowEmpty="false"
+                  type="dropdown"
+                  source="['AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','ND','NE','NH','NJ','NM','NV','NY','NC','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']"
+                />
+                <c:hotColumn data="ZipCode__c" title="ZIP" allowEmpty="false" />
+                <c:hotColumn data="County__c" title="County" />
+                <c:hotColumn
+                  data="Property_Type__c"
+                  title="Property Type"
+                  type="dropdown"
+                  source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Mixed Use', 'Multifamily', 'SFR', 'Townhome']"
+                />
+                <c:hotColumn
+                  data="Number_of_Units__c"
+                  title="# of Units"
+                  type="numeric"
+                />
+                <c:hotColumn
+                  data="Number_of_Beds__c"
+                  title="Bedroom"
+                  type="numeric"
+                />
+                <c:hotColumn
+                  data="Number_of_Bath__c"
+                  title="Bath"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn
+                  data="Square_Feet__c"
+                  title="Square Footage"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="No_of_Stories__c"
+                  title="# of Stories"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn data="APN__c" title="Assessor's Parcel Number" />
+                <c:hotColumn
+                  data="Year_Built__c"
+                  title="Year Built"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Refinance_Acquisition__c"
+                  title="Transaction Type"
+                  type="dropdown"
+                  source="['Acquisition', 'Refinance']"
+                />
+                <c:hotColumn
+                  data="Funding_Date__c"
+                  title="Funding Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Requested_Funding_Date__c"
+                  title="Requested Funding Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Acquisition_Price__c"
+                  title="Acquisition Price"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Acquisition_Date__c"
+                  title="Acquisition Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Rehab_Budget__c"
+                  title="Rehab Budget"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Contract_Close_Date__c"
+                  title="Contract Close Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Executed_Contract__c"
+                  title="Executed Contract"
+                  type="dropdown"
+                  source="['Yes', 'No']"
+                />
+                <c:hotColumn
+                  data="BPO_Appraisal_Firm__c"
+                  title="Appraisal Firm"
+                />
+                <c:hotColumn
+                  data="Valuation_Type__c"
+                  title="Valuation Type"
+                  type="dropdown"
+                  source="['Appraisal with AS IS with ARV', 'ClearVal Exterior', 'ClearVal 2.0 (Exterior PCI)', 'ClearVal Interior', 'ClearVal 2.0 (Interior PCI)', 'Commercial', 'CoreVal+', 'Exterior Appraisal', 'Exterior Desktop Appraisal', 'Interior Appraisal', 'Interior Desktop Appraisal']"
+                />
+                <c:hotColumn
+                  data="BPO_Appraisal_Order_Date__c"
+                  title="Appraisal Order Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Appraisal_Due_Date__c"
+                  title="Appraisal Due Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Appraised_Value_Amount__c"
+                  title="Appraisal Value"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="BPO_Appraisal_Date__c"
+                  title="Appraisal Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="BPO_Appraisal_Fee__c"
+                  title="Appraisal Fee"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Appraisal_Replacement_Cost_Value__c"
+                  title="Appraisal Replacement Cost Value"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Appraisal_Sync__c"
+                  title="Appraisal Reviewed"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Executed_HUD__c"
+                  title="Executed HUD"
+                  type="dropdown"
+                  source="['Yes', 'No']"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC__c"
+                  title="Interior Access POC"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC_Phone__c"
+                  title="Interior Access POC Phone"
+                />
+                <c:hotColumn
+                  data="Interior_Access_POC_Email__c"
+                  title="Interior Access POC Email"
+                />
+
+                <c:hotColumn
+                  data="Title_Review_Order_Date__c"
+                  title="Title Review Order Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Title_Review_Received_Date__c"
+                  title="Title Review Received Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Title_Review_Company__c"
+                  title="Title Review Company"
+                  type="text"
+                />
+                <c:hotColumn
+                  data="Title_Review_Fee__c"
+                  title="Title Review Fee"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Title_Order_Date__c"
+                  title="Title Order Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Title_Received_Date__c"
+                  title="Title Received Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Title_Company_text__c"
+                  title="Title Company"
+                />
+                <c:hotColumn
+                  data="Title_Contact_Name__c"
+                  title="Title Contact Name"
+                />
+                <c:hotColumn
+                  data="Title_Contact_Phone__c"
+                  title="Title Contact Phone"
+                />
+                <c:hotColumn
+                  data="Title_Contact_Email_Address__c"
+                  title="Title Contact Email"
+                />
+                <c:hotColumn
+                  data="Insurance_Company_text__c"
+                  title="Insurance Company"
+                />
+                <c:hotColumn
+                  data="Insurance_Status__c"
+                  title="Insurance Status"
+                  type="dropdown"
+                  source="['Requested', 'Revisions', 'Approved']"
+                />
+                <c:hotColumn
+                  data="Insurance_Contact_Name__c"
+                  title="Insurance Contact Name"
+                />
+                <c:hotColumn
+                  data="Insurance_Contact_Number__c"
+                  title="Insurance Contact Number"
+                />
+                <c:hotColumn
+                  data="Insurance_Effective_Date__c"
+                  title="Insurance Effective Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Insurance_Expiration_Date__c"
+                  title="Insurance Expiration Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Flood_Coverage_Needed__c"
+                  title="Flood Coverage Needed"
+                  type="dropdown"
+                  source="['Yes', 'No']"
+                />
+                <c:hotColumn
+                  data="Funding_Shield_Cert_Status__c"
+                  title="Funding Shield Cert Status"
+                  type="dropdown"
+                  source="['Requested', 'Received']"
+                />
+                <c:hotColumn
+                  data="HUD_Settlement_Statement_Status__c"
+                  title="HUD/Settlement Statement Status"
+                  type="dropdown"
+                  source="['Requested', 'Revisions', 'Approved']"
+                />
+                <c:hotColumn
+                  data="Extension_Expiration_Date__c"
+                  title="Extension Expiration Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Borrower_Opinion_of_Current_Value__c"
+                  title="Borrower Opinion of Current Value"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Rebuttal_Requested_Date__c"
+                  title="Rebuttal Requested Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Rebuttal_Received_Date__c"
+                  title="Rebuttal Received Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Red_Bell_Calculated_Price__c"
+                  title="Red Bell Calc AveValue"
+                  type="numeric"
+                  format="$0,0.00"
+                  allowEmpty="true"
+                />
+                <c:hotColumn
+                  data="Estimated_Completed_Rehab_Costs__c"
+                  title="Estimated Completed Rehab Costs"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Approved_Completed_Rehab_Costs__c"
+                  title="Approved Completed Rehab Costs"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Include_Rehab__c"
+                  title="Include Rehab Cost"
+                  type="dropdown"
+                  source="['Yes', 'No']"
+                />
+                <c:hotColumn
+                  data="Override_Max_LTC__c"
+                  title="Override Max LTC %"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn
+                  data="Override_Max_LTV__c"
+                  title="Override Max LTV %"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn
+                  data="Borrower_Opinion_of_ARV__c"
+                  title="Borrower Opinion of ARV"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="After_Repair_Value__c"
+                  title="After Repair Value"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Total_ARV_LTV__c"
+                  title="Total ARV LTV"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn
+                  data="Total_Outstanding__c"
+                  title="Total Outstanding"
+                  type="numeric"
+                  format="0.00"
+                />
+                <c:hotColumn
+                  data="Total_Remaining_Holdback__c"
+                  title="Total Remaining Holdback"
+                  type="numeric"
+                  format="$0,0.00"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Advance_Fee_Override__c"
+                  title="Advance Fee $ Override"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn data="Warehouse_Draw__c" title="Warehouse Draw" />
+                <c:hotColumn
+                  data="Doc_Prep_Fee__c"
+                  title="Doc Prep Fee"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="BlackSquare_Fee__c"
+                  title="Onboarding Fee"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+
+                <!-- <c:hotColumn
+                  data="Asset_Maturity_Date_Override__c"
+                  title="Asset Maturity Date Override"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                /> -->
+
+                <c:hotColumn
+                  data="Initial_Disbursement__c"
+                  title="Initial Disbursement"
+                  type="numeric"
+                  format="$0,0.00"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Override_Initial_Disbursement__c"
+                  title="Override Initial Disbursement"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Approved_Renovation_Holdback__c"
+                  title="Approved Reno Advance"
+                  type="numeric"
+                  format="$0,0.00"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Override_Reno_Advance_Amount__c"
+                  title="Override Approved Reno Advance"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Reno_Advance_Amount__c"
+                  title="Reno Advance Amount (Next Advance)"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+
+                <!-- <c:hotColumn data="Approved_Advance_Amount_Max__c" title="Approved Advance Amount Max" type="numeric" format="$0,0.00" readOnly="true" />-->
+
+                <c:hotColumn
+                  data="Partial_Paydown__c"
+                  title="Partial Paydown ($)"
+                  type="numeric"
+                  format="$0,0.00"
+                />
+                <c:hotColumn
+                  data="Partial_Paydown_Date__c"
+                  title="Partial Paydown Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Payoff_Request_Date__c"
+                  title="Payoff Request Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Payoff_Request_Sent_Date__c"
+                  title="Payoff Request Sent Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Payoff_Received_Date__c"
+                  title="Payoff Received Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="Escrow_Company_text__c"
+                  title="Escrow Company"
+                />
+                <c:hotColumn
+                  data="Escrow_Contact_Name__c"
+                  title="Escrow Contact Name"
+                />
+                <c:hotColumn
+                  data="Escrow_Contact_Phone__c"
+                  title="Escrow Contact Phone"
+                />
+                <c:hotColumn
+                  data="Certificate_of_Occupancy__c"
+                  title="Certificate of Occupancy"
+                  type="dropdown"
+                  source="['Yes', 'No']"
+                />
+                <c:hotColumn
+                  data="Yardi_Id__c"
+                  title="Yardi ID"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Status__c"
+                  type="dropdown"
+                  source="['Due Diligence', 'Pending', 'Closing', 'On Hold', 'Cancelled']"
+                  title="Property Status"
+                />
+                <c:hotColumn
+                  data="Underwriter"
+                  title="Underwriter"
+                  type="dropdown"
+                  width="50"
+                  source="['Brandon Jacobs', 'Henry Newell', 'Juan Arias']"
+                />
+                <c:hotColumn
+                  data="Closer"
+                  title="Closer"
+                  type="dropdown"
+                  width="50"
+                  source="['Amy Piana', 'Brian Campbell', 'Cassandra Balthasar', 'Gina Lambis', 'Jenna Taylor', 'Jolene Czarnota', 'Joseph Felice', 'Kathleen Evans', 'Nate Valline', 'Paola De Sousa']"
+                />
+                <c:hotColumn
+                  data="Funding_Status__c"
+                  title="Funding Status Comments"
+                />
+                <c:hotColumn
+                  data="Lender_Comments__c"
+                  title="Lender Comments"
+                />
+              </aura:set>
+            </c:hotTable>
+          </ui:scrollerWrapper>
+        </div>
+      </div>
+    </div>
+
+    <c:DataTapeImporter aura:id="importer" recordType="LOC_Loan" />
+  </div>
+</aura:component>
