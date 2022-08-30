@@ -524,7 +524,7 @@ public without sharing class property_Helper {
       SELECT Id, State__c, State_Full__c, MSA__c, County__c, Deal__c
       FROM Property__c
       WHERE
-        Status__c IN ('Active', 'Paid Off')
+        Status__c NOT IN ('Inactive', 'Cancelled')
         AND Is_Sub_Unit__c = FALSE
         AND Deal__c IN :dealMap.keySet()
     ]) {
@@ -695,7 +695,7 @@ public without sharing class property_Helper {
       };
       if(!Test.isRunningTest()) {
         Flow.Interview.Apex_Triggered_Dupe_One_Record dupeFlow = new Flow.Interview.Apex_Triggered_Dupe_One_Record(params);
-        dupeFlow.start();  
+        dupeFlow.start();
       }
     }*/
     for (Integer i = 0; i < newList.size(); i++) {
@@ -763,37 +763,37 @@ public without sharing class property_Helper {
       System.enqueueJob(new SmartyStreetsQueueable(new List<Id>(propertyIds)));
     }
     /*
-//CIP-2286-RS.7/15/22.Begin.
+    //CIP-2286-RS.7/15/22.Begin.
     //for the new list of Properties which are in the dealMapclo assign all the fields
     List<CLO_Asset_Details__c> cloList = new List<CLO_Asset_Details__c>();
     for (Property__c iProp : newList) {
 		if(dealMapCLO.containsKey(iProp.Deal__c))
         {
             CLO_Asset_Details__c clo=new CLO_Asset_Details__c();
-            //Properties fields assignment
-        	clo.Property_Name__c = iProp.Property_Name__c;    
-            clo.Property_Address__c = iProp.Name;   
-            clo.Property_City__c = iProp.City__c;
-            clo.Property_State__c = iProp.State__c;
-            clo.Property_Zip_Code__c = iProp.ZipCode__c;
-            clo.Property_County__c = iProp.County__c;
-            clo.Year_Built__c = iProp.Year_Built__c;
-            clo.Property_Type__c = iProp.Property_Type__c;
-            clo.Number_of_Units__c = iProp.Number_of_Units__c;
-          	clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
+        //Properties fields assignment
+        clo.Property_Name__c = iProp.Property_Name__c;
+        clo.Property_Address__c = iProp.Name;
+        clo.Property_City__c = iProp.City__c;
+        clo.Property_State__c = iProp.State__c;
+        clo.Property_Zip_Code__c = iProp.ZipCode__c;
+        clo.Property_County__c = iProp.County__c;
+        clo.Year_Built__c = iProp.Year_Built__c;
+        clo.Property_Type__c = iProp.Property_Type__c;
+        clo.Number_of_Units__c = iProp.Number_of_Units__c;
+        clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
             clo.First_Payment_Date__c= iProp.First_Payment_Date__c;
-            clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
+        clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
             clo.Related_Property__c =iProp.Id;
-            //Opportunity fields assignment
-            Opportunity op = new Opportunity();
-            clo.Deal_ID__c = iProp.Deal__c;            
-            op = dealMapCLO.get(iProp.Deal__c);
-            clo.Deal_Loan_Number__c = op.Deal_Loan_Number__c;
-			clo.Loan_Purpose__c = op.Loan_Purpose__c;
-            clo.Borrower_Name__c = op.Borrower_Entity__c;
+        //Opportunity fields assignment
+        Opportunity op = new Opportunity();
+        clo.Deal_ID__c = iProp.Deal__c;
+        op = dealMapCLO.get(iProp.Deal__c);
+        clo.Deal_Loan_Number__c = op.Deal_Loan_Number__c;
+        clo.Loan_Purpose__c = op.Loan_Purpose__c;
+        clo.Borrower_Name__c = op.Borrower_Entity__c;
             clo.Loan_Commitment_Original_Balance__c=op.LOC_Commitment__c;
             clo.Note_Date__c=op.CloseDate;
-            //clo.First_Extension_Fee__c=op.Extension_Fee__c;
+        //clo.First_Extension_Fee__c=op.Extension_Fee__c;
             clo.Exit_Fee__c=op.Exit_Fee__c;
             clo.Interest_Rate_Type__c=op.Interest_Rate_Type__c;
             clo.Index_for_Floating_Rate__c=op.Index__c;
@@ -801,9 +801,9 @@ public without sharing class property_Helper {
             clo.Appraisal_Stabilized_Occupancy__c=op.Total_ARV_LTV__c;
             clo.Maturity_Date__c=op.Current_Line_Maturity_Date__c;
             clo.Amortization_Term__c=op.Amortization_Term__c;
-            clo.Deal_Name__c = op.Name;
-            cloList.add(clo);
-        }
+        clo.Deal_Name__c = op.Name;
+        cloList.add(clo);
+      }
     }
     if(cloList.size()>0) insert cloList;
     //CIP-2286-RS.7/15/22.End      */
@@ -1397,6 +1397,10 @@ public without sharing class property_Helper {
     Set<Id> termIds = new Set<Id>();
     Set<Id> bothIds = new Set<Id>();
     Map<Id, String> refinanceBubble = new Map<Id, String>();
+    Map<String, Map<Id, Property__c>> propSnapshotMap = new Map<String, Map<Id, Property__c>>{
+      'Asset Paid Off' => new Map<Id, Property__c>(),
+      'Asset Sold' => new Map<Id, Property__c>()
+    };
 
     // Set<Id> smartyStreetIds = new Set<Id>();
     // Set<String> recordTypeIds = new Set<String>();
@@ -1441,6 +1445,21 @@ public without sharing class property_Helper {
         newList[i].Status__c == 'Closing')) && newList[i].Yardi_Id__c != null
       ) {
         sendToYardiCSV.add(newList[i].Id);
+      }
+
+      if (
+        newList[i].Status__c == 'Paid Off' &&
+        newList[i].Status__c != oldList[i].Status__c
+      ) {
+        Map<Id, Property__c> propMap = propSnapshotMap.get('Asset Paid Off');
+        propMap.put(newList[i].Id, newList[i]);
+        propSnapshotMap.put('Asset Paid Off', propMap);
+      }
+
+      if (oldList[i].REO_Date__c == null && newList[i].REO_Date__c != null) {
+        Map<Id, Property__c> propMap = propSnapshotMap.get('Asset Sold');
+        propMap.put(newList[i].Id, newList[i]);
+        propSnapshotMap.put('Asset Sold', propMap);
       }
 
       // for (String s : smartyStreetFields) {
@@ -1494,6 +1513,13 @@ public without sharing class property_Helper {
           newList[i].Refinance_Acquisition__c
         );
       }
+    }
+
+    if (
+      propSnapshotMap.get('Asset Paid Off').size() > 0 ||
+      propSnapshotMap.get('Asset Sold').size() > 0
+    ) {
+      PropertySnapshotHelper.createPropertySnapshot(propSnapshotMap);
     }
 
     //system.debug(recordTypeIds);
@@ -1635,6 +1661,7 @@ public without sharing class property_Helper {
             t.Priority = 'Normal';
             t.Status = 'Open';
             t.Type = 'Reminder';
+            // t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
             t.WhatID = Trigger.new[i].Id;
             if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
               t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
@@ -1656,6 +1683,7 @@ public without sharing class property_Helper {
               t.Priority = 'Normal';
               t.Status = 'Open';
               t.Type = 'Reminder';
+              // t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
               t.WhatID = Trigger.new[i].Id;
               if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
                 t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
@@ -2427,14 +2455,24 @@ public without sharing class property_Helper {
   }
 
   public static Boolean shouldRollup(Property__c newProp, Property__c oldProp) {
-    return (newProp.Status__c != oldProp.Status__c &&
-      ((newProp.Status__c == 'Inactive' || newProp.Status__c == 'Cancelled') ||
-      (newProp.Status__c != 'Inactive' &&
-      newProp.Status__c != 'Cancelled' &&
+    Boolean isStatusChanged = newProp.Status__c != oldProp.Status__c;
+    Boolean fromInactiveCxled =
       (oldProp.Status__c == 'Inactive' ||
-      oldProp.Status__c == 'Cancelled')))) ||
+      oldProp.Status__c == 'Cancelled') &&
+      newProp.Status__c != 'Inactive' &&
+      newProp.Status__c != 'Cancelled';
+    Boolean toInactiveCxled =
+      (newProp.Status__c == 'Inactive' ||
+      newProp.Status__c == 'Cancelled') &&
+      oldProp.Status__c != 'Inactive' &&
+      oldProp.Status__c != 'Cancelled';
+
+    return (isStatusChanged && (fromInactiveCxled || toInactiveCxled)) ||
+      (oldProp.Status__c != 'Inactive' &&
+      oldProp.Status__c != 'Cancelled' &&
       (newProp.State__c != oldProp.State__c ||
-      newProp.State_Full__c != oldProp.State_Full__c ||
+      newProp.Property_Type__c != oldProp.Property_Type__c ||
+      newProp.Number_of_Units__c != oldProp.Number_of_Units__c ||
       newProp.MSA__c != oldProp.MSA__c ||
       newProp.County__c != oldProp.County__c ||
       newProp.Acquisition_Date__c != oldProp.Acquisition_Date__c ||
@@ -2442,6 +2480,6 @@ public without sharing class property_Helper {
       newProp.Borrower_Opinion_of_Current_Value__c !=
       oldProp.Borrower_Opinion_of_Current_Value__c ||
       newProp.Monthly_HOA_Fee__c != oldProp.Monthly_HOA_Fee__c ||
-      newProp.ALA__c != oldProp.ALA__c);
+      newProp.ALA__c != oldProp.ALA__c));
   }
 }
