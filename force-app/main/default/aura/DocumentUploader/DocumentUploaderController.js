@@ -259,11 +259,14 @@
           let propRecord = {
             Id: d.Id,
             sobjectType: "Property__c",
-            Insurance_Company__c: accs.find(a => a.Name == newVals["Insurance Company"]).Id,
             Insurance_Effective_Date__c: newVals["Insurance Effective Date"],
             Insurance_Expiration_Date__c: newVals["Insurance Expiration Date"],
             Insurance_Status__c: "Approved"
           };
+
+          if(accs.some(a => a.Name == newVals["Insurance Company"])) {
+            propRecord.Insurance_Company__c = accs.find(a => a.Name == newVals["Insurance Company"]).Id;
+          }
           records.push(propRecord);
         });
         component.find("jsonConverter").saveRecords(records);
