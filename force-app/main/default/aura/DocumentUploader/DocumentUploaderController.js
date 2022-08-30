@@ -1,4 +1,9 @@
-({
+(
+  /**
+   * * SUMMARY OF METHODS *
+   * * handleJsonConvert - uses an LWC to convert excel files into JSON. Change the key / headers here if the relevant headers were changed in Insurance Review Data Tape
+   */
+  {
   init: function (component, event, helper) {
     if ($A.util.isUndefinedOrNull(component.get("v.picklistMap"))) {
       helper.queryPicklists(component);
@@ -217,6 +222,16 @@
     console.log("files changed");
   },
 
+  /* 
+  * @Name: handleJsonConvert
+  * @Description: once the custom event from the LWC is fired, it returns a JSON string containing data from the excel file. 
+  * It's data structure should be { <sheetName> : [{<header> : <value>}]} Each array element is the sheet's row. 
+  * Possibly necessary to trim white spaces from the keys ("column headers") due to original Formatting in excel.
+  * It is currently only designed for the Insurance Review Data Tape excel file uploaded into an Advance record. 
+  * If we need it for more objects, just move  the lines starting "let queryStringProp" all the way to the bottom 
+  * to the helper class in its own method, preferrably per document type.
+  */
+
   handleJsonConvert: function (component, event, helper) {
     const sheetData = JSON.parse(event.getParam("fileJson"));
     const fileData = JSON.parse(sheetData.Sheet1).map((d) => {
@@ -227,6 +242,7 @@
       });
       return newReturn;
     });
+    
     let queryStringProp =
       "SELECT Id, Name FROM Property__c WHERE Deal__r.Deal_Loan_Number__c = '" +
       fileData[0]["Deal Number"] +
