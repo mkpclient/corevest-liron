@@ -6,6 +6,16 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import query from "@salesforce/apex/lightning_Util.query";
 import upsertRecords from "@salesforce/apex/lightning_Util.upsertRecords";
 
+/**
+  ** Name: excelToJson
+  ** Description: 
+  **       A "headerless" LWC, that is, one with no UI components, 
+  **      for converting excel files to JSON. Mount this into any LWC or Aura Component at the bottom of the HTML file, and pass in the contentVersionId of the file that needs parsed. 
+  **      Call the public method "handleParseFile" from the parent component, then catch the result through the custom event "onparsefile". 
+  **      Additional methods for Apex-less SOQL queries and upsert DML are available too, for further data processing while using this parser. 
+  **      DocumentUploader.cmp should have example methods using this.
+ */
+
 export default class ExcelToJson extends LightningElement {
   @api contentVersionId;
 
