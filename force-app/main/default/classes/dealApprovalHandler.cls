@@ -683,6 +683,15 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       //Reply with error
       System.debug('error sending email');
     }
+	  //RS.Begin
+        deal.Term_Sheet_Issued__c  = Date.today();
+      	if (deal.Current_Stage__c == 'Initial Review' || deal.Current_Stage__c == 'Data Tape Received')
+        {
+         deal.StageName = 'Term Sheet Issued';
+        }
+      update deal;
+     //RS.End      
+      
     return result;
   } // End of handleInboundEmail method
 
@@ -696,7 +705,10 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
         Underwriter__c,
         Underwriter__r.Email,
         RecordType.DeveloperName,
-        Last_Referenced_Term_Sheet__c
+        Last_Referenced_Term_Sheet__c,
+        Current_Stage__c,
+        Term_Sheet_Issued__c,
+        StageName
       FROM Opportunity
       WHERE Id = :opportunityId
       LIMIT 1
@@ -806,9 +818,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
-      //   new List<Messaging.SingleEmailMessage>{ sem }
-      // );
+      Messaging.SendEmailResult[] results = Messaging.sendEmail(
+        new List<Messaging.SingleEmailMessage>{ sem }
+      );
     } catch (Exception e) {
       String errorMessage = '';
       errorMessage += JSON.serialize(recipients);
@@ -820,7 +832,8 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       em1.setSubject('mail error');
       em1.setToAddresses(new List<String>{ 'mcastillo@mkpartners.com' });
       em1.setHtmlBody('<html><body>' + errorMessage + '</html></body>');
-      Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
+      /* this is redundant and sending extra unnecessary emails out  */
+      // Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
     }
   }
 
@@ -1022,7 +1035,7 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             o.Term_Sheet_Approval_Date__c = System.now();
             dealDoc.Executive_Approval_Date__c = system.now();
             update dealDoc;
-            update o;
+           //RS update o;
             //AlchemyAPI.sendTermSheet(o.Id, dealDoc.Id);
           }
         }
@@ -1202,6 +1215,15 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       Database.rollback(sp);
       sendExceptionEmails(ex);
     }
+	  //RS.Begin
+   /*   o.Term_Sheet_Issued__c  = Date.today();
+      if (o.Current_Stage__c == 'Initial Review' || o.Current_Stage__c == 'Data Tape Received')
+      {
+          o.StageName = 'Term Sheet Issued';
+      }
+      update o;*/
+     //RS.End        
+      
   }
 
   public static EmailMessageRelation constructEmailMessageRelation(

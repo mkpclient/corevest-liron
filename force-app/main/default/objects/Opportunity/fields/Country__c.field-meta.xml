@@ -1319,6 +1319,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Guatemala</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>India</valueName>
         </valueSettings>
         <valueSettings>
@@ -1423,6 +1427,10 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Trinidad and Tobago</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Turks and Caicos Islands</valueName>
         </valueSettings>
         <valueSettings>
@@ -1435,11 +1443,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <controllingFieldValue>No</controllingFieldValue>
-            <valueName>United States</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Uruguay</valueName>
         </valueSettings>
         <valueSettings>
@@ -1449,6 +1452,10 @@
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Virgin Islands, British</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>No</controllingFieldValue>
+            <valueName>United States</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

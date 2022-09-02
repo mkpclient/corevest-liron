@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Funding_Probability__c</fullName>
-    <description>Property funding probability.</description>
+    <description>Property funding probability, based on Property Status.</description>
     <externalId>false</externalId>
-    <formula>CASE(Status__c, 
- &quot;Due Diligence&quot;, &quot;Possible&quot;,
- &quot;Pending&quot;, &quot;Probable&quot;,
- &quot;Closing&quot;, &quot;High Certainty&quot;,
- &quot;On Hold&quot;, &quot;Outlook Uncertain&quot;,
- &quot;Cancelled&quot;, &quot;Won&apos;t Fund&quot;,
- &quot;Inactive&quot;, &quot;Won&apos;t Fund&quot;,
- &quot;Rescinded&quot;, &quot;Won&apos;t Fund&quot;,
- &quot;Funded&quot;
+    <formula>CASE(Status__c,
+&quot;Due Diligence&quot;, &quot;Possible&quot;,
+&quot;Pending&quot;, &quot;Probable&quot;,
+&quot;Closing&quot;, &quot;High Certainty&quot;,
+&quot;On Hold&quot;, &quot;Outlook Uncertain&quot;,
+&quot;Cancelled&quot;, &quot;Won&apos;t Fund&quot;,
+&quot;Inactive&quot;, &quot;Won&apos;t Fund&quot;,
+&quot;Rescinded&quot;, &quot;Won&apos;t Fund&quot;,
+&quot;Funded&quot;
 )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>How likely a property is to fund.</inlineHelpText>
     <label>Funding Probability</label>
     <required>false</required>

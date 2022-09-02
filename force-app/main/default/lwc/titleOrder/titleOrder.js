@@ -53,7 +53,11 @@ export default class TitleOrder extends LightningElement {
   tableData = [];
   requestType;
   @track propIds = [];
-  isModalOpened = false;
+  @track isModalOpened = false;
+  titleOrderIds = [];
+  quoteIds = [];
+  bulkOrderNums = [];
+  requestTypeText;
 
   connectedCallback() {
     if (this.recordId) {
@@ -65,7 +69,9 @@ export default class TitleOrder extends LightningElement {
   handleSelect(event) {
     const val = event.detail.value;
     this.requestType = val;
+    this.requestTypeText = TITLE_MENU_ITEMS.find(i => i.value === val).label;
     const propIds = [];
+    const toIds = [];
     this.template
     .querySelectorAll('[data-name="propertyCheckbox"]')
     .forEach((checkbox) => {
@@ -73,11 +79,19 @@ export default class TitleOrder extends LightningElement {
         propIds.push(checkbox.dataset.id);
       }
     });
-    if(propIds.length > 0) {
-      this.propIds = propIds; 
-      this.isModalOpened = true;
+    this.template
+    .querySelectorAll('[data-name="titleOrderCheckbox"]')
+    .forEach((checkbox) => {
+      if(checkbox.checked) {
+        toIds.push(checkbox.dataset.id);
+      }
+    });
+    if(propIds.length > 0 || toIds.length > 0) {
+      this.propIds = propIds.length > 0 ? propIds : [];
+      this.titleOrderIds = toIds.length > 0 ? toIds : [];
       this.openModal();
-    } else {
+    }
+    else {
       return;
     }
   }
@@ -106,6 +120,6 @@ export default class TitleOrder extends LightningElement {
   }
 
   openModal() {
-    this.template.querySelector("c-title-order-modal").openModal(this.propIds);
+    this.template.querySelector("c-title-order-modal").openModal(this.propIds, this.titleOrderIds);
   }
 }

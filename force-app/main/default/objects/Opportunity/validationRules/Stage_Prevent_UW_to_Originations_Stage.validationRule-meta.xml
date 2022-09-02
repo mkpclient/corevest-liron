@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage_Prevent_UW_to_Originations_Stage</fullName>
+    <active>true</active>
+    <description>This will prevent an Users from updating the Stage to an Originations Stage once approved into Loan Processing/Underwriting</description>
+    <errorConditionFormula>AND(
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ NOT( ISPICKVAL(StageName, &quot;Withdrawn&quot;) ) ,
+ NOT( ISPICKVAL(StageName, &quot;Rejected&quot;) ) ,
+ CASE(
+  PRIORVALUE(StageName),
+   &quot;Initial Review&quot;, 1,
+   &quot;Data Tape Received&quot;, 1,
+   &quot;Term Sheet Issued&quot;, 1,
+   &quot;Term Sheet Signed&quot;, 1,
+   &quot;Term Sheet Signed/Deposit Collected&quot;, 1,
+   &quot;Submitted to Underwriting&quot;, 2,
+   &quot;Loan Processing&quot;, 2,
+   &quot;Processing Hold&quot;, 2,
+   &quot;Underwriting&quot;, 2,
+   &quot;UW Hold&quot;, 2,
+   &quot;Approved by Committee&quot;, 2,
+   &quot;Closed Won&quot;, 2,
+   &quot;Expired&quot;, 2,
+   &quot;Paid Off&quot;, 2,
+   &quot;Sold&quot;, 2,
+   0
+ )
+&gt;
+CASE(
+  StageName,
+   &quot;Initial Review&quot;, 1,
+   &quot;Data Tape Received&quot;, 1,
+   &quot;Term Sheet Issued&quot;, 1,
+   &quot;Term Sheet Signed&quot;, 1,
+   &quot;Term Sheet Signed/Deposit Collected&quot;, 1,
+   &quot;Submitted to Underwriting&quot;, 2,
+   &quot;Loan Processing&quot;, 2,
+   &quot;Processing Hold&quot;, 2,
+   &quot;Underwriting&quot;, 2,
+   &quot;UW Hold&quot;, 2,
+   &quot;Approved by Committee&quot;, 2,
+   &quot;Closed Won&quot;, 2,
+   &quot;Expired&quot;, 2,
+   &quot;Paid Off&quot;, 2,
+   &quot;Sold&quot;, 2,
+   0
+ )
+)</errorConditionFormula>
+    <errorMessage>You have chosen an invalid Stage.  Once a Deal has been approved into Loan Processing/Underwriting, it cannot be moved back to an Originations Stage</errorMessage>
+</ValidationRule>

@@ -1,8 +1,4 @@
 public class HouseCanaryAPI {
-	public static HouseCanary__c HouseCanarySettings = HouseCanary__c.getInstance();
-    static String USERNAME = HouseCanarySettings.APIKey__c;
-    static String PASSWORD = HouseCanarySettings.APISecret__c;
-    static String BASE_URL = HouseCanarySettings.Endpoint__c;
     static String ACCESS_TOKEN;
     static Boolean RETRIED_AUTH = False;
     //Data Object        
@@ -168,7 +164,8 @@ public class HouseCanaryAPI {
                   //   || vaDataObjectsResultsFinal.recommended_approach == 'Minor exceptions - Human review')
                  {
                     responseCodes.add(99);
-                    responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + vaDataObjectsResultsFinal.recommended_approach);
+                    //CIP-2604 responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + vaDataObjectsResultsFinal.recommended_approach);
+                    responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + PricingReviewRequest_LightningController.GetMessage(7));
                  }
                 Else
                 {
@@ -180,7 +177,8 @@ public class HouseCanaryAPI {
             Else
             {
                 responseCodes.add(99);
-                responseString.add('value_analysis/check : ' + 'Return Code : 99 ' +  rawJSON);
+               //CIP-2604 responseString.add('value_analysis/check : ' + 'Return Code : 99 ' +  rawJSON);
+               responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + PricingReviewRequest_LightningController.GetMessage(7));
             }
        } //(prop.Name != null)
     }
@@ -278,7 +276,8 @@ public class HouseCanaryAPI {
         else
         {
             responseCodes.add(pdDataObjectsResultsFinal?.api_code);
-            responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + pdDataObjectsResultsFinal?.api_code_description);
+           //CIP-2604 responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + pdDataObjectsResultsFinal?.api_code_description);
+            responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + PricingReviewRequest_LightningController.GetMessage(7));
         }                
         }           
     }
@@ -810,7 +809,7 @@ public static void get_Value_Report_Data(Property__c prop)
         List<Property_Mortgage_lien_all__c> propMortLienallList = new List<Property_Mortgage_lien_all__c>();
         List<Property_Sales_history__c> propSalesHistoryList	= new List<Property_Sales_history__c>(); 
         List<Property_Tax_History__c> propTaxHistoryList = new List<Property_Tax_History__c>();
-        List<HouseCanaryForReporting__c> HCReportingList = new List<HouseCanaryForReporting__c>();
+        //List<HouseCanaryForReporting__c> HCReportingList = new List<HouseCanaryForReporting__c>();
         //List<Property__c> PropList = New List<Property__c>();
         Boolean validResponseAVM = False;
         if (valueReportOnly)

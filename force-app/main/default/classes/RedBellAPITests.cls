@@ -2,6 +2,7 @@
 public class RedBellAPITests {
   @testSetup
   static void setUpData() {
+  test_Helper.createDealLoanNumber();       
     Red_Bell_Settings__c rbsettings = Red_Bell_Settings__c.getInstance();
     rbsettings.Username__c = 'TESTUSER';
     rbsettings.Password__c = '123ABC&';

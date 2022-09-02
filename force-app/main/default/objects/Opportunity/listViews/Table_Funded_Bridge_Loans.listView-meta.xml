@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Table_Funded_Bridge_Loans</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>Deal_Code__c</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Contact__c</columns>
+    <columns>OPPORTUNITY.STAGE_NAME</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Product_Sub_Type__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>OPPORTUNITY.CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Referral_Source__c</field>
+        <operation>contains</operation>
+        <value>Berkadia</value>
+    </filters>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>contains</operation>
+        <value>Table Funded</value>
+    </filters>
+    <label>Table Funded Bridge Loans</label>
+</ListView>

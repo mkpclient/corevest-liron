@@ -13,6 +13,7 @@
 public with sharing class opportunity_Tests {
   @TestSetup
   static void dataSetup() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
 
     acc.Alternate_Phone__c = '7777777777';
@@ -24,6 +25,7 @@ public with sharing class opportunity_Tests {
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'TERM TEST 123';
+    topp1.Deal_Loan_NUmber__c = '7777x';
     topp1.CloseDate = System.today();
     topp1.StageName = 'Initial Review';
     topp1.Loan_Size__c = 2000000;

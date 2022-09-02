@@ -5,7 +5,12 @@
     <description>This will prevent an Operations user from changing the Deal to the Underwriting stage without approving the Deal</description>
     <errorConditionFormula>AND (
 ISPICKVAL(PRIORVALUE(StageName),&quot;Submitted to Underwriting&quot;),
-ISPICKVAL(StageName,&quot;Underwriting&quot;),
+OR(
+ ISPICKVAL(StageName,&quot;Underwriting&quot;),
+ ISPICKVAL(StageName,&quot;Loan Processing&quot;),
+ ISPICKVAL(StageName,&quot;UW Hold&quot;),
+ ISPICKVAL(StageName,&quot;Processing Hold&quot;)
+),
 ISCHANGED(StageName),
 NOT ( $Profile.Name= &quot;System Administrator&quot;)
 )</errorConditionFormula>

@@ -1,6 +1,9 @@
 import { LightningElement, api, track, wire } from "lwc";
-import { getRecord } from "lightning/uiRecordApi";
+import { getRecord, getFieldValue } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import PROPERTY_NAME from "@salesforce/schema/Property__c.Name";
+import SPEC_ASSET from "@salesforce/schema/Property__c.Special_Asset__c";
+import SA_CREATED_DATE from "@salesforce/schema/Property__c.Special_Asset__r.CreatedDate";
 
 // import SEVERITY_FIELD from "@salesforce/schema/Special_Asset__c.Severity_Level__c";
 // import FOLLOWUP_FIELD from "@salesforce/schema/Special_Asset__c.Follow_Up_Date__c";
@@ -14,26 +17,26 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 // import STRAGTEGY_FIELD from "@salesforce/schema/Special_Asset__c.Strategy__c";
 // import MILESTONES_FIELD from "@salesforce/schema/Special_Asset__c.Milestones__c";
 
-const fields = ["Property__c.Name", "Property__c.Special_Asset__c"];
-
 export default class SpecialAssetScreen extends LightningElement {
   @api recordId;
-  @track property;
   // @track specialAsset = "a2f2C000000TYCKQA4";
-  @track specialAssetId;
   // @track specialAssetFields = [SEVERITY_FIELD, FOLLOWUP_FIELD, RESOLUTION_FIELD, LITIGATION_FIELD, ESTIMATEDRECOVERYDATE_FIELD, RESOLVEDDATE_FIELD, 
   //   REASON_FIELD, SAMANAGER_FIELD, STATUS_FIELD, STRAGTEGY_FIELD, MILESTONES_FIELD];
   autoDateLocal;
 
-  @wire(getRecord, { recordId: '$recordId', fields })  
-  wiredProperty(value) {
-    if (value.data) {
-      this.property = value.data;
-      this.specialAssetId = this.property.fields.Special_Asset__c.value;
-      // console.log(value);
-    } else if (value.error) {
-      console.log("ERROR: ", value.error)
-    }
+  @wire(getRecord, { recordId: '$recordId', fields: [PROPERTY_NAME, SPEC_ASSET, SA_CREATED_DATE] })  
+  property;
+
+  get specialAssetId() {
+    return getFieldValue(this.property.data, SPEC_ASSET);
+  }
+
+  get propName() {
+    return getFieldValue(this.property.data, PROPERTY_NAME);
+  }
+
+  get createdDate() {
+    return getFieldValue(this.property.data, SA_CREATED_DATE);
   }
 
   handleChange(event) {

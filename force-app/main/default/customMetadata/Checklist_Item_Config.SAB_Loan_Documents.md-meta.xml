@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:type="xsd:string">sab_Loan_Documents</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Is_Bulk__c</field>
@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>RecordType__c</field>
-        <value xsi:type="xsd:string">Single_Asset_Bridge</value>
+        <value xsi:type="xsd:string">Single_Asset_Bridge_Loan</value>
     </values>
     <values>
         <field>Responsible_Party__c</field>
@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Reviewer__c</field>
-        <value xsi:type="xsd:string">Legal</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Type__c</field>
@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>Uploader__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Legal</value>
     </values>
     <values>
         <field>Use_Historical_Uploads__c</field>

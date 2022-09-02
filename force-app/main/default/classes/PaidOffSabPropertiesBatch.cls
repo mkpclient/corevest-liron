@@ -5,7 +5,7 @@ public without sharing class PaidOffSabPropertiesBatch implements Database.Batch
     queryString += 'Deal__r.Record_Type_Name__c = \'Single_Asset_Bridge_Loan\' AND ';
     queryString += 'Deal__r.StageName = \'Paid Off\' AND ';
     queryString += 'Deal__r.LOC_Loan_Type__c =\'Single Asset (1-4 Unit)\' AND ';
-    queryString += 'Status__c != \'Paid Off\'';
+    queryString += 'Status__c = \'Active\'';
     return Database.getQueryLocator(queryString);
   }
   public void execute(

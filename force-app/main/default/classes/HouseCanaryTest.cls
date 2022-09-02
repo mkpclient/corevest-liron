@@ -2,22 +2,54 @@
 public class HouseCanaryTest {
   @testSetup
   static void setUpData() {
+  test_Helper.createDealLoanNumber();      
     Account acc = new Account();
-    acc.Name = 'Test';
-    insert acc;
-
+    acc.Name = 'Berkadia Commercial Mortgage';
+    acc.BillingCountry = 'United States';
+    acc.BillingState = 'California';
+    acc.Introductions_Source__c = 'Hotline';
+    acc.Introduction_Subsource__c = 'Main';
+    acc.Alternate_Phone__c = '5555555555';
+    insert acc;      
+      
+      
     Contact con = new Contact();
-    con.FirstName = 'Test';
-    con.LastName = 'Test';
+    con.FirstName = 'test';
+    con.LastName = 'test';
+    con.MailingCountry = 'United States';
+    con.MailingState = 'California';
+    con.MobilePhone = '5555555555';
+    con.Phone = '7777777777';
+    con.Experian__c = 700;
+    con.TransUnion__c = 710;
+    con.Equifax__c = 700;
+    con.Years_of_Experience__c = 10;
+    con.Rental_Units_Owned__c = '5';
+    con.Sponsor_Tier__c = 'Tier 1';
+    con.Experience__c = 5;
     con.AccountId = acc.Id;
     insert con;
 
     Opportunity opp = new Opportunity();
-    opp.Name = 'Test';
+    opp.Name = 'Test House Canary';
+    opp.CloseDate = System.today();
+    opp.StageName = 'Initial Review';
+    opp.Loan_Size__c = 2000000;
+    opp.Rate__c = 1;
+    opp.Final_Loan_Amount__c = 100;
+    opp.Deal_Intro_Source__c = 'Hotline';   
+    opp.Deal_Intro_Sub_Source__c = 'Main';
+    opp.Deal_Intro_Sub_Source__c = 'Main';
+    opp.Apex_Context__c = true;
+    opp.Term_Loan_Type__c = '5 Year';
+    opp.YM_Prepayment_Penalty__c = '48 Months';
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
+    ].Id;    
     opp.AccountId = acc.Id;
     opp.Contact__c = con.Id;
-    opp.StageName = 'Initial Review';
-    opp.CloseDate = System.today();
     insert opp;
 
     Property__c p = new Property__c();

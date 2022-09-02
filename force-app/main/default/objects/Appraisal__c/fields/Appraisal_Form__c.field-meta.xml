@@ -4,10 +4,88 @@
     <description>Name of the Appraisal form</description>
     <externalId>false</externalId>
     <label>Appraisal Form</label>
-    <length>30</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>BPO</fullName>
+                <default>false</default>
+                <label>BPO</label>
+            </value>
+            <value>
+                <fullName>Clarocity MVP</fullName>
+                <default>false</default>
+                <label>Clarocity MVP</label>
+            </value>
+            <value>
+                <fullName>ClearVal</fullName>
+                <default>false</default>
+                <label>ClearVal</label>
+            </value>
+            <value>
+                <fullName>ClearVal Plus (Interior PCI)</fullName>
+                <default>false</default>
+                <label>ClearVal Plus (Interior PCI)</label>
+            </value>
+            <value>
+                <fullName>Commercial Narrative</fullName>
+                <default>false</default>
+                <label>Commercial Narrative</label>
+            </value>
+            <value>
+                <fullName>FNM1004</fullName>
+                <default>false</default>
+                <label>FNM1004</label>
+            </value>
+            <value>
+                <fullName>FNM1004C</fullName>
+                <default>false</default>
+                <label>FNM1004C</label>
+            </value>
+            <value>
+                <fullName>FNM1004D</fullName>
+                <default>false</default>
+                <label>FNM1004D</label>
+            </value>
+            <value>
+                <fullName>FNM1025</fullName>
+                <default>false</default>
+                <label>FNM1025</label>
+            </value>
+            <value>
+                <fullName>FNM1073</fullName>
+                <default>false</default>
+                <label>FNM1073</label>
+            </value>
+            <value>
+                <fullName>FNM1075</fullName>
+                <default>false</default>
+                <label>FNM1075</label>
+            </value>
+            <value>
+                <fullName>FNM2055</fullName>
+                <default>false</default>
+                <label>FNM2055</label>
+            </value>
+            <value>
+                <fullName>Land Appraisal</fullName>
+                <default>false</default>
+                <label>Land Appraisal</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>N/A</fullName>
+                <default>false</default>
+                <label>N/A</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

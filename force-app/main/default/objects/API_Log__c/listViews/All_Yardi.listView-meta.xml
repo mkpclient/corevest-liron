@@ -14,7 +14,7 @@
     <filters>
         <field>Type__c</field>
         <operation>equals</operation>
-        <value>Box,Yardi</value>
+        <value>Yardi</value>
     </filters>
-    <label>All Yardi</label>
+    <label>All Yardi IRs</label>
 </ListView>

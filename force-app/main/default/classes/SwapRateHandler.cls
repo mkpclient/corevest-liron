@@ -19,18 +19,18 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
 
    String emailsubject = email.subject.normalizeSpace().toLowerCase();
    String emailBody = email.plainTextBody.toLowerCase();   
-   System.Debug('RS9998 emailBody :' +emailBody);      
+    
     List<String> emailBodyLines = emailBody.split('\n');        
 	Integer indexRate = 0;
         
     for(string emailLine : emailBodyLines)
     {
-        System.Debug('RS999 emailLine :' +emailLine);
+
         indexRate = emailLine.indexOf('5yr:', 0);
         if (indexRate != -1 && !rate_5_valid )
         {
 		String  rate_5yr = getRate(emailLine,'5yr:');
-        System.Debug('RS9998 rate_5yr :' +rate_5yr);
+
         if (rate_5yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 5 years rate :';
@@ -52,7 +52,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_7_valid )
         {
 		String  rate_7yr = getRate(emailLine,'7yr:');
-        System.Debug('RS9998 rate_7yr :' +rate_7yr);
+
         if (rate_7yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 7 years rate :';
@@ -74,7 +74,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_10_valid )
         {
 		String  rate_10yr = getRate(emailLine,'10yr:');
-        System.Debug('RS9998 rate_10yr :' +rate_10yr);
+
         if (rate_10yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 10 years rate :';
@@ -96,7 +96,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_30_valid )
         {
 		String  rate_30yr = getRate(emailLine,'30yr:');
-        System.Debug('RS9998 rate_30yr :' +rate_30yr);
+
         if (rate_30yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 30 years rate :';
@@ -119,7 +119,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_1ML_valid )
         {
 		String  rate_1ML = getRate(emailLine,'1m libor:');
-        System.Debug('RS9998 rate_1ML :' +rate_1ML);
+
         if (rate_1ML == 'Error')
         {
            rateerror = rateerror + 'Invalid 1 Month Libor :';
@@ -142,7 +142,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_1SF_valid )
         {
 		String  rate_1SF = getRate(emailLine,'1m term sofr swap:');
-        System.Debug('RS9998 rate_1SF :' +rate_1SF);
+
         if (rate_1SF == 'Error')
         {
            rateerror = rateerror + 'Invalid 1 Month Term Soft Swap rate :';
@@ -191,14 +191,6 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
     S.CreatedDateTime__c = DateTime.now();
     Date createdate = date.today();
    
-     system.Debug('RS999 rate_5 : ' +rate_5);
-     system.Debug('RS999 rate_7 : ' +rate_7);      
-     system.Debug('RS999 rate_10 : ' +rate_10);
-     system.Debug('RS999 rate_30 : ' +rate_30);
-     system.Debug('RS999 rate_1M : ' +rate_1M);
-     system.Debug('RS999 rate_1S : ' +rate_1S);      
-     System.Debug('RS999 - createdate :' +createdate);
-
     if (rate_5_valid && rate_7_valid && rate_10_valid && rate_30_valid  && rate_1ML_valid && rate_1SF_valid)
     {
             
@@ -206,7 +198,6 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
                                                   and Ten_Year_Swap__c =:rate_10 and Thirty_Year_Swap__c = :rate_30 
                                                   and OneM_LIBOR__c = :rate_1M and OneM_SOFR__c = :rate_1S and CreatedDateTime__c = TODAY];
         
-            System.Debug('RS999 todaysswaprate :' +todaysswaprate);
             if (todaysswaprate.size() == 0)
             {        
                 try {
@@ -243,35 +234,33 @@ Private String getRate(String emailLine,String searchRateString)
  {
      String returnValue;
      
-     System.Debug('RS999 emailLine 1:' +emailLine);
-     System.Debug('RS999 searchRateString :' +searchRateString);     
-     
+    
      returnValue = emailLine.normalizeSpace().substringBetween(searchRateString, '(');
-     System.Debug('RS999 returnValue :' +returnValue);  
+
      
      if (returnValue == null)
      {
 	//emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.length());
-		emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.indexOf(searchRateString, 0)+searchRateString.length()+5);
-        System.debug('rs999 emailLine 2: ' +emailLine);
+	emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.indexOf(searchRateString, 0)+searchRateString.length()+5);
+
     	if (emailLine != Null)     
     	{
         String  rate_sub = emailLine.deleteWhitespace();
-        System.Debug('rate_sub :' +rate_sub);            
+           
 		String  rate_subdot = rate_sub.remove('.');            
-        System.Debug('rate_subdot:' +rate_subdot);
+
             if (rate_subdot.isNumeric())
             {
-             System.Debug('Into rate_sub if :' +rate_sub );
+
              rate_sub = rate_sub.rightPad(5);
-             System.Debug('Into rate_sub if 1:' +rate_sub );
+
              String rate_ret;
              For (integer i = 0;i <= 4;i++)  
               {
-                  System.Debug('Valie of i 1:' +i);
+
                   if (rate_sub.substring(i,i+1).isNumeric())
                   {
-                        System.Debug('Value of i 2:' +i); 
+
                         if (rate_ret== null)
                         {
                         rate_ret=   rate_sub.substring(i,i+1);                    
@@ -279,14 +268,14 @@ Private String getRate(String emailLine,String searchRateString)
                         Else
                         {
                         rate_ret=  rate_ret + rate_sub.substring(i,i+1);
-                        System.Debug('Into rate_ret0,0 1:' +rate_ret);          
+        
                         }
                   }
                   else
                   {
                       if (rate_sub.substring(i,i+1) == '.')
                         {
-                            System.Debug('Valie of i 3:' +i);
+
                             if (rate_ret != null)
                             {
                             rate_ret=  rate_ret+ rate_sub.substring(i,i+1);
@@ -295,7 +284,7 @@ Private String getRate(String emailLine,String searchRateString)
                             {
                              rate_ret=  rate_sub.substring(i,i+1);   
                             }
-                            System.Debug('Into rate_ret0,0 2:' +rate_ret);          
+        
                         }          
                   }              
               }
@@ -308,19 +297,10 @@ Private String getRate(String emailLine,String searchRateString)
      {
          returnValue = 'Error';
      }
-         System.Debug('RS999 returnValue :' + searchRateString + ' --- ' + returnValue);
+
      Return returnValue;
  }
 
-//////////////////////////////////////////////////////////////////////////
-    
-  public Boolean isNumericOrDecimal(String s) {
-    if (s == null)
-      return false;
-    else if (s.contains('.') && s.indexOf('.') == s.lastIndexOf('.'))
-      s = s.replace('.', '');
-    return s.isNumeric();
-  }
 //////////////////////////////////////////////////////////////////////////    
 
     public static void sendEmailMessage(
@@ -328,21 +308,13 @@ Private String getRate(String emailLine,String searchRateString)
     String rateerror
   ) {
     Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-   // List<String> ccAddresses = email.ccAddresses != null
-   //   ? email.ccAddresses
-   //   : new List<String>();
-   // List<String> toAddresses != null
-   //   ? email.fromAddress
-   //   : new List<String>();
     OrgWideEmailAddress[] owea = [
       SELECT Id
       FROM OrgWideEmailAddress
       WHERE DisplayName = 'Integrations User'
     ];
-   // message.OrgWideEmailAddressId = owea[0].id;
     message.ToAddresses = new List<String>{
-     // 'support@cvest.com',email.fromAddress
-     email.fromAddress
+     'support@cvest.com',email.fromAddress
     };
    // message.CcAddresses = ccAddresses;
     message.subject = 'Errors found in the Swap Rate Email from ' + date.today();

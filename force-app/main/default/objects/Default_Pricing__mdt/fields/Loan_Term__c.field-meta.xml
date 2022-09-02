@@ -37,21 +37,6 @@
                 <default>false</default>
                 <label>30 Year</label>
             </value>
-            <value>
-                <fullName>12 Months</fullName>
-                <default>false</default>
-                <label>12 Months</label>
-            </value>
-            <value>
-                <fullName>18 Months</fullName>
-                <default>false</default>
-                <label>18 Months</label>
-            </value>
-            <value>
-                <fullName>24 Months</fullName>
-                <default>false</default>
-                <label>24 Months</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

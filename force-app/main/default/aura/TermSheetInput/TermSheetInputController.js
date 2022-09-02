@@ -20,6 +20,7 @@
 
         console.log(component.get("v.deal"));
         let missingFields = returnVal.MissingFields;
+        console.log(missingFields);
         if (
           returnVal.Checkboxes &&
           returnVal.Checkboxes.length > 0 &&

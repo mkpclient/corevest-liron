@@ -17,7 +17,7 @@ global without sharing class LandGorillaDrawAPI {
         res.responseBody = Blob.valueOf(JSON.serialize(response));
 
     } catch (Exception err) {
-        response.message = err.getMessage();
+        response.message = err.getMessage() + ' on line ' + err.getLineNumber();
         res.statusCode = 400;
         res.responseBody = Blob.valueOf(JSON.serialize(response));
     }

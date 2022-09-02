@@ -13,19 +13,11 @@
         <allowDelegate>true</allowDelegate>
         <approvalActions>
             <action>
-                <name>Change_Approval_Status_to_Approved</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
                 <name>Pricing_Approval_Alert_Bridge</name>
                 <type>Alert</type>
             </action>
         </approvalActions>
         <assignedApprover>
-            <approver>
-                <name>amelia.cunningham@cvest.com</name>
-                <type>user</type>
-            </approver>
             <approver>
                 <name>caf-it@cvest.com</name>
                 <type>user</type>
@@ -58,10 +50,6 @@
             <name>Current_Approval_Process_NULL</name>
             <type>FieldUpdate</type>
         </action>
-        <action>
-            <name>Stage_to_Issue_Term_Sheet</name>
-            <type>FieldUpdate</type>
-        </action>
     </finalApprovalActions>
     <finalApprovalRecordLock>false</finalApprovalRecordLock>
     <finalRejectionActions>
@@ -72,6 +60,10 @@
         <action>
             <name>Current_Approval_Process_NULL</name>
             <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Pricing_Rejected_Alert_Bridge</name>
+            <type>Alert</type>
         </action>
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>

@@ -28,7 +28,8 @@ public without sharing class PropertySnapshotHelper {
     'Realized_Loss_Severity__c' => 'Realized_Loss_Severity__c',
     'Total_Broker_Commissions_Fees_Paid__c' => 'Total_Broker_Commissions_Fees_Paid__c',
     'Maturity_Default_Transfer__c' => 'Maturity_Default_Transfer__c',
-    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c'
+    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c',
+    'Net_Proceeds__c' => 'Net_Proceeds__c'
   };
 
   private static final Map<String, String> SNAPSHOT_TO_EXT_COMPLETED = new Map<String, String>{
@@ -52,6 +53,8 @@ public without sharing class PropertySnapshotHelper {
   private static final String PROP_EXT_EVENT_NAME = 'Extension Completed';
 
   private static final String SPEC_ASSET_EVENT_NAME = 'Special Asset Resolved';
+
+  // changed to 'Asset Sold in the record but it now causes duplicate keys in the map so i will just programatically change it below
 
   private static final Map<String, Map<String, String>> FIELD_MAPPING_BY_EVENT = new Map<String, Map<String, String>>{
     PROP_EVENT_NAME_PAID => SNAPSHOT_TO_PROP_MAP_ASSETPAIDOFF,
@@ -115,7 +118,7 @@ public without sharing class PropertySnapshotHelper {
 
     for (String key : eventTypeMap.keySet()) {
       Property_Snapshot__c propSnapshot = new Property_Snapshot__c(
-        Event_Type__c = key
+        Event_Type__c = key == SPEC_ASSET_EVENT_NAME ? 'Asset Sold' : key
       );
 
       Map<String, String> fieldMapping = FIELD_MAPPING_BY_EVENT.get(key);

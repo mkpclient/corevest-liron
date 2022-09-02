@@ -16,7 +16,7 @@
 
   <!-- Lightning Form in Edit Mode -->
   <lightning-card title="Special Asset" icon-name="custom:custom11">
-    <div class="slds-m-around_medium">
+    <div class="slds-m-around_medium" if:true={property.data}>
       <lightning-record-edit-form
         record-id={specialAssetId}
         object-api-name="Special_Asset__c"
@@ -46,13 +46,23 @@
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Estimated_Recovery_Date__c"
-            ></lightning-input-field>
+            <lightning-input
+                type="date"
+                label="Created Date"
+                value={createdDate}
+                variant="label-inline"
+                disabled
+              ></lightning-input>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="Resolution_Type__c"
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+              field-name="Special_Asset_Reason__c"
+              disabled
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
@@ -72,23 +82,21 @@
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-              field-name="Litigation_Pending__c"
+              field-name="In_FCL_del__c"
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-              field-name="Accrual_Stop_Date__c"
-            ></lightning-input-field>
-          </div>
-          <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Special_Asset_Reason__c"
+              field-name="Loan_Performing__c"
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="Referred_for_FC_Date__c"
             ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <!-- Foreclosure Type ??? -->
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field

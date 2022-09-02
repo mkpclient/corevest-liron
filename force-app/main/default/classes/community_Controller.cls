@@ -1,25 +1,21 @@
 public without sharing class community_Controller {
   @AuraEnabled
   public static String getRecordTypeName(String i) {
-    try {
-      if (String.isNotBlank(i) && i instanceof Id) {
-        String queryString =
-          'SELECT Id, RecordType.DeveloperName FROM ' +
-          String.valueOf(Id.ValueOf(i).getSObjectType()) +
-          ' WHERE Id =\'' +
-          i +
-          '\' AND RecordTypeId != null LIMIT 1';
-        List<sObject> sobjList = database.query(queryString);
-        if (sobjList.size() > 0) {
-          return (String) sobjList[0]
-            .getsObject('RecordType')
-            .get('DeveloperName');
-        }
+    if (String.isNotBlank(i) && i instanceof Id) {
+      String queryString =
+        'SELECT Id, RecordType.DeveloperName FROM ' +
+        String.valueOf(Id.ValueOf(i).getSObjectType()) +
+        ' WHERE Id =\'' +
+        i +
+        '\' AND RecordTypeId != null LIMIT 1';
+      List<sObject> sobjList = database.query(queryString);
+      if (sobjList.size() > 0) {
+        return (String) sobjList[0]
+          .getsObject('RecordType')
+          .get('DeveloperName');
       }
-      return 'Master';
-    } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage() + ' on line ' + e.getLineNumber());
     }
+    return 'Master';
   }
 
   @AuraEnabled
@@ -91,9 +87,6 @@ public without sharing class community_Controller {
     String vendorType,
     String userType
   ) {
-    try {
-
-    
     UserResource user = new UserResource(UserInfo.getUserId());
 
     if (!CommunityController.checkAccess(parentId)) {
@@ -212,10 +205,6 @@ public without sharing class community_Controller {
     return JSON.serialize(docs);
 
     //return JSON.serialize(database.query(queryString));
-    } catch(exception err) {
-      System.debug(err.getMessage() + ' on line ' + err.getLineNumber());
-      throw new AuraHandledException(err.getMessage() + ' on line ' + err.getLineNumber());
-    }
   }
 
   @AuraEnabled
@@ -465,6 +454,7 @@ public without sharing class community_Controller {
       'Term SHeet Signed/Deposit Collected',
       'Submitted to Underwriting',
       'Loan Processing',
+      'Processing Hold',
       'Underwriting',
       'Approved by Committee',
       'UW Hold',
@@ -661,8 +651,7 @@ public without sharing class community_Controller {
       } else {
         //this.userType = 'standard';
         this.accountId = '001j000000ttlreAAA';
-        // this.contactId = '003j000000EmrJVAAZ';
-        this.contactId='003j000001MBUZoAAP';
+        this.contactId = '003j000000EmrJVAAZ';
         this.userType = 'borrower';
         this.accountType = 'Title and Escrow';
         this.isInternal = true;
@@ -670,8 +659,7 @@ public without sharing class community_Controller {
 
       if (u.Id == '005j0000000bPgPAAU') {
         this.accountId = '001j000000ttlreAAA';
-        // this.contactId = '003j000000EmrJVAAZ';
-        this.contactId='003j000001MBUZoAAP';
+        this.contactId = '003j000000EmrJVAAZ';
         this.userType = 'borrower';
         this.accountType = 'Title and Escrow';
         this.isInternal = true;

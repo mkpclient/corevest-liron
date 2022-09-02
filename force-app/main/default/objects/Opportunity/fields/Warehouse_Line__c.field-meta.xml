@@ -16,6 +16,11 @@
                 <label>2021-RTL1</label>
             </value>
             <value>
+                <fullName>2022-RTL1</fullName>
+                <default>false</default>
+                <label>2022-RTL1</label>
+            </value>
+            <value>
                 <fullName>Churchill</fullName>
                 <default>false</default>
                 <label>Churchill</label>
@@ -64,6 +69,11 @@
                 <fullName>Wells Fargo</fullName>
                 <default>false</default>
                 <label>Wells Fargo</label>
+            </value>
+            <value>
+                <fullName>Wells Fargo CRE</fullName>
+                <default>false</default>
+                <label>Wells Fargo CRE</label>
             </value>
         </valueSetDefinition>
     </valueSet>

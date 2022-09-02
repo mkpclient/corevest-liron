@@ -28,8 +28,6 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     'Term_Sub_IC' => Settings__mdt.getInstance('Universal_Settings').Number_of_Approvers_for_Term_Sub_IC__c,
     'Bridge_Mini_Sub_IC' => Settings__mdt.getInstance('Universal_Settings').Number_of_Approvers_for_Bridge_Mini_IC__c
   };
-  
-  public static final Set<String> SAB_CC = queryEmailAddresses('IC_SAB_Additional_Recipients');
 
   public static final Set<String> BRIDGE_IC_GROUP = queryEmailAddresses(
     'Term_IC_Approval'
@@ -308,10 +306,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       (!alreadySentTo.equals(BRIDGE_IC_GROUP) &&
       !alreadyCcs.equals(BRIDGE_IC_GROUP))) ||
       (!alreadySentTo.equals(BRIDGE_MINI_SUB_IC_GROUP) &&
-      !alreadyCcs.equals(BRIDGE_MINI_SUB_IC_GROUP)) || 
-      (!alreadySentTo.equals(SAB_CC) && !alreadyCcs.equals(SAB_CC))
+      !alreadyCcs.equals(BRIDGE_MINI_SUB_IC_GROUP))
     ) {
-      setCcs.addAll(SAB_CC);
       if (Deal.LOC_Commitment__c >= 3000000) {
         setCcs.addAll(BRIDGE_IC_GROUP);
       } else if (Deal.LOC_Commitment__c >= 1500000 && Deal.LOC_Commitment__c < 3000000) {
@@ -486,10 +482,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             if (
               (userMap.get(key).Email.toLowerCase() == fromAddress ||
               userMap.get(key).Email.toLowerCase() == alternateFromAddress) &&
-              (htmlBody.toLowerCase()
-                .contains(userMap.get(key).Approver_Code__c.toLowerCase()) ||
-                htmlBody.toLowerCase()
-                .contains(userMap.get(key).Approver_Code__c.toLowerCase().replace('approved', 'reject')))
+              htmlBody.toLowerCase()
+                .contains(userMap.get(key).Approver_Code__c.toLowerCase())
             ) {
               toId = key;
               fromUser = userMap.get(key);
@@ -507,27 +501,6 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             approved = approveDeal(fromUser.Id, deal);
             createAttachment(email, deal);
             postToChatter(deal, deal.Id);
-          } else if (null != fromUser.Approver_Code__c && htmlBody.toLowerCase()
-          .contains(fromUser.Approver_Code__c.toLowerCase().replace('approved', 'reject'))) {
-            List<ProcessInstanceWorkItem> wrkItem = [
-              SELECT
-                Id,
-                ProcessInstance.TargetObjectId,
-                ProcessInstance.Status,
-                ActorId,
-                Actor.Name,
-                OriginalActorId,
-                ProcessInstanceId,
-                ProcessInstance.ProcessDefinition.DeveloperName,
-                CreatedDate
-              FROM ProcessInstanceWorkItem
-              WHERE ActorId = :fromUser.Id AND ProcessInstance.TargetObjectId = :deal.Id
-              LIMIT 1
-            ];
-
-            if(wrkItem.size() > 0) {
-              ApprovalAttachments_lightningController.rejectDeal(wrkItem[0].Id, deal.Id, 'Rejected from email by ' + wrkItem[0].Actor.Name, 'Investment Committee');
-            }
           }
         }
 
@@ -588,6 +561,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     } else {
       //Reply with error
       System.debug('error sending email');
+      result.message = 'An error occured while accessing the deal related to this IC Approval.';
+      result.success = false;
     }
     return result;
   } // End of handleInboundEmail method
@@ -949,6 +924,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       System.debug(ex.getMessage());
       Database.rollback(sp);
       sendExceptionEmails(ex);
+      throw ex;
     }
 
     List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
@@ -979,6 +955,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
       Database.rollback(sp);
       sendExceptionEmails(ex);
+      throw ex;
     }
 
     System.debug('this is the new email record, reached');

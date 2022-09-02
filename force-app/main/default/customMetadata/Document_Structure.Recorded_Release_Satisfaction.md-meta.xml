@@ -72,7 +72,7 @@
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Trailing_Loan_Docs</value>
     </values>
     <values>
         <field>Post_Closing_Criteria__c</field>
@@ -96,7 +96,7 @@
     </values>
     <values>
         <field>Post_Closing_sObjectType__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Advance__c</value>
     </values>
     <values>
         <field>Private__c</field>
@@ -104,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>
@@ -112,7 +112,7 @@
     </values>
     <values>
         <field>Recorded_Document__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Required__c</field>

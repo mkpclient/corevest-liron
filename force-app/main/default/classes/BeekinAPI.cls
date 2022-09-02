@@ -260,6 +260,10 @@ public static String callOut(String method, String endpoint, Map<String, String>
     request.setTimeout(60000);  
      response = new Http().send(request);
     try {
+    System.debug('response.getstatuscode() :=' +response.getstatuscode());
+	System.debug('response.getstatus() :=' +response.getstatus());
+	System.debug('response.getBody() :=' +response.getBody());    
+    system.debug('http.response := ' +response);
 
     if (response.getstatuscode() == 200)
       {

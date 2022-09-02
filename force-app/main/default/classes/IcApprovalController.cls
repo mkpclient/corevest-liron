@@ -24,10 +24,6 @@ public without sharing class IcApprovalController {
     'Bridge Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user'),
     'Bridge Mini Sub-IC' => queryEmailAddresses('Jimmy Rojas,Emily Bisogno', 'user')
   };
-  
-  public static final Map<String, List<String>> CC_RECTYPE_MAP = new Map<String, List<String>>{
-    'Single_Asset_Bridge_Loan' => queryEmailAddresses('IC_SAB_Additional_Recipients', 'group')
-  };
 
   // public static final String BRIDGE_LIST = 'caf.test@cvest.com';
   // public static final String TERM_LIST = 'caf.test@cvest.com';
@@ -149,11 +145,8 @@ public without sharing class IcApprovalController {
     'LOC_Program_Type__c',
     'Product_Sub_Type__c',
     'Amount',
-    'Underwriter__c',
     'Underwriter__r.Email',
-    'Loan_Coordinator__c',
     'Loan_Coordinator__r.Email',
-    'Closer__c',
     'Closer__r.Email',
     'IC_Approval__c',
     'StageName',
@@ -312,25 +305,7 @@ public without sharing class IcApprovalController {
       recipientsList.add(deal[0].Owner.Email);
     }
     m.put('Recipients', new List<Object>{recipientsList});
-    Set<String> ccSet = new Set<String>(CCMAP.get(approvalType));
-
-    if(CC_RECTYPE_MAP.containsKey(deal[0].Record_Type_Name__c)) {
-      ccSet.addAll(CC_RECTYPE_MAP.get(deal[0].Record_Type_Name__c));
-    }
-
-    if(deal[0].Underwriter__c != null && String.isNotEmpty(deal[0].Underwriter__r.Email)) {
-      ccSet.add(deal[0].Underwriter__r.Email);
-    }
-
-    if(deal[0].Loan_Coordinator__c != null && String.isNotEmpty(deal[0].Loan_Coordinator__r.Email)) {
-      ccSet.add(deal[0].Loan_Coordinator__r.Email);
-    }
-
-    if(deal[0].Closer__c != null && String.isNotEmpty(deal[0].Closer__r.Email)) {
-      ccSet.add(deal[0].Closer__r.Email);
-    }
-
-    m.put('CC', new List<String>(ccSet));
+    m.put('CC', CCMAP.get(approvalType));
     
     
     m.put('ContentVersions', cvList);

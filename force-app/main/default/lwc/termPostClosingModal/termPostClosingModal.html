@@ -1,7 +1,7 @@
 <!-- sldsValidatorIgnore -->
 <template>
   <template if:true={recordId}>
-    <lightning-quick-action-panel header={headerText} >
+    <lightning-quick-action-panel header={headerText}>
       <template if:false={isEmailStage}>
         <div class="slds-box slds-box_small slds-theme_shade">
           <p><strong>Monthly Payments</strong></p>
@@ -72,7 +72,7 @@
           value={monthlyTotal}
           formatter="currency"
           step="0.01"
-          style="pointer-events: none;"
+          style="pointer-events: none"
           readonly
         ></lightning-input>
         <br />
@@ -135,7 +135,7 @@
           <lightning-output-field field-name="Closer__c" variant="label-inline">
           </lightning-output-field>
         </lightning-record-view-form>
-        <div class="slds-box slds-box_small slds-theme_shade">
+        <!-- <div class="slds-box slds-box_small slds-theme_shade">
           <p><strong>Berkadia Email Chart</strong></p>
         </div>
         <lightning-record-view-form
@@ -202,7 +202,7 @@
               required
             ></lightning-combobox>
           </template>
-        </template>
+        </template> -->
       </template>
       <template if:true={isEmailStage}>
         <lightning-input
@@ -256,13 +256,13 @@
           onclick={handleClose}
         ></lightning-button>
         <template if:false={isEmailStage}>
-          <lightning-button
+          <!-- <lightning-button
             variant="brand"
             label="Save and Proceed to Email"
             data-name="email"
             onclick={handleSubmit}
             class="slds-m-left_x-small"
-          ></lightning-button>
+          ></lightning-button> -->
           <lightning-button
             variant="brand"
             label="Save and Upload as PDF"

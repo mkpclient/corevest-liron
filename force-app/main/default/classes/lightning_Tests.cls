@@ -189,6 +189,7 @@ private class lightning_Tests {
   //static List<Account> testAccounts = testDataFactory.createTestRecords(new Account[10]);
 
   static testMethod void lightning_Tests_UnitTest() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -198,6 +199,7 @@ private class lightning_Tests {
     lightning_Controller.getSession();
     //lightning_Controller.getLoanApplication(opp.Id);
     lightning_Controller.getRecord(opp.Id);
+    lightning_Controller.givePortalAccess(opp.Id);
     lightning_Controller.getRelatedListCount(
       opp.Id,
       'Deal__c',
@@ -205,6 +207,7 @@ private class lightning_Tests {
       ''
     );
     lightning_Controller.getRecordTypeName(opp.Id);
+    lightning_Controller.fetchLookUpValues('test', 'opportunity');
     lightning_Controller.getRecordList(
       opp.Id,
       'Deal__c',
@@ -215,6 +218,17 @@ private class lightning_Tests {
       '',
       ''
     );
+     lightning_Controller.getRecordListPileLineRpt(
+      opp.Id,
+      '',
+      'opportunity',
+	  new List<String>{ 'Anticipated_Closing_Date__c','Name' ,'Spread_BPS__c','Are_Assets_Being_RFNC_From_Existing_Term__c','Final_Spread__c', 'Loan_Purpose__c','Deal_Loan_Number__c','Account.Introductions_Source__c','Recourse__c','Cash_Management__c','Term_Loan_Type__c','LTV__c','Amortization_Term__c','Floor__c','State_Percentages__c','StageName','Current_Loan_Amount__c','Owner.LastName','Underwriter__r.Initials__c','Loan_Coordinator__r.Initials__c','Closer__r.Initials__c','Title__r.Name','Third_Party_Title__r.Name','Are_Assets_Coming_Off_Bridge_Line__c','Warehouse_Line__c','Kickoff_Date__c','Days_In_Underwriting__c','Anticipated_IC_Approval__c','CloseDate','Loan_Size__c','Final_Loan_Amount__c','Awaiting_Kickoff_Call__c','In_Process_of_Withdrawn_or_Rejected__c','id'} ,        
+      'Id',
+      'Desc',
+      ' Account.Name != \'Inhouse Test Account\' AND Lender__c LIKE \'%CoreVest%\' AND CloseDate = THIS_MONTH',
+      'Awaiting_Kickoff_Call__c ASC, Anticipated_Closing_Date__c ASC, StageName DESC ',
+      'P'
+    );       
     lightning_Controller.getRecordListPropAdva(
       opp.Id,
       'Deal__c',
@@ -276,6 +290,7 @@ private class lightning_Tests {
   }
 
   static testMethod void lightning_Tests_UnitTest2() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -289,6 +304,7 @@ private class lightning_Tests {
   }
 
   static testMethod void lightning_Tests_UnitTest3() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -402,6 +418,7 @@ private class lightning_Tests {
   }
 
   static testMethod void lightning_Tests4() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createLOCDeal(acc, cont);
@@ -530,7 +547,7 @@ private class lightning_Tests {
       validEmailTemplate.FolderId = UserInfo.getUserId();
       insert validEmailTemplate;
     }
-
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createLOCDeal(acc, cont);
@@ -615,6 +632,13 @@ private class lightning_Tests {
 
     insert dealDocList;
 
+    List<Id> dealDocId = new List<Id>();
+    for(Deal_Document__c ddoc : dealDocList) {
+      dealDocId.add(ddoc.Id);
+    }
+
+    lightning_Controller.generateReadAccessMap(dealDocId);
+
     documentUploader_Controller.getPicklists(
       'Opportunity',
       '',
@@ -676,6 +700,7 @@ private class lightning_Tests {
   }
 
   static testMethod void lightning_Tests5() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createLOCDeal(acc, cont);
@@ -702,6 +727,7 @@ private class lightning_Tests {
     opp.Final_Loan_Amount__c = 4000000;
     opp.Final_Spread__c = 2;
     opp.Final_Swap__c = 2;
+    opp.IC_Approval_Date__c = system.today();
     update opp;
 
     List<Property__c> property = new List<Property__c>();
@@ -722,7 +748,7 @@ private class lightning_Tests {
     Test.startTest();
     Advance__c adv = new Advance__c(Deal__c = opp.Id);
     insert adv;
-
+    lightning_Controller.calculateTotal(opp.Id);
     documentUploader_Controller.getPicklists(
       'Opportunity',
       'LOC_Loan',
@@ -730,11 +756,13 @@ private class lightning_Tests {
       null,
       null
     );
-    insert new Attachment(
+    Attachment attc = new Attachment(
       ParentId = opp.Id,
       Body = Blob.valueOf('saadsf'),
       Name = 'Test'
     );
+    insert attc;
+    
     insert new Attachment(
       ParentId = opp.Id,
       Body = Blob.valueOf('saadsf'),
@@ -770,9 +798,11 @@ private class lightning_Tests {
     );
 
     Test.stopTest();
+    lightning_Controller.reparentAttachment(attc.Id, adv.Id);
   }
 
   static testMethod void lightning_Tests7() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createLOCDeal(acc, cont);
@@ -788,7 +818,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee__c = 1;
     opp.Requested_Exit_Fee__c = 1;
     opp.Requested_Interest_Type__c = 'Floating';
-    opp.Requested_Rate_1_9_Months__c = 1;
+    opp.Requested_Rate_1_9_Months__c = null;
     opp.Requested_Revolving__c = 'No';
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
@@ -799,6 +829,7 @@ private class lightning_Tests {
     opp.Apex_Context__c = true;
     opp.Approval_Status__c = 'Pending';
     opp.Loan_Effective_Date__c = system.today();
+    opp.IC_Approval_Date__c = system.today();
     update opp;
 
     List<Property__c> property = new List<Property__c>();
@@ -830,6 +861,7 @@ private class lightning_Tests {
   }
 
   static testMethod void dupeTests() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createBridgeDeal(acc, cont);
@@ -903,5 +935,26 @@ private class lightning_Tests {
     //dupeJob.Status__c = ''
 
     Test.stopTest();
+  }
+
+  static testMethod void appraisal_Ltg_test() {
+    StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalXMLTest' LIMIT 1];
+        ContentVersion cv = new ContentVersion(
+            Title = 'Test',
+            PathOnClient = 'Test.xml',
+            VersionData = xml.Body,
+            IsMajorVersion = true
+        );
+
+        insert cv;
+        test_Helper.createDealLoanNumber();
+        Account acc = Test_Helper.createAccount();
+        Contact cont = Test_Helper.createContact( acc );
+        Opportunity opp = Test_Helper.createOpportunity( acc, cont );
+        opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
+        List<Property__c> properties = Test_Helper.createProperties(opp);
+        Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
+
+        lightning_Controller.attachFileToParent(cv.Id, appraisal.Id);
   }
 }

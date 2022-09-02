@@ -1,0 +1,111 @@
+<template>
+  <lightning-card>
+    <h3 slot="title">
+      <lightning-icon
+        icon-name="utility:connected_apps"
+        size="small"
+      ></lightning-icon>
+      Advance Batch Approvals in Progress
+    </h3>
+    <lightning-tabset>
+      <lightning-tab label="All Batch Approvals">
+        <lightning-card>
+          <template if:false={isLoading}>
+            <template if:true={hasAllData}>
+              <lightning-datatable
+                key-field="Id"
+                data={allData}
+                columns={columns}
+                hide-checkbox-column
+                default-sort-direction={sortData.allData.defaultSortDirection}
+                sorted-direction={sortData.allData.sortDirection}
+                sorted-by={sortData.allData.sortedBy}
+                onsort={onHandleSort}
+                data-name="allData"
+              >
+              </lightning-datatable>
+            </template>
+            <template if:false={hasAllData}>
+              <c-custom-alert
+                alert-text="No Data to Display"
+                variant="Informational"
+              ></c-custom-alert>
+            </template>
+          </template>
+        </lightning-card>
+      </lightning-tab>
+      <lightning-tab label="My Batch Approvals">
+        <lightning-card>
+          <div slot="actions">
+            <lightning-button
+              label="Approve"
+              value="Approved"
+              onclick={handleClick}
+              variant="brand"
+            ></lightning-button>
+            <lightning-button
+              label="Reject"
+              value="Rejected"
+              onclick={handleClick}
+              variant="destructive"
+            ></lightning-button>
+          </div>
+          <template if:false={isLoading}>
+            <template if:true={hasUserData}>
+              <lightning-datatable
+                key-field="Id"
+                data={userData}
+                columns={columns}
+                default-sort-direction={sortData.userData.defaultSortDirection}
+                sorted-direction={sortData.userData.sortDirection}
+                sorted-by={sortData.userData.sortedBy}
+                onsort={onHandleSort}
+                data-name="userData"
+                selected-rows={selectedBatchIds}
+                onrowselection={handleRowSelection}
+              >
+              </lightning-datatable>
+            </template>
+            <template if:false={hasUserData}>
+              <c-custom-alert
+                alert-text="No Data to Display"
+                variant="Informational"
+              ></c-custom-alert>
+            </template>
+          </template>
+        </lightning-card>
+      </lightning-tab>
+    </lightning-tabset>
+  </lightning-card>
+  <c-modal title="Submit for Approval">
+    <div slot="body">
+      <template if:true={disableSave}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="medium"
+        ></lightning-spinner>
+      </template>
+      <template if:false={disableSave}>
+        <lightning-textarea
+          name="comments"
+          label="Comments"
+          message-when-value-missing="This field is required."
+          required
+        ></lightning-textarea>
+      </template>
+    </div>
+    <div slot="footer">
+      <lightning-button
+        label="Close"
+        onclick={closeModal}
+        disabled={disableSave}
+      ></lightning-button>
+      <lightning-button
+        label="Submit"
+        onclick={handleSave}
+        variant="brand"
+        disabled={disableSave}
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

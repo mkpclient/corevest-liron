@@ -28,11 +28,6 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Indicative_Rate__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>CAF_Upfront_Fee__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>

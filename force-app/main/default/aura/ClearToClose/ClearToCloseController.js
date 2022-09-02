@@ -1,5 +1,5 @@
 ({
-  init: function(component, event, helper) {
+  init: function (component, event, helper) {
     // var queryString = 'SELECT Id, Label, Section_Order__c,'
     // queryString += ' (SELECT Id, Document_Type__c, Folder_Structure_String__c FROM Document_Structures__r)';
     // queryString +=' FROM Clear_To_Close__mdt Order By Section_Order__c Asc';
@@ -15,7 +15,7 @@
       opportunityId: component.get("v.recordId")
     });
 
-    action.setCallback(this, function(response) {
+    action.setCallback(this, function (response) {
       var state = response.getState();
 
       if (state == "SUCCESS") {
@@ -25,25 +25,34 @@
 
         let sections = [];
 
-        data.settings.forEach(function(setting) {
+        data.settings.forEach(function (setting) {
           if (!$A.util.isUndefinedOrNull(setting.Document_Structures__r)) {
-            setting.Document_Structures__r.forEach(function(record) {
+            setting.Document_Structures__r.forEach(function (record) {
               //console.log(record);
               var key =
                 record.Folder_Structure_String__c +
                 "|" +
                 record.Document_Type__c;
 
-              record["loaded"] = data["wrapper"]["docMap"][key].documentLoaded; //data["wrapper"]["docMap"][key][0];
-              record["reviewed"] =
-                data["wrapper"]["docMap"][key].documentReviewed; //data["wrapper"]["docMap"][key][1];
-              record["required"] = data["wrapper"]["docMap"][key].required; //data["wrapper"]["docMap"][key][2];
-              record["docId"] = data["wrapper"]["docMap"][key].docId; //data["wrapper"]["docMap"][key][3];
-              record["comments"] =
-                data["wrapper"]["docMap"][key].internalComments; //data["wrapper"]["docMap"][key][4];
-              record["docInfoId"] = data["wrapper"]["docMap"][key].docInfoId;
-              record["documentCount"] =
-                data["wrapper"]["docMap"][key].documentCount;
+              // console.log(key);
+              // console.log(record);
+              // console.log(data.wrapper.docMap);
+
+              if (data["wrapper"]["docMap"][key]) {
+                record["loaded"] =
+                  data["wrapper"]["docMap"][key].documentLoaded; //data["wrapper"]["docMap"][key][0];
+                record["reviewed"] =
+                  data["wrapper"]["docMap"][key].documentReviewed; //data["wrapper"]["docMap"][key][1];
+                record["required"] = data["wrapper"]["docMap"][key].required; //data["wrapper"]["docMap"][key][2];
+                record["docId"] = data["wrapper"]["docMap"][key].docId; //data["wrapper"]["docMap"][key][3];
+                record["comments"] =
+                  data["wrapper"]["docMap"][key].internalComments; //data["wrapper"]["docMap"][key][4];
+                record["docInfoId"] = data["wrapper"]["docMap"][key].docInfoId;
+                record["documentCount"] =
+                  data["wrapper"]["docMap"][key].documentCount;
+              } else {
+                console.log(key);
+              }
             });
           }
 
@@ -56,8 +65,8 @@
           sections[sections.length - 1].settings.push(setting);
         });
 
-        sections.forEach(section => {
-          section.settings.forEach(setting => {
+        sections.forEach((section) => {
+          section.settings.forEach((setting) => {
             console.log(setting);
             setting.Document_Structures__r.records = setting.Document_Structures__r.sort(
               (a, b) => {
@@ -87,7 +96,7 @@
     $A.enqueueAction(action);
   },
 
-  viewFile: function(component, event, helper) {
+  viewFile: function (component, event, helper) {
     //let fileId = event.getSource().get('v.title');
     //console.log(event.target.source);
     let fileId = event.target.title;
@@ -97,7 +106,7 @@
     });
   },
 
-  viewFiles: function(component, event, helper) {
+  viewFiles: function (component, event, helper) {
     let docId = event.target.id;
     component.set("v.selectedDocIdList", docId);
 
@@ -110,7 +119,7 @@
       docInfoId: docId
     });
 
-    action.setCallback(this, response => {
+    action.setCallback(this, (response) => {
       let state = response.getState();
 
       if (state === "SUCCESS") {
@@ -137,14 +146,14 @@
     $A.enqueueAction(action);
   },
 
-  toggleSection: function(component, event, helper) {
+  toggleSection: function (component, event, helper) {
     // var id = event.target.getAttribute("data-id");
     // var sectionId = event.target.getAttribute('data-sectionIndex');
     // console.log(id);
 
     let name = event.target.getAttribute("data-name");
 
-    component.find("sections").forEach(section => {
+    component.find("sections").forEach((section) => {
       // console.log(section.getElement().getAttribute("data-name"));
       // console.log(section);
       // conso;
@@ -154,7 +163,7 @@
       }
     });
 
-    component.find("sections-icon").forEach(icon => {
+    component.find("sections-icon").forEach((icon) => {
       if (name === icon.get("v.title")) {
         $A.util.toggleClass(icon, "slds-accordion__summary-action-icon");
       }
@@ -167,7 +176,7 @@
     // );
   },
 
-  openEditModal: function(component, event, helper) {
+  openEditModal: function (component, event, helper) {
     let docInfoId = event.getParam("value");
 
     console.log(docInfoId);
@@ -187,18 +196,15 @@
     component.set("v.selectedDocId", docInfoId);
   },
 
-  closeEditModal: function(component, event, helper) {
+  closeEditModal: function (component, event, helper) {
     component.set("v.selectedDocId", null);
   },
 
-  save: function(component, event, helper) {
-    component
-      .find("edit")
-      .get("e.recordSave")
-      .fire();
+  save: function (component, event, helper) {
+    component.find("edit").get("e.recordSave").fire();
   },
 
-  handleSaveSuccess: function(component, event, helper) {
+  handleSaveSuccess: function (component, event, helper) {
     component.set("v.selectedDocId", null);
     var toastEvent = $A.get("e.force:showToast");
     toastEvent.setParams({
@@ -209,17 +215,17 @@
     toastEvent.fire();
   },
 
-  closeEditModalList: function(component, event, helper) {
+  closeEditModalList: function (component, event, helper) {
     component.set("v.selectedDocIdList", null);
   },
 
-  review: function(component, event, helper) {
+  review: function (component, event, helper) {
     console.log("review");
     component.find("reviewBtn").set("v.disabled", true);
     let docs = component.get("v.documentList");
     let docIds = [];
     let mostRecent = false;
-    docs.forEach(doc => {
+    docs.forEach((doc) => {
       if (doc.checked && $A.util.isEmpty(doc.Reviewed_On__c)) {
         docIds.push(doc.Id);
 
@@ -239,13 +245,13 @@
       action.setParams({ docIds: docIds });
 
       let that = this;
-      action.setCallback(this, response => {
+      action.setCallback(this, (response) => {
         let state = action.getState();
         if (state === "SUCCESS") {
           let updatedDocs = JSON.parse(response.getReturnValue());
           console.log(updatedDocs);
-          updatedDocs.forEach(updatedDoc => {
-            docs.forEach(doc => {
+          updatedDocs.forEach((updatedDoc) => {
+            docs.forEach((doc) => {
               if (doc.Id === updatedDoc.Id) {
                 doc.Reviewed_On__c = updatedDoc.Reviewed_On__c;
                 doc.Reviewed_By__c = updatedDoc.Reviewed_By__c;

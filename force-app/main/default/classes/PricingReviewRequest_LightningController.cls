@@ -364,8 +364,8 @@ public without sharing class PricingReviewRequest_LightningController {
     ////CIP-2191-RS.4/4/22.End.
 
  //CIP-2288-RS.8/18/22.Begin.      
-      if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
-          || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)')
+      if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c  == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+          || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' )
       {
            DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,ri,Null);
       }
@@ -377,6 +377,11 @@ public without sharing class PricingReviewRequest_LightningController {
  //CIP-2288-RS.8/18/22.Begin.
   @AuraEnabled
   public static Void DealPropertyVlidation(Id recId, String Product_Type, returnItem ri, List<String> listMessages) {
+      
+    System.debug('RS999 recId :' +recId);
+    System.debug('RS999 Product_Type :' +Product_Type);
+    System.debug('RS999 ri :' +ri);
+    System.debug('RS999 listMessages :' +listMessages);      
     List<property__c> properties = [
       SELECT id,
 		City__c,
@@ -403,11 +408,11 @@ public without sharing class PricingReviewRequest_LightningController {
             }
             if (String.isBlank(propertie.ZipCode__c))
             {
-               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(3,GetMessage(2)) ;
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
             }         
             if (String.isBlank(propertie.State__c))
             {
-               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(2,GetMessage(3)) ;
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
             }
             if (propertie.Acquisition_Price__c == Null)
             {
@@ -427,11 +432,11 @@ public without sharing class PricingReviewRequest_LightningController {
             }
             if (String.isBlank(propertie.ZipCode__c))
             {
-               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(3,GetMessage(2)) ;
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
             }         
             if (String.isBlank(propertie.State__c))
             {
-               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(2,GetMessage(3)) ;
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
             }
             if (propertie.Override_Initial_Disbursement__c == Null)
             {
@@ -447,11 +452,11 @@ public without sharing class PricingReviewRequest_LightningController {
             }
             if (String.isBlank(propertie.ZipCode__c))
             {
-               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(3,GetMessage(2)) ;
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
             }         
             if (String.isBlank(propertie.State__c))
             {
-               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(2,GetMessage(3)) ;
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
             }
     }
     }
@@ -462,6 +467,7 @@ public without sharing class PricingReviewRequest_LightningController {
           For(String curMessage : mapReturnMessage.values())
           {
               ri.otherMessage.add(curMessage);
+              System.Debug('RS999 listMessages :' +listMessages);              
           }
           }
           Else
@@ -480,7 +486,8 @@ public without sharing class PricingReviewRequest_LightningController {
       
     Messages__mdt  message = [SELECT Detailed_Description__c, Messages__c, MessagetNumber__c , Message_Type__c from Messages__mdt where MessagetNumber__c = :messageNumber];
 	      
-    String ErrorString = message.Messages__c + ' (' + String.valueOf(messageNumber)  + ')';
+    //String ErrorString = message.Messages__c + ' (' + String.valueOf(messageNumber)  + ')';
+    String ErrorString = message.Messages__c;
       
     Return ErrorString;
       
@@ -787,7 +794,8 @@ public without sharing class PricingReviewRequest_LightningController {
         if (workItemIds.size() == 1) {
           if (
             processName != 'Term_Pricing_Review_Capital_Markets' &&
-            processName != 'Bridge_LOC_Pricing_Review_Capital_Market'
+            processName != 'Bridge_LOC_Pricing_Review_Capital_Market' && 
+            processName != 'Standard_SAB_Pricing_Review_Below_1_5M'
           ) {
             a.Status_Text__c = 'Pending: Underwriting Review';
           } else {

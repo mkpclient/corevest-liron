@@ -126,7 +126,7 @@
        		//
        		House_Canary_Mortgage_Lien_Rpt:'/lightning/r/Report/00O5b000005rOa7EAE/view?fv0=' + prop.Id,
        		House_Canary_Sale_History_Rpt:'/lightning/r/Report/00O5b000005rOaHEAU/view?fv0=' + prop.Id,
-       		House_Canary_Tax_History_Rpt:'/lightning/r/Report/00O5b000005rOaCEAU/view?fv0=' + prop.Id,                
+       		House_Canary_Tax_History_Rpt:'/lightning/r/Report/00O5b000005rOaCEAU/view?fv0=' + prop.Id,                 
 			//House_Canary_Is_HOA__c: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0 ? prop.Property_AVMs__r[0].AVM_Is_HOA__c : null,
 			//Diff_House_Canary_Is_HOA__c: prop.Property_AVMs__r && prop.Property_AVMs__r.length>0  && prop.Is_HOA__c && prop.Is_HOA__c != prop.Property_AVMs__r[0].AVM_Is_HOA__c,
 		}));
@@ -204,7 +204,7 @@
 						 }
 						 else if (index == selectedProps.length - 1 && isError) {
 							 this.hideSpinner(component);
-							 let errorMsg = 'An error occured on one or more properties.';
+							 let errorMsg = 'An error occurred on one or more properties.';
 							 for (let msg of errorMsgs) {
 								 errorMsg += '\n' + msg;
 							 }
@@ -217,7 +217,7 @@
 						 errorMsgs.push(prop.Name + ': ' + error.message);
 						 if (index == selectedProps.length - 1) {
 							 this.hideSpinner(component);
-							 let errorMsg = 'An error occured on one or more properties.';
+							 let errorMsg = 'An error occurred on one or more properties.';
 							 for (let msg of errorMsgs) {
 								 errorMsg += '\n' + msg;
 							 }

@@ -125,6 +125,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Term Loan</controllingFieldValue>
+            <controllingFieldValue>Single Rental Loan</controllingFieldValue>
             <valueName>Long Term Rental</valueName>
         </valueSettings>
         <valueSettings>

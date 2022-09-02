@@ -130,9 +130,6 @@ public without sharing class PostClosingHelper {
     String sObjectName,
     String triggerContext
   ) {
-    // Map<Id, sObject> recordMap = (Map<Id,SObject>) JSON.deserialize(newJson, Map<Id,SObject>.class);
-    // Map<Id, sObject> oldRecordMap = (Map<Id,SObject>) JSON.deserialize(oldJson, Map<Id,SObject>.class);
-
     Map<String, List<Document_Structure__mdt>> recordTypeDocStructureMap = new Map<String, List<Document_Structure__mdt>>();
 
     Set<Id> dealIds = new Set<Id>();
@@ -330,6 +327,9 @@ public without sharing class PostClosingHelper {
     }
   }
 
+  // public static String getRecords(String sObjectName){
+  //     String
+  // }
 
   public class PostClosingStruct {
     String postClosingSectionMDTid;

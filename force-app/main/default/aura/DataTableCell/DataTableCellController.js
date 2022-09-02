@@ -8,7 +8,7 @@
 
         console.log('rows:::: datatable cell:::',row);
         console.log('Clear_Result__c:::: datatable cell:::',row['Clear_Result__r']);
-		
+
         var clearResult = row['Clear_Result__r'];
         if(clearResult != '' && clearResult != null){
             //component.set('v.class','slds-alert_error');
@@ -20,6 +20,9 @@
         }
         
         var column = component.get( 'v.column' );
+        if(!$A.util.isEmpty(component.get("v.typeAttributes")) && component.get("v.typeAttributes") != "text") {
+            component.set("v.typeAttributesMapList", JSON.parse(component.get("v.typeAttributes")))
+        }
         if($A.util.isEmpty(column.get('v.isReadable'))) {
             component.set('v.isReadable', true);
         } else { 

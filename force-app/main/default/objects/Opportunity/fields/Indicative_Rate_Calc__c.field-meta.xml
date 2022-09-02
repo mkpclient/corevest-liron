@@ -2,11 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Indicative_Rate_Calc__c</fullName>
     <businessStatus>Active</businessStatus>
-    <description>Swap rate plus Spread for Indicative</description>
+    <description>Swap rate or Floor plus Spread for Indicative (prior: swap + spread only)</description>
     <externalId>false</externalId>
-    <formula>Swap_Rate__c + Spread_BPS__c</formula>
+    <formula>IF(Swap_Rate__c != Floor__c, IF(Swap_Rate__c &gt; Floor__c, Swap_Rate__c + Spread_BPS__c, Floor__c + Spread_BPS__c), Floor__c + Spread_BPS__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Sum of the Swap Rate and Spread</inlineHelpText>
+    <inlineHelpText>Sum of the Spread plus whichever is greater of Swap Rate or Floor</inlineHelpText>
     <label>Indicative Rate</label>
     <precision>18</precision>
     <required>false</required>

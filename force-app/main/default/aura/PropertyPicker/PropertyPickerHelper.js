@@ -127,6 +127,7 @@
 
     if (component.get("v.propertyIds") !== "()") {
       whereClause += " AND Id NOT IN " + component.get("v.propertyIds");
+      whereClause += " ORDER BY Name";
     }
 
     console.log(whereClause);

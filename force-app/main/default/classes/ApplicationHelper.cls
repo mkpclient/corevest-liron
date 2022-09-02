@@ -1,24 +1,24 @@
 public with sharing class ApplicationHelper {
   public static void beforeInsert(List<Application__c> newList) {
-    Map<String, Id> recordTypeMap = new Map<String, Id>();
+    // Map<String, Id> recordTypeMap = new Map<String, Id>();
 
-    for (RecordType rt : [
-      SELECT Id, DeveloperName
-      FROM RecordType
-      WHERE Sobjecttype = 'Application__c'
-    ]) {
-      recordTypeMap.put(rt.DeveloperName, rt.Id);
-    }
+    // for (RecordType rt : [
+    //   SELECT Id, DeveloperName
+    //   FROM RecordType
+    //   WHERE Sobjecttype = 'Application__c'
+    // ]) {
+    //   recordTypeMap.put(rt.DeveloperName, rt.Id);
+    // }
 
-    for (Application__c app : newList) {
-      if (app.Loan_Type__c == 'rental') {
-        app.RecordTypeId = recordTypeMap.get('Rental');
-      } else if (app.Loan_Type__c == 'term') {
-        app.RecordTypeId = recordTypeMap.get('Term');
-      } else if (app.Loan_Type__c == 'bridge') {
-        app.RecordTypeId = recordTypeMap.get('Bridge');
-      }
-    }
+    // for (Application__c app : newList) {
+    //   if (app.Loan_Type__c == 'rental') {
+    //     app.RecordTypeId = recordTypeMap.get('Rental');
+    //   } else if (app.Loan_Type__c == 'term') {
+    //     app.RecordTypeId = recordTypeMap.get('Term');
+    //   } else if (app.Loan_Type__c == 'bridge') {
+    //     app.RecordTypeId = recordTypeMap.get('Bridge');
+    //   }
+    //}
   }
 
   @AuraEnabled
@@ -80,15 +80,16 @@ public with sharing class ApplicationHelper {
       if (
         application.loan_Type__c == 'Build for Rent' ||
         application.Loan_Type__c == 'Credit Line' ||
-        application.Loan_Type__c == 'Bridge Loan'
+        application.Loan_Type__c == 'Single Asset Bridge Loan' ||
+        application.Loan_Type__c == 'Multifamily'
       ) {
         opp.RecordTypeId = recordTypeMap.get('LOC_Loan');
         opp.CloseDate = system.today().addDays(75);
       } else if (application.loan_Type__c == 'Rental Portfolio') {
         opp.RecordTypeId = recordTypeMap.get('Term_Loan');
         opp.CloseDate = system.today().addDays(65);
-      } else if (application.loan_Type__c == 'rental') {
-        if (recordTypes[0] == 'Bridge and Rental') {
+      } else if (application.loan_Type__c == 'Bridge and Rental') {
+        if (recordTypes[0] == 'term') {
           opp.RecordTypeId = recordTypeMap.get('Term_Loan');
           opp.CloseDate = system.today().addDays(65);
         } else {
@@ -116,6 +117,11 @@ public with sharing class ApplicationHelper {
       //insert opp;
       response.put('oppId', opp.Id);
       application.Deal__c = opp.Id;
+
+      if (opps.size() > 1) {
+        application.Deal_2__c = opps[0].Id;
+      }
+
       update application;
 
       List<Deal_Contact__c> dcs = new List<Deal_Contact__c>();
@@ -241,6 +247,10 @@ public with sharing class ApplicationHelper {
 
         if (property.Property_Type__c == 'townhom') {
           property.Property_Type__c = 'townhome';
+        }
+
+        if (property.Property_Type__c == '1-4 Unit') {
+          property.Property_Type__c = '2-4 Unit';
         }
 
         prop.Property_Type__c = property.Property_Type__c;

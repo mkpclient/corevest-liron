@@ -1,5 +1,8 @@
 import getApprovalHistories from "@salesforce/apex/IcReviewsLwcController.getApprovalHistories";
 import { LightningElement, wire } from "lwc";
+import USER_ID from "@salesforce/user/Id";
+import USER_FULLNAME from "@salesforce/schema/User.Name";
+import { getRecord } from "lightning/uiRecordApi";
 
 export default class IcReviewsInProgressLwc extends LightningElement {
   columns = [
@@ -74,11 +77,28 @@ export default class IcReviewsInProgressLwc extends LightningElement {
   sortDirection;
 
   tableData = [];
+  allTableData = [];
+
+  userFullName;
+  filterStatus = "All";
 
   @wire(getApprovalHistories, {})
   wiredData({ error, data }) {
     if (data) {
       this.tableData = data;
+      this.allTableData = data;
+    } else {
+      console.error(error);
+    }
+  }
+
+  @wire(getRecord, {
+    recordId: USER_ID,
+    fields: [USER_FULLNAME]
+  })
+  wireUser({ error, data }) {
+    if(data) {
+      this.userFullName = data.fields.Name.value;
     } else {
       console.error(error);
     }
@@ -110,5 +130,19 @@ export default class IcReviewsInProgressLwc extends LightningElement {
       return isReverse * ((x > y) - (y > x));
     });
     this.tableData = parseData;
+  }
+
+  handleSelect(event) {
+    const val = event.detail.value;
+    if(val === "All") {
+      this.tableData = this.allTableData;
+    } else {
+      this.tableData = this.allTableData.filter(a => a.approverName == this.userFullName);
+    }
+    this.filterStatus = val;
+  }
+
+  get componentHeader() {
+    return `IC Approvals in Progress (${this.filterStatus})`;
   }
 }

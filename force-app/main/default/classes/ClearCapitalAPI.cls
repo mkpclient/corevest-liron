@@ -551,7 +551,7 @@ public without sharing class ClearCapitalAPI {
       'tracking_5="" zip4="" zip5="' +
       property.ZipCode__c.subStringBefore('-') +
       '">';
-    if(isCDA) {
+    if(isCDA && String.isNotEmpty(cvContentData)) {
       body += '<supporting_documents>';
       body += '<document_base64 type="APPRAISAL">';
       body += cvContentData;

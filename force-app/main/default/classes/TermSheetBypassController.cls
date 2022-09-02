@@ -60,7 +60,11 @@ public without sharing class TermSheetBypassController {
     'GLC_Approved__c',
     'OwnerId',
     'LOC_Program_Type__c',
-    'RecordType.DeveloperName'
+    'RecordType.DeveloperName',
+    'Current_Stage__c',
+    'Term_Sheet_Issued__c',
+    'StageName'        
+        
   };
 
   // public static Map<String,String> loansToTemplate = new Map<String,String>{
@@ -137,7 +141,7 @@ public without sharing class TermSheetBypassController {
 
     if(o.RecordType.DeveloperName != 'Term_Loan' && o.LOC_Program_Type__c == 'Standard') {
       if(ddList.size() == 0) {
-        m.put('ValidationError', new List<String>{validationMessages.get('noTermSheet')});
+      m.put('ValidationError', new List<String>{validationMessages.get('noTermSheet')});
         return JSON.serialize(m);
       } else {
         return '{}';
@@ -206,13 +210,25 @@ public without sharing class TermSheetBypassController {
       a.ParentId = recordId;
       insert a;
 
+        
+        
       Opportunity o = new Opportunity(
         Id = recordId,
         Bypass_To_Underwriting__c = true,
         Approved_Term_Sheet__c = termSheet.ContentVersion_Id__c,
         Approved_Term_Sheet_Name__c = termSheet.File_Name__c
       );
-
+	  //RS.Begin
+	  List<Opportunity> op = [select Current_Stage__c, Term_Sheet_Issued__c, StageName from Opportunity where id = :recordId];
+      if (op.size() > 0)
+      {
+        o.Term_Sheet_Issued__c  = Date.today();
+      	if (op[0].Current_Stage__c == 'Initial Review' || op[0].Current_Stage__c == 'Data Tape Received')
+        {
+         o.StageName = 'Term Sheet Issued';
+        }
+      }  
+     //RS.End
       update o;
 
       return 'This record has successfully been bypassed';

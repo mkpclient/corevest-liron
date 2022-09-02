@@ -11,6 +11,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>BSI</fullName>
+                <default>false</default>
+                <label>BSI</label>
+            </value>
+            <value>
                 <fullName>Cohen</fullName>
                 <default>false</default>
                 <label>Cohen</label>
@@ -29,6 +34,21 @@
                 <fullName>Midland</fullName>
                 <default>false</default>
                 <label>Midland</label>
+            </value>
+            <value>
+                <fullName>Planet</fullName>
+                <default>false</default>
+                <label>Planet</label>
+            </value>
+            <value>
+                <fullName>Shellpoint</fullName>
+                <default>false</default>
+                <label>Shellpoint</label>
+            </value>
+            <value>
+                <fullName>Situs Asset Management</fullName>
+                <default>false</default>
+                <label>Situs Asset Management</label>
             </value>
             <value>
                 <fullName>SLS</fullName>

@@ -50,7 +50,7 @@ public without sharing class APILoggerQueueable implements Queueable {
         Enable_Valuation_API_Response_Logging__c,
         Enable_Clear_API_Response_Logging__c,
         Enable_CoreLogic_API_Response_Logging__c,
-        Enable_Beekin_API_Response_Logging__c,
+        // Enable_Beekin_API_Response_Logging__c,
         Enable_Clear_Capital_API_Logging__c
       FROM Settings__mdt
       WHERE DeveloperName = 'Universal_Settings'
@@ -109,11 +109,6 @@ public without sharing class APILoggerQueueable implements Queueable {
         ? settings[0].Enable_Clear_API_Response_Logging__c
         : true;
       log.Type__c = 'Clear';
-    } else if (endpoint.contains('beekin')) {
-      enableLogging = settings.size() > 0
-        ? settings[0].Enable_Beekin_API_Response_Logging__c
-        : true;
-      log.Type__c = 'Beekin';
       // } else if (endpoint.contains('corelogic')) {
       //   enableLogging = settings.size() > 0
       //     ? settings[0].Enable_CoreLogic_API_Response_Logging__c

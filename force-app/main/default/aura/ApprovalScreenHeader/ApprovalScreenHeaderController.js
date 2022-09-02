@@ -10,9 +10,11 @@
         console.log("this is the returnVal for ApprovalScreenHeader");
         console.log(returnVal);
         component.set("v.status", returnVal.Status);
+        component.set("v.processDisplayName", returnVal.processDisplayName);
         component.set("v.submitter", returnVal.Submitter);
         component.set("v.dateSubmitted", returnVal.DateSubmitted);
         component.set("v.oppId", returnVal.oppId);
+        component.set("v.dealName", returnVal.dealName);
         component.set("v.userRole", returnVal.Role);
 
         // let approvalType = returnVal.ApprovalName.includes('Pricing') ? 'pricingReview' : 'submitUw';
@@ -80,7 +82,9 @@
       oppId: component.get("v.oppId"),
       comments: component.get("v.comments"),
       opp: opp,
-      approvalName: component.get("v.approvalName")
+      approvalName: component.get("v.approvalName"),
+      processDisplayName: component.get("v.processDisplayName"),
+      dealName: component.get("v.dealName")
     });
 
     console.log("---params---");
@@ -90,7 +94,7 @@
       oppId: component.get("v.oppId"),
       comments: component.get("v.comments"),
       opp: opp,
-      approvalName: component.get("v.approvalName")
+      approvalName: component.get("v.approvalName"),
     });
 
     action.setCallback(this, function (response) {

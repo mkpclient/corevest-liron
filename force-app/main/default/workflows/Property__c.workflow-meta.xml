@@ -68,11 +68,11 @@
         <description>Property created through the Portal</description>
         <protected>false</protected>
         <recipients>
-            <recipient>bryon.harland@cvest.com</recipient>
-            <type>user</type>
+            <recipient>Bridge_Funding</recipient>
+            <type>group</type>
         </recipients>
         <recipients>
-            <recipient>daniel.han@cvest.com</recipient>
+            <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>

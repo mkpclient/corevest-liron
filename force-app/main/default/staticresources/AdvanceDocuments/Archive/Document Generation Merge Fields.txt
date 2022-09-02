@@ -1,0 +1,64 @@
+{Deal__r.Borrower_Entity__r.Name}
+{Deal__r.Borrower_Entity__r.Name}, a {Deal__r.Borrower_Entity__r.Company_Jurisdiction__c} {Deal__r.Borrower_Entity__r.Entity_Type__c}
+{Deal__r.Borrower_Entity__r.Company_Jurisdiction__c} {Deal__r.Borrower_Entity__r.Entity_Type__c}
+{Deal__r.Borrower_Entity__r.Address_1__c} {Deal__r.Borrower_Entity__r.City__c}, {Deal__r.Borrower_Entity__r.State__c} {Deal__r.Borrower_Entity__r.Zip__c}
+
+{Deal__r.Borrower_Entity__r.Name | upperCase}
+{borrowerdetails.name | upperCase}, a {borrowerdetails.company} {borrowerdetails.entity}
+
+{Deal__r.Deal_Loan_Number__c}
+
+{Deal__r.LOC_Commitment__c | formatCurrency}
+{Deal__r.LOC_Commitment__c | formatCurrencyText}
+
+{Property_Advances__r[0].Property__r.Approved_Renovation_Holdback__c | formatCurrency}
+
+Dates:
+{Id | today}
+{Deal__r.Loan_Effective_Date__c | formatDate}
+is made as of this {null | day} day of {null | month}, {null | year}, 
+{Deal__r.CloseDate | addDaysFull:0}
+{Deal__r.Stated_Maturity_Date__c | formatDate}
+{Property_Advances__r[0].Property__r.Requested_Funding_Date__c  | addDaysFull:7}
+
+Property Address: {Property_Advances__r[0].Property__r.Name} {Property_Advances__r[0].Property__r.City__c}, {Property_Advances__r[0].Property__r.State__c} {Property_Advances__r[0].Property__r.ZipCode__c}
+
+Interest Rate: {Deal__r.Rate__c}
+{Deal__r.Rate__c | formatPercentText}
+
+Origination Fee:  {Deal__r.CAF_Upfront_Fee__c}
+{Deal__r.CAF_Upfront_Fee__c | formatPercentText}
+
+Property Escrow Details:
+{Property_Advances__r[0].Property__r.Escrow_Agent__r.Name}
+{Property_Advances__r[0].Property__r.Escrow_Agent__r.BillingStreet}
+{Property_Advances__r[0].Property__r.Escrow_Agent__r.BillingCity}, {Property_Advances__r[0].Property__r.Escrow_Agent__r.BillingState } {Property_Advances__r[0].Property__r.Escrow_Agent__r.BillingPostalCode }
+Attention: {Property_Advances__r[0].Property__r.Title_Contact_Name__c}, Escrow Officer
+
+Property Title Details:
+{Property_Advances__r[0].Property__r.Title_Company__r.Name}
+{Property_Advances__r[0].Property__r.Title_Company__r.BillingStreet}
+{Property_Advances__r[0].Property__r.Title_Company__r.BillingCity}, {Property_Advances__r[0].Property__r.Title_Company__r.BillingState} {Property_Advances__r[0].Property__r.Title_Company__r.BillingPostalCode}
+Attention: {Property_Advances__r[0].Property__r.Title_Contact_Name__c}, Title Officer
+
+Name:	{Deal__r.Authorized_Signor__c}
+Its:	{Deal__r.Signor_Capacity__c }
+
+Conditional Rendering:
+{#Property_Advances__r[0].Property__r.State__c == “SC” || Property_Advances__r[0].Property__r.State__c == “TX”}
+Content Here
+{/}
+
+{#Deal_Contacts__r.Guarantors} {Deal_Contacts__r.Contact_Name__c}, individual resident of the State of {Deal_Contacts__r.Contact__r.MailingState}, {/Deal_Contacts__r.Guarantors}
+
+{#Deal_Contacts__r.Guarantors}{Deal_Contacts__r.Contact_Name__c}
+{Deal_Contacts__r.Contact__r.MailingStreet},
+{Deal_Contacts__r.Contact__r.MailingCity}, {Deal_Contacts__r.Contact__r.MailingState} {Deal_Contacts__r.Contact__r.MailingPostalCode}
+{/Deal_Contacts__r.Guarantors}
+
+{#Deal_Contacts__r.Guarantors}
+______________________________
+{Deal_Contacts__r.Contact_Name__c}
+{/Deal_Contacts__r.Guarantors}
+
+

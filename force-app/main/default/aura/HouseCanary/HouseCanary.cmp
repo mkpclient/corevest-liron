@@ -21,7 +21,6 @@
   <aura:attribute name="ShowValue" type="String" default="No"/>     
   <ltng:require styles="{!$Resource.multilineToastCSS}" />
     
-
 <force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
                   fields="Profile.Name"
                   targetFields="{!v.CurrentUser}"
@@ -30,8 +29,8 @@
 <force:recordData recordId="{!v.recordId}"
                   fields="Current_Stage__c"
                   targetFields="{!v.CurrentDeal}"
-                  recordUpdated="{!c.recordUpdateDeal}" />    
-    
+                  recordUpdated="{!c.recordUpdateDeal}" />     
+
   <lightning:card>
 		<aura:set attribute="title" >
 			<lightning:icon iconName="standard:home" size="medium" />
@@ -52,7 +51,7 @@
                     <lightning:button variant="brand" label="Value Report-Static Link" onclick="{!c.valueReportMsg}" />
                 </lightning:layoutItem>  
             </aura:if>     
-   <!--           <aura:if isTrue="{!v.ShowValue == 'No'}">         
+             <aura:if isTrue="{!v.ShowValue == 'No'}">         
                 <lightning:layoutItem class="slds-m-right_x-small">
                     <lightning:button variant="brand" label="Value Analysis Sync" disabled = "true"  onclick="{!c.getHouseCanaryData}" />
                 </lightning:layoutItem>
@@ -61,9 +60,8 @@
                 <lightning:layoutItem class="slds-m-right_x-small">
                     <lightning:button variant="brand" label="Value Report-Static Link" disabled = "true" onclick="{!c.valueReportMsg}" />
                 </lightning:layoutItem>  
-            </aura:if>            
-         
-       
+            </aura:if> 
+        <!--
           		<lightning:layoutItem class="slds-m-right_x-small">
             		<lightning:button variant="brand" label="Tax History" onclick="{!c.openReportsh}" />
           		</lightning:layoutItem>    

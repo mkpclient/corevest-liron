@@ -202,7 +202,9 @@
     let val = evSource.get("v.value");
     val = isNaN(val) || !val ? 0 : val;
     const keyName = evSource.get("v.name");
-
+    if(keyName == "Holdback_To_Rehab_Ratio__c") {
+      component.set("v.isHoldbackToRehabChanged", true);
+    }
     if (
       keyName == "Approved_Amount__c" &&
       propAdvRecord.hasOwnProperty("Holdback_To_Rehab_Ratio__c")
@@ -295,11 +297,21 @@
       records.concat(component.get("v.updatedPropAdvances"));
     }
 
+    if(component.get("v.isHoldbackToRehabChanged")) {
+      const dealRec = {
+        Id: record["Deal__c"],
+        Holdback_To_Rehab_Ratio__c: component.get("v.propertyAdvances")[0]["Holdback_To_Rehab_Ratio__c"],
+        sobjectType: "Opportunity"
+      };
+      records.push(dealRec);
+    }
     console.log(records);
     var action = component.get("c.upsertRecords");
     action.setParams({
       records: records
     });
+
+    
 
     action.setCallback(this, function (response) {
       var state = response.getState();

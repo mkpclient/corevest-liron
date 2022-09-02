@@ -1,4 +1,23 @@
 public without sharing class ForeclosureHelper {
+  public static void beforeInsert(List<Foreclosure__c> newList) {
+    Map<Id, Property__c> propMap = new Map<Id,Property__c>();
+
+    for(Foreclosure__c f : newList) {
+      if(f.Special_Asset__c == null && f.Property__c != null) {
+        propMap.put(f.Property__c, new Property__c());
+      }
+    }
+
+    propMap = new Map<Id,Property__c>([
+      SELECT Id, Special_Asset__c FROM Property__c WHERE Id IN :propMap.keySet() AND Special_Asset__c != null
+    ]);
+
+    for(Foreclosure__c f : newList) {
+      if(f.Special_Asset__c == null && f.Property__c !=null && propMap.containsKey(f.Property__c)) {
+        f.Special_Asset__c = propMap.get(f.Property__c).Special_Asset__c;
+      }
+    }
+  }
   public static void afterInsert(List<Foreclosure__c> newList) {
     Map<Id, Foreclosure__c> specAssetsToUpdate = new Map<Id, Foreclosure__c>();
     for (Foreclosure__c fc : newList) {

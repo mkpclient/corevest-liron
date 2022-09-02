@@ -65,7 +65,7 @@ export default class LoanRequestApprovalForm extends LightningElement {
           if (i.value) {
             let meValue = i.value;
             let meName = i.name;
-            if(meName == "completionPct") {
+            if(meName == "completionPct" || meName == "defaultRate") {
               meValue = parseFloat(meValue) / 100;
             }
             manualEntry[meName] = meValue;
@@ -287,6 +287,8 @@ export default class LoanRequestApprovalForm extends LightningElement {
           const dealQuery = `SELECT ${dealFields.join(
             ","
           )} FROM Opportunity WHERE Id = '${this.dealId}'`;
+
+          console.log(dealQuery);
           queryRecord({ queryString: propQuery }).then((res) => {
             this.propertyRecord = res[0];
             queryRecord({ queryString: dealQuery }).then((res2) => {

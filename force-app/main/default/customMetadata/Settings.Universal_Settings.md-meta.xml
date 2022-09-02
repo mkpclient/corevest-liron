@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Alchemy_Portal_Dev_URL__c</field>
-        <value xsi:type="xsd:string">https://qaportalapi.cvest.com</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Alchemy_Production_URL__c</field>
@@ -12,15 +12,15 @@
     </values>
     <values>
         <field>Allow_SAB_CTC_Bypass__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Berkadia_CC_Emails__c</field>
-        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+        <value xsi:type="xsd:string">sokun.soun@cvest.com;cj.suzuki@cvest.com;suzanne.nguyen@cvest.com;micaela.lumpkin@cvest.com;aileen.fallis@cvest.com;support@cvest.com;bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
     </values>
     <values>
         <field>Berkadia_To_Emails__c</field>
-        <value xsi:type="xsd:string">bryon.harland@cvest.com;jonathan.lay@cvest.com</value>
+        <value xsi:type="xsd:string">lorielle.bendixen@berkadia.com;peter.fiss@berkadia.com</value>
     </values>
     <values>
         <field>Box_As_User__c</field>
@@ -59,12 +59,8 @@
         <value xsi:type="xsd:string">bryon.harland@cvest.com</value>
     </values>
     <values>
-        <field>Capital_Markets_Post_Closing_return_emai__c</field>
-        <value xsi:type="xsd:string">support@cvest.com</value>
-    </values>
-    <values>
         <field>Construction_Manager_Acquired_Loans__c</field>
-        <value xsi:type="xsd:string">0050a00000LVh0GAAT</value>
+        <value xsi:type="xsd:string">0050a00000L852oAAB</value>
     </values>
     <values>
         <field>Construction_Manager_CV_Originated__c</field>
@@ -76,6 +72,10 @@
     </values>
     <values>
         <field>Disable_Advance_Trigger__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Disable_Commissions_Trigger__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -124,11 +124,11 @@
     </values>
     <values>
         <field>Enable_Beekin_API_Error_Response_Logging__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_Beekin_API_Response_Logging__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_Clear_API_Response_Logging__c</field>
@@ -149,14 +149,6 @@
     <values>
         <field>Enable_Duplicate_Property_Email__c</field>
         <value xsi:type="xsd:boolean">true</value>
-    </values>
-    <values>
-        <field>Enable_HouseCanary_API_Error_Response_Lo__c</field>
-        <value xsi:type="xsd:boolean">false</value>
-    </values>
-    <values>
-        <field>Enable_HouseCanary_API_Response_Logging__c</field>
-        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Enable_LandGorilla_API__c</field>
@@ -184,7 +176,19 @@
     </values>
     <values>
         <field>HouseCanary_No_of_DataSync_Days__c</field>
-        <value xsi:type="xsd:double">1.0</value>
+        <value xsi:type="xsd:double">30.0</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_Bridge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_SAB__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>IC_Stage_Validation_Term__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>LandGorilla_Endpoint__c</field>
@@ -203,12 +207,16 @@
         <value xsi:type="xsd:string">clm</value>
     </values>
     <values>
+        <field>Minimum_Advance_Batch_Approvers__c</field>
+        <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
         <field>Num_of_Days_to_Transfer_Lead__c</field>
         <value xsi:type="xsd:double">90.0</value>
     </values>
     <values>
         <field>Number_of_Approvers_for_Bridge_IC__c</field>
-        <value xsi:type="xsd:double">4.0</value>
+        <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>Number_of_Approvers_for_Bridge_Mini_IC__c</field>
@@ -216,22 +224,22 @@
     </values>
     <values>
         <field>Number_of_Approvers_for_Bridge_Sub_IC__c</field>
-        <value xsi:type="xsd:double">2.0</value>
+        <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>Number_of_Approvers_for_Term_IC__c</field>
-        <value xsi:type="xsd:double">4.0</value>
+        <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>Number_of_Approvers_for_Term_Sub_IC__c</field>
-        <value xsi:type="xsd:double">4.0</value>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Post_Close_Appraisal_Reduction__c</field>
+        <value xsi:type="xsd:double">10.0</value>
     </values>
     <values>
         <field>Request_Beekin_Rental_Data_Validation__c</field>
-        <value xsi:type="xsd:boolean">false</value>
-    </values>
-    <values>
-        <field>Request_HouseCanary_Rental_Data_Validati__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -276,7 +284,7 @@
     </values>
     <values>
         <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
-        <value xsi:type="xsd:string">0055b00000OqMZpAAN</value>
+        <value xsi:type="xsd:string">0050a00000MCQQKAA5</value>
     </values>
     <values>
         <field>Validated_Address_Threshold__c</field>
@@ -284,7 +292,7 @@
     </values>
     <values>
         <field>Yardi_Database__c</field>
-        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
+        <value xsi:type="xsd:string">dcqtadfdm_live</value>
     </values>
     <values>
         <field>Yardi_Interface_Entity__c</field>
@@ -300,7 +308,7 @@
     </values>
     <values>
         <field>Yardi_Password__c</field>
-        <value xsi:type="xsd:string">H7t4hsty!h3j7vrtXy2</value>
+        <value xsi:type="xsd:string">jkhphjT$IheA789698</value>
     </values>
     <values>
         <field>Yardi_Platform__c</field>
@@ -308,7 +316,7 @@
     </values>
     <values>
         <field>Yardi_Server_Name__c</field>
-        <value xsi:type="xsd:string">dcqtadfdm_CAF_Pilot</value>
+        <value xsi:type="xsd:string">dcqtadfdm_live</value>
     </values>
     <values>
         <field>Yardi_URL__c</field>
@@ -316,6 +324,6 @@
     </values>
     <values>
         <field>Yardi_Username__c</field>
-        <value xsi:type="xsd:string">SFitf</value>
+        <value xsi:type="xsd:string">sfitf</value>
     </values>
 </CustomMetadata>

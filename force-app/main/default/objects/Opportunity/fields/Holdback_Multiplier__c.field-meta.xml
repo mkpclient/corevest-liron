@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Holdback_Multiplier__c</fullName>
+    <description>The number of months for the Debt Service Holdback</description>
     <externalId>false</externalId>
+    <inlineHelpText>The number of months for the Debt Service Holdback</inlineHelpText>
     <label>Holdback Multiplier</label>
     <precision>2</precision>
     <required>false</required>

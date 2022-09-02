@@ -17,6 +17,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>CX_Portal_Round_Robin__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Channel__c</picklist>
         <values>
             <fullName>Broker Referral</fullName>

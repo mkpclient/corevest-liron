@@ -16,6 +16,8 @@
   <aura:attribute name="filterFields" type="Map" />
   <aura:attribute name="isSendEmail" type="Boolean" />
   <aura:attribute name="hasBorrowerEntity" type="Boolean" />
+  <aura:attribute name="borrowerContact" type="Object" />
+  <aura:attribute name="isSab" type="Boolean" default="false" />
   <aura:attribute
     name="displayRadioOptions"
     type="List"
@@ -98,13 +100,7 @@
             >
               <lightning:layout
                 multipleRows="true"
-                class="
-                  slds-var-p-around_small
-                  slds-border_top
-                  slds-border_bottom
-                  slds-border_left
-                  slds-border_right
-                "
+                class="slds-var-p-around_small slds-border_top slds-border_bottom slds-border_left slds-border_right"
               >
                 <aura:if isTrue="{! not(v.hasBorrowerEntity)}">
                   <lightning:layoutItem
@@ -133,25 +129,28 @@
                       Loan No. {!v.record.Deal__r.Deal_Loan_Number__c}
                     </div>
                   </lightning:layoutItem>
-
-                  <lightning:layoutItem
-                    size="6"
-                    padding="around-small"
-                    class="slds-text-align_left"
+                  <aura:if
+                    isTrue="{!v.record.Deal__r.Borrower_Entity__c != null}"
                   >
-                    Borrower Name (including type of entity and exactly as shown
-                    on filed copy of articles/certificate of formation):
-                  </lightning:layoutItem>
-                  <lightning:layoutItem
-                    size="6"
-                    padding="around-small"
-                    class="slds-text-align_left"
-                  >
-                    <!-- <lightning:input aura:id="dealName" value="{!v.record.Deal__r.Borrower_Entity__r.Name}"
+                    <lightning:layoutItem
+                      size="6"
+                      padding="around-small"
+                      class="slds-text-align_left"
+                    >
+                      Borrower Name (including type of entity and exactly as
+                      shown on filed copy of articles/certificate of formation):
+                    </lightning:layoutItem>
+                    <lightning:layoutItem
+                      size="6"
+                      padding="around-small"
+                      class="slds-text-align_left"
+                    >
+                      <!-- <lightning:input aura:id="dealName" value="{!v.record.Deal__r.Borrower_Entity__r.Name}"
                                 variant="label-hidden" readonly="true"/> -->
-                    {!v.record.Deal__r.Borrower_Entity__r.Name}, a
-                    {!v.record.Deal__r.Borrower_Entity__r.Company_Jurisdiction__c}&nbsp;{!v.record.Deal__r.Borrower_Entity__r.Entity_Type__c}
-                  </lightning:layoutItem>
+                      {!v.record.Deal__r.Borrower_Entity__r.Name}, a
+                      {!v.record.Deal__r.Borrower_Entity__r.Company_Jurisdiction__c}&nbsp;{!v.record.Deal__r.Borrower_Entity__r.Entity_Type__c}
+                    </lightning:layoutItem>
+                  </aura:if>
 
                   <ul class="slds-list_dotted">
                     <aura:if isTrue="{!v.dealEdit.propertAddressDisplay}">
@@ -173,11 +172,21 @@
                     <li class="slds-var-p-around_small">
                       Loan Amount: {!v.loanAmount}
                     </li>
-
-                    <li class="slds-var-p-around_small">
-                      Revolving: {!v.record.Deal__r.Revolving1__c}
-                    </li>
-                    
+                    <aura:if
+                      isTrue="{!v.dealEdit.propType != null &amp;&amp; v.dealEdit.sabFieldDisplay == true}"
+                    >
+                      <li class="slds-var-p-around_small">
+                        Refinance Acquisition: {!v.dealEdit.refinanceAcquisition}
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Indication or Property Type: {!v.dealEdit.propType}
+                      </li>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.nonSabFieldDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Revolving: {!v.record.Deal__r.Revolving1__c}
+                      </li>
+                    </aura:if>
                     <aura:if isTrue="{!v.dealEdit.initialAdvanceDisplay}">
                       <li class="slds-var-p-around_small">
                         Initial Advance: &nbsp;&nbsp;<a
@@ -190,13 +199,16 @@
                           aura:id="initialAdvance"
                           value="{!v.dealEdit.initialAdvance}"
                           variant="label-hidden"
+                          type="number"
+                          formatter="currency"
+                          step="1"
                         />
                       </li>
                     </aura:if>
 
                     <aura:if isTrue="{!v.dealEdit.renovationAdvanceDisplay}">
                       <li class="slds-var-p-around_small">
-                        Renovation Advance Amount: &nbsp;&nbsp;<a
+                        {!v.dealEdit.renovationAdvanceLabel}: &nbsp;&nbsp;<a
                           style="font-size: 10px"
                           id="renovationAdvance"
                           onclick="{!c.handleDeleteItem}"
@@ -206,6 +218,9 @@
                           aura:id="renovationAdvance"
                           value="{!v.dealEdit.renovationAdvance}"
                           variant="label-hidden"
+                          type="number"
+                          formatter="currency"
+                          step="1"
                         />
                       </li>
                     </aura:if>
@@ -284,8 +299,8 @@
 
                     <aura:if isTrue="{!v.dealEdit.outsideAdvanceDateDisplay}">
                       <li class="slds-var-p-around_small">
-                        Outside Advance Date: 12 months from date of Loan Docs /
-                        Other: &nbsp;&nbsp;<a
+                        {!v.dealEdit.outsideAdvanceDateLabel}: 12 months from
+                        date of Loan Docs / Other: &nbsp;&nbsp;<a
                           style="font-size: 10px"
                           id="outsideAdvanceDate"
                           onclick="{!c.handleDeleteItem}"
@@ -298,71 +313,77 @@
                         />
                       </li>
                     </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.nonSabFieldDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Outside Advance Period:
+                        {!v.record.Deal__r.Advance_Period_Days_In_Months__c}
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Maturity Date Calculation Type:
+                        {!v.record.Deal__r.Maturity_Date_Calculation_Type__c}
+                      </li>
 
-                    <li class="slds-var-p-around_small">
-                      Outside Advance Period:
-                      {!v.record.Deal__r.Advance_Period_Days_In_Months__c}
-                    </li>
+                      <li class="slds-var-p-around_small">
+                        Advance Repayment Period:
+                        {!v.record.Deal__r.Asset_Maturity__c}
+                      </li>
 
-                    <li class="slds-var-p-around_small">
-                      Maturity Date Calculation Type:
-                      {!v.record.Deal__r.Maturity_Date_Calculation_Type__c}
-                    </li>
-
-                    <li class="slds-var-p-around_small">
-                      Advance Repayment Period: {!v.record.Deal__r.Asset_Maturity__c}
-                    </li>
-
-                    <li class="slds-var-p-around_small">
-                      Advance Fee: {!v.record.Deal__r.Fee__c} %
-                    </li>
-
+                      <li class="slds-var-p-around_small">
+                        Advance Fee: {!v.record.Deal__r.Fee__c} %
+                      </li>
+                    </aura:if>
                     <li class="slds-var-p-around_small">
                       Origination Fee: {!v.record.Deal__r.CAF_Upfront_Fee__c} %
                     </li>
+                    <aura:if isTrue="{!v.dealEdit.nonSabFieldDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Exit Fee: {!v.record.Deal__r.Exit_Fee__c} %
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Approved Property States:
+                        {!v.record.Deal__r.Active_States__c}
+                      </li>
+                      <li class="slds-var-p-around_small">
+                        Advance Rate (Initial Advance Rate for Renovation
+                        Loans):
+                        <ul class="slds-list_dotted">
+                          <li class="slds-var-p-around_small">
+                            Loan-to-Value: {!v.record.Deal__r.LTV__c}%
+                          </li>
+                          <li class="slds-var-p-around_small">
+                            Loan-to-Cost: {!v.record.Deal__r.LTC__c}%
+                          </li>
+                        </ul>
+                      </li>
 
-                    <li class="slds-var-p-around_small">
-                      Exit Fee: {!v.record.Deal__r.Exit_Fee__c} %
-                    </li>
+                      <li class="slds-var-p-around_small">
+                        Maximum Total Renovation Property Advance Amount:
+                        <ul class="slds-list_dotted">
+                          <li class="slds-var-p-around_small">
+                            Loan-to-ARV: {!v.record.Deal__r.Total_ARV_LTV__c}%
+                          </li>
+                          <li class="slds-var-p-around_small">
+                            Loan-to-Cost: {!v.record.Deal__r.Total_Loan_LTC__c}%
+                          </li>
+                        </ul>
+                      </li>
 
-                    <li class="slds-var-p-around_small">
-                      Approved Property States:
-                      {!v.record.Deal__r.Active_States__c}
-                    </li>
-
-                    <li class="slds-var-p-around_small">
-                      Advance Rate (Initial Advance Rate for Renovation Loans): 
-                      <ul class="slds-list_dotted">
-                        <li class="slds-var-p-around_small">
-                          Loan-to-Value:
-                          {!v.record.Deal__r.LTV__c}%
-                        </li>
-                        <li class="slds-var-p-around_small">
-                          Loan-to-Cost:
-                          {!v.record.Deal__r.LTC__c}%
-                        </li>
-                      </ul>
-                    </li>
-
-                    <li class="slds-var-p-around_small">
-                      Maximum Total Renovation Property Advance Amount:  
-                      <ul class="slds-list_dotted">
-                        <li class="slds-var-p-around_small">
-                          Loan-to-ARV:
-                          {!v.record.Deal__r.Total_ARV_LTV__c}%    
-                        </li>
-                        <li class="slds-var-p-around_small">
-                          Loan-to-Cost:
-                          {!v.record.Deal__r.Total_Loan_LTC__c}%    
-                        </li>
-                      </ul>
-                    </li>
-
-                    <li class="slds-var-p-around_small">
-                      Maximum Aggregate Renovation Advance Amount Limit:                      
-                      {!v.record.Deal__r.Renovation_Limit__c}% of the Third Party Purchase Price
-                    </li>
-
+                      <li class="slds-var-p-around_small">
+                        Maximum Aggregate Renovation Advance Amount Limit:
+                        {!v.record.Deal__r.Renovation_Limit__c}% of the Third
+                        Party Purchase Price
+                      </li>
+                    </aura:if>
+                    <aura:if isTrue="{!v.dealEdit.sabFieldDisplay}">
+                      <li class="slds-var-p-around_small">
+                        Loan to As-Is Value requirement
+                        <lightning:input
+                          aura:id="loanToAsIsValueReq"
+                          value="{!v.dealEdit.loanToAsIsValueReq}"
+                          variant="label-hidden"
+                        />
+                      </li>
+                    </aura:if>
                     <aura:if isTrue="{!v.dealEdit.renovationPropertiesDisplay}">
                       <li class="slds-var-p-around_small">
                         Renovation Properties: &nbsp;&nbsp;<a
@@ -443,10 +464,9 @@
                         />
                       </li>
                     </aura:if>
-                    
+
                     <li class="slds-var-p-around_small">
-                      Recourse:
-                      {!v.record.Deal__r.Recourse__c}
+                      Recourse: {!v.record.Deal__r.Recourse__c}
                     </li>
 
                     <aura:if isTrue="{!v.dealEdit.Guarantor1Display}">
@@ -1043,7 +1063,7 @@
                 onclick="{!c.cancel}"
               />
 
-              <aura:if isTrue="{!v.record.Deal__r.Borrower_Entity__c}">
+              <!-- <aura:if isTrue="{!v.record.Deal__r.Borrower_Entity__c}"> -->
                 <lightning:button
                   label="Preview"
                   name="Preview"
@@ -1056,7 +1076,7 @@
                   onclick="{!c.sendEmail}"
                   variant="brand"
                 />
-              </aura:if>
+              <!-- </aura:if> -->
             </footer>
           </div>
         </section>

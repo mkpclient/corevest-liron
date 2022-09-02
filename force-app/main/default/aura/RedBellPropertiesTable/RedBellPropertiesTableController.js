@@ -7,6 +7,14 @@
 	refresh: function(component, event, helper) {
 		helper.getProperties(component);
 	},
+    
+    recordUpdate: function(component, event, helper) {
+       let profile = component.get('v.CurrentUser')['Profile'].Name;
+       if (profile == "Term Operations" || profile == "System Administrator") 
+       {
+          component.set("v.ShowSyncBtn", "Yes");
+       } 
+    },    
 
 	nextPage: function(component, event, helper) {
 		let currentPage = component.get('v.currentPage');

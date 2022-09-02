@@ -129,7 +129,7 @@
                                                 column="{!column}"
                                                 colIdx="{!colIdx}"
                                                	editMode="{!v.editMode}" 
-                                                
+                                                typeAttributes="{!row.typeAttributes}"
                                               	 />       
                         <!-- </td> -->
                     </aura:iteration>

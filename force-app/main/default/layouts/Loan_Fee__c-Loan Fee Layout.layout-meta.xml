@@ -26,6 +26,10 @@
                 <behavior>Edit</behavior>
                 <field>Loan_Modification__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Deal_Contact__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

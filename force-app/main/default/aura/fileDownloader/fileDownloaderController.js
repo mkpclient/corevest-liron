@@ -24,7 +24,7 @@
         var folderStructure = {};
         let localData = [];
         data.forEach((el) => {
-          var folderString = el.Folder_String__c;
+          var folderString = !!el.Folder_String__c ? el.Folder_String__c : "";
           if (
             el.hasOwnProperty("Advance__r") &&
             el.Advance__r.hasOwnProperty("Name") &&
@@ -172,7 +172,7 @@
         exportDocs.push(doc);
       }
 
-      if (!$A.util.isEmpty(doc.Property__c)) {
+      if (!$A.util.isEmpty(doc.Property__c) && doc.hasOwnProperty("Folder_String__c") && doc.Folder_String__c.length > 0) {
         var fString = doc.Folder_String__c.split(";");
         //console.log(doc);
         if ($A.util.isEmpty(fString[1])) {

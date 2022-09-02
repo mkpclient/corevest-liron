@@ -4,8 +4,10 @@
     <description>If first extension then calculated as 60 days prior to Original Asset Maturity Date - Completed Extension Date. Any extension after calculated as Extension Completed Date - (Previous Asset Maturity Date or Property Extension Created Date). If Previous Asset Maturity Date &gt; Property Extension Created Date then use Property Extension Created Date or else use Previous Asset Maturity Date.</description>
     <externalId>false</externalId>
     <formula>IF(Is_First__c
-, Extension_Date__c - (Original_Asset_Maturity_Date_Formula__c - 60)
-, 
+, IF(DATEVALUE(CreatedDate) &lt; (Original_Asset_Maturity_Date_Formula__c - 60),
+Original_Asset_Maturity_Date_Formula__c - DATEVALUE(CreatedDate)
+,Extension_Date__c - (Original_Asset_Maturity_Date_Formula__c - 60)
+), 
 IF(NOT(ISNULL(Previous_Asset_Maturity_Date__c)) &amp;&amp; Previous_Asset_Maturity_Date__c &gt; DATEVALUE(CreatedDate),
 Extension_Date__c - DATEVALUE(CreatedDate),
 Extension_Date__c - Previous_Asset_Maturity_Date__c

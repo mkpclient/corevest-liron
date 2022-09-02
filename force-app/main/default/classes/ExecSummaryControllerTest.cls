@@ -2,6 +2,7 @@
 public with sharing class ExecSummaryControllerTest {
   @TestSetup
   static void makeData() {
+    Test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity d = Test_Helper.createBridgeDeal(a, c);

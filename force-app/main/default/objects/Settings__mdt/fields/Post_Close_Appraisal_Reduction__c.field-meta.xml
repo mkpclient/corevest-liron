@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_Close_Appraisal_Reduction__c</fullName>
+    <description>This is the amount of reduction in the Initial Disbursement for a Deal that will close before the Appraisal is completed</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This is the amount of reduction in the Initial Disbursement for a Deal that will close before the Appraisal is completed</inlineHelpText>
+    <label>Post Close Appraisal Reduction</label>
+    <precision>2</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <type>Percent</type>
+</CustomField>

@@ -5,13 +5,20 @@
   <aura:attribute name="selectedRows" type="List" default="[]" />
   <aura:attribute name="selectedRowsCount" type="Integer" default="0" />
   <aura:attribute name="currentPage" type="Integer" default="1" />
-	<aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
   <aura:attribute name="pageSize" type="Integer" default="15" />
   <aura:attribute name="compProperty" type="Object" />
+  <aura:attribute name="CurrentUser" type="Object"/> 
+  <aura:attribute name="ShowSyncBtn" type="String" default="No"/>     
 
   <aura:handler name="init" value="{! this }" action="{! c.onInit }"/>
   <ltng:require styles="{!$Resource.multilineToastCSS}" />
 
+<force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
+                  fields="Profile.Name"
+                  targetFields="{!v.CurrentUser}"
+                  recordUpdated="{!c.recordUpdate}" />     
+    
   <lightning:card>
 		<aura:set attribute="title" >
 			<lightning:icon iconName="standard:home" size="medium" />
@@ -22,9 +29,11 @@
 
     <aura:set attribute="actions">
 			<lightning:layout horizontalAlign="space">
+            <aura:if isTrue="{!v.ShowSyncBtn == 'Yes'}">                 
 					<lightning:layoutItem class="slds-m-right_x-small">
 						<lightning:button variant="brand" label="Beekin Sync" onclick="{!c.getBeekinData}" />
 					</lightning:layoutItem>
+            </aura:if>                     
           <lightning:layoutItem>
             <lightning:button variant="brand" label="Export" onclick="{!c.openReport}" />
           </lightning:layoutItem>

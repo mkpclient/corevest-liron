@@ -68,9 +68,9 @@
                 <label>Miscellaneous</label>
             </value>
             <value>
-                <fullName>Model</fullName>
+                <fullName>Models</fullName>
                 <default>false</default>
-                <label>Model</label>
+                <label>Models</label>
             </value>
             <value>
                 <fullName>Term Sheet</fullName>

@@ -655,7 +655,7 @@ public without sharing class ConfirmationOfTermsController {
       // ahc.Deposit_Amount__c = (Decimal) submission.get('depositCollected');
       // ahc.Spread__c = ((Decimal) submission.get('finalSpread')) * 100;
       // ahc.Recourse__c = (String) submission.get('recourse');
-      // ahc.Foreign_National__c = (Boolean) submission.get('foreignNational');
+      // ahc.Foreign_National_picklist__c = (Boolean) submission.get('foreignNational');
       // ahc.Broker_Fee__c = (Decimal) submission.get('brokerFees');
       // ahc.Term_Loan_Type__c = (String) submission.get('termLoanType');
       // ahc.Amortization_Term__c = (String) submission.get('amortizationTerm');

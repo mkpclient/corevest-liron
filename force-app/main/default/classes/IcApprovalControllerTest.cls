@@ -3,6 +3,8 @@ private class IcApprovalControllerTest {
 
 
     static void setupTestData(){
+        Test_Helper.createDealLoanNumber();
+
         User u = [SELECT Id FROM User WHERE Id = :UserInfo.getUserId()];
         System.runAs(u){
             List<EmailTemplate> emailTemplates = test_Helper.createEmailTemplates(new List<String>{
@@ -14,6 +16,7 @@ private class IcApprovalControllerTest {
     }
 
     static TestMethod void IcApprovalControllerTest_UnitTest(){
+        Test_Helper.createDealLoanNumber();
         Test_Helper.setupProduct2();
         List<RecordType> opptyRecordTypes = [SELECT Id FROM RecordType WHERE sObjectType = 'Opportunity'];
         
