@@ -755,6 +755,7 @@ public without sharing class property_Helper {
     Map<Id, Opportunity> dealMapCLO = new Map<Id, Opportunity>(); //CIP-2286.RS.7/21/22.
     if (parentIds.size() > 0) {
       dealMapCLO = processDealMap(parentIds);
+      calculateStatePercentagesFuture(parentIds);
     }
 
     if (opIds.size() > 0) {
@@ -763,9 +764,9 @@ public without sharing class property_Helper {
       system.debug('term included?' + opIds.size());
     }
 
-    if (termIds.size() > 0) {
-      calculateStatePercentagesFuture(termIds);
-    }
+    // if (termIds.size() > 0) {
+    //   calculateStatePercentagesFuture(termIds);
+    // }
 
     if (parentIds.size() > 0) {
       rollupParents(parentProp);
@@ -1622,6 +1623,7 @@ public without sharing class property_Helper {
 
       oppMap = avgDate(oppMap);
       oppMap = sumRehab(oppMap);
+      calculateStatePercentagesFuture(oppMap.keySet());
       //System.debug('this is oppMap: ');
       //System.debug(oppMap);
 
@@ -1775,10 +1777,10 @@ public without sharing class property_Helper {
       rollupParents(parentIds);
     }
 
-    if (termIds.size() > 0) {
-      system.debug('calculate state percentages');
-      calculateStatePercentagesFuture(termIds);
-    }
+    // if (termIds.size() > 0) {
+    //   system.debug('calculate state percentages');
+    //   calculateStatePercentagesFuture(termIds);
+    // }
 
     if (propertyAdvancePropIds.size() > 0) {
       List<Property_Advance__c> propAdvs = new List<Property_Advance__c>();
@@ -1866,11 +1868,12 @@ public without sharing class property_Helper {
     }
     if (dealIds.size() > 0) {
       processDealMap(dealIds);
+      calculateStatePercentagesFuture(dealIds);
     }
 
-    if(termIds.size() > 0) {
-      calculateStatePercentagesFuture(termIds);
-    }
+    // if(termIds.size() > 0) {
+    //   calculateStatePercentagesFuture(termIds);
+    // }
     //Set<Id> ids = (new Map<Id, Property__c>(oldList)).keySet();
 
     //delete [SELECT Id FROM Deal_Document__c WHERE Property__c IN : ids];
