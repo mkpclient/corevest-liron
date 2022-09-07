@@ -90,20 +90,32 @@
               allowInsert="{!!and(or(v.dealStatus == 'Paid Off',or(v.dealStatus == 'Sold', v.dealStatus == 'Matured')),  and(!v.hasMaturedPermission, v.profileName != 'System Administrator'))}"
             >
               <aura:set attribute="columns">
-                <c:hotColumn data="Asset_ID__c" title="Id" readOnly="true" />
-                <c:hotColumn
-                  data="RT"
-                  title="Property Record Type"
-                  type="dropdown"
-                  source="['No Renovation', 'Renovation', 'Ground Up Construction']"
-                />
                 <c:hotColumn
                 data="Servicer_Loan_Number__c"
                 title="FCI Loan No."
                 allowEmpty="false"
                 />
                 <c:hotColumn data="Yardi_Id__c" title="Yardi ID" />
-                <!-- INVESTOR LOAN NUMBER -->
+                <c:hotColumn data="Servicer_Id__c" title="Lender FCI Account #" />
+                <c:hotColumn
+                  data="Deal__r.Owner.Name"
+                  title="Originator"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Borrower_Entity__r.Name"
+                  title="Borrower Company Name"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.Name"
+                  title="Primary Contact"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Borrower_Name__c"
+                  title="Borrower First Name"
+                />
                 <c:hotColumn
                   data="Name"
                   title="Street Address"
