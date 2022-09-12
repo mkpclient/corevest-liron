@@ -91,12 +91,20 @@
             >
               <aura:set attribute="columns">
                 <c:hotColumn
-                data="Servicer_Loan_Number__c"
-                title="FCI Loan No."
-                allowEmpty="false"
+                  data="Servicer_Loan_Number__c"
+                  title="FCI Loan No."
+                  readOnly="true"
                 />
-                <c:hotColumn data="Yardi_Id__c" title="Yardi ID" />
-                <c:hotColumn data="Servicer_Id__c" title="Lender FCI Account #" />
+                <c:hotColumn
+                  data="Yardi_Id__c"
+                  title="Yardi ID"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Servicer_Id__c"
+                  title="Lender FCI Account #"
+                  readOnly="true"
+                />
                 <c:hotColumn
                   data="Deal__r.Owner.Name"
                   title="Originator"
@@ -113,8 +121,49 @@
                   readOnly="true"
                 />
                 <c:hotColumn
-                  data="Borrower_Name__c"
-                  title="Borrower First Name"
+                  data="Deal__r.Contact__r.MailingStreet"
+                  title="Mailing Street"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.MailingCity"
+                  title="Mailing City"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.MailingState"
+                  title="Mailing State"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.MailingPostalCode"
+                  title="Mailing Zip"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.HomePhone"
+                  title="Home Phone"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.Phone"
+                  title="Work Phone"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.MobilePhone"
+                  title="Mobile Phone"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.Fax"
+                  title="Fax"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Deal__r.Contact__r.Email"
+                  title="Email Address"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Name"
@@ -136,6 +185,41 @@
                   title="Property Type"
                   type="dropdown"
                   source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Mixed Use', 'Multifamily', 'SFR', 'Townhome']"
+                />
+                <c:hotColumn
+                  data="Occupancy_Status__c"
+                  title="Occupancy Type"
+                  type="dropdown"
+                  source="['Vacant', 'Owner Occupied', 'Tenant Occupied', 'Squatter Occupied', 'Unknown']"
+                />
+                <c:hotColumn
+                  data="_borrowerPrimaryResidence"
+                  title="Borrower Primary Residence"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="_businessPurposeLoan"
+                  title="Business Purpose Loan"
+                  readOnly="true"
+                />
+                <c:hotColumn
+                  data="Lien_Position__c"
+                  title="Lien Position"
+                  type="numeric"
+                />
+                <c:hotColumn
+                  data="Funding_Date__c"
+                  title="Funding Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
+                />
+                <c:hotColumn
+                  data="First_Payment_Date__c"
+                  title="1st Payment Due Date"
+                  type="date"
+                  dateFormat="MM/DD/YYYY"
+                  correctFormat="true"
                 />
                 <c:hotColumn
                   data="Number_of_Units__c"
@@ -176,14 +260,7 @@
                   type="dropdown"
                   source="['Acquisition', 'Refinance']"
                 />
-                <c:hotColumn
-                  data="Funding_Date__c"
-                  title="Funding Date"
-                  type="date"
-                  dateFormat="MM/DD/YYYY"
-                  correctFormat="true"
-                  readOnly="true"
-                />
+
                 <c:hotColumn
                   data="Requested_Funding_Date__c"
                   title="Requested Funding Date"
