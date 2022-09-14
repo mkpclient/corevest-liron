@@ -489,7 +489,7 @@ public without sharing class lightning_Util {
   //     searchTerm += '*';
 
   //     List<List<SObject>> searchResults = [FIND :searchTerm IN ALL Fields RETURNING
-  //         Account (Id, Name, BillingCity WHERE RecordType.DeveloperName = 'Vendor')
+  //         Account (Id, Name, BillingCity WHERE Spe.DeveloperName = 'Vendor')
   //         LIMIT : 5];
 
   //     List<LookupSearchResult> results = new List<LookupSearchResult>();

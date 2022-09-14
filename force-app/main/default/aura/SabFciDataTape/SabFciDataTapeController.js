@@ -1,5 +1,6 @@
 ({
     init: function (component, event, helper) {
+      console.log("FCI DATATAPE INIT")
       helper.setPermission(component);
       helper.setDealStatus(component);
       helper.getUserProfile(component);
@@ -18,55 +19,10 @@
             data.push({});
           } else {
             data.forEach(function (d) {
-              if (d.RecordTypeId == "0120a0000019jiAAAQ") {
-                d.RT = "Renovation";
-              } else if (d.RecordTypeId === "0120a0000015H6TAAU") {
-                d.RT = "No Renovation";
-              } else {
-                d.RT = "Ground Up Construction";
-              }
-              if (d.Closer__c == "0055b00000PkArFAAV") {
-                d.Closer = "Amy Piana";
-              } else if (d.Closer__c == "0055b00000P92byAAB") {
-                d.Closer = "David Carrillo";
-              } else if (d.Closer__c == "0050a00000MCPyLAAX") {
-                d.Closer = "Kathy Perez";
-              } else if (d.Closer__c == "0050a00000MBNARAA5") {
-                d.Closer = "Jaime Chavez";
-              } else if (d.Closer__c == "0055b00000OGpKXAA1") {
-                d.Closer = "Jenna Taylor";
-              } else if (d.Closer__c == "0050a00000MCQ1jAAH") {
-                d.Closer = "Jessica Lievanos";
-              } else if (d.Closer__c == "0055b00000P8BrKAAV") {
-                d.Closer = "Joseph Felice";
-              } else if (d.Closer__c == "005j000000FXxrDAAT") {
-                d.Closer = "Gina Lambis";
-              } else if (d.Closer__c == "0050a00000L853XAAR") {
-                d.Closer = "Nate Valline";
-              } else if (d.Closer__c == "0055b00000PkQo7AAF") {
-                d.Closer = "Paola De Sousa";
-              } else if (d.Closer__c == "0055b00000Omc6lAAB") {
-                d.Closer = "Ellie Young";
-              } else if (d.Closer__c == "0055b00000PlzpMAAR") {
-                d.Closer = "Kathleen Evans";
-              } else if (d.Closer__c == "0055b00000PlbGIAAZ") {
-                d.Closer = "Jolene Czarnota";
-              } else if (d.Closer__c == "0055b00000PlbGmAAJ") {
-                d.Closer = "Cassandra Balthasar";
-              } else if (d.Closer__c == "0055b00000Pm4VgAAJ") {
-                d.Closer = "Brian Campbell";
-              } else {
-                d.Closer = null;
-              }
-              if (d.Underwriter__c == "0055b00000OHS0lAAH") {
-                d.Underwriter = "Brandon Jacobs";
-              } else if (d.Underwriter__c == "0055b00000OpfG6AAJ") {
-                d.Underwriter = "Henry Newell";
-              } else if (d.Underwriter__c == "0055b00000P81j6AAB") {
-                d.Underwriter = "Juan Arias";
-              } else {
-                d.Underwriter = null;
-              }
+              d["_defaultYes"] = "Yes";
+              d["_defaultNo"] = "No";
+              d["_defaultZero"] = 0;
+              d["_defaultBlank"] = "";
             });
           }
   
@@ -127,7 +83,7 @@
             };
           }
   
-          if (col.get("v.data") != "_") {
+          if (col.get("v.data") != "_" && col.get("v.data")[0] != "_") {
             fields.push(col.get("v.data"));
           }
         });
@@ -136,128 +92,11 @@
       let emptyRows = {};
   
       component.find("hot-table").getData(function (data) {
-        data.forEach(function (el, index) {
-          if (el.hasOwnProperty("_")) {
-            delete el["_"];
-          }
-  
-          if (el.RT == "Renovation") {
-            el.RecordTypeId = "0120a0000019jiAAAQ";
-          } else if (el.RT == "No Renovation") {
-            el.RecordTypeId = "0120a0000015H6TAAU";
-          } else {
-            el.RecordTypeId = "0120a0000019kcQAAQ";
-          }
-  
-          if (el.Closer == "Amy Piana") {
-            el.Closer__c = "0055b00000PkArFAAV";
-          } else if (el.Closer == "David Carrillo") {
-            el.Closer__c = "0055b00000P92byAAB";
-          } else if (el.Closer == "Kathy Perez") {
-            el.Closer__c = "0050a00000MCPyLAAX";
-          } else if (el.Closer == "Jaime Chavez") {
-            el.Closer__c = "0050a00000MBNARAA5";
-          } else if (el.Closer == "Jenna Taylor") {
-            el.Closer__c = "0055b00000OGpKXAA1";
-          } else if (el.Closer == "Jessica Lievanos") {
-            el.Closer__c = "0050a00000MCQ1jAAH";
-          } else if (el.Closer == "Joseph Felice") {
-            el.Closer__c = "0055b00000P8BrKAAV";
-          } else if (el.Closer == "Gina Lambis") {
-            el.Closer__c = "005j000000FXxrDAAT";
-          } else if (el.Closer == "Nate Valline") {
-            el.Closer__c = "0050a00000L853XAAR";
-          } else if (el.Closer == "Paola De Sousa") {
-            el.Closer__c = "0055b00000PkQo7AAF";
-          } else if (el.Closer == "Ellie Young") {
-            el.Closer__c = "0055b00000Omc6lAAB";
-          } else if (el.Closer == "Kathleen Evans") {
-            el.Closer__c = "0055b00000PlzpMAAR";
-          } else if (el.Closer == "Jolene Czarnota") {
-            el.Closer__c = "0055b00000PlbGIAAZ";
-          } else if (el.Closer == "Cassandra Balthasar") {
-            el.Closer__c = "0055b00000PlbGmAAJ";
-          } else if (el.Closer == "Brian Campbell") {
-            el.Closer__c = "0055b00000Pm4VgAAJ";
-          } else {
-            el.Closer__c = null;
-          }
-  
-          if (el.Underwriter == "Brandon Jacobs") {
-            el.Underwriter__c = "0055b00000OHS0lAAH";
-          } else if (el.Underwriter == "Henry Newell") {
-            el.Underwriter__c = "0055b00000OpfG6AAJ";
-          } else if (el.Underwriter == "Juan Arias") {
-            el.Underwriter__c = "0055b00000P81j6AAB";
-          } else {
-            el.Underwriter__c = null;
-          }
-  
-          // delete el["RT"];
-  
-          el["sobjectType"] = "Property__c";
-  
-          //for (var x in el) {
-          fields.forEach((x) => {
-            if (!$A.util.isEmpty(el[x]) && x.includes("Date")) {
-              if (el[x] == "1/0/00" || $A.util.isEmpty(el[x].replace(/ /g, ""))) {
-                el[x] = null;
-              } else {
-                if (
-                  $A.localizationService.formatDate(el[x], "YYYY-MM-DD") ===
-                  "Invalid Date"
-                ) {
-                  el[x] = null;
-                } else {
-                  el[x] = $A.localizationService.formatDate(el[x], "YYYY-MM-DD");
-                }
-              }
-            }
-  
-            // if(!$A.util.isEmpty(el[x]]) && el[x].includes('%')){
-  
-            // }
-  
-            if (requiredFields.has(x) && $A.util.isEmpty(el[x])) {
-              missingRequiredFields = true;
-              if (!emptyRows[requiredFieldsMap[x].label]) {
-                emptyRows[requiredFieldsMap[x].label] = [];
-              }
-              emptyRows[requiredFieldsMap[x].label].push(index + 1);
-            }
-  
-            if ($A.util.isEmpty(el[x])) {
-              //delete el[x];
-              el[x] = null;
-              if (x == "Id" || x == "RecordTypeId") {
-                delete el[x];
-              }
-            }
-            if (el[x] == "$0.00") {
-              delete el[x];
-            }
-  
-            if (x == "State__c" && !$A.util.isEmpty(el[x]) && el[x].length == 2) {
-              el[x] = el[x].toUpperCase();
-            }
-  
-            if (
-              x == "ZipCode__c" &&
-              !$A.util.isEmpty(el[x]) &&
-              el[x].length < 5
-            ) {
-              let iter = 5 - el[x].length;
-              for (let paddings = 0; paddings < iter; paddings++) {
-                el[x] = "0" + el[x];
-              }
-            }
-          });
-          el["Deal__c"] = component.get("v.recordId");
-          el["Active__c"] = true;
-  
-          if ($A.util.isEmpty(el["Status__c"])) {
-            el["Status__c"] = "Due Diligence";
-          }
+        data.forEach(function (d) {
+          d["_defaultYes"] = "Yes";
+          d["_defaultNo"] = "No";
+          d["_defaultZero"] = 0;
+          d["_defaultBlank"] = "";
         });
   
         console.log(data);
@@ -285,57 +124,10 @@
               $A.util.toggleClass(component.find("spinner"), "slds-hide");
   
               resp.forEach(function (d) {
-                if (d.RecordTypeId == "0120a0000019jiAAAQ") {
-                  d.RT = "Renovation";
-                } else if (d.RecordTypeId === "0120a0000015H6TAAU") {
-                  d.RT = "No Renovation";
-                } else {
-                  d.RT = "Ground Up Construction";
-                }
-  
-                if (d.Closer__c == "0055b00000PkArFAAV") {
-                  d.Closer = "Amy Piana";
-                } else if (d.Closer__c == "0055b00000P92byAAB") {
-                  d.Closer = "David Carrillo";
-                } else if (d.Closer__c == "0050a00000MCPyLAAX") {
-                  d.Closer = "Kathy Perez";
-                } else if (d.Closer__c == "0050a00000MBNARAA5") {
-                  d.Closer = "Jaime Chavez";
-                } else if (d.Closer__c == "0055b00000OGpKXAA1") {
-                  d.Closer = "Jenna Taylor";
-                } else if (d.Closer__c == "0050a00000MCQ1jAAH") {
-                  d.Closer = "Jessica Lievanos";
-                } else if (d.Closer__c == "0055b00000P8BrKAAV") {
-                  d.Closer = "Joseph Felice";
-                } else if (d.Closer__c == "005j000000FXxrDAAT") {
-                  d.Closer = "Gina Lambis";
-                } else if (d.Closer__c == "0050a00000L853XAAR") {
-                  d.Closer = "Nate Valline";
-                } else if (d.Closer__c == "0055b00000PkQo7AAF") {
-                  d.Closer = "Paola De Sousa";
-                } else if (d.Closer__c == "0055b00000Omc6lAAB") {
-                  d.Closer = "Ellie Young";
-                } else if (d.Closer__c == "0055b00000PlzpMAAR") {
-                  d.Closer = "Kathleen Evans";
-                } else if (d.Closer__c == "0055b00000PlbGIAAZ") {
-                  d.Closer = "Jolene Czarnota";
-                } else if (d.Closer__c == "0055b00000PlbGmAAJ") {
-                  d.Closer = "Cassandra Balthasar";
-                } else if (d.Closer__c == "0055b00000Pm4VgAAJ") {
-                  d.Closer = "Brian Campbell";
-                } else {
-                  d.Closer = null;
-                }
-  
-                if (d.Underwriter__c == "0055b00000OHS0lAAH") {
-                  d.Underwriter = "Brandon Jacobs";
-                } else if (d.Underwriter__c == "0055b00000OpfG6AAJ") {
-                  d.Underwriter = "Henry Newell";
-                } else if (d.Underwriter__c == "0055b00000P81j6AAB") {
-                  d.Underwriter = "Juan Arias";
-                } else {
-                  d.Underwriter = null;
-                }
+                d["_defaultYes"] = "Yes";
+                d["_defaultNo"] = "No";
+                d["_defaultZero"] = 0;
+                d["_defaultBlank"] = "";
               });
               // var data = JSON.parse(resp);
   
@@ -594,58 +386,11 @@
           $A.getCallback(function (response) {
             console.log("abc");
             properties = response;
-            properties.forEach(function (property) {
-              if (property.RecordTypeId == "0120a0000019jiAAAQ") {
-                property.RT = "Renovation";
-              } else if (property.RecordTypeId === "0120a0000015H6TAAU") {
-                property.RT = "No Renovation";
-              } else {
-                property.RT = "Ground Up Construction";
-              }
-  
-              if (property.Closer__c == "0055b00000PkArFAAV") {
-                property.Closer = "Amy Piana";
-              } else if (property.Closer__c == "0055b00000P92byAAB") {
-                property.Closer = "David Carrillo";
-              } else if (property.Closer__c == "0050a00000MCPyLAAX") {
-                property.Closer = "Kathy Perez";
-              } else if (property.Closer__c == "0050a00000MBNARAA5") {
-                property.Closer = "Jaime Chavez";
-              } else if (property.Closer__c == "0055b00000OGpKXAA1") {
-                property.Closer = "Jenna Taylor";
-              } else if (property.Closer__c == "0050a00000MCQ1jAAH") {
-                property.Closer = "Jessica Lievanos";
-              } else if (property.Closer__c == "0055b00000P8BrKAAV") {
-                property.Closer = "Joseph Felice";
-              } else if (property.Closer__c == "005j000000FXxrDAAT") {
-                property.Closer = "Gina Lambis";
-              } else if (property.Closer__c == "0050a00000L853XAAR") {
-                property.Closer = "Nate Valline";
-              } else if (property.Closer__c == "0055b00000PkQo7AAF") {
-                property.Closer = "Paola De Sousa";
-              } else if (property.Closer__c == "0055b00000Omc6lAAB") {
-                property.Closer = "Ellie Young";
-              } else if (property.Closer__c == "0055b00000PlzpMAAR") {
-                property.Closer = "Kathleen Evans";
-              } else if (property.Closer__c == "0055b00000PlbGIAAZ") {
-                property.Closer = "Jolene Czarnota";
-              } else if (property.Closer__c == "0055b00000PlbGmAAJ") {
-                property.Closer = "Cassandra Balthasar";
-              } else if (property.Closer__c == "0055b00000PlbGmAAJ") {
-                property.Closer = "Cassandra Balthasar";
-              } else {
-                property.Closer = null;
-              }
-  
-              if (property.Underwriter__c == "0055b00000OHS0lAAH") {
-                property.Underwriter = "Brandon Jacobs";
-              } else if (property.Underwriter__c == "0055b00000OpfG6AAJ") {
-                property.Underwriter = "Henry Newell";
-              } else if (property.Underwriter__c == "0055b00000P81j6AAB") {
-                property.Underwriter = "Juan Arias";
-              } else {
-                property.Underwriter = null;
-              }
+            properties.forEach(function (d) {
+              d["_defaultYes"] = "Yes";
+              d["_defaultNo"] = "No";
+              d["_defaultZero"] = 0;
+              d["_defaultBlank"] = "";
             });
             var action1 = component.get("c.getTemplate");
             action1.setParams({
