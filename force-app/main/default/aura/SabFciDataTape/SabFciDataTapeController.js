@@ -4,15 +4,25 @@
       helper.setPermission(component);
       helper.setDealStatus(component);
       helper.getUserProfile(component);
+      const queryFields = ["Id"].concat(component
+        .find("hot-table")
+        .get("v.columns")
+        .map(col => col.get("v.data"))
+        .filter(f => f[0] != "_")
+        );
+
       helper.callAction(
         component,
-        "c.getRelatedList",
+        "c.getRecordList",
         {
           parentId: component.get("v.recordId"),
           parentFieldName: component.get("v.parentFieldName"),
           sobjectType: component.get("v.sobjectType"),
+          fields: queryFields,
+          sortCol: "",
+          sortDir: "",
           whereClause: "Property_Type__c != 'Parent'",
-          orderClause: "Asset_ID__c asc"
+          orderBy: "Asset_ID__c asc"
         },
         function (data) {
           if ($A.util.isEmpty(data)) {
