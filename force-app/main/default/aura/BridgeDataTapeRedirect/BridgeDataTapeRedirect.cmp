@@ -1,6 +1,16 @@
-<aura:component 
-	controller="lightning_Controller"
-	implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickAction" >
-	<aura:attribute name="recordId" type="String" />
-	<aura:handler name="init" value="{!this}" action="{!c.redirect}" />
+<aura:component
+  implements="force:hasRecordId,flexipage:availableForAllPageTypes,force:LightningQuickAction"
+>
+  <aura:attribute name="dealRecord" type="Object" />
+  <aura:attribute name="recordLoadError" type="String" />
+  <!-- <aura:handler name="init" value="{!this}" action="{!c.redirect}" /> -->
+
+  <force:recordData
+    aura:id="recordLoader"
+    recordId="{!v.recordId}"
+    fields="Servicer_Name__c,Record_Type_Name__c"
+    targetFields="{!v.dealRecord}"
+    targetError="{!v.recordLoadError}"
+		recordUpdated="{!c.redirect}"
+  />
 </aura:component>
