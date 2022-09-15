@@ -3,6 +3,21 @@ global without sharing class ServiceLinkEndpoint {
   public class ServiceLinkException extends Exception {
   }
 
+  public static final Map<String, String> REQ_TO_DATEFIELD_MAP = new Map<String,String>{
+    'CancelRequestConfirmation' => 'Cancelled_Date__c',
+    'OrderChangeConfirmation' => 'Order_Change_Confirmation_Date__c',
+    'OrderInquiryConfirmation' => 'Order_Inquiry_Confirmation_Date__c',
+    'DocumentSubmissionConfirm' => 'Document_Submission_Confirmation_Date__c',
+    'QuoteAcceptedConfirmation' => 'Quote_Accepted_Confirmation_Date__c',
+    'LoanPortfolioChangeConfirm' => 'Loan_Portfolio_Confirmation_Date__c'
+  };
+
+  //these requests send a new order number so it won't be possible to query them just yet
+  public static final List<String> NEW_ORDER_NUM_REQS = new List<String>{
+    'OrderConfirmation',
+    'OrderInquiryConfirmation'
+  };
+
   @HttpPost
   global static void postMethod() {
     RestRequest req = RestContext.request;
@@ -21,7 +36,7 @@ global without sharing class ServiceLinkEndpoint {
 
       List<Title_Order__c> titleOrders = queryTitleOrders(
         respMap.values()[0],
-        reqType == 'OrderConfirmation'
+        NEW_ORDER_NUM_REQS.contains(reqType)
       );
       if (titleOrders.size() == 0) {
         throwNullError();
@@ -668,6 +683,30 @@ global without sharing class ServiceLinkEndpoint {
     return ordInq.LoanNumber;
   }
 
+  public static String processRequestConfirmations(
+    ServiceLinkResponse sl,
+    List<Title_Order__c> titleOrders,
+    String reqType
+  ) {
+    for (Title_Order__c to : titleOrders) {
+      if (sl.Status == 'SUCCESS') {
+        to.put(REQ_TO_DATEFIELD_MAP.get(reqType), (DateTime) System.now());
+        if(String.isNotEmpty(sl.AssetID)) {
+          to.Asset_ID__c = sl.AssetID;
+        }
+        if(String.isNotEmpty(sl.OrderNumber)) {
+          to.Order_Number__c = sl.OrderNumber;
+        }
+      } else {
+        to.Error_Message__c = sl.ErrorMessage;
+      }
+    }
+
+    update titleOrders;
+    
+    return sl.LoanNumber;
+  }
+
   public static String processOrderConfirmation(
     ServiceLinkResponse ordConf,
     List<Title_Order__c> titleOrders
@@ -785,7 +824,7 @@ global without sharing class ServiceLinkEndpoint {
           String.isNotEmpty(reqObj.OrderOpenedDate)
           ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
           : tO.Order_Opened_Date__c;
-        tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
+        tO.Bulk_Project_Order_Num__c  = reqObj.BulkProjectOrderNum;
       }
       update titleOrders;
     }
@@ -807,7 +846,7 @@ global without sharing class ServiceLinkEndpoint {
 
   public static void throwNullError() {
     ServiceLinkException err = new ServiceLinkException();
-    err.setMessage('Unable to locate orders.');
+    err.setMessage('Unable to locate orders. Please make sure that the relevant ID parameters are correct.');
     throw err;
   }
 
