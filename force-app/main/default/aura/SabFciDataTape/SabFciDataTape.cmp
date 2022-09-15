@@ -7,6 +7,7 @@
   <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
   <aura:attribute name="tableInit" type="Boolean" default="false" />
   <aura:attribute name="propertyList" type="Object[]" />
+  <aura:attribute name="fieldList" type="String[]" />
 
   <aura:attribute name="errorMessages" type="List" />
   <aura:attribute name="errorTitle" type="String" />

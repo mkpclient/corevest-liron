@@ -10,7 +10,7 @@
         .map(col => col.get("v.data"))
         .filter(f => f[0] != "_")
         );
-
+      component.set("v.fieldList", queryFields);
       helper.callAction(
         component,
         "c.getRecordList",
@@ -80,7 +80,7 @@
       var requiredFields = new Set();
       let requiredFieldsMap = {};
       let fields = [];
-  
+      
       component
         .find("hot-table")
         .get("v.columns")
@@ -378,16 +378,20 @@
       console.log("export");
   
       var properties = [];
+      const queryFields = component.get("v.fieldList");
   
-      var action = component.get("c.getRelatedList");
+      var action = component.get("c.getRecordList");
       action.setParams({
         parentId: component.get("v.recordId"),
         parentFieldName: component.get("v.parentFieldName"),
         sobjectType: component.get("v.sobjectType"),
-        whereClause: "Is_Parent__c = false",
-        orderClause: "Asset_ID__c asc"
-      });
-  
+        fields: queryFields,
+        sortCol: "",
+        sortDir: "",
+        whereClause: "Property_Type__c != 'Parent'",
+        orderBy: "Asset_ID__c asc"
+    });
+      
       //console.log(value);
   
       helper
@@ -404,7 +408,7 @@
             });
             var action1 = component.get("c.getTemplate");
             action1.setParams({
-              fileName: "Bridge DataTapeTemplate"
+              fileName: "SAB FCIDataTapeTemplate"
             });
             console.log("def");
   
@@ -426,18 +430,28 @@
                 for (var i = 0; i < properties.length; i++) {
                   for (var j = 0; j < columns.length; j++) {
                     var prop = columns[j].get("v.data");
+                    const pctFields = ["Rate__c", "Default_Rate__c", "Late_Charge__c"];
                     if (
-                      !$A.util.isEmpty(prop) &&
-                      prop != "_" &&
-                      prop != "Annual_NOI__c" &&
-                      prop != "Annual_Total_Expenses__c" &&
-                      prop != "Total_Basis__c"
+                      !$A.util.isEmpty(prop)
                     ) {
+                      let val;
+                      const fieldArray = prop.split(".");
+                      console.log(fieldArray);
+                      fieldArray.forEach(f => {
+                        if(!val) {
+                          val = properties[i][f];
+                        } else {
+                          val = val[f];
+                        }
+                        if(pctFields.includes(f) && !isNaN(val)) {
+                          val = val / 100;
+                        }
+                      });
                       workbook
                         .sheet(0)
                         .row(10 + i)
                         .cell(j + 3)
-                        .value(properties[i][prop]);
+                        .value(val);
                     }
                   }
                 }
@@ -447,7 +461,7 @@
                 console.log(456);
                 var link = document.createElement("a");
                 link.href = "data:" + XlsxPopulate.MIME_TYPE + ";base64," + data;
-                link.download = "CoreVestBridgeDataTape.xlsx";
+                link.download = "CoreVestSABFCIDataTape.xlsx";
                 link.click();
                 //exportCmp.close();
               });
