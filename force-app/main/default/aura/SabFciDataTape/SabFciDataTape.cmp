@@ -85,7 +85,7 @@
           <ui:scrollerWrapper class="scrollerSize">
             <c:hotTable
               data="{!v.propertyList}"
-              aura:id="hot-table"
+            aura:id="hot-table"
               fixedColumnsLeft="3"
               allowActiveToggle="false"
               allowInsert="{!!and(or(v.dealStatus == 'Paid Off',or(v.dealStatus == 'Sold', v.dealStatus == 'Matured')),  and(!v.hasMaturedPermission, v.profileName != 'System Administrator'))}"
@@ -351,6 +351,6 @@
       </div>
     </div>
 
-    <c:DataTapeImporter aura:id="importer" recordType="Single_Asset_Bridge_Loan" />
+    <c:DataTapeImporter aura:id="importer" isSabFci="true" />
   </div>
 </aura:component>

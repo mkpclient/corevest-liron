@@ -339,7 +339,7 @@
   
           properties[index] = property;
         } else {
-          readOnlyColumns.forEach((fieldName) => {
+          readOnlyColumns.forEach((x) => {
             delete property[x];
           });
           properties.push(property);
