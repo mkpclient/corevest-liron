@@ -3,7 +3,7 @@ global without sharing class ServiceLinkEndpoint {
   public class ServiceLinkException extends Exception {
   }
 
-  public static final Map<String, String> REQ_TO_DATEFIELD_MAP = new Map<String,String>{
+  public static final Map<String, String> REQ_TO_DATEFIELD_MAP = new Map<String, String>{
     'CancelRequestConfirmation' => 'Cancelled_Date__c',
     'OrderChangeConfirmation' => 'Order_Change_Confirmation_Date__c',
     'OrderInquiryConfirmation' => 'Order_Inquiry_Confirmation_Date__c',
@@ -236,7 +236,7 @@ global without sharing class ServiceLinkEndpoint {
     }
 
     List<Deal_Contact__c> dealContacts = [
-      SELECT Id,Contact__r.Name
+      SELECT Id, Contact__r.Name
       FROM Deal_Contact__c
       WHERE
         Contact__r.Name IN :attendeeNames
@@ -265,8 +265,8 @@ global without sharing class ServiceLinkEndpoint {
 
     upsert sAppt RecId__c;
 
-    if(dealContacts.size() > 0) {
-      for(Deal_Contact__c dc : dealContacts) {
+    if (dealContacts.size() > 0) {
+      for (Deal_Contact__c dc : dealContacts) {
         Signing_Attendee__c sAtt = new Signing_Attendee__c();
         sAtt.Signing_Appointment__c = sAppt.Id;
         sAtt.Deal_Contact__c = dc.Id;
@@ -691,10 +691,10 @@ global without sharing class ServiceLinkEndpoint {
     for (Title_Order__c to : titleOrders) {
       if (sl.Status == 'SUCCESS') {
         to.put(REQ_TO_DATEFIELD_MAP.get(reqType), (DateTime) System.now());
-        if(String.isNotEmpty(sl.AssetID)) {
+        if (String.isNotEmpty(sl.AssetID)) {
           to.Asset_ID__c = sl.AssetID;
         }
-        if(String.isNotEmpty(sl.OrderNumber)) {
+        if (String.isNotEmpty(sl.OrderNumber)) {
           to.Order_Number__c = sl.OrderNumber;
         }
       } else {
@@ -703,7 +703,7 @@ global without sharing class ServiceLinkEndpoint {
     }
 
     update titleOrders;
-    
+
     return sl.LoanNumber;
   }
 
@@ -820,11 +820,15 @@ global without sharing class ServiceLinkEndpoint {
   ) {
     if (titleOrders.size() > 0) {
       for (Title_Order__c tO : titleOrders) {
-        tO.Order_Opened_Date__c = reqObj.OrderOpenedDate != null &&
-          String.isNotEmpty(reqObj.OrderOpenedDate)
-          ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
-          : tO.Order_Opened_Date__c;
-        tO.Bulk_Project_Order_Num__c  = reqObj.BulkProjectOrderNum;
+        if (reqObj.Status == 'SUCCESS') {
+          tO.Order_Opened_Date__c = reqObj.OrderOpenedDate != null &&
+            String.isNotEmpty(reqObj.OrderOpenedDate)
+            ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
+            : tO.Order_Opened_Date__c;
+          tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
+        } else {
+          tO.Error_Message__c = reqObj.ErrorMessage;
+        }
       }
       update titleOrders;
     }
@@ -846,7 +850,9 @@ global without sharing class ServiceLinkEndpoint {
 
   public static void throwNullError() {
     ServiceLinkException err = new ServiceLinkException();
-    err.setMessage('Unable to locate orders. Please make sure that the relevant ID parameters are correct.');
+    err.setMessage(
+      'Unable to locate orders. Please make sure that the relevant ID parameters are correct.'
+    );
     throw err;
   }
 
