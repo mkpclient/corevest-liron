@@ -100,6 +100,15 @@ public without sharing class lightning_Util {
   }
 
   @AuraEnabled
+  public static String getTemplate(String fileName){
+    try {
+      return lightning_Controller.getTemplate(fileName);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static List<sObject> query(String queryString) {
     system.debug(queryString);
     return database.query(queryString);
@@ -383,6 +392,57 @@ public without sharing class lightning_Util {
   } //GetDependentOptions
 
   @AuraEnabled
+  public static void createDealDocumentsFromFile(List<Id> parentIds, String fileData, String fileName, String fileType){
+    try {
+      ContentVersion cv = new ContentVersion();
+      cv.VersionData = EncodingUtil.base64Decode(fileData);
+      cv.Title = fileName;
+      cv.pathOnClient = fileName;
+      cv.Type__c = fileType;
+
+      insert cv;
+
+      Id contentDocId = [
+        SELECT Id, ContentDocumentId
+        FROM ContentVersion
+        WHERE Id = :cv.Id
+        LIMIT 1
+      ].ContentDocumentId;
+
+      List<ContentDocumentLink> cdLinks = new List<ContentDocumentLink>();
+      List<Deal_Document__c> docs = new List<Deal_Document__c>();
+
+      for(Id pId : parentIds) {
+        cdLinks.add(new ContentDocumentLink(
+          LinkedEntityId = pId,
+          ContentDocumentId = contentDocId,
+          ShareType = 'I',
+          Visibility = 'AllUsers'
+        ));
+
+        docs.add(new Deal_Document__c(
+          File_Name__c = fileName,
+          ContentVersion_Id__c = cv.Id,
+          Attachment_Id__c = contentDocId,
+          Type__c = 'Misc Documents',
+          Section__c = 'Misc Documents',
+          Document_Type__c = 'Misc Documents',
+          Document_Loaded__c = true,
+          Added_By__c = userInfo.getUserId(),
+          Other_Document_Type__c = 'Misc Documents',
+          Deal__c = pId  
+        ));
+      }
+
+      insert cdLinks;
+      insert docs;      
+
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
   public static String insertFileAndLink(String request) {
     Map<String, Object> req = (Map<String, Object>) JSON.deserializeUntyped(
       request
@@ -489,7 +549,7 @@ public without sharing class lightning_Util {
   //     searchTerm += '*';
 
   //     List<List<SObject>> searchResults = [FIND :searchTerm IN ALL Fields RETURNING
-  //         Account (Id, Name, BillingCity WHERE Spe.DeveloperName = 'Vendor')
+  //         Account (Id, Name, BillingCity WHERE RecordType.DeveloperName = 'Vendor')
   //         LIMIT : 5];
 
   //     List<LookupSearchResult> results = new List<LookupSearchResult>();
