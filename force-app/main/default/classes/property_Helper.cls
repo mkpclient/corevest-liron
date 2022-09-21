@@ -571,9 +571,10 @@ public without sharing class property_Helper {
           if (String.isNotBlank(p.MSA__c)) {
             msaSet.add(p.MSA__c);
           }
-
-          countySet.add(p.County__c);
-          system.debug('==countySet==' + countySet);
+          if (String.isNotBlank(p.County__c)) {
+            countySet.add(p.County__c); 
+            system.debug('==countySet==' + countySet);  
+          }
 
           // if (String.isNotBlank(p.County__c)) {
           //   countySet.add(p.County__c);
@@ -611,6 +612,7 @@ public without sharing class property_Helper {
         }
 
         String countyStr = String.join(countyList, ';');
+
         system.debug('countyStr final ===' + countyStr);
         o.Distinct_States__c = statesStr;
         o.Distinct_States_Full__c = statesStrFull;
@@ -2501,10 +2503,11 @@ public without sharing class property_Helper {
       newProp.Status__c == 'Cancelled') &&
       oldProp.Status__c != 'Inactive' &&
       oldProp.Status__c != 'Cancelled';
+    
 
-    return (isStatusChanged && (fromInactiveCxled || toInactiveCxled)) ||
-      (oldProp.Status__c != 'Inactive' &&
-      oldProp.Status__c != 'Cancelled' &&
+    return (isStatusChanged && !(fromInactiveCxled && toInactiveCxled)) ||
+      (newProp.Status__c != 'Inactive' &&
+      newProp.Status__c != 'Cancelled' &&
       (newProp.State__c != oldProp.State__c ||
       newProp.Property_Type__c != oldProp.Property_Type__c ||
       newProp.Number_of_Units__c != oldProp.Number_of_Units__c ||

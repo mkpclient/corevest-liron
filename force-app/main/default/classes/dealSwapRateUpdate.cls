@@ -13,13 +13,14 @@ public class dealswapRateUpdate implements Database.Batchable<sObject>{
 	List<opportunity> dealsToUpdate = new List<opportunity>();
 	Boolean updateOpportunity = false; 
     Boolean validFirstDayData = false;
-	Swap_Rate__c swapRate = [select Five_Year_Swap__c,Seven_Year_Swap__c,Ten_Year_Swap__c,Thirty_Year_Swap__c,OneM_LIBOR__c,OneM_SOFR__c,CreatedDateTime__c 
+	Swap_Rate__c swapRate = [select Five_Year_Swap__c,Seven_Year_Swap__c,Ten_Year_Swap__c,Thirty_Year_Swap__c,OneM_LIBOR__c
+                             ,OneM_SOFR__c,X1M_Term_SOFR_Floor__c,X3_Year_Treasury_Floor__c,
+                             X5_Year_Treasury_Floor__c,X7_Year_Treasury_Floor__c,X10_Year_Treasury_Floor__c,CreatedDateTime__c 
                              from Swap_Rate__c where CreatedDateTime__c != null order by CreatedDateTime__c desc limit 1];                           
     Integer mnth = System.Today().MOnth();
     Integer yr = System.Today().Year(); 
 	List<Swap_Rate__c> swapRateMinForMonth = [Select ID,CreatedDateTime__c from Swap_Rate__c where CreatedDateTime__c <= Today 
                                         		and CALENDAR_MONTH(CreatedDate) = :mnth and CALENDAR_YEAR(CreatedDate) = :yr order by CreatedDateTime__c asc limit 1 ];
-        
        
     if (swapRateMinForMonth.size() > 0)
     {
@@ -32,7 +33,6 @@ public class dealswapRateUpdate implements Database.Batchable<sObject>{
           
         }
     }
-  
         
      for(opportunity Oppor : processingDeals){
  

@@ -9,14 +9,27 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
     Decimal rate_10;
     Decimal rate_30;
     Decimal rate_1M;
-    Decimal rate_1S;      
+    Decimal rate_1S; 
+//CIP-2526.RS.9/21/22.Begin              
+	Decimal rate_1M_Floor;      
+	Decimal rate_3Y_Floor;
+	Decimal rate_5Y_Floor;
+	Decimal rate_7Y_Floor;
+	Decimal rate_10Y_Floor;      
+//CIP-2526.RS.9/21/22.End              
     Boolean rate_5_valid = false;
     Boolean rate_7_valid = false;
     Boolean rate_10_valid = false;
     Boolean rate_30_valid = false;
     Boolean rate_1ML_valid = false;
-    Boolean rate_1SF_valid = false;      
-
+    Boolean rate_1SF_valid = false;  
+//CIP-2526.RS.9/21/22.Begin              
+    Boolean rate_1M_Floor_valid = false;        
+    Boolean rate_3Y_Floor_valid = false;  
+    Boolean rate_5Y_Floor_valid = false;  
+    Boolean rate_7Y_Floor_valid = false;  
+    Boolean rate_10Y_Floor_valid = false;  
+//CIP-2526.RS.9/21/22.End              
    String emailsubject = email.subject.normalizeSpace().toLowerCase();
    String emailBody = email.plainTextBody.toLowerCase();   
     
@@ -161,6 +174,117 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
 
         }
         
+//CIP-2526.RS.9/21/22.Begin        
+        indexRate = emailLine.indexOf('1M Term SOFR Floor:', 0);
+        if (indexRate != -1 && !rate_1M_Floor_valid )
+        {
+		String  rate_1M_Floor_ret = getRate(emailLine,'1M Term SOFR Floor:');
+
+        if (rate_1M_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 1M Term SOFR Floor :';
+        }
+        Else
+        {
+         rate_1M_Floor_valid = True;
+         try {    
+               rate_1M_Floor = Decimal.valueOf(rate_1M_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_1M_Floor_valid = False;  
+            }            
+        }
+        }   
+        
+        indexRate = emailLine.indexOf('3 Year Treasury Floor:', 0);
+        if (indexRate != -1 && !rate_3Y_Floor_valid )
+        {
+		String  rate_3Y_Floor_ret = getRate(emailLine,'3 Year Treasury Floor:');
+
+        if (rate_3Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 3 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_3Y_Floor_valid = True;
+         try {    
+               rate_3Y_Floor = Decimal.valueOf(rate_3Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_3Y_Floor_valid = False;  
+            }            
+        }
+        } 
+        
+        indexRate = emailLine.indexOf('5 Year Treasury Floor:', 0);
+        if (indexRate != -1 && !rate_5Y_Floor_valid )
+        {
+		String  rate_5Y_Floor_ret = getRate(emailLine,'5 Year Treasury Floor:');
+
+        if (rate_5Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 5 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_5Y_Floor_valid = True;
+         try {    
+               rate_5Y_Floor = Decimal.valueOf(rate_5Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_5Y_Floor_valid = False;  
+            }            
+        }
+        }     
+        
+        indexRate = emailLine.indexOf('7 Year Treasury Floor:', 0);
+        if (indexRate != -1 && !rate_7Y_Floor_valid )
+        {
+		String  rate_7Y_Floor_ret = getRate(emailLine,'7 Year Treasury Floor:');
+
+        if (rate_7Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 7 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_7Y_Floor_valid = True;
+         try {    
+               rate_7Y_Floor = Decimal.valueOf(rate_7Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_7Y_Floor_valid = False;  
+            }            
+        }
+        }   
+        
+        indexRate = emailLine.indexOf('10 Year Treasury Floor:', 0);
+        if (indexRate != -1 && !rate_10Y_Floor_valid )
+        {
+		String  rate_10Y_Floor_ret = getRate(emailLine,'10 Year Treasury Floor:');
+
+        if (rate_10Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 10 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_10Y_Floor_valid = True;
+         try {    
+               rate_10Y_Floor = Decimal.valueOf(rate_10Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_10Y_Floor_valid = False;  
+            }            
+        }
+        }           
+//CIP-2526.RS.9/21/22.End.                
     }
     Swap_Rate__c S = new Swap_Rate__c();
     if (rate_5_valid)
@@ -186,7 +310,33 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
     if (rate_1SF_valid)
       S.OneM_SOFR__c = rate_1S;
     else
-      S.OneM_SOFR__c = null;        
+      S.OneM_SOFR__c = null;   
+//CIP-2526.RS.9/21/22.Begin.       
+    if (rate_1M_Floor_valid)
+      S.X1M_Term_SOFR_Floor__c = rate_1M_Floor;
+    else
+      S.X1M_Term_SOFR_Floor__c = null;      
+
+    if (rate_3Y_Floor_valid)
+      S.X3_Year_Treasury_Floor__c = rate_3Y_Floor;
+    else
+      S.X3_Year_Treasury_Floor__c = null; 
+
+    if (rate_5Y_Floor_valid)
+      S.X5_Year_Treasury_Floor__c = rate_5Y_Floor;
+    else
+      S.X5_Year_Treasury_Floor__c = null; 
+
+    if (rate_7Y_Floor_valid)
+      S.X7_Year_Treasury_Floor__c = rate_7Y_Floor;
+    else
+      S.X7_Year_Treasury_Floor__c = null; 
+
+    if (rate_10Y_Floor_valid)
+      S.X10_Year_Treasury_Floor__c = rate_10Y_Floor;
+    else
+      S.X10_Year_Treasury_Floor__c = null;       
+ //CIP-2526.RS.9/21/22.End.      
 
     S.CreatedDateTime__c = DateTime.now();
     Date createdate = date.today();
