@@ -156,10 +156,10 @@
             </div>
             <div class="slds-col slds-p-around--small slds-size_1-of-2">
                 <dt class="slds-item_label slds-text-color_weak slds-truncate">
-                    Requested Index Floor
+                    Index Floor
                 </dt>
                 <dd class="slds-item_detail slds-truncate">
-                    {!v.record.Requested_Index_Floor__c}
+                    <lightning:formattedNumber value="{!v.record.Floor__c/100}" minimumFractionDigits="0" style="percent" />
                 </dd>
             </div>
         </div>

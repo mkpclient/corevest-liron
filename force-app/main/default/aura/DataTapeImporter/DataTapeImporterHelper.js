@@ -97,7 +97,10 @@
       //console.log(rows[8]);
       var startNumber = 8;
       var ifTerm = false;
-      if (component.get("v.recordType") == "LOC_Loan") {
+      console.log("we made it here");
+      if(component.get("v.isSabFci")) {
+        startNumber = 1;
+      } else if (component.get("v.recordType") == "LOC_Loan") {
         startNumber = 9;
       } else if (
         rows[8] ==

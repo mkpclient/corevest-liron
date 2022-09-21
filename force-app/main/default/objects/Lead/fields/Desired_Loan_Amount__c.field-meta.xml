@@ -9,7 +9,6 @@
     <type>Picklist</type>
     <valueSet>
         <controllingField>Loan_Product_s__c</controllingField>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -28,6 +27,11 @@
                 <label>Under $150k</label>
             </value>
             <value>
+                <fullName>Under $200k</fullName>
+                <default>false</default>
+                <label>Under $200k</label>
+            </value>
+            <value>
                 <fullName>Under $500k</fullName>
                 <default>false</default>
                 <label>Under $500k</label>
@@ -36,6 +40,11 @@
                 <fullName>Under $1M</fullName>
                 <default>false</default>
                 <label>Under $1M</label>
+            </value>
+            <value>
+                <fullName>Under $2M</fullName>
+                <default>false</default>
+                <label>Under $2M</label>
             </value>
             <value>
                 <fullName>Under $3M</fullName>
@@ -58,6 +67,11 @@
                 <label>$150k to $500k</label>
             </value>
             <value>
+                <fullName>$200k to $1M</fullName>
+                <default>false</default>
+                <label>$200k to $1M</label>
+            </value>
+            <value>
                 <fullName>$250k+ to $750k</fullName>
                 <default>false</default>
                 <label>$250k+ to $750k</label>
@@ -71,6 +85,11 @@
                 <fullName>$500k to $2M</fullName>
                 <default>false</default>
                 <label>$500k to $2M</label>
+            </value>
+            <value>
+                <fullName>$1M+ to $2M</fullName>
+                <default>false</default>
+                <label>$1M+ to $2M</label>
             </value>
             <value>
                 <fullName>$1M to $5M</fullName>
@@ -88,9 +107,19 @@
                 <label>$2M+ to $10M</label>
             </value>
             <value>
+                <fullName>$2M to $15M</fullName>
+                <default>false</default>
+                <label>$2M to $15M</label>
+            </value>
+            <value>
                 <fullName>$3M to $7M</fullName>
                 <default>false</default>
                 <label>$3M to $7M</label>
+            </value>
+            <value>
+                <fullName>$3M to $25M</fullName>
+                <default>false</default>
+                <label>$3M to $25M</label>
             </value>
             <value>
                 <fullName>$5M+ to $10M</fullName>
@@ -108,6 +137,16 @@
                 <label>$10M+ to $20M</label>
             </value>
             <value>
+                <fullName>$15M+ to $25M</fullName>
+                <default>false</default>
+                <label>$15M+ to $25M</label>
+            </value>
+            <value>
+                <fullName>$25M+ to $50M</fullName>
+                <default>false</default>
+                <label>$25M+ to $50M</label>
+            </value>
+            <value>
                 <fullName>$750k+</fullName>
                 <default>false</default>
                 <label>$750k+</label>
@@ -116,6 +155,11 @@
                 <fullName>$1M+</fullName>
                 <default>false</default>
                 <label>$1M+</label>
+            </value>
+            <value>
+                <fullName>$2M+</fullName>
+                <default>false</default>
+                <label>$2M+</label>
             </value>
             <value>
                 <fullName>$5M+</fullName>
@@ -133,97 +177,88 @@
                 <label>$20M+</label>
             </value>
             <value>
-                <fullName>$250K to $750K</fullName>
+                <fullName>$25M+</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>$250K to $750K</label>
+                <label>$25M+</label>
             </value>
             <value>
-                <fullName>$2M to $10M</fullName>
+                <fullName>$50M+</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
-                <label>$2M to $10M</label>
-            </value>
-            <value>
-                <fullName>$2M to $5M</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>$2M to $5M</label>
-            </value>
-            <value>
-                <fullName>$500K to $1M</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>$500K to $1M</label>
-            </value>
-            <value>
-                <fullName>$5M to $10M</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>$5M to $10M</label>
-            </value>
-            <value>
-                <fullName>$7M to $10M</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>$7M to $10M</label>
+                <label>$50M+</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>Under $3M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <valueName>$3M to $25M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <valueName>$25M+ to $50M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <valueName>$50M+</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
             <valueName>Under $500k</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
             <valueName>$500k to $2M</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
             <valueName>$2M+ to $5M</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
             <valueName>$5M+</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
             <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
             <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
             <valueName>Under $1M</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
             <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
             <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
             <valueName>$1M to $5M</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
-            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
-            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
-            <valueName>$2M+ to $10M</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
             <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
             <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
             <valueName>$5M+ to $10M</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
-            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
-            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
-            <valueName>$10M+ to $20M</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
             <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
             <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
@@ -234,26 +269,50 @@
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>$2M+ to $10M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
+            <valueName>$10M+ to $20M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Construction Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily-CRE Term Loan</controllingFieldValue>
             <valueName>$20M+</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <valueName>Under $2M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <valueName>$2M to $15M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <valueName>$15M+ to $25M</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <valueName>$25M+</valueName>
+        </valueSettings>
+        <valueSettings>
             <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
             <valueName>Under $150k</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
             <valueName>$150k to $500k</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
             <valueName>$500k+ to $1M</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Single Asset Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
             <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
             <valueName>$1M+</valueName>
@@ -281,10 +340,6 @@
         <valueSettings>
             <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>
             <valueName>$750k+</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
-            <valueName>Under $3M</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Build to Rent Complete</controllingFieldValue>

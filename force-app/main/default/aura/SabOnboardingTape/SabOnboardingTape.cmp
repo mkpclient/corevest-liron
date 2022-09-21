@@ -1,0 +1,40 @@
+<aura:component
+  controller="lightning_Util"
+  implements="flexipage:availableForAllPageTypes,force:LightningQuickAction"
+>
+  <aura:handler name="init" value="{!this}" action="{!c.onCompLoad}"/>
+  <ltng:require scripts="{!$Resource.xlsx_populate}" afterScriptsLoaded="{!c.onScriptLoad}"  />
+
+  <aura:attribute name="properties" type="Object[]" />
+  <aura:attribute name="sheetDataMap" type="Object[]" />
+  <aura:attribute name="scriptLoaded" type="Boolean" default="false" />
+  <aura:attribute name="templateName" type="String" default="SabOnboardingTapeTemplate" />
+  <aura:attribute name="templateData" type="String" />
+
+  <lightning:layout
+    class="slds-m-top_medium"
+    horizontalAlign="spread"
+    verticalAlign="center"
+  >
+    <lightning:layoutItem>
+      <div class="slds-is-relative">
+        <lightning:buttonGroup>
+          <aura:if isTrue="{!v.sheetDataMap != null &amp;&amp; v.scriptLoaded == true &amp;&amp; v.properties != null &amp;&amp; v.templateData != null}">
+            <lightning:button
+              label="SAB Onboarding Data Tape"
+              aura:id="download"
+              onclick="{!c.createSabOnboardingTape}"
+            />
+            <aura:set attribute="else">
+              <lightning:spinner
+                size="small"
+                variant="brand"
+                aura:id="spinner"
+              />
+            </aura:set>
+          </aura:if>
+        </lightning:buttonGroup>
+      </div>
+    </lightning:layoutItem>
+  </lightning:layout>
+</aura:component>

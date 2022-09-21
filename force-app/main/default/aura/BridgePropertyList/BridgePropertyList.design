@@ -3,7 +3,7 @@
     <design:attribute name="sobjectType" label="sObject API Name" />
     <design:attribute name="parentFieldName" label="Parent API Field Name" />
     <design:attribute name="whereClause" label="Where Clause" />
-    <design:attribute name="appName" label="App Name" datasource="Asset Management,Bridge Pending,Bridge Active,Bridge Reno Funding,Bridge Paid Off,Bridge Cancelled,Bridge On Hold"/>
+    <design:attribute name="appName" label="App Name" datasource="Asset Management,Bridge Pending,Bridge Active,Bridge Reno Funding,Bridge Paid Off,Bridge Cancelled,Bridge On Hold,Title and Escrow"/>
     <design:attribute name="pageSize" label="Page Size" />
     <design:attribute name="createAdvance" label="Show Create Advance Button" default="true" />
     <design:attribute name="showGenerateDocsButton" label= "Show Generate Doc Button" default="true" />

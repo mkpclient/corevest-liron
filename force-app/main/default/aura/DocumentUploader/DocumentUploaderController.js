@@ -247,7 +247,7 @@
       "SELECT Id, Name FROM Property__c WHERE Deal__r.Deal_Loan_Number__c = '" +
       fileData[0]["Deal Number"] +
       "' AND Name IN ('" +
-      fileData.map((d) => d["Street Address"]).join("','") +
+      fileData.map((d) => d["Street Address"].trim()).join("','") +
       "')";
 
     let insuranceCompanies = [];

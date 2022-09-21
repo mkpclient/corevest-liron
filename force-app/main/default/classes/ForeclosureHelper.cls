@@ -20,14 +20,22 @@ public without sharing class ForeclosureHelper {
   }
   public static void afterInsert(List<Foreclosure__c> newList) {
     Map<Id, Foreclosure__c> specAssetsToUpdate = new Map<Id, Foreclosure__c>();
+    Map<Id, Foreclosure__c> propertiesToUpdate = new Map<Id,Foreclosure__c>();
     for (Foreclosure__c fc : newList) {
       if (fc.Special_Asset__c != null) {
         specAssetsToUpdate.put(fc.Id, fc);
+      }
+      if(fc.Property__c != null) {
+        propertiesToUpdate.put(fc.Property__c, fc);
       }
     }
 
     if (specAssetsToUpdate.size() > 0) {
       updateSpecialAssets(specAssetsToUpdate, true);
+    }
+
+    if(propertiesToUpdate.size() > 0) {
+      updateProperties(propertiesToUpdate);
     }
   }
 
@@ -51,6 +59,19 @@ public without sharing class ForeclosureHelper {
     if (specAssetsToUpdate.size() > 0) {
       updateSpecialAssets(specAssetsToUpdate, false);
     }
+  }
+
+  public static void updateProperties(Map<Id, Foreclosure__c> propertiesToUpdate) {
+    List<Property__c> props = new List<Property__c>();
+
+    for(Id propId : propertiesToUpdate.keySet()) {
+      props.add(new Property__c(
+        Id = propId,
+        Foreclosure__c = propertiesToUpdate.get(propId).Id
+      ));
+    }
+
+    update props;
   }
 
   public static void updateSpecialAssets(

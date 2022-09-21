@@ -474,7 +474,7 @@
                             As used herein, the following terms shall have the meanings set forth below:</p>
                         <p>
                             <strong> "Floor" </strong> means 
-                            <apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" />per annum.</p>
+                            <apex:outputText value=" {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> per annum.</p>
                         <p>
                             <strong>"Interest Adjustment Date"</strong> means, for the initial Interest Accrual Period, the date
                             that is two U.S. Government Securities Business Days prior to the first day of the calendar month

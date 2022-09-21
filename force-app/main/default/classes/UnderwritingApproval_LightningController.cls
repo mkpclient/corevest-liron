@@ -339,7 +339,7 @@ public class UnderwritingApproval_LightningController {
     }
 
     //}
-
+ //CIP-2288-RS.8/18/22.Begin. 
       System.debug('RS999 o.LOC_Loan_Type__c :' +o.LOC_Loan_Type__c);
       if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
           || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)')

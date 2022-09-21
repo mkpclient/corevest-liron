@@ -3485,15 +3485,6 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Chatter Moderator User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
@@ -3517,6 +3508,15 @@
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
         <profile>Customer Community Login User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Chatter Moderator User</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>

@@ -115,6 +115,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Escrow_Title_Number__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>HUD_Settlement_Statement_Status__c</field>
             </layoutItems>
             <layoutItems>
@@ -219,10 +223,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Broker_Fee_Paid_When__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Warehouse_Line__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -494,11 +494,6 @@
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Advance__c.Print_Validation</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>2</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Advance__c.Complete</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
@@ -527,6 +522,11 @@
             <actionName>Advance__c.Advance_Funding_Notification_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Advance__c.Print_Validation</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>2</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
@@ -586,7 +586,7 @@
         <fields>Renovation_Reserve__c</fields>
         <fields>Approved_Advance_Amount_Calc__c</fields>
         <relatedList>Property_Advance__c.Advance__c</relatedList>
-        <sortField>Wire_Date__c</sortField>
+        <sortField>Property__c.NAME</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
@@ -620,10 +620,6 @@
         <fields>Actor</fields>
         <fields>Comments</fields>
         <relatedList>RelatedProcessHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Approval_History__c.Advance__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

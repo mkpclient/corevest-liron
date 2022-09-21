@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Batch_Approval</fullName>
+    <active>true</active>
+    <label>Batch Approval</label>
+    <picklistValues>
+        <picklist>Approval_Type__c</picklist>
+        <values>
+            <fullName>Advance Batch Approval</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Advance IC Approval</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

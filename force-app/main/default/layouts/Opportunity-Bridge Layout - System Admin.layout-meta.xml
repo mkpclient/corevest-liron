@@ -869,6 +869,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>State_Percentages__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Distinct_Property_Types__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Amount</field>
             </layoutItems>
             <layoutItems>
@@ -1167,6 +1175,11 @@
             <actionName>Opportunity.Line_of_Credit_Executed_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>30</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Sync_With_Knackly</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>31</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

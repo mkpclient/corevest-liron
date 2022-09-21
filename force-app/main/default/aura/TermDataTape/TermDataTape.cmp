@@ -169,7 +169,7 @@
                   title="# of Stories"
                   type="numeric"
                   format="0,0.0"
-                  />
+                />
                 <c:hotColumn
                   data="Year_Built__c"
                   title="Year Built"

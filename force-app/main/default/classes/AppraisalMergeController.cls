@@ -490,6 +490,7 @@ public with sharing class AppraisalMergeController {
         Name,
         City__c,
         State__c,
+        State_Full__c,
         ZipCode__c,
         County__c,
         Property_Type__c,

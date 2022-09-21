@@ -73,7 +73,7 @@
 		<name>CustomMetadata</name>
 	</types>
 	<types>
-        <members>*</members>
+    <members>*</members>
 		<members>Account</members>
 		<members>Campaign</members>
 		<members>Case</members>

@@ -67,14 +67,15 @@
         //  console.log('--bind value--');
         // console.log(value);
         var row = component.get('v.row');
+        let rowIdx = component.get("v.rowIdx");
         var fieldPath = component.get('v.column').get('v.name');
 
-        // console.log(row);
-        // console.log(fieldPath);
+        console.log(row);
+        console.log(fieldPath);
 
         var fields = fieldPath.split('.');
 
-        if( row.hasOwnProperty(fields[0]) ){
+        if(fields.length > 0 && row.hasOwnProperty(fields[0]) ){
             //row[fields[0]] = value;
 
             var obj = row[fields[0]];
@@ -87,6 +88,7 @@
                 row[fields[0]] = value;
             }
         }
+
 
         // component.set('v.row', JSON.parse(JSON.stringify(row)));
     },

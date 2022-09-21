@@ -1081,6 +1081,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>%2415M%2B to %2425M</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>%241M to %245M</fullName>
             <default>false</default>
         </values>
@@ -1097,11 +1101,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>%2425M%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2425M%2B to %2450M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%242M to %2415M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%242M%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>%242M%2B to %2410M</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>%242M%2B to %245M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%243M to %2425M</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1114,6 +1138,10 @@
         </values>
         <values>
             <fullName>%24500k%2B to %241M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2450M%2B</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1146,6 +1174,10 @@
         </values>
         <values>
             <fullName>Under %241M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under %242M</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3274,7 +3306,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>20-50 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>3-10 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3-19 Properties</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3283,6 +3323,10 @@
         </values>
         <values>
             <fullName>5-19 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50%2B Properties</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3640,6 +3684,10 @@
     <picklistValues>
         <picklist>Loan_Product_s__c</picklist>
         <values>
+            <fullName>Build for Rent Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Build to Rent Complete</fullName>
             <default>false</default>
         </values>
@@ -3963,6 +4011,10 @@
         </values>
         <values>
             <fullName>Multifamily 20%2B Units</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Multifamily 5-10 Units</fullName>
             <default>false</default>
         </values>
         <values>
