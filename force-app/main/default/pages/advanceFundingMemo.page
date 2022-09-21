@@ -1,5 +1,4 @@
-<apex:page standardController="Advance__c" applyBodyTag="false" renderAs="pdf">
-
+<apex:page standardController="Advance__c" applyBodyTag="false" renderAs="pdf"  extensions="AdvanceFundingMemoController">
   <head>
     <style type="text/css">
       @page {
@@ -198,6 +197,81 @@
           </td>
           <td class="valueColumn">
             -
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table>
+      <colgroup>
+        <col style="width:40%" />
+        <col style="width:10%" />
+        <col style="width:40%" />
+      </colgroup>      
+      <thead>
+        <tr>
+          <th colspan="3">Takeout Parameters</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bgCol">Actual DSCR</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">{!actualDscr}</td>
+        </tr>
+        <tr>
+          <td class="bgCol">Actual LTV</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">
+            <apex:outputText value="{0, Number, 0.00}%">
+              <apex:param value="{!actualLtv}" />
+            </apex:outputText>
+          </td>
+        </tr>
+        <tr>
+          <td class="bgCol">Actual Debt Yield</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">
+            <apex:outputText value="{0, Number, 0.00}%">
+              <apex:param value="{!actualDebtYield}" />
+            </apex:outputText>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table>
+      <colgroup>
+        <col style="width:40%" />
+        <col style="width:10%" />
+        <col style="width:40%" />
+      </colgroup>      
+      <thead>
+        <tr>
+          <th colspan="3">Loan Sizing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="bgCol">Actual DSCR</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">{!actualDscr}</td>
+        </tr>
+        <tr>
+          <td class="bgCol">Actual LTV</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">
+            <apex:outputText value="{0, Number, 0.00}%">
+              <apex:param value="{!actualLtv}" />
+            </apex:outputText>
+          </td>
+        </tr>
+        <tr>
+          <td class="bgCol">Actual Debt Yield</td>
+          <td class="bgCol"></td>
+          <td class="valueColumn">
+            <apex:outputText value="{0, Number, 0.00}%">
+              <apex:param value="{!actualDebtYield}" />
+            </apex:outputText>
           </td>
         </tr>
       </tbody>
