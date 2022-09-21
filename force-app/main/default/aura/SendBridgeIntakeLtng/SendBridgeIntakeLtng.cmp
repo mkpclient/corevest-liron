@@ -267,11 +267,14 @@
                         />
                       </li>
                       <li class="slds-var-p-around_small">
-                        Index Floor:
+                        Floor:
                         <lightning:input
                           aura:id="indexFloor"
-                          value="{!v.record.Deal__r.Index_Floor__c}"
+                          value="{!v.record.Deal__r.Floor__c}"
                           variant="label-hidden"
+                          type="number"
+                          step=".01"
+                          formatter="percent-fixed"
                         />
                       </li>
                     </aura:if>
