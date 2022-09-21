@@ -20,6 +20,22 @@
     <navType>Standard</navType>
     <profileActionOverrides>
         <actionName>View</actionName>
+        <content>Custom_Items_to_Approve</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>ProcessInstanceWorkitem</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Custom_Items_to_Approve</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>ProcessInstanceWorkitem</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Admin</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
         <content>Bridge_Reno_Property_Layout</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Property__c</pageOrSobjectType>

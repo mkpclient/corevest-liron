@@ -3322,6 +3322,10 @@
             <fullName>Securitization</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Signature</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Warehoused__c</picklist>

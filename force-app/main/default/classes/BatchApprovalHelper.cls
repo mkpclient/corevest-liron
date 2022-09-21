@@ -1,5 +1,13 @@
 public without sharing class BatchApprovalHelper {
-  public static final String APPROVER_GROUP = 'Advance_Batch_Approvers';
+  public static final Map<String,String> APPROVER_GROUP_MAP = new Map<String,String>{
+    'Advance Batch Approval' => 'Advance_Batch_Approvers',
+    'Advance IC Approval' => 'Advance_IC_Approvers'
+  };
+
+  public static final Map<String,String> CHATTER_MESSAGE_MAP = new Map<String,String>{
+    'Advance_Batch_Approvers' => 'A new batch of advances have entered approval and require your review.\n Submitter Comment: '
+  };
+
   public static final String RECIPIENT_GROUP = 'Advance_Batch_Additional_Recipients';
   public static final Map<String, String> TEMPLATE_MAP = new Map<String, String>{
     'submitted' => 'Advance_Batch_Submitted',
@@ -8,14 +16,29 @@ public without sharing class BatchApprovalHelper {
   };
 
   public static void beforeInsert(List<Batch_Approval__c> newList) {
+    Map<String,Schema.RecordTypeInfo> recTypeMap = Schema.SObjectType.Batch_Approval__c.getRecordTypeInfosByName();
     for (Batch_Approval__c ba : newList) {
       ba.Submitted_By__c = UserInfo.getUserId();
       ba.Week_Of__c = System.today().toStartOfWeek().addDays(1);
+
+      if(ba.Approval_Type__c == 'Advance Batch Approval') {
+        ba.RecordTypeId = recTypeMap.get('Batch Approval').getRecordTypeId();
+      }
     }
   }
 
   public static void afterInsert(Map<Id, Batch_Approval__c> newMap) {
-    createBatchApprovers(newMap.values());
+    List<Batch_Approval__c> batchApprovals = new List<Batch_Approval__c>();
+    List<Batch_Approval__c> icApprovals = new List<Batch_Approval__c>();
+    for(Batch_Approval__c ba: newMap.values()) {
+      if(ba.Approval_Type__c == 'Advance Batch Approval') {
+        batchApprovals.add(ba);
+      }
+    }
+
+    if(batchApprovals.size() > 0){ 
+      createBatchApprovers(batchApprovals, APPROVER_GROUP_MAP.get(batchApprovals[0].Approval_Type__c));
+    }
   }
 
   public static void beforeUpdate(
@@ -47,7 +70,8 @@ public without sharing class BatchApprovalHelper {
 
       if (
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
-        newBa.Approval_Status__c == 'Rejected'
+        newBa.Approval_Status__c == 'Rejected' && 
+        newBa.Approval_Type__c == 'Advance Batch Approval'
       ) {
         rejectedBatches.put(newBa.Id, newBa);
       }
@@ -61,7 +85,8 @@ public without sharing class BatchApprovalHelper {
 
       if (
         oldBa.AttachmentPosted__c != newBa.AttachmentPosted__c &&
-        newBa.AttachmentPosted__c
+        newBa.AttachmentPosted__c && 
+        newBa.Approval_Type__c == 'Advance Batch Approval'
       ) {
         submittedBatches.put(newBa.Id, newBa);
       }
@@ -92,7 +117,7 @@ public without sharing class BatchApprovalHelper {
     String type
   ) {
     Set<Id> sendTo = retrieveGroupMembers(
-      new List<String>{ APPROVER_GROUP, RECIPIENT_GROUP }
+      new List<String>{ APPROVER_GROUP_MAP.get('Advance Batch Approval'), RECIPIENT_GROUP }
     );
     String templateName = TEMPLATE_MAP.get(type);
     List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
@@ -245,11 +270,12 @@ public without sharing class BatchApprovalHelper {
     }
   }
 
-  public static void createBatchApprovers(List<Batch_Approval__c> batchIds) {
+  public static void createBatchApprovers(List<Batch_Approval__c> batches, String approverGroup) {
     List<Batch_Approver__c> approvers = new List<Batch_Approver__c>();
-    Set<Id> apprIds = retrieveGroupMembers(new List<String>{ APPROVER_GROUP });
+    
+    Set<Id> apprIds = retrieveGroupMembers(new List<String>{ approverGroup });
     List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
-    for (Batch_Approval__c b : batchIds) {
+    for (Batch_Approval__c b : batches) {
       for (Id a : apprIds) {
         Batch_Approver__c ba = new Batch_Approver__c();
         ba.Submitted_By__c = UserInfo.getUserId();
@@ -270,7 +296,7 @@ public without sharing class BatchApprovalHelper {
       }
       feedElements.add(
         constructBatchChatterPost(
-          'A new batch of advances have entered approval and require your review.\n Submitter Comment: ' +
+          CHATTER_MESSAGE_MAP.get(approverGroup) +
           b.Initial_Comments__c,
           b.Id,
           new List<Id>(apprIds)
@@ -312,7 +338,7 @@ public without sharing class BatchApprovalHelper {
   }
 
   public static void createApprovalHistories(Set<Id> batchIds) {
-    Set<Id> apprIds = retrieveGroupMembers(new List<String>{ APPROVER_GROUP });
+    Set<Id> apprIds = retrieveGroupMembers(new List<String>{ APPROVER_GROUP_MAP.get('Advance Batch Approval') });
     List<Approval_History__c> appHistories = new List<Approval_History__c>();
     for (Advance__c adv : [
       SELECT Id, Batch_Approval__c, Batch_Approval__r.Initial_Comments__c

@@ -33,6 +33,7 @@ Boolean Custodial_File_Sent_to_Custodian = False;
     Boolean allAttachedFilesAreValidCsvs = True;
     for(Messaging.InboundEmail.BinaryAttachment btt : bAttachments)
     {
+        System.Debug('RS999 -btt.filename :' +btt.filename);
         if(!btt.filename.endsWithIgnoreCase('.csv'))
      	{
             allAttachedFilesAreValidCsvs = False;
@@ -40,6 +41,15 @@ Boolean Custodial_File_Sent_to_Custodian = False;
         	errorsFound = True;
         	errorString = 'Only CSV files name starting with bridge or term will be processed';  
         }
+        Else
+        {
+            allAttachedFilesAreValidCsvs = True;
+            System.Debug('RS999 - not a csv file');
+        	errorsFound = False;
+        	errorString = '';   
+            Break;
+        }
+        
     } 
     
     if (allAttachedFilesAreValidCsvs)

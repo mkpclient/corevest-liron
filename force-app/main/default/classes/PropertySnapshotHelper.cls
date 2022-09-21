@@ -118,7 +118,7 @@ public without sharing class PropertySnapshotHelper {
 
     for (String key : eventTypeMap.keySet()) {
       Property_Snapshot__c propSnapshot = new Property_Snapshot__c(
-        Event_Type__c = key == SPEC_ASSET_EVENT_NAME ? 'Asset Sold' : key
+        Event_Type__c = key
       );
 
       Map<String, String> fieldMapping = FIELD_MAPPING_BY_EVENT.get(key);
@@ -134,6 +134,9 @@ public without sharing class PropertySnapshotHelper {
         } else if (SPEC_ASSET_EVENT_NAME == key) {
           propSnapshot.Special_Asset__c = (Id) obj.get('Id');
           propSnapshot.Property__c = (Id) obj.get('Property__c');
+          if(obj.get('REO_Sell_Date__c') != null) {
+            propSnapshot.Event_Type__c = 'Asset Sold';
+          }
         } else {
           propSnapshot.Property__c = (Id) obj.get('Id');
         }

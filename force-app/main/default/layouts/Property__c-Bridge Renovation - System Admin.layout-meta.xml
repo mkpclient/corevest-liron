@@ -50,6 +50,18 @@
                 <behavior>Edit</behavior>
                 <field>Capex_Escrow__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Late_Charge__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>REO__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreclosure__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -244,6 +256,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Escrow_Company_Contact__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Escrow_Contact_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -253,6 +269,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Company_Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

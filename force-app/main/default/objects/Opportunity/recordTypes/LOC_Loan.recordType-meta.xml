@@ -2308,6 +2308,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>1%2E25%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>1%2E50%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
@@ -3431,6 +3439,10 @@
         </values>
         <values>
             <fullName>Morgan Stanley Static</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Signature</fullName>
             <default>false</default>
         </values>
         <values>

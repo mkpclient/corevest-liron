@@ -562,6 +562,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
     const batch = {
       Id: batchId,
       AttachmentPosted__c: true,
+      Approval_Type__c: "Advance Batch Approval",
       sobjectType: "Batch_Approval__c"
     }
 

@@ -3193,6 +3193,10 @@
             <fullName>Fortress</fullName>
             <default>false</default>
         </values>
+        <values>
+            <fullName>Signature</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>YM_Prepayment_Penalty__c</picklist>

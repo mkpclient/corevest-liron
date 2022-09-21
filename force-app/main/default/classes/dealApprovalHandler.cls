@@ -1215,14 +1215,14 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       Database.rollback(sp);
       sendExceptionEmails(ex);
     }
-	  //RS.Begin
-   /*   o.Term_Sheet_Issued__c  = Date.today();
+	  //RS.9/8/2022.CIP-2510.Begin.
+      o.Term_Sheet_Issued__c  = Date.today();
       if (o.Current_Stage__c == 'Initial Review' || o.Current_Stage__c == 'Data Tape Received')
       {
           o.StageName = 'Term Sheet Issued';
       }
-      update o;*/
-     //RS.End        
+      update o;
+     //RS.9/8/2022.CIP-2510.End.        
       
   }
 

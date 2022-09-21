@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Application_Submission_Contact</fullName>
+        <description>Application Submission Contact</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Contact_Owner_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>integrations@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Portal_Email_Templates/Application_Submission_Contact</template>
+    </alerts>
+    <alerts>
+        <fullName>Application_Submission_Lead</fullName>
+        <description>Application Submission Lead</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Lead_Owner_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <senderAddress>integrations@cvest.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Portal_Email_Templates/Application_Submission_Lead</template>
+    </alerts>
+</Workflow>

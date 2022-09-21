@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Detailed_Description__c</field>
-        <value xsi:type="xsd:string">Please confirm the address via HouseCanary&apos;s Property Explorer.</value>
+        <value xsi:type="xsd:string">Please confirm the address via Smarty.</value>
     </values>
     <values>
         <field>Message_Type__c</field>
@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Messages__c</field>
-        <value xsi:type="xsd:string">Please confirm the address via HouseCanary&apos;s Property Explorer (7).</value>
+        <value xsi:type="xsd:string">Please confirm the address via Smarty (7).</value>
     </values>
     <values>
         <field>MessagetNumber__c</field>

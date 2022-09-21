@@ -59,6 +59,10 @@
                 <behavior>Edit</behavior>
                 <field>EBI_Project_No__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Deal_Loan_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -452,6 +456,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Prevent_Auto_Refresh__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Invoicing__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

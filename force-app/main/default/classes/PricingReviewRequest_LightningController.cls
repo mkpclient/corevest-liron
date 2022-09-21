@@ -494,9 +494,6 @@ public without sharing class PricingReviewRequest_LightningController {
   }
  //CIP-2288-RS.8/18/22.End.    
     
-
-    
-    
   @AuraEnabled
   public static Integer queryPricingCount(Id recId) {
     try {
