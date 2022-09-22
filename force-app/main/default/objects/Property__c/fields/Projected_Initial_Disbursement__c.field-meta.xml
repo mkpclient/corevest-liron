@@ -4,7 +4,10 @@
     <businessStatus>Active</businessStatus>
     <description>Acquisition Cost * Max LTC %</description>
     <externalId>false</externalId>
-    <formula>Acquisition_Price__c *  Deal__r.LTC__c</formula>
+    <formula>IF(
+ Override_Initial_Disbursement__c = 0,
+0,
+Acquisition_Price__c *  Deal__r.LTC__c)</formula>
     <inlineHelpText>Acquisition Cost * Max LTC %</inlineHelpText>
     <label>Projected Initial Disbursement</label>
     <precision>18</precision>

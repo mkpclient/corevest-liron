@@ -52,6 +52,12 @@
     description=""
   />
 
+  <aura:attribute
+    name="typeAttributesMapList"
+    type="Object[]"
+    description="Parsed from typeAttributes in DataTableCellController for custom component attributes"
+  />
+
   <aura:attribute name="isEditable" type="Boolean" default="false" />
   <aura:attribute name="editMode" type="Boolean" default="true" />
 
@@ -123,6 +129,7 @@
 
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <aura:handler name="change" value="{!v.value}" action="{!c.handleChange}" />
+  <aura:handler name="change" value="{!v.row}" action="{!c.handleRowChange}" />
   <aura:registerEvent name="reviewEvent" type="c:CommunityReviewDocEvent" />
 
   <!-- markup -->
@@ -182,6 +189,23 @@
 
     <div class="{!and(v.editMode, v.isEditable) ? '' : 'slds-hide'}">
       <span class="">
+        <aura:if
+          isTrue="{!v.displayType == 'Icon' &amp;&amp; v.typeAttributesMapList != null}"
+        >
+          <aura:iteration
+            items="{!v.typeAttributesMapList}"
+            var="typeAttributesMap"
+          >
+            <lightning:icon
+              iconName="{!typeAttributesMap.iconName}"
+              alternativeText="{!typeAttributesMap.alternativeText}"
+              size="small"
+              title="{!typeAttributesMap.title}"
+              variant="{!typeAttributesMap.variant}"
+            />
+          </aura:iteration>
+        </aura:if>
+
         <aura:if isTrue="{!v.displayType == 'Boolean'}">
           <lightning:input type="checkbox" checked="{!v.value}" label=" " />
         </aura:if>
@@ -226,6 +250,12 @@
             label=" "
             whereClause="{!v.lookup.whereClause}"
             labelPlural="{!v.lookup.sobjectLabel}"
+            fieldName="{!if(v.lookup.fieldName != null, v.lookup.fieldName, '')}"
+            dependentField="{!if(v.lookup.dependentField != null, v.lookup.dependentField, '')}"
+            record="{!v.row}"
+            rowIdx="{!v.rowIdx}"
+            row="{!v.row}"
+            aura:id="autocomplete"
           />
         </aura:if>
       </span>
@@ -239,6 +269,23 @@
           class="slds-grid slds-grid--align-spread"
           ondblclick="{!c.toggleEdit}"
         >
+          <aura:if
+            isTrue="{!v.displayType == 'Icon' &amp;&amp; v.typeAttributesMapList != null}"
+          >
+            <aura:iteration
+              items="{!v.typeAttributesMapList}"
+              var="typeAttributesMap"
+            >
+              <lightning:icon
+                iconName="{!typeAttributesMap.iconName}"
+                alternativeText="{!typeAttributesMap.alternativeText}"
+                size="small"
+                title="{!typeAttributesMap.title}"
+                variant="{!typeAttributesMap.variant}"
+              />
+            </aura:iteration>
+          </aura:if>
+
           <aura:if isTrue="{!v.displayType == 'Boolean'}">
             <ui:outputText
               class="{!'whitespace-initial ' + v.class}"
@@ -317,9 +364,7 @@
             />
           </aura:if>
 
-          <aura:if
-            isTrue="{!v.displayType == 'file' &amp;&amp; v.isReadable}"
-          >
+          <aura:if isTrue="{!v.displayType == 'file' &amp;&amp; v.isReadable}">
             <a
               href="javascript:void(0)"
               class="{!empty(v.value) ? 'slds-hide' : ''}"
@@ -439,11 +484,8 @@
                         value="{!v.classicLink}"
                       />
                       <aura:set attribute="else">
-                        <ui:outputText
-                          value="{!v.value}"
-                          title="{!v.value}"
-                        />
-                        </aura:set>
+                        <ui:outputText value="{!v.value}" title="{!v.value}" />
+                      </aura:set>
                     </aura:if>
                   </div>
                 </div>

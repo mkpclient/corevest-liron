@@ -59,6 +59,10 @@
                 <behavior>Edit</behavior>
                 <field>Submitted_Application_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -355,6 +359,10 @@
                 <behavior>Edit</behavior>
                 <field>System_of_Origination__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Non_Borrower_Account_Type__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -512,19 +520,6 @@
         <fields>Purchase_Date__c</fields>
         <relatedList>Opportunity.Approved_Third_Party_Originators__c</relatedList>
         <sortField>Purchase_Date__c</sortField>
-        <sortOrder>Desc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Stage__c</fields>
-        <fields>Anticipated_Closing_Date__c</fields>
-        <fields>Number_of_Loans__c</fields>
-        <fields>Number_of_Loans_Bid_On_Purchased__c</fields>
-        <fields>Percent_of_Loans_Purchased__c</fields>
-        <fields>Purchase_Date__c</fields>
-        <fields>Total_Bid_Amount__c</fields>
-        <relatedList>TPO_Pool__c.Lender__c</relatedList>
-        <sortField>Anticipated_Closing_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>

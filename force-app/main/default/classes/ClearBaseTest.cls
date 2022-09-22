@@ -1,7 +1,8 @@
 @isTest
 private  class ClearBaseTest {
     @isTest static void testMethod1() {
-        
+        test_Helper.createDealLoanNumber();
+
         Account a = new Account();
         a.Name = 'test';
         a.BillingCountry = 'United States';
@@ -63,7 +64,8 @@ private  class ClearBaseTest {
     }
     
     @isTest static void testMethod2() {
-        
+      test_Helper.createDealLoanNumber();
+
         Account a = new Account();
         a.Name = 'test';
         a.BillingCountry = 'United States';
@@ -128,7 +130,8 @@ private  class ClearBaseTest {
     }
     
     @isTest static void testMethod3() {
-        
+      test_Helper.createDealLoanNumber();
+  
         Account a = new Account();
         a.Name = 'test';
         a.BillingCountry = 'United States';
@@ -191,7 +194,8 @@ private  class ClearBaseTest {
     }
     
     @isTest static void testMethod4() {
-        
+      test_Helper.createDealLoanNumber();
+   
         Account a = new Account();
         a.Name = 'test';
         a.BillingCountry = 'United States';

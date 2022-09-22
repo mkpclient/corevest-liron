@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pre_Qual_Approval_Date__c</fullName>
+    <description>Used along with the Pre-Qual picklist options from the Status field</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date on which contact&apos;s background and credit is approved</inlineHelpText>
+    <label>Pre-Qual Approval Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

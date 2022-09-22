@@ -6,8 +6,8 @@ private class AdvanceDealTriggerTest {
   private static string statusInvalid = 'Pending';
   @isTest
   static void advanceDealTriggerTestInsert() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
-
     Contact testContact = new Contact();
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';
@@ -106,8 +106,8 @@ private class AdvanceDealTriggerTest {
 
   @isTest
   static void advanceDealTriggerTestUpdatePass() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
-
     Contact testContact = new Contact();
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';
@@ -212,6 +212,7 @@ private class AdvanceDealTriggerTest {
 
   @isTest
   static void advanceDealTriggerTestUpdateFail() {
+    test_Helper.createDealLoanNumber();
     Contact testContact = new Contact();
     testContact.FirstName = 'Test';
     testContact.LastName = 'Contact';

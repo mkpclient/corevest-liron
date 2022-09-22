@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Approver__c</field>
-        <value xsi:type="xsd:string">LM</value>
+        <value xsi:type="xsd:string">Loan Manager</value>
     </values>
     <values>
         <field>Checklist_Item_Name__c</field>
-        <value xsi:type="xsd:string">Executed Term Sheet </value>
+        <value xsi:type="xsd:string">Executed Term Sheet�</value>
     </values>
     <values>
         <field>Checklist_Type__c</field>
@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:type="xsd:string">Executed_Term_Sheet_sab</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Is_Bulk__c</field>
@@ -32,7 +32,7 @@
     </values>
     <values>
         <field>RecordType__c</field>
-        <value xsi:type="xsd:string">Single_Asset_Bridge</value>
+        <value xsi:type="xsd:string">Single_Asset_Bridge_Loan</value>
     </values>
     <values>
         <field>Responsible_Party__c</field>
@@ -40,7 +40,7 @@
     </values>
     <values>
         <field>Reviewer__c</field>
-        <value xsi:type="xsd:string">LM</value>
+        <value xsi:type="xsd:string">Loan Manager</value>
     </values>
     <values>
         <field>Type__c</field>

@@ -73,6 +73,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Country__c</field>
             </layoutItems>
             <layoutItems>
@@ -86,6 +90,22 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>In_Foreclosure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CEMA__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -148,6 +168,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Loss_Mitigation_Associate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Securitized__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Securitization__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -364,6 +392,14 @@
                 <field>Interest_Reserves__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Current_Interest_Reserves_Paid__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Current_Interest_Reserves_Remaining__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Loan_Effective_Date__c</field>
             </layoutItems>
@@ -510,6 +546,66 @@
     </relatedContent>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Property__c</fields>
+        <fields>Exception_Status_Internal__c</fields>
+        <fields>Exception_Status_Custodian__c</fields>
+        <fields>Exception_Description__c</fields>
+        <fields>Exception_Code__c</fields>
+        <fields>Exception_Assigned_Date__c</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+        <sortField>Exception_Assigned_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal_2__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Property__c</fields>
+        <fields>Date__c</fields>
+        <fields>Interest_Reserves_Payment__c</fields>
+        <fields>Original_Interest_Reserves__c</fields>
+        <fields>New_Remaining_Interest_Reserve__c</fields>
+        <fields>Remaining_Interest_Reserve__c</fields>
+        <relatedList>Interest_Reserves__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Funding_Vehicle__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <fields>QC_Yes_No__c</fields>
+        <fields>QC_Batch_Number__c</fields>
+        <fields>QC_Date__c</fields>
+        <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
+        <sortField>Start_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Subject__c</fields>
         <fields>Comment__c</fields>
         <fields>CREATEDBY_USER</fields>
@@ -578,19 +674,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Piple_Line_Report_Data__c.Deal__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Title_Order__c.Deal__c</relatedList>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

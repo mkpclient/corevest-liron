@@ -735,8 +735,7 @@ public without sharing class BorrowerChecklistController {
         Upload_Notification_Closer__c,
         Upload_Notification_Loan_Coordinator__c,
         Upload_Notification_Originations__c,
-        Upload_Notification_Underwriter__c,
-        Legal_Review__c
+        Upload_Notification_Underwriter__c
       FROM Document_Structure__mdt
       WHERE
         Folder_Structure_String__c = :docStringSplit[0]
@@ -782,8 +781,6 @@ public without sharing class BorrowerChecklistController {
           .Upload_Notification_Originations__c;
         dealDoc.Upload_Notification_Underwriter__c = docStructure[0]
           .Upload_Notification_Underwriter__c;
-        dealDoc.Legal_Review__c = docStructure[0]
-          .Legal_Review__c;
       }
 
       dealDoc.Attachment_Id__c = docId;

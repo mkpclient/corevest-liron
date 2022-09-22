@@ -17,6 +17,7 @@ private class Loc_BatchableTest {
   }
 
   static testMethod void testMethod1() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -26,8 +27,8 @@ private class Loc_BatchableTest {
       .getRecordTypeId();
     opp.RecordTypeId = termLoanRecordTypeId;
     update opp;
+    opp.IC_Approval_Date__c = System.today() - 5;
     opp.StageName = 'Closed Won';
-
     opp.Loan_Effective_Date__c = System.today() - 5;
     opp.Advance_Period__c = 3;
     opp.LOC_Term__c = '12 Months';

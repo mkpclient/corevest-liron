@@ -259,19 +259,16 @@
                           <td scope="row" class="appraisal_row">
                             <lightning-formatted-date-time
                               value={appraisal.Order_Received_Date__c}
-                              time-zone="UTC"
                             ></lightning-formatted-date-time>
                           </td>
                           <td scope="row" class="appraisal_row">
                             <lightning-formatted-date-time
                               value={appraisal.Estimated_Completion_Date__c}
-                              time-zone="UTC"
                             ></lightning-formatted-date-time>
                           </td>
                           <td scope="row" class="appraisal_row">
                             <lightning-formatted-date-time
                               value={appraisal.Appraisal_Completion_Date__c}
-                              time-zone="UTC"
                             ></lightning-formatted-date-time>
                           </td>
                           <td scope="row" class="appraisal_row">
@@ -375,7 +372,7 @@
         >
         </lightning-combobox> -->
 
-        <lightning-dual-listbox
+        <!-- <lightning-dual-listbox
           name="productTypes"
           label="Product Types"
           source-label="Available"
@@ -388,9 +385,9 @@
           field-level-help="Select your Product Types to order"
           size="3"
         >
-        </lightning-dual-listbox>
+        </lightning-dual-listbox> -->
       </template>
-      <template if:false={isEBI}>
+    <!--  <template if:false={isEBI}>
         <lightning-combobox
           value={reportType}
           name="productTypes"
@@ -402,7 +399,7 @@
           data-id="params"
         >
         </lightning-combobox>
-      </template>
+      </template>-->
 
       <template if:true={isClarocity}>
         <lightning-textarea
@@ -628,7 +625,7 @@
           data-name="rushOrder"
           data-id="params"
         ></lightning-input>
-        <lightning-combobox
+        <!-- <lightning-combobox
           value={turnTime}
           name="turnTimes"
           label="Turn Time"
@@ -638,7 +635,7 @@
           onchange={turnTimeChange}
           data-id="params"
         >
-        </lightning-combobox>
+        </lightning-combobox> -->
         <lightning-textarea
           name="vendorComments"
           label="Comments"

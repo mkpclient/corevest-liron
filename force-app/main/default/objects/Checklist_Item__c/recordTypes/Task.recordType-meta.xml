@@ -4,6 +4,13 @@
     <active>true</active>
     <label>Task</label>
     <picklistValues>
+        <picklist>Approver__c</picklist>
+        <values>
+            <fullName>Underwriter</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Document_Category__c</picklist>
         <values>
             <fullName>Borrower</fullName>
@@ -23,6 +30,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Responsible_Party__c</picklist>
+        <values>
+            <fullName>Closer</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Manager</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Loan Manager%2FUnderwriter</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Underwriter</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Reviewer__c</picklist>
         <values>
             <fullName>Underwriter</fullName>
@@ -36,7 +62,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Pending</fullName>
+            <fullName>In Progress %28Open%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not Started</fullName>
             <default>true</default>
         </values>
     </picklistValues>

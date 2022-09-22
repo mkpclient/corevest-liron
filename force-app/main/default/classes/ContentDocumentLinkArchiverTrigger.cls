@@ -13,7 +13,7 @@ class ContentDocumentLinkArchiverTrigger{
              AccountId=dealAccount.Id
          );
          insert dealContact;
-         
+         test_Helper.createDealLoanNumber();
          Opportunity deal = New Opportunity(
              Contact__c=dealContact.Id, 
              CloseDate=Date.Today(), 

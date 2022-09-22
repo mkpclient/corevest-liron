@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Borrower_Entities</fullName>
+    <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Account_Entity__c</columns>
+    <columns>C_Account__c</columns>
+    <columns>Business_Entity__c</columns>
+    <columns>Entity_Type__c</columns>
+    <columns>Company_Type__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal_Contact_Type__c</field>
+        <operation>equals</operation>
+        <value>Entity</value>
+    </filters>
+    <label>Borrower Entities</label>
+</ListView>

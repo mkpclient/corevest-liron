@@ -7,17 +7,11 @@
     <columns>CONTACT.EMAIL</columns>
     <columns>CORE.USERS.ALIAS</columns>
     <columns>Account_Record_Type__c</columns>
-    <columns>Alchemy_Portal_Id__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Account_Record_Type__c</field>
         <operation>equals</operation>
         <value>Broker</value>
     </filters>
-    <filters>
-        <field>Non_Borrower_Account_Type__c</field>
-        <operation>equals</operation>
-        <value>Broker Plus</value>
-    </filters>
-    <label>All Broker Plus Contacts</label>
+    <label>All Broker Contacts</label>
 </ListView>

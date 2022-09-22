@@ -40,6 +40,16 @@
                 <default>false</default>
                 <label>1.00%</label>
             </value>
+            <value>
+                <fullName>1.25%</fullName>
+                <default>false</default>
+                <label>1.25%</label>
+            </value>
+            <value>
+                <fullName>1.50%</fullName>
+                <default>false</default>
+                <label>1.50%</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>6</visibleLines>

@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Updated by Statebridge Servicer Integration after on-boarding.</inlineHelpText>
     <label>Yardi ID</label>
-    <length>10</length>
+    <length>30</length>
     <required>false</required>
     <trackHistory>true</trackHistory>
     <type>Text</type>

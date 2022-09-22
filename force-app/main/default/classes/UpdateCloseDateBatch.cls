@@ -29,9 +29,9 @@ global class UpdateCloseDateBatch implements Database.Batchable<sObject>{
         }else if(recordType == 'Bridge'){
             this.selectedDaysMap = bridgeDaysMap;
             queryString += ' RecordType.DeveloperName = \'LOC_Loan\'';
-        }else if(recordType == 'Single Asset Bridge'){
-            this.selectedDaysMap =sabDaysMap;
-            queryString += ' RecordType.DeveloperName = \'Single_Asset_Bridge_Loan\'';
+        // }else if(recordType == 'Single Asset Bridge'){
+        //     this.selectedDaysMap =sabDaysMap;
+        //     queryString += ' RecordType.DeveloperName = \'Single_Asset_Bridge_Loan\'';
         }
 
         //queryString += ' AND StageName IN : selectedDaysMap.keySet()';
@@ -67,11 +67,12 @@ global class UpdateCloseDateBatch implements Database.Batchable<sObject>{
     }
 
     global void finish(Database.BatchableContext BC){
-        if(this.recordType == 'Term'){
+        if(this.recordType == 'Term' && !Test.isRunningTest()){
             Database.executeBatch(new UpdateCloseDateBatch('Bridge'), 10);
-        }else if(this.recordType == 'Bridge'){
-            Database.executeBatch(new UpdateCloseDateBatch('Single Asset Bridge'), 10);
         }
+        // else if(this.recordType == 'Bridge' && !Test.isRunningTest()){
+        //     Database.executeBatch(new UpdateCloseDateBatch('Single Asset Bridge'), 10);
+        // }
     }
 
 }

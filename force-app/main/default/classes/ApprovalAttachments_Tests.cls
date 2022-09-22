@@ -59,7 +59,13 @@ private class ApprovalAttachments_Tests {
       'Approved'
     );
     o = ApprovalAttachments_lightningController.modifyOpportunity(o);
+    Attachment a = Approval_TestDataFactory.createAttachment(o.Id);
+    ContentVersion cv = Approval_TestDataFactory.createCv();
 
+    ContentDocumentLink cdl = Approval_TestDataFactory.createCdl(
+      cv.ContentDocumentId,
+      o.Id
+    );
     Approval.ProcessSubmitRequest req = new Approval.ProcessSubmitRequest();
     req.setObjectId(o.Id);
     req.setSkipEntryCriteria(true);
@@ -149,13 +155,7 @@ private class ApprovalAttachments_Tests {
 
     ApprovalAttachments_lightningController.sendRejectionEmail(o, new List<String>{'test@test.com'});
     ApprovalAttachments_lightningController.returnParentAndChild(piwId);
-    Attachment a = Approval_TestDataFactory.createAttachment(o.Id);
-    ContentVersion cv = Approval_TestDataFactory.createCv();
-
-    ContentDocumentLink cdl = Approval_TestDataFactory.createCdl(
-      cv.ContentDocumentId,
-      o.Id
-    );
+    
     Email__c e = Approval_TestDataFactory.createEmail(a.Id, cv.Id, o.Id);
     ApprovalAttachments_lightningController.getParentAttachments(e.Id);
 

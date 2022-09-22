@@ -7,9 +7,9 @@ Bridge Use
 
 Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c, &apos;Yes&apos;), Approved_Completed_Rehab_Costs__c, Rehab_Budget__c)</description>
     <externalId>false</externalId>
-    <formula>Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c, &quot;Yes&quot;), Approved_Completed_Rehab_Costs__c, 0) + Rehab_Budget__c</formula>
+    <formula>Acquisition_Price__c + IF(ISPICKVAL(Include_Rehab__c, &quot;Yes&quot;), Approved_Completed_Rehab_Costs__c, 0) + Rehab_Budget__c +  Assignment_Fee__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <inlineHelpText>Acquisition Cost + Approved Completed Rehab (if applicable) + Rehab Budget (if applicable)</inlineHelpText>
+    <inlineHelpText>Acquisition Cost + Approved Completed Rehab (if applicable) + Rehab Budget (if applicable) + Approved Assignment Fee</inlineHelpText>
     <label>Total Projected Cost Basis</label>
     <precision>18</precision>
     <required>false</required>

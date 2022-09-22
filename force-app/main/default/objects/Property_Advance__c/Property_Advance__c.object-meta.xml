@@ -167,6 +167,7 @@
     </nameField>
     <pluralLabel>Property Advances</pluralLabel>
     <searchLayouts>
+        <lookupDialogsAdditionalFields>Approved_Advance_Amount__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Renovation_Reserve__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Initial_Disbursement__c</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Advance_Wire_Date__c</lookupDialogsAdditionalFields>
@@ -174,7 +175,9 @@
         <searchFilterFields>NAME</searchFilterFields>
         <searchFilterFields>Renovation_Reserve__c</searchFilterFields>
         <searchFilterFields>CREATED_DATE</searchFilterFields>
+        <searchFilterFields>Approved_Advance_Amount__c</searchFilterFields>
         <searchFilterFields>Advance_Wire_Date__c</searchFilterFields>
+        <searchFilterFields>Holdback_Amount__c</searchFilterFields>
         <searchFilterFields>Initial_Disbursement__c</searchFilterFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>

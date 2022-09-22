@@ -1,0 +1,17 @@
+<template>
+  <lightning-layout
+    vertical-align="center"
+    horizontal-align="space"
+    multiple-rows
+  >
+    <lightning-layout-item size="10">{value}</lightning-layout-item>
+    <lightning-layout-item size="2">
+      <lightning-icon
+        src={typeAttributes.src}
+        icon-name={typeAttributes.iconName}
+        variant={typeAttributes.variant}
+      >
+      </lightning-icon>
+    </lightning-layout-item>
+  </lightning-layout>
+</template>

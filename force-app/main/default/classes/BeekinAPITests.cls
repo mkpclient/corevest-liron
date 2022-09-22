@@ -30,8 +30,8 @@ public class BeekinAPITests {
     p.Property_Type__c = 'SFR';
     p.Name = '1810 LEDGESTONE DRIVE';
     p.Property_Name__c = '1810 LEDGESTONE DRIVE';
+    p.City__c = 'Houston';
     p.State__c = 'TX';
-    p.City__c = 'Houston'; 
     p.ZipCode__c = '76549';
     p.Number_of_Beds__c = 4;
     p.Number_of_Bath__c =3;

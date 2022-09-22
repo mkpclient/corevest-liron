@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Prevent_Status_Change_on_Active</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>This will prevent a User from selecting an incorrect Status if the Property has been funded</description>
     <errorConditionFormula>AND(
  Approved_Advance_Amount_Used__c  &gt; 0,

@@ -4,7 +4,7 @@
     <deleteConstraint>SetNull</deleteConstraint>
     <description>Property for Houscanary Tax History</description>
     <externalId>false</externalId>
-    <inlineHelpText>Houscanary Tax History for a property</inlineHelpText>
+    <inlineHelpText>Property for Houscanary Tax History</inlineHelpText>
     <label>RelatedProperty</label>
     <referenceTo>Property__c</referenceTo>
     <relationshipLabel>Property Tax History</relationshipLabel>

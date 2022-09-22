@@ -1,10 +1,10 @@
 ({
 	onInit: function(component, event, helper) {
 		helper.getProperties(component);
-		component.set("v.columns", helper.getColumns());        
+		component.set("v.columns", helper.getColumns());
 	},
 
-    recordUpdate: function(component, event, helper) {
+   recordUpdate: function(component, event, helper) {
        let profile = component.get('v.CurrentUser')['Profile'].Name;
        if (profile == "Term Operations" || profile == "System Administrator") 
        {
@@ -33,7 +33,7 @@
           component.set("v.ShowValue", "Yes");    
        }
       }
-    }, 
+    },   
     
 	refresh: function(component, event, helper) {
 		helper.getProperties(component);
@@ -97,6 +97,7 @@
 				selectedRowsCount++;
 			}
 		}
+		component.set("v.selectedRowsCount", selectedRowsCount);
 	},
 
 	getHouseCanaryData: function(component, event, helper) {

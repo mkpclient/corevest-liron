@@ -156,7 +156,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Deal Chatter and deal Approval Chatter</label>
     <nameField>
-        <label>Deal Chatter and deal Approval Chatter L Name</label>
+        <label>Deal Chatter and deal Approval Chatter L</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Deal Chatter and deal Approval Chatters</pluralLabel>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Price_for_PCA__c</fullName>
+    <description>EBI Price for PCA</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI Price for PCA</inlineHelpText>
+    <label>EBI Price for PCA</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

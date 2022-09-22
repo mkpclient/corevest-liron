@@ -2,10 +2,9 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Borrowed_on_Bridge_Loans__c</fullName>
     <businessStatus>Active</businessStatus>
-    <description>Total amount borrowed through Lines of Credits</description>
     <externalId>false</externalId>
-    <inlineHelpText>Total amount borrowed through Lines of Credits</inlineHelpText>
-    <label>Borrowed on LOC Loans</label>
+    <inlineHelpText>Total amount borrowed through Bridge and Single Asset Bridge Loans</inlineHelpText>
+    <label>Borrowed on Bridge Loans</label>
     <securityClassification>Internal</securityClassification>
     <summarizedField>Opportunity.Aggregate_Funding__c</summarizedField>
     <summaryFilterItems>
@@ -14,9 +13,9 @@
         <value>Closed Won, Expired, Matured, Paid Off, Sold</value>
     </summaryFilterItems>
     <summaryFilterItems>
-        <field>Opportunity.LOC_Loan_Type__c</field>
+        <field>Opportunity.Type</field>
         <operation>equals</operation>
-        <value>Credit Line</value>
+        <value>Bridge Loan, SAB Loan</value>
     </summaryFilterItems>
     <summaryForeignKey>Opportunity.AccountId</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>

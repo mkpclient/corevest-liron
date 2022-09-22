@@ -40,6 +40,10 @@
                 <behavior>Edit</behavior>
                 <field>Special_Asset__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Bankruptcy_Case_Number__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

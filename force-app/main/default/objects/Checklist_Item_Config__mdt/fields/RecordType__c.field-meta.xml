@@ -21,9 +21,9 @@
                 <label>LOC_Loan</label>
             </value>
             <value>
-                <fullName>Single_Asset_Bridge</fullName>
+                <fullName>Single_Asset_Bridge_Loan</fullName>
                 <default>false</default>
-                <label>Single_Asset_Bridge</label>
+                <label>Single_Asset_Bridge_Loan</label>
             </value>
             <value>
                 <fullName>CRE_Loan</fullName>

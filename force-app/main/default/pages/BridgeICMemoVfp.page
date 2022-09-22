@@ -167,9 +167,7 @@
                         <tr>
                             <td class="left-row-title">Foreign National/Nation of Citizenship</td>
                             <td class="row-data-two-column">
-                                <!-- <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == true, true, false ) }" value="Yes" />
-                                <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == false, true, false ) }" value="No" />  -->
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Foreign_National_picklist__c == null), true, false ) }" value="{!Opportunity.Foreign_National_picklist__c}" />
+                                <apex:outputText value="{!Opportunity.Foreign_National_picklist__c}" /> 
                             </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(Opportunity.Country__c == null, true, false)}" value="USA" />
@@ -624,7 +622,7 @@
                                 <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="No"/>
                             </td>
                             <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{!Opportunity.Index_Floor__c}"/>
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>/>
                                 <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="N/A"/>
                                 <!--     <apex:outputText value="{!Opportunity.Index_Floor__c}" />    -->                                                   
                             </td>

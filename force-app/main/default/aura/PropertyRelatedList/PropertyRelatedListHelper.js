@@ -4,7 +4,7 @@
     var columns = component.find("dataTable").get("v.columns");
     for (var i = 0; i < columns.length; i++) {
       fields.push(columns[i].get("v.name"));
-    } 
+    }
 
     component.set("v.fieldList", fields);
   },

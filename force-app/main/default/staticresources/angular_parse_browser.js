@@ -135,7 +135,7 @@ require = (function e(t, n, r) {
           };
 
           f.formatCurrencyText = function numberToEnglish(n) {
-            var string = n.toString(),
+            var string,
               units,
               tens,
               scales,
@@ -149,7 +149,11 @@ require = (function e(t, n, r) {
               word,
               words,
               and = "and";
-
+            if(n) {
+              string = n.toString();
+            } else {
+              return "";
+            }
             /* Remove spaces and commas */
             string = string.replace(/[, ]/g, "");
 
@@ -285,6 +289,218 @@ require = (function e(t, n, r) {
             }
 
             return words.reverse().join(" ");
+          };
+          f.formatPercentText = function numberToEnglish(n) {
+            var string,
+              units,
+              tens,
+              scales,
+              start,
+              end,
+              chunks,
+              chunksLen,
+              chunk,
+              ints,
+              i,
+              word,
+              words,
+              decimal,
+              and = "and";
+            if(n) {
+              string = n.toString();
+            } else {
+              return "";
+            }
+            /* Remove spaces and commas */
+            string = string.replace(/[, ]/g, "");
+            words = [];
+
+            /* Is number zero? */
+            if (parseFloat(string) === 0) {
+              return "zero";
+            }
+
+            var stringArr = string.split('.');
+            let wordsLeft = [];
+            let wordsRight = [];
+
+            units = [
+              "",
+              "One",
+              "Two",
+              "Three",
+              "Four",
+              "Five",
+              "Six",
+              "Seven",
+              "Eight",
+              "Nine",
+              "Ten",
+              "Eleven",
+              "Twelve",
+              "Thirteen",
+              "Fourteen",
+              "Fifteen",
+              "Sixteen",
+              "Seventeen",
+              "Eighteen",
+              "Nineteen"
+            ];
+
+            /* Array of tens as words */
+            tens = [
+              "",
+              "",
+              "Twenty",
+              "Thirty",
+              "Forty",
+              "Fifty",
+              "Sixty",
+              "Seventy",
+              "Eighty",
+              "Ninety"
+            ];
+
+            /* Array of scales as words */
+            scales = [
+              "",
+              "Thousand",
+              "Million",
+              "Billion",
+              "Trillion",
+              "Quadrillion",
+              "Quintillion",
+              "Sextillion",
+              "Septillion",
+              "Octillion",
+              "Nonillion",
+              "Decillion",
+              "Undecillion",
+              "Duodecillion",
+              "Tredecillion",
+              "Quatttuor-decillion",
+              "quindecillion",
+              "sexdecillion",
+              "septen-decillion",
+              "octodecillion",
+              "novemdecillion",
+              "vigintillion",
+              "centillion"
+            ];
+
+            /* array of decimals as words */
+            decimal = [
+              "Tenth",
+              "Hundredth",
+              "Thousandth",
+              "Millionth",
+              "Billionth",
+              "Trillionth",
+              "Quadrillionth",
+              "Quintillionth",
+              "Sextillionth",
+              "Septillionth",
+              "Octillionth",
+              "Nonillionth",
+              "Decillionth",
+              "Undecillionth",
+              "Duodecillionth",
+              "Tredecillionth",
+              "Quatttuor-decillionth",
+              "quindecillionth",
+              "sexdecillionth",
+              "septen-decillionth",
+              "octodecillionth",
+              "novemdecillionth",
+              "vigintillionth",
+              "centillionth"
+            ];
+            for(let k = 0; k < stringArr.length;k++) {
+              /* Array of units as words */
+            let stringNew = parseFloat(stringArr[k]) + '';
+
+            /* Split user arguemnt into 3 digit chunks from right to left */
+            start = stringNew.length;
+            chunks = [];
+            while (start > 0) {
+              end = start;
+              chunks.push(stringNew.slice((start = Math.max(0, start - 3)), end));
+            }
+
+            /* Check if function has enough scale words to be able to stringify the user argument */
+            chunksLen = chunks.length;
+            if (chunksLen > scales.length) {
+              return "";
+            }
+
+            /* Stringify each integer in each chunk */
+            words = [];
+            for (i = 0; i < chunksLen; i++) {
+              chunk = parseInt(chunks[i]);
+
+              if (chunk) {
+                /* Split chunk into array of individual integers */
+                ints = chunks[i]
+                  .split("")
+                  .reverse()
+                  .map(parseFloat);
+
+                /* If tens integer is 1, i.e. 10, then add 10 to units integer */
+                if (ints[1] === 1) {
+                  ints[0] += 10;
+                }
+
+                /* Add scale word if chunk is not zero and array item exists */
+                if ((word = scales[i])) {
+                  words.push(word);
+                }
+
+                /* Add unit word if array item exists */
+                if ((word = units[ints[0]])) {
+                  words.push(word);
+                }
+
+                /* Add tens word if array item exists */
+                if ((word = tens[ints[1]])) {
+                  words.push(word);
+                }
+
+                /* Add 'and' string after units or tens integer if: */
+                if (ints[0] && ints[1]) {
+                  /* Chunk has a hundreds integer or chunk is the first of multiple chunks */
+                  if (ints[2] || (!i && chunksLen)) {
+                    words.push(and);
+                  }
+                }
+
+                /* Add hundreds word if array item exists */
+                if ((word = units[ints[2]])) {
+                  words.push(word + " hundred");
+                }
+              }
+            }
+            if(k === 0) {
+              wordsLeft = words.reverse();
+            } else {
+              wordsRight = words.reverse();
+              
+              if(wordsRight[0] !== and && wordsLeft.length > 0) {
+                wordsRight.unshift("and");
+              } else if (wordsRight[0] == and && wordsLeft.length == 0) {
+                wordsRight.shift();
+              }
+              if(stringArr[k].length > 0) {
+                let decimalWord = decimal[stringArr[k].length - 1];
+                if(parseFloat(stringArr[k]) > 1) {
+                  decimalWord += "s";
+                }
+                wordsRight.push(decimalWord);
+                wordsRight.push("of a");
+              }
+              
+            }
+          }
+            return [...wordsLeft, ...wordsRight].join(" ");
           };
 
           return f[filter];

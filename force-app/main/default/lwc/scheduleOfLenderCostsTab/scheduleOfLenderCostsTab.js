@@ -218,6 +218,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
         deal.Holdback_Reserve_Month_Multiplier__c =
           calculatedData.Holdback_Reserve_Month_Multiplier__c;
         deal.Installment_Comment__c = calculatedData.Installment_Comment__c;
+        if(calculatedData.hasOwnProperty('Deposit_Amount__c')) {
+          deal.Deposit_Amount__c = calculatedData.Deposit_Amount__c;
+        }
       }
 
       if (!deal.Installment_Comment__c) {

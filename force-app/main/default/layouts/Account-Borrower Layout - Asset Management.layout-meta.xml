@@ -65,12 +65,8 @@
                 <field>Top_Accounts_Imported_Leads_List__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_CRE_Loan_Commitment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Total_Borrowed_on_Bridge__c</field>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

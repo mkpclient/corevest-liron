@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Lender</label>
             </value>
+            <value>
+                <fullName>Spam</fullName>
+                <default>false</default>
+                <label>Spam</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

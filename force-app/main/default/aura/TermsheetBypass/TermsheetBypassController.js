@@ -8,7 +8,6 @@
 			var state = response.getState();
 			if (state === 'SUCCESS'){
 				var returnVal = JSON.parse(response.getReturnValue());
-                console.log(response.getReturnValue());
                 let errorMessages = [];
 
 				if (returnVal.Error && returnVal.Error.length > 0){
@@ -21,8 +20,7 @@
                 if (returnVal.ValidationError && returnVal.ValidationError.length > 0){
 					errorMessages = errorMessages.concat(returnVal.ValidationError);
 				}
-                
-                console.log(errorMessages);
+
                 if(errorMessages.length > 0) {
                     helper.toggleHide(component, 'validationError');
                     component.set("v.validationErrorMessages", errorMessages);

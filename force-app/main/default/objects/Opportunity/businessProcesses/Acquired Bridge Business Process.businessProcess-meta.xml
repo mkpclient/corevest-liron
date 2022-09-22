@@ -4,6 +4,10 @@
     <description>Business Process Flow for Acquired Bridge Loans</description>
     <isActive>true</isActive>
     <values>
+        <fullName>Closed Won</fullName>
+        <default>false</default>
+    </values>
+    <values>
         <fullName>Expired</fullName>
         <default>false</default>
     </values>

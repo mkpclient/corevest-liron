@@ -59,6 +59,10 @@
                 <behavior>Edit</behavior>
                 <field>Submitted_Application_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

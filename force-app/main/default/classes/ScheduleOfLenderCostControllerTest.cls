@@ -1,6 +1,7 @@
 @isTest
 private class ScheduleOfLenderCostControllerTest {
   static testMethod void testController() {
+	test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -56,6 +57,7 @@ private class ScheduleOfLenderCostControllerTest {
 	
 	@isTest
 	static void testPdfController() {
+		test_Helper.createDealLoanNumber();
 		Account testAcc = Test_Helper.createBrokerAccount();
 		Contact testCont = Test_Helper.createBrokerContact(testAcc);
 		Opportunity opp = Test_Helper.createOpportunity(testAcc, testCont);

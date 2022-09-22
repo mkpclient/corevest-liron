@@ -4,7 +4,7 @@
     <businessStatus>Active</businessStatus>
     <description>From Servicer.  This is the Yardi ID</description>
     <externalId>false</externalId>
-    <inlineHelpText>This is the Yardi ID.  Updated by Statebridge Servicer Integration.</inlineHelpText>
+    <inlineHelpText>This is the Yardi ID. Updated by Servicer Integration.</inlineHelpText>
     <label>Servicer Investor Loan Number</label>
     <length>50</length>
     <required>false</required>

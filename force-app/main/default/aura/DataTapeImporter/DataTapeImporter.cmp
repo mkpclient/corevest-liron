@@ -10,6 +10,8 @@
 	<aura:attribute name="randId" type="Integer" />
 	<aura:attribute name="recordType" type="String" />
 
+	<aura:attribute name="isSabFci" type="Boolean" default="false" />
+
 	<ltng:require scripts="{!$Resource.sheetJS + '/dist/xlsx.core.min.js'}" />
 
 	<div role="dialog" tabindex="-1" aura:id="modal" aria-labelledby="header43" class="slds-modal slds-modal__close">

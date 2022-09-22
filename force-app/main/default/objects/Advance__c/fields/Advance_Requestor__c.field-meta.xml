@@ -7,7 +7,7 @@
     <inlineHelpText>Contact who requested the Advance</inlineHelpText>
     <label>Advance Requestor</label>
     <referenceTo>Contact</referenceTo>
-    <relationshipLabel>Advances</relationshipLabel>
+    <relationshipLabel>Advances as Requestor</relationshipLabel>
     <relationshipName>Advances_as_Requestor</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>

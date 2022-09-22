@@ -5,7 +5,7 @@
     <description>The Loan Number of the Deal associated to this Property</description>
     <externalId>false</externalId>
     <label>Deal Loan Number</label>
-    <length>20</length>
+    <length>30</length>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackHistory>false</trackHistory>

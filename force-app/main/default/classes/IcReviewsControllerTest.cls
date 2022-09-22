@@ -2,6 +2,7 @@
 private class IcReviewsControllerTest {
   @isTest
   static void IcReviewsControllerTest() {
+    Test_Helper.createDealLoanNumber();
     Id userId = UserInfo.getUserId();
     String approvalType = 'Bridge IC';
     String processName = 'Bridge_IC_Approval';

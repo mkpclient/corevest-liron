@@ -224,11 +224,12 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.BillingStreet + '"';
-
+      String name = '"' + acc.Name + '"';
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += name + ',';
+      //csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -343,7 +344,7 @@ public without sharing class YardiAPI {
           (prop.Deal__r.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
           prop.Deal__r.LOC_Loan_Type__C == 'Single Asset (5-10 Unit)')
         ) {
-          csv += 'Bridge RB,';
+          csv += 'Term,';
         } else {
           csv += 'Bridge,';
         }
@@ -416,12 +417,13 @@ public without sharing class YardiAPI {
 
       acc.Payment_Instructions__c = '';
 
-      String billingStreet = '"' + acc.Name + '"';
-
+      String billingStreet = '"' + acc.BillingStreet + '"';
+      String name = '"acc.Name"';
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += name + ',';
+      // csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';

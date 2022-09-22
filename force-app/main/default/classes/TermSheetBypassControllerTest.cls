@@ -1,7 +1,7 @@
 @isTest
 private class TermSheetBypassControllerTest {    
     static TestMethod void testMethod1(){
-        
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity deal = test_Helper.createOpportunity( acc, cont );
@@ -41,7 +41,7 @@ private class TermSheetBypassControllerTest {
     }
     
     static TestMethod void testMethod2(){
-        
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity deal = test_Helper.createOpportunity( acc, cont );

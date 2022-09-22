@@ -57,6 +57,7 @@ public with sharing class securitizationHelperTest {
     ];
     
     testSc.Status__c = 'Redeemed';
+    testSc.Redemption_Date__c = System.today();
     update testSc;
     // System.assertEquals(true, dfvs.size() > 0, 'A connection record should have been created');
 

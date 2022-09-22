@@ -39,6 +39,7 @@ public without sharing class BridgePipelineHelper {
     'propCity' => 'string',
     'propState' => 'string',
     'loanSize' => 'currency',
+    'interestRate' => 'percent',
     'index' => 'string',
     'indexMargin' => 'percent',
     'acqOrRef' => 'string',
@@ -131,6 +132,7 @@ public without sharing class BridgePipelineHelper {
         Deal__r.Project_Strategy__c,
         Deal__r.Warehouse_Line__c,
         Deal__r.Loan_Size__c,
+        Deal__r.Rate__c,
         Deal__r.Owner.Full_Name__c,
         Deal__r.LOC_Commitment__c,
         Deal__r.Underwriter__c,
@@ -234,6 +236,7 @@ public without sharing class BridgePipelineHelper {
       rowData.put('projStrat', p.Deal__r.Project_Strategy__c);
       rowData.put('warehouseLine', p.Deal__r.Warehouse_Line__c);
       rowData.put('loanSize', p.Deal__r.LOC_Commitment__c != null ? String.valueOf(p.Deal__r.LOC_Commitment__c) : p.Deal__r.Loan_Size__c != null ? String.valueOf(p.Deal__r.Loan_Size__c) : '');
+      rowData.put('interestRate', p.Deal__r.Rate__c != null ? String.valueOf(p.Deal__r.Rate__c) : '0');
       rowData.put('index', p.Deal__r.Index__c);
       rowData.put('indexMargin', p.Deal__r.Index_Margin__c != null ? String.valueOf(p.Deal__r.Index_Margin__c) : '0');
       rowData.put('dealUw', p.Deal__r.Underwriter__c != null ? p.Deal__r.Underwriter__r.Name : '');

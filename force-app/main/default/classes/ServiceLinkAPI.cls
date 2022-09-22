@@ -1,10 +1,12 @@
 public without sharing class ServiceLinkAPI {
-  public static QuoteRequest performQuoteRequest(QuoteRequest qr) {
-    String url = '';
+  public static ServiceLinkRequest performQuoteRequest(ServiceLinkRequest sr) {
+    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI';
+    String username = 'tmbeta_corevest@svclnk.com';
+    String sisma = 'W0rkL!f3=ity';
     HttpRequest req = new HttpRequest();
     req.setBody(
       JSON.serialize(
-        new Map<String, QuoteRequest>{ 'QuoteRequest' => qr },
+        new Map<String, ServiceLinkRequest>{ 'QuoteRequest' => sr },
         true
       )
     );
@@ -12,6 +14,12 @@ public without sharing class ServiceLinkAPI {
     req.setMethod('POST');
     req.setHeader('Content-Type', 'application/json');
     req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setHeader(
+      'Authorization',
+      'Basic ' +
+      EncodingUtil.base64Encode(Blob.valueOf(username + ':' + sisma))
+    );
+
     req.setTimeout(120000);
 
     Integer statusCode = 200;
@@ -22,11 +30,49 @@ public without sharing class ServiceLinkAPI {
     system.debug(res.getStatus());
     system.debug(res.getStatusCode());
     body = res.getBody();
-    Map<String, QuoteRequest> parsedBody = (Map<String, QuoteRequest>) JSON.deserialize(
+    Map<String, ServiceLinkRequest> parsedBody = (Map<String, ServiceLinkRequest>) JSON.deserialize(
       body,
-      Map<String, QuoteRequest>.class
+      Map<String, ServiceLinkRequest>.class
     );
     return parsedBody.values()[0];
+  }
+
+  public static ServiceLinkRequest performRequest(String reqType, ServiceLinkRequest sr) {
+    String url = 'https://betaapps.servicelinkdtc.com/DataConnectorAPI/CoreVest/' + reqType;
+    String username = 'tmbeta_corevest@svclnk.com';
+    String sisma = 'W0rkL!f3=ity';
+    HttpRequest req = new HttpRequest();
+    req.setBody(
+      JSON.serialize(
+        new Map<String, ServiceLinkRequest>{ reqType => sr },
+        true
+      )
+    );
+    req.setEndpoint(url);
+    req.setMethod('POST');
+    req.setHeader('Content-Type', 'application/json');
+    req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+    req.setHeader(
+      'Authorization',
+      'Basic ' +
+      EncodingUtil.base64Encode(Blob.valueOf(username + ':' + sisma))
+    );
+
+    req.setTimeout(120000);
+
+    Integer statusCode = 200;
+    String body = '';
+
+    HttpResponse res = new Http().send(req);
+    system.debug(res.getBody());
+    system.debug(res.getStatus());
+    system.debug(res.getStatusCode());
+    body = res.getBody();
+    ServiceLinkRequest parsedBody = (ServiceLinkRequest) JSON.deserialize(
+      body,
+      ServiceLinkRequest.class
+    );
+    return parsedBody;
   }
 
   public class TitleDocument {
@@ -37,6 +83,7 @@ public without sharing class ServiceLinkAPI {
     public String Base64FileData { get; set; }
   }
   public virtual class QuoteRequest {
+    public String timeStamp { get; set; }
     public String SourcePartyID { get; set; }
     public String DestinationPartyID { get; set; }
     public String QuoteID { get; set; } // CV unique ID for quote request
@@ -53,6 +100,7 @@ public without sharing class ServiceLinkAPI {
       ContentVersion cv,
       Integer sequenceNumber
     ) {
+      this.Document = new TitleDocument();
       this.SourcePartyID = 'COREVEST-SFR';
       this.DestinationPartyID = 'COREVEST-QUOTE';
       this.QuoteID = deal.id + '-' + String.valueOf(sequenceNumber).leftPad(3, '0');
@@ -68,7 +116,7 @@ public without sharing class ServiceLinkAPI {
     }
   }
 
-  public class OrderInquiry extends QuoteRequest {
+  public virtual class OrderInquiry extends QuoteRequest {
     public String IncomingTransactionId { get; set; }
     public String AssetID { get; set; }
     public String OrderNumber { get; set; }
@@ -83,40 +131,59 @@ public without sharing class ServiceLinkAPI {
       this.InquiryType = 'REVISEDQUO';
       this.RequestorEmail = UserInfo.getUserEmail();
     }
+    
 
-    public void processDocuments(List<Deal_Document__c> dealDocs) {
-      List<TitleDocument> docsLocal = new List<TitleDocument>();
-      Map<String, Deal_Document__c> dealDocMap = new Map<String, Deal_Document__c>();
-      for(Deal_Document__c doc : dealDocs) {
-        dealDocMap.put(doc.ContentVersion_Id__c, doc);
-      }
+    
+  }
 
-      List<ContentVersion> cvs = [
-        SELECT Id, VersionData, ContentSize
-        FROM ContentVersion
-        WHERE Id IN :dealDocMap.keySet()
-      ];
+  public class LenderAttorney {
+    public String CompanyName;
+    public String FirstName;
+    public String LastName;
+    public String ContactEmail;
+    public String Address1;
+    public String Address2;
+    public String City;
+    public String State;
+    public String Zipcode;
+    public String Phone;
+    public String MobilePhone;
+  }
 
-      for(ContentVersion cv : cvs) {
-        TitleDocument doc = new TitleDocument();
-        Deal_Document__c dealDoc = dealDocMap.get(cv.Id);
-        String fileType = 'PDF';
-        String docType = dealDoc.Document_Type__c;
-        String docName = dealDoc.File_Name__c;
-        if(dealDoc.File_Name__c.containsIgnoreCase('xlsx')) {
-          fileType = 'XLSX';
-          docType = 'REVQUOTEREQ';
-          docName = 'Data tape for revised quote';
-        }
-        doc.Format = fileType;
-        doc.DocumentType = docType;
-        doc.DocumentName = docName;
-        doc.Size = cv.ContentSize;
-        doc.Base64FileData = EncodingUtil.base64Encode(cv.VersionData);
-        docsLocal.add(doc);
-      }
+  public class Property {
+    public String AssetID;
+    public String DestinationPartyID;
+    public Integer NumberOfUnits;
+    public String Address1;
+    public String Address2;
+    public String City;
+    public String State;
+    public String County;
+    public String Zipcode;
+    public String APN;
+    public String PropertyType;
+    public String AllocatedLoanAmount;
+    public String ParentProperty;
+    public String Remarks;
+    public String HOAExists;
+    public Decimal HOAAmount;
+    public Decimal SpecialAssessmentsAmt;
+    public Decimal ExistingDebtAmt;
+  }
 
-      this.Documents = docsLocal;
+  public virtual class QuoteAccepted extends OrderInquiry {
+    public String AnticipatedCloseDate { get; set; }
+    public TitleDocument Document { get; set; }
+    public LenderAttorney LenderAttorney { get; set;}
+    public List<Property> Properties { get; set; }
+     
+    public void setQuoteAcceptedDefault() {
+      this.Document.DocumentType = 'DATATAPE';
+      this.Document.Format = 'XLSX';
     }
+  }
+
+  public virtual class ServiceLinkRequest extends QuoteAccepted {
+  
   }
 }

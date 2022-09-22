@@ -3,6 +3,7 @@ public class property_test {
   @testsetup
   static void datasetup() {
 	//Account acc = test_Helper.createAccount();
+  test_Helper.createDealLoanNumber();
     Account acc = new Account();
     acc.Name = 'test';
     acc.BillingCountry = 'United States';
@@ -11,8 +12,9 @@ public class property_test {
     acc.Introduction_Subsource__c = 'Main';
     acc.Alternate_Phone__c = '5555555555';
     insert acc;
-      
+   System.debug('1.Number of Queries used in this apex code so far: ' + Limits.getQueries());       
     Contact cont = test_Helper.createContact(acc);
+  System.debug('2.Number of Queries used in this apex code so far: ' + Limits.getQueries());        
     //Opportunity opp = test_Helper.createOpportunity(acc, cont);
  	Opportunity opp = new Opportunity();
     opp.Name = 'test';
@@ -34,7 +36,7 @@ public class property_test {
     ]
     .Id;
     insert opp;
-      
+  System.debug('3.Number of Queries used in this apex code so far: ' + Limits.getQueries());    
   //  List<Property__c> properties = test_Helper.createProperties(opp);
 
     id propRecordTypeId = [ SELECT Id FROM RecordType WHERE sobjecttype = 'property__c' AND DeveloperName = 'Bridge_Renovation'].Id;
@@ -57,6 +59,7 @@ public class property_test {
       );
     }
 insert properties;
+System.debug('4.Number of Queries used in this apex code so far: ' + Limits.getQueries());
 List<Property__c> properties1 = new List<Property__c>();      
 	for (Integer i = 0; i < 5; i++) {
       properties1.add(
@@ -65,6 +68,7 @@ List<Property__c> properties1 = new List<Property__c>();
           Name = i + ' Test',
           Property_Name__c = i + ' Test',
           Property_Type__c = 'SFR',
+          Current_UPB__c = 1000,
           Number_of_Units__c = 1,
           Interior_Access_POC_Email__c = 'test@test.com',
           Security_Deposit__c = 800,
@@ -78,20 +82,22 @@ List<Property__c> properties1 = new List<Property__c>();
     }      
 
     insert properties1;      
-      
+System.debug('5.Number of Queries used in this apex code so far: ' + Limits.getQueries());      
   }
 
 
   public static testMethod void UnitTest1() {
+          Test.startTest();
     List<Property__c> properties = [select id,deal__c,Acquisition_Date__c,Status__c ,Yardi_Id__c,Active__c,State__c,Interest_Rate__c from Property__c];
+      System.debug('6.Number of Queries used in this apex code so far: ' + Limits.getQueries()); 
     List<opportunity> oppor = [select id,name from Opportunity];
-    //Map<id,Opportunity> opp = new Map<id,Opportunity>([select id,name from Opportunity]);
+   // Map<id,Opportunity> opp = new Map<id,Opportunity>([select id,name from Opportunity]);
     Set<id> propset = new Set<id>{properties[0].id};
     Map<String, List<Property__c>> vendorMap = new Map<String, List<Property__c>>{'test' => properties};
     Map<Id, List<Property__c>> dealMap = new Map<Id, List<Property__c>>{oppor[0].id => properties};        
     String vendorType = 'Escrow';
       
-    Test.startTest();
+
      
   //  property_Helper.getYardiIds(dealMap);
     
@@ -107,27 +113,33 @@ List<Property__c> properties1 = new List<Property__c>();
     property_Helper.attachVendors(vendorMap,vendorType);
 
    
-
-    
-	Test.stopTest();      
-  }
-
-public static testMethod void UnitTest2() {
-    List<Property__c> properties = [select id,deal__c,Acquisition_Date__c,Status__c ,Yardi_Id__c,Active__c,State__c,Interest_Rate__c from Property__c];
-    Test.startTest();
-
     properties[0].State__c = 'CA';
     properties[0].Interest_Rate__c = .22;
      
     update properties[0];
     
+	Test.stopTest();      
+  }
+
+  public static testMethod void UnitTest2() {
+
+    Test.startTest();
+    List<Property__c> properties = [select id,deal__c,Acquisition_Date__c,Status__c ,Yardi_Id__c,Active__c,State__c,Interest_Rate__c from Property__c];
     properties[5].Status__c='Due Diligence';   
     update properties[5];
       
- 	properties[6].Status__c='Closing';   
+ 	properties[6].Status__c='Closing';
+    properties[6].Current_UPB__c = 2000;
+
     update properties[6];
-     
+    
+    properties[6].Status__c='Active';
+    properties[6].Current_UPB__c = 2000;
+    update properties[6];
+    
+    delete properties[6];
 	Test.stopTest();      
   }    
 
+    
 }

@@ -68,9 +68,13 @@
     //"Guarantor__r.Title",
     "Requested_Advance_Date__c",
     "Owner.Name",
+    "Owner.Title",
+    "Owner.Email",
+    "Owner.Phone",
     "LOC_Loan_Type__c",
     "Product_Sub_Type__c",
-    //  "Contact__r.FirstName",
+    "Contact__r.FirstName",
+    "Contact__r.LastName",
     // "Loan_Processor__r.Name",
     "Underwriter__r.Name",
     "Stated_Maturity_Date__c",
@@ -86,7 +90,9 @@
     "Borrower_Entity__r.Company_Jurisdiction__c",
     "Borrower_Entity__r.Entity_Type__c",
     // "Advance__r.Property_Record_Type__c",
-    "Initial_Monthly_Debt_Service_Payment__c"
+    "Initial_Monthly_Debt_Service_Payment__c",
+    "Servicer_Name__c",
+    "Amount"
     //"Daily_Interest_Rate_Total__c",
     //"(SELECT Id, Contact__c  FROM Deal_Contacts__r )"
   ],
@@ -473,13 +479,9 @@
   },
 
   compileAdvanceQuery: function (component) {
-    let queryString = "SELECT ";
+    let queryString = "SELECT " + this.fields.join(",");
 
-    for (let field of this.fields) {
-      queryString += `${field},`;
-    }
 
-    queryString = queryString.substr(0, queryString.lastIndexOf(","));
     let recordId = component.get("v.recordId");
     queryString += ` FROM Advance__c WHERE Id = '${recordId}'`;
 

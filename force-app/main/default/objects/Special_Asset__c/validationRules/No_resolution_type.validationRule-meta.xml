@@ -2,6 +2,8 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>No_resolution_type</fullName>
     <active>false</active>
-    <errorConditionFormula>OR(NOT(ISNULL(Resolved_Date__c)) &amp;&amp; ISBLANK(TEXT(Resolution_Type__c)), ISNULL(Resolved_Date__c) &amp;&amp; NOT(ISBLANK(TEXT(Resolution_Type__c))))</errorConditionFormula>
+    <errorConditionFormula>AND(OR(ISCHANGED(Resolved_Date__c), ISCHANGED(Resolution_Type__c))
+,OR(NOT(ISNULL(Resolved_Date__c)) &amp;&amp; ISBLANK(TEXT(Resolution_Type__c)), ISNULL(Resolved_Date__c) &amp;&amp; NOT(ISBLANK(TEXT(Resolution_Type__c)))))</errorConditionFormula>
+    <errorDisplayField>Resolution_Type__c</errorDisplayField>
     <errorMessage>Please make sure that both Resolved Date and Resolution Type are filled in.</errorMessage>
 </ValidationRule>
