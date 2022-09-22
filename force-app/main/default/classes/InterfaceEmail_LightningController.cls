@@ -29,18 +29,25 @@ public without sharing class InterfaceEmail_LightningController {
     .Email_Address__c;
   public static final String SEAN = queryEmailAddress('Sean Robbins')
     .Email_Address__c;
-    public static final String JEFFREY = queryEmailAddress('Jeffrey Swiney')
+  public static final String JEFFREY = queryEmailAddress('Jeffrey Swiney')
     .Email_Address__c;
-    public static final String EMILIAN = queryEmailAddress('Emilian Halloran')
+  public static final String EMILIAN = queryEmailAddress('Emilian Halloran')
     .Email_Address__c;
   // public static final String MATT = queryEmailAddress('Matthew Orrino')
   //   .Email_Address__c;
   public static final String BRYON = queryEmailAddress('Bryon Harland')
     .Email_Address__c;
+
+  public static final String DAN_F = queryEmailAddress('Dan Federico')
+    .Email_Address__c;
+  public static final String MARC_H = queryEmailAddress('Marc Heenan')
+    .Email_Address__c;
+
   public static final String BRIDGE_LIST = queryEmailAddress(
       'Bridge Term Sheet Mailing List'
     )
     .Email_Address__c;
+
   public static final String TERM_LIST = queryEmailAddress(
       'Term Sheet Mailing List'
     )
@@ -419,8 +426,11 @@ public without sharing class InterfaceEmail_LightningController {
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
     // replace in body w/ opp details
-    List<Object> recipients = new List<Object>{ BRAD, MICAELA };
-    if (String.isNotBlank(o.LOC_Loan_Type__c) && SAB_LOANTYPES.contains(o.LOC_Loan_Type__c)) {
+    List<Object> recipients = new List<Object>{ BRAD, MICAELA, MARC_H, DAN_F };
+    if (
+      String.isNotBlank(o.LOC_Loan_Type__c) &&
+      SAB_LOANTYPES.contains(o.LOC_Loan_Type__c)
+    ) {
       recipients.add(JEFFREY);
       recipients.add(SEAN);
       recipients.add(EMILIAN);

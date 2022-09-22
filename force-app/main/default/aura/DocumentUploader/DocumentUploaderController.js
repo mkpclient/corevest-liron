@@ -95,7 +95,6 @@
           fileForValidation = file;
         }
       });
-
       console.log(files);
 
       if (requireValidations) {
