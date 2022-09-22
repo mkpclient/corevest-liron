@@ -170,7 +170,7 @@ global without sharing class PortalAPIUser {
     public String id;
     public String contactId;
     public String accountId;
-
+    public String accountType;
     public String companyName;
 
     public String title;
@@ -215,6 +215,8 @@ global without sharing class PortalAPIUser {
             License_No__c,
             Years_of_Experience__c,
             Account.Name,
+            Account.RecordType.DeveloperName,
+            Account.Non_Borrower_Account_Type__c,
             Title,
             Portal_Last_Login__c
           FROM Contact
@@ -244,6 +246,10 @@ global without sharing class PortalAPIUser {
         this.homeCountry = c.Home_Country__c;
         this.homeZip = c.SponsorZipCode__c;
         this.accountId = c.AccountId;
+        this.accountType = c.Account.Non_Borrower_Account_Type__c;
+        if (c.Account.RecordType.DeveloperName == 'vendor') {
+          this.userType = 'vendor';
+        }
 
         this.title = c.Title;
         this.alternativeEmail = c.Alternative_Email__c;
@@ -274,7 +280,8 @@ global without sharing class PortalAPIUser {
             Home_State__c,
             Home_Zip__c,
             Home_Country__c,
-            Company
+            Company,
+            Portal_Last_Login__c
           FROM Lead
           WHERE Id = :leadId
           LIMIT 1

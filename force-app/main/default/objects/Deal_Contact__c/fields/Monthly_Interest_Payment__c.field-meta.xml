@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Monthly_Interest_Payment__c</fullName>
     <externalId>false</externalId>
-    <formula>(Deal__r.LOC_Commitment__c / Deal__r.Rate__c) / 12</formula>
+    <formula>(Deal__r.LOC_Commitment__c * Deal__r.Rate__c) / 12</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Monthly Interest Payment</label>
     <precision>18</precision>

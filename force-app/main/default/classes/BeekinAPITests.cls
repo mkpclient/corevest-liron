@@ -6,7 +6,7 @@ public class BeekinAPITests {
 	BeekinSettings.Endpoint__c = 'https://beta.api.beekin.co/';
     BeekinSettings.APIKey__c = '123ABC&';      
     insert beekinSettings;
-
+test_Helper.createDealLoanNumber();
     Account acc = new Account();
     acc.Name = 'Test';
     insert acc;

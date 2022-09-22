@@ -8,6 +8,14 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
+                <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>MasterLabel</field>
             </layoutItems>
             <layoutItems>
@@ -39,28 +47,12 @@
                 <field>Construction_Manager_Acquired_Loans__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
+                <behavior>Edit</behavior>
+                <field>Allow_SAB_CTC_Bypass__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Number_of_Approvers_for_Bridge_Mini_IC__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IC_Stage_Validation_SAB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IC_Stage_Validation_Bridge__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>IC_Stage_Validation_Term__c</field>
+                <field>Post_Close_Appraisal_Reduction__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -104,12 +96,51 @@
                 <behavior>Edit</behavior>
                 <field>Bridge_Sec_Diligence_Review_Email_CC__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Post_Close_Appraisal_Reduction__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>IC Approvals</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Approvers_for_Bridge_Mini_IC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Approvers_for_Bridge_Sub_IC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Approvers_for_Bridge_IC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Approvers_for_Term_Sub_IC__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Approvers_for_Term_IC__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IC_Stage_Validation_SAB__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IC_Stage_Validation_Bridge__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IC_Stage_Validation_Term__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -135,6 +166,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Disable_Commissions_Trigger__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Disable_Swap_Rate_Update__c</field>
             </layoutItems>
         </layoutColumns>
@@ -154,6 +189,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Disable_Lead_Trigger__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Disable_Account_Trigger__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Disable_Contact_Trigger__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -176,6 +219,10 @@
                 <behavior>Edit</behavior>
                 <field>Validated_Address_Threshold__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Require_Beekin_on_Pricing__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -193,22 +240,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Require_X_Author_Validation_on_UW_Submis__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Number_of_Approvers_for_Bridge_Sub_IC__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Number_of_Approvers_for_Bridge_IC__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Number_of_Approvers_for_Term_Sub_IC__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Number_of_Approvers_for_Term_IC__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -263,6 +294,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enable_Valuation_API_Response_Logging__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Enable_Clear_Capital_API_Logging__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -382,6 +417,10 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>Bridge_Cptl_Market_Post_Closing_Custodin__c</fields>
+        <fields>Term_Captl_Markets_Post_Closing_Custodin__c</fields>
+    </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

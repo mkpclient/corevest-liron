@@ -467,7 +467,11 @@ public without sharing class ChecklistHelper {
     }
 
     for (Checklist_Section__c section : [
-      SELECT Id, Contact__c, Checklist__r.Deal__c
+      SELECT
+        Id,
+        Contact__c,
+        Checklist__r.Deal__c,
+        Deal_Contact__r.Entity_Type__c
       FROM Checklist_Section__c
       WHERE Checklist__r.Deal__c IN :dealContactMap.keySet()
     ]) {
@@ -477,7 +481,10 @@ public without sharing class ChecklistHelper {
           section.Checklist__r.Deal__c
         );
         for (Integer i = dcList.size() - 1; i >= 0; i--) {
-          if (dcList[i].Contact__c == section.Contact__c) {
+          if (
+            dcList[i].Contact__c == section.Contact__c &&
+            section.Deal_Contact__r.Entity_Type__c == dcList[i].Entity_Type__c
+          ) {
             dcList.remove(i);
           }
         }

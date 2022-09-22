@@ -44,11 +44,13 @@ global class DealBatchable implements Database.Batchable<sObject> {
       LIMIT 1
     ];
 
-    for (Opportunity deal : updatedDeals) {
+   /* for (Opportunity deal : updatedDeals) {
       System.debug('Scheduled process loops through email method here.');
       AdvanceDealTriggerHelper.sendEmailForDealTrigger(deal.Id, tpl.Id);
-    }
-
+    }*/ //8/3/22 - nadeem
+      
+AdvanceDealTriggerHelper.sendEmailForDealTrigger(updatedDeals, tpl.Id);
+      
     System.debug('Scheduled process ends here');
   }
 

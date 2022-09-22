@@ -135,12 +135,11 @@
     </alerts>
     <alerts>
         <fullName>Berkadia_Onboarding_Documents</fullName>
-        <ccEmails>newloan.boarding@berkadia.com</ccEmails>
         <description>Berkadia Onboarding Documents Email Alert</description>
         <protected>false</protected>
         <recipients>
-            <field>LastModifiedById</field>
-            <type>userLookup</type>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Berkadia_Onboarding_Documents</template>
@@ -588,7 +587,7 @@
     </alerts>
     <alerts>
         <fullName>IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
@@ -652,7 +651,7 @@
     </alerts>
     <alerts>
         <fullName>IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>
@@ -746,6 +745,10 @@
         <recipients>
             <type>owner</type>
         </recipients>
+        <recipients>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
         <senderAddress>caf-apps@cvest.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>unfiled$public/Loan_In_Default</template>
@@ -771,7 +774,7 @@
     </alerts>
     <alerts>
         <fullName>Mini_Sub_IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>Mini Sub IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
@@ -847,7 +850,7 @@
     </alerts>
     <alerts>
         <fullName>Mini_Sub_IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>Mini Sub IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>
@@ -1157,7 +1160,7 @@
     </alerts>
     <alerts>
         <fullName>Sub_IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>Sub IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
@@ -1221,7 +1224,7 @@
     </alerts>
     <alerts>
         <fullName>Sub_IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com	</ccEmails>
+        <ccEmails>icapprovalhandler@2-1zsm5aynqe19xxzt4hf173vowg28w9fjrq594dsjmk55pqf3v8.74-4dfoeay.cs209.apex.sandbox.salesforce.com</ccEmails>
         <description>Sub IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>

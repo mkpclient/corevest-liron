@@ -363,50 +363,137 @@ public without sharing class PricingReviewRequest_LightningController {
     }*/
     ////CIP-2191-RS.4/4/22.End.
 
+ //CIP-2288-RS.8/18/22.Begin.      
+      if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c  == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+          || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' )
+      {
+           DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,ri,Null);
+      }
+ //CIP-2288-RS.8/18/22.End.
+       
     System.debug(ri);
     return JSON.serialize(ri, true);
   }
 
-  //CIP-2191-RS.4/4/22.Cannot change the deal stage if there is a property with no rental data.Begin.
- /* @AuraEnabled
-  public static Boolean beekingRentalInfoCheck(Id recId) {
-    List<property__c> issue_properties = [
-      SELECT id
+//CIP-2288-RS.8/18/22.Begin.
+  @AuraEnabled
+  public static Void DealPropertyVlidation(Id recId, String Product_Type, returnItem ri, List<String> listMessages) {
+      
+    List<property__c> properties = [
+      SELECT id,
+		City__c,
+		State__c,
+		ZipCode__c,
+		Acquisition_Price__c,
+		Borrower_Opinion_of_Current_Value__c,
+		Override_Initial_Disbursement__c
       FROM Property__c
-      WHERE
-        Deal__r.StageName IN (
-          'Data Tape Received',
-          'Term Sheet Issued',
-          'Term Sheet Signed/Deposit Collected',
-          'Submitted to Underwriting',
-          'Underwriting',
-          'UW Hold',
-          'Approved by Committee'
-        )
-        AND Property__c.Deal__c = :recId
-        AND Status__c NOT IN ('Inactive', 'Cancelled', 'Rescinded')
-        AND Property__c.ZipCode__c != NULL
-        AND Property__c.Property_Type__c IN (
-          'SFR',
-          'Condo',
-          'Townhome',
-          '2-4 Unit',
-          'Multifamily'
-        )
-        AND Property__c.Is_Parent__c = FALSE
-        AND deal__r.RecordType__c = 'Term'
-        AND (Estimated_Rent__c = NULL
-        OR Estimated_Min_Rent__c = NULL
-        OR Estimated_Max_Rent__c = NULL)
-      LIMIT 1
+      WHERE Deal__c = :recId
+      AND Status__c NOT IN ('Inactive', 'Cancelled')
+ 	  AND Is_Sub_Unit__c = false
     ];
-    if (issue_properties.size() > 0) {
-      return true;
-    }
-    return false;
-  }*/
-  //CIP-2191-RS.4/4/22.Cannot change the deal stage if there is a property with no rental data.End.
+     
+	System.Debug('RS999 recId : ' +recId);         
+    System.Debug('RS999 properties : ' +properties);
+    System.Debug('RS999 Product_Type : ' +Product_Type);      
+      
 
+    Map<integer,String> mapReturnMessage = new Map<integer,String>();
+    String returnMessage ='';
+    For (property__c propertie : properties)
+    {        
+    if (Product_Type == 'Term Loan')
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+            if (propertie.Acquisition_Price__c == Null)
+            {
+               if(!mapReturnMessage.containsKey(4)) mapReturnMessage.Put(4,GetMessage(4)) ;
+            }      
+            if (propertie.Borrower_Opinion_of_Current_Value__c == Null)
+            {
+               if(!mapReturnMessage.containsKey(5)) mapReturnMessage.Put(5,GetMessage(5)) ;
+            }          
+    }
+      
+    if (Product_Type == 'Multifamily/CRE' || Product_Type == 'Build to Rent' )
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+            if (propertie.Override_Initial_Disbursement__c == Null)
+            {
+               if(!mapReturnMessage.containsKey(6)) mapReturnMessage.Put(6,GetMessage(6)) ;
+            }              
+    }
+      
+    if (Product_Type == 'Single Asset (1-4 Unit)' || Product_Type == 'Single Asset (5-10 Unit)')
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+    }
+    }
+      if (mapReturnMessage.size() > 0)
+      {
+          If (ri != Null)
+          {
+          For(String curMessage : mapReturnMessage.values())
+          {
+              ri.otherMessage.add(curMessage);
+          }
+          }
+          Else
+          {
+           For(String curMessage : mapReturnMessage.values())
+          {
+              listMessages.add(curMessage);
+          }  
+          }
+      }
+  }
+    
+  @AuraEnabled
+  public static String GetMessage(Integer messageNumber) {    
+      
+    Messages__mdt  message = [SELECT Detailed_Description__c, Messages__c, MessagetNumber__c , Message_Type__c from Messages__mdt where MessagetNumber__c = :messageNumber];
+	      
+    //String ErrorString = message.Messages__c + ' (' + String.valueOf(messageNumber)  + ')';
+    String ErrorString = message.Messages__c;
+      
+    Return ErrorString;
+      
+  }
+ //CIP-2288-RS.8/18/22.End.
+    
   @AuraEnabled
   public static Integer queryPricingCount(Id recId) {
     try {
@@ -704,7 +791,8 @@ public without sharing class PricingReviewRequest_LightningController {
         if (workItemIds.size() == 1) {
           if (
             processName != 'Term_Pricing_Review_Capital_Markets' &&
-            processName != 'Bridge_LOC_Pricing_Review_Capital_Market'
+            processName != 'Bridge_LOC_Pricing_Review_Capital_Market' && 
+            processName != 'Standard_SAB_Pricing_Review_Below_1_5M'
           ) {
             a.Status_Text__c = 'Pending: Underwriting Review';
           } else {

@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>Document_Type__c</field>
-        <value xsi:type="xsd:string">Track Record/Performance History</value>
+        <value xsi:type="xsd:string">Track Record / Performance History</value>
     </values>
     <values>
         <field>Expires_in_Days__c</field>

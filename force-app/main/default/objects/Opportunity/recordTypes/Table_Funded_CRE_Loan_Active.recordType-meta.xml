@@ -262,14 +262,6 @@
         <picklist>Amortization_Term__c</picklist>
         <values>
             <fullName>0 months</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>120 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>180 months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -349,10 +341,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>365 day</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>450 day</fullName>
             <default>false</default>
         </values>
@@ -380,16 +368,8 @@
     <picklistValues>
         <picklist>Asset_Unit_Count_Max__c</picklist>
         <values>
-            <fullName>20</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>40</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -406,31 +386,15 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_By_Whom__c</picklist>
         <values>
-            <fullName>CoreVest</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Escrow</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Broker_Fee_Paid_When__c</picklist>
         <values>
-            <fullName>Each Initial Advance</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Origination</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -444,15 +408,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>%2B15 BPS in Spread %2F %2B50 BPS in Commissionable Fee</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>%2B20 BPS in Spread %2F %2B50 BPS in Commissionable Fee</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>%2B5 BPS in Spread %2F %2B25 BPS in Commissionable Fee</fullName>
             <default>false</default>
         </values>
         <values>
@@ -464,15 +420,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>-15 BPS in Spread %2F -50 BPS in Commissionable Fee</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>-20 BPS in Spread %2F -50 BPS in Commissionable Fee</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>-5 BPS in Spread %2F -25 BPS in Commissionable Fee</fullName>
             <default>false</default>
         </values>
         <values>
@@ -503,7 +451,7 @@
         </values>
         <values>
             <fullName>Pending</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -1510,18 +1458,6 @@
     <picklistValues>
         <picklist>DSCR_Threshold_CashMan__c</picklist>
         <values>
-            <fullName>1%2E05x</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E07x</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E10x</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
             <default>false</default>
         </values>
@@ -1588,10 +1524,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Adam Luray Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Americatalyst</fullName>
             <default>false</default>
         </values>
@@ -1616,10 +1548,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Bobby Ash Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -1628,7 +1556,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Brandon Sarhad Sourced</fullName>
+            <fullName>Brady Regier Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1665,10 +1593,6 @@
         </values>
         <values>
             <fullName>California Realtors Expo</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Charlie Flynn Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1712,11 +1636,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Dan Niemeyer Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dane Fitch Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Dennis Spivey Sourced</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Dominion Group</fullName>
+            <fullName>Dominion Financial Services%2C LLC</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Easy Street Capital</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1737,10 +1673,6 @@
         </values>
         <values>
             <fullName>Fidelis</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fit Small Business</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1776,6 +1708,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>IMN Short Term Rental</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IMN West</fullName>
             <default>false</default>
         </values>
@@ -1800,11 +1736,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Jacob Franz Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jared Dror Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Joakim Mortensen Sourced</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>John Prins Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Keith Hegidio Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kevin Sherouse Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1860,6 +1812,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Matthew Hiley Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Matthew Kappas Sourced</fullName>
             <default>false</default>
         </values>
@@ -1868,7 +1824,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Max Garrison Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Melissa Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Gregory Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Huffman Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Parrish Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1904,6 +1876,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>NRHC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>New England Mortgage Expo</fullName>
             <default>false</default>
         </values>
@@ -1916,7 +1892,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Omar Popal Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paolo de Jesus Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1929,6 +1913,10 @@
         </values>
         <values>
             <fullName>Pat LeMoine Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pimlico Refinance%2C LLC</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1956,6 +1944,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Real Estate Entrepreneurs Event - Attend Growth</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Real Investor Roundtable</fullName>
             <default>false</default>
         </values>
@@ -1980,11 +1972,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Riverbend Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Ryan Amill Sourced</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Ryan Dome Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ryan Guisness Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1996,11 +1996,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SFR East</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SFR Expo</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Scotsman Guide</fullName>
+            <fullName>Sean Robbins Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2029,6 +2033,10 @@
         </values>
         <values>
             <fullName>Tim Leber Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tony Gioia Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2068,7 +2076,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Yumna Zahidi Sourced</fullName>
+            <fullName>YouLand</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2179,10 +2187,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Split Up Deal</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Terms Not Accepted</fullName>
             <default>false</default>
         </values>
@@ -2194,20 +2198,8 @@
     <picklistValues>
         <picklist>Discount_Fee__c</picklist>
         <values>
-            <fullName>1 pt rate buy down %2F -25 BPS</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2 pt rate buy down %2F -50 BPS</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>None</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2234,14 +2226,6 @@
         </values>
         <values>
             <fullName>24 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>30 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>36 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2339,17 +2323,6 @@
         </values>
         <values>
             <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Extension_Modified__c</picklist>
-        <values>
-            <fullName>Extension</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Modified</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2511,23 +2484,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>12 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>120 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>24 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>36 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>48 months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2543,14 +2500,6 @@
         <picklist>Index_Floor__c</picklist>
         <values>
             <fullName>0%2E00%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E10%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E15%25</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2606,10 +2555,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>1%2E90%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>1%2E95%25</fullName>
             <default>false</default>
         </values>
@@ -2627,6 +2572,34 @@
         </values>
         <values>
             <fullName>2%2E50%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E35%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E50%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E55%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E65%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E80%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3%2E85%25</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4%2E20%25</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2663,29 +2636,9 @@
             <fullName>Floating</fullName>
             <default>false</default>
         </values>
-        <values>
-            <fullName>Interest Only</fullName>
-            <default>false</default>
-        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Internal_Referral_Fee__c</picklist>
-        <values>
-            <fullName>10%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>20%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>30%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>50%25</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>N%2FA</fullName>
             <default>true</default>
@@ -2709,44 +2662,8 @@
     <picklistValues>
         <picklist>LOC_Loan_Type__c</picklist>
         <values>
-            <fullName>Build to Rent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Credit Line</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Investor DSCR</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Model Home Lease</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multifamily%2FCRE</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Purchased Bridge</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Asset %281-4 Unit%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Asset %285-10 Unit%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Single Rental Loan</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Term Loan</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2791,19 +2708,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>540 Days</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>6 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>630 Days</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>720 Days</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2861,80 +2766,8 @@
     <picklistValues>
         <picklist>Lender__c</picklist>
         <values>
-            <fullName>5 Arch Funding</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5 Arch Funding Corp%2E</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>A%26S Capital</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Asset Based Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Bellevue</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Best Lending Co Inc</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>CAF Bridge Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>CoreVest American Finance Lender LLC%2C a Delaware limited liability company</fullName>
             <default>true</default>
-        </values>
-        <values>
-            <fullName>Dominion Group</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Great Lakes Financing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Navigator Private Capital%2C LLC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Paradyme Funding</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Patch of Land Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Revolution Realty Capital LLC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Riverbend Lending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sundae</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Sunset Equity</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Third Party Originator</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>iFundCities</fullName>
-            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -2961,14 +2794,6 @@
         </values>
         <values>
             <fullName>24 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>30 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>36 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3023,7 +2848,7 @@
         <picklist>Loan_Purpose__c</picklist>
         <values>
             <fullName>Purchase</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
         <values>
             <fullName>Refinance</fullName>
@@ -3106,33 +2931,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Lock_Status_SR__c</picklist>
-        <values>
-            <fullName>Float Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lock Approved</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lock Apr Change</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lock Denied</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Lock Requested</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Not Locked</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Lockbox__c</picklist>
         <values>
             <fullName>Hard</fullName>
@@ -3155,11 +2953,7 @@
         <picklist>Maturity_Date_Calculation_Type__c</picklist>
         <values>
             <fullName>Fixed at Closing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fixed at First Advance</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
@@ -3208,25 +3002,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Origination_Channel_SR__c</picklist>
-        <values>
-            <fullName>B%2B</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>C</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>R</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>W</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Points_on_Repayments__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -3234,13 +3009,6 @@
         </values>
         <values>
             <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Product_Category__c</picklist>
-        <values>
-            <fullName>Holder</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3271,10 +3039,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Long Term Rental</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Mixed Use</fullName>
             <default>false</default>
         </values>
@@ -3284,14 +3048,10 @@
         </values>
         <values>
             <fullName>No Renovation</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Renovation</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Short Term Rental</fullName>
+            <fullName>Renovation</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3302,31 +3062,7 @@
     <picklistValues>
         <picklist>Project_Strategy__c</picklist>
         <values>
-            <fullName>Build to Rent</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Conversion to Multifamily</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fix and Flip</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multifamily GUC</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multifamily Heavy Lift</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multifamily Heavy Lift%2FCLO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multifamily Lease-Up%2FNo Rehab</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3334,19 +3070,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Multifamily Light Lift</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Multifamily Light Lift%2FCLO</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Portfolio Acquisition</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Renovate and Rent</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3366,85 +3090,6 @@
         </values>
         <values>
             <fullName>Third Party %26 Affiliate</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Property_Type__c</picklist>
-        <values>
-            <fullName>2-4 Unit</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Attached</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Commercial</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo - Detached</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo - High Rise</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo - Low Rise</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo - Mid Rise</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Condo - NonWarrantable</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Detached</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Land%2FLot</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Manufactured Housing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Modular</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multi-unit %285%2B%29</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Multifamily</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>PUD</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Rural</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>SFR</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Townhome</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3515,29 +3160,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Rent_Status__c</picklist>
-        <values>
-            <fullName>Long term in place</fullName>
-            <default>true</default>
-        </values>
-        <values>
-            <fullName>Long term pending</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Seasonal rental</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Student Housing</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Vacation rental</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Repayment_Period__c</picklist>
         <values>
             <fullName>12 Months</fullName>
@@ -3561,14 +3183,6 @@
         </values>
         <values>
             <fullName>24 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>30 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>36 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3614,91 +3228,7 @@
     <picklistValues>
         <picklist>Requested_Index_Floor__c</picklist>
         <values>
-            <fullName>0%2E00%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E10%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E15%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E25%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E50%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>0%2E75%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E00%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>1%2E25%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E50%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E55%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E60%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E65%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E70%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E75%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E80%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E85%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E90%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>1%2E95%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2%2E00%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2%2E25%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2%2E30%25</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>2%2E50%25</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -3750,10 +3280,6 @@
     <picklistValues>
         <picklist>Revolving1__c</picklist>
         <values>
-            <fullName>N%2FA</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>No</fullName>
             <default>false</default>
         </values>
@@ -3765,40 +3291,12 @@
     <picklistValues>
         <picklist>Servicer_Name__c</picklist>
         <values>
-            <fullName>Berkadia</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Cohen</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>FCI</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Midland</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Statebridge</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Wells Fargo</fullName>
-            <default>false</default>
+            <default>true</default>
         </values>
     </picklistValues>
     <picklistValues>
         <picklist>Servicer_Status__c</picklist>
-        <values>
-            <fullName>Active</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Paidoff</fullName>
-            <default>false</default>
-        </values>
         <values>
             <fullName>Status 1</fullName>
             <default>false</default>
@@ -3842,39 +3340,11 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>3%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>3%2C2%2C1%2C1%2C1</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>4%2C3%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C4%2C2%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>5%2C4%2C3%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C4%2C3%2C2%2C1%2C1%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C4%2C3%2C2%2C2%2C1%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C4%2C4%2C3%2C3%2C2%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C5%2C4%2C3%2C2%2C1</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3887,14 +3357,6 @@
         </values>
         <values>
             <fullName>5%2C5%2C5%2C5%2C5%2C4%2C3%2C2</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C5%2C5%2C5%2C5%2C4%2C3%2C2%2C1%2C1</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>5%2C5%2C5%2C5%2C5%2C5%2C4%2C3%2C2</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3932,14 +3394,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>36 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>360 months</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>60 months</fullName>
             <default>false</default>
         </values>
@@ -3952,14 +3406,6 @@
         <picklist>Term_Loan_Type__c</picklist>
         <values>
             <fullName>10 Year</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>3 Year</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>30 Year</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3996,19 +3442,11 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>2022-RTL1</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Churchill</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Credit Suisse</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Deutsche Bank</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Fortress</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4024,15 +3462,15 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Nomura</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Securitization</fullName>
+            <fullName>Signature</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Wells Fargo</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Wells Fargo CRE</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -4050,63 +3488,7 @@
     <picklistValues>
         <picklist>YM_Prepayment_Penalty__c</picklist>
         <values>
-            <fullName>102 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>108 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>112 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>113 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>114 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>115 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>116 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>117 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>120 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>34 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>36 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>42 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>48 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>52 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>53 Months</fullName>
             <default>false</default>
         </values>
         <values>
@@ -4114,63 +3496,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>55 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>56 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>57 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>58 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>60 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>61 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>66 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>72 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>77 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>78 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>79 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>80 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>81 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>84 Months</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>96 Months</fullName>
             <default>false</default>
         </values>
     </picklistValues>

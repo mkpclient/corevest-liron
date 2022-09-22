@@ -52,6 +52,10 @@
             <name>Mark_Status_As_Submitted</name>
             <type>FieldUpdate</type>
         </action>
+        <action>
+            <name>Policy_Exception_Approval_Request_Email_Alert</name>
+            <type>Alert</type>
+        </action>
     </initialSubmissionActions>
     <label>Policy Exception Approval Process</label>
     <processOrder>1</processOrder>

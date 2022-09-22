@@ -2,6 +2,9 @@
 public with sharing class CommunityFundingTests {
   @testSetup
   static void setup() {
+      
+
+test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createBridgeDeal(acc, cont);

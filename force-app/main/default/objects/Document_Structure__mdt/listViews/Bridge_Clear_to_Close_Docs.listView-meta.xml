@@ -7,8 +7,6 @@
     <columns>Required__c</columns>
     <columns>Document_Type__c</columns>
     <columns>RecordType__c</columns>
-    <columns>sObject__c</columns>
-    <columns>Additional_C2C_Filtering__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Clear_To_Close_Setting__c</field>

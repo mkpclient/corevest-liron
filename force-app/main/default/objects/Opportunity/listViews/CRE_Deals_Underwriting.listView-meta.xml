@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CRE_Deals_Underwriting</fullName>
+    <columns>OPPORTUNITY.NAME</columns>
+    <columns>ACCOUNT.NAME</columns>
+    <columns>Contact__c</columns>
+    <columns>Loan_Size__c</columns>
+    <columns>LOC_Loan_Type__c</columns>
+    <columns>Submission_Date__c</columns>
+    <columns>Date_Stage_Changed_To_UW__c</columns>
+    <columns>Kickoff_Date__c</columns>
+    <columns>Days_In_Underwriting__c</columns>
+    <columns>Date_Change_From_Loan_Processing_to_UW__c</columns>
+    <columns>Anticipated_IC_Approval__c</columns>
+    <columns>OPPORTUNITY.CLOSE_DATE</columns>
+    <columns>Underwriter__c</columns>
+    <columns>Owner_Name__c</columns>
+    <columns>Borrower_Entity__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>OPPORTUNITY.RECORDTYPE</field>
+        <operation>equals</operation>
+        <value>Opportunity.LOC_Loan,Opportunity.Single_Asset_Bridge_Loan</value>
+    </filters>
+    <filters>
+        <field>OPPORTUNITY.STAGE_NAME</field>
+        <operation>equals</operation>
+        <value>Underwriting</value>
+    </filters>
+    <filters>
+        <field>LOC_Loan_Type__c</field>
+        <operation>equals</operation>
+        <value>Multifamily/CRE</value>
+    </filters>
+    <label>CRE Deals - Underwriting</label>
+</ListView>

@@ -3,6 +3,7 @@
     <customButtons>pi__Send_to_Prospect_Insight</customButtons>
     <customButtons>pi__Send_Pardot_Email</customButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -56,11 +57,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Portal_Last_Login__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Round_Robin_CX_Portal__c</field>
+                <field>CX_Portal_Round_Robin__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -555,7 +552,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>X5aSFID__c</field>
+                <field>External_Record_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -788,7 +785,7 @@
     <showRunAssignmentRulesCheckbox>true</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h5b00000CgHkk</masterLabel>
+        <masterLabel>00h8B000000IcIP</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

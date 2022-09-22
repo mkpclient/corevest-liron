@@ -48,10 +48,6 @@
                 <behavior>Edit</behavior>
                 <field>Property_Management__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National_picklist__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -73,10 +69,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>LTC__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>CAF_Upfront_Fee__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -179,6 +171,10 @@
             <quickActionName>SendEmail</quickActionName>
         </quickActionListItems>
     </quickActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
+    </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

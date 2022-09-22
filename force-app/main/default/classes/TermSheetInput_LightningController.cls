@@ -35,7 +35,8 @@ public without sharing class TermSheetInput_LightningController {
     'Foreign_National_picklist__c',
     'Deposit_Amount_Requested__c',
     'YSP_perc__c',
-    'Rate_Lock_Picklist__c'
+    'Rate_Lock_Picklist__c',
+    'Holdback_Multiplier__c'
   };
   // trigger, initiated by the originator,
   // docusign identify which fields need to be the signature lines
@@ -192,7 +193,6 @@ public without sharing class TermSheetInput_LightningController {
     // 'Acquisition_Count__c' => 'Acquisition Unit Count',
     // 'Refinance_Property_Count__c' => 'Refinance Property Count',
     // 'Acquisition_Property_Count__c' => 'Acquisition Property Count',
-
     'Aggregate_Payoffs__c' => 'Aggregate Payoffs',
     // 'Product_Sub_Type__c' => 'Product Sub-Type',
     'Deal_Intro_Source__c' => 'Deal Intro Source',
@@ -200,7 +200,8 @@ public without sharing class TermSheetInput_LightningController {
     'Deposit_Amount_Requested__c' => 'Deposit Amount Requested',
     'YSP_perc__c' => 'Broker YSP %',
     'Broker_Fee_Paid_By_Whom__c' => 'Broker Fee Paid By Whom',
-    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When'
+    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When',
+    'Holdback_Multiplier__c' => 'Holdback Multiplier'
   };
 
   @AuraEnabled
@@ -351,14 +352,15 @@ public without sharing class TermSheetInput_LightningController {
       nullFields.remove(nullFields.indexOf('Distinct States'));
     }
 
-    if (
-      (o.RecordType.DeveloperName == 'LOC_Loan' ||
-      o.RecordType.DeveloperName.contains('Bridge')) &&
-      o.LOC_Program_Type__c != null &&
-      o.LOC_Program_Type__c == 'Standard'
-    ) {
-      m.put('MissingFields', null);
-    } else if (nullFields.size() > 0) {
+    // if (
+    //   (o.RecordType.DeveloperName == 'LOC_Loan' ||
+    //   o.RecordType.DeveloperName.contains('Bridge')) &&
+    //   o.LOC_Program_Type__c != null &&
+    //   o.LOC_Program_Type__c == 'Standard'
+    // ) {
+    //   m.put('MissingFields', null);
+    // } else 
+    if (nullFields.size() > 0) {
       m.put('MissingFields', nullFields);
     } else {
       m.put('MissingFields', null);
@@ -438,7 +440,8 @@ public without sharing class TermSheetInput_LightningController {
         Broker_Fees__c,
         Referral_Source_Contact__c,
         Project_Strategy__c,
-        Renovation_Funding__c
+        Renovation_Funding__c,
+        Term_Sheet_Expiration_Date__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
@@ -468,7 +471,7 @@ public without sharing class TermSheetInput_LightningController {
     return [SELECT Id, PathOnClient FROM ContentVersion WHERE Id IN :recordIds];
   }
 
-  public static void updateIfLocLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static Opportunity updateIfLocLoan(Opportunity o, List<Boolean> m, Date d) {
     System.debug('inside update method');
     o.put('Negotiated_by_Counsel__c', m[0]);
     o.put('Include_3_Months_Min_Interest__c', m[1]);
@@ -482,9 +485,10 @@ public without sharing class TermSheetInput_LightningController {
     // );
     update o;
     System.debug('update was successful');
+    return o;
   }
 
-  public static void updateIfTermLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static Opportunity updateIfTermLoan(Opportunity o, List<Boolean> m, Date d) {
     o.put('NY_Counsel_Required__c', m[0]);
     o.put('Include_Assumption__c', m[1]);
     o.put('Include_Prop_Sub_Text__c', m[2]);
@@ -500,6 +504,7 @@ public without sharing class TermSheetInput_LightningController {
     // );
     System.debug('this is the opportunity: ' + o);
     update o;
+    return o;
   }
 
   public static String stringTerm(
@@ -673,23 +678,23 @@ public without sharing class TermSheetInput_LightningController {
     );
     Opportunity o = queryOpportunity(m.get('Id'));
     o.Apex_Context__c = true;
-    PageReference p;
     Integer i = queryDealDocument(o.Id);
 
-    if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
+    if ((recordType == 'LOC_Loan' || recordType.containsIgnoreCase('bridge'))) {
       List<Boolean> mList = new List<Boolean>{
         Boolean.valueOf(m.get('Negotiated_by_Counsel__c')),
         Boolean.valueOf(m.get('Include_3_Months_Min_Interest__c'))
       };
-      updateIfLocLoan(o, mList, d);
+      o = updateIfLocLoan(o, mList, d);
     } else if (recordType == 'Term_Loan') {
       List<Boolean> mList = new List<Boolean>{
         Boolean.valueOf(m.get('NY_Counsel_Required__c')),
         Boolean.valueOf(m.get('Include_Assumption__c')),
         Boolean.valueOf(m.get('Include_Prop_Sub_Text__c'))
       };
-      updateIfTermLoan(o, mList, d);
+      o = updateIfTermLoan(o, mList, d);
     }
+    PageReference p;
 
     if ((String) m.get('Generate_Word_Doc') == 'true') {
       if (o.LOC_Loan_Type__c == 'Term Loan') {

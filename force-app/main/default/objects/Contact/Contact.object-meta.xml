@@ -363,7 +363,6 @@
         <lookupPhoneDialogsAdditionalFields>Work_Phone_SBAC__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.PHONE1</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Account.Alternate_Phone__c</lookupPhoneDialogsAdditionalFields>
-        <lookupPhoneDialogsAdditionalFields>Account.Warehouse_Phone__c</lookupPhoneDialogsAdditionalFields>
         <massQuickActions>Log_a_Call</massQuickActions>
         <massQuickActions>New_Task</massQuickActions>
         <massQuickActions>Event</massQuickActions>

@@ -2,18 +2,16 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SAB_Clear_to_Close_Docs</fullName>
     <columns>MasterLabel</columns>
-    <columns>DeveloperName</columns>
     <columns>Clear_To_Close_Setting__c</columns>
     <columns>Required__c</columns>
     <columns>Document_Type__c</columns>
     <columns>RecordType__c</columns>
+    <columns>C2C_Required_Filtering__c</columns>
     <columns>sObject__c</columns>
-    <columns>Additional_C2C_Filtering__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>Required__c</field>
-        <operation>equals</operation>
-        <value>1</value>
+        <field>Clear_To_Close_Setting__c</field>
+        <operation>notEqual</operation>
     </filters>
     <filters>
         <field>RecordType__c</field>

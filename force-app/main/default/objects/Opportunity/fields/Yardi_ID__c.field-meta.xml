@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Loan ID used by Accounting and Servicers</inlineHelpText>
     <label>Yardi ID</label>
-    <length>10</length>
+    <length>30</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

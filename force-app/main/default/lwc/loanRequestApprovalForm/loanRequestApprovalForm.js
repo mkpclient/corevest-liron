@@ -65,7 +65,7 @@ export default class LoanRequestApprovalForm extends LightningElement {
           if (i.value) {
             let meValue = i.value;
             let meName = i.name;
-            if(meName == "completionPct") {
+            if(meName == "completionPct" || meName == "defaultRate" || meName == "newMarginRate") {
               meValue = parseFloat(meValue) / 100;
             }
             manualEntry[meName] = meValue;
@@ -155,24 +155,37 @@ export default class LoanRequestApprovalForm extends LightningElement {
                       parentField = splitFieldKey[1];
                       if(splitFieldKey.length > 2) {
                         grandParentKey = splitFieldKey[2];
+                      }
+                      if(splitFieldKey.length > 3) {
                         grandParentField = splitFieldKey[3];
                       }
                     }
-                    if (data[sobjectKey].hasOwnProperty(fieldKey) && data[sobjectKey][fieldKey]) {
+
+                    console.log({ fieldKey, parentKey, parentField, grandParentKey, grandParentField});
+                    if (data[sobjectKey].hasOwnProperty(fieldKey) && data[sobjectKey][fieldKey] && !parentKey) {
                       newVal = v.replace(
                         `{{${sobjectKey}.${fieldKey}}}`,
                         data[sobjectKey][fieldKey]
                       );
-                    } else if (data[sobjectKey].hasOwnProperty(parentKey) && data[sobjectKey][parentKey].hasOwnProperty(parentField) && data[sobjectKey][parentKey][parentField]) {
+                    } else if (data[sobjectKey].hasOwnProperty(parentKey) && data[sobjectKey][parentKey].hasOwnProperty(parentField) && data[sobjectKey][parentKey][parentField] && !grandParentKey) {
                       newVal = v.replace(
                         `{{${sobjectKey}.${fieldKey}}}`,
                         data[sobjectKey][parentKey][parentField]
                       );
-                    } else if (data[sobjectKey].hasOwnProperty(parentKey) && data[sobjectKey][parentKey].hasOwnProperty(grandParentKey) && data[sobjectKey][parentKey][grandParentKey].hasOwnProperty(grandParentField) && data[sobjectKey][parentKey][grandParentKey][grandParentField]) {
+                    } 
+                    else if (data[sobjectKey].hasOwnProperty(parentKey) && data[sobjectKey][parentKey].hasOwnProperty(parentField) && data[sobjectKey][parentKey][parentField].hasOwnProperty(grandParentKey) && data[sobjectKey][parentKey][parentField][grandParentKey] && !grandParentField) {
                       newVal = v.replace(
                         `{{${sobjectKey}.${fieldKey}}}`,
-                        data[sobjectKey][parentKey][grandParentKey][grandParentField]
+                        data[sobjectKey][parentKey][parentField][grandParentKey]
                       );
+
+                    } 
+                    else if (data[sobjectKey].hasOwnProperty(parentKey) && data[sobjectKey][parentKey].hasOwnProperty(parentField) && data[sobjectKey][parentKey][parentField].hasOwnProperty(grandParentKey) && data[sobjectKey][parentKey][parentField][grandParentKey].hasOwnProperty(grandParentField) && data[sobjectKey][parentKey][parentField][grandParentKey][grandParentField]) {
+                      newVal = v.replace(
+                        `{{${sobjectKey}.${fieldKey}}}`,
+                        data[sobjectKey][parentKey][parentField][grandParentKey][grandParentField]
+                      );
+                      console.log({ sobjectKey, parentKey, grandParentKey, grandParentField})
                     } 
                     else {
                       newVal = v.replace(`{{${sobjectKey}.${fieldKey}}}`, "");
@@ -182,7 +195,7 @@ export default class LoanRequestApprovalForm extends LightningElement {
                 if (this.isNumeric(newVal)) {
                   newVal = parseFloat(newVal);
                 }
-                console.log("from v", v, "to newVal", newVal);
+                // console.log("from v", v, "to newVal", newVal);
                 workbook.sheet("Sheet1").row(i).cell(j).value(newVal);
               } else if (v != undefined && v.includes("FX")) {
                 newVal = v.replace("FX", "");
@@ -222,7 +235,17 @@ export default class LoanRequestApprovalForm extends LightningElement {
           
         })
         .catch((err) => {
-          console.error(err);
+          let errMessage = '';
+          if(err.hasOwnProperty("body") && Array.isArray(err.body)) {
+            errMessage += err.body.map(e => e.message).join(", ");
+          } else if (err.hasOwnProperty("body") && err.body.hasOwnProperty("message") && typeof err.body.message === "string") {
+            errMessage = err.body.message;
+          }
+          this.showToast({
+            title: "Error Parsing File. Please check the template and review if there are any invalid field names.",
+            message: errMessage,
+            variant: "error"
+          });
         });
     });
   }

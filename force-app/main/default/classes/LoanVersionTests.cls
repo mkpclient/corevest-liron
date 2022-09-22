@@ -1,6 +1,7 @@
 @isTest
 private class LoanVersionTests {
   static void setup() {
+      test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -29,7 +30,6 @@ private class LoanVersionTests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';

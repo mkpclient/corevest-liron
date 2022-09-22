@@ -50,6 +50,11 @@
                 <label>Forbearance</label>
             </value>
             <value>
+                <fullName>Foreclosure</fullName>
+                <default>false</default>
+                <label>Foreclosure</label>
+            </value>
+            <value>
                 <fullName>In House Refi</fullName>
                 <default>false</default>
                 <label>In House Refi</label>
@@ -63,6 +68,16 @@
                 <fullName>No Response</fullName>
                 <default>false</default>
                 <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Note Sale</fullName>
+                <default>false</default>
+                <label>Note Sale</label>
+            </value>
+            <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <label>Paid Off</label>
             </value>
             <value>
                 <fullName>Payoff Pending</fullName>
@@ -189,12 +204,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>FC with Guarantee</label>
-            </value>
-            <value>
-                <fullName>Foreclosure</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Foreclosure</label>
             </value>
             <value>
                 <fullName>REO with Guarantee</fullName>

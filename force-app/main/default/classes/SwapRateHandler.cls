@@ -314,8 +314,7 @@ Private String getRate(String emailLine,String searchRateString)
       WHERE DisplayName = 'Integrations User'
     ];
     message.ToAddresses = new List<String>{
-     //'support@cvest.com',email.fromAddress
-     email.fromAddress
+     'support@cvest.com',email.fromAddress
     };
    // message.CcAddresses = ccAddresses;
     message.subject = 'Errors found in the Swap Rate Email from ' + date.today();

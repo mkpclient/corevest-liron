@@ -40,6 +40,7 @@ public with sharing class Test_Helper {
     return settings;
   }
 
+
   public static void setupProduct2() {
     Product2 prod = new Product2(
       Name = 'Single Rental Loan',
@@ -91,13 +92,9 @@ public with sharing class Test_Helper {
     insert pbe3;
   }
 
-  private static String nameRandomiser() {
-    return String.valueOf(Math.random() * 1000000);
-  }
-
   public static Account createAccount() {
     Account a = new Account();
-    a.Name = 'Test Helper Account' + nameRandomiser();
+    a.Name = 'Test Helper Account';
     a.BillingCountry = 'United States';
     a.BillingState = 'California';
     a.Introductions_Source__c = 'Hotline';
@@ -613,7 +610,7 @@ public with sharing class Test_Helper {
   public static User createBridgeOperationsUser() {
     User u = new User(
       Alias = 'clos',
-      Email = 'standarduser@cvest.com',
+      Email = 'standarduser@testorg.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',

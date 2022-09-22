@@ -20,6 +20,16 @@
                 <default>false</default>
                 <label>Term Loan</label>
             </value>
+            <value>
+                <fullName>Single Asset (1-4 Unit)</fullName>
+                <default>false</default>
+                <label>Single Asset (1-4 Unit)</label>
+            </value>
+            <value>
+                <fullName>Single Asset (5-10 Unit)</fullName>
+                <default>false</default>
+                <label>Single Asset (5-10 Unit)</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

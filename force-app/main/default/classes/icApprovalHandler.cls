@@ -486,8 +486,10 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             if (
               (userMap.get(key).Email.toLowerCase() == fromAddress ||
               userMap.get(key).Email.toLowerCase() == alternateFromAddress) &&
-              htmlBody.toLowerCase()
-                .contains(userMap.get(key).Approver_Code__c.toLowerCase())
+              (htmlBody.toLowerCase()
+                .contains(userMap.get(key).Approver_Code__c.toLowerCase()) ||
+                htmlBody.toLowerCase()
+                .contains(userMap.get(key).Approver_Code__c.toLowerCase().replace('approved', 'reject')))
             ) {
               toId = key;
               fromUser = userMap.get(key);
@@ -505,6 +507,27 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
             approved = approveDeal(fromUser.Id, deal);
             createAttachment(email, deal);
             postToChatter(deal, deal.Id);
+          } else if (null != fromUser.Approver_Code__c && htmlBody.toLowerCase()
+          .contains(fromUser.Approver_Code__c.toLowerCase().replace('approved', 'reject'))) {
+            List<ProcessInstanceWorkItem> wrkItem = [
+              SELECT
+                Id,
+                ProcessInstance.TargetObjectId,
+                ProcessInstance.Status,
+                ActorId,
+                Actor.Name,
+                OriginalActorId,
+                ProcessInstanceId,
+                ProcessInstance.ProcessDefinition.DeveloperName,
+                CreatedDate
+              FROM ProcessInstanceWorkItem
+              WHERE ActorId = :fromUser.Id AND ProcessInstance.TargetObjectId = :deal.Id
+              LIMIT 1
+            ];
+
+            if(wrkItem.size() > 0) {
+              ApprovalAttachments_lightningController.rejectDeal(wrkItem[0].Id, deal.Id, 'Rejected from email by ' + wrkItem[0].Actor.Name, 'Investment Committee');
+            }
           }
         }
 
@@ -668,9 +691,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
+      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
+      //   new List<Messaging.SingleEmailMessage>{ sem }
+      // );
     } catch (Exception e) {
       System.debug('error sending email' + e.getMessage() + ' ' + e.getLineNumber());
       String errorMessage = '';

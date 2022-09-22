@@ -53,6 +53,21 @@
                 <label>Future Prospect - Short Term Rental</label>
             </value>
             <value>
+                <fullName>Pre-Qual Request</fullName>
+                <default>false</default>
+                <label>Pre-Qual Request</label>
+            </value>
+            <value>
+                <fullName>Pre-Qual Approved</fullName>
+                <default>false</default>
+                <label>Pre-Qual Approved</label>
+            </value>
+            <value>
+                <fullName>Pre-Qual Rejected</fullName>
+                <default>false</default>
+                <label>Pre-Qual Rejected</label>
+            </value>
+            <value>
                 <fullName>Deceased/ Not Reachable</fullName>
                 <default>false</default>
                 <label>Deceased/ Not Reachable</label>

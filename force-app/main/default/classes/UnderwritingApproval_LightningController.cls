@@ -89,7 +89,7 @@ public class UnderwritingApproval_LightningController {
   @AuraEnabled
   public static String validateRecord(String recordId) {
     Settings__mdt universalSetting = lightning_Controller.queryUniversalSettings();
-    String queryString = 'SELECT Id, GLC_Required__c, GLC_Approved__c, RecordType.DeveloperName, OwnerId, Name, Contact__r.RecordType.DeveloperName, Account.RecordType.DeveloperName,Account.Number_of_Contacts__c,Current_Approval_Process__c,Rate_Lock_Picklist__c,';
+    String queryString = 'SELECT Id, GLC_Required__c, GLC_Approved__c, RecordType.DeveloperName, OwnerId, Name, Contact__r.RecordType.DeveloperName, Account.RecordType.DeveloperName,Account.Number_of_Contacts__c,Current_Approval_Process__c,Rate_Lock_Picklist__c,LOC_Loan_Type__c,';
 
     for (String field : termFields.keySet()) {
       if (!queryString.contains(field + ',')) {
@@ -109,7 +109,7 @@ public class UnderwritingApproval_LightningController {
       }
     }
 
-    queryString += ' (SELECT Id, Status__c, Property_Type__c, Red_Bell_Sync__c, Deal__c FROM Properties__r), Loan_Purpose__c, ';
+    queryString += ' (SELECT Id, Status__c, Property_Type__c, Red_Bell_Sync__c, Deal__c, Is_Parent__c FROM Properties__r), Loan_Purpose__c, ';
     queryString += ' (SELECT Id, Document_Type__c, Other_Document_Type__c, Type__c, Document_Loaded__c FROM Deal_Documents__r ';
     queryString += '    WHERE Document_Loaded__c = true AND Is_Deleted__c = FALSE AND (Document_Type__c IN : bridgeRequiredDocuments OR Document_Type__c IN : termRequiredDocuments))';
     queryString += ' FROM Opportunity WHERE Id =: recordId LIMIT 1';
@@ -117,7 +117,7 @@ public class UnderwritingApproval_LightningController {
     Opportunity o = (Opportunity) Database.query(queryString);
 
     //String recordTypeName = o.RecordType.Name;
-    if (!o.GLC_Required__c || (o.GLC_Required__c && o.GLC_Approved__c) ) {
+    if (!o.GLC_Required__c || (o.GLC_Required__c && o.GLC_Approved__c)) {
       termRequiredDocuments.remove('Greenlight Deck');
     }
 
@@ -338,14 +338,19 @@ public class UnderwritingApproval_LightningController {
 
     //}
 
-    //CIP-2191-RS.4/4/22.Begin.
-    // if (universalSetting.Request_Beekin_Rental_Data_Validation__c && PricingReviewRequest_LightningController.beekingRentalInfoCheck(recordId))
-    //   {
-    // 	errorMsgs.add(
-    //         'Please reterieve rental estimates from Beekin on all the properties before moveing the deal to Underwriting.'
-    //       );
-    //   }
-    ////CIP-2191-RS.4/4/22.End.
+//CIP-2288-RS.8/18/22.Begin. 
+     if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+          || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)')
+      {
+          List<String> listErrorMsgs = new List<String>();
+          PricingReviewRequest_LightningController.DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,Null,listErrorMsgs);
+        if (listErrorMsgs.size() > 0)
+        {
+                  errorMsgs.addall(listErrorMsgs);
+                  response.put('result', 'error');
+        }
+      }
+//CIP-2288-RS.8/18/22.End.
     response.put('errorMsg', errorMsgs);
 
     return JSON.serialize(response);
@@ -538,8 +543,9 @@ public class UnderwritingApproval_LightningController {
         (prop.Property_Type__c == 'Condo' ||
         prop.Property_Type__c == 'SFR' ||
         prop.Property_Type__c == 'Townhome' ||
-        (prop.Property_Type__c == '2-4 Unit' && prop.Is_Parent__c == true)) && prop.Status__c == 'Active')
-      {
+        (prop.Property_Type__c == '2-4 Unit' &&
+        prop.Is_Parent__c == true)) && prop.Status__c == 'Active'
+      ) {
         condoSfaOrTownhomeExists = true;
         if (prop.Red_Bell_Sync__c) {
           condoSfaOrTownhomeSynced = true;

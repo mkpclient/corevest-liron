@@ -6,6 +6,7 @@
     <columns>Document_Type__c</columns>
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
+    <columns>Expires_in_Days__c</columns>
     <columns>RecordType__c</columns>
     <columns>sObject__c</columns>
     <columns>Confidential__c</columns>

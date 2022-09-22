@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rate_Lock_Type_Required</fullName>
+    <active>true</active>
+    <description>Cannot complete the Rate Locked Date or Final Swap/Treasury Rate field if Rate Lock Type is blank</description>
+    <errorConditionFormula>AND(
+ISBLANK(TEXT( Rate_Lock_Picklist__c )),
+OR(
+  NOT(ISNULL( Rate_Lock_Date__c )),
+  NOT(ISNULL(  Final_Swap__c  ))
+)
+)</errorConditionFormula>
+    <errorDisplayField>Rate_Lock_Picklist__c</errorDisplayField>
+    <errorMessage>Rate Lock Type must be completed in order to complete the Final Swap/Treasury Rate or the Rate Locked Date.</errorMessage>
+</ValidationRule>

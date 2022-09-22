@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentAsset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isVisibleByExternalUsers>true</isVisibleByExternalUsers>
+    <language>en_US</language>
+    <masterLabel>CoreVest_LOC_Form_Property_Manageme</masterLabel>
+    <versions>
+        <version>
+            <number>1</number>
+            <pathOnClient>CoreVest LOC Form Property Management Agreement (4819-4171-3147.1) - for Lines that require a pledge.docx</pathOnClient>
+        </version>
+    </versions>
+</ContentAsset>

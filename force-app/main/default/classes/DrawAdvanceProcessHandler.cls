@@ -8,11 +8,11 @@ id termCustodinUserId 	= settings.Term_Captl_Markets_Post_Closing_Custodin__c;
 //string returnemails		= settings.Capital_Markets_Post_Closing_return_emai__c;
 Boolean errorsFound = False;   
 String errorString = '';    
+Boolean Custodial_File_Sent_to_Custodian = False;    
   global Messaging.InboundEmailResult handleInboundEmail(
     Messaging.InboundEmail email,
     Messaging.InboundEnvelope envelope
   ) {
-	System.Debug('RS999 Start email' );
     String emailsubject = email.subject.normalizeSpace().toLowerCase();
     if (emailsubject.startsWithIgnoreCase('re:') || emailsubject.startsWithIgnoreCase('fw:')) 
     {
@@ -24,8 +24,6 @@ String errorString = '';
     String emailBody = email.plainTextBody.normalizeSpace().toLowerCase();
 	Messaging.InboundEmail.TextAttachment[] tAttachments = email.textAttachments;
     Messaging.InboundEmail.BinaryAttachment[] bAttachments = email.BinaryAttachments;
-    System.Debug('RS999 tAttachments :' +tAttachments );  
-    System.Debug('RS999 bAttachments :' +bAttachments ); 
 	String csvbody='';   
     if(bAttachments !=null)
     {
@@ -35,10 +33,16 @@ String errorString = '';
         if(!btt.filename.endsWithIgnoreCase('.csv'))
      	{
             allAttachedFilesAreValidCsvs = False;
-            System.Debug('RS999 - not a csv file');
         	errorsFound = True;
         	errorString = 'Only CSV files name starting with bridge or term will be processed';  
         }
+        Else
+        {
+            allAttachedFilesAreValidCsvs = True;
+        	errorsFound = False;
+        	errorString = '';   
+            Break;
+        }        
     } 
     
     if (allAttachedFilesAreValidCsvs)
@@ -46,34 +50,31 @@ String errorString = '';
     for(Messaging.InboundEmail.BinaryAttachment btt : bAttachments)
     {
 /////////////////////////Process Bridge file        
-        System.debug('RS999 this looks like a binary attachment :' +btt.filename); 
      	if(btt.filename.startsWithIgnoreCase('bridge') && btt.filename.endsWithIgnoreCase('.csv'))
      	{
     	csvbody = btt.body.toString();
        	List<String> fileLineList = csvbody.split('\r\n');
-        System.Debug('RS999 bridgeDraws : ' +fileLineList.size()); 
         Boolean validHeaderLineFound = False;
         Boolean validBridgeLineFound = False;
         String errorStringfile = '\n Bridge File :';    
         List<String> fileHeaderLine;
-            for(integer i = 0;i <fileLineList.size();i++)              
+            for(integer i = 1;i <fileLineList.size();i++)              
             {
             	String reformatedLine = ReformatLine(fileLineList[i]);
             	List<String> fileLineFields =  reformatedLine.split(',');                
-                System.Debug('RS999 fileLineFields.size Bridge : ' +fileLineFields.size());
-                System.Debug('RS999 fileLineFields Bridge: ' +fileLineFields);                
-                if (fileLineFields.size() >= 8 && validHeaderLineFound)
+              
+                if (fileLineFields.size() >= 10 && validHeaderLineFound)
                 {
+                 if (fileLineFields[10] == 'Y')
+                 {
                    id validAdvanceId = null;
-                   System.Debug('RS999 fileLineFields[8] Bridge: ' +fileLineFields[8] );
                    if (fileLineFields[8] != null)
                    {
                    validBridgeLineFound = True;
-                   System.Debug('RS999 Calling validateAdvance Bridge:');
+                   Custodial_File_Sent_to_Custodian = False;
                    validAdvanceId =  ValidateAdvance(fileLineFields[0],fileLineFields[8]); //Validate Advance and deal id(loan idamazon)
                    }
-                   System.Debug('RS999 returned validAdvanceId Bridge: ' +validAdvanceId);
-                   if (validAdvanceId != null)
+                   if (validAdvanceId != null && Custodial_File_Sent_to_Custodian == False)
                    {
                     String description ='';
                     integer noOfColumns;
@@ -95,18 +96,20 @@ String errorString = '';
                    }
                    Else
                    {
+                      if (Custodial_File_Sent_to_Custodian == False)
+                      {
                       errorsFound = True;
                       errorString = 'Invalid Deal/Advance Id = ' + fileLineFields[0] + ' : ' + fileLineFields[8] + '; ' + errorString;
+                      }
                    }
-                }
+                } //if (fileLineFields[10] == 'Y')
+                } //if (fileLineFields.size() >= 10 && validHeaderLineFound)
                 
-                if (fileLineFields.size() >= 8 && validHeaderLineFound == False)
+                if (fileLineFields.size() >= 10 && validHeaderLineFound == False)
                 {
-					System.Debug('RS999 fileLineFields[0] :' + fileLineFields[0]);
-					System.Debug('RS999 fileLineFields[8] :' + fileLineFields[8]);                    
+                  
                     if (fileLineFields[0] == 'Loan ID' && fileLineFields[8] == 'Advance #')
                     {
-                        System.Debug('RS999 Into Valid Header line found bridge');
                         validHeaderLineFound = True; 
                        	fileHeaderLine = fileLineFields;
                     }
@@ -119,7 +122,6 @@ String errorString = '';
            errorString = 'No Valid Line found in Bridge File' ;
         }
         if (errorsFound) errorString = errorStringfile + errorString;
-		System.Debug('RS999 Binary csvbody :' +csvbody);
     	} // Bridge Attachement - if
 
 /////////////////////////Process Term file
@@ -127,27 +129,23 @@ String errorString = '';
      	{
     	csvbody = btt.body.toString();
        	List<String> fileLineList = csvbody.split('\r\n');
-        System.Debug('RS999 termDraws : ' +fileLineList.size()); 
         Boolean validHeaderLineFound = False;
         Boolean validTermLineFound = False;            
         String errorStringfile = 'Term File : ';                
         List<String> fileHeaderLine;
-        for(integer i = 0;i < fileLineList.size();i++)              
+        for(integer i = 1;i < fileLineList.size();i++)              
         {
             String reformatedLine = ReformatLine(fileLineList[i]);
             List<String> fileLineFields =  reformatedLine.split(','); 
-            System.Debug('RS999 term fileLineFields Term : ' +fileLineFields.size());
-            System.Debug('RS999 term fileLineFields Term: ' +fileLineFields);            
+          
             if (fileLineFields.size() >= 0 && validHeaderLineFound)
             {
                id validDealId = null;
                if (fileLineFields[0] != null)
                {
-				System.Debug('RS999 term ValidateLoanID fileLineFields[0] Term : ' +fileLineFields[0] );  
                validTermLineFound = True; 
                validDealId =  ValidateLoanID(fileLineFields[0]); //Validate loan id
                }
-               System.Debug('RS999 term returned validDealId Term : ' +validDealId);
                if (validDealId != null)
                {
                 String description ='';
@@ -175,19 +173,16 @@ String errorString = '';
 				  errorString = 'Invalid Loan Id = ' + fileLineFields[0] + '; ' + errorString;
                }
             }
-             System.Debug('RS999 term fileLineFields[0] Term : ' +fileLineFields[0] );
             
             if (fileLineFields.size() >= 2 && validHeaderLineFound == False)
             {
-                if (fileLineFields[0] == 'Loan ID')
+                if (fileLineFields[0] == 'Loan_ID')
                 {
-             		System.Debug('RS999 term into valid load id term file Term : ');
                     validHeaderLineFound = True; 
                     fileHeaderLine = fileLineFields;
                 }
             } 
         } //Lines loop - For
-		System.Debug('RS999 Binary csvbody Term :' +csvbody);
         if (validTermLineFound == False )
         {
            errorsFound = True;
@@ -209,7 +204,7 @@ String errorString = '';
          if (taskList.size() > 0)    insert taskList;  
         }
                    
-        System.Debug('RS999 taskList :' +taskList);  
+        System.Debug('taskList :' +taskList);  
         
     } // else of RE or FD emails
 
@@ -223,11 +218,9 @@ String errorString = '';
     
 id ValidateLoanID(string loanID) 
 {
-    System.Debug('RS999 passed loanID - ValidateLoanID :' +loanID);
     if (!string.isBlank(loanID))
     {
     List<Opportunity> validLoadDeal = [SELECT Id FROM opportunity where Deal_Loan_Number__c = :loanID];
-    System.Debug('RS999 validLoadDeal :' +validLoadDeal);    
     if (validLoadDeal.size() > 0)
     {
         return validLoadDeal[0].id;
@@ -238,21 +231,26 @@ id ValidateLoanID(string loanID)
     
 id ValidateAdvance(string loanID,string advance)    
 {
-    System.Debug('RS999 passed loanID ValidateAdvance :' +loanID);
-    System.Debug('RS999 passed advance ValidateAdvance :' +advance);  
+
     if (!String.isblank(loanID) && !String.isBlank(advance))
     {
     Integer advanceNo = 0;
     if (advance.isNumeric()) advanceNo = Integer.valueOf(advance);
  	List<Opportunity> validLoadDeal = [SELECT Id FROM opportunity where Deal_Loan_Number__c = :loanID];
-    System.Debug('RS999 validLoadDeal ValidateAdvance :' +validLoadDeal);         
+       
     if (validLoadDeal.size() > 0)
     {
-    System.Debug('RS999 advanceNo ValidateAdvance :' +advanceNo);       
-    List<Advance__c> validAdvance1 = [SELECT Id,Advance_Num__c FROM Advance__c where  deal__c = :validLoadDeal[0].id];    
-    System.Debug('RS999 validAdvance1 :' +validAdvance1);        
-    List<Advance__c> validAdvance = [SELECT Id FROM Advance__c where Advance_Num__c = :advanceNo and deal__c = :validLoadDeal[0].id];
-    System.Debug('RS999 validAdvance :' +validAdvance);
+     
+    List<Advance__c> validAdvance = [SELECT Id,Custodial_File_Sent_to_Custodian__c FROM Advance__c where Advance_Num__c = :advanceNo and deal__c = :validLoadDeal[0].id];
+    
+    if (validAdvance[0].Custodial_File_Sent_to_Custodian__c != Null)
+    {
+        Custodial_File_Sent_to_Custodian = True;
+    }
+    Else
+    {
+       Custodial_File_Sent_to_Custodian = False; 
+    }
     if (validAdvance.size() > 0)
     {
         Return validAdvance[0].id;
@@ -266,13 +264,11 @@ String ReformatLine(String currentLine)
 {
     String processedLine = '';
     Boolean foundDblQt = False;
-    System.Debug('RS999 currentLine : ' +currentLine);
-    
+   
     List<string> linecharacters = currentLine.split('');
     
     for (string eachChar :linecharacters )
     {
-        System.Debug('RS999 eachChar : ' +eachChar);
         if (eachChar == '"')
         {
           if (foundDblQt)
@@ -283,7 +279,7 @@ String ReformatLine(String currentLine)
           {
            foundDblQt = True; 
           }
-        System.Debug('RS999 foundDblQt : ' +foundDblQt);            
+         
         }
         
        if (foundDblQt)
@@ -297,22 +293,14 @@ String ReformatLine(String currentLine)
        {
          if ( eachChar != '"') processedLine = processedLine +  eachChar; 
        }
-    System.Debug('RS999 processedLine : ' +processedLine);         
     }
     
-    System.Debug('RS999 currentLine Final : ' +currentLine); 
-    System.Debug('RS999 processedLine Final : ' +processedLine);      
     Return processedLine;
 }
     
 void CreateTask(String FileType,String loanId,String advanceID,id ownerId,id whatId,String description)    
 {
-    System.Debug('RS999 passed loanId 		:' +loanId);    
-    System.Debug('RS999 passed AssetId 		:' +advanceID); 
-    System.Debug('RS999 passed ownerId 		:' +ownerId); 
-    System.Debug('RS999 passed whatId 		:' +whatId); 
-    System.Debug('RS999 passed description 	:' +description);     
-    
+     
 	if (whatId != null)    
     {
 	if (!taskMap.containsKey(whatId))

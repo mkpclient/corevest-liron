@@ -34,10 +34,10 @@ public class HouseCanaryAPI {
                                                                                         and DeveloperName  = 'HouseCanary_Rental_AVM') order by CreatedDate desc Limit 1)
                                         FROM Property__c WHERE Property__c.Deal__c = :recordId 
                                         AND Deal__r.StageName IN ('Data Tape Received' , 'Term Sheet Issued' , 'Term Sheet Signed/Deposit Collected' 
-                                                                  ,'Submitted to Underwriting' , 'Underwriting' , 'UW Hold' , 'Approved by Committee')  
+                                                                  ,'Submitted to Underwriting', 'Loan Processing', 'Processing Hold' , 'Underwriting' , 'UW Hold' , 'Approved by Committee', 'Closed Won')  
                                         AND Status__c NOT IN ('Inactive','Cancelled','Rescinded')
-                                        AND Property__c.ZipCode__c != null  AND deal__r.RecordType__c = 'Term' 
-                                        AND (Property__c.Property_Type__c = null OR Property__c.Property_Type__c = 'SFR' OR Property__c.Property_Type__c = 'Condo' OR Property__c.Property_Type__c = 'Townhome' OR (Property__c.Property_Type__c = '2-4 Unit' AND Property__c.Is_Parent__c = true))
+                                        AND Property__c.ZipCode__c != null
+                                        AND (Property__c.Property_Type__c = null OR Property__c.Property_Type__c = 'SFR' OR Property__c.Property_Type__c = 'Condo' OR Property__c.Property_Type__c = 'Townhome' OR (Property__c.Property_Type__c = '2-4 Unit' AND Property__c.Is_Sub_Unit__c = false))
                                         ORDER BY Property_Name__c];
 		System.Debug('properties :' +properties)        ;
 
@@ -164,7 +164,9 @@ public class HouseCanaryAPI {
                   //   || vaDataObjectsResultsFinal.recommended_approach == 'Minor exceptions - Human review')
                  {
                     responseCodes.add(99);
-                    responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + vaDataObjectsResultsFinal.recommended_approach);
+                    //CIP-2604 responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + vaDataObjectsResultsFinal.recommended_approach);
+                    responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + PricingReviewRequest_LightningController.GetMessage(7));
+
                  }
                 Else
                 {
@@ -176,7 +178,8 @@ public class HouseCanaryAPI {
             Else
             {
                 responseCodes.add(99);
-                responseString.add('value_analysis/check : ' + 'Return Code : 99 ' +  rawJSON);
+               //CIP-2604 responseString.add('value_analysis/check : ' + 'Return Code : 99 ' +  rawJSON);
+               responseString.add('value_analysis/check : ' + 'Return Code : 99 ' + PricingReviewRequest_LightningController.GetMessage(7));
             }
        } //(prop.Name != null)
     }
@@ -274,7 +277,9 @@ public class HouseCanaryAPI {
         else
         {
             responseCodes.add(pdDataObjectsResultsFinal?.api_code);
-            responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + pdDataObjectsResultsFinal?.api_code_description);
+           //CIP-2604 responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + pdDataObjectsResultsFinal?.api_code_description);
+            responseString.add('\n'+'Property Details : ' + 'Return Code : ' + pdDataObjectsResultsFinal?.api_code + ' ' + PricingReviewRequest_LightningController.GetMessage(7));
+
         }                
         }           
     }

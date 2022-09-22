@@ -66,6 +66,10 @@
     <picklistValues>
         <picklist>Index_for_Floating_Rate__c</picklist>
         <values>
+            <fullName>1M LIBOR</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>1M Term SOFR</fullName>
             <default>false</default>
         </values>

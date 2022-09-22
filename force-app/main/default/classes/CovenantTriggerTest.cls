@@ -6,6 +6,8 @@ private class CovenantTriggerTest {
       .get('Task')
       .getRecordTypeId();
 
+
+test_Helper.createDealLoanNumber();
     account acc = new account();
     acc.name = 'testacc';
 
@@ -72,6 +74,8 @@ private class CovenantTriggerTest {
 
     insert con;
 
+
+test_Helper.createDealLoanNumber();
     opportunity opp = new opportunity();
     opp.name = 'testopp';
     opp.StageName = 'Term sheet Issued';

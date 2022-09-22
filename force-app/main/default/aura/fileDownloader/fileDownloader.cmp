@@ -39,20 +39,29 @@
   <aura:if isTrue="{!!empty(v.filesTooBig)}">
     <ui:message
       title="The files below were skipped due to the Bulk Export feature's size
-	limitation.  You will need to individually download these files."
+	limitation.  You will need to individually download these files by clicking the links below."
       severity="error"
       closable="false"
     >
-      <div> </div>
+      <div></div>
       <ul class="slds-list_dotted slds-m-top_small">
         <aura:iteration items="{!v.filesTooBig}" var="file">
-          <li
-            ><a
-              target="_blank"
-              href="{!'/sfc/servlet.shepherd/version/download/' + file.contentDocumentId}"
-              >{!file.folder} - {!file.docType} - {!file.title}
-            </a></li
-          >
+          <li>
+            <aura:if isTrue="{!v.userType == 'internal'}">
+              <a
+                target="_blank"
+                href="{!'/sfc/servlet.shepherd/version/download/' + file.contentDocumentId}"
+                >{!file.folder} - {!file.docType} - {!file.title}
+              </a>
+            </aura:if>
+            <aura:if isTrue="{!v.userType != 'internal'}">
+              <a
+                target="_blank"
+                href="{!'/portal/sfc/servlet.shepherd/version/download/' + file.contentDocumentId}"
+                >{!file.folder} - {!file.docType} - {!file.title}
+              </a>
+            </aura:if>
+          </li>
         </aura:iteration>
       </ul>
     </ui:message>
@@ -64,7 +73,7 @@
       severity="error"
       closable="false"
     >
-      <div> </div>
+      <div></div>
       <ul class="slds-list_dotted slds-m-top_small">
         <aura:iteration items="{!v.filesDeleted}" var="file">
           <li>{!file.folder} - {!file.docType}</li>

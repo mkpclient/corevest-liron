@@ -34,7 +34,7 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Main';
@@ -78,7 +78,7 @@ private class advance_Tests {
 
     Test.startTest();
     Advance__c adv = new Advance__c(Deal__c = opp.Id);
-    
+
     insert adv;
     Wire__c wire = new Wire__c(Advance__c = adv.Id, Escrow_Agent__c = acc.Id);
     insert wire;
@@ -128,7 +128,6 @@ private class advance_Tests {
         opp.Product_Sub_Type__c = 'No Renovation';
         opp.Interest_Rate_Type__c = 'Floating';
         opp.Index__c = '1M LIBOR';
-        opp.Index_Floor__c = '1.00%';
         opp.Index_Margin__c = 1.50;
         opp.Deal_Intro_Source__c = 'Hotline';
         opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -223,7 +222,7 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'No Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -279,7 +278,7 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'No Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -298,7 +297,7 @@ private class advance_Tests {
     Test.stopTest();
   }
 
-   static testMethod void advance_Tests_UnitTest5() {
+  static testMethod void advance_Tests_UnitTest5() {
     //direct
     test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
@@ -331,7 +330,7 @@ private class advance_Tests {
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -368,7 +367,7 @@ private class advance_Tests {
     );
     insert adv;
 
-   /*RS Property_Advance__c padv = new Property_Advance__c();
+    /*RS Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
     padv.Advance_Fee__c = 1000;
@@ -393,7 +392,7 @@ private class advance_Tests {
     Test.stopTest();
   }
 
- static testMethod void advance_Tests_UnitTest6() {
+  static testMethod void advance_Tests_UnitTest6() {
     //internal
     test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
@@ -428,7 +427,7 @@ private class advance_Tests {
     opp.Internal_Referral__c = UserInfo.getUserId();
     opp.Internal_Referral_Fee__c = '20%';
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -465,7 +464,7 @@ private class advance_Tests {
     );
     insert adv;
 
-   /*RS Property_Advance__c padv = new Property_Advance__c();
+    /*RS Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
     padv.Advance__c = adv.Id;
     padv.Advance_Fee__c = 1000;
@@ -487,7 +486,7 @@ private class advance_Tests {
     Test.stopTest();
   }
 
- static testMethod void advance_Tests_UnitTest7() {
+  static testMethod void advance_Tests_UnitTest7() {
     //internal
     test_Helper.createDealLoanNumber();
     User u = test_Helper.createBridgeOperationsUser();
@@ -520,9 +519,8 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'No Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -574,7 +572,7 @@ private class advance_Tests {
     adv.Closer__c = u.Id;
     adv.Underwriter__c = u.Id;
     update adv;
-    
+
     adv.Wire_Date__c = system.today();
 
     adv.Status__c = 'Completed';
@@ -618,9 +616,8 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'No Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -660,7 +657,6 @@ private class advance_Tests {
     // opp1.Index__c = '1M LIBOR';
 
     // opp1.Commission_Type__c = 'Internal';
-    // opp1.Index_Floor__c = '1.00%';
     // opp1.Index_Margin__c = 1.50;
     // opp1.Deal_Intro_Source__c = 'Hotline';
     // opp1.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -753,9 +749,8 @@ private class advance_Tests {
     opp.Product_Sub_Type__c = 'No Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Internal_Referral__c = UserInfo.getUserId();
@@ -795,9 +790,8 @@ private class advance_Tests {
     opp1.Product_Sub_Type__c = 'No Renovation';
     opp1.Interest_Rate_Type__c = 'Floating';
     opp1.Index__c = '1M LIBOR';
-
     opp1.Commission_Type__c = 'Internal';
-    opp1.Index_Floor__c = '1.00%';
+    opp1.Floor__c = 3;
     opp1.Index_Margin__c = 1.50;
     opp1.Deal_Intro_Source__c = 'Hotline';
     opp1.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -891,7 +885,6 @@ private class advance_Tests {
     opp.Index__c = '1M LIBOR';
 
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -931,7 +924,6 @@ private class advance_Tests {
     opp1.Index__c = '1M LIBOR';
 
     opp1.Commission_Type__c = 'Internal';
-    opp1.Index_Floor__c = '1.00%';
     opp1.Index_Margin__c = 1.50;
     opp1.Deal_Intro_Source__c = 'Hotline';
     opp1.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -1024,9 +1016,7 @@ private class advance_Tests {
     // opp.Product_Sub_Type__c = 'No Renovation';
     // opp.Interest_Rate_Type__c = 'Floating';
     // opp.Index__c = '1M LIBOR';
-
     // opp.Commission_Type__c = 'Internal';
-    // opp.Index_Floor__c = '1.00%';
     // opp.Index_Margin__c = 1.50;
     // opp.Deal_Intro_Source__c = 'Hotline';
     // opp.Internal_Referral__c = UserInfo.getUserId();
@@ -1044,7 +1034,9 @@ private class advance_Tests {
     opp1.RecordTypeId = [
       SELECT Id
       FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Single_Asset_Bridge_Loan'
+      WHERE
+        sobjecttype = 'Opportunity'
+        AND DeveloperName = 'Single_Asset_Bridge_Loan'
     ]
     .Id;
     opp1.StageName = 'Closed Won';
@@ -1066,9 +1058,8 @@ private class advance_Tests {
     opp1.Product_Sub_Type__c = 'No Renovation';
     opp1.Interest_Rate_Type__c = 'Floating';
     opp1.Index__c = '1M LIBOR';
-
     opp1.Commission_Type__c = 'Internal';
-    opp1.Index_Floor__c = '1.00%';
+    opp1.Floor__c = 3;
     opp1.Index_Margin__c = 1.50;
     opp1.Deal_Intro_Source__c = 'Hotline';
     opp1.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -1138,7 +1129,9 @@ private class advance_Tests {
     opp.RecordTypeId = [
       SELECT Id
       FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Single_Asset_Bridge_Loan'
+      WHERE
+        sobjecttype = 'Opportunity'
+        AND DeveloperName = 'Single_Asset_Bridge_Loan'
     ]
     .Id;
     opp.StageName = 'Underwriting';
@@ -1161,7 +1154,7 @@ private class advance_Tests {
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -1228,7 +1221,9 @@ private class advance_Tests {
     opp.RecordTypeId = [
       SELECT Id
       FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Acquired_Bridge_Loan_Active'
+      WHERE
+        sobjecttype = 'Opportunity'
+        AND DeveloperName = 'Acquired_Bridge_Loan_Active'
     ]
     .Id;
     opp.StageName = 'Underwriting';
@@ -1251,7 +1246,7 @@ private class advance_Tests {
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Internal';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';

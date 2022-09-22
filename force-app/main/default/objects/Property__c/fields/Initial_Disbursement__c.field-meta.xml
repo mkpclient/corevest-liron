@@ -6,8 +6,8 @@
     <externalId>false</externalId>
     <formula>IF(
  ISBLANK(Post_Close_Appraisal_Reduction__c),
-Max_Initial_Loan_Amount_Input__c,
-Max_Initial_Loan_Amount_Input__c - ( Max_Total_Loan_Amount_Input__c * Post_Close_Appraisal_Reduction__c )
+Max_Initial_Loan_Amount__c,
+Max_Initial_Loan_Amount__c - ( Max_Initial_Loan_Amount__c * Post_Close_Appraisal_Reduction__c )
 )</formula>
     <inlineHelpText>The amount that will be funded on the first funding Advance on this Property</inlineHelpText>
     <label>Initial Disbursement</label>

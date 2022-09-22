@@ -43,13 +43,12 @@ private class ConfirmationOfTermsTests {
     opp.Name = 'Test opportunity';
     opp.CloseDate = System.today();
     opp.StageName = 'Initial Review';
-    opp.Foreign_National_picklist__c = 'No';
     opp.AccountId = a.id;
     opp.Contact__c = c.id;
     opp.OwnerId = UserInfo.getUserId();
     opp.CAF_Analyst__c = UserInfo.getUserId();
     opp.Underwriter__c = u.Id;
-    opp.Closer__c = UserInfo.getUserId();
+    opp.CLoser__c = UserInfo.getUserId();
     // opp.
     insert opp;
 

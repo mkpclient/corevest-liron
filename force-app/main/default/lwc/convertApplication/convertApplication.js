@@ -19,22 +19,22 @@ export default class ConvertApplication extends NavigationMixin(
   isSaving = false;
   value = [];
   connectedCallback() {
-    console.log("connected callback");
-    console.log(this.recordId);
+    // console.log("connected callback");
+    // console.log(this.recordId);
     // const queryString = `SELECT Id, Status__c, Lead__c, Contact__c FROM Application__c WHERE Id = '${this.recordId}'`;
     // console.log(queryString);
     // query({ queryString }).then((results) => {
     //   console.log(results);
     //   this.record = results[0];
-
     //   this.checkValidations();
     // });
   }
 
   renderedCallback() {
+    console.log("--rendered callback--");
     if (!this.retrievedRecordId && this.recordId) {
       this.retrievedRecordId = true; // Escape case from recursion
-      //console.log("Found recordId: " + this.recordId);
+      console.log("Found recordId: " + this.recordId);
 
       // Execute some function or backend controller call that needs the recordId
       // console.log("connected callback");
@@ -64,12 +64,19 @@ export default class ConvertApplication extends NavigationMixin(
   checkValidations() {
     let validated = true;
     let message = "";
+    console.log("--validations--");
+    console.log(this.record);
+    console.log(this.record.Contact__c);
+    console.log(this.record.Lead__r.ConvertedContactId);
+    console.log(
+      !this.record.Contact__c && !this.record.Lead__r.ConvertedContactId
+    );
     if (this.record.Status__c != "Completed") {
       validated = false;
       message = "Only a Completed Application can be converted to a Deal";
     } else if (
-      !this.record.Contact__c &&
-      !this.record.Lead__r.ConvertedContactId
+      this.record.Lead__r &&
+      (!this.record.Contact__c || !this.record.Lead__r.ConvertedContactId)
     ) {
       message =
         "Lead needs to be converted into a Contact before converting to Deal";
@@ -84,6 +91,8 @@ export default class ConvertApplication extends NavigationMixin(
       });
       this.dispatchEvent(event);
     }
+
+    console.log(validated);
 
     this.validated = validated;
   }

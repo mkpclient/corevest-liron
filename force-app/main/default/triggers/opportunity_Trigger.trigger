@@ -11,14 +11,12 @@ trigger opportunity_Trigger on Opportunity(
     if(Trigger.isBefore && Trigger.isDelete) {
       opportunity_Helper.beforeDelete(Trigger.old);
     }
-    
     if (Trigger.isBefore && Trigger.isInsert) {
       opportunity_Helper.beforeInsert(Trigger.new);
     }
 
     if (Trigger.isAfter && Trigger.isInsert) {
       ChecklistHelper.createChecklist(Trigger.newMap.keySet());
-
       opportunity_Helper.afterInsert(Trigger.newMap);
       if (!settings.Disable_Post_Close_Trigger__c) {
         PostClosingHelper.createPostClose(Trigger.newMap);

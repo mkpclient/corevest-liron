@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Title_Company_at_Closing_Status</fullName>
+    <active>true</active>
+    <description>This will require a Title Company has been added before the Status can be updated to Closing</description>
+    <errorConditionFormula>AND(
+ ISCHANGED(Status__c),
+ ISPICKVAL( Status__c , &apos;Closing&apos;),
+ NOT ( $Profile.Name= &quot;System Administrator&quot;),
+ ISBLANK( Title_Company__c) 
+)</errorConditionFormula>
+    <errorMessage>Title Company is required to move the Property to Closing Status</errorMessage>
+</ValidationRule>

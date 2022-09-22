@@ -696,7 +696,10 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
         Underwriter__c,
         Underwriter__r.Email,
         RecordType.DeveloperName,
-        Last_Referenced_Term_Sheet__c
+        Last_Referenced_Term_Sheet__c,
+        Current_Stage__c,
+        Term_Sheet_Issued__c,
+        StageName
       FROM Opportunity
       WHERE Id = :opportunityId
       LIMIT 1
@@ -806,9 +809,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
+      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
+      //   new List<Messaging.SingleEmailMessage>{ sem }
+      // );
     } catch (Exception e) {
       String errorMessage = '';
       errorMessage += JSON.serialize(recipients);
@@ -1153,7 +1156,15 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       Database.rollback(sp);
       sendExceptionEmails(ex);
     }
-
+	  //RS.9/8/2022.CIP-2510.Begin.
+      o.Term_Sheet_Issued__c  = Date.today();
+      if (o.Current_Stage__c == 'Initial Review' || o.Current_Stage__c == 'Data Tape Received')
+      {
+          o.StageName = 'Term Sheet Issued';
+      }
+      update o;
+     //RS.9/8/2022.CIP-2510.End. 
+     //
     List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
     Id recipientId;
     if (recipientIds.size() > 0) {

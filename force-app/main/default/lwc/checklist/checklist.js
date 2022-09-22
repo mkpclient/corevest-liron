@@ -343,6 +343,7 @@ export default class Checklist extends LightningElement {
             });
 
             section.taskItems.forEach((item) => {
+              item.commentsLabel = `Comments (${item.numberOfComments})`;
               item.statusIcon = `utility:clock`;
               item.statusVariant = "warning";
               // item.statusIcon = `/${icons}/pending-clock.svg#icon`;

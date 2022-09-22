@@ -50,7 +50,7 @@ export default class IcSabApprovalScreen extends LightningElement {
       }
       this.creditMemoFields = fields;
 
-      const gtorQuery = `SELECT Id,Contact__r.Name, Liquidity__c, Percentage_Owned__c, Deal__r.Borrower_Entity__r.Name, Deal__r.Borrower_Entity__c FROM Deal_Contact__c WHERE Deal__c='${this.deal.Id}' AND Entity_Type__c includes ('Guarantor')`;
+      const gtorQuery = `SELECT Id,Contact__r.Name, Liquidity__c, Percentage_Owned__c, Deal__r.Borrower_Entity__r.Name, Deal__r.Borrower_Entity__c FROM Deal_Contact__c WHERE Deal__c='${this.deal.Id}' AND Entity_Type__c includes ('Guarantor') AND Deal_Contact_Type__c = 'Individual'`;
       const resGuarantors = await query({ queryString: gtorQuery });
       this.guarantorRecords = resGuarantors;
       const _guarantors = [];

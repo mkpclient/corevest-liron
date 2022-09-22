@@ -79,6 +79,11 @@
                 <default>false</default>
                 <label>Valuation Services AMC</label>
             </value>
+            <value>
+                <fullName>HouseCanary</fullName>
+                <default>false</default>
+                <label>HouseCanary</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

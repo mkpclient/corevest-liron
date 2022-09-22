@@ -56,7 +56,7 @@
     </values>
     <values>
         <field>Folder_Structure_String__c</field>
-        <value xsi:type="xsd:string">Lender Diligence;Legal &amp; Compliance</value>
+        <value xsi:type="xsd:string">Lender Diligence;Principals &amp; Company</value>
     </values>
     <values>
         <field>Include_for_Term_Sheet_Approval__c</field>

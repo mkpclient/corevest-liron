@@ -6,6 +6,8 @@ public class CTMtoLeadTests {
     List<Master_Source__c> sampleMasterSources = new List<Master_Source__c>();
     List<Source__c> sampleSources = new List<Source__c>();
 
+
+test_Helper.createDealLoanNumber();
     Lead ld = new Lead();
     ld.LastName = 'Doe';
     ld.FirstName = 'John';

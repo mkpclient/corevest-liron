@@ -156,7 +156,7 @@
     <label>Product Goal</label>
     <nameField>
         <label>Product Goal Name</label>
-        <trackHistory>false</trackHistory>
+        <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Product Goals</pluralLabel>

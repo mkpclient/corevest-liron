@@ -1,6 +1,9 @@
 @isTest
 private class Deal_Document_HelperTest {
   static testMethod void Deal_Document_Helper_UnitTest() {
+      
+
+test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -77,6 +80,8 @@ private class Deal_Document_HelperTest {
   }
 
   static testMethod void Deal_Document_Helper_UnitTest2() {
+
+test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createBridgeDeal(acc, cont);

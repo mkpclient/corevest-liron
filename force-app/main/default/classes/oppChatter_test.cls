@@ -2,6 +2,7 @@
 public class oppChatter_test {
 @testsetup
 static void datasetup() {
+    test_Helper.createDealLoanNumber();
     List<Account> al = new List<Account>();
     Account a0 = new Account();
     a0.Name = 'Berkadia Commercial Mortgage';
@@ -96,7 +97,9 @@ static void datasetup() {
 public static testMethod void unitTest1() {
     Test.startTest();
      List<FeedItem> fI = [SELECT id,body from  FeedItem];
+    System.debug('RS 999 fI :' +fI); 
      List<FeedComment> FIc = [SELECT id,CommentBody from  FeedComment];
+    System.debug('RS 999 FIc :' +FIc);    
      fI[0].body = 'test12';
     update fI;
     FIc[0].CommentBody = 'Comment Test 123';

@@ -622,7 +622,7 @@
                                 <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="No"/>
                             </td>
                             <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{!Opportunity.Index_Floor__c}"/>
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>/>
                                 <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="N/A"/>
                                 <!--     <apex:outputText value="{!Opportunity.Index_Floor__c}" />    -->                                                   
                             </td>

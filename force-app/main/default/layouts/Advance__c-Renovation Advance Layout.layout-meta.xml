@@ -63,6 +63,10 @@
                 <behavior>Readonly</behavior>
                 <field>Aggregate_Advance_Fee_PreAdvance__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Total__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -113,6 +117,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Review_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Escrow_Title_Number__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -203,6 +211,10 @@
                 <behavior>Readonly</behavior>
                 <field>Servicer_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Document_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -226,8 +238,8 @@
                 <field>Broker_Fee_Paid_When__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Warehouse_Line__c</field>
+                <behavior>Edit</behavior>
+                <field>Warehouse_Line_New__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -418,17 +430,6 @@
             <sortOrder>8</sortOrder>
         </platformActionListItems>
     </platformActionList>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>Wire_Number__c</fields>
-        <fields>Escrow_Agent__c</fields>
-        <fields>Advance_Fee__c</fields>
-        <fields>BPO_Appraisal_Fee__c</fields>
-        <fields>Doc_Prep_Fee__c</fields>
-        <relatedList>Wire__c.Advance__c</relatedList>
-        <sortField>Wire_Number__c</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Property__c.Advance__c</relatedList>

@@ -576,7 +576,7 @@
                             <apex:outputText value="{! Opportunity.Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Index__c } floor of ">
                                 <apex:param value="{! Opportunity.Index_Margin__c }" />
                             </apex:outputText>
-                            <apex:outputText value="{!Opportunity.Index_Floor__c})" />                        
+                            <apex:outputText value="{0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText>
                         </apex:outputText>
                     </td>
                 </tr>

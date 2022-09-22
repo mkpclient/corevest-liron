@@ -166,6 +166,7 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Appraisals</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Valuation_Provider__c</searchResultsAdditionalFields>

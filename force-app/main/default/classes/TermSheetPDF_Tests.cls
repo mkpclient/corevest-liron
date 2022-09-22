@@ -2,6 +2,7 @@
 private class TermSheetPDF_Tests {
 
     static TestMethod void TermSheetPDF_UnitTest(){
+        Test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
 		Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );
@@ -12,6 +13,14 @@ private class TermSheetPDF_Tests {
         List<Property__c> props = test_Helper.createProperties( opp );
 
         Test.startTest();
+        Map<string,string> testObj = new Map<String,String>{
+            'Term_Sheet_Expiration_Date__c' => String.valueOf(System.today() + 10),
+            'Include_Assumption__c' => 'false',
+            'Include_Prop_Sub_Text__c' => 'false',
+            'Include_3_Months_Min_Interest__c' => 'false',
+            'Include_Broker_Fee__c' =>  'false',
+            'Include_CO_Broker_Text__c' => 'false'
+        };
             PageReference testpage = Page.TermSheetPDF;
             testPage.getParameters().put('month',''+system.today().month());
             testPage.getParameters().put('day',''+system.today().day());
@@ -19,7 +28,11 @@ private class TermSheetPDF_Tests {
             testPage.getParameters().put('todaymonth',''+system.today().month());
             testPage.getParameters().put('todayday',''+system.today().day());
             testPage.getParameters().put('todayyear',''+system.today().year());
+            testpage.getParameters().put('s', EncodingUtil.base64Encode(Blob.valueOf(JSON.serialize(testObj))));
             testPage.getParameters().put('version','1');
+            
+
+           
             Test.setCurrentPage(testPage);
 
             TermSheetPDF_Controller con = new TermSheetPDF_Controller(

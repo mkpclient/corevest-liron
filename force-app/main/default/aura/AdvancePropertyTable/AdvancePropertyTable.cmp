@@ -25,7 +25,7 @@
     default="This is a Special Asset Property"
   />
   <aura:attribute name="updatedPropAdvances" type="Object[]" />
-
+  <aura:attribute name="isHoldbackToRehabChanged" type="Boolean" default="false" />
   <!-- <aura:handler name="change" value={!v.record.Inspection_Fee} -->
 
   <div
@@ -2137,7 +2137,7 @@
                   </div>
                 </th>
                 <aura:if
-                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.BPO_Appraisal_Fee_Subtotal__c != 0)}"
+                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.record.BPO_Appraisal_Fee_Subtotal__c != 0)}"
                 >
                   <th scope="col">
                     <div class="slds-truncate" title="Appraisal Fee">
@@ -2322,7 +2322,17 @@
                   </th>
                   <th scope="" data-label="">
                     <div class="slds-truncate" title="">
-                      <lightning:formattedNumber value="{!empty(item.Holdback_To_Rehab_Ratio__c) ? 0 : item.Holdback_To_Rehab_Ratio__c / 100}" style="percent" maximumFractionDigits="3"/>
+                      <lightning:input 
+                        type="number" 
+                        variant="label-hidden" 
+                        name="Holdback_To_Rehab_Ratio__c" 
+                        label="Holdback to Rehab Ratio" 
+                        value="{!item.Holdback_To_Rehab_Ratio__c}" 
+                        formatter="percent-fixed" 
+                        onchange="{!c.handlePropAdvChange}"
+                        title="{!item.Id}"
+                        step="0.01"/>
+                      <!-- <lightning:formattedNumber value="{!empty(item.Holdback_To_Rehab_Ratio__c) ? 0 : item.Holdback_To_Rehab_Ratio__c / 100}" style="percent" maximumFractionDigits="3"/> -->
                     </div>
                   </th>
                   <th scope="" data-label="">
@@ -2410,7 +2420,7 @@
                     </div>
                   </th>
                   <aura:if
-                    isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.BPO_Appraisal_Fee_Subtotal__c != 0)}"
+                    isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.record.BPO_Appraisal_Fee_Subtotal__c != 0)}"
                   >
                     <th scope="" data-label="">
                       <div class="slds-truncate" title="">
@@ -2618,7 +2628,7 @@
                   </div>
                 </th>
                 <aura:if
-                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.BPO_Appraisal_Fee_Subtotal__c != 0)}"
+                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.record.BPO_Appraisal_Fee_Subtotal__c != 0)}"
                 >
                   <th scope="" data-label="">
                     <div class="slds-truncate" title="">
@@ -2777,7 +2787,7 @@
                   </div>
                 </th>
                 <aura:if
-                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.BPO_Appraisal_Fee_Subtotal__c != 0)}"
+                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.record.BPO_Appraisal_Fee_Subtotal__c != 0)}"
                 >
                   <th scope="" data-label="">
                     <div class="slds-truncate" title="">
@@ -2965,7 +2975,7 @@
                   </div>
                 </th>
                 <aura:if
-                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.BPO_Appraisal_Fee_Subtotal__c != 0)}"
+                  isTrue="{!and(!empty(v.record.BPO_Appraisal_Fee_Subtotal__c), v.record.BPO_Appraisal_Fee_Subtotal__c != 0)}"
                 >
                   <th scope="" data-label="">
                     <div class="slds-truncate" title="">

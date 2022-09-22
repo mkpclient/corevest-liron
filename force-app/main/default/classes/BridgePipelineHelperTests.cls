@@ -2,6 +2,7 @@
 public with sharing class BridgePipelineHelperTests {
   @TestSetup
   static void makeData() {
+    test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity d = Test_Helper.createBridgeDeal(a, c);

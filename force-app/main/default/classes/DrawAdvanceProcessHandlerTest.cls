@@ -2,6 +2,7 @@
 public class DrawAdvanceProcessHandlerTest {
 @testsetup
   static void datasetup() {
+    Test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     List<Opportunity> oppList = new List<Opportunity>();
@@ -136,15 +137,17 @@ public static testMethod void DrawAdvanceProcessHandler_UnitTest1() {
       email.fromAddress = 'support@cvest.com';
       email.plainTextBody = 'Test Task Creation';
       
-      String fileBody = 'Loan ID,Loan Name,MortgageLoan Initial Funded Amount,Origination Date,Monthly Debt Service,Interest Rate,Origination Date,First Payment Date,Initial Maturity Date,Borrower Name,Sponsor _name';
-      fileBody = fileBody + '\r\n' + opp[0].Deal_Loan_Number__c + ',Test Loan1,"1,000",6/3/2022,1000,0.999,6/3/2022,3/9/2022,1/1/2000,Test Borrower1,Test Sponser Name 1';
+      String fileBody = 'Loan ID,Loan Name,Mortgage Loan Initial Funded Amount ($),Origination Date,Monthly Debt Service ($),Interest Rate,Origination Date,First Payment Date,Initial Maturity Date,Borrower,Sponsor';
+      fileBody = fileBody + '\r\n' + 'Loan_ID,Loan_Name, Original_Loan_Amount , Agreement_Date , Original_PI_Amount , Original_Interest_Rate ,Original_Closed_Date,First_Payment_Date,Maturity_Date,Borrowers_Name,Sponsor_Name';
+      fileBody = fileBody + '\r\n' + opp[0].Deal_Loan_Number__c + ',Test Loan4,10000,6/6/2022,4000,0.999,6/6/2022,3/9/2022,1/1/2000,Test Borrower4,Test Sponser Name 4';
       Messaging.InboundEmail.BinaryAttachment attachment = new Messaging.InboundEmail.BinaryAttachment();
       attachment.body = blob.valueOf(fileBody);
       attachment.fileName = 'Term.csv';
       attachment.mimeTypeSubType = 'text/plain';
       
-      String fileBody1 = 'Loan ID,SF Asset ID,Loan Name,Address (Street),City,State,Zip,County,Advance #,,Loan ID,Loan Name,LOC Closing Date,LOC Commitment';
-      fileBody1 = fileBody1 + '\r\n' + opp1[0].Deal_Loan_Number__c + ',123456,Testing Name,123 testing address,testing,ca,33209,test,' + adv[0].Advance_Num__c + ',,38553,LJ Phoenician Properties LLC,12/9/2021,1000';
+    String fileBody1 = ',,,,,,,,,,,,New LOC:,,,';
+      fileBody1 = fileBody1 + '\r\n' + 'Loan ID,SF Asset ID,Loan Name,Address (Street),City,State,Zip,County,Advance #,Warehouse Line,Create Tasks,,Loan ID,Loan Name,LOC Closing Date,LOC Commitment';
+      fileBody1 = fileBody1 + '\r\n' + opp1[0].Deal_Loan_Number__c + ',123456,Testing Name,123 testing address,testing,ca,33209,test,' + adv[0].Advance_Num__c + ',2022-RTL1,Y,,38553,LJ Phoenician Properties LLC,12/9/2021,"$1,000"';
       Messaging.InboundEmail.BinaryAttachment attachment1 = new Messaging.InboundEmail.BinaryAttachment();
       attachment1.body = blob.valueOf(fileBody1);
       attachment1.fileName = 'Bridge.csv';

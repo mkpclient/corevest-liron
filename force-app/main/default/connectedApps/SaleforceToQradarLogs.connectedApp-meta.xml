@@ -5,7 +5,7 @@
     <label>SaleforceToQradarLogs</label>
     <oauthConfig>
         <callbackUrl>https://cvest.my.salesforce.com/</callbackUrl>
-        <consumerKey>3MVG9XfKTWtUp0bLnVpAkVkJnrq5fwUzrmlzOgMmwHpnzzCMu6UI8ZmTBeNs4EcxcrER3Co_ij0PV1diTmL8U</consumerKey>
+        <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqu3pxCKNDSNt.6KuQTkd5x8U0Tx5v9fHKupijrCX.7Xj8MzmxvtMPvNVOZiH</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

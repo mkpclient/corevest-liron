@@ -58,8 +58,7 @@ public without sharing class ScheduleOfLenderCostsPDFExtension {
           Deal__r.Rate_Lock_Picklist__c,
           Legal_Fee__c,
           Discount_Fee_Number__c,
-          Early_Lock_Deposit__c,
-          Deal__r.Rate_Based_On__c
+          Early_Lock_Deposit__c
         FROM loan_version__c
         WHERE Id = :this.record.Id
         LIMIT 1

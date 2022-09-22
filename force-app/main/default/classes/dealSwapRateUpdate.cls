@@ -109,7 +109,7 @@ public class dealswapRateUpdate implements Database.Batchable<sObject>{
      } //term if
      
           
-     if (Oppor.RecordType__c == 'Bridge')
+   /*  if (Oppor.RecordType__c == 'Bridge')
      {
          if (Oppor.Current_Stage__c != 'Closed Won' )
          {
@@ -188,7 +188,7 @@ public class dealswapRateUpdate implements Database.Batchable<sObject>{
              updateOpportunity = True;                   
              }
          }
-     } //Bridge if
+     } //Bridge if*/
          
       if (updateOpportunity)
       {

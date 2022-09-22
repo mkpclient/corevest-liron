@@ -15,47 +15,7 @@
         <valueSetName>Country</valueSetName>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Afghanistan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Aland Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Albania</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Algeria</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Andorra</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Angola</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Anguilla</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Antarctica</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Antigua and Barbuda</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Argentina</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Armenia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -71,10 +31,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Azerbaijan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Bahamas</valueName>
         </valueSettings>
         <valueSettings>
@@ -83,15 +39,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bangladesh</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Barbados</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Belarus</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -103,35 +51,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Benin</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Bermuda</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bhutan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bolivia, Plurinational State of</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bonaire, Sint Eustatius and Saba</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bosnia and Herzegovina</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Botswana</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bouvet Island</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -139,31 +59,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>British Indian Ocean Territory</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Brunei Darussalam</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Bulgaria</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Burkina Faso</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Burundi</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cambodia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cameroon</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -171,19 +67,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cape Verde</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Cayman Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Central African Republic</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Chad</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -195,30 +79,6 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Christmas Island</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cocos (Keeling) Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Colombia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Comoros</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Congo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Congo, the Democratic Republic of the</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Cook Islands</valueName>
         </valueSettings>
         <valueSettings>
@@ -227,27 +87,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cote d’Ivoire</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Croatia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cuba</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Curaçao</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Cyprus</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Czech Republic</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -255,55 +95,11 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Djibouti</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Dominica</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Dominican Republic</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Ecuador</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Egypt</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>El Salvador</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Equatorial Guinea</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Eritrea</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Estonia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Ethiopia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Falkland Islands (Malvinas)</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Faroe Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Fiji</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -315,27 +111,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>French Guiana</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>French Polynesia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>French Southern Territories</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Gabon</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Gambia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Georgia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -343,27 +119,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Ghana</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Gibraltar</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Greece</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Greenland</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Grenada</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Guadeloupe</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -371,67 +127,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Guernsey</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Guinea</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Guinea-Bissau</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Guyana</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Haiti</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Heard Island and McDonald Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Holy See (Vatican City State)</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Honduras</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Hungary</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Iceland</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>India</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Indonesia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Iran, Islamic Republic of</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Iraq</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Ireland</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Isle of Man</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -443,79 +139,11 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Jamaica</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Japan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Jersey</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Jordan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Kazakhstan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Kenya</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Kiribati</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Korea, Democratic People’s Republic of</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Korea, Republic of</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Kuwait</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Kyrgyzstan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Lao People’s Democratic Republic</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Latvia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Lebanon</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Lesotho</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Liberia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Libyan Arab Jamahiriya</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Liechtenstein</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Lithuania</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -527,55 +155,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Macedonia, the former Yugoslav Republic of</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Madagascar</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Malawi</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Malaysia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Maldives</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mali</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Malta</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Martinique</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mauritania</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mauritius</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mayotte</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Mexico</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Moldova, Republic of</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -583,47 +163,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mongolia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Montenegro</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Montserrat</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Morocco</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Mozambique</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Myanmar</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Namibia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Nauru</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Nepal</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Netherlands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>New Caledonia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -631,39 +171,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Nicaragua</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Niger</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Nigeria</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Niue</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Norfolk Island</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Norway</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Oman</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Pakistan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Palestine</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -671,23 +179,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Papua New Guinea</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Paraguay</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Peru</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Philippines</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Pitcairn</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -703,59 +195,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Reunion</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Romania</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Russian Federation</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Rwanda</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Barthélemy</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Helena, Ascension and Tristan da Cunha</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Kitts and Nevis</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Lucia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Saint Martin (French part)</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Pierre and Miquelon</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Saint Vincent and the Grenadines</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Samoa</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>San Marino</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Sao Tome and Principe</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -763,43 +203,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Senegal</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Serbia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Seychelles</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Sierra Leone</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Singapore</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Sint Maarten (Dutch part)</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Slovakia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Slovenia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Solomon Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Somalia</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -807,35 +211,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>South Georgia and the South Sandwich Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>South Sudan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Spain</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Sri Lanka</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Sudan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Suriname</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Svalbard and Jan Mayen</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Swaziland</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -847,19 +223,7 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Syrian Arab Republic</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Taiwan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tajikistan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tanzania, United Republic of</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -867,51 +231,11 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Timor-Leste</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Togo</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tokelau</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tonga</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Trinidad and Tobago</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tunisia</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Turkey</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Turkmenistan</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Turks and Caicos Islands</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Tuvalu</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Uganda</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Ukraine</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -927,7 +251,15 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
-            <valueName>Uzbekistan</valueName>
+            <valueName>Vietnam</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Virgin Islands, British</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>No</controllingFieldValue>
+            <valueName>United States</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

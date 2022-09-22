@@ -2,6 +2,7 @@
 private class opportunityTaskScheduledTest {
   @isTest
   static void opportunityTaskScheduledTestmethod() {
+      test_Helper.createDealLoanNumber();
     User myUser = [
       SELECT Id
       FROM User

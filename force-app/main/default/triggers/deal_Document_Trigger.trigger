@@ -8,9 +8,7 @@ trigger deal_Document_Trigger on Deal_Document__c(
   after undelete
 ) {
   Settings__mdt settings = Settings__mdt.getInstance('Universal_Settings');
-  CAFTestSetting__mdt cafTestSetting = CAFTestSetting__mdt.getInstance(
-    'Master'
-  );
+  CAFTestSetting__mdt cafTestSetting = CAFTestSetting__mdt.getInstance('Master');
   Boolean allowCafTest = false;
   if (cafTestSetting != null) {
     allowCafTest = cafTestSetting.Active__c;
@@ -21,14 +19,14 @@ trigger deal_Document_Trigger on Deal_Document__c(
       Deal_Document_Helper.beforeInsert(Trigger.New);
     }
     if (Trigger.isAfter && Trigger.isInsert) {
-      Deal_Document_Helper.afterInsert(Trigger.New);
+      //Deal_Document_Helper.afterInsert(Trigger.New);
     }
     if (Trigger.isBefore && Trigger.isUpdate) {
       Deal_Document_Helper.beforeUpdate(Trigger.New, Trigger.Old);
     }
     if (Trigger.isAfter && Trigger.isUpdate) {
       Deal_Document_Helper.afterUpdate(Trigger.New, Trigger.Old);
-      if (allowCafTest || Test.isRunningTest()) {
+      if(allowCafTest || Test.isRunningTest()) {
         CAFTestingClass.checkUploadedDocs(Trigger.oldMap, Trigger.newMap);
       }
     }

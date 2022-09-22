@@ -52,7 +52,7 @@
           component.set("v.brokerFeeLabel", "Broker Fee Paid by CoreVest");
         } else if (
           !!record["Broker_Fee_Paid_By_Whom__c"] &&
-          record["Broker_Fee_Paid_By_Whom__c"].toLowerCase() == "escrow"
+          record["Broker_Fee_Paid_By_Whom__c"].toLowerCase() == "borrower"
         ) {
           component.set("v.brokerFeeLabel", "Broker Fee Paid on HUD");
         } else {
@@ -305,6 +305,9 @@
       helper.resetPropertyStatusSelection(component);
       $A.util.toggleClass(component.find("spinner"), "slds-hide");
     }
+  },
+  updateDeal: function (component, helper, records) {
+    
   },
   retrievePropertyStatusPicklistValues: function (component, helper, records) {
     let action = component.get("c.getPicklistFieldValue");

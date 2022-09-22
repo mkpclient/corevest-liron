@@ -212,7 +212,17 @@ public without sharing class TermSheetBypassController {
         Approved_Term_Sheet__c = termSheet.ContentVersion_Id__c,
         Approved_Term_Sheet_Name__c = termSheet.File_Name__c
       );
-
+	  //RS.9/8/2022.CIP-2510.Begin
+	  List<Opportunity> op = [select Current_Stage__c, Term_Sheet_Issued__c, StageName from Opportunity where id = :recordId];
+      if (op.size() > 0)
+      {
+        o.Term_Sheet_Issued__c  = Date.today();
+      	if (op[0].Current_Stage__c == 'Initial Review' || op[0].Current_Stage__c == 'Data Tape Received')
+        {
+         o.StageName = 'Term Sheet Issued';
+        }
+      }  
+     //RS.9/8/2022.CIP-2510.End
       update o;
 
       return 'This record has successfully been bypassed';

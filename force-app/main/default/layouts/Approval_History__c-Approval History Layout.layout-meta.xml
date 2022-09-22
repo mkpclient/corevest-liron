@@ -71,6 +71,10 @@
                 <behavior>Edit</behavior>
                 <field>Advance_Fee_Percent__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Floor_Percent__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

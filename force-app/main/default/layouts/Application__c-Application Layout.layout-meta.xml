@@ -333,9 +333,6 @@
         <label>Questionnaire</label>
         <layoutColumns>
             <layoutItems>
-                <emptySpace>true</emptySpace>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Felony__c</field>
             </layoutItems>
@@ -408,6 +405,9 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Is_US_Citizen__c</field>
+            </layoutItems>
+            <layoutItems>
+                <emptySpace>true</emptySpace>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>

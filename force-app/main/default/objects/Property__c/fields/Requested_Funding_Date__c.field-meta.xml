@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Requested_Funding_Date__c</fullName>
+    <description>Date that the Borrower is requested to receive the funding</description>
     <externalId>false</externalId>
+    <inlineHelpText>Date that the Borrower is requested to receive the funding</inlineHelpText>
     <label>Requested Funding Date</label>
     <required>false</required>
     <trackHistory>true</trackHistory>

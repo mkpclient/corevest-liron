@@ -1,6 +1,7 @@
 @isTest
 private class IcApprovalHandlerTest {
   static testMethod void IcApprovalHandlerTest_UnitTest() {
+    Test_Helper.createDealLoanNumber();
     Test_helper.setupProduct2();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);

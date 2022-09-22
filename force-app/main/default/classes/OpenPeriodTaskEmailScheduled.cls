@@ -66,7 +66,7 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
                
                     Task myTask = new Task();
                     myTask.OwnerId = originatorId;
-                    myTask.Subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
+                    myTask.Subject = 'Deal '+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
                     myTask.WhatId = myDeals[i].Id;
                     myTask.Status = 'Open';
                     myTask.Type = 'Reminder';
@@ -82,7 +82,7 @@ global class OpenPeriodTaskEmailScheduled implements Schedulable{
     message.setSaveAsActivity(false);
     //message.setWhatId(myDeals[i].id);        
                 
-    message.subject = 'Deal'+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
+    message.subject = 'Deal '+ myDeals[i].Name +' Open period starts on ' + openPeriodDtString;
     	
     if ( owea.size() > 0 ) {
     message.setOrgWideEmailAddressId(owea.get(0).Id);

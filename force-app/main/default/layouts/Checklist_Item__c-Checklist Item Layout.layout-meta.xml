@@ -47,10 +47,6 @@
                 <behavior>Edit</behavior>
                 <field>Is_Property_Level__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Account__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -144,10 +140,6 @@
         <relatedList>Deal_Document__c.Checklist_Item__c</relatedList>
         <sortField>Document_Type__c</sortField>
         <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Comment__c.Checklist_Item__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

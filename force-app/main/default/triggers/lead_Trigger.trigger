@@ -34,6 +34,7 @@ trigger lead_Trigger on Lead(
       Lead_Helper.beforeUpdate(Trigger.New, Trigger.Old);
     }
     if (Trigger.isAfter && Trigger.isUpdate) {
+      lead_Helper.afterUpdate(Trigger.new, Trigger.Old);
       system.debug('Trigger.Old===' + Trigger.Old);
       list<lead> LeadIdConvertList = new List<lead>();
       for (lead l : Trigger.new) {

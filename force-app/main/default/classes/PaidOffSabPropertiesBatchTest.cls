@@ -2,6 +2,7 @@
 public with sharing class PaidOffSabPropertiesBatchTest {
   @isTest
   public static void testBatch() {
+      test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity sabdeal = new Opportunity();

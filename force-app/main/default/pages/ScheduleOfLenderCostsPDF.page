@@ -169,7 +169,7 @@
                     </tr>
                     <tr>
                         <th style="text-align:left">
-                            {!record.Deal__r.Term_Loan_Type__c} {!record.Deal__r.Rate_Based_On__c} Rate 
+                            {!record.Deal__r.Term_Loan_Type__c} Swap Rate 
                         </th>
                         <!-- <td>
                             <apex:outputText rendered="{! If(record.Swap_Rate__c != null, true, false ) }" value="{0, number,###,###,###,##0.00}%">

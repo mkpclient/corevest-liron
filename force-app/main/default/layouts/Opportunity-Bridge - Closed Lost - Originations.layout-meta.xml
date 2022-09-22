@@ -94,10 +94,6 @@
                 <behavior>Readonly</behavior>
                 <field>Lender__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National_picklist__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -159,6 +155,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Closer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -584,6 +584,32 @@
     </relatedContent>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal_2__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Account__c</fields>
         <fields>Lender__c</fields>
         <fields>Close_Date__c</fields>
@@ -684,12 +710,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Funding_Vehicle__c</fields>
-        <fields>Include_Yes_No__c</fields>
-        <fields>Start_Date__c</fields>
-        <fields>End_Date__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

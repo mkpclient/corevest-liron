@@ -5,8 +5,9 @@
         record-id={recordId}
         object-api-name="Property__c"
         onsuccess={fireToast}
-        onsubmit={handleSubmit}
       >
+      <lightning-messages> </lightning-messages>
+
         <div class="slds-grid slds-wrap slds-gutters">
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
@@ -53,6 +54,7 @@
               field-name="Payoff_Good_Thru_Date__c"
             ></lightning-input-field>
           </div>
+          
           <div class="slds-col slds-size_1-of-2">
             <!-- <label for="payoffamount">Amount</label> -->
             <lightning-input-field
@@ -61,16 +63,19 @@
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-            ></lightning-input-field>
-          </div>
-          <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
               field-name="Current_UPB__c"
             ></lightning-input-field>
           </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-output-field
+              field-name="Days_To_Resolve__c"
+            ></lightning-output-field>
+          </div>
           <div class="slds-col slds-size_5-of-12"></div>
-          <div class="slds-col slds-size_2-of-12">
+          <div class="slds-col slds-size_1-of-12">
             <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleReset}></lightning-button>
+          </div>
+          <div class="slds-col slds-size_1-of-12">
             <lightning-button
               class="slds-m-top_small"
               type="submit"

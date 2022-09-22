@@ -19,22 +19,25 @@ public with sharing class TermSheetPDF_Controller {
 
   public String formattedStates { get; set; }
 
+  public String processingFeeText { get; set; }
+
   public Property__c sabProperty { get; set; }
   public List<Property__c> allProperties { get; set; }
-    
 
   public Integer numTermLoanMonths {
     get {
       Integer monthsVal = null;
-      if(this.record != null) {
+      if (this.record != null) {
         String loanTermMonths = this.record.Term_Loan_Type_Months__c;
-        if(String.isNotEmpty(loanTermMonths)) {
-          monthsVal = Integer.valueOf(loanTermMonths.substringBefore(' months'));
+        if (String.isNotEmpty(loanTermMonths)) {
+          monthsVal = Integer.valueOf(
+            loanTermMonths.substringBefore(' months')
+          );
         }
       }
       return monthsVal;
-  }
-  private set;
+    }
+    private set;
   }
 
   public TermSheetPDF_Controller(
@@ -119,7 +122,8 @@ public with sharing class TermSheetPDF_Controller {
             ZipCode__c,
             Property_Type__c,
             County__c,
-            Number_of_Units__c
+            Number_of_Units__c,
+            RecordType_Name__c
           FROM Property__c
           WHERE
             Deal__c = :record.Id
@@ -148,7 +152,8 @@ public with sharing class TermSheetPDF_Controller {
           County__c,
           Number_of_Units__c,
           Is_Parent__c,
-          Is_Sub_Unit__c
+          Is_Sub_Unit__c,
+          RecordType_Name__c
         FROM Property__c
         WHERE
           Deal__c = :record.Id
@@ -168,6 +173,42 @@ public with sharing class TermSheetPDF_Controller {
       }
 
       this.allProperties = properties;
+      Integer numProps = properties.size();
+      if (numProps > 0) {
+        String recType = properties[0].RecordType_Name__c;
+        String propType = properties[0].Property_Type__c;
+        String procFeeType = numProps > 1
+          ? 'Portfolio'
+          : recType == 'Ground_Up_Construction'
+              ? 'New Construction'
+              : new List<String>{ 'Multifamily', 'Commercial' }
+                    .contains(propType)
+                  ? 'Multifamily 5+'
+                  : new List<String>{ 'SFR', 'Condo', 'Townhome', '2-4 Unit' }
+                        .contains(propType)
+                      ? 'Single Family'
+                      : '';
+        Decimal procFeeAmt = numProps >= 9
+          ? 1495
+          : numProps >= 2 &&
+              numProps <= 8
+              ? 1295
+              : recType == 'Ground_Up_Construction'
+                  ? 1195
+                  : new List<String>{ 'Multifamily', 'Commercial' }
+                        .contains(propType)
+                      ? 1295
+                      : new List<String>{
+                              'SFR',
+                              'Condo',
+                              'Townhome',
+                              '2-4 Unit'
+                            }
+                            .contains(propType)
+                          ? 995
+                          : 0;
+        this.processingFeeText = procFeeType + ': $' + procFeeAmt.format();
+      }
 
       if (ApexPages.currentPage().getParameters().containsKey('s')) {
         String str = ApexPages.currentPage().getParameters().get('s');

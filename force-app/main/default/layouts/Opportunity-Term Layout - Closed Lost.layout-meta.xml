@@ -82,7 +82,11 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National_picklist__c</field>
+                <field>Pipeline_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rate_Lock_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -129,6 +133,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Closer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -228,6 +236,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Indicative_Rate_Calc__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Discount_Fee__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -763,6 +775,11 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Opportunity.Data_Tape</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Opportunity.Upload_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -791,11 +808,6 @@
             <actionName>Opportunity.Task</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Data_Tape</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>0</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -911,6 +923,23 @@
         <relatedList>Application__c.Deal__c</relatedList>
         <sortField>Signature_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal_2__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

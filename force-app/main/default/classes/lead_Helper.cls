@@ -68,7 +68,7 @@ public class lead_Helper {
       ) {
         //leadIdsForPortal.add(l.Id);
         // l.Janati_RR__Round_Robin__c = 'No';
-        l.Round_Robin_CX_Portal__c = 'Yes';
+        l.CX_Portal_Round_Robin__c = 'Yes';
         l.Alchemy_Portal_Id__c = 'xx';
       }
     }
@@ -148,6 +148,33 @@ public class lead_Helper {
     // if (settings.values().size() > 0) {
     //   update settings.values();
     // }
+  }
+
+  public static void afterUpdate(List<Lead> newList, List<Lead> oldList) {
+    Set<Id> convertedLeadIds = new Set<Id>();
+
+    for (Integer i = 0; i < newList.size(); i++) {
+      if (
+        newList[i].IsConverted != oldList[i].IsConverted &&
+        newList[i].IsConverted
+      ) {
+        convertedLeadIds.add(newList[i].Id);
+      }
+    }
+
+    if (convertedLeadIds.size() > 0) {
+      List<Application__c> applications = new List<Application__c>();
+      for (Application__c application : [
+        SELECT Id, Lead__r.ConvertedContactId
+        FROM Application__c
+        WHERE Lead__c IN :convertedLeadIds
+      ]) {
+        application.Contact__c = application.Lead__r.ConvertedContactId;
+        applications.add(application);
+      }
+
+      update applications;
+    }
   }
 
   /**

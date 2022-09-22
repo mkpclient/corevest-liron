@@ -16,5 +16,5 @@
         <operation>equals</operation>
         <value>Yardi</value>
     </filters>
-    <label>All Yardi</label>
+    <label>All Yardi IRs</label>
 </ListView>

@@ -442,7 +442,7 @@ Equity Pledge:
               Origination Fee:
             </td>
             <td class="row-description">
-              <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+              <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Borrower' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
                 <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
                   <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
               </span>
@@ -492,11 +492,7 @@ Equity Pledge:
           Processing Fee:
         </td>
         <td class="row-description">
-          <!-- <apex:outputText value="$2,000.00 payable at closing" /> -->
-          Multifamily 5+: $1,295
-          <br /> New Construction: $1,195
-          <br /> Single Family: $995
-          <br /> Portfolio: 3-8 homes - $1,295, 9+ homes - $1,495
+          <apex:outputText value="{!processingFeeText}" />
         </td>
       </tr>
 
@@ -842,8 +838,8 @@ Equity Pledge:
           <strong> Proposal Expiration Date: </strong>
         </td>
         <td class="row-description">
-          <apex:outputText value="{0, date, MMMM d','  yyyy}">
-            <apex:param value="{!Opportunity.Term_Sheet_Expiration_Date__c}" /></apex:outputText>
+          <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+                        <apex:param value="{!dupeRecord.Term_Sheet_Expiration_Date__c}" /></apex:outputText>
         </td>
       </tr>
     </table>

@@ -3,6 +3,7 @@ private class lead_Tests {
   //static List<Account> testAccounts = testDataFactory.createTestRecords(new Account[10]);
 
   static testMethod void lead_Tests_UnitTest() {
+      test_Helper.createDealLoanNumber();
     Lead_Settings__c setting = new Lead_Settings__c(
       Name = 'CAF Website',
       Round_Robin_Max__c = 6,
@@ -139,6 +140,7 @@ private class lead_Tests {
 
   @IsTest
   static void methodName() {
+      test_Helper.createDealLoanNumber();
     Lead_Settings__c setting = new Lead_Settings__c(
       Name = 'CAF Website',
       Round_Robin_Max__c = 6,
@@ -217,6 +219,7 @@ private class lead_Tests {
   }
   @IsTest
   static void methodName1() {
+      test_Helper.createDealLoanNumber();
     Lead_Settings__c setting = new Lead_Settings__c(
       Name = 'CAF Website',
       Round_Robin_Max__c = 6,

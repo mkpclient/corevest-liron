@@ -164,7 +164,6 @@ public class advance_Helper {
     for (Integer i = 0; i < newList.size(); i++) {
       OpportunityLineItem oli = new OpportunityLineItem();
       if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
-        System.debug('deal record type: ' + newList[i].Deal_RecordType__c);
         if (newList[i].Deal_RecordType__c == 'LOC_Loan') {
           oli.OpportunityId = newList[i].Deal__c;
           oli.Advance__c = newList[i].Id;
@@ -230,7 +229,7 @@ public class advance_Helper {
 
     Map<Id, Advance__c> advMap = new Map<Id, Advance__c>();
     List<Id> advancesForCompletion = new List<Id>();
-    Map<Id, Advance__c> advanceWithNameChanges = new Map<Id, Advance__c>();
+    // Map<Id, Advance__c> advanceWithNameChanges = new Map<Id, Advance__c>();
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
@@ -243,13 +242,13 @@ public class advance_Helper {
       }
 
       if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
-        if(
-          (newList[i].Name != oldList[i].Name ||
-          newList[i].Advance_Num__c != oldList[i].Advance_Num__c) &&
-          newList[i].Status__c != 'Completed'
-        ) {
-          advanceWithNameChanges.put(newList[i].Id, newList[i]);
-        }
+        // if(
+        //   (newList[i].Name != oldList[i].Name ||
+        //   newList[i].Advance_Num__c != oldList[i].Advance_Num__c) &&
+        //   newList[i].Status__c != 'Completed'
+        // ) {
+        //   advanceWithNameChanges.put(newList[i].Id, newList[i]);
+        // }
 
         if (
           newList[i].Status__c != oldList[i].Status__c &&
@@ -368,7 +367,11 @@ public class advance_Helper {
       }
     }
 
-    List<Advance__c> advsToValidate = isCreditLine(advancesForCompletion);
+    List<Advance__c> advsToValidate = new List<Advance__c>();
+
+    if(advancesForCompletion.size() > 0 || Test.isRunningTest()) {
+      advsToValidate = isCreditLine(advancesForCompletion);
+    }
 
     if (advsToValidate.size() > 0) {
       Map<Id, Boolean> completionMap = validateCompletions(advsToValidate);
@@ -389,9 +392,9 @@ public class advance_Helper {
       }
     }
 
-    if(advanceWithNameChanges.size() > 0) {
-      // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
-    }
+    // if(advanceWithNameChanges.size() > 0) {
+    //   // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
+    // }
 
     for (Opportunity o : [
       SELECT
@@ -759,7 +762,7 @@ public class advance_Helper {
       ];
     }
 
-   if (myAdvanceList.size() > 0) {
+    if (myAdvanceList.size() > 0) {
       system.debug('advance list size' + myAdvanceList.size());
       list<advance__c> myAdv = [
         SELECT
@@ -782,8 +785,7 @@ public class advance_Helper {
           Deal__r.Calculated_Origination_Fee__c,
           Deal__r.Amount,
           Deal__r.Account.Borrowed_on_Bridge_Loans__c,
-          Deal__r.CAF_Upfront_Fee__c,
-          Deal__r.LOC_Loan_Type__c
+          Deal__r.CAF_Upfront_Fee__c
         FROM advance__c
         WHERE id IN :myAdvanceList
       ];
@@ -802,15 +804,13 @@ public class advance_Helper {
           ? adv.Deal__r.CAF_Upfront_Fee__c / 100
           : 0;
         decimal rateBasedOnBorrowed;
-        boolean multiF = adv.Deal__r.LOC_Loan_Type__c == 'Multifamily/CRE'? true : false;
-
 
         if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 10000000
+          adv.Approved_Advance_Amount_Total__c <= 5000000
         ) {
           rateBasedOnBorrowed = 0.20;
-          system.debug('under 10 mil');
+          system.debug('under 5 mil and direct');
           if (
             adv.Deal__r.Internal_Referral__c != null &&
             adv.Deal__r.Internal_Referral__r.isActive == true &&
@@ -853,7 +853,6 @@ public class advance_Helper {
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Owner__c = adv.Deal__r.Internal_Referral__r.id;
             myCommission.OwnerId = adv.Deal__r.Internal_Referral__r.id;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Commission_Amount1__c = commReferralUser;
             myCommission.Origination_Fee__c = orgFee * 100;
@@ -872,7 +871,6 @@ public class advance_Helper {
             refCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             refCommission.Owner__c = adv.Deal__r.OwnerId;
             refCommission.OwnerId = adv.Deal__r.OwnerId;
-            refCommission.CRE_Multi_Deal__c = multiF;
 
             refCommission.Commission_Amount1__c = commNonReferralUser;
             refCommission.Origination_Fee__c = orgFee * 100;
@@ -893,7 +891,6 @@ public class advance_Helper {
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Owner__c = adv.Deal__r.OwnerId;
             myCommission.OwnerId = adv.Deal__r.OwnerId;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Commission_Amount1__c =
               (adv.Advance_and_Origination_Fee_Subtotal__c) *
@@ -908,11 +905,11 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 10000000 &&
+          adv.Approved_Advance_Amount_Total__c > 5000000 &&
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 100000000
+          adv.Approved_Advance_Amount_Total__c <= 75000000
         ) {
-          system.debug('over 10 mil to 100 mil');
+          system.debug('over 5 mil and direct');
           rateBasedOnBorrowed = 0.10;
 
           if (
@@ -953,7 +950,6 @@ public class advance_Helper {
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Owner__c = adv.Deal__r.Internal_Referral__r.id;
             myCommission.OwnerId = adv.Deal__r.Internal_Referral__r.id;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Commission_Amount1__c = commReferralUser;
             myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
@@ -972,7 +968,6 @@ public class advance_Helper {
             refCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             refCommission.Owner__c = adv.Deal__r.OwnerId;
             refCommission.OwnerId = adv.Deal__r.OwnerId;
-            refCommission.CRE_Multi_Deal__c = multiF;
 
             refCommission.Commission_Amount1__c = commNonReferralUser;
             refCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
@@ -990,7 +985,6 @@ public class advance_Helper {
             myCommission.Advance__c = adv.Id;
             myCommission.Owner__c = adv.Deal__r.OwnerId;
             myCommission.OwnerId = adv.Deal__r.OwnerId;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Commission_Amount1__c =
@@ -1006,9 +1000,9 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 100000000
+          adv.Approved_Advance_Amount_Total__c > 75000000
         ) {
-          system.debug('over 100 mil and above');
+          system.debug('over 20 mil and direct');
           rateBasedOnBorrowed = 0.04;
 
           if (
@@ -1050,7 +1044,6 @@ public class advance_Helper {
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Owner__c = adv.Deal__r.Internal_Referral__r.id;
             myCommission.OwnerId = adv.Deal__r.Internal_Referral__r.id;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Commission_Amount1__c = commReferralUser;
             myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
@@ -1069,7 +1062,6 @@ public class advance_Helper {
             refCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             refCommission.Owner__c = adv.Deal__r.OwnerId;
             refCommission.OwnerId = adv.Deal__r.OwnerId;
-            refCommission.CRE_Multi_Deal__c = multiF;
 
             refCommission.Commission_Amount1__c = commNonReferralUser;
             refCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
@@ -1087,7 +1079,6 @@ public class advance_Helper {
             myCommission.Loan_Type__c = adv.Deal__r.type;
             myCommission.Owner__c = adv.Deal__r.OwnerId;
             myCommission.OwnerId = adv.Deal__r.OwnerId;
-            myCommission.CRE_Multi_Deal__c = multiF;
 
             myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
             myCommission.Commission_Amount1__c =
@@ -1105,7 +1096,7 @@ public class advance_Helper {
       }
 
       if (myCommsToAdd.size() > 0) {
-        insert myCommsToAdd;
+        insertCommsFuture(JSON.serialize(myCommsToAdd));
       }
     }
 
@@ -1381,6 +1372,13 @@ public class advance_Helper {
     }
 
     update oliList;
+  }
+
+  @future
+  public static void insertCommsFuture (String jsonobj) {
+    List<Commission__c> comms = (List<Commission__c>) JSON.deserialize(jsonobj, List<Commission__c>.class);
+
+    insert comms;
   }
 
   // public static void validateCompletion(Advance__c advance) {

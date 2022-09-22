@@ -2,6 +2,7 @@
 private class lightningUtil_Tests {
 
     @testSetup static void setup(){
+        test_Helper.createDealLoanNumber();
         List<Account> testAccts = new List<Account>();
         for(Integer i=0;i<2;i++) {
             testAccts.add(new Account(Name = 'TestAcct'+i, BillingCountry = 'United States', BillingState='California',Phone='1122334455'));

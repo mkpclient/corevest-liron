@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Event_Type__c</fullName>
+    <description>What occurred to trigger the creation of this Property Snapshot</description>
+    <externalId>false</externalId>
+    <inlineHelpText>What occurred to trigger the creation of this Property Snapshot</inlineHelpText>
+    <label>Event Type</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Special Asset Resolved</fullName>
+                <default>false</default>
+                <label>Special Asset Resolved</label>
+            </value>
+            <value>
+                <fullName>Extension Completed</fullName>
+                <default>false</default>
+                <label>Extension Completed</label>
+            </value>
+            <value>
+                <fullName>Asset Paid Off</fullName>
+                <default>false</default>
+                <label>Asset Paid Off</label>
+            </value>
+            <value>
+                <fullName>Asset Sold</fullName>
+                <default>false</default>
+                <label>Asset Sold</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

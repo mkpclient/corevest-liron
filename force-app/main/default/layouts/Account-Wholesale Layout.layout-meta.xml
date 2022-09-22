@@ -26,10 +26,6 @@
                 <field>Broker_Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Client_ID__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ParentId</field>
             </layoutItems>
@@ -169,10 +165,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Minimum_net_worth_of_50_000__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Clear_OFAC__c</field>
             </layoutItems>
             <layoutItems>
@@ -215,10 +207,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Approved_States__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Approval_Status__c</field>
             </layoutItems>
         </layoutColumns>
@@ -230,10 +218,6 @@
         <editHeading>true</editHeading>
         <label>Wholesale Broker Annual Renewal Review</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Review_Year__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Updated_insurance__c</field>
@@ -256,10 +240,6 @@
                 <behavior>Edit</behavior>
                 <field>Updated_licenses_approvals__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Any_changes_that_can_impact_renewal__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -281,10 +261,6 @@
                 <behavior>Edit</behavior>
                 <field>SA_Bridge_Projections__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LOC_Projections__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -298,10 +274,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>SA_Bridge_LTM_Actual__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LOC_LTM_Actual__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -485,14 +457,6 @@
         <fields>State__c</fields>
         <fields>Expiration_Date__c</fields>
         <relatedList>NMLS__c.Account__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Checklist_Section__c.Account__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Checklist_Item__c.Account__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

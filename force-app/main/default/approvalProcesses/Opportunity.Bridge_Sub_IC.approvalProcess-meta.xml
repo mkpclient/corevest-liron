@@ -93,7 +93,6 @@
         <field>Business_Plan__c</field>
         <field>Business_Plan_Percentage__c</field>
         <field>CAF_YSP__c</field>
-        <field>Cancellation_Reason__c</field>
         <field>Cash_Management__c</field>
         <field>CloseDate</field>
         <field>CloseDateQuarter__c</field>
@@ -219,7 +218,6 @@
         <field>Index__c</field>
         <field>Index_Floor__c</field>
         <field>Index_Margin__c</field>
-        <field>Indicative_Rate__c</field>
         <field>Indicative_Rate_Calc__c</field>
         <field>In_Foreclosure__c</field>
         <field>Initial_Monthly_Debt_Service_Payment__c</field>
@@ -255,18 +253,15 @@
         <field>Loan_Mod_Type__c</field>
         <field>Loan_Purpose__c</field>
         <field>Loan_Status_Change_Date__c</field>
-        <field>Loan_Status_SR__c</field>
         <field>LOC_Commitment__c</field>
         <field>LOC_Commitment_In_Words__c</field>
         <field>LOC_Commitment_Total__c</field>
         <field>LOC_Extension__c</field>
         <field>Lockbox__c</field>
-        <field>Lock_Status_SR__c</field>
         <field>LOC_Outside_Advance_Days__c</field>
         <field>LOC_Term_Number__c</field>
         <field>Loss_Mitigation_Associate__c</field>
         <field>Mapped_Portfolio__c</field>
-        <field>Margin__c</field>
         <field>Maturity_Date_Calculation_Type__c</field>
         <field>Max_Advance_Fee_formula__c</field>
         <field>Max_Advance_Fee__c</field>
@@ -279,11 +274,6 @@
         <field>MOD_Status__c</field>
         <field>Mortgage_Investor__c</field>
         <field>Most_Recent_Line_Mod_Date__c</field>
-        <field>MSA_HPA_Year_1__c</field>
-        <field>MSA_HPA_Year_2__c</field>
-        <field>MSA_HPA_Year_3__c</field>
-        <field>MSA_HPA_Year_4__c</field>
-        <field>MSA_HPA_Year_5__c</field>
         <field>Needs_GLC_Approval__c</field>
         <field>Negotiated_by_Counsel__c</field>
         <field>Net_Buy_Price__c</field>
@@ -304,7 +294,6 @@
         <field>Stated_Maturity_Date__c</field>
         <field>Original_UPB_Svc__c</field>
         <field>Originating_Lead_ID__c</field>
-        <field>Origination_Channel_SR__c</field>
         <field>Calculated_Origination_Fee__c</field>
         <field>CAF_Upfront_Fee__c</field>
         <field>Origination_Fee__c</field>
@@ -342,20 +331,10 @@
         <field>IsPrivate</field>
         <field>Probability</field>
         <field>Date_Change_From_Loan_Processing_to_UW__c</field>
-        <field>Product_Category__c</field>
         <field>CAF_Analyst__c</field>
         <field>Product_Sub_Type__c</field>
         <field>LOC_Loan_Type__c</field>
         <field>Project_Strategy__c</field>
-        <field>Property_City__c</field>
-        <field>Property_DTI__c</field>
-        <field>Property_Management__c</field>
-        <field>Property_Management_Adjustment__c</field>
-        <field>Property_State__c</field>
-        <field>Property_Street__c</field>
-        <field>Property_Substitution__c</field>
-        <field>Property_Type__c</field>
-        <field>Property_Zip__c</field>
         <field>TotalOpportunityQuantity</field>
         <field>Rate_Locked__c</field>
         <field>Rate_Lock_Picklist__c</field>
@@ -375,7 +354,6 @@
         <field>Renovation_Cost__c</field>
         <field>Renovation_Funding__c</field>
         <field>Renovation_Limit__c</field>
-        <field>Rent_Status__c</field>
         <field>Requested_Draw_Fee__c</field>
         <field>Requested_Draw_Fee_Cap__c</field>
         <field>Draw_Period__c</field>
@@ -502,7 +480,7 @@
         <allowDelegate>false</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>emily.bisogno@cvest.com</name>
+                <name>gregg.moore@cvest.com</name>
                 <type>user</type>
             </approver>
             <approver>
@@ -510,7 +488,7 @@
                 <type>user</type>
             </approver>
             <approver>
-                <name>micaela.lumpkin@cvest.com</name>
+                <name>michael.peerson@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
@@ -559,7 +537,7 @@
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
     <label>Bridge Sub-IC</label>
-    <processOrder>14</processOrder>
+    <processOrder>16</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>false</showApprovalHistory>
 </ApprovalProcess>

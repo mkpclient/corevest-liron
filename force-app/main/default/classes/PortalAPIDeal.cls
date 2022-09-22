@@ -9,9 +9,11 @@ global with sharing class PortalAPIDeal {
 
     if (params[3] == 'userId') {
       String userId = params[4];
-      Id contactId = AlchemyAPI.getContactIdByAlchemyId(userId);
-      Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contactId);
-
+      // Id contactId = AlchemyAPI.getContactIdByAlchemyId(userId);
+      // Set<Id> dealIds = AlchemyAPI.getDealIdsContactId(contactId);
+      PortalAPIUser.PortalUser user = new PortalAPIUser.PortalUser(userId);
+      //contactId = user.contactId;
+      Set<Id> dealIds = AlchemyAPI.getDealIds(user);
       Set<String> fields = util.getAllFieldNamesForObject('Opportunity');
 
       String queryString = 'SELECT ';
@@ -212,7 +214,7 @@ global with sharing class PortalAPIDeal {
           new List<String>(applicationFieldNames),
           ','
         );
-        applicationQueryString += ', Deal__r.Name, Lead__r.Name, Contact__r.Name FROM Applications__r';
+        applicationQueryString += ' FROM Applications__r';
 
         queryString += ', (' + applicationQueryString + ')';
 
@@ -296,6 +298,12 @@ global with sharing class PortalAPIDeal {
     String indexFloor;
     String primaryContact;
 
+    Date onboardedAtServicer;
+    Decimal currentUPB;
+    Date nextPaymentDate;
+    Date statedMaturityDate;
+    String servicerName;
+
     Id id;
     List<DealTeamMember> teamMembers;
 
@@ -315,6 +323,12 @@ global with sharing class PortalAPIDeal {
       assetMaturityDays = o.Asset_Maturity__c;
       daysRemaining = o.Days_Remaining__c;
       primaryContact = o.Contact__r.Name;
+
+      onboardedAtServicer = o.Onboarding_File_Sent_to_Servicer__c;
+      currentUPB = o.Current_UPB__c;
+      nextPaymentDate = o.Next_Payment_Date__c;
+      statedMaturityDate = o.Stated_Maturity_Date__c;
+      servicerName = o.Servicer_Name__c;
       //stage = o.StageName;
 
       List<PortalAPIApplication.ApplicationSmall> applications = new List<PortalAPIApplication.ApplicationSmall>();

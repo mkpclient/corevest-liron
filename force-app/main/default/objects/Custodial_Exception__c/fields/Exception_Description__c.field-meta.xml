@@ -3,7 +3,7 @@
     <fullName>Exception_Description__c</fullName>
     <externalId>false</externalId>
     <label>Exception Description</label>
-    <length>60</length>
+    <length>50</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

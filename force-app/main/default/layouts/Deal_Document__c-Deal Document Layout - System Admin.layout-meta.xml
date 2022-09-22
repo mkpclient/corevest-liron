@@ -16,6 +16,10 @@
                 <field>Deal__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Deal_RecordType__c</field>
             </layoutItems>
@@ -116,8 +120,8 @@
                 <field>Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Approved_On__c</field>
+                <behavior>Readonly</behavior>
+                <field>Deal_Loan_Number__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -140,10 +144,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Reviewed_By__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Reviewed_By_Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -223,8 +223,8 @@
                 <field>Executive_Approval_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Borrower_Term_Sheet_Signature_Date__c</field>
+                <behavior>Readonly</behavior>
+                <field>TermSheet_sent_to_Portal__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -233,8 +233,8 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>TermSheet_sent_to_Portal__c</field>
+                <behavior>Edit</behavior>
+                <field>Borrower_Term_Sheet_Signature_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -343,19 +343,14 @@
             <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Share</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>FeedItem.ContentPost</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
+            <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>6</sortOrder>
+            <sortOrder>5</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>

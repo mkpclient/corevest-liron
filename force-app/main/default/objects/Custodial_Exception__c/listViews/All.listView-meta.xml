@@ -2,6 +2,19 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>All</fullName>
     <columns>NAME</columns>
+    <columns>Deal__c</columns>
+    <columns>Exception_Code__c</columns>
+    <columns>Exception_Description__c</columns>
+    <columns>Exception_Status_Custodian__c</columns>
+    <columns>Exception_Assigned_Date__c</columns>
+    <columns>Exception_Status_Internal__c</columns>
+    <columns>Exception_UID__c</columns>
+    <columns>OWNER.FIRST_NAME</columns>
+    <columns>Address__c</columns>
+    <columns>Borrower_Name__c</columns>
+    <columns>CollateralId__c</columns>
+    <columns>Exception_Date__c</columns>
+    <columns>Internal_Status_Notes__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

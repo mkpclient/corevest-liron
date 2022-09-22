@@ -5,6 +5,7 @@
     <columns>DeveloperName</columns>
     <columns>NamespacePrefix</columns>
     <columns>Floor_Percent__c</columns>
+    <columns>Loan_Term__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>Product_Type__c</field>

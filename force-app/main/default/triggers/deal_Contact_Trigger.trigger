@@ -35,10 +35,10 @@ trigger deal_Contact_Trigger on Deal_Contact__c(
       );
     }
     if (Trigger.isBefore && Trigger.isDelete) {
-      Deal_Contact_Helper.beforeDelete(Trigger.Old);
+      //  Deal_Contact__c_Helper.beforeDelete(Trigger.New);
     }
     if (Trigger.isAfter && Trigger.isDelete) {
-      // Deal_Contact_Helper.afterDelete(Trigger.Old);
+      //  Deal_Contact__c_Helper.afterDelete(Trigger.New, Trigger.Old);
     }
     if (Trigger.isAfter && Trigger.isUndelete) {
       //  Deal_Contact__c_Helper.afterUndelete(Trigger.Old);

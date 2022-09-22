@@ -3,7 +3,11 @@ class ContentDocumentLinkArchiverHandlerTest{
 
     @isTest
     private static void testUpdateDealDocumentWithArchivedFiles(){
-         Account dealAccount = new Account(
+        
+
+test_Helper.createDealLoanNumber();
+        
+        Account dealAccount = new Account(
              Name='Test'
          );
          insert dealAccount;

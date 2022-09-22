@@ -8,7 +8,7 @@
     <formula>Rehab_Budget__c * Deal__r.Max_Reno_Cost_Reimbursement__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Renovation Budget * Max Reno Cost Reimbursement</inlineHelpText>
-    <label>Max Reno Cost Reimbursement</label>
+    <label>Max Reno Cost reimbursemen</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>

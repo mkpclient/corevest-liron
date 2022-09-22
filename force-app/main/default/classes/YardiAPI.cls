@@ -199,10 +199,10 @@ public without sharing class YardiAPI {
 
       if (
         deal.Third_Party_Title__c != null &&
-        !vendorMap.containsKey(deal.Third_Party_Title__r.Yardi_Vendor_Code__c)
+        !vendorMap.containsKey(deal.Title__r.Yardi_Vendor_Code__c)
       ) {
-        Account acc = deal.Third_Party_Title__r;
-        vendorMap.put(deal.Third_Party_Title__r.Yardi_Vendor_Code__c, acc);
+        Account acc = deal.Title__r;
+        vendorMap.put(deal.Title__r.Yardi_Vendor_Code__c, acc);
       }
     }
 
@@ -224,14 +224,11 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.BillingStreet + '"';
-      String vendorName = acc.Name;
-      if (vendorName.contains(',')) {
-        vendorName = '"' + acc.Name + '"';
-      }
+
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += vendorName + ',';
+      csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -286,6 +283,8 @@ public without sharing class YardiAPI {
     List<Property__c> properties = [
       SELECT
         Id,
+        Deal__r.Owner.Originating_COmpany__c,
+        Deal__r.LOC_Loan_Type__c,
         Title_Company__r.BillingStreet,
         Title_Company__r.BillingCity,
         Title_Company__r.BillingState,
@@ -339,7 +338,15 @@ public without sharing class YardiAPI {
         csv += system.today().format() + ',';
         csv += prop.Yardi_Id__c + ',';
         csv += propName + ',';
-        csv += 'Bridge,';
+        if (
+          prop.Deal__r.Owner.Originating_Company__c == 'Riverbend' &&
+          (prop.Deal__r.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
+          prop.Deal__r.LOC_Loan_Type__C == 'Single Asset (5-10 Unit)')
+        ) {
+          csv += 'Term,';
+        } else {
+          csv += 'Bridge,';
+        }
         csv += propName + ',';
 
         if (propAddr == null) {
@@ -410,17 +417,11 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.Name + '"';
-      // billingStreet.replaceAll(',', ' ');
-
-      String vendorName = acc.Name;
-      if (vendorName.contains(',')) {
-        vendorName = '"' + vendorName + '"';
-      }
 
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += vendorName + ',';
+      csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -877,6 +878,9 @@ public without sharing class YardiAPI {
         BlackSquare_Fee_Total__c,
         Notes__c,
         Deal__r.Deposit_Notes__c,
+        Origination_Fee_Subtotal__c,
+        Deal__r.Owner.Originating_Company__c,
+        Deal__r.Loc_Loan_Type__c,
         (
           SELECT
             Id,
@@ -888,7 +892,9 @@ public without sharing class YardiAPI {
             Broker_Advance_Fee__c,
             Property__r.Title_Company__r.Yardi_Vendor_Code__c,
             Property__r.Title_Company__c,
-            Property__r.Name
+            Property__r.Name,
+            BlackSquare_Fee__c,
+            Origination_Fee__c
           FROM Property_Advances__r
         )
       FROM Advance__c
@@ -896,9 +902,22 @@ public without sharing class YardiAPI {
       LIMIT 1
     ];
 
+    String bridgeFundingString = '2201 Bridge Funding';
+
+    if (
+      advance.Deal__r.Owner.Originating_Company__c == 'Riverbend' &&
+      (advance.Deal__r.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
+      advance.Deal__r.LOC_Loan_Type__C == 'Single Asset (5-10 Unit)')
+    ) {
+      bridgeFundingString = '2241 Bridge Funding RB';
+    }
+
     if (advance.Notes__c == null) {
       advance.Notes__c = '';
     }
+    //if (advance.Origination_Fee_Subtotal__c == null) {
+    //advance.Origination_Fee_Subtotal__c = 0;
+    //}
 
     if (advance.Origination_Fee_Adjustment__c == null) {
       advance.Origination_Fee_Adjustment__c = 0;
@@ -945,14 +964,14 @@ public without sharing class YardiAPI {
 
     for (String vendorYardiCode : vendorMap.keySet()) {
       Decimal approvedAdvanceAmount = 0;
-
-      approvedAdvanceAmount += advance.Origination_Fee_Adjustment__c;
-      approvedAdvanceAmount += advance.Advance_Fee_Adjustment__c;
-      approvedAdvanceAmount += advance.BlackSquare_Fee_Adjustment__c;
-      approvedAdvanceAmount += advance.BPO_Appraisal_Fee_Adjustment__c;
-      approvedAdvanceAmount += advance.Daily_Interest_Rate_Adjustment__c;
-      approvedAdvanceAmount += advance.Doc_Prep_Fee_Adjustment__c;
-      approvedAdvanceAmount -= advance.BlackSquare_Fee_Total__c;
+      // approvedAdvanceAmount += advance.Origination_Fee_Subtotal__c;
+      approvedAdvanceAmount -= advance.Origination_Fee_Adjustment__c;
+      approvedAdvanceAmount -= advance.Advance_Fee_Adjustment__c;
+      approvedAdvanceAmount -= advance.BlackSquare_Fee_Adjustment__c;
+      approvedAdvanceAmount -= advance.BPO_Appraisal_Fee_Adjustment__c;
+      approvedAdvanceAmount -= advance.Daily_Interest_Rate_Adjustment__c;
+      approvedAdvanceAmount -= advance.Doc_Prep_Fee_Adjustment__c;
+      // approvedAdvanceAmount -= advance.BlackSquare_Fee_Total__c;
 
       String yardiPropertyId = '';
       Decimal advAmtMax = null;
@@ -974,8 +993,16 @@ public without sharing class YardiAPI {
           ? -property.Doc_Prep_Fee__c
           : 0;
 
-        approvedAdvanceAmount += property.Broker_Advance_Fee__c != null
-          ? -property.Broker_Advance_Fee__c
+        // approvedAdvanceAmount += property.Broker_Advance_Fee__c != null
+        //   ? -property.Broker_Advance_Fee__c
+        //   : 0;
+
+        approvedAdvanceAmount += property.BlackSquare_Fee__c != null
+          ? -property.BlackSquare_Fee__c
+          : 0;
+
+        approvedAdvanceAmount += property.Origination_Fee__c != null
+          ? -property.Origination_Fee__c
           : 0;
 
         if (
@@ -1040,7 +1067,9 @@ public without sharing class YardiAPI {
             property.Property__r.Yardi_Id__c +
             '</PropertyId>';
           invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
-          invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
           invoiceRegister += '</Detail>';
         }
 
@@ -1057,7 +1086,9 @@ public without sharing class YardiAPI {
             property.Property__r.Yardi_Id__c +
             '</PropertyId>';
           invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
-          invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
           invoiceRegister += '</Detail>';
         }
 
@@ -1080,7 +1111,9 @@ public without sharing class YardiAPI {
             '<Notes>' +
             advance.Deal__r.Deposit_Notes__c +
             '</Notes>';
-          invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
           invoiceRegister += '</Detail>';
         }
 
@@ -1097,27 +1130,73 @@ public without sharing class YardiAPI {
             property.Property__r.Yardi_Id__c +
             '</PropertyId>';
           invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
-          invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
           invoiceRegister += '</Detail>';
         }
 
+        // if (
+        //   property.Broker_Advance_Fee__c != null &&
+        //   property.Broker_Advance_Fee__c != 0
+        // ) {
+        //   invoiceRegister += '<Detail>';
+        //   invoiceRegister +=
+        //     '<Amount>-' +
+        //     String.valueOf(property.Broker_Advance_Fee__c) +
+        //     '</Amount>';
+        //   invoiceRegister += '<AccountId>5100-5000</AccountId>';
+        //   invoiceRegister += '<CashAccountId></CashAccountId>';
+        //   invoiceRegister +=
+        //     '<PropertyId>' +
+        //     property.Property__r.Yardi_Id__c +
+        //     '</PropertyId>';
+        //   invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
+        //   invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        //   invoiceRegister += '</Detail>';
+        // }
+
         if (
-          property.Broker_Advance_Fee__c != null &&
-          property.Broker_Advance_Fee__c != 0
+          property.BlackSquare_Fee__c != null &&
+          property.BlackSquare_Fee__c != 0
         ) {
           invoiceRegister += '<Detail>';
           invoiceRegister +=
             '<Amount>-' +
-            String.valueOf(property.Broker_Advance_Fee__c) +
+            String.valueOf(property.BlackSquare_Fee__c) +
             '</Amount>';
-          invoiceRegister += '<AccountId>5100-5000</AccountId>';
+          invoiceRegister += '<AccountId>2188-0000</AccountId>';
           invoiceRegister += '<CashAccountId></CashAccountId>';
           invoiceRegister +=
             '<PropertyId>' +
             property.Property__r.Yardi_Id__c +
             '</PropertyId>';
           invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
-          invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
+          invoiceRegister += '</Detail>';
+        }
+
+        if (
+          property.Origination_Fee__c != null &&
+          property.Origination_Fee__c != 0
+        ) {
+          invoiceRegister += '<Detail>';
+          invoiceRegister +=
+            '<Amount>-' +
+            String.valueOf(property.Origination_Fee__c) +
+            '</Amount>';
+          invoiceRegister += '<AccountId>4622-0000</AccountId>';
+          invoiceRegister += '<CashAccountId></CashAccountId>';
+          invoiceRegister +=
+            '<PropertyId>' +
+            property.Property__r.Yardi_Id__c +
+            '</PropertyId>';
+          invoiceRegister += '<Notes>' + property.Property__r.Name + '</Notes>';
+          // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+          invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
           invoiceRegister += '</Detail>';
         }
       }
@@ -1130,26 +1209,51 @@ public without sharing class YardiAPI {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.Origination_Fee_Adjustment__c) +
+          String.valueOf(-advance.Origination_Fee_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Origination Fee Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
-        invoiceRegister += '</Detail>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
 
-        //Advance_Fee_Adjustment__c
+        invoiceRegister += '</Detail>';
+      }
+
+      // if (
+      //   advance.Origination_Fee_Subtotal__c != null &&
+      //   advance.Origination_Fee_Subtotal__c != 0
+      // ) {
+      //   invoiceRegister += '<Detail>';
+      //   invoiceRegister +=
+      //     '<Amount>' +
+      //     String.valueOf(advance.Origination_Fee_Subtotal__c) +
+      //     '</Amount>';
+      //   invoiceRegister += '<AccountId>1103-1000</AccountId>';
+      //   invoiceRegister += '<CashAccountId></CashAccountId>';
+      //   invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
+      //   invoiceRegister += '<Notes>Origination Fee Adjustment</Notes>';
+      //   invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+      //   invoiceRegister += '</Detail>';
+      // }
+
+      if (
+        advance.Advance_Fee_Adjustment__c != null &&
+        advance.Advance_Fee_Adjustment__c != 0
+      ) {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.Advance_Fee_Adjustment__c) +
+          String.valueOf(-advance.Advance_Fee_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Advance Fee Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
         invoiceRegister += '</Detail>';
       }
 
@@ -1161,13 +1265,15 @@ public without sharing class YardiAPI {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.BlackSquare_Fee_Adjustment__c) +
+          String.valueOf(-advance.BlackSquare_Fee_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Onboarding Fee Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
         invoiceRegister += '</Detail>';
       }
       //BPO_Appraisal_Fee_Adjustment__c
@@ -1178,13 +1284,15 @@ public without sharing class YardiAPI {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.BPO_Appraisal_Fee_Adjustment__c) +
+          String.valueOf(-advance.BPO_Appraisal_Fee_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Appraisal Fee Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
         invoiceRegister += '</Detail>';
       }
       //Doc_Prep_Fee_Adjustment__c
@@ -1195,13 +1303,15 @@ public without sharing class YardiAPI {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.Doc_Prep_Fee_Adjustment__c) +
+          String.valueOf(-advance.Doc_Prep_Fee_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Doc Prep Fee Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
         invoiceRegister += '</Detail>';
       }
       //Daily_Interest_Rate_Adjustment__c
@@ -1212,32 +1322,34 @@ public without sharing class YardiAPI {
         invoiceRegister += '<Detail>';
         invoiceRegister +=
           '<Amount>' +
-          String.valueOf(advance.Daily_Interest_Rate_Adjustment__c) +
+          String.valueOf(-advance.Daily_Interest_Rate_Adjustment__c) +
           '</Amount>';
         invoiceRegister += '<AccountId>1103-1000</AccountId>';
         invoiceRegister += '<CashAccountId></CashAccountId>';
         invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
         invoiceRegister += '<Notes>Daily Interest Rate Adjustment</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        // invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+        invoiceRegister += '<Segment1>' + bridgeFundingString + '</Segment1>';
+
         invoiceRegister += '</Detail>';
       }
       //BlackSquare_Fee_Total__c
-      if (
-        advance.BlackSquare_Fee_Total__c != null &&
-        advance.BlackSquare_Fee_Total__c != 0
-      ) {
-        invoiceRegister += '<Detail>';
-        invoiceRegister +=
-          '<Amount>-' +
-          String.valueOf(advance.BlackSquare_Fee_Total__c) +
-          '</Amount>';
-        invoiceRegister += '<AccountId>2188-0000</AccountId>';
-        invoiceRegister += '<CashAccountId></CashAccountId>';
-        invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
-        invoiceRegister += '<Notes>Onboarding Fee Total</Notes>';
-        invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
-        invoiceRegister += '</Detail>';
-      }
+      // if (
+      //   advance.BlackSquare_Fee_Total__c != null &&
+      //   advance.BlackSquare_Fee_Total__c != 0
+      // ) {
+      //   invoiceRegister += '<Detail>';
+      //   invoiceRegister +=
+      //     '<Amount>-' +
+      //     String.valueOf(advance.BlackSquare_Fee_Total__c) +
+      //     '</Amount>';
+      //   invoiceRegister += '<AccountId>2188-0000</AccountId>';
+      //   invoiceRegister += '<CashAccountId></CashAccountId>';
+      //   invoiceRegister += '<PropertyId>' + yardiPropertyId + '</PropertyId>';
+      //   invoiceRegister += '<Notes>Onboarding Fee Total</Notes>';
+      //   invoiceRegister += '<Segment1>2201 Bridge Funding</Segment1>';
+      //   invoiceRegister += '</Detail>';
+      // }
       invoiceRegister += '</Details>';
 
       invoiceRegister += '</Payable>';

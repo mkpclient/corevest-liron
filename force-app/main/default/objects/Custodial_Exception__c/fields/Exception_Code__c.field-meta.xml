@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Exception_Code__c</fullName>
-    <description>This is the two-digit code in column T of the spreadsheet</description>
+    <description>This is the four-digit code in column T of the spreadsheet</description>
     <externalId>false</externalId>
-    <inlineHelpText>This is the two-digit code in column T of the spreadsheet</inlineHelpText>
+    <inlineHelpText>This is the four-digit code in column T of the spreadsheet</inlineHelpText>
     <label>Exception Code</label>
     <length>4</length>
     <required>false</required>

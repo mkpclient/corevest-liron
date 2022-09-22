@@ -60,7 +60,8 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       "Legal_Fee__c",
       "Discount_Fee__c",
       "Discount_Fee_Number__c",
-      "Deal__r.Rate_Lock_Picklist__c"
+      "Deal__r.Rate_Lock_Picklist__c",
+      "Deposit_Amount__c"
     ];
     let queryString = `SELECT Id, ${fields.join(",")}`;
     queryString += ` FROM Loan_Version__c WHERE Id = '${versionId}'`;
@@ -148,7 +149,8 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       Net_Proceeds_to_Borrower__c: loanVersion.Net_Proceeds_to_Borrower__c,
       Total_Uses__c: loanVersion.Total_Uses__c,
       Holdback_Reserve_Override__c: loanVersion.Holdback_Reserve_Override__c,
-      Interest_Rate_Type__c: loanVersion.Interest_Rate_Type__c
+      Interest_Rate_Type__c: loanVersion.Interest_Rate_Type__c,
+      Deposit_Amount__c: loanVersion.Deposit_Amount__c
     };
 
     console.log(calculatedFields);

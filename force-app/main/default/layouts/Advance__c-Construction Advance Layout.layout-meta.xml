@@ -63,6 +63,10 @@
                 <behavior>Readonly</behavior>
                 <field>Aggregate_Advance_Fee_PreAdvance__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Total__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -105,6 +109,10 @@
                 <field>Property_Count__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Capital_Partner__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Capital_Partner_Release__c</field>
             </layoutItems>
@@ -140,11 +148,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Target_Advance_Date__c</field>
+                <field>Date_Advance_Requested__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Wire_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Days_to_Fund__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -298,17 +310,6 @@
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>Wire_Number__c</fields>
-        <fields>Escrow_Agent__c</fields>
-        <fields>Advance_Fee__c</fields>
-        <fields>BPO_Appraisal_Fee__c</fields>
-        <fields>Doc_Prep_Fee__c</fields>
-        <relatedList>Wire__c.Advance__c</relatedList>
-        <sortField>Wire_Number__c</sortField>
-        <sortOrder>Asc</sortOrder>
-    </relatedLists>
-    <relatedLists>
         <fields>NAME</fields>
         <relatedList>Property__c.Advance__c</relatedList>
     </relatedLists>
@@ -354,7 +355,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h76000000N3b7</masterLabel>
+        <masterLabel>00h5b00000CgIcA</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

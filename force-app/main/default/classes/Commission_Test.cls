@@ -3,38 +3,21 @@ private class Commission_Test {
   //term
   //Term no Comm total current quarter
   //
-
-  @testSetup static void setup() {
+  @testSetup
+  static void dataSetup() {
+    Test_Helper.createDealLoanNumber();
+  }
+  
+  @isTest
+  static void Commissiontest1() {
+    // 1st term condition
     commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
     insert settings;
-    List<Period> periodQuery = [
-      SELECT StartDate, EndDate
-      FROM Period
-      WHERE
-        Type = 'Quarter'
-        AND (StartDate = THIS_FISCAL_QUARTER
-        OR StartDate = LAST_FISCAL_QUARTER)
-      ORDER BY StartDate
-    ];
 
-    Date startdate = periodQuery[1].StartDate;
-    //QuotaAmount,
-    //QuotaOwnerId,
-    //QuotaOwner.Name,
-    //ProductFamily
-    //StartDate
-    List<ForecastingType> fts = [SELECT Id, HasProductFamily FROM ForecastingType WHERE isActive = true];
-    ForecastingType ft = new ForecastingType();
-    for(ForecastingType f : fts) {
-      if(f.HasProductFamily == true) {
-        ft = f;
-        break;
-      }
-    }
-
+    //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
     User origU = new User(
       Alias = 'orig',
       Email = 'standarduser@cvest.com',
@@ -45,36 +28,10 @@ private class Commission_Test {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com',
-      ForecastEnabled = true
+      UserName = 'originator@teada.com'
     );
 
     insert origU;
-
-    ForecastingQuota fqTerm = new ForecastingQuota();
-    fqTerm.QuotaAmount = 100;
-    fqTerm.QuotaOwnerId = origU.Id;
-    fqTerm.ProductFamily = 'Term';
-    fqTerm.StartDate = startdate;
-    fqTerm.ForecastingTypeId = ft.Id;
-    insert fqTerm;
-    ForecastingQuota fqBridge = new ForecastingQuota();
-    fqBridge.QuotaAmount = 100;
-    fqBridge.QuotaOwnerId = origU.Id;
-    fqBridge.ProductFamily = 'Bridge';
-    fqBridge.StartDate = startdate;
-    fqBridge.ForecastingTypeId = ft.Id;
-    insert fqBridge;
-  }
-
-
-  @isTest
-  static void Commissiontest1() {
-    // 1st term condition
-    
-
-    //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
 
     Account a = new Account();
     a.Name = 'test';
@@ -152,15 +109,27 @@ system.debug('caf fee'+topp1.CAF_Upfront_Fee__c);
   }
   @isTest
   static void Commissiontest2() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -250,12 +219,11 @@ update topp1;
   @isTest
   static void Commissiontest3() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -271,7 +239,20 @@ update topp1;
     ]
     .EndDate;
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -330,12 +311,11 @@ update topp1;
   }
   @isTest
   static void Commissiontest4() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -350,7 +330,20 @@ update topp1;
     ]
     .EndDate;
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -445,12 +438,11 @@ test.startTest();
   @isTest
   static void Commissiontest5() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -480,7 +472,20 @@ test.startTest();
     ]
     .EndDate;
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -546,12 +551,11 @@ update topp1;
   }
   @isTest
   static void Commissiontest6() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -581,7 +585,20 @@ update topp1;
     ]
     .EndDate;
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -681,12 +698,11 @@ test.startTest();
   @isTest
   static void Commissiontest7() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -716,7 +732,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -800,12 +829,11 @@ update topp1;
   @isTest
   static void Commissiontest8() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -835,7 +863,20 @@ update topp1;
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -923,12 +964,11 @@ test.startTest();
   @isTest
   static void Commissiontest9() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -958,7 +998,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1063,12 +1116,11 @@ test.startTest();
   @isTest
   static void Commissiontest10() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -1098,7 +1150,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1209,12 +1274,11 @@ test.startTest();
   @isTest
   static void Commissiontest11() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -1244,7 +1308,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1324,12 +1401,11 @@ update topp1;
   @isTest
   static void Commissiontest12() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -1359,7 +1435,20 @@ update topp1;
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1465,12 +1554,11 @@ test.startTest();
   @isTest
   static void Commissiontest13() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -1500,7 +1588,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1579,12 +1680,11 @@ update topp1;
   @isTest
   static void Commissiontest14() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
     Date quarterStartDate = [
       SELECT StartDate
       FROM Period
@@ -1614,7 +1714,20 @@ update topp1;
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1720,15 +1833,27 @@ test.startTest();
   // Bridge
   @isTest
   static void Commissiontest15() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -1761,23 +1886,26 @@ test.startTest();
     .Id;
     insert topp1;
       
-
-    Commission__c myCommission = new Commission__c();
-    myCommission.Commission_Amount1__c = 1230;
-    myCommission.Deal__c = topp1.id;
-    myCommission.Owner__c = origU.id;
-    myCommission.Loan_Type__c = 'Bridge Loan';
-    insert myCommission;
+    List<Commission__c> comms = new List<Commission__c>();
+    for(Integer i = 0; i <= 151; i++) {
+      Commission__c myCommission = new Commission__c();
+      myCommission.Commission_Amount1__c = 1230;
+      myCommission.Deal__c = topp1.id;
+      myCommission.Owner__c = origU.id;
+      myCommission.Loan_Type__c = 'Bridge Loan';
+      comms.add(myCommission);
+    }
+    // USING THIS TO TEST DML LIMITS //
+    insert comms;
   }
 
   @isTest
   static void Commissiontest21() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -1808,7 +1936,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -1880,12 +2021,11 @@ test.startTest();
 
   @isTest
   static void Commissiontest22() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -1916,7 +2056,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -2001,12 +2154,11 @@ test.startTest();
   }
   @isTest
   static void Commissiontest23() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2037,7 +2189,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -2118,12 +2283,11 @@ test.startTest();
   }
   @isTest
   static void Commissiontest24() {
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2154,7 +2318,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     User origU2 = new User(
       Alias = 'orig',
@@ -2232,12 +2409,11 @@ test.startTest();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont ); */
 
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2267,7 +2443,20 @@ test.startTest();
     ]
     .EndDate;
 
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account a = new Account();
     a.Name = 'test';
@@ -2409,12 +2598,11 @@ test.startTest();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont ); */
 
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2444,7 +2632,20 @@ test.startTest();
     ]
     .EndDate;
 
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account a = new Account();
     a.Name = 'test';
@@ -2587,12 +2788,11 @@ test.startTest();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont ); */
 
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2622,7 +2822,20 @@ test.startTest();
     ]
     .EndDate;
 
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account a = new Account();
     a.Name = 'test';
@@ -2769,12 +2982,11 @@ test.startTest();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont ); */
 
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2804,7 +3016,20 @@ test.startTest();
     ]
     .EndDate;
 
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account a = new Account();
     a.Name = 'test';
@@ -2946,12 +3171,11 @@ test.startTest();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont ); */
 
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -2981,7 +3205,20 @@ test.startTest();
     ]
     .EndDate;
 
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account a = new Account();
     a.Name = 'test';
@@ -3121,12 +3358,11 @@ test.startTest();
   @isTest
   static void Commissiontest30() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -3157,7 +3393,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
@@ -3220,12 +3469,11 @@ test.startTest();
   @isTest
   static void Commissiontest31() {
     // 1st term condition
-/* commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
+    commissionAutomationSetting__c settings = new commissionAutomationSetting__c(
       SetupOwnerId = UserInfo.getOrganizationId(),
       SkipProcessBuilder__c = true
     );
-    // insert settings */
-    // insert settings
+    insert settings;
 
     Date quarterStartDate = [
       SELECT StartDate
@@ -3256,7 +3504,20 @@ test.startTest();
     .EndDate;
 
     //Total Borrowed on term (account) under 5 million no split;Final Loan Amount under 5 million
-    User origU = [SELECT Id FROM User WHERE UserName='originator@teada.com'];
+    User origU = new User(
+      Alias = 'orig',
+      Email = 'standarduser@cvest.com',
+      EmailEncodingKey = 'UTF-8',
+      LastName = 'Testing',
+      LanguageLocaleKey = 'en_US',
+      LocaleSidKey = 'en_US',
+      ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
+      .Id,
+      TimeZoneSidKey = 'America/Los_Angeles',
+      UserName = 'originator@teada.com'
+    );
+
+    insert origU;
 
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';

@@ -22,10 +22,6 @@
                 <behavior>Readonly</behavior>
                 <field>LastModifiedDate</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Migrated_File__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

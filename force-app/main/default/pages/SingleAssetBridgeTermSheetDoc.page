@@ -397,7 +397,7 @@ Sponsor Initials ________
                                 Origination Fee:
                             </td>
                             <td class="row-description">
-                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Borrower' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
                                     <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
                                         <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
                                 </span>
@@ -446,11 +446,10 @@ Sponsor Initials ________
                         </strong>
                     </td>
                     <td class="row-description">
-                        <!-- <apex:outputText value="$2,000.00 payable at closing" /> -->
-                        Multifamily 5+: $1,295
+                        <apex:outputText value="{!processingFeeText}" />                        <!-- Multifamily 5+: $1,295
                         <br /> New Construction: $1,195
                         <br /> Single Family: $995
-                        <br /> Portfolio: 3-8 homes - $1,295, 9+ homes - $1,495
+                        <br /> Portfolio: 3-8 homes - $1,295, 9+ homes - $1,495 -->
                     </td>
                 </tr>
 

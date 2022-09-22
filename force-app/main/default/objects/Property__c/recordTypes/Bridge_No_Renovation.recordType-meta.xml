@@ -237,6 +237,14 @@
     <picklistValues>
         <picklist>Occupancy_Status__c</picklist>
         <values>
+            <fullName>Long term in place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Long term pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Occupied%2FLong Term Lease</fullName>
             <default>false</default>
         </values>
@@ -274,6 +282,10 @@
         </values>
         <values>
             <fullName>Unoccupied%2FShort Term Rental</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Unoccupied%2FUnleased</fullName>
             <default>false</default>
         </values>
         <values>
@@ -399,6 +411,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Foreclosure</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>In House Refi</fullName>
             <default>false</default>
         </values>
@@ -408,6 +424,14 @@
         </values>
         <values>
             <fullName>No Response</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Note Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid Off</fullName>
             <default>false</default>
         </values>
         <values>
@@ -449,7 +473,19 @@
     <picklistValues>
         <picklist>Servicer_Name__c</picklist>
         <values>
+            <fullName>BSI</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>FCI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Situs Asset Management</fullName>
             <default>false</default>
         </values>
         <values>

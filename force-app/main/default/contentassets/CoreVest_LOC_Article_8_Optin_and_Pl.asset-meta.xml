@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentAsset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <isVisibleByExternalUsers>true</isVisibleByExternalUsers>
+    <language>en_US</language>
+    <masterLabel>CoreVest_LOC_Article_8_Optin_and_Pl</masterLabel>
+    <versions>
+        <version>
+            <number>1</number>
+            <pathOnClient>CoreVest LOC Article 8 Opt-in and Pledge-SPE provisions (Equity Pledge) (4816-5735-9591.1).docx</pathOnClient>
+        </version>
+    </versions>
+</ContentAsset>

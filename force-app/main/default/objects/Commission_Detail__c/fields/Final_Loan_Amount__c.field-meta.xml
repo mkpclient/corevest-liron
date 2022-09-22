@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Final_Loan_Amount__c</fullName>
     <externalId>false</externalId>
-    <formula>Deal__r.Final_Loan_Amount__c</formula>
+    <formula>IF(CONTAINS(Text(Deal__r.Type), &apos;Term&apos;) , Deal__r.Final_Loan_Amount__c,  Deal__r.LOC_Commitment__c )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Final Loan Amount</label>
     <precision>18</precision>

@@ -65,7 +65,8 @@ public without sharing class ApprovalAttachments_lightningController {
         Actor.Name,
         StepStatus,
         CreatedDate,
-        ProcessInstance.TargetObject.Name
+        ProcessInstance.TargetObject.Name,
+        ProcessInstance.ProcessDefinition.Name
       FROM ProcessInstanceStep
       WHERE Id = :recordId
       LIMIT 1
@@ -161,6 +162,8 @@ public without sharing class ApprovalAttachments_lightningController {
         ProcessInstance.TargetObjectId,
         ProcessInstance.Status,
         ProcessInstance.ProcessDefinition.DeveloperName,
+        ProcessInstance.ProcessDefinition.Name,
+        ProcessInstance.TargetObject.Name,
         CreatedDate,
         ActorId
       FROM ProcessInstanceWorkItem
@@ -191,7 +194,10 @@ public without sharing class ApprovalAttachments_lightningController {
       if (null != o) {
         String processName = piw.ProcessInstance.ProcessDefinition.DeveloperName;
         m.put('processName', processName);
-
+        String processDisplayName = piw.ProcessInstance.ProcessDefinition.Name;
+        m.put('processDisplayName', processDisplayName);
+        String dealName = piw.ProcessInstance.TargetObject.Name;
+        m.put('dealName', dealName);
         /*
                  * 
                  * START OF OLD PERMISSIONS CODE
@@ -249,7 +255,7 @@ public without sharing class ApprovalAttachments_lightningController {
           if (capitalMarketsPricingApprover || test.isRunningTest()) {
             m.put('Verified', 'true');
           }
-        } else if (processName == 'Bridge_LOC_Pricing_Review_Capital_Market'  ) {
+        } else if (processName == 'Bridge_LOC_Pricing_Review_Capital_Market' || processName == 'Standard_SAB_Pricing_Review_Below_1_5M' ) {
           if (capitalMarketsPricingApprover || test.isRunningTest()) {
             m.put('Verified', 'true');
           }
@@ -981,6 +987,10 @@ public without sharing class ApprovalAttachments_lightningController {
       LIMIT 1
     ];
     if (null != ah) {
+      if(!comments.containsIgnoreCase('from email')) {
+        ah.Actor__c = UserInfo.getUserId();
+        ah.Approver__c = UserInfo.getName();  
+      }
       ah.Actor__c = UserInfo.getUserId();
       ah.Approver__c = UserInfo.getName();
       ah.Status__c = 'Rejected';

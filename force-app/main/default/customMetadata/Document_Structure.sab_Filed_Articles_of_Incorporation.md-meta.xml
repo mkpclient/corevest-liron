@@ -68,7 +68,7 @@
     </values>
     <values>
         <field>Loan_Status_Sort__c</field>
-        <value xsi:type="xsd:double">3.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Close_Setting__c</field>

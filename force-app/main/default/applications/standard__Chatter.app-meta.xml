@@ -19,5 +19,8 @@
     <tabs>Loan_Version__c</tabs>
     <tabs>Swap_Rate__c</tabs>
     <tabs>TPO_Pool__c</tabs>
-    <tabs>Custodial_Exception__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>Policy_Exception__c</tabs>
+    <tabs>Appraiser__c</tabs>
+    <tabs>Servicer_Loan__c</tabs>
 </CustomApplication>

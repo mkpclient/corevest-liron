@@ -24,7 +24,7 @@
     </values>
     <values>
         <field>Floor_Percent__c</field>
-        <value xsi:type="xsd:double">2.75</value>
+        <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>Holdback_Multiplier__c</field>

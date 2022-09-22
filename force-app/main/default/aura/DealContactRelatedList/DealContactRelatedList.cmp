@@ -167,12 +167,30 @@
 
                      ]" -->
               <c:DataTableColumn
+                label=""
+                name="Id"
+                sortable="false"
+                displayType="Icon"
+                isEditable="false"
+                columnWidth="15"
+                typeAttributes=""
+              />
+              <c:DataTableColumn
                 label="Role"
                 name="Entity_Type__c"
                 sortable="true"
                 displayType="text"
                 isEditable="false"
                 columnWidth="7"
+              />
+
+              <c:DataTableColumn
+                label="Primary Guarantor"
+                name="Primary_Guarantor__c"
+                sortable="false"
+                displayType="Boolean"
+                isEditable="{!v.permissionsMap.Primary_Guarantor__c.isUpdateable}"
+                columnWidth="15"
               />
 
               <c:DataTableColumn
@@ -299,6 +317,47 @@
                 isEditable="{!v.permissionsMap.Background_Risk_Number__c.isUpdateable}"
                 columnWidth="7"
               />
+             
+            <c:DataTableColumn
+              name="Contact__r.HomePhone"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MobilePhone"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.Title"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.Salutation"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MailingStreet"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MailingCity"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+            name="Contact__r.MailingState"
+            displayType="hidden"
+            isEditable="false"
+            />
+            <c:DataTableColumn
+            name="Contact__r.MailingPostalCode"
+            displayType="hidden"
+            isEditable="false"
+            />
             </aura:set>
 
             <!-- optional -->
@@ -320,9 +379,19 @@
         <aura:if isTrue="{!!empty(v.permissionsMap)}">
           <c:DataTable
             aura:id="dataTable"
-            tableClass="slds-table slds-table_bordered"
+            tableClass="slds-table slds-table_bordered slds-table_edit_container"
           >
             <aura:set attribute="columns">
+              <c:DataTableColumn
+                label=""
+                name="Id"
+                sortable="false"
+                displayType="Icon"
+                isEditable="false"
+                columnWidth="15"
+                typeAttributes=""
+              />
+
               <c:DataTableColumn
                 label="Role"
                 name="Entity_Type__c"
@@ -336,7 +405,7 @@
                 label="Primary Guarantor"
                 name="Primary_Guarantor__c"
                 sortable="false"
-                displayType="boolean"
+                displayType="Boolean"
                 isEditable="{!v.permissionsMap.Primary_Guarantor__c.isUpdateable}"
                 columnWidth="15"
               />
@@ -510,6 +579,56 @@
                 columnWidth="20"
                 isEditable="{!v.permissionsMap.Rental_Units_Owned__c.isUpdateable}"
               />
+            <c:DataTableColumn
+              name="Contact__r.Email"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.Phone"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.HomePhone"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MobilePhone"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.Title"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.Salutation"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MailingStreet"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+              name="Contact__r.MailingCity"
+              displayType="hidden"
+              isEditable="false"
+            />
+            <c:DataTableColumn
+            name="Contact__r.MailingState"
+            displayType="hidden"
+            isEditable="false"
+            />
+            <c:DataTableColumn
+            name="Contact__r.MailingPostalCode"
+            displayType="hidden"
+            isEditable="false"
+            />
             </aura:set>
 
             <!-- optional -->
@@ -525,7 +644,10 @@
 
       <aura:if isTrue="{!v.componentType == 'Loan Entities'}">
         <aura:if isTrue="{!!empty(v.permissionsMap)}">
-          <c:DataTable aura:id="dataTable">
+          <c:DataTable
+            aura:id="dataTable"
+            tableClass="slds-table slds-table_bordered slds-table_edit_container slds-is-relative"
+          >
             <aura:set attribute="columns">
               <c:DataTableColumn
                 label="Entity Role"
@@ -533,7 +655,7 @@
                 sortable="true"
                 displayType="text"
                 isEditable="false"
-                columnWidth="7"
+                columnWidth="20"
               />
 
               <c:DataTableColumn
@@ -543,7 +665,7 @@
                 sortable="true"
                 displayType="text"
                 isEditable="false"
-                columnWidth="10"
+                columnWidth="20"
               />
 
               <c:DataTableColumn
@@ -552,7 +674,7 @@
                 sortable="false"
                 displayType="select"
                 isEditable="{!v.permissionsMap.Company_Type__c.isUpdateable}"
-                columnWidth="10"
+                columnWidth="20"
                 selectOptions="[
                              {'label': '--Select One--', 'value': ''},
                              {'label': 'Limited Liability Company', 'value': 'Limited Liability Company' },
@@ -568,7 +690,7 @@
                 name="Company_Jurisdiction__c"
                 sortable="false"
                 displayType="text"
-                columnWidth="10"
+                columnWidth="20"
                 isEditable="false"
               />
 
@@ -577,7 +699,7 @@
                 name="Operating_Agreement_Date__c"
                 sortable="false"
                 displayType="date"
-                columnWidth="15"
+                columnWidth="20"
                 isEditable="{!v.permissionsMap.Operating_Agreement_Date__c.isUpdateable}"
               />
             </aura:set>
@@ -599,7 +721,10 @@
 
       <aura:if isTrue="{!v.componentType == 'Construction and Closing'}">
         <aura:if isTrue="{!!empty(v.permissionsMap)}">
-          <c:DataTable aura:id="dataTable">
+          <c:DataTable
+            aura:id="dataTable"
+            tableClass="slds-table slds-table_bordered slds-table_edit_container"
+          >
             <aura:set attribute="columns">
               <c:DataTableColumn
                 label="Entity"

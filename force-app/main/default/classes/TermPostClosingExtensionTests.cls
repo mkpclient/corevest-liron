@@ -2,6 +2,7 @@
 public class TermPostClosingExtensionTests {
   @isTest
   public static void testMethod1() {
+      test_Helper.createDealLoanNumber();
     Account testAcct = Test_Helper.createAccount();
     Contact testContact = Test_Helper.createContact(testAcct);
     Opportunity testOpp = Test_Helper.createTermDeal(testAcct, testContact);

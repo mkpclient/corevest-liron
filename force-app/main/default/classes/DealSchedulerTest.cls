@@ -1,6 +1,7 @@
 @isTest
 private class DealSchedulerTest {
   static testMethod void testMethod1() {
+      test_Helper.createDealLoanNumber();
     List<Account> testAccts = new List<Account>();
     List<Opportunity> testOppts = new List<Opportunity>();
     List<Contact> testContacts = new List<Contact>();

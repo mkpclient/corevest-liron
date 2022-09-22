@@ -2,6 +2,9 @@
 private class CovenantRecurringEmailTest {
   @isTest
   static void CovenantRecurringEmailAlertTest() {
+      
+
+test_Helper.createDealLoanNumber();
     account acc = new account();
     acc.name = 'testacc';
 

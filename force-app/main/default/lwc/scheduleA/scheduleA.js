@@ -177,9 +177,16 @@ export default class ScheduleA extends LightningElement {
                   .replaceAll("{{", "")
                   .replaceAll("}}", "")
                   .replaceAll("Opportunity.", "");
-                if (deal.hasOwnProperty(oppField)) {
+                let childField;
+                if(oppField.includes("__r.")) {
+                  childField = oppField.split(".")[1];
+                  oppField = oppField.split(".")[0];
+                }
+                if (deal.hasOwnProperty(oppField) && !childField) {
                   newValue = deal[oppField];
-                } else {
+                } else if(deal.hasOwnProperty(oppField) && deal[oppField].hasOwnProperty(childField)) {
+                  newValue = deal[oppField][childField];
+                }  else {
                   newValue = "";
                 }
                 workbook
@@ -219,32 +226,40 @@ export default class ScheduleA extends LightningElement {
                   currCell != undefined &&
                   currCell.includes("Loan_Fee__c.")
                 ) {
-                  let loanFee = record["Loan_Fee__c"];
-                  console.log(loanFee);
+                  let loanFees = record["Loan_Fee__c"];
+                 
                   let loanFeeField = currCell.slice(
                     currCell.indexOf(".") + 1,
                     currCell.length
                   );
-                  console.log(loanFee, loanFeeField);
-                  if (
-                    loanFee.hasOwnProperty(loanFeeField) &&
-                    loanFee.hasOwnProperty("Fee_Type__c") &&
-                    loanTypeMap[j] === loanFee.Fee_Type__c
-                  ) {
-                    newCell = this.isNumeric(loanFee[loanFeeField])
-                      ? parseFloat(loanFee[loanFeeField])
-                      : loanFee[loanFeeField];
-
+                  for(const loanFee of loanFees) {
+                    console.log(loanFee, loanFeeField);
                     if (
-                      loanFeeField.toLowerCase().includes("fee") ||
-                      loanFeeField.toLowerCase().includes("amount")
+                      loanFee.hasOwnProperty(loanFeeField) &&
+                      loanFee.hasOwnProperty("Fee_Type__c") &&
+                      loanTypeMap[j] === loanFee.Fee_Type__c
                     ) {
-                      workbook
-                        .sheet("Schedule A")
-                        .row(currXlsRow)
-                        .cell(j + 1)
-                        .value(newCell)
-                        .style("numberFormat", "$#,##0.00");
+                      newCell = this.isNumeric(loanFee[loanFeeField])
+                        ? parseFloat(loanFee[loanFeeField])
+                        : loanFee[loanFeeField];
+  
+                      if (
+                        loanFeeField.toLowerCase().includes("fee") ||
+                        loanFeeField.toLowerCase().includes("amount")
+                      ) {
+                        workbook
+                          .sheet("Schedule A")
+                          .row(currXlsRow)
+                          .cell(j + 1)
+                          .value(newCell)
+                          .style("numberFormat", "$#,##0.00");
+                      } else {
+                        workbook
+                          .sheet("Schedule A")
+                          .row(currXlsRow)
+                          .cell(j + 1)
+                          .value(newCell);
+                      }
                     } else {
                       workbook
                         .sheet("Schedule A")
@@ -252,13 +267,8 @@ export default class ScheduleA extends LightningElement {
                         .cell(j + 1)
                         .value(newCell);
                     }
-                  } else {
-                    workbook
-                      .sheet("Schedule A")
-                      .row(currXlsRow)
-                      .cell(j + 1)
-                      .value(newCell);
                   }
+                  
                 } else if (
                   currCell != undefined &&
                   !currCell.includes("Loan_Fee__c.") &&
@@ -541,7 +551,8 @@ export default class ScheduleA extends LightningElement {
       const propEx = p.Property_Extensions__r[0];
       recLocal = {
         Property__c: { ...p },
-        Property_Extension__c: { ...propEx }
+        Property_Extension__c: { ...propEx },
+        Loan_Fee__c: []
       };
       records[p.Id] = recLocal;
       propExIds.push(propEx.Id);
@@ -551,7 +562,7 @@ export default class ScheduleA extends LightningElement {
     )}')`;
     const loanFees = await queryRecord({ queryString: loanFeeQS });
     for (const lf of loanFees) {
-      records[lf.Property__c].Loan_Fee__c = lf;
+      records[lf.Property__c].Loan_Fee__c.push(lf);
     }
     this.formRecords = Object.values(records);
   }

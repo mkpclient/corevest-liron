@@ -6,7 +6,6 @@
   cache="true"
 >
 
-
 <!-- application/msword#{!Opportunity.Name}_TermSheetv_{!intStr}.doc -->
 
   <!-- <apex:outputText rendered="{!}">
@@ -418,6 +417,9 @@
               Term:
             </td>
             <td class="row-description">
+              <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '3 Year'}"
+                value="{!'Three (3) years'}"
+              />
               <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '5 Year'}"
                 value="{!'Five (5) years'}"
               />
@@ -703,6 +705,16 @@
                       border: none;
                     "
                   >
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '30 Months', 'inline','none')}"
+                    >
+                      30th Payment Date
+                    </span>
+                    <span
+                      style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '33 Months', 'inline','none')}"
+                    >
+                      33rd Payment Date
+                    </span>
                     <span
                       style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
                     >

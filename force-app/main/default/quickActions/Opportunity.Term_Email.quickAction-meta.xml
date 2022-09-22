@@ -8,7 +8,7 @@ Opportunity.Closer__r.Email + &apos;;&apos; +
 Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + 
 Opportunity.Loan_Coordinator__r.Email + &apos;;&apos; +
 Opportunity.Owner.Email + &apos;;&apos; +
-Opportunity.Co_Originator__r.Email + &apos;;&apos; + Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; + 
+Opportunity.Co_Originator__r.Email + &apos;;&apos; + Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; +
 &apos;micaela.lumpkin@cvest.com;gregg.moore@cvest.com;behnam.hoss@cvest.com;kyla.scoville@cvest.com&apos;</formula>
     </fieldOverrides>
     <fieldOverrides>

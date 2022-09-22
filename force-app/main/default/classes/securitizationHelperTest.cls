@@ -2,6 +2,7 @@
 public with sharing class securitizationHelperTest {
   @isTest
   public static void testMethod1() {
+      test_Helper.createDealLoanNumber();
     Account testAcc = Test_Helper.createBrokerAccount();
     Contact testCtc = Test_Helper.createContact(testAcc);
     Opportunity testDeal = Test_Helper.createTermDeal(testAcc, testCtc);

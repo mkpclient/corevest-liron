@@ -28,9 +28,11 @@
           </lightning-layout-item>
           <lightning-layout-item padding="around-small" size="6">
             <lightning-input
-              type="text"
-              name="propertyTaxStatus"
-              label="Property Tax Status"
+              type="number"
+              name="newMarginRate"
+              label="New Margin rate"
+              formatter="percent-fixed"
+              step="0.0001"
               data-type="manualField"
             ></lightning-input>
           </lightning-layout-item>
@@ -59,6 +61,14 @@
               label="Completion %"
               formatter="percent-fixed"
               step="0.0001"
+              data-type="manualField"
+            ></lightning-input>
+          </lightning-layout-item>
+          <lightning-layout-item padding="around-small" size="6">
+            <lightning-input
+              type="text"
+              name="propertyTaxStatus"
+              label="Property Tax Status"
               data-type="manualField"
             ></lightning-input>
           </lightning-layout-item>

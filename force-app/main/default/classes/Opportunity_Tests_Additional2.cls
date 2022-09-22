@@ -2,6 +2,7 @@
 public class Opportunity_Tests_Additional2 {
   @testsetup
   static void datasetup() {
+    Test_Helper.createDealLoanNumber();
     List<Account> al = new List<Account>();
     Account a0 = new Account();
     a0.Name = 'Berkadia Commercial Mortgage';
@@ -142,6 +143,7 @@ public class Opportunity_Tests_Additional2 {
 
     Opportunity opp1 = new Opportunity();
     opp1.Name = 'TERM TEST 1';
+    opp1.Project_Strategy__c = 'Multifamily Heavy Lift/CLO';
     opp1.CloseDate = System.today();
     opp1.Rate_Locked__c = false;
     opp1.LOC_Term__c = '24 Months';
@@ -242,6 +244,26 @@ public class Opportunity_Tests_Additional2 {
     oppLst.add(opp4);
     insert oppLst;
 
+    id propRecordTypeId = [ SELECT Id FROM RecordType WHERE sobjecttype = 'property__c' AND DeveloperName = 'Bridge_Renovation'].Id;   
+    List<Property__c> properties = new List<Property__c>();      
+ for (Integer i = 0; i < 5; i++) {
+      properties.add(
+        new Property__c(
+          Deal__c = oppLst[i].Id,
+          Name = i + ' Test',
+          Property_Name__c = i + ' Test',
+          Property_Type__c = 'SFR',
+          Number_of_Units__c = 1,
+          Interior_Access_POC_Email__c = 'test@test.com',
+          Security_Deposit__c = 800,
+          Status__c = 'Active',
+          BlackSquare_Fee__c = null,
+          Yardi_Id__c = '123456789',
+          RecordTypeId = propRecordTypeId
+        )
+      );
+    }
+	insert properties;    
     System.debug(
       '2.RS 999 Number of Queries used in this apex code so far: ' +
       Limits.getQueries()
@@ -250,11 +272,97 @@ public class Opportunity_Tests_Additional2 {
 
   public static testMethod void UnitTest1() {
     Test.startTest();
+    opportunity_Helper.runForTest = True;
+    List<opportunity> o = [SELECT id, name, OwnerId, Underwriter__c, Record_Type_Name__c, Contact__c,Project_Strategy__c FROM opportunity where Project_Strategy__c = 'Multifamily Heavy Lift/CLO'];
+	List<opportunity> o1 = [SELECT id, name, OwnerId, Underwriter__c, Record_Type_Name__c, Contact__c,Project_Strategy__c FROM opportunity where Project_Strategy__c != 'Multifamily Heavy Lift/CLO'];     
+	opportunity opp = new opportunity();
+	opp.id = o[0].id;      
+	opp.Project_Strategy__c = 'Multifamily Lease-Up/No Rehab/CLO';
+    update opp;
+	opportunity opp1 = new opportunity();      
+	opp1.id = o1[0].id;      
+	opp1.Project_Strategy__c = 'Multifamily Lease-Up/No Rehab/CLO';
+    update opp1;      
+    Test.stopTest(); 
+  }
+    
+  public static testMethod void UnitTest2() {
+    Test.startTest();
+    opportunity_Helper.runForTest = True;
+    List<opportunity> o = [SELECT id, name, OwnerId, Underwriter__c, Record_Type_Name__c, Contact__c FROM opportunity Limit 5];  
+    Property__c 	  p = [select id from Property__c limit 1];
+	List<CLO_Asset_Details__c> c1 = new List<CLO_Asset_Details__c>();      
+	List<CLO_Asset_Details__c> c2 = new List<CLO_Asset_Details__c>();       
+	CLO_Asset_Details__c c = new CLO_Asset_Details__c();     
+    c.Property_Name__c		= 'test';
+    c.Property_Address__c 	= 'test';
+    c.Property_City__c		= 'test';
+    c.Property_State__c		= 'VA';
+    c.Property_Zip_Code__c	= '11111';
+    c.Property_County__c 	= 'USA'; 
+    c.Year_Built__c			= '2022';
+    c.Property_Type__c		= 'SFH';
+    c.Number_of_Units__c	= 1;
+    c.Initial_Funded_Amount__c	= 100;
+    c.First_Payment_Date__c		= date.today();
+    c.Initial_Maturity_Date__c	= date.today();
+    c.Related_Property__c		= p.id;
+    c.Deal_ID__c				= o[0].id;
+    c1.add(c);
+      
+    c.Property_Name__c		= 'test1';
+    c.Property_Address__c 	= 'test1';
+    c.Property_City__c		= 'test1';
+    c.Property_State__c		= 'TX';
+    c.Property_Zip_Code__c	= '2222';
+    c.Property_County__c 	= 'USA'; 
+    c.Year_Built__c			= '2021';
+    c.Property_Type__c		= 'SFH';
+    c.Number_of_Units__c	= 2;
+    c.Initial_Funded_Amount__c	= 200;
+    c.First_Payment_Date__c		= date.today();
+    c.Initial_Maturity_Date__c	= date.today();
+    c.Related_Property__c		= p.id;
+    c.Deal_ID__c				= o[0].id;
+    c2.add(c);      
+   CLOAsset_Helper.afterUpdate(c1,c2);
+   Test.stopTest();   
+  }    
+    
+ /*public static testMethod void UnitTest3() {
+    Test.startTest();
+    opportunity_Helper.runForTest = True;
+    List<opportunity> o = [SELECT id, name, OwnerId, Underwriter__c, Record_Type_Name__c, Contact__c FROM opportunity Limit 5];  
+    Property__c 	  p = [select id from Property__c limit 1];
+	CLO_Asset_Details__c c3 = new CLO_Asset_Details__c();       
+    c3.Property_Name__c		= 'test1';
+    c3.Property_Address__c 	= 'test1';
+    c3.Property_City__c		= 'test1';
+    c3.Property_State__c	= 'TX';
+    c3.Property_Zip_Code__c	= '2222';
+    c3.Property_County__c 	= 'USA'; 
+    c3.Year_Built__c		= '2021';
+    c3.Property_Type__c		= 'SFR';
+    c3.Number_of_Units__c	= 2;
+    c3.Initial_Funded_Amount__c	= 200;
+    c3.First_Payment_Date__c	= date.today();
+    c3.Initial_Maturity_Date__c	= date.today();
+    c3.Related_Property__c		= p.id;
+    c3.Deal_ID__c				= o[0].id;
+    insert c3;
+    c3.Property_Type__c		= '2-4 Unit';
+    update c3;
+   Test.stopTest();   
+  }      */
+    
+  public static testMethod void UnitTest4() {
+    Test.startTest();
+    opportunity_Helper.runForTest = True;
     List<opportunity> o = [
       SELECT id, name, OwnerId, Underwriter__c, Record_Type_Name__c, Contact__c
       FROM opportunity
       LIMIT 5
-    ];
+    ];       
 
     List<Loan_Version__c> loanVersionList = new List<Loan_Version__c>();
     Loan_Version__c loanVersion = new Loan_Version__c();
@@ -377,21 +485,25 @@ public class Opportunity_Tests_Additional2 {
     o[0].Final_Spread__c = 	1;
     o[0].CAF_Upfront_Fee__c = 2;
     o[0].X2nd_Underwriter__c = UserInfo.getUserId();
+    o[0].Ic_Approval_date__c =date.today() - 10; 
     update o[0];
     o[1].StageName = 'Closed Won';
     o[1].Final_Loan_Amount__c = 100;
     o[1].Final_Swap__c = 1;
-    o[1].Final_Spread__c = 	1;    
+    o[1].Final_Spread__c = 	1;   
+    o[1].Ic_Approval_date__c =date.today() - 10;      
     update o[1];
     o[2].StageName = 'Closed Won';
     o[2].Final_Loan_Amount__c = 100;
     o[2].Final_Swap__c = 1;
-    o[2].Final_Spread__c = 	1;       
+    o[2].Final_Spread__c = 	1;      
+    o[2].Ic_Approval_date__c =date.today() - 10;      
     update o[2];
     o[3].Final_Loan_Amount__c = 100;
     o[3].Final_Swap__c = 1;
     o[3].Final_Spread__c = 	1;       
     o[3].StageName = 'Closed Won';
+    o[3].Ic_Approval_date__c =date.today() - 10;      
     update o[3];
    /* o[4].StageName = 'Closed Won';
     o[4].Final_Loan_Amount__c = 100;

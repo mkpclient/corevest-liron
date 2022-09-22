@@ -172,9 +172,13 @@ export default class IcApprovalInterface extends LightningElement {
         console.log(data);
         const deal = data.Deal[0];
         this.deal = deal;
-        this.hasNoFinalTier =
+        if (deal.Type != 'Term Loan') {
+          this.hasNoFinalTier =
           !deal.hasOwnProperty("Final_Sponsor_Tier__c") &&
           !deal.Final_Sponsor_Tier__c;
+        } else {
+          hasNoFinalTier = false;
+        }
         this.data = {
           recordId: this.recordId,
           recipients: data.Recipients[0].join(";"),

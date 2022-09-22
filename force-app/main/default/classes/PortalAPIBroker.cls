@@ -73,7 +73,8 @@ global without sharing class PortalAPIBroker {
         newLead.FirstName = borrowerFirstName;
         newLead.LastName = borrowerLastName;
         newLead.Company = companyName;
-
+        newLead.Alchemy_Portal_Id__c = borrowerId;
+        newLead.Email = borrowerEmail;
         insert newLead;
 
         leadId = newLead.Id;
@@ -150,7 +151,7 @@ global without sharing class PortalAPIBroker {
           loanType = 'Build for Rent';
         } else if (dealType == 'Credit Line') {
           loanType = 'Credit Line';
-        } else if (dealType == 'Bridge Loan') {
+        } else if (dealType == 'Single Asset Bridge Loan') {
           loanType = 'Single Asset Bridge Loan';
         } else if (dealType == 'Multifamily') {
           loanType = 'Multifamily';

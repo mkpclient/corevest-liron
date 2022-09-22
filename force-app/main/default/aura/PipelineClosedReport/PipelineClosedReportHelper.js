@@ -24,6 +24,7 @@
         'Spread_BPS__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName__c',
         'Current_Loan_Amount__c',
         'OwnerId__c',
@@ -41,7 +42,8 @@
         '',
         'Anticipated_IC_Approval__c',
         'Kickoff_Date__c',
-        'Days_In_Underwriting__c'
+        'Days_In_Underwriting__c',
+        'Pipeline_Comments__c'
     ],
     PIPELINE_FIELDSSEL : [
         'Anticipated_Closing_Date__c',
@@ -57,6 +59,7 @@
         'Spread_BPS__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName',
         'Current_Loan_Amount__c',
         'Owner.LastName',
@@ -70,7 +73,8 @@
         'Warehouse_Line__c',
         'Anticipated_IC_Approval__c',
         'Kickoff_Date__c',
-        'Days_In_Underwriting__c'
+        'Days_In_Underwriting__c',
+        'Pipeline_Comments__c'
     ],
     
     CLOSED_FIELDS : [
@@ -88,6 +92,7 @@
         'Final_Spread__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName',
         'Loan_Size__c',
         'Final_Loan_Amount__c',
@@ -394,20 +399,20 @@ return offsetRows;
                 if (sheet0[currentYear]){
 
                 console.log(helper.PIPELINE_FIELDS);
-                offsetPipeline = helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 12, offsetRows, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AB', 'AD', 'AF');
+                offsetPipeline = helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 12, offsetRows, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AC', 'AE', 'AG');
             }
                   
                   if (sheet1[currentYear]){
 
                 console.log(helper.CLOSED_FIELDS);                
-                offsetClosed = helper.populateReportPreviousYears(sheet1[currentYear], helper.CLOSED_FIELDS, workbook, 1, 14, offsetRows, offsetColumns, 'CloseDate', 'C', 'AA', 'AC', 'AE');
+                offsetClosed = helper.populateReportPreviousYears(sheet1[currentYear], helper.CLOSED_FIELDS, workbook, 1, 14, offsetRows, offsetColumns, 'CloseDate', 'C', 'AB', 'AD', 'AF');
             }
 
                 console.log(helper.PIPELINE_FIELDS);  
 
                 console.log(helper.CLOSED_FIELDS);            
-            var offsetPipeline = helper.populateReportPreviousYears(dbPipelinePrevious, helper.PIPELINE_FIELDS, workbook, 0, 12, offsetPipeline, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AB', 'AD', 'AF');
-            var offsetClosed = helper.populateReportPreviousYears(dbClosedPrevious, helper.CLOSED_FIELDS, workbook, 1, 14, offsetClosed, offsetColumns, 'CloseDate', 'C', 'AA', 'AC', 'AE');
+            var offsetPipeline = helper.populateReportPreviousYears(dbPipelinePrevious, helper.PIPELINE_FIELDS, workbook, 0, 12, offsetPipeline, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AC', 'AE', 'AG');
+            var offsetClosed = helper.populateReportPreviousYears(dbClosedPrevious, helper.CLOSED_FIELDS, workbook, 1, 14, offsetClosed, offsetColumns, 'CloseDate', 'C', 'AB', 'AD', 'AF');
             
             // if (sheet0[currentYear]){
             // 	helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 13, offsetPipeline, offsetColumns, 'CloseDate', 'B', 'S', 'U', 'W');

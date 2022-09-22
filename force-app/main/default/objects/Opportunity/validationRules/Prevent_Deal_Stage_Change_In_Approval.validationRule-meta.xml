@@ -10,5 +10,5 @@ ISPICKVAL(StageName, &quot;Withdrawn&quot;),
 ISPICKVAL(StageName, &quot;Rejected&quot;)
 )
 )</errorConditionFormula>
-    <errorMessage>”This Deal is currently pending approval. Please have it rejected or recalled before moving to Withdrawn or Rejected.”</errorMessage>
+    <errorMessage>This Deal is currently pending approval. Please have it rejected or recalled before moving to Withdrawn or Rejected.</errorMessage>
 </ValidationRule>

@@ -2,6 +2,7 @@
 private class SmartyStreetsTests {
 
     static testMethod void unittest(){
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );
@@ -26,6 +27,7 @@ private class SmartyStreetsTests {
     }
 
     static testMethod void unitTest2(){
+        test_Helper.createDealLoanNumber();
         Account acc = Test_Helper.createAccount();
         Contact cont = Test_Helper.createContact( acc );
         Opportunity opp = Test_Helper.createOpportunity( acc, cont );

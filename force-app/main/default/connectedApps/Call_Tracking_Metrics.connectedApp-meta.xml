@@ -7,7 +7,7 @@
     <logoUrl>https://dwklcmio8m2n2.cloudfront.net/images/logo2x2.png</logoUrl>
     <oauthConfig>
         <callbackUrl>https://login.salesforce.com/services/oauth2/success</callbackUrl>
-        <consumerKey>3MVG9XfKTWtUp0bLnVpAkVkJnrirkDtwlzR4_z8_362pqJHco.VWxA1FK92uBGoSDZ4YSZqgKd47cVwpZ.._v</consumerKey>
+        <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqtKF2ak2KsdqR6R1a3oOZUCE7d8pqa5GBv1N65nW5hE6ZuIZmfiiRC38Zd6c</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

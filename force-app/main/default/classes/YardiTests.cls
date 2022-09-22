@@ -1,6 +1,8 @@
 @isTest
 private class YardiTests {
   static testMethod void locTest() {
+    Test_Helper.createDealLoanNumber();
+
     RecordType vendorRecordType = [
       SELECT Id
       FROM RecordType
@@ -146,6 +148,8 @@ private class YardiTests {
   }
 
   static testMethod void termTest() {
+    Test_Helper.createDealLoanNumber();
+
     RecordType vendorRecordType = [
       SELECT Id
       FROM RecordType
@@ -208,6 +212,8 @@ private class YardiTests {
   }
 
   static testMethod void emailTests() {
+    Test_Helper.createDealLoanNumber();
+
     List<RecordType> opptyRecordTypes = [
       SELECT Id
       FROM RecordType

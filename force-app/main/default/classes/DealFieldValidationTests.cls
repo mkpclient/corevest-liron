@@ -1,6 +1,7 @@
 @isTest
 private class DealFieldValidationTests {
   static testMethod void test1() {
+      test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -90,6 +91,7 @@ private class DealFieldValidationTests {
   }
 
   static testMethod void test2() {
+      test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
     update acc;

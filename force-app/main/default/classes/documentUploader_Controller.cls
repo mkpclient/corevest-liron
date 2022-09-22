@@ -29,7 +29,9 @@ public without sharing class documentUploader_Controller {
     );
 
     if (
-      user.userType == 'standard' || CommunityController.checkAccess(recordId) || Test.isRunningTest()
+      user.userType == 'standard' ||
+      CommunityController.checkAccess(recordId) ||
+      Test.isRunningTest()
     ) {
       List<AttachmentWrapper> wrappers = new List<AttachmentWrapper>();
       for (Attachment a : [
@@ -338,13 +340,13 @@ public without sharing class documentUploader_Controller {
         .Upload_Notification_Originations__c;
       doc.Upload_Notification_Underwriter__c = docStructure[0]
         .Upload_Notification_Underwriter__c;
-      doc.Legal_Review__c = docStructure[0]
-        .Legal_Review__c;
+      doc.Legal_Review__c = docStructure[0].Legal_Review__c;
       if (docStructure[0].Recorded_Document__c) {
         doc.Recording_Status__c = 'Pending';
       } else {
         doc.Recording_Status__c = 'N/A';
       }
+      doc.Document_Structure_Id__c = docStructure[0].Id;
     }
 
     List<String> folderList = folderString.split(';');
@@ -448,7 +450,9 @@ public without sharing class documentUploader_Controller {
           );
           Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
           email.setToAddresses(new List<string>{ 'karen.wade@alston.com' });
-          email.setCCAddresses(new List<string>{ 'leah@cvest.com', 'bryon.harland@cvest.com' });
+          email.setCCAddresses(
+            new List<string>{ 'leah@cvest.com', 'bryon.harland@cvest.com' }
+          );
           email.setTemplateId(et.id);
           email.setSubject('Documents are ready to review for a Term Loan');
           email.setHtmlBody(emailBody);
@@ -673,11 +677,20 @@ public without sharing class documentUploader_Controller {
   }
 
   @AuraEnabled
-  public static Map<String,String> getPropertyPicklistsFromDealDoc(String dealDocId){
+  public static Map<String, String> getPropertyPicklistsFromDealDoc(
+    String dealDocId
+  ) {
     try {
-      Deal_Document__c dealDoc = [SELECT Id, Deal__c from Deal_Document__c where Id = :dealDocId];
+      Deal_Document__c dealDoc = [
+        SELECT Id, Deal__c
+        FROM Deal_Document__c
+        WHERE Id = :dealDocId
+      ];
 
-      return new Map<String,String>{'dealId' => dealDoc.Deal__c, 'properties' => getPropertyPicklists(dealDoc.Deal__c)};
+      return new Map<String, String>{
+        'dealId' => dealDoc.Deal__c,
+        'properties' => getPropertyPicklists(dealDoc.Deal__c)
+      };
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
@@ -690,7 +703,9 @@ public without sharing class documentUploader_Controller {
     for (Property__c property : [
       SELECT Id, Status__c, Name
       FROM Property__c
-      WHERE Deal__c = :dealId AND Status__c IN ('Active','Due Diligence','Pending','Closing')
+      WHERE
+        Deal__c = :dealId
+        AND Status__c IN ('Active', 'Due Diligence', 'Pending', 'Closing')
       ORDER BY Name ASC
     ]) {
       Map<String, String> picklist = new Map<String, String>();

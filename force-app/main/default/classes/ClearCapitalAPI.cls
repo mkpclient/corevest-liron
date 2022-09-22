@@ -134,7 +134,7 @@ public without sharing class ClearCapitalAPI {
     String recordType,
     Id appraisalId
   ) {
-    if (recordType == 'LOC_Loan' || recordType == 'Single_Asset_Bridge_Loan') {
+    if (recordType != 'Term_Loan' && recordType != 'Term_Loan_Closed_Lost') {
       USERNAME = BRIDGE_USERNAME;
       PASSWORD = BRIDGE_PASSWORD;
     }
@@ -188,33 +188,33 @@ public without sharing class ClearCapitalAPI {
     try {
       if (!Test.isRunningTest()) {
         resp = new Http().send(req);
-  
+
         statusCode = resp.getStatusCode();
-  
+
         respBody = resp.getBody();
       }
-  
+
       system.debug(JSON.serialize(respBody));
-  
+
       //system.debug(statusCode);
-  
+
       //system.debug(respBody);
       if (statusCode == 200 || statusCode == 201) {
         results = parseOrderRetrieval(respBody, fileType);
       } else {
-
       }
-      if(!test.isRunningTest()) {
-        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, false)); 
+      if (!test.isRunningTest()) {
+        System.enqueueJob(
+          new APILoggerQueueable(req, resp, appraisalId, false)
+        );
       }
       return results;
     } catch (Exception err) {
-      if(!test.isRunningTest()) {
-        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, err)); 
+      if (!test.isRunningTest()) {
+        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, err));
       }
       throw err;
     }
-
   }
 
   public static Map<String, String> parseOrderRetrieval(
@@ -339,7 +339,7 @@ public without sharing class ClearCapitalAPI {
     String recordType,
     Id appraisalId
   ) {
-    if (recordType == 'LOC_Loan' || recordType == 'Single_Asset_Bridge_Loan') {
+    if (recordType != 'Term_Loan' && recordType != 'Term_Loan_Closed_Lost') {
       USERNAME = BRIDGE_USERNAME;
       PASSWORD = BRIDGE_PASSWORD;
     }
@@ -383,25 +383,26 @@ public without sharing class ClearCapitalAPI {
         statusCode = resp.getStatusCode();
         respBody = resp.getBody();
       }
-  
+
       system.debug(statusCode);
       system.debug(respBody);
       if (statusCode == 200 || statusCode == 201) {
         results = parseTransactionStatus(respBody);
       } else {
       }
-      
-      if(!System.isQueueable()) {
-        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, false)); 
+
+      if (!System.isQueueable()) {
+        System.enqueueJob(
+          new APILoggerQueueable(req, resp, appraisalId, false)
+        );
       }
       return results;
     } catch (Exception err) {
-      if(!System.isQueueable()) {
-        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, err)); 
+      if (!System.isQueueable()) {
+        System.enqueueJob(new APILoggerQueueable(req, resp, appraisalId, err));
       }
       throw err;
     }
-    
   }
 
   public static Appraisal__c createOrder(
@@ -440,7 +441,9 @@ public without sharing class ClearCapitalAPI {
     body += createAuthenticationXML(property.Deal__r.RecordType.DeveloperName);
 
     String purpose = '0';
-    if (!productType.contains('BPO') && !productType.containsIgnoreCase('cda')) {
+    if (
+      !productType.contains('BPO') && !productType.containsIgnoreCase('cda')
+    ) {
       if (
         property.Refinance_Acquisition__c == 'Purchase' ||
         property.Refinance_Acquisition__c == 'Acquisition'
@@ -466,7 +469,9 @@ public without sharing class ClearCapitalAPI {
       '" ';
     body += 'report_type="' + reportType + '" turn_time="' + turntime + '" ';
 
-    Boolean isCDA = productType == 'CDA with MLS Sheets' || productType == 'CDA with no MLS';
+    Boolean isCDA =
+      productType == 'CDA with MLS Sheets' ||
+      productType == 'CDA with no MLS';
     String versionNumber = isCDA ? '1.2' : '1.0';
 
     // if(productType == 'ClearVal Plus (Interior PCI)' || productType == 'ClearVal Plus (Exterior PCI)'){
@@ -551,7 +556,7 @@ public without sharing class ClearCapitalAPI {
       'tracking_5="" zip4="" zip5="' +
       property.ZipCode__c.subStringBefore('-') +
       '">';
-    if(isCDA) {
+    if(isCDA && String.isNotEmpty(cvContentData)) {
       body += '<supporting_documents>';
       body += '<document_base64 type="APPRAISAL">';
       body += cvContentData;
@@ -566,7 +571,7 @@ public without sharing class ClearCapitalAPI {
 
     system.debug('---submit body---');
     system.debug(JSON.serialize(body));
-
+    system.debug(body.length());
     // String responseBody = ''
 
     String responseBody = doCallout(body, property.id);
@@ -686,23 +691,23 @@ public without sharing class ClearCapitalAPI {
         resp = new Http().send(req);
         respBody = resp.getBody();
       }
-  
+
       //system.debug(resp.getStatus());
       //system.debug(resp.getStatusCode());
       //system.debug(resp.getBody());
       // system.debug(JSON.serialize(body));
       //system.debug(JSON.deserializeStrict(resp.getBody(), List<SmartyStreetsAPI.ResponseResource>.class));
-      System.enqueueJob(new APILoggerQueueable(req, resp, propId, false)); 
-  
-      return respBody;  
+      System.enqueueJob(new APILoggerQueueable(req, resp, propId, false));
+
+      return respBody;
     } catch (Exception err) {
-      System.enqueueJob(new APILoggerQueueable(req, resp, propId, err)); 
+      System.enqueueJob(new APILoggerQueueable(req, resp, propId, err));
       throw err;
     }
   }
 
   public static String createAuthenticationXML(String recordType) {
-    if (recordType == 'LOC_Loan' || recordType == 'Single_Asset_Bridge_Loan') {
+    if (recordType != 'Term_Loan' && recordType != 'Term_Loan_Closed_Lost') {
       USERNAME = BRIDGE_USERNAME;
       PASSWORD = BRIDGE_PASSWORD;
       ACCOUNTID = BRIDGE_ACCOUNTID;

@@ -3,6 +3,7 @@ public class property_test {
   @testsetup
   static void datasetup() {
 	//Account acc = test_Helper.createAccount();
+  test_Helper.createDealLoanNumber();
     Account acc = new Account();
     acc.Name = 'test';
     acc.BillingCountry = 'United States';
@@ -27,6 +28,7 @@ public class property_test {
     opp.Apex_Context__c = true;
     opp.Commission_Type__c = 'Internal';
     opp.LOC_Loan_Type__c = 'Multifamily/CRE';
+    opp.Project_Strategy__c = 'Multifamily Heavy Lift/CLO';
     //opp.Deal_Loan_Number__c = 'test';
     opp.RecordTypeId = [
       SELECT Id

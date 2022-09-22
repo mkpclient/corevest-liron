@@ -632,19 +632,6 @@ public class deal_Contact_Helper {
     updateLoanFeeRecord(newMap, oldMap);
   }
 
-  public static void beforeDelete(List<Deal_Contact__c> oldList) {
-    Set<Id> dealContactIds = new Set<Id>();
-
-    for (Deal_Contact__c dc : oldList) {
-      dealContactIds.add(dc.Id);
-    }
-    delete [
-      SELECT Id
-      FROM Checklist_Section__c
-      WHERE Deal_Contact__c IN :dealContactIds
-    ];
-  }
-
   public static void afterDelete(List<Deal_Contact__c> oldList) {
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
     for (Deal_Contact__c dc : oldList) {

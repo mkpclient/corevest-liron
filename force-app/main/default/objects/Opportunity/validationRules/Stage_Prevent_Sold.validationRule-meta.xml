@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Stage_Prevent_Sold</fullName>
+    <active>true</active>
+    <description>Prevents all users form choosing &quot;Sold&quot; as the Deal Stage.</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Sold_Loan_Pool__c ),
+ ISCHANGED( StageName ), 
+ ISPICKVAL(StageName  , &quot;Sold&quot;) ,
+ NOT(
+ OR(
+  $Profile.Name = &quot;Integration&quot;,
+  $Profile.Name = &quot;System Administrator&quot;
+  )
+ )
+)</errorConditionFormula>
+    <errorDisplayField>StageName</errorDisplayField>
+    <errorMessage>You have selected an invalid Stage</errorMessage>
+</ValidationRule>

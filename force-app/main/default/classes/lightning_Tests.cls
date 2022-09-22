@@ -143,7 +143,6 @@
          opp.Requested_Revolving__c = 'No';
          opp.Requested_Draw_Fee_Cap__c = 'N/A';
          opp.Index__c = '1M LIBOR';
-         opp.Index_Floor__c = '1.00%';
          opp.Index_Margin__c = 1.50;
         opp.Product_Sub_Type__c = 'Single Asset w/out Renovation';
         opp.Apex_Context__c = true;
@@ -218,17 +217,53 @@ private class lightning_Tests {
       '',
       ''
     );
-     lightning_Controller.getRecordListPileLineRpt(
+    lightning_Controller.getRecordListPileLineRpt(
       opp.Id,
       '',
       'opportunity',
-	  new List<String>{ 'Anticipated_Closing_Date__c','Name' ,'Spread_BPS__c','Are_Assets_Being_RFNC_From_Existing_Term__c','Final_Spread__c', 'Loan_Purpose__c','Deal_Loan_Number__c','Account.Introductions_Source__c','Recourse__c','Cash_Management__c','Term_Loan_Type__c','LTV__c','Amortization_Term__c','Floor__c','State_Percentages__c','StageName','Current_Loan_Amount__c','Owner.LastName','Underwriter__r.Initials__c','Loan_Coordinator__r.Initials__c','Closer__r.Initials__c','Title__r.Name','Third_Party_Title__r.Name','Are_Assets_Coming_Off_Bridge_Line__c','Warehouse_Line__c','Kickoff_Date__c','Days_In_Underwriting__c','Anticipated_IC_Approval__c','CloseDate','Loan_Size__c','Final_Loan_Amount__c','Awaiting_Kickoff_Call__c','In_Process_of_Withdrawn_or_Rejected__c','id'} ,        
+      new List<String>{
+        'Anticipated_Closing_Date__c',
+        'Name',
+        'Spread_BPS__c',
+        'Are_Assets_Being_RFNC_From_Existing_Term__c',
+        'Final_Spread__c',
+        'Loan_Purpose__c',
+        'Deal_Loan_Number__c',
+        'Account.Introductions_Source__c',
+        'Recourse__c',
+        'Cash_Management__c',
+        'Term_Loan_Type__c',
+        'LTV__c',
+        'Amortization_Term__c',
+        'Floor__c',
+        'State_Percentages__c',
+        'StageName',
+        'Current_Loan_Amount__c',
+        'Owner.LastName',
+        'Underwriter__r.Initials__c',
+        'Loan_Coordinator__r.Initials__c',
+        'Closer__r.Initials__c',
+        'Title__r.Name',
+        'Third_Party_Title__r.Name',
+        'Are_Assets_Coming_Off_Bridge_Line__c',
+        'Warehouse_Line__c',
+        'Kickoff_Date__c',
+        'Days_In_Underwriting__c',
+        'Anticipated_IC_Approval__c',
+        'CloseDate',
+        'Loan_Size__c',
+        'Final_Loan_Amount__c',
+        'Awaiting_Kickoff_Call__c',
+        'In_Process_of_Withdrawn_or_Rejected__c',
+        'Pipeline_Comments__c',
+        'id'
+      },
       'Id',
       'Desc',
       ' Account.Name != \'Inhouse Test Account\' AND Lender__c LIKE \'%CoreVest%\' AND CloseDate = THIS_MONTH',
       'Awaiting_Kickoff_Call__c ASC, Anticipated_Closing_Date__c ASC, StageName DESC ',
       'P'
-    );       
+    );
     lightning_Controller.getRecordListPropAdva(
       opp.Id,
       'Deal__c',
@@ -238,8 +273,8 @@ private class lightning_Tests {
       'Desc',
       '',
       '',
-      True
-    );    
+      true
+    );
     lightning_Controller.getRecordListPropAdva(
       opp.Id,
       'Deal__c',
@@ -249,8 +284,8 @@ private class lightning_Tests {
       'Desc',
       '',
       '',
-      False
-    );       
+      false
+    );
     lightning_Controller.getRecords(
       opp.Id,
       'Deal__c',
@@ -399,7 +434,6 @@ private class lightning_Tests {
       'Title and Escrow'
     );
 
-
     lightning_Controller.getDocuments(
       String.valueOf(opp.Id),
       'borrower',
@@ -439,7 +473,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Apex_Context__c = true;
@@ -568,7 +602,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c= 3;
     opp.Index_Margin__c = 1.50;
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Apex_Context__c = true;
@@ -633,7 +667,7 @@ private class lightning_Tests {
     insert dealDocList;
 
     List<Id> dealDocId = new List<Id>();
-    for(Deal_Document__c ddoc : dealDocList) {
+    for (Deal_Document__c ddoc : dealDocList) {
       dealDocId.add(ddoc.Id);
     }
 
@@ -762,7 +796,7 @@ private class lightning_Tests {
       Name = 'Test'
     );
     insert attc;
-    
+
     insert new Attachment(
       ParentId = opp.Id,
       Body = Blob.valueOf('saadsf'),
@@ -823,7 +857,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Apex_Context__c = true;
@@ -875,7 +909,6 @@ private class lightning_Tests {
     opp1.RecordTypeId = opp.RecordTypeId;
 
     update new List<Opportunity>{ opp, opp1 };
-
 
     // for (Integer i = 0; i < properties1.size(); i++) {
     // }
@@ -938,23 +971,33 @@ private class lightning_Tests {
   }
 
   static testMethod void appraisal_Ltg_test() {
-    StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalXMLTest' LIMIT 1];
-        ContentVersion cv = new ContentVersion(
-            Title = 'Test',
-            PathOnClient = 'Test.xml',
-            VersionData = xml.Body,
-            IsMajorVersion = true
-        );
+    StaticResource xml = [
+      SELECT Id, Body
+      FROM StaticResource
+      WHERE Name = 'AppraisalXMLTest'
+      LIMIT 1
+    ];
+    ContentVersion cv = new ContentVersion(
+      Title = 'Test',
+      PathOnClient = 'Test.xml',
+      VersionData = xml.Body,
+      IsMajorVersion = true
+    );
 
-        insert cv;
-        test_Helper.createDealLoanNumber();
-        Account acc = Test_Helper.createAccount();
-        Contact cont = Test_Helper.createContact( acc );
-        Opportunity opp = Test_Helper.createOpportunity( acc, cont );
-        opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
-        List<Property__c> properties = Test_Helper.createProperties(opp);
-        Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
+    insert cv;
+    test_Helper.createDealLoanNumber();
+    Account acc = Test_Helper.createAccount();
+    Contact cont = Test_Helper.createContact(acc);
+    Opportunity opp = Test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName = 'Term_Loan' AND sobjecttype = 'Opportunity'
+    ]
+    .Id;
+    List<Property__c> properties = Test_Helper.createProperties(opp);
+    Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
 
-        lightning_Controller.attachFileToParent(cv.Id, appraisal.Id);
+    lightning_Controller.attachFileToParent(cv.Id, appraisal.Id);
   }
 }

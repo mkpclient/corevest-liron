@@ -85,7 +85,8 @@ public with sharing class AppraisalMergeController {
     queryString += ' FROM Appraisal__c WHERE Deal__c =\'' + dealId + '\'';
     //queryString += ' AND Property__r.Is_Parent__c = false';
     queryString += ' AND Property__c != null';
-    queryString += ' AND Status__c =\'' + 'Complete-Delivered' + '\'';
+    queryString += ' AND (Status__c =\'' + 'Complete-Delivered' + '\'';
+    queryString += ' OR Status__c =\'' + 'Reviewed' + '\')';
     queryString += ' Order By CreatedDate DESC';
     return queryString;
   }
@@ -176,18 +177,24 @@ public with sharing class AppraisalMergeController {
       List<String> addOns = (List<String>) arguments.get('addOns');
       String vendorComments = (String) arguments.get('vendorComments');
       Blob cvContentData;
-      if(productType.containsIgnoreCase('cda')) {
+      if(productType.containsIgnoreCase('cda') && arguments.containsKey('cvId') && String.isNotEmpty(String.valueOf(arguments.get('cvId')))) {
         String cvId = (String) arguments.get('cvId');
         cvContentData = [SELECT VersionData FROM ContentVersion WHERE Id = :cvId].VersionData;
       }
-      submitOrderClearCapital(
-        propertyId,
-        productType,
-        turnTime,
-        // addOns,
-        cvContentData != null ? EncodingUtil.base64encode(cvContentData) : null,
-        vendorComments
-      );
+      try {
+        submitOrderClearCapital(
+          propertyId,
+          productType,
+          turnTime,
+          // addOns,
+          cvContentData != null ? EncodingUtil.base64encode(cvContentData) : null,
+          vendorComments
+        );
+      } catch (Exception err) {
+        System.debug(err.getMessage() + ' on line ' + err.getLineNumber() + '. ' + err.getCause());
+        throw new AuraHandledException(err.getMessage() + ' on line ' + err.getLineNumber() + '. ' + err.getCause());
+      }
+      
     } else if (appraisalFirm == 'Appraisal Nation') {
       String vendorComments = (String) arguments.get('vendorComments');
       String dueDate = (String) arguments.get('dueDate');
@@ -314,17 +321,20 @@ public with sharing class AppraisalMergeController {
       WHERE id = :propertyId
       LIMIT 1
     ];
-
-    Appraisal__c appraisal = ClearCapitalAPI.createOrder(
-      p,
-      productType,
-      turnTime,
-      cvContentData,
-      // addOns,
-      vendorComments
-    );
-
-    // if(addOns.size() > 0) {
+    Appraisal__c appraisal = new Appraisal__c();
+    try {
+      appraisal = ClearCapitalAPI.createOrder(
+        p,
+        productType,
+        turnTime,
+        cvContentData,
+        // addOns,
+        vendorComments
+      );
+    } catch (Exception err) {
+      throw err;
+    }
+       // if(addOns.size() > 0) {
     //   String addonAsString = '';
 
     //   for(Object a : addOns) {

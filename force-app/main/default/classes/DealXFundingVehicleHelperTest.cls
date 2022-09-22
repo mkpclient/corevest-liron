@@ -2,6 +2,7 @@
 public with sharing class DealXFundingVehicleHelperTest {
     @TestSetup
     static void makeData(){
+        test_Helper.createDealLoanNumber();
         Account testAcc = Test_Helper.createBrokerAccount();
         Contact testCtc = Test_Helper.createContact(testAcc);
         Opportunity testDeal = Test_Helper.createTermDeal(testAcc, testCtc);

@@ -41,10 +41,10 @@
         label="Deposit Amount"
         value={deal.Deposit_Amount__c}
         data-field="Deposit_Amount__c"
+        onchange={updateValue}
         type="number"
         formatter="currency"
         step="0.01"
-        read-only
       ></lightning-input>
     </lightning-layout-item>
 
@@ -71,7 +71,7 @@
 
     <lightning-layout-item padding="around-medium" size="6"
       ><lightning-input
-        label="Final Swap/Treasury Rate"
+        label="Final Swap Rate"
         value={deal.Final_Swap__c}
         onchange={updateValue}
         data-field="Final_Swap__c"

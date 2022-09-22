@@ -10,7 +10,7 @@ public class deal_Document_Helper {
    **/
   public static void beforeInsert(List<Deal_Document__c> newList) {
     Map<Id, List<Deal_Document__c>> oppMap = new Map<Id, List<Deal_Document__c>>();
-    Map<Id, List<Deal_Document__c>> propMap = new Map<Id, List<Deal_Document__c>>();
+    Map<Id, List<Deal_Document__c>> accountMap = new Map<Id, List<Deal_Document__c>>();
     Map<Id, List<Deal_Document__c>> needDealAdvances = new Map<Id, List<Deal_Document__c>>();
     Map<Id, List<Deal_Document__c>> needDealProperty = new Map<Id, List<Deal_Document__c>>();
 
@@ -64,51 +64,80 @@ public class deal_Document_Helper {
           oppMap.put(doc.Deal__c, new List<Deal_Document__c>());
         }
         oppMap.get(doc.Deal__c).add(doc);
+      } else if (doc.Account__c != null) {
+        if (!accountMap.containsKey(doc.Account__c)) {
+          accountMap.put(doc.Account__c, new List<Deal_Document__c>());
+        }
+        accountMap.get(doc.Account__c).add(doc);
       }
-      // if (doc.Property__c != null) {
-      //   if (doc.Property__c != null) {
-      //     propMap.put(doc.Deal__c, new List<Deal_Document__c>());
-      //   }
-      //   propMap.get(doc.Deal__c).add(doc);
-      // }
 
       if (String.isNotBlank(doc.Document_Structure_Id__c)) {
         docStructureIds.add(doc.Document_Structure_Id__c);
       }
     }
 
-    if (oppMap.size() > 0 || propMap.size() > 0) {
+    if (oppMap.size() > 0) {
       Map<Id, Map<String, Checklist_Item__c>> itemMap = new Map<Id, Map<String, Checklist_Item__c>>();
       for (Checklist_Item__c item : [
-        SELECT Id, Document_Type__c, Checklist_Section__r.Checklist__r.Deal__c
+        SELECT
+          Id,
+          Document_Type__c,
+          Checklist_Section__r.Checklist__r.Deal__c,
+          Checklist_Section__r.Checklist__r.Account__c
         FROM Checklist_Item__c
-        WHERE Checklist_Section__r.Checklist__r.Deal__c IN :oppMap.keySet()
+        WHERE
+          Checklist_Section__r.Checklist__r.Deal__c IN :oppMap.keySet()
+          OR Checklist_Section__r.Checklist__r.Account__c IN :accountMap.keySet()
       ]) {
-        if (
-          !itemMap.containsKey(item.Checklist_Section__r.Checklist__r.Deal__c)
-        ) {
-          itemMap.put(
-            item.Checklist_Section__r.Checklist__r.Deal__c,
-            new Map<String, Checklist_Item__c>()
-          );
+        if (item.Checklist_Section__r.Checklist__r.Deal__c != null) {
+          if (
+            !itemMap.containsKey(item.Checklist_Section__r.Checklist__r.Deal__c)
+          ) {
+            itemMap.put(
+              item.Checklist_Section__r.Checklist__r.Deal__c,
+              new Map<String, Checklist_Item__c>()
+            );
+          }
+          itemMap.get(item.Checklist_Section__r.Checklist__r.Deal__c)
+            .put(item.Document_Type__c, item);
         }
 
-        itemMap.get(item.Checklist_Section__r.Checklist__r.Deal__c)
-          .put(item.Document_Type__c, item);
+        if (item.Checklist_Section__r.Checklist__r.Account__c != null) {
+          if (
+            !itemMap.containsKey(
+              item.Checklist_Section__r.Checklist__r.Account__c
+            )
+          ) {
+            itemMap.put(
+              item.Checklist_Section__r.Checklist__r.Account__c,
+              new Map<String, Checklist_Item__c>()
+            );
+          }
+          itemMap.get(item.Checklist_Section__r.Checklist__r.Account__c)
+            .put(item.Document_Type__c, item);
+        }
       }
 
       for (Deal_Document__c doc : newList) {
-        if (doc.Checklist_Item__c == null) {
-          if (doc.Deal__c != null) {
-            if (
-              itemMap.containsKey(doc.Deal__c) &&
-              itemMap.get(doc.Deal__c).containsKey(doc.Document_Type__c)
-            ) {
-              doc.Status__c = 'Not Reviewed';
-              doc.Checklist_Item__c = itemMap.get(doc.Deal__c)
-                .get(doc.Document_Type__c)
-                .Id;
-            }
+        if (doc.Checklist_Item__c == null && doc.Deal__c != null) {
+          if (
+            itemMap.containsKey(doc.Deal__c) &&
+            itemMap.get(doc.Deal__c).containsKey(doc.Document_Type__c)
+          ) {
+            doc.Checklist_Item__c = itemMap.get(doc.Deal__c)
+              .get(doc.Document_Type__c)
+              .Id;
+          }
+        }
+
+        if (doc.Checklist_Item__c == null && doc.Account__c != null) {
+          if (
+            itemMap.containsKey(doc.Account__c) &&
+            itemMap.get(doc.Account__c).containsKey(doc.Document_Type__c)
+          ) {
+            doc.Checklist_Item__c = itemMap.get(doc.Account__c)
+              .get(doc.Document_Type__c)
+              .Id;
           }
         }
       }
@@ -118,6 +147,7 @@ public class deal_Document_Helper {
       SELECT
         Id,
         Underwriter__c,
+        X2nd_Underwriter__c,
         Closer__c,
         Loan_Coordinator__c,
         OwnerId,
@@ -127,6 +157,7 @@ public class deal_Document_Helper {
     ]) {
       for (Deal_Document__c doc : oppMap.get(o.Id)) {
         doc.Underwriter__c = o.Underwriter__c;
+        doc.X2nd_Underwriter__c = o.X2nd_Underwriter__c;
         doc.Closer__C = o.Closer__c;
         doc.Loan_Coordinator__c = o.Loan_Coordinator__c;
         doc.Originator__c = o.OwnerId;
@@ -152,14 +183,18 @@ public class deal_Document_Helper {
             Upload_Notification_Originations__c,
             Upload_Notification_Underwriter__c,
             Document_Type__c,
-            Legal_Review__c
+            Legal_Review__c,
+            Recorded_Document__c
           FROM Document_Structure__mdt
           WHERE Id IN :docStructureIds
         ]
       );
 
       for (Deal_Document__c doc : newList) {
-        if (String.isNotBlank(doc.Document_Structure_Id__c)) {
+        if (
+          String.isNotBlank(doc.Document_Structure_Id__c) &&
+          doc.Checklist_Item__c != null
+        ) {
           Document_Structure__mdt docStructure = docStructureMap.get(
             doc.Document_Structure_Id__c
           );
@@ -190,8 +225,12 @@ public class deal_Document_Helper {
             .Upload_Notification_Originations__c;
           doc.Upload_Notification_Underwriter__c = docStructure
             .Upload_Notification_Underwriter__c;
-          doc.Legal_Review__c = docStructure
-            .Legal_Review__c;
+          doc.Legal_Review__c = docStructure.Legal_Review__c;
+          if (docStructure.Recorded_Document__c) {
+            doc.Recording_Status__c = 'Pending';
+          } else {
+            doc.Recording_Status__c = 'N/A';
+          }
         }
       }
     }
@@ -218,7 +257,7 @@ public class deal_Document_Helper {
         FROM Checklist_Item__c
         WHERE Id IN :itemIds
       ]) {
-        item.Status__c = 'Uploaded';
+        item.Status__c = 'Pending';
         items.add(item);
       }
 
@@ -449,7 +488,6 @@ public class deal_Document_Helper {
     Set<Id> updateAppraisals = new Set<Id>();
 
     Map<Id, Deal_Document__c> updateFileNamesMap = new Map<Id, Deal_Document__c>(); //CIP 2152. 1/25/2022. Raj Sirivolu.
-    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
@@ -477,23 +515,7 @@ public class deal_Document_Helper {
       ) {
         AlchemyAPI.sendTermSheet(newList[i].Deal__c, newList[i].Id);
       }
-
-      if (
-        newList[i].Status__c != oldList[i].Status__c &&
-        newList[i].Checklist_Item__c != null
-      ) {
-        if (newList[i].Status__c == 'Rejected') {
-          items.add(
-            new Checklist_Item__c(
-              Id = newList[i].Checklist_Item__c,
-              Status__c = 'In Progress (Open)'
-            )
-          );
-        }
-      }
     }
-
-    update items;
 
     if (updateAppraisals.size() > 0) {
       List<Appraisal__c> appraisalsToUpdate = new List<Appraisal__c>();

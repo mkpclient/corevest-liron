@@ -2,6 +2,7 @@
 public with sharing class OpportunityProductHelperTest {
   @isTest
   public static void OpportunityProductHelperTest1() {
+      test_Helper.createDealLoanNumber();
     Account testAcct = Test_Helper.createAccount();
     Contact testCont = Test_Helper.createContact(testAcct);
 

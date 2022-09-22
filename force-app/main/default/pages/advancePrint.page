@@ -949,7 +949,7 @@
                         <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'COREVEST'), TRUE, FALSE)}">
                             Paid by CoreVest
                         </apex:outputPanel>
-                        <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'ESCROW'), TRUE, FALSE)}">
+                        <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'BORROWER'), TRUE, FALSE)}">
                             Paid on HUD
                         </apex:outputPanel>
                     </div>
@@ -1448,7 +1448,7 @@
                             <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'COREVEST'), TRUE, FALSE)}">
                                 Paid by CoreVest
                             </apex:outputPanel>
-                            <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'ESCROW'), TRUE, FALSE)}">
+                            <apex:outputPanel layout="none" rendered="{!IF(contains(UPPER(Advance__c.Broker_Fee_Paid_By_Whom__c),'BORROWER'), TRUE, FALSE)}">
                                 Paid on HUD
                             </apex:outputPanel>
                         </div>

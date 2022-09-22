@@ -13,10 +13,6 @@
         <allowDelegate>true</allowDelegate>
         <approvalActions>
             <action>
-                <name>Change_Approval_Status_to_Approved</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
                 <name>Pricing_Approval_Alert_Bridge</name>
                 <type>Alert</type>
             </action>
@@ -69,6 +65,10 @@
             <name>Current_Approval_Process_NULL</name>
             <type>FieldUpdate</type>
         </action>
+        <action>
+            <name>Pricing_Rejected_Alert_Bridge</name>
+            <type>Alert</type>
+        </action>
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
     <initialSubmissionActions>
@@ -86,7 +86,7 @@
         <useApproverFieldOfRecordOwner>false</useApproverFieldOfRecordOwner>
         <userHierarchyField>Manager</userHierarchyField>
     </nextAutomatedApprover>
-    <processOrder>6</processOrder>
+    <processOrder>7</processOrder>
     <recallActions>
         <action>
             <name>Current_Approval_Process_NULL</name>

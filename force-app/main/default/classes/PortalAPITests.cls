@@ -3,6 +3,7 @@ private class PortalAPITests {
   public static string BASE_URL = system.url.getOrgDomainUrl().toExternalForm();
   @testSetup
   static void setup() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
 
@@ -162,21 +163,6 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIApplicationProperty.doPost();
-
-    Application__c application = new APplication__c(
-      Id = applicationId,
-      Loan_Type__c = 'Single Asset Bridge Loan'
-    );
-    application.Status__c = 'Completed';
-    update application;
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/application/af-sdba/prefill/sab';
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIApplication.doGet();
   }
 
   static testMethod void dashboardTests() {
@@ -320,7 +306,7 @@ private class PortalAPITests {
   static testMethod void commentTests() {
     Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
     RestRequest request = new RestRequest();
-    request.requestUri = BASE_URL + 'services/apexrest/portal/comments';
+    request.requestUri = 'apexrest/portal/comments';
     request.httpMethod = 'POST';
     request.addHeader('Content-Type', 'application/json');
 
@@ -335,7 +321,7 @@ private class PortalAPITests {
     PortalAPIComments.doPost();
 
     request = new RestRequest();
-    request.requestUri = BASE_URL + 'services/apexrest/portal/comments';
+    request.requestUri = 'apexrest/portal/comments';
     request.httpMethod = 'POST';
     request.addHeader('Content-Type', 'application/json');
 
@@ -350,43 +336,25 @@ private class PortalAPITests {
     PortalAPIComments.doPost();
 
     request = new RestRequest();
+    request.requestUri = 'apexrest/portal/comments/read';
+    request.httpMethod = 'POST';
+    request.addHeader('Content-Type', 'application/json');
+
+    List<Comment__c> comments = [SELECT Id FROM Comment__c LIMIT 1];
+
+    List<Object> listbody = new List<Object>();
+    listbody.add(comments[0].Id);
+    request.requestBody = Blob.valueOf(JSON.serialize(listbody));
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIComments.doPost();
+
+    request = new RestRequest();
     request.requestUri = 'apexrest/portal/comments/af-sdba/all';
     request.httpMethod = 'GET';
 
     request = new RestRequest();
     request.requestUri = 'apexrest/portal/comments/loanId/' + opp.Id;
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIComments.doGet();
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/comments/propertyId/' + opp.Id;
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIComments.doGet();
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/comments/documentId/' + opp.Id;
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIComments.doGet();
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/comments/itemId/' + opp.Id;
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPIComments.doGet();
-
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/comments/userId/' + opp.Id;
     request.httpMethod = 'GET';
 
     RestContext.request = request;
@@ -442,12 +410,6 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIComments.doGet();
-
-    Test.startTest();
-    MessageCenterController.getAllComments(opp.Id);
-    Comment__c comments = [SELECT Id FROM Comment__c LIMIT 1];
-    MessageCenterController.getCommentsById(comments.Id);
-    Test.stopTest();
   }
 
   static testMethod void termsheetTests() {
@@ -519,16 +481,6 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPITermSheet.doGet();
-
-    Test.startTest();
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/timeline/af-sdba';
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPITimeline.doGet();
-    Test.stopTest();
   }
 
   static testMethod void userTests() {
@@ -686,6 +638,40 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doGet();
 
+    RecordType vendorRecordType = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName LIKE '%vendor%'
+      LIMIT 1
+    ];
+    account myAcc = new account();
+    myAcc.name = 'test acc rec';
+    myAcc.phone = '1234567890';
+    myAcc.Alternate_Phone__c = '1234567890';
+    myAcc.Do_Not_Lend__c = false;
+    myAcc.recordTypeId = vendorRecordType.Id;
+    myAcc.Non_Borrower_Account_Type__c = 'Title and Escrow';
+
+    insert myAcc;
+
+    contact myCon = new contact();
+    myCon.FirstName = 'test';
+    myCon.LastName = 'testlast';
+    myCon.AccountId = myAcc.id;
+    myCon.Alchemy_Portal_Id__c = 'af-sdbaa';
+
+    insert myCon;
+
+    topp1.Contact__c = myCon.Id;
+    update topp1;
+    request = new RestRequest();
+    request.requestUri =
+      'apexrest/portal/documentvault/af-sdbaa/vault/' + topp1.Id;
+    request.httpMethod = 'GET';
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIDocumentVault.doGet();
+
     Test.stopTest();
     // Checklist_ITem__c item = [
     //   SELECT Id
@@ -780,6 +766,7 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doPost();
+
     // Test.stopTest();
 
     request = new RestRequest();
@@ -827,6 +814,28 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIDocumentVault.doPost();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/documentvault/upload';
+    request.httpMethod = 'DELETE';
+
+    body = new Map<String, String>();
+    body.put('id', cv.Id);
+    request.requestBody = Blob.valueOf(JSON.serialize(body));
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIDocumentVault.doDelete();
+
+    request = new RestRequest();
+    request.requestUri = 'apexrest/portal/documentvault/' + cv.Id;
+    request.httpMethod = 'DELETE';
+
+    body = new Map<String, String>();
+
+    RestContext.request = request;
+    RestContext.response = new RestResponse();
+    PortalAPIDocumentVault.doDelete();
 
     Test.stopTest();
   }
@@ -1002,8 +1011,7 @@ private class PortalAPITests {
       Title = 'test.txt',
       PathOnClient = 'test.txt',
       VersionData = Blob.valueOf('test.txt'),
-      Uploaded_From_Portal_Id__c = 'af-sdba',
-      Linked_to_Record__c = true
+      Uploaded_From_Portal_Id__c = 'af-sdba'
     );
 
     insert cv;
@@ -1041,15 +1049,5 @@ private class PortalAPITests {
     RestContext.request = request;
     RestContext.response = new RestResponse();
     PortalAPIFunding.doPost();
-
-    Test.startTest();
-    request = new RestRequest();
-    request.requestUri = 'apexrest/portal/timeline/af-sdba';
-    request.httpMethod = 'GET';
-
-    RestContext.request = request;
-    RestContext.response = new RestResponse();
-    PortalAPITimeline.doGet();
-    Test.stopTest();
   }
 }

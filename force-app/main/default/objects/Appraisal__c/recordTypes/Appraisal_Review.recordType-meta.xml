@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_Review</fullName>
+    <active>true</active>
+    <label>Appraisal Review</label>
+    <picklistValues>
+        <picklist>Appraisal_Form__c</picklist>
+        <values>
+            <fullName>BPO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clarocity MVP</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ClearVal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ClearVal Plus %28Interior PCI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commercial Narrative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1004</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1004C</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1004D</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1025</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1073</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM1075</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>FNM2055</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Land Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>N%2FA</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Appraisal_Invoicing__c</picklist>
+        <values>
+            <fullName>AMC - Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AMC - Payment Required at Closing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mercury - Outstanding</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mercury - Paid by Borrower</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mercury - Paid to Appraiser</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Payment Required at Closing</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Appraisal_Product_Ordered__c</picklist>
+        <values>
+            <fullName>Appraisal Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Appraisal Update</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BPO</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CDAIR Exterior Disaster Area Inspection Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CDAIR Interior Disaster Area Inspection Report</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ClearVal Plus %28Exterior PCI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ClearVal Plus %28Interior PCI%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Commercial Narrative</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CoreVal%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Desktop Summary Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EDR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Exterior Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Final Inspection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Interior Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Internal In-House Appraisal</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Market Value Pro Exterior</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Post Disaster Inspection</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recert%2E of Value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Attachment_Type__c</picklist>
+        <values>
+            <fullName>Attached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Detached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SemiDetached</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Delivery_Method__c</picklist>
+        <values>
+            <fullName>API</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User Created</fullName>
+            <default>true</default>
+        </values>
+        <values>
+            <fullName>XML Upload</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Post_Close_Appraisal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - internal value provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - pending internal value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Product_Type_Addons__c</picklist>
+        <values>
+            <fullName>As-Repaired Value Addendum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Budget Analysis w%2F As-Repaired Value Addendum</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Comparable Sales History</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Estimated Monthly Rent Addendum</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Special_Flood_Hazard_Area__c</picklist>
+        <values>
+            <fullName>N</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Status__c</picklist>
+        <values>
+            <fullName>Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Assigned</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Cancelled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complete-Delivered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Complete-Undelivered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Declined</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Duplicate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In Revision</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inspection Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Inspection Scheduled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Late</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>On Hold</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ordered</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ordered - Appraiser Accepted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Pending Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pending Order</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Processing</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ready for Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reassignment Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reviewed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Reviewed - Remargin Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revision Received</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revision Required</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Revision Sent</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under Review</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vendor Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Verbal Pending Final</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>With Vendor</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>This_Appraisal_is_Made__c</picklist>
+        <values>
+            <fullName>ARV Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AS IS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AS IS%2FARV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AS REPAIR</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>AS REPAIRED</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>As-Is Only</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>As-Is w%2FARV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SUBJECT TO%2FAS IS</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Turn_Time__c</picklist>
+        <values>
+            <fullName>2 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5 day</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7 day</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Vendor_Ordered_From__c</picklist>
+        <values>
+            <fullName>Appraisal Nation</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>BBG</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clarocity Valuation Services</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Clear Capital</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CoreVest Finance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>EBI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HouseCanary</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Individual Licensed Appraiser</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Martin Montserrat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ServiceLink</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ServiceLink-Bofi</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>US RES</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Valuation Services AMC</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

@@ -3,7 +3,7 @@
     <fullName>Draw_Request</fullName>
     <active>true</active>
     <description>Draw Request</description>
-    <label>Draw_Request</label>
+    <label>Draw Request</label>
     <picklistValues>
         <picklist>CTMCallDirection__c</picklist>
         <values>

@@ -30,7 +30,7 @@
     </fieldOverrides>
     <fieldOverrides>
         <field>Status__c</field>
-        <literalValue>Pending Order</literalValue>
+        <literalValue>Complete-Delivered</literalValue>
     </fieldOverrides>
     <fieldOverrides>
         <field>Zip__c</field>

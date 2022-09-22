@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Orig_Assnmnt_Sec_Instrument_Wrhouse_Blan</label>
+    <label>Orig Assnmnt Sec Instrument Wrhouse Blan</label>
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
@@ -72,31 +72,31 @@
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
-        <value xsi:type="xsd:string">Bridge_Principal_Loan_Docs</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Criteria__c</field>
-        <value xsi:type="xsd:string">ISCHANGED(Distinct_Counties__c)</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Item_Per_County__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Post_Closing_Required__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Post_Closing_Sort__c</field>
-        <value xsi:type="xsd:double">20.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Trigger__c</field>
-        <value xsi:type="xsd:string">afterUpdate</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_sObjectType__c</field>
-        <value xsi:type="xsd:string">Advance__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Private__c</field>
@@ -104,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>
@@ -152,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Servicer</value>
+        <value xsi:type="xsd:string">Servicer;Diligence Review</value>
     </values>
     <values>
         <field>sObject__c</field>

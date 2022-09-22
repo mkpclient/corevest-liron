@@ -55,10 +55,6 @@
                 <behavior>Edit</behavior>
                 <field>Alternative_Email__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Portal_Last_Login__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

@@ -350,7 +350,7 @@ public without sharing class AppraisalNationAPI {
     reqBody.put('job_fee', '');
     reqBody.put('loan_type', loan_type);
     reqBody.put('intended_use', intended_use);
-    reqBody.put('loan_officer', '1');
+    // reqBody.put('loan_officer', '1');
     reqBody.put('loan_number', property.Deal__r.Deal_Loan_Number__c);
     reqBody.put(
       'purchase_amount',

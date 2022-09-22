@@ -1,6 +1,7 @@
 @isTest
 private class SABAdvanceMemoExtensionTest {
   static testMethod void testMethod1() {
+      test_Helper.createDealLoanNumber();
     Account acc = Test_Helper.createAccount();
     Contact cont = Test_Helper.createContact(acc);
     Opportunity opp = Test_Helper.createBridgeDeal(acc, cont);
@@ -35,6 +36,7 @@ private class SABAdvanceMemoExtensionTest {
   }
 
   static testMethod void testMethodSuccess() {
+      test_Helper.createDealLoanNumber();
     Account acc = Test_Helper.createAccount();
     Contact cont = Test_Helper.createContact(acc);
     Opportunity opp = Test_Helper.createBridgeDeal(acc, cont);

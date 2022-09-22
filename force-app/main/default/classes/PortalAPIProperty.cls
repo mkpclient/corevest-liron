@@ -22,7 +22,14 @@ global without sharing class PortalAPIProperty {
           'Id',
           'Deal__c',
           'Deal__r.Name',
-          'Name'
+          'Name',
+          'Deal__r.Onboarding_File_Sent_to_Servicer__c',
+          'Deal__r.Current_UPB__c',
+          'Deal__r.Next_Payment_Date__c',
+          'Deal__r.Stated_Maturity_Date__c',
+          'Deal__r.Servicer_Name__c',
+          'Deal__r.StageName',
+          'Deal__r.RecordType.DeveloperName'
         };
         //}//TERM_SRL_FIELDS;
 
@@ -75,7 +82,15 @@ global without sharing class PortalAPIProperty {
   public static Set<String> TERM_SRL_FIELDS = new Set<String>{
     'Id',
     'Deal__r.Name',
+    'Deal__r.Onboarding_File_Sent_to_Servicer__c',
+    'Deal__r.Current_UPB__c',
+    'Deal__r.Next_Payment_Date__c',
+    'Deal__r.Stated_Maturity_Date__c',
+    'Deal__r.Servicer_Name__c',
     'Deal__r.Application__c',
+    'Deal__r.Deal_Loan_Number__c',
+    'Deal__r.StageName',
+    'Deal__r.RecordType.DeveloperName',
     'Number_of_Units__c',
     'Acquisition_Date__c',
     'Acquisition_Price__c',
@@ -129,6 +144,7 @@ global without sharing class PortalAPIProperty {
     'State__c',
     'Square_Feet__c',
     'Year_Built__c',
-    'Property_Type__c'
+    'Property_Type__c',
+    'Current_Asset_Maturity_Date__c'
   };
 }

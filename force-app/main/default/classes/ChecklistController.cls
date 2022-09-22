@@ -253,7 +253,8 @@ public without sharing class ChecklistController {
           Deal__c,
           Property__r.Deal__c,
           Checklist_Section__r.Checklist__r.Deal__c,
-          Checklist_Section__r.Property__c
+          Checklist_Section__r.Property__c,
+          Checklist_Section__r.Checklist__r.Account__c
         FROM Checklist_Item__c
         WHERE Id = :itemId
         LIMIT 1
@@ -278,6 +279,7 @@ public without sharing class ChecklistController {
         //dealDoc.Deal__c = item.Deal__c;
         dealDoc.Deal__c = item.Checklist_Section__r.Checklist__r.Deal__c;
         dealDoc.Property__c = item.Checklist_Section__r.Property__c;
+        dealDoc.Account__c = item.Checklist_Section__r.Checklist__r.Account__c;
         dealDoc.Status__c = 'Not Reviewed';
         if (String.isNotBlank(item.Property__c)) {
           dealDoc.Property__c = item.Property__c;

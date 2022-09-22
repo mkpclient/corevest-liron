@@ -2,6 +2,7 @@
 public without sharing class OpportunityMethodsTest {
   @isTest
   public static void testUpdatePaidOffProperties() {
+      test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity sabdeal = new Opportunity();

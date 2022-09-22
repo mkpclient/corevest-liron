@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Environmental_Report_Phase_I_and_Phase</value>
     </values>
     <values>
         <field>Is_Bulk__c</field>

@@ -33,8 +33,40 @@
     uploadProcess: function(component, file, fileContents, index) {
         var startPosition = 0;
         var endPosition = Math.min(fileContents.length, startPosition + this.CHUNK_SIZE);
-        
-        this.uploadInChunk(component, file, fileContents, startPosition, endPosition, '', index, false);
+        if(component.get("v.isProofOfFund")) {
+            console.log(fileContents);
+            this.uploadProofOfFund(component, file, fileContents);
+        } else {
+            this.uploadInChunk(component, file, fileContents, startPosition, endPosition, '', index, false);
+        }
+    },
+    uploadProofOfFund: function(component, file, fileContents) {
+        var action = component.get("c.saveProofOfFunds");
+        action.setParams({
+            parentId: component.get("v.recordId"),
+            fileName: 'Proof_Of_Funds.docx',
+            base64Data: fileContents,
+            contentType: 'docx'
+        });
+        action.setCallback(this, function(response) {
+            if(response.getState() == "SUCCESS"){
+                this.showToast(component,"success", "Success!", "Proof of Funds saved successfully.");
+                var cmpEvent = component.getEvent("cmpEvent");
+                cmpEvent.fire();
+            } else if (response.getState() == "ERROR") {
+                component.set("v.showLoadingSpinner", false);
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log("Error message: " + errors[0].message);
+                        alert("Error message: " + errors[0].message);
+                    }
+                } else {
+                    console.log("Unknown error");
+                }
+            }
+        })
+        $A.enqueueAction(action);
     },
     uploadInChunk: function(component, file, fileContents, startPosition, endPosition, attachId, index, allChunksComplete) {
         // call the apex method 'saveChunk'

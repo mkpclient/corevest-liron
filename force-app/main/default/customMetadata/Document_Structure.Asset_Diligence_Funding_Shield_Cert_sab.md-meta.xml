@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>Additional_C2C_Filtering__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Commercial;BTR</value>
     </values>
     <values>
         <field>Borrower_Access__c</field>
@@ -24,11 +24,11 @@
     </values>
     <values>
         <field>C2C_Sort__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:double">7.0</value>
     </values>
     <values>
         <field>Clear_To_Close_Setting__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Title_Information_sab</value>
     </values>
     <values>
         <field>Confidential__c</field>
@@ -104,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>

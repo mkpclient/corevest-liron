@@ -62,7 +62,91 @@
         <description>Deal Document Created - Determination Notice</description>
         <protected>false</protected>
         <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
             <recipient>michael.tran@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Document_Created</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Document_Created_Operating_Agreement_Bylaws</fullName>
+        <description>Deal Document Created - Operating Agreement/Bylaws</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lindy.hedges-wright@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>rachel.dolby@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Document_Created</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Document_Created_Org_Chart_Natalie_O_Nate_V</fullName>
+        <description>Deal Document Created - Org Chart Natalie O + Nate V</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>natalie.oshin@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nate.valline@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Document_Created</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Document_Created_Org_Chart_Nate_Paul_Natalie</fullName>
+        <description>Deal Document Created - Org Chart Nate V Paul B Natalie O</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>natalie.oshin@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nate.valline@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>paul.basmajian@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Document_Created</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Document_Created_Org_Chart_Paul_B_Nate_V</fullName>
+        <description>Deal Document Created - Org Chart Paul B + Nate V</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>nate.valline@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>paul.basmajian@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -115,10 +199,6 @@
         <fullName>Notify_Closer_when_Title_Review_Vendor_Upload_Document</fullName>
         <description>Notify Closer when Title Review Vendor Upload Document</description>
         <protected>false</protected>
-        <recipients>
-            <recipient>paras.meghpara@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
         <recipients>
             <field>Property_Closer__c</field>
             <type>userLookup</type>

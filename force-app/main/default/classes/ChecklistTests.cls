@@ -118,6 +118,37 @@ private class ChecklistTests {
       new List<Checklist_Item__c>{ item },
       'upload'
     );
+
+    Deal_Document__c dealDoc = [SELECT Id FROM Deal_Document__C LIMIT 1];
+    dealDoc.Status__c = 'Approved';
+    update dealDoc;
+    dealDoc.Status__c = 'Not Reviewed';
+    update dealDoc;
+    dealDoc.Status__c = 'Rejected';
+    dealDoc.File_Name__c = 'test11';
+    update dealDoc;
     Test.stopTest();
+  }
+
+  static testMethod void test2() {
+    Test_Helper.createDealLoanNumber();
+
+    RecordType lender = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName LIKE 'lender' AND SobjectType = 'account'
+      LIMIT 1
+    ];
+    account vendor = new account();
+    vendor.name = 'test acc rec';
+    vendor.phone = '1234567890';
+    vendor.Alternate_Phone__c = '1234567890';
+    vendor.Do_Not_Lend__c = false;
+    vendor.recordTypeId = lender.Id;
+    vendor.Non_Borrower_Account_Type__c = 'Title and Escrow';
+
+    insert vendor;
+
+    // ChecklistHelper.c
   }
 }

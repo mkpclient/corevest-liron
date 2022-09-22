@@ -20,10 +20,8 @@ global without sharing class PortalAPIComments {
     //system.debug(req.requestBody.toString());
 
     List<String> params = Restcontext.request.requestURI.split('/');
-
-    system.debug(Restcontext.request.requestURI);
     system.debug(params);
-    if (params.size() == 4) {
+    if (params.size() > 3) {
       String action = params[3];
 
       Boolean flag = action == 'unread';
@@ -271,7 +269,8 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Checklist_Item__c,
-        Unread__c
+        Unread__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE Id = :commentId
       LIMIT 1
@@ -291,7 +290,13 @@ global without sharing class PortalAPIComments {
 
   static List<Comment> getAllComments() {
     Map<Id, Application__c> applications = new Map<Id, Application__c>(
-      [SELECT Id, Name FROM Application__c WHERE Alchemy_User_Id__c = :portalId]
+      [
+        SELECT Id, Name
+        FROM Application__c
+        WHERE
+          Alchemy_User_Id__c = :portalId
+          OR Broker_Alchemy_User_Id__c = :portalId
+      ]
     );
     List<Comment__c> allComments = [
       SELECT
@@ -318,7 +323,8 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Checklist_Item__c,
-        Unread__c
+        Unread__c,
+        Checklist_Item__r.Name
       FROM Comment__c
       WHERE
         Alchemy_Portal_Id__c = :portalId
@@ -403,7 +409,9 @@ global without sharing class PortalAPIComments {
     List<Application__c> apps = [
       SELECT Id, Name
       FROM Application__c
-      WHERE Alchemy_User_Id__c = :portalId
+      WHERE
+        Alchemy_User_Id__c = :portalId
+        OR Broker_Alchemy_User_Id__c = :portalId
     ];
 
     if (!usePagination) {
@@ -448,7 +456,7 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Unread__c,
-        Checklist_item__c,
+        Checklist_Item__c,
         Checklist_Item__r.Name
       FROM Comment__c
       WHERE Deal__c = :dealId
@@ -516,8 +524,7 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Unread__c,
-        Checklist_item__c,
-        Checklist_Item__r.Name
+        Checklist_Item__c
       FROM Comment__c
       WHERE Property__c = :propertyId
       ORDER BY CreatedDate DESC
@@ -549,9 +556,7 @@ global without sharing class PortalAPIComments {
         Property__r.Name,
         Deal__r.Name,
         Deal_Document__r.Name,
-        Unread__c,
-        Checklist_item__c,
-        Checklist_Item__r.Name
+        Unread__c
       FROM Comment__c
       WHERE Application__c = :applicationId
       ORDER BY CreatedDate DESC
@@ -585,8 +590,7 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Unread__c,
-        Checklist_item__c,
-        Checklist_Item__r.Name
+        Checklist_Item__c
       FROM Comment__c
       WHERE Deal_Document__c = :documentId
       ORDER BY CreatedDate DESC
@@ -622,8 +626,7 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Unread__c,
-        Checklist_item__c,
-        Checklist_Item__r.Name
+        Checklist_Item__c
       FROM Comment__c
       WHERE
         (Lead__c = :leadId

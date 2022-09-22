@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Entity_Documents_Cert_of_Formation</value>
     </values>
     <values>
         <field>Is_Bulk__c</field>

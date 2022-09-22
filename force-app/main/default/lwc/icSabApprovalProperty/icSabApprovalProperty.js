@@ -130,7 +130,7 @@ export default class IcSabApprovalProperty extends LightningElement {
           type: "number",
           formatter: "currency",
           step: "0.01",
-          value: res[0].Deal__r.Broker_Fees__c * res[0].Deal__r.LOC_Commitment__c,
+          value: (res[0].Deal__r.Broker_Fees__c / 100) * res[0].Deal__r.LOC_Commitment__c,
           isParentField: true,
           isPillContainer: false,
           isNumber: true
@@ -152,9 +152,9 @@ export default class IcSabApprovalProperty extends LightningElement {
           isNumber: false
         },
         {
-          fieldName: "Total_Basis__c",
+          fieldName: "Total_Cost_Basis__c",
           variant: "label-hidden",
-          customLabel: "Rehab Amount",      
+          customLabel: "Total Cost",      
           isParentField: false,
           isPillContainer: false,
           isNumber: false
@@ -176,18 +176,28 @@ export default class IcSabApprovalProperty extends LightningElement {
           isNumber: false
         },
         {
-          isEmpty: true // for one column fields
-        },
-        {
-          fieldName: "Interest_Holdback_Amount__c",
+          fieldName: "Appraised_Value_Amount__c",
           variant: "label-hidden",
-          customLabel: "Interest Holdback Amount",      
+          customLabel: "Current Appraised As-Is Value",      
           isParentField: false,
           isPillContainer: false,
           isNumber: false
         },
+        // {
+        //   fieldName: "Interest_Holdback_Amount__c",
+        //   variant: "label-hidden",
+        //   customLabel: "Interest Holdback Amount",      
+        //   isParentField: false,
+        //   isPillContainer: false,
+        //   isNumber: false
+        // },
         {
-          isEmpty: true 
+          fieldName: "After_Repair_Value__c",
+          variant: "label-hidden",
+          customLabel: "Current Appraised After Repair Value",      
+          isParentField: false,
+          isPillContainer: false,
+          isNumber: false
         },
         {
           fieldName: "Prop_Total_Holdback__c",
@@ -198,7 +208,12 @@ export default class IcSabApprovalProperty extends LightningElement {
           isNumber: false
         },
         {
-          isEmpty: true
+          fieldName: "Calculated_Initial_LTV__c",
+          variant: "label-hidden",
+          customLabel: "Calculated Initial LTV %",      
+          isParentField: false,
+          isPillContainer: false,
+          isNumber: false
         },
         {
           fieldName: "Perc_of_Rehab_Budget__c",
@@ -209,7 +224,12 @@ export default class IcSabApprovalProperty extends LightningElement {
           isNumber: false
         },
         {
-          isEmpty: true
+          fieldName: "Calculated_ARV_LTV__c",
+          variant: "label-hidden",
+          customLabel: "Calculated ARV LTV %",      
+          isParentField: false,
+          isPillContainer: false,
+          isNumber: false
         },
         {
           fieldName: "Max_Total_Loan_Amount__c",
@@ -227,7 +247,7 @@ export default class IcSabApprovalProperty extends LightningElement {
           type: "number",
           formatter: "percent",
           step: "0.01",
-          value: res[0].Deal__r.LTC__c,
+          value: res[0].Deal__r.LTC__c / 100,
           isParentField: true,
           isPillContainer: false,
           isNumber: true

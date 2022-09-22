@@ -143,7 +143,7 @@ public without sharing class IcApprovalController {
   }
 
   public static List<String> fields = new List<String>{
-    'Opportunity.Owner.Email',
+    'Owner.Email',
     'Name',
     'Record_Type_Name__c',
     'LOC_Program_Type__c',
@@ -306,7 +306,12 @@ public without sharing class IcApprovalController {
       m.put('EmailContents', new List<Object>{ mail.getHTMLBody() });
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
-    m.put('Recipients', new List<Object>{ EMAILSMAP.get(approvalType) });
+    List<String> recipientsList = new List<String>();
+    recipientsList.addAll(EMAILSMAP.get(approvalType));
+    if(!recipientsList.contains(deal[0].Owner.Email)) {
+      recipientsList.add(deal[0].Owner.Email);
+    }
+    m.put('Recipients', new List<Object>{recipientsList});
     Set<String> ccSet = new Set<String>(CCMAP.get(approvalType));
 
     if(CC_RECTYPE_MAP.containsKey(deal[0].Record_Type_Name__c)) {

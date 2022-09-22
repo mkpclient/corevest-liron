@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:type="xsd:string">Lender_Year_End_Financials</value>
+        <value xsi:type="xsd:string">Lender_Financials</value>
     </values>
     <values>
         <field>Is_Bulk__c</field>

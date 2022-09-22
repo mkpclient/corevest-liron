@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Document_Structure__c</field>
-        <value xsi:type="xsd:string">Resumes_Bios_of_Principals</value>
+        <value xsi:type="xsd:string">Lender_Resumes_Bios_of_Principals</value>
     </values>
     <values>
         <field>Is_Bulk__c</field>

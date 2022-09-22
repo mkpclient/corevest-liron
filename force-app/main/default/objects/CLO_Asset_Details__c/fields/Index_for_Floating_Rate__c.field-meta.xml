@@ -37,6 +37,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>1M LIBOR</fullName>
+                <default>false</default>
+                <label>1M LIBOR</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -7,6 +7,7 @@ private class SABDealMemoExtensionTest {
 
     static TestMethod void testMethod1(){
         Test.startTest();
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity deal = test_Helper.createOpportunity( acc, cont );

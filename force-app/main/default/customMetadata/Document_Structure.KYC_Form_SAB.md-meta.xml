@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
-        <value xsi:type="xsd:string">Non SAB;SAB;Commercial;BTR</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Additional_C2C_Filtering__c</field>
@@ -12,11 +12,11 @@
     </values>
     <values>
         <field>Borrower_Access__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Borrower_Checklist__c</field>
-        <value xsi:type="xsd:string">Submission_Information_Initial_Review</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>C2C_Required_Filtering__c</field>
@@ -44,7 +44,7 @@
     </values>
     <values>
         <field>Display_In_Portal_Picklist__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Document_Type__c</field>
@@ -68,7 +68,7 @@
     </values>
     <values>
         <field>Loan_Status_Sort__c</field>
-        <value xsi:type="xsd:double">3.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
@@ -148,7 +148,7 @@
     </values>
     <values>
         <field>Vendor_Access__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>

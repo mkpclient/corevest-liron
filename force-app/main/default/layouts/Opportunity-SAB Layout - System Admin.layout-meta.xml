@@ -39,10 +39,6 @@
                 <field>Deal_Lost_Reason__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Account_Introduction_Source__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Deal_Intro_Source__c</field>
             </layoutItems>
@@ -86,15 +82,15 @@
                 <behavior>Edit</behavior>
                 <field>Approved_Third_Party_Originators__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National_picklist__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Deal_Loan_Number__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Yardi_ID__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -117,11 +113,11 @@
                 <field>Project_Strategy__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>AccountId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
@@ -162,13 +158,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Country__c</field>
             </layoutItems>
             <layoutItems>
-                <emptySpace>true</emptySpace>
+                <behavior>Edit</behavior>
+                <field>Securitized__c</field>
             </layoutItems>
             <layoutItems>
-                <emptySpace>true</emptySpace>
+                <behavior>Edit</behavior>
+                <field>Securitization__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -267,10 +269,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Requested_Exit_Fee__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Exception__c</field>
             </layoutItems>
             <layoutItems>
@@ -356,6 +354,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Holdback_To_Rehab_Ratio__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Notes__c</field>
             </layoutItems>
         </layoutColumns>
@@ -406,10 +408,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Exit_Fee__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Extension_Period_Days__c</field>
             </layoutItems>
             <layoutItems>
@@ -431,6 +429,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Current_Interest_Reserves_Remaining__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Funding_Method__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Points_on_Repayments__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -809,19 +815,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Active_States__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Yardi_ID__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Amount</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Modified_Expiration_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Stated_Maturity_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -905,6 +907,18 @@
                 <behavior>Edit</behavior>
                 <field>Requested_Draw_Fee_Cap__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exit_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Requested_Exit_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Sold_Loan_Pool__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -943,17 +957,17 @@
             <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Add_Guarantor</actionName>
+            <actionName>Opportunity.New_Quote</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.New_Entity</actionName>
+            <actionName>Opportunity.Add_Guarantor</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
+            <actionName>Opportunity.New_Entity</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
         </platformActionListItems>
@@ -1023,54 +1037,64 @@
             <sortOrder>16</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Clone_SAB_Loan</actionName>
+            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>17</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
+            <actionName>Opportunity.Clone_SAB_Loan</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>18</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>FeedItem.ContentNote</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>19</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Enter_Sold_Loan_Details</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>20</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>PrintableView</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>19</sortOrder>
+            <sortOrder>21</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>20</sortOrder>
+            <sortOrder>22</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>NewTask</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>21</sortOrder>
+            <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>22</sortOrder>
+            <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Bridge_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>23</sortOrder>
+            <sortOrder>25</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>24</sortOrder>
+            <sortOrder>26</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Event</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>25</sortOrder>
+            <sortOrder>27</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.New_Bridge_Loan_Assigned_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>26</sortOrder>
+            <sortOrder>28</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1088,11 +1112,55 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>QUOTE.QUOTENUMBER</fields>
+        <fields>QUOTE.NAME</fields>
+        <fields>QUOTE.ISSYNCING</fields>
+        <fields>QUOTE.EXPIRATIONDATE</fields>
+        <fields>QUOTE.SUBTOTAL</fields>
+        <fields>QUOTE.TOTALPRICE</fields>
+        <fields>CreatedBy</fields>
+        <relatedList>RelatedQuoteList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
-        <fields>Exception_Status__c</fields>
-        <fields>Exception_Type__c</fields>
         <fields>Property__c</fields>
-        <relatedList>Policy_Exception__c.Deal__c</relatedList>
+        <fields>Exception_Status_Internal__c</fields>
+        <fields>Exception_Status_Custodian__c</fields>
+        <fields>Exception_Description__c</fields>
+        <fields>Exception_Code__c</fields>
+        <fields>Exception_Assigned_Date__c</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+        <sortField>Exception_Assigned_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <relatedList>RelatedFileList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal_2__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -1103,6 +1171,18 @@
         <fields>New_Remaining_Interest_Reserve__c</fields>
         <fields>Remaining_Interest_Reserve__c</fields>
         <relatedList>Interest_Reserves__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Funding_Vehicle__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <fields>QC_Yes_No__c</fields>
+        <fields>QC_Batch_Number__c</fields>
+        <fields>QC_Date__c</fields>
+        <relatedList>Deal_x_Funding_Vehicle__c.Deal__c</relatedList>
+        <sortField>Start_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
@@ -1278,6 +1358,7 @@
         <fields>NAME</fields>
         <fields>Entity_Type__c</fields>
         <fields>Deal_Contact_Type__c</fields>
+        <fields>Business_Entity__c</fields>
         <fields>Contact__c</fields>
         <fields>Account__c</fields>
         <fields>Vendor_Type__c</fields>
@@ -1304,6 +1385,25 @@
         <fields>CREATEDBY_USER</fields>
         <fields>CREATED_DATE</fields>
         <relatedList>Covenant__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Servicer_Name__c</fields>
+        <fields>Servicer_Commitment_ID__c</fields>
+        <fields>Delinquent_30_Days__c</fields>
+        <fields>Delinquent_60_Days__c</fields>
+        <fields>Delinquent_90_Days__c</fields>
+        <fields>Delinquent_120_Days__c</fields>
+        <fields>Historical_Ontime_Payments_Percentage__c</fields>
+        <fields>First_Payment_Date__c</fields>
+        <fields>Last_Payment_Date__c</fields>
+        <relatedList>Servicer_Loan__c.Deal__c</relatedList>
+        <sortField>First_Payment_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

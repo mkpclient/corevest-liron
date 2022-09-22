@@ -77,6 +77,8 @@ private class CommunityTests {
        
         insert user;
 
+
+test_Helper.createDealLoanNumber();
         Opportunity opp = test_Helper.createOpportunity( ac, con );
         insert new Deal_Contact__c(Account__c = ac.Id, Deal__c = opp.Id);
         insert new Deal_Contact__c(Account__c = ac.Id, Deal__c = opp.Id);
@@ -104,6 +106,8 @@ private class CommunityTests {
        
         insert user;
 
+
+test_Helper.createDealLoanNumber();
         Opportunity opp = test_Helper.createOpportunity( ac, con );
         insert new Deal_Contact__c(Account__c = ac.Id, Deal__c = opp.Id);
         insert new Deal_Contact__c(Account__c = ac.Id, Deal__c = opp.Id);
