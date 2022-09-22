@@ -165,21 +165,21 @@
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
-        <content>Single_Rental_Loan</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Opportunity</pageOrSobjectType>
-        <recordType>Opportunity.Single_Asset_Loan</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
         <content>Borrower_Page</content>
         <formFactor>Small</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Correspondent</recordType>
         <type>Flexipage</type>
         <profile>Sales Analyst</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Single_Rental_Loan</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Opportunity</pageOrSobjectType>
+        <recordType>Opportunity.Single_Asset_Loan</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -572,15 +572,6 @@
         <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Correspondent_Bridge</recordType>
         <type>Flexipage</type>
-        <profile>MarketingProfile</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Correspondent_Bridge</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Correspondent_Bridge</recordType>
-        <type>Flexipage</type>
         <profile>Standard</profile>
     </profileActionOverrides>
     <profileActionOverrides>
@@ -591,6 +582,15 @@
         <recordType>Account.Correspondent_Bridge</recordType>
         <type>Flexipage</type>
         <profile>Chatter Free User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Correspondent_Bridge</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Correspondent_Bridge</recordType>
+        <type>Flexipage</type>
+        <profile>MarketingProfile</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -1277,15 +1277,6 @@
         <content>Borrower_Page</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Account</pageOrSobjectType>
-        <recordType>Account.Vendor</recordType>
-        <type>Flexipage</type>
-        <profile>Relationship Manager</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Borrower_Page</content>
-        <formFactor>Large</formFactor>
-        <pageOrSobjectType>Account</pageOrSobjectType>
         <recordType>Account.Correspondent_Bridge</recordType>
         <type>Flexipage</type>
         <profile>Origination Manager</profile>
@@ -1307,6 +1298,15 @@
         <recordType>Account.Non_Borrower</recordType>
         <type>Flexipage</type>
         <profile>Origination Manager</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Borrower_Page</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+        <recordType>Account.Vendor</recordType>
+        <type>Flexipage</type>
+        <profile>Relationship Manager</profile>
     </profileActionOverrides>
     <profileActionOverrides>
         <actionName>View</actionName>
@@ -3233,15 +3233,6 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Bridge Operations</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
@@ -3269,6 +3260,15 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Bridge Operations</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
         <formFactor>Large</formFactor>
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
@@ -3494,7 +3494,25 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Guest License User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
         <formFactor>Large</formFactor>
+        <pageOrSobjectType>Advance__c</pageOrSobjectType>
+        <recordType>Advance__c.Interest_Reserve</recordType>
+        <type>Flexipage</type>
+        <profile>Guest License User</profile>
+    </profileActionOverrides>
+    <profileActionOverrides>
+        <actionName>View</actionName>
+        <content>Advance_Record_Page1</content>
+        <formFactor>Small</formFactor>
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
@@ -3503,25 +3521,7 @@
     <profileActionOverrides>
         <actionName>View</actionName>
         <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Guest License User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
         <formFactor>Large</formFactor>
-        <pageOrSobjectType>Advance__c</pageOrSobjectType>
-        <recordType>Advance__c.Interest_Reserve</recordType>
-        <type>Flexipage</type>
-        <profile>Guest License User</profile>
-    </profileActionOverrides>
-    <profileActionOverrides>
-        <actionName>View</actionName>
-        <content>Advance_Record_Page1</content>
-        <formFactor>Small</formFactor>
         <pageOrSobjectType>Advance__c</pageOrSobjectType>
         <recordType>Advance__c.Interest_Reserve</recordType>
         <type>Flexipage</type>
