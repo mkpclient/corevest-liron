@@ -5,7 +5,7 @@
     const fields = ["Id", "Deal__c"];
     for (let i = 0; i < dataMap.length; i++) {
       const curr = dataMap[i];
-      if (curr.field != null && curr.field.length > 0) {
+      if (curr.field != null && curr.field.length > 0 && !fields.includes(curr.field)) {
         fields.push(curr.field);
       }
     }

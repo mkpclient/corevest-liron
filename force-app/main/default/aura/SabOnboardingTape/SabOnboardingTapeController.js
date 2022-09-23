@@ -189,7 +189,7 @@
       },
       {
         header: "Paid to Date",
-        field: "Paid_to_Date__c",
+        field: "First_Funding_Date__c",
         type: "date",
         defaultValue: ""
       },
