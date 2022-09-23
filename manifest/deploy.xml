@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+        <members>lightning_Util</members>
+        <members>lightningUtil_Tests</members>
+        <members>UpsertBatch</members>
+        <members>UpsertBatchTests</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+    <members>Property__c.Current_P_I_Monthly_Payment__c</members>
         <members>Property__c.Paid_to_Date__c</members>
         <members>Property__c.Late_Charge__c</members>
         <members>Property__c.Default_Rate__c</members>
         <members>Property__c.Interest_Accrual_Calculation__c</members>
-        <members>Property__c.Current_P_I_Monthly_Payment__c</members>
         <name>CustomField</name>
     </types>
     <types>
-        <members>SabFciDataTape</members>
+        <members>SabOnboardingTape</members>
         <name>AuraDefinitionBundle</name>
     </types>
-
     <version>53.0</version>
 </Package>
-<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r OpportunityMethodsTest,PaidOffSabPropertiesBatchTest -->
+<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r lightningUtil_Tests,UpsertBatchTests -->

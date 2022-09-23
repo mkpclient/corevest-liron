@@ -409,17 +409,9 @@ public without sharing class lightning_Util {
         LIMIT 1
       ].ContentDocumentId;
 
-      List<ContentDocumentLink> cdLinks = new List<ContentDocumentLink>();
       List<Deal_Document__c> docs = new List<Deal_Document__c>();
 
       for(Id pId : parentIds) {
-        cdLinks.add(new ContentDocumentLink(
-          LinkedEntityId = pId,
-          ContentDocumentId = contentDocId,
-          ShareType = 'I',
-          Visibility = 'AllUsers'
-        ));
-
         docs.add(new Deal_Document__c(
           File_Name__c = fileName,
           ContentVersion_Id__c = cv.Id,
@@ -434,8 +426,7 @@ public without sharing class lightning_Util {
         ));
       }
 
-      insert cdLinks;
-      insert docs;      
+      Database.executeBatch(new UpsertBatch(docs), 100);
 
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
