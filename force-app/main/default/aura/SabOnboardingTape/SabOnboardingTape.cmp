@@ -10,7 +10,7 @@
   <aura:attribute name="scriptLoaded" type="Boolean" default="false" />
   <aura:attribute name="templateName" type="String" default="SabOnboardingTapeTemplate" />
   <aura:attribute name="templateData" type="String" />
-
+  <aura:attribute name="isLoaded" type="Boolean" default="false" />
   <lightning:layout
     class="slds-m-top_medium"
     horizontalAlign="spread"
@@ -19,7 +19,7 @@
     <lightning:layoutItem>
       <div class="slds-is-relative">
         <lightning:buttonGroup>
-          <aura:if isTrue="{!v.sheetDataMap != null &amp;&amp; v.scriptLoaded == true &amp;&amp; v.properties != null &amp;&amp; v.templateData != null}">
+          <aura:if isTrue="{!v.isLoaded &amp;&amp; v.sheetDataMap != null &amp;&amp; v.scriptLoaded == true &amp;&amp; v.properties != null &amp;&amp; v.templateData != null}">
             <lightning:button
               label="SAB Onboarding Data Tape"
               aura:id="download"

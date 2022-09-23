@@ -14,13 +14,14 @@
     const queryString =
       "SELECT " +
       fields.join(",") +
-      " FROM Property__c WHERE Deal__r.RecordType.DeveloperName='Single_Asset_Bridge_Loan' AND Deal__r.Onboarding_File_Sent_to_Servicer__c = NULL ORDER BY Deal__r.Deal_Loan_Number__c ASC";
+      " FROM Property__c WHERE Deal__r.isClosed = true AND Deal__r.RecordType.DeveloperName='Single_Asset_Bridge_Loan' AND Deal__r.Onboarding_File_Sent_to_Servicer__c = NULL ORDER BY Deal__r.Deal_Loan_Number__c ASC";
     action.setParams({ queryString });
 
     action.setCallback(this, function (response) {
       const state = response.getState();
       if (state === "SUCCESS") {
         component.set("v.properties", response.getReturnValue());
+        component.set("v.isLoaded", true);
       } else if (state === "ERROR") {
         const errors = response.getError();
         let errMessage = "Error: ";
