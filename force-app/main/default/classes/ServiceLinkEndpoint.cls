@@ -163,9 +163,13 @@ global without sharing class ServiceLinkEndpoint {
           );
         }
         when else {
-          ServiceLinkException err = new ServiceLinkException();
-          err.setMessage('Unable to identify request ' + reqType + '.');
-          throw err;
+          if(REQ_TO_DATEFIELD_MAP.keySet().contains(reqType)) {
+            resMap.put('LoanNumber', processRequestConfirmations(respMap.values()[0], titleOrders, reqType));
+          } else {
+            ServiceLinkException err = new ServiceLinkException();
+            err.setMessage('Unable to identify request ' + reqType + '.');
+            throw err;
+          }
         }
       }
 
