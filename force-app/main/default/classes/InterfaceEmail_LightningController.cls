@@ -23,8 +23,6 @@ public without sharing class InterfaceEmail_LightningController {
   //   .Email_Address__c;
   public static final String CHRIS = queryEmailAddress('Chris Hoeffel')
     .Email_Address__c;
-  public static final String BRAD = queryEmailAddress('Brad Chmura')
-    .Email_Address__c;
   public static final String MICAELA = queryEmailAddress('Micaela Lumpkin')
     .Email_Address__c;
   public static final String SEAN = queryEmailAddress('Sean Robbins')
@@ -426,7 +424,7 @@ public without sharing class InterfaceEmail_LightningController {
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
     // replace in body w/ opp details
-    List<Object> recipients = new List<Object>{ BRAD, MICAELA, MARC_H, DAN_F };
+    List<Object> recipients = new List<Object>{ MICAELA, MARC_H, DAN_F };
     if (
       String.isNotBlank(o.LOC_Loan_Type__c) &&
       SAB_LOANTYPES.contains(o.LOC_Loan_Type__c)

@@ -18,7 +18,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     // 'Ryan McBride'
     'Christopher Hoeffel',
     // 'Bryon Harland'
-    'Brad Chmura',
     'Micaela Lumpkin',
     'Matthew Orrino',
     'Dan Federico',
@@ -44,9 +43,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   // static final Email_Addresses__c BRYON_SETTINGS = queryEmailAddress(
   //   'Bryon Harland'
   // );
-  static final Email_Addresses__c BRAD_SETTINGS = queryEmailAddress(
-    'Brad Chmura'
-  );
   static final Email_Addresses__c MATT_SETTINGS = queryEmailAddress(
     'Matthew Orrino'
   );
@@ -69,7 +65,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   static final String BETH = BETH_SETTINGS.Email_Address__c;
   static final String CHRIS = CHRIS_SETTINGS.Email_Address__c;
   // static final String BRYON = BRYON_SETTINGS.Email_Address__c;
-  static final String BRAD = BRAD_SETTINGS.Email_Address__c;
   static final String MICAELA = MICAELA_SETTINGS.Email_Address__c;
   static final String MATT = MATT_SETTINGS.Email_Address__c;
 
@@ -86,7 +81,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   static final String DAN_F_CODE = DAN_F_SETTINGS.Approver_Code__c.toLowerCase();
   static final String MARC_H_CODE = MARC_H_SETTINGS.Approver_Code__c.toLowerCase();
   // static final String BRYON_CODE = BRYON_SETTINGS.Approver_Code__c.toLowerCase();
-  static final String BRAD_CODE = BRAD_SETTINGS.Approver_Code__c.toLowerCase();
   static final String MICAELA_CODE = MICAELA_SETTINGS.Approver_Code__c.toLowerCase();
   static final String MATT_CODE = MATT_SETTINGS.Approver_Code__c.toLowerCase();
   static final String BRIDGE_LIST = queryEmailAddress(
@@ -275,7 +269,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     User emilianUser = userMap.get('Emilian Halloran');
     // User bryonUser = userMap.get('Bryon Harland');
     User mattUser = userMap.get('Matthew Orrino');
-    User bradUser = userMap.get('Brad Chmura');
     User micaelaUser = userMap.get('Micaela Lumpkin');
     User danFrUser = userMap.get('Dan Federico');
     User marcHUser = userMap.get('Marc Heenan');
@@ -372,7 +365,7 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           // RYAN,
           CHRIS,
           // BRYON,
-          BRAD,
+          
           MICAELA,
           MATT,
           DAN_F,
@@ -490,7 +483,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             JEFFREY,
             EMILIAN,
             // BRYON,
-            BRAD,
             MICAELA,
             MATT,
             DAN_F,
@@ -574,7 +566,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           fromAddress == SEAN ||
           fromAddress == JEFFREY ||
           fromAddress == EMILIAN ||
-          fromAddress == BRAD ||
           fromAddress == MARC_H ||
           fromAddress == DAN_F ||
           fromAddress == MICAELA ||
@@ -582,7 +573,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           // alternateFromAddress == RYAN ||
           alternateFromAddress == CHRIS ||
           // alternateFromAddress == BRYON ||
-          alternateFromAddress == BRAD ||
           alternateFromAddress == MICAELA ||
           alternateFromAddress == MATT ||
           alternateFromAddress == MARC_H ||
@@ -602,8 +592,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           // } else 
           if(fromAddress == CHRIS || alternateFromAddress == CHRIS) {
             toId = chrisUser.Id;
-          } else if (fromAddress == BRAD || alternateFromAddress == BRAD) {
-            toId = bradUser.Id;
           } else if (fromAddress == MICAELA || alternateFromAddress == MICAELA) {
             toId = micaelaUser.Id;
           } else  if (fromAddress == MATT || alternateFromAddress == MATT) {
@@ -628,7 +616,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             (null != EMILIAN_CODE && htmlBody.toLowerCase().contains(EMILIAN_CODE)) ||
             // (null != BRYON_CODE &&
             // htmlBody.toLowerCase().contains(BRYON_CODE)) ||
-            (null != BRAD_CODE && htmlBody.toLowerCase().contains(BRAD_CODE)) ||
             (null != MARC_H_CODE && htmlBody.toLowerCase().contains(MARC_H_CODE)) ||
             (null != DAN_F_CODE && htmlBody.toLowerCase().contains(DAN_F_CODE)) ||
             (null != MICAELA_CODE &&
@@ -637,10 +624,10 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           ) {
             b = true;
             Boolean isGLC = false;
-            if(htmlBody.toLowerCase().contains(BRAD_CODE + ' glc')) {
-              updateDealForGlc(deal.Id);
-              isGLC = true;
-            }
+            // if(htmlBody.toLowerCase().contains(DAN_F_CODE + ' glc') || htmlBody.toLowerCase().contains(MARC_H_CODE + ' glc')) {
+            //   updateDealForGlc(deal.Id);
+            //   isGLC = true;
+            // }
             createAttachment(email, deal);
             postToChatter(deal, deal.Id, isGLC);
           }
