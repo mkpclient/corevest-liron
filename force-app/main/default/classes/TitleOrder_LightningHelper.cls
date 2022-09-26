@@ -218,12 +218,11 @@ public without sharing class TitleOrder_LightningHelper {
       ' FROM Opportunity WHERE Id = :dealId';
     Opportunity deal = Database.query(queryString);
 
-    ServiceLinkAPI.ServiceLinkRequest qRequest = new ServiceLinkAPI.ServiceLinkRequest();
 
-    qRequest.generateRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
+    ServiceLinkAPI.QuoteRequest qRequest = ServiceLinkAPI.generateQuoteRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
     ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
       'QuoteRequest',
-      qRequest
+      JSON.serialize(qRequest)
     );
 
     List<Title_Order__c> titleOrders = new List<Title_Order__c>();
@@ -268,26 +267,50 @@ public without sharing class TitleOrder_LightningHelper {
         FROM ContentVersion
         WHERE ContentDocumentId = :cdId
       ];
-
+      String dealFields = 'Deal__r.Contact__r.FirstName,Deal__r.Contact__r.LastName,Deal__r.Account.Name,Deal__r.Contact__r.Email,Deal__r.Contact__r.MailingStreet,Deal__r.Contact__r.MailingCity,Deal__r.Contact__r.MailingState,Deal__r.Contact__r.MailingPostalCode,Deal__r.Contact__r.Phone,Deal__r.Contact__r.MobilePhone';
       String queryString =
-        'SELECT ' + String.join(new List<String>(toFields), ',') + ',Deal__r.Contact__r.Name,Deal__r.Account.Name,Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
+        'SELECT ' + String.join(new List<String>(toFields), ',') + ',' + dealFields + ',Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
 
       queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
 
       List<Title_Order__c> titleOrders = Database.query(queryString);
       Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
+      Map<String, Map<Id,List<Property__c>>> parentChildMapList = new Map<String, Map<Id,List<Property__c>>>();
       Map<String, ServiceLinkAPI.ServiceLinkRequest> qRequests = new Map<String, ServiceLinkAPI.ServiceLinkRequest>();
 
+      Map<Id,Property__c> childProps = new Map<Id,Property__c>([SELECT Id, (SELECT Id, Name, City__c, County__c, State__c, ZipCode__c FROM Properties__r ) FROM Property__c WHERE Deal__c = :dealId AND Is_Parent__c = True]);
+
       for (Title_Order__c to : titleOrders) {
-        List<Property__c> props = new List<Property__c>{to.Property__r};
+        
+        List<Property__c> props = new List<Property__c>();
+        Map<Id,List<Property__c>> propMap = new Map<Id,List<Property__c>>();
         if(propListsMap.containsKey(to.Quote_ID__c)) {
+          props.add(to.Property__r);
           props.addAll(propListsMap.get(to.Quote_ID__c));
         }
+        if(parentChildMapList.containsKey(to.Quote_ID__c)) {
+          propMap = parentChildMapList.get(to.Quote_ID__c);
+        }
+
+        if(childProps.containsKey(to.Property__c)) {
+          propMap.put(to.Property__c, childProps.get(to.Property__c).Properties__r);
+        }
         
-        ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
-        qR.generateQuoteAcceptedRequest(to, cv);
-        qRequests.put(to.Quote_ID__c, qr);
+        
         propListsMap.put(to.Quote_ID__c,props);
+        parentChildMapList.put(to.Quote_ID__c, propMap);
+      }
+
+      for (Title_Order__c to : titleOrders) {
+        if(qRequests.containsKey(to.Quote_ID__c)) {
+          continue;
+        }
+
+        List<Property__c> props = propListsMap.get(to.Quote_ID__c);
+        Map<Id,List<Property__c>> propMap = parentChildMapList.get(to.Quote_ID__c);
+        ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
+        qR.generateQuoteAcceptedRequest(to, cv, props, propMap);
+        qRequests.put(to.Quote_ID__c, qr);
       }
 
       
@@ -295,14 +318,17 @@ public without sharing class TitleOrder_LightningHelper {
       for (ServiceLinkAPI.ServiceLinkRequest qr : qRequests.values()) {
         ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
           'QuoteAccepted',
-          qr
+          JSON.serialize(qr)
         );
       }
 
 
 
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      System.debug(e.getMessage());
+      System.debug(e.getLineNumber());
+      System.debug(e.getStackTraceString());
+      throw new AuraHandledException(e.getMessage() + ' ' + e.getLineNumber());
     }
   }
 
