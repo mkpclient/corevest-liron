@@ -263,33 +263,44 @@ public without sharing class TitleOrder_LightningHelper {
         .fields.getMap()
         .keySet();
 
+      ContentVersion cv = [
+        SELECT Id, ContentSize, VersionData, Title
+        FROM ContentVersion
+        WHERE ContentDocumentId = :cdId
+      ];
+
       String queryString =
-        'SELECT ' + String.join(new List<String>(toFields), ',');
-      for (String f : propFields) {
-        queryString += ',Property__r.' + f;
-      }
+        'SELECT ' + String.join(new List<String>(toFields), ',') + ',Deal__r.Contact__r.Name,Deal__r.Account.Name,Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
+
       queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
 
-      List<Title_Order__c> titleOrders = Databse.query(queryString);
-      List<ServiceLinkAPI.ServiceLinkRequest> qRequests = new List<ServiceLinkAPI.ServiceLinkRequest>();
+      List<Title_Order__c> titleOrders = Database.query(queryString);
+      Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
+      Map<String, ServiceLinkAPI.ServiceLinkRequest> qRequests = new Map<String, ServiceLinkAPI.ServiceLinkRequest>();
 
-      String currentQuoteId;
-      ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
-
-      for(Title_Order__c to : titleOrders) {
-        if(to.Quote_ID__c != currentQuoteId) {
-          if(String.isNotEmpty(currentQuoteId)) {
-            qRequests.push(qR);
-          }
-          qR = new ServiceLinkAPI.ServiceLinkRequest();
-          qR.setQuoteAcceptedDefault();
-          
-        } else {
-
+      for (Title_Order__c to : titleOrders) {
+        List<Property__c> props = new List<Property__c>{to.Property__r};
+        if(propListsMap.containsKey(to.Quote_ID__c)) {
+          props.addAll(propListsMap.get(to.Quote_ID__c));
         }
+        
+        ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
+        qR.generateQuoteAcceptedRequest(to, cv);
+        qRequests.put(to.Quote_ID__c, qr);
+        propListsMap.put(to.Quote_ID__c,props);
       }
 
       
+
+      for (ServiceLinkAPI.ServiceLinkRequest qr : qRequests.values()) {
+        ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
+          'QuoteAccepted',
+          qr
+        );
+      }
+
+
+
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

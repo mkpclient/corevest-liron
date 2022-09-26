@@ -91,7 +91,6 @@ public without sharing class ServiceLinkAPI {
     public String LoanPortfolioName { get; set; } // CV Loan Portfolio Name
     public Decimal LoanAmount { get; set; }
     public String Comments { get; set; }
-    public String BulkProjectOrderNum { get; set; }
     public TitleDocument Document { get; set; } // type is QUOTEREQUEST and send XLSX format. "Data Tape" of properties for the quote request
 
     public void generateRequest(
@@ -117,6 +116,7 @@ public without sharing class ServiceLinkAPI {
   }
 
   public virtual class OrderInquiry extends QuoteRequest {
+    public String BulkProjectOrderNum { get; set; }
     public String IncomingTransactionId { get; set; }
     public String AssetID { get; set; }
     public String OrderNumber { get; set; }
@@ -125,6 +125,7 @@ public without sharing class ServiceLinkAPI {
     public List<TitleDocument> Documents { get; set; }
 
     public void generateRequest(Title_Order__c titleOrder) {
+      this.BulkProjectOrderNum = String.isNotEmpty(titleOrder.Bulk_Project_Order_Num__c) ? titleOrder.Bulk_Project_Order_Num__c : '';
       this.IncomingTransactionId = titleOrder.Property__r.Deal__c;
       this.OrderNumber = titleOrder.Order_Number__c;
       this.AssetID = titleOrder.Asset_ID__c;
@@ -136,7 +137,8 @@ public without sharing class ServiceLinkAPI {
     
   }
 
-  public class LenderAttorney {
+  public class ServicelinkContact {
+    public String ContactType;
     public String CompanyName;
     public String FirstName;
     public String LastName;
@@ -174,12 +176,20 @@ public without sharing class ServiceLinkAPI {
   public virtual class QuoteAccepted extends OrderInquiry {
     public String AnticipatedCloseDate { get; set; }
     public TitleDocument Document { get; set; }
-    public LenderAttorney LenderAttorney { get; set;}
+    public List<ServicelinkContact> Contacts { get; set;}
     public List<Property> Properties { get; set; }
      
-    public void setQuoteAcceptedDefault() {
+    public void generateQuoteAcceptedRequest(Title_Order__c to, ContentVersion cv, List<Property__c> props) {
+      this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
+      this.QuoteID = to.Quote_ID__c;
+      this.LoanNumber = to.Loan_Number__c;
+      this.AnticipatedCloseDate = to.Anticipated_Close_Date__c != null ? to.Anticipated_Close_Date__c.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss') + '+00:00' : '';
       this.Document.DocumentType = 'DATATAPE';
       this.Document.Format = 'XLSX';
+      this.Document.DocumentName = cv.Title;
+      this.Document.Size = cv.ContentSize;
+      this.Document.Base64FileData = EncodingUtil.base64Encode(cv.VersionData);
+      
     }
   }
 
