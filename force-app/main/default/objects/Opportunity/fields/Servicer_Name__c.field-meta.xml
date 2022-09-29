@@ -11,14 +11,44 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Berkadia</fullName>
+                <default>false</default>
+                <label>Berkadia</label>
+            </value>
+            <value>
+                <fullName>BSI</fullName>
+                <default>false</default>
+                <label>BSI</label>
+            </value>
+            <value>
                 <fullName>Cohen</fullName>
                 <default>false</default>
                 <label>Cohen</label>
             </value>
             <value>
+                <fullName>FCI</fullName>
+                <default>false</default>
+                <label>FCI</label>
+            </value>
+            <value>
                 <fullName>Midland</fullName>
                 <default>false</default>
                 <label>Midland</label>
+            </value>
+            <value>
+                <fullName>Planet</fullName>
+                <default>false</default>
+                <label>Planet</label>
+            </value>
+            <value>
+                <fullName>Shellpoint</fullName>
+                <default>false</default>
+                <label>Shellpoint</label>
+            </value>
+            <value>
+                <fullName>Situs Asset Management</fullName>
+                <default>false</default>
+                <label>Situs Asset Management</label>
             </value>
             <value>
                 <fullName>Statebridge</fullName>
@@ -29,16 +59,6 @@
                 <fullName>Wells Fargo</fullName>
                 <default>false</default>
                 <label>Wells Fargo</label>
-            </value>
-            <value>
-                <fullName>Berkadia</fullName>
-                <default>false</default>
-                <label>Berkadia</label>
-            </value>
-            <value>
-                <fullName>FCI</fullName>
-                <default>false</default>
-                <label>FCI</label>
             </value>
         </valueSetDefinition>
     </valueSet>

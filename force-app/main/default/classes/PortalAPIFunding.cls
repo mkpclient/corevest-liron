@@ -154,7 +154,7 @@ global without sharing class PortalAPIFunding {
         this.recordTypeName = 'Renovation';
       } else if (property.RecordTypeId == '0120a0000015H6TAAU') {
         this.recordTypeName = 'No Renovation';
-      } else if (property.RecordTypeId == '0120a0000015H6TAAU') {
+      } else if (property.RecordTypeId == '0120a0000019kcQAAQ') {
         this.recordTypeName = 'Ground Up Construction';
       }
       // this.recordTypeName = property.;
@@ -194,7 +194,7 @@ global without sharing class PortalAPIFunding {
       } else if (this.recordTypeName == 'No Renovation') {
         property.RecordTypeId = '0120a0000015H6TAAU';
       } else if (this.recordTypeName == 'Ground Up Construction') {
-        property.RecordTypeId = '0120a0000015H6TAAU';
+        property.RecordTypeId = '0120a0000019kcQAAQ';
       }
       property.ZipCode__c = this.zipCode;
       property.Property_Type__c = this.propertyType;

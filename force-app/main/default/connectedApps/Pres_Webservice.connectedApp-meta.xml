@@ -4,7 +4,7 @@
     <label>Pres Webservice</label>
     <oauthConfig>
         <callbackUrl>https://login.salesforce.com/services/oauth2/token</callbackUrl>
-        <consumerKey>3MVG99H7o8BRmFkVv02_uD4Lt97jP_tJOrx8TtY_ukoAGinMQdbit5FIMxIO1ZPBuQfEaA9kc.h.jSsOxz8w_</consumerKey>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdF1fCqomxfipL1YhpTfF9UDmxyXyebKVql_isIL8KIUhmqe4wynlXgq_l3Av</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

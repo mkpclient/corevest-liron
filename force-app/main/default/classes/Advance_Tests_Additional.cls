@@ -149,6 +149,18 @@ public class Advance_Tests_Additional {
     // update adv;
 
     Test.startTest();
+    Profile prof = [select id from profile where name = 'System Administrator'];
+    User u = new User(alias = 'standt', email = 'testFeedItemDelete@testorg.com', emailencodingkey = 'UTF-8', lastname = 'Testing', languagelocalekey = 'en_US', localesidkey = 'en_US', profileid = prof.Id, timezonesidkey = 'America/Los_Angeles', username = 'testFeedItemDelete@testorg.com');
+    System.runAs(u) {
+      try {
+        adv.Wire_Date__c = system.today();
+        adv.Status__c = 'Completed';
+        system.debug('subtotal adv' + adv.Advance_and_Origination_Fee_Subtotal__c);
+        update adv;
+      } catch (Exception err) {
+        //
+      }
+    }
     adv.Wire_Date__c = system.today();
     adv.Status__c = 'Completed';
     system.debug('subtotal adv' + adv.Advance_and_Origination_Fee_Subtotal__c);

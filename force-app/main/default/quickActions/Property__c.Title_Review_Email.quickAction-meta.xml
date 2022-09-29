@@ -6,6 +6,21 @@
 
 &apos;Lender: &apos; + text(Property__c.Deal__r.Lender__c)+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
 
+&apos;Line of Credit Commitment Amount: &apos; + &apos;$&apos; + IF( 
+   Property__c.LOC_Commitment__c  &gt;= 1000000, 
+  TEXT(FLOOR(Property__c.LOC_Commitment__c / 1000000)) &amp; &quot;,&quot;, 
+  &quot;&quot;) &amp; 
+IF( 
+  Property__c.LOC_Commitment__c &gt;= 1000, 
+  RIGHT(TEXT(FLOOR(Property__c.LOC_Commitment__c / 1000)), 3) &amp; &quot;,&quot;, 
+  &quot;&quot;) &amp; 
+RIGHT(TEXT(FLOOR(Property__c.LOC_Commitment__c)), 3) &amp; &quot;.&quot; &amp; 
+IF( 
+  MOD(Property__c.LOC_Commitment__c , 1) * 100 &lt; 10, 
+  &quot;0&quot; &amp; TEXT(ROUND(MOD(Property__c.LOC_Commitment__c , 1), 2) * 100), 
+  TEXT(MIN(ROUND(MOD(Property__c.LOC_Commitment__c , 1), 2) * 100, 99)) 
+) + &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
+
 &apos;Loan Number: &apos; + Property__c.Deal_Loan_Number__c+ &apos;&lt;br/&gt;&lt;br/&gt;&apos; +
 
 &apos;Requested Funding Date: &apos; + text(MONTH(Property__c.Requested_Funding_Date__c))+ &apos;/&apos; + text(DAY(Property__c.Requested_Funding_Date__c))+ &apos;/&apos; + text(YEAR(Property__c.Requested_Funding_Date__c))+&apos;&lt;br/&gt;&lt;br/&gt;&apos; +  

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Appraisal_Fee_Netted__c</fullName>
-    <defaultValue>false</defaultValue>
+    <defaultValue>true</defaultValue>
     <description>Indicates if the Appraisal is included/excluded in the Net Wire Amount</description>
     <externalId>false</externalId>
     <inlineHelpText>Indicates if the Appraisal is included/excluded in the Net Wire Amount</inlineHelpText>

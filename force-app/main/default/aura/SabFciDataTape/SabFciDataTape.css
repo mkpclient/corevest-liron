@@ -1,0 +1,42 @@
+.THIS.header {
+  /*top:auto;*/
+  bottom: auto;
+}
+
+.THIS.scrollerSize {
+}
+
+.THIS .scrollerSize {
+  height: 100%;
+}
+
+.THIS .row {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.THIS .row,
+.THIS .row > * {
+  /* border: 1px solid; */
+}
+
+.THIS .flex {
+  flex: 1;
+  overflow: auto;
+}
+
+.THIS.flex {
+  flex: 1;
+}
+
+.THIS.row {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.THIS.row,
+.THIS.row > * {
+  /* border: 1px solid; */
+}

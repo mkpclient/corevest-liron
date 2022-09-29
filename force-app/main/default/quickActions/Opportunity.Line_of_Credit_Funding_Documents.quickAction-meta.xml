@@ -2,7 +2,7 @@
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldOverrides>
         <field>CcAddress</field>
-        <formula>Opportunity.Owner.Email + &apos;;&apos; + Opportunity.Loan_Coordinator__r.Email + &apos;;&apos;+ Opportunity.Underwriter__r.Email + &apos;;&apos; + &apos;Funding@cvest.com&apos; + &apos;;&apos; + &apos;Paul.Basmajian@cvest.com&apos; +&apos;;&apos;+ Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + Opportunity.Referral_Source_Contact__r.Email + &apos;;&apos; +  Opportunity.X2nd_Underwriter__r.Email</formula>
+        <formula>Opportunity.Owner.Email + &apos;;&apos; + Opportunity.Loan_Coordinator__r.Email + &apos;;&apos; + Opportunity.Underwriter__r.Email + &apos;;&apos; + &apos;Funding@cvest.com&apos; + &apos;;&apos; + &apos;Paul.Basmajian@cvest.com&apos; + &apos;;&apos; + Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + Opportunity.Second_Production_Analyst__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; + Opportunity.Referral_Source_Contact__r.Email</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>HtmlBody</field>

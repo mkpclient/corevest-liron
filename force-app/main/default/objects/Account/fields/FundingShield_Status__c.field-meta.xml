@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FundingShield_Status__c</fullName>
+    <description>Title &amp; Escrow vendor accounts may need to be vetted by FundingShield, and for some companies, that vetting expires while for others it does not.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicate whether this title &amp; escrow account has been vetted by FundingShield.</inlineHelpText>
+    <label>FundingShield Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Vetted with expiration</fullName>
+                <default>false</default>
+                <label>Vetted with expiration</label>
+            </value>
+            <value>
+                <fullName>Vetted with no expiration</fullName>
+                <default>false</default>
+                <label>Vetted with no expiration</label>
+            </value>
+            <value>
+                <fullName>Not vetted</fullName>
+                <default>false</default>
+                <label>Not vetted</label>
+            </value>
+            <value>
+                <fullName>Expired</fullName>
+                <default>false</default>
+                <label>Expired</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

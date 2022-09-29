@@ -4,6 +4,10 @@
     <externalId>false</externalId>
     <formula>IF
  (
+  NOT(ISBLANK(Cancelled_Date__c)),
+  &apos;Cancelled&apos;,
+IF
+ (
   NOT(ISBLANK(All_HOA_Ordered_Date__c)),
   &apos;All HOA Ordered&apos;,
   IF(
@@ -64,7 +68,7 @@
    )
   )
  )
-)</formula>
+))</formula>
     <label>Status Formula</label>
     <required>false</required>
     <trackTrending>false</trackTrending>

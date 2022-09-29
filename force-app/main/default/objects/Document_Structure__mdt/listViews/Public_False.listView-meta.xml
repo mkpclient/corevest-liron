@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Public_False</fullName>
+    <columns>Folder_Structure_String__c</columns>
+    <columns>Sort__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>DeveloperName</columns>
+    <columns>RecordType__c</columns>
+    <columns>sObject__c</columns>
+    <columns>Vendor_Access__c</columns>
+    <columns>Vendor_Type_Access__c</columns>
+    <columns>Borrower_Access__c</columns>
+    <columns>Confidential__c</columns>
+    <columns>Clear_To_Close_Setting__c</columns>
+    <columns>Borrower_Checklist__c</columns>
+    <columns>Display_In_Internal_Picklist__c</columns>
+    <columns>Display_In_Portal_Picklist__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Public__c</field>
+        <operation>equals</operation>
+        <value>0</value>
+    </filters>
+    <label>Public False</label>
+</ListView>

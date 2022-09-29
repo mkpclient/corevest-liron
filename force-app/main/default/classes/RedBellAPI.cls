@@ -281,7 +281,7 @@ public class RedBellAPI {
         avm.AVM_Beds__c = aveResponse.ave.subject.bed;
         avm.AVM_Baths__c = aveResponse.ave.subject.bath;
         avm.AVM_Square_Feet__c = aveResponse.ave.subject.sqft;
-        avm.AVM_Year_Built__c = String.ValueOf(aveResponse.ave.subject.yearBuilt);
+        avm.AVM_Year_Built__c =  String.valueOf(aveResponse.ave.subject.yearBuilt);
         avm.AVM_REO__c = '0';
         avm.AVM_APN__c = aveResponse.ave.subject.apn;
         avm.AVM_Calculated_Price__c = aveResponse.ave.subject.calculatedPrice;

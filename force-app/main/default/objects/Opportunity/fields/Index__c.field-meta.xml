@@ -37,6 +37,11 @@
                 <default>false</default>
                 <label>Other</label>
             </value>
+            <value>
+                <fullName>1M LIBOR</fullName>
+                <default>false</default>
+                <label>1M LIBOR</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Floating</controllingFieldValue>
@@ -57,6 +62,10 @@
         <valueSettings>
             <controllingFieldValue>Floating</controllingFieldValue>
             <valueName>Other</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>1M LIBOR</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

@@ -3,7 +3,7 @@
     <fullName>Approval_Status__c</fullName>
     <externalId>false</externalId>
     <formula>if(Number_of_Rejected__c &gt; 0, &apos;Rejected&apos;, 
- if(or(Number_of_Approved__c =  Required_Number_of_Approvers__c ,Total_Approvers__c = Number_of_Approved__c), &apos;Approved&apos;, 
+ if(or(Number_of_Approved__c &gt;=  Required_Number_of_Approvers__c ,Total_Approvers__c = Number_of_Approved__c), &apos;Approved&apos;, 
  if(Number_of_Approved__c &gt; 0, &apos;Pending&apos;, &apos;Submitted&apos;))
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>

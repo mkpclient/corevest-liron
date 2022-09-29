@@ -73,23 +73,15 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Stepdown_Prepayment_Period__c</field>
+                <field>Floor_Percent__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Yield_Maintenance_Comment__c</field>
+                <field>Advance__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Stepdown_Prepayment_Comment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>YM_Par_Prepayment_Comment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Foreign_National_picklist__c</field>
+                <field>Batch_Approval__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -144,6 +136,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Requested_Exit_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

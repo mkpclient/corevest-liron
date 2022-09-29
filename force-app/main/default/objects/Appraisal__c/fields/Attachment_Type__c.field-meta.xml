@@ -3,10 +3,28 @@
     <fullName>Attachment_Type__c</fullName>
     <externalId>false</externalId>
     <label>Attachment Type</label>
-    <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Attached</fullName>
+                <default>false</default>
+                <label>Attached</label>
+            </value>
+            <value>
+                <fullName>Detached</fullName>
+                <default>false</default>
+                <label>Detached</label>
+            </value>
+            <value>
+                <fullName>SemiDetached</fullName>
+                <default>false</default>
+                <label>SemiDetached</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

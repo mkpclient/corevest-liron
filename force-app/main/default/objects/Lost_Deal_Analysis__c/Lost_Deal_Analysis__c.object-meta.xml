@@ -167,7 +167,13 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Lost Deal Analyses</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Deal__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Account__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Close_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Lender__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Properties_Matched__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

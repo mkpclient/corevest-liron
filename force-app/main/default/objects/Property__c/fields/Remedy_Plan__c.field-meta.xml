@@ -14,16 +14,6 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Bring Current</fullName>
-                <default>false</default>
-                <label>Bring Current</label>
-            </value>
-            <value>
-                <fullName>Deed in Lieu</fullName>
-                <default>false</default>
-                <label>Deed in Lieu</label>
-            </value>
-            <value>
                 <fullName>Discounted Payoff</fullName>
                 <default>false</default>
                 <label>Discounted Payoff</label>
@@ -34,19 +24,14 @@
                 <label>Extension</label>
             </value>
             <value>
-                <fullName>Extension Req</fullName>
-                <default>false</default>
-                <label>Extension Req</label>
-            </value>
-            <value>
-                <fullName>FC without Guarantee</fullName>
-                <default>false</default>
-                <label>FC without Guarantee</label>
-            </value>
-            <value>
                 <fullName>Forbearance</fullName>
                 <default>false</default>
                 <label>Forbearance</label>
+            </value>
+            <value>
+                <fullName>Foreclosure</fullName>
+                <default>false</default>
+                <label>Foreclosure</label>
             </value>
             <value>
                 <fullName>In House Refi</fullName>
@@ -64,9 +49,9 @@
                 <label>No Response</label>
             </value>
             <value>
-                <fullName>Paid Off</fullName>
+                <fullName>Note Sale</fullName>
                 <default>false</default>
-                <label>Paid Off</label>
+                <label>Note Sale</label>
             </value>
             <value>
                 <fullName>Payoff Pending</fullName>
@@ -84,19 +69,14 @@
                 <label>Sale Pending</label>
             </value>
             <value>
-                <fullName>Sell REO</fullName>
-                <default>false</default>
-                <label>Sell REO</label>
-            </value>
-            <value>
                 <fullName>Special Asset Assignment</fullName>
                 <default>false</default>
                 <label>Special Asset Assignment</label>
             </value>
             <value>
-                <fullName>Title Claim</fullName>
+                <fullName>Reinstated</fullName>
                 <default>false</default>
-                <label>Title Claim</label>
+                <label>Reinstated</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -6,6 +6,5 @@
 ISPICKVAL(StageName, &apos;Cancelled&apos;), 
 ISBLANK(Cancellation_Reason__c)
 )</errorConditionFormula>
-    <errorDisplayField>Cancellation_Reason__c</errorDisplayField>
     <errorMessage>Cancellation Reason is required</errorMessage>
 </ValidationRule>

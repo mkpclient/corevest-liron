@@ -42,6 +42,8 @@ global without sharing class PortalAPIDocumentVault {
     }
 
     portalId = params[3];
+    system.debug('--portal id--');
+    system.debug(portalId);
     system.debug(params);
     user = new PortalAPIUser.PortalUser(portalId);
     if (user.id != null) {
@@ -73,6 +75,7 @@ global without sharing class PortalAPIDocumentVault {
       } else if (params[4] == 'vault') {
         isVault = true;
         recordId = params[5];
+        system.debug('here');
         DocumentVault vault = createVault();
         res.addHeader('Content-Type', 'application/json');
         res.responseBody = Blob.valueOf(JSON.serialize(vault, false));
@@ -266,13 +269,201 @@ global without sharing class PortalAPIDocumentVault {
     String sobjectType = recordId.getSObjectType().getDescribe().getName();
     DocumentVault vault = new DocumentVault();
     if (sobjectType == 'Property__c') {
-      //vault = createPropertyVault();
+      vault = createPropertyVault();
     } else if (sobjectType == 'Opportunity') {
       vault = createLoanVault();
     }
 
     return vault;
   }
+
+  // public static DocumentVault createLoanVaultVendor() {
+  //   Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
+  //   DocumentVault vault = new DocumentVault();
+  //   vault.id = deal.Id;
+  //   vault.Name = deal.Name;
+
+  //   List<Checklist_Item__c> items = new List<Checklist_Item__c>();
+  //   contentVersionMap = new Map<Id, ContentVersion>();
+
+  //   for (Checklist_Item__c item : [
+  //     SELECT
+  //       Id,
+  //       Property__c,
+  //       Deal__c,
+  //       Doc_Structure_Id__c,
+  //       Document_Type__c,
+  //       Folder_String__c,
+  //       Status__c,
+  //       Name,
+  //       (
+  //         SELECT
+  //           Id,
+  //           Added_On__c,
+  //           Added_By__r.Name,
+  //           Document_Type__c,
+  //           Reviewed_By__r.Name,
+  //           Reviewed_On__c,
+  //           File_Name__c,
+  //           ContentVersion_Id__c,
+  //           Status__c,
+  //           Comments__c,
+  //           Reviewed__c
+  //         FROM Deal_Documents__r
+  //       ),
+  //       (
+  //         SELECT
+  //           Id,
+  //           Deal__c,
+  //           Lead__r.Name,
+  //           Contact__r.Name,
+  //           Lead__c,
+  //           Contact__c,
+  //           Application__c,
+  //           Body__c,
+  //           Alchemy_Portal_Id__c,
+  //           Submitted_From_Portal__c,
+  //           Deal_Document__c,
+  //           Property__c,
+  //           CreatedDate,
+  //           Owner.Name,
+  //           Owner.Id,
+  //           Subject__c,
+  //           Comment__c,
+  //           Owner_Image__c,
+  //           Application__r.Name,
+  //           Property__r.Name,
+  //           Deal__r.Name,
+  //           Deal_Document__r.Name
+  //         FROM Comments__r
+  //       )
+  //     FROM Checklist_Item__c
+  //     WHERE
+  //       Is_Bulk__c = FALSE
+  //       AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+  //       AND RecordType.DeveloperName = 'Document_Upload'
+  //       AND (Checklist_Section__r.Type__c = 'Opportunity'
+  //       OR Checklist_Section__r.Type__c = 'Sponsor')
+  //   ]) {
+  //     if (isVault) {
+  //       if (item.Status__c == 'Pending') {
+  //         items.add(item);
+  //         for (Deal_Document__c doc : item.Deal_Documents__r) {
+  //           contentVersionMap.put(doc.ContentVersion_Id__c, null);
+  //         }
+  //       }
+  //     } else {
+  //       items.add(item);
+  //       for (Deal_Document__c doc : item.Deal_Documents__r) {
+  //         contentVersionMap.put(doc.ContentVersion_Id__c, null);
+  //       }
+  //     }
+  //   }
+
+  //   for (ContentVersion cv : [
+  //     SELECT Id, FileExtension
+  //     FROM ContentVersion
+  //     WHERE Id IN :contentVersionMap.keySet()
+  //   ]) {
+  //     contentVersionMap.put(cv.Id, cv);
+  //   }
+
+  //   for (Checklist_Item__c item : items) {
+  //     vault.addItem(item);
+  //   }
+  //   vault.loanLevelDocuments.sort();
+
+  //   items = new List<Checklist_Item__c>();
+  //   contentVersionMap = new Map<Id, ContentVersion>();
+  //   for (Checklist_Item__c item : [
+  //     SELECT
+  //       Id,
+  //       Property__c,
+  //       Deal__c,
+  //       Doc_Structure_Id__c,
+  //       Document_Type__c,
+  //       Folder_String__c,
+  //       Reviewed__c,
+  //       Status__c,
+  //       Name,
+  //       (
+  //         SELECT
+  //           Id,
+  //           Added_On__c,
+  //           Added_By__r.Name,
+  //           Document_Type__c,
+  //           Reviewed_By__r.Name,
+  //           Reviewed_On__c,
+  //           File_Name__c,
+  //           ContentVersion_Id__c,
+  //           Status__c,
+  //           Comments__c,
+  //           Reviewed__c
+  //         FROM Deal_Documents__r
+  //       ),
+  //       (
+  //         SELECT
+  //           Id,
+  //           Deal__c,
+  //           Lead__r.Name,
+  //           Contact__r.Name,
+  //           Lead__c,
+  //           Contact__c,
+  //           Application__c,
+  //           Body__c,
+  //           Alchemy_Portal_Id__c,
+  //           Submitted_From_Portal__c,
+  //           Deal_Document__c,
+  //           Property__c,
+  //           CreatedDate,
+  //           Owner.Name,
+  //           Owner.Id,
+  //           Subject__c,
+  //           Comment__c,
+  //           Owner_Image__c,
+  //           Application__r.Name,
+  //           Property__r.Name,
+  //           Deal__r.Name,
+  //           Deal_Document__r.Name
+  //         FROM Comments__r
+  //       )
+  //     FROM Checklist_Item__c
+  //     WHERE
+  //       Is_Bulk__c = TRUE
+  //       AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
+  //       AND RecordType.DeveloperName = 'Document_Upload'
+  //       AND (Checklist_Section__r.Type__c = 'Opportunity'
+  //       OR Checklist_Section__r.Type__c = 'Applicant')
+  //   ]) {
+  //     if (isVault) {
+  //       if (item.Status__c == 'Pending') {
+  //         items.add(item);
+  //         for (Deal_Document__c doc : item.Deal_Documents__r) {
+  //           contentVersionMap.put(doc.ContentVersion_Id__c, null);
+  //         }
+  //       }
+  //     } else {
+  //       items.add(item);
+  //       for (Deal_Document__c doc : item.Deal_Documents__r) {
+  //         contentVersionMap.put(doc.ContentVersion_Id__c, null);
+  //       }
+  //     }
+  //   }
+
+  //   for (ContentVersion cv : [
+  //     SELECT Id, FileExtension
+  //     FROM ContentVersion
+  //     WHERE Id IN :contentVersionMap.keySet()
+  //   ]) {
+  //     contentVersionMap.put(cv.Id, cv);
+  //   }
+
+  //   for (Checklist_Item__c item : items) {
+  //     vault.addPropertyItem(item);
+  //   }
+  //   vault.propertyLevelDocuments.sort();
+  //   return vault;
+  // }
 
   public static DocumentVault createLoanVault() {
     Opportunity deal = [SELECT Id, Name FROM Opportunity WHERE Id = :recordId];
@@ -291,6 +482,7 @@ global without sharing class PortalAPIDocumentVault {
         Document_Type__c,
         Folder_String__c,
         Status__c,
+        Name,
         (
           SELECT
             Id,
@@ -305,17 +497,51 @@ global without sharing class PortalAPIDocumentVault {
             Comments__c,
             Reviewed__c
           FROM Deal_Documents__r
+          WHERE Status__c != 'Archived'
+        ),
+        (
+          SELECT
+            Id,
+            Deal__c,
+            Lead__r.Name,
+            Contact__r.Name,
+            Lead__c,
+            Contact__c,
+            Application__c,
+            Body__c,
+            Alchemy_Portal_Id__c,
+            Submitted_From_Portal__c,
+            Deal_Document__c,
+            Property__c,
+            CreatedDate,
+            Owner.Name,
+            Owner.Id,
+            Subject__c,
+            Comment__c,
+            Owner_Image__c,
+            Application__r.Name,
+            Property__r.Name,
+            Deal__r.Name,
+            Deal_Document__r.Name,
+            Unread__c,
+            Checklist_Item__c
+          FROM Comments__r
+          ORDER BY CreatedDate ASC
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = FALSE
+        Is_Bulk__c = FALSE
         AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
-        AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Sponsor')
+        AND ((Checklist_Section__r.Type__c = 'Opportunity'
+        AND Responsible_Party__c = 'Sponsor')
+        OR ((Checklist_Section__r.Type__c = 'Sponsor'
+        OR Checklist_Section__r.Type__c = 'Guarantor')
+        AND Checklist_Section__r.Contact__r.Alchemy_Portal_Id__c = :portalId))
     ]) {
       if (isVault) {
-        if (item.Status__c == 'Pending') {
+        system.debug(item.Document_Type__c);
+        if (item.Status__c != 'Completed') {
           items.add(item);
           for (Deal_Document__c doc : item.Deal_Documents__r) {
             contentVersionMap.put(doc.ContentVersion_Id__c, null);
@@ -354,6 +580,7 @@ global without sharing class PortalAPIDocumentVault {
         Folder_String__c,
         Reviewed__c,
         Status__c,
+        Name,
         (
           SELECT
             Id,
@@ -366,24 +593,55 @@ global without sharing class PortalAPIDocumentVault {
             ContentVersion_Id__c,
             Status__c,
             Comments__c,
-            Reviewed__c
+            Reviewed__c,
+            Checklist_Item__c
           FROM Deal_Documents__r
+          WHERE Status__c != 'Archived'
+        ),
+        (
+          SELECT
+            Id,
+            Deal__c,
+            Lead__r.Name,
+            Contact__r.Name,
+            Lead__c,
+            Contact__c,
+            Application__c,
+            Body__c,
+            Alchemy_Portal_Id__c,
+            Submitted_From_Portal__c,
+            Deal_Document__c,
+            Property__c,
+            CreatedDate,
+            Owner.Name,
+            Owner.Id,
+            Subject__c,
+            Comment__c,
+            Owner_Image__c,
+            Application__r.Name,
+            Property__r.Name,
+            Deal__r.Name,
+            Deal_Document__r.Name,
+            Unread__c,
+            Checklist_Item__c
+          FROM Comments__r
+          ORDER BY CreatedDate ASC
         )
       FROM Checklist_Item__c
       WHERE
-        Is_Property_Level__c = TRUE
+        Is_Bulk__c = TRUE
         AND Checklist_Section__r.Checklist__r.Deal__c = :recordId
         AND RecordType.DeveloperName = 'Document_Upload'
         AND (Checklist_Section__r.Type__c = 'Opportunity'
-        OR Checklist_Section__r.Type__c = 'Applicant')
+        OR Checklist_Section__r.Type__c = 'Sponsor')
     ]) {
       if (isVault) {
-        if (item.Status__c == 'Pending') {
-          items.add(item);
-          for (Deal_Document__c doc : item.Deal_Documents__r) {
-            contentVersionMap.put(doc.ContentVersion_Id__c, null);
-          }
+        // if (true) {
+        items.add(item);
+        for (Deal_Document__c doc : item.Deal_Documents__r) {
+          contentVersionMap.put(doc.ContentVersion_Id__c, null);
         }
+        // }
       } else {
         items.add(item);
         for (Deal_Document__c doc : item.Deal_Documents__r) {
@@ -401,80 +659,91 @@ global without sharing class PortalAPIDocumentVault {
     }
 
     for (Checklist_Item__c item : items) {
-      vault.addPropertyItem(item);
+      if (item.Document_Type__c == 'Miscellaneous') {
+        vault.addMiscellaneousItem(item);
+      } else {
+        vault.addPropertyItem(item);
+      }
     }
     vault.propertyLevelDocuments.sort();
+    vault.miscellaneousLevelDocuments.sort();
     return vault;
   }
 
-  // public static DocumentVault createPropertyVault() {
-  //   Property__c property = [
-  //     SELECT Id, Deal__c, Name
-  //     FROM Property__c
-  //     WHERE Id = :recordId
-  //   ];
-  //   DocumentVault vault = new DocumentVault();
-  //   vault.id = property.Id;
-  //   vault.Name = property.Name;
-  //   List<Checklist_Item__c> items = new List<Checklist_Item__c>();
-  //   contentVersionMap = new Map<Id, ContentVersion>();
-  //   for (Checklist_Item__c item : [
-  //     SELECT
-  //       Id,
-  //       Property__c,
-  //       Deal__c,
-  //       Doc_Structure_Id__c,
-  //       Document_Type__c,
-  //       Folder_String__c,
-  //       (
-  //         SELECT
-  //           Id,
-  //           Added_On__c,
-  //           Added_By__r.Name,
-  //           Document_Type__c,
-  //           Reviewed_By__r.Name,
-  //           Reviewed_On__c,
-  //           File_Name__c,
-  //           ContentVersion_Id__c
-  //         FROM Deal_Documents__r
-  //       )
-  //     FROM Checklist_Item__c
-  //     WHERE
-  //       Property__c = :recordId
-  //       AND RecordType.DeveloperName = 'Document_Upload'
-  //   ]) {
-  //     //vault.addItem(item);
-  //     items.add(item);
-  //     for (Deal_Document__c doc : item.Deal_Documents__r) {
-  //       contentVersionMap.put(doc.ContentVersion_Id__c, null);
-  //     }
-  //   }
+  public static DocumentVault createPropertyVault() {
+    Property__c property = [
+      SELECT Id, Deal__c, Name
+      FROM Property__c
+      WHERE Id = :recordId
+    ];
+    DocumentVault vault = new DocumentVault();
+    vault.id = property.Id;
+    vault.Name = property.Name;
+    List<Checklist_Item__c> items = new List<Checklist_Item__c>();
+    contentVersionMap = new Map<Id, ContentVersion>();
+    for (Checklist_Item__c item : [
+      SELECT
+        Id,
+        Property__c,
+        Deal__c,
+        Doc_Structure_Id__c,
+        Document_Type__c,
+        Folder_String__c,
+        Name,
+        (
+          SELECT
+            Id,
+            Added_On__c,
+            Added_By__r.Name,
+            Document_Type__c,
+            Reviewed_By__r.Name,
+            Reviewed_On__c,
+            File_Name__c,
+            ContentVersion_Id__c,
+            Comments__c,
+            Status__c,
+            Reviewed__c
+          FROM Deal_Documents__r
+        )
+      FROM Checklist_Item__c
+      WHERE
+        Property__c = :recordId
+        AND RecordType.DeveloperName = 'Document_Upload'
+    ]) {
+      //vault.addItem(item);
+      items.add(item);
+      for (Deal_Document__c doc : item.Deal_Documents__r) {
+        contentVersionMap.put(doc.ContentVersion_Id__c, null);
+      }
+    }
 
-  //   for (ContentVersion cv : [
-  //     SELECT Id, FileExtension
-  //     FROM ContentVersion
-  //     WHERE Id IN :contentVersionMap.keySet()
-  //   ]) {
-  //     contentVersionMap.put(cv.Id, cv);
-  //   }
+    for (ContentVersion cv : [
+      SELECT Id, FileExtension
+      FROM ContentVersion
+      WHERE Id IN :contentVersionMap.keySet()
+    ]) {
+      contentVersionMap.put(cv.Id, cv);
+    }
 
-  //   for (Checklist_Item__c item : items) {
-  //     vault.addItem(item);
-  //   }
-  //   vault.loanLevelDocuments.sort();
+    for (Checklist_Item__c item : items) {
+      vault.addPropertyItem(item);
+    }
+    vault.propertyLevelDocuments.sort();
 
-  //   // for (DocumentFolder folder : vault.loanLevelDocuments) {
-  //   //   folder.documents.sort();
-  //   // }
+    // for (DocumentFolder folder : vault.loanLevelDocuments) {
+    //   folder.documents.sort();
+    // }
 
-  //   return vault;
-  // }
+    return vault;
+  }
 
   public class DocumentVault {
     public List<ChecklistItem> loanLevelDocuments;
     public List<ChecklistItem> propertyLevelDocuments;
+    public List<ChecklistItem> miscellaneousLevelDocuments;
     public Id id;
     public string name;
+    public Id dealId;
 
     //transient Map<String, ChecklistItem> folderMap;
     //transient Map<String, ChecklistItem> propertyFolderMap;
@@ -482,7 +751,7 @@ global without sharing class PortalAPIDocumentVault {
     DocumentVault() {
       loanLevelDocuments = new List<ChecklistItem>();
       propertyLevelDocuments = new List<ChecklistItem>();
-
+      miscellaneousLevelDocuments = new List<ChecklistItem>();
       //propertyLevelFolders = new List<ChecklistItem>();
       //propertyFolderMap = new Map<String, ChecklistItem>();
     }
@@ -521,14 +790,14 @@ global without sharing class PortalAPIDocumentVault {
 
     public void addPropertyItem(Checklist_Item__c item) {
       propertyLevelDocuments.add(new ChecklistItem(item));
-      // String documentType = item.Document_Type__c;
+    }
 
-      // if (!propertyFolderMap.containsKey(documentType)) {
-      //   propertyFolderMap.put(documentType, new DocumentFolder(documentType));
-      //   propertyLevelFolders.add(propertyfolderMap.get(documentType));
-      // }
+    public void addMiscellaneousItem(CHecklist_ITem__c item) {
+      miscellaneousLevelDocuments.add(new ChecklistItem(item));
+    }
 
-      // propertyFolderMap.get(documentType).addItem(item);
+    public void add(Checklist_Item__c item) {
+      propertyLevelDocuments.add(new ChecklistItem(item));
     }
   }
 
@@ -661,14 +930,33 @@ global without sharing class PortalAPIDocumentVault {
     Id itemId;
     List<Document> uploadedDocuments;
     String documentType;
+    // List<PortalAPIComments.Comment> comments;
+    PortalAPIComments.Comment comments;
+    Boolean hasUnreadComments = false;
 
     ChecklistItem(Checklist_Item__c item) {
       itemId = item.id;
-      documentType = item.Document_Type__c;
+      //documentType = item.Document_Type__c;
 
+      // if (String.isBlank(documentType)) {
+      documentType = item.Name;
+      // }
+
+      // comments = new List<PortalAPIComments.Comment>();
       uploadedDocuments = new List<Document>();
       for (Deal_Document__c doc : item.Deal_Documents__r) {
         uploadedDocuments.add(new Document(doc));
+      }
+
+      for (Comment__c comment : item.Comments__r) {
+        if (comment.Unread__c) {
+          this.hasUnreadComments = true;
+        }
+        // comments.add(new PortalAPIComments.Comment(comment));
+      }
+
+      if (item.Comments__r.size() > 0) {
+        this.comments = new PortalAPIComments.Comment(item.Comments__r[0]);
       }
     }
 
@@ -688,14 +976,19 @@ global without sharing class PortalAPIDocumentVault {
     public String fileName;
     public string fileExtension;
     public String id;
-    public String comments;
+    // public String comments;
+    // public List<Comment__c> comments;
     public Boolean reviewed;
     public String reviewedBy;
     public Date reviewedDate;
     public String status;
+
     public Document(Deal_Document__c doc) {
       fileName = doc.File_Name__c;
-      comments = doc.Comments__c;
+      // comments = doc.Comments__c;
+
+      // comments = new List<Comment__c>();
+
       status = doc.Status__c;
       if (status == null) {
         status = 'Pending';

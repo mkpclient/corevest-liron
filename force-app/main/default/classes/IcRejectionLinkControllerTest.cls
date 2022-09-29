@@ -2,6 +2,8 @@
 public with sharing class IcRejectionLinkControllerTest {
   @TestSetup
   static void makeData() {
+    Test_Helper.createDealLoanNumber();
+
     Test_Helper.setupProduct2();
     Account testAcc = Test_Helper.createBorrowerAccount();
     Contact testCtc = Test_Helper.createBorContact(testAcc);

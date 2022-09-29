@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Miscellaneous</label>
+    <label>Miscellaneous loc</label>
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
@@ -72,7 +72,7 @@
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Trailing_Loan_Docs</value>
     </values>
     <values>
         <field>Post_Closing_Criteria__c</field>
@@ -96,7 +96,7 @@
     </values>
     <values>
         <field>Post_Closing_sObjectType__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Advance__c</value>
     </values>
     <values>
         <field>Private__c</field>
@@ -104,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>
@@ -152,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Diligence Review</value>
+        <value xsi:type="xsd:string">Servicer;Diligence Review</value>
     </values>
     <values>
         <field>sObject__c</field>

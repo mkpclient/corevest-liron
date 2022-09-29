@@ -1,14 +1,41 @@
 public without sharing class ForeclosureHelper {
+  public static void beforeInsert(List<Foreclosure__c> newList) {
+    Map<Id, Property__c> propMap = new Map<Id,Property__c>();
+
+    for(Foreclosure__c f : newList) {
+      if(f.Special_Asset__c == null && f.Property__c != null) {
+        propMap.put(f.Property__c, new Property__c());
+      }
+    }
+
+    propMap = new Map<Id,Property__c>([
+      SELECT Id, Special_Asset__c FROM Property__c WHERE Id IN :propMap.keySet() AND Special_Asset__c != null
+    ]);
+
+    for(Foreclosure__c f : newList) {
+      if(f.Special_Asset__c == null && f.Property__c !=null && propMap.containsKey(f.Property__c)) {
+        f.Special_Asset__c = propMap.get(f.Property__c).Special_Asset__c;
+      }
+    }
+  }
   public static void afterInsert(List<Foreclosure__c> newList) {
     Map<Id, Foreclosure__c> specAssetsToUpdate = new Map<Id, Foreclosure__c>();
+    Map<Id, Foreclosure__c> propertiesToUpdate = new Map<Id,Foreclosure__c>();
     for (Foreclosure__c fc : newList) {
       if (fc.Special_Asset__c != null) {
         specAssetsToUpdate.put(fc.Id, fc);
+      }
+      if(fc.Property__c != null) {
+        propertiesToUpdate.put(fc.Property__c, fc);
       }
     }
 
     if (specAssetsToUpdate.size() > 0) {
       updateSpecialAssets(specAssetsToUpdate, true);
+    }
+
+    if(propertiesToUpdate.size() > 0) {
+      updateProperties(propertiesToUpdate);
     }
   }
 
@@ -32,6 +59,19 @@ public without sharing class ForeclosureHelper {
     if (specAssetsToUpdate.size() > 0) {
       updateSpecialAssets(specAssetsToUpdate, false);
     }
+  }
+
+  public static void updateProperties(Map<Id, Foreclosure__c> propertiesToUpdate) {
+    List<Property__c> props = new List<Property__c>();
+
+    for(Id propId : propertiesToUpdate.keySet()) {
+      props.add(new Property__c(
+        Id = propId,
+        Foreclosure__c = propertiesToUpdate.get(propId).Id
+      ));
+    }
+
+    update props;
   }
 
   public static void updateSpecialAssets(

@@ -167,7 +167,17 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Property Extensions</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Deal_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Property__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Property_Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Extension_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Extension_Reason__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Extension_Fee__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Requested_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Original_Asset_Maturity_Date_Formula__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>New_Asset_Maturity_Date__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

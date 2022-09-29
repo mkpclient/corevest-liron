@@ -5,6 +5,7 @@
     <description>Allows the user to close a deal on “Single Asset (1-4 Unit)“ OR “Single Asset (5-10 Unit)“ SAB deals even when clear to close isn&apos;t marked complete.</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Allows the user to close a deal on “Single Asset (1-4 Unit)“ OR “Single Asset (5-10 Unit)“ SAB deals even when clear to close isn&apos;t marked complete.</inlineHelpText>
     <label>Allow SAB CTC Bypass</label>
     <type>Checkbox</type>
 </CustomField>

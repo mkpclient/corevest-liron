@@ -150,8 +150,7 @@
                 <tr>
                     <td class="left-row-title">Foreign National/Nation of Citenzship</td>
                     <td class="row-data-two-column">
-                        <!-- <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == true, true, false ) }" value="Yes" />
-                        <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == false, true, false ) }" value="No" />  -->
+                        <apex:outputText value="{!Opportunity.Foreign_National_picklist__c}" />
                     </td>
                     <td class="row-data-two-column">
                         <apex:outputField value="{!Opportunity.Country__c}" />
@@ -577,7 +576,7 @@
                             <apex:outputText value="{! Opportunity.Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Index__c } floor of ">
                                 <apex:param value="{! Opportunity.Index_Margin__c }" />
                             </apex:outputText>
-                            <apex:outputText value="{!Opportunity.Index_Floor__c})" />                        
+                            <apex:outputText value="{0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText>
                         </apex:outputText>
                     </td>
                 </tr>

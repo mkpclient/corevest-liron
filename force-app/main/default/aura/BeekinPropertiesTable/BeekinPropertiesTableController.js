@@ -4,6 +4,14 @@
 		component.set("v.columns", helper.getColumns());
 	},
 
+    recordUpdate: function(component, event, helper) {
+       let profile = component.get('v.CurrentUser')['Profile'].Name;
+       if (profile == "Term Operations" || profile == "System Administrator") 
+       {
+          component.set("v.ShowSyncBtn", "Yes");
+       } 
+    },  
+    
 	refresh: function(component, event, helper) {
 		helper.getProperties(component);
 	},

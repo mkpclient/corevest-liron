@@ -12,7 +12,7 @@
       if (state === "SUCCESS") {
         //component.set('v.files', JSON.parse(response.getReturnValue()));
         var files = JSON.parse(response.getReturnValue());
-
+        
         //console.log(component.get('v.files'));
         component.get("v.sobjectType");
         if (component.get("v.sobjectType") == "Property__c") {
@@ -256,6 +256,7 @@
               $A.getCallback(function (res) {
                 var files = component.get("v.files");
                 files[index] = res;
+                
                 component.set("v.files", files);
               })
             );
@@ -263,5 +264,11 @@
         );
       }
     }, Promise.resolve());
+  },
+
+  convertToJson: function(component, helper) {
+    component.find("jsonConverter").handleParseFile()
+     .then(()=> { console.log("Parse File Success")})
+     .catch((err) => { console.error(err)});
   }
 });

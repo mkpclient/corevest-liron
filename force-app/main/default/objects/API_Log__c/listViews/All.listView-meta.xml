@@ -8,6 +8,7 @@
     <columns>CREATED_DATE</columns>
     <columns>CREATEDBY_USER</columns>
     <columns>Deal__c</columns>
+    <columns>Advance__c</columns>
     <columns>Response_Status_Code__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>

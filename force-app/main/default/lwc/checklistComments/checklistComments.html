@@ -1,0 +1,52 @@
+<template>
+  <c-modal title="Comments">
+    <div slot="body">
+      <template for:each={comments} for:item="comment">
+        <article class="slds-tile slds-media" key={comment.id}>
+          <div class="slds-media__figure">
+            <lightning-avatar
+              src={comment.profileImg}
+              fallback-icon-name="standard:avatar"
+              variant="circle"
+            ></lightning-avatar>
+          </div>
+          <div class="slds-media__body">
+            <h3 class="slds-tile__title" title={comment.submitterName}>
+              <span style="font-weight: bold">{comment.submitterName}</span>
+              <lightning-formatted-date-time
+                class="slds-float_right"
+                value={comment.commentDate}
+                year="numeric"
+                month="numeric"
+                day="numeric"
+                hour="2-digit"
+                minute="2-digit"
+                time-zone-name="short"
+                hour12="true"
+              ></lightning-formatted-date-time>
+            </h3>
+            <div class="slds-tile__detail">
+              <lightning-formatted-rich-text
+                value={comment.body}
+              ></lightning-formatted-rich-text>
+            </div>
+          </div>
+        </article>
+      </template>
+    </div>
+    <div slot="footer">
+      <lightning-textarea></lightning-textarea>
+      <lightning-button
+        onclick={closeModal}
+        label="Close"
+        class="slds-float_left"
+      ></lightning-button>
+      <lightning-button
+        onclick={createComment}
+        variant="brand"
+        label="Reply"
+        class="slds-float_right"
+      ></lightning-button>
+    </div>
+  </c-modal>
+</template>

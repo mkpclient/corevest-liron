@@ -222,10 +222,10 @@ public without sharing class PricingReviewRequest_LightningController {
     Set<String> requiredDocuments;
     if (o.RecordType.DeveloperName == 'Term_Loan') {
       requiredDocuments = termRequiredDocuments;
-    } else if (o.RecordType.DeveloperName == 'LOC_Loan' ) {
+    } else if (o.RecordType.DeveloperName == 'LOC_Loan') {
       requiredDocuments = bridgeRequiredDocuments;
     } else {
-      requiredDocuments = ri.allowBypass ? new Set<String>(): sabRequiredDocuments;
+      requiredDocuments = sabRequiredDocuments;
     }
 
     Set<String> loadedDocuments = new Set<String>();
@@ -249,17 +249,17 @@ public without sharing class PricingReviewRequest_LightningController {
     }
     // Validation for submitting a Single Asset Bridge Loan for Pricing Approval
     if (o.RecordType.DeveloperName == 'Single_Asset_Bridge_Loan') {
-      if (o.Account.Number_of_Contacts__c == 0 ) {
+      if (o.Account.Number_of_Contacts__c == 0) {
         ri.otherMessage.add(
           'Account does not have any related Contact. Please add Contact before submitting.'
         );
       }
 
-      if (o.Properties__r.size() == 0 ) {
+      if (o.Properties__r.size() == 0) {
         ri.otherMessage.add('Property is required before submitting.');
       }
       for (String field : sabFields.keySet()) {
-        if (null == o.get(field) ) {
+        if (null == o.get(field)) {
           nullFields.add(sabFields.get(field));
         }
       } // Validation for submitting a Term Loan for Pricing Approval
@@ -317,7 +317,7 @@ public without sharing class PricingReviewRequest_LightningController {
         );
       } // Validation for submitting a Bridge Loan for Pricing Approval
     } else if (o.RecordType.DeveloperName == 'LOC_Loan') {
-      if (o.Account.Number_of_Contacts__c == 0 ) {
+      if (o.Account.Number_of_Contacts__c == 0) {
         ri.otherMessage.add(
           'Account does not have any related Contact. Please add Contact before submitting.'
         );
@@ -326,12 +326,11 @@ public without sharing class PricingReviewRequest_LightningController {
       if (
         o.Properties__r.size() == 0 &&
         o.LOC_Loan_Type__c == 'Multifamily/CRE'
-        
       ) {
         ri.otherMessage.add('Property is required before submitting.');
       }
       for (String field : bridgeFields.keySet()) {
-        if (null == o.get(field) ) {
+        if (null == o.get(field)) {
           nullFields.add(bridgeFields.get(field));
         }
       }
@@ -364,50 +363,137 @@ public without sharing class PricingReviewRequest_LightningController {
     }*/
     ////CIP-2191-RS.4/4/22.End.
 
+ //CIP-2288-RS.8/18/22.Begin.      
+      if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c  == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+          || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' )
+      {
+                      DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,ri,Null,'PR');
+      }
+ //CIP-2288-RS.8/18/22.End.      
     System.debug(ri);
     return JSON.serialize(ri, true);
   }
 
-  //CIP-2191-RS.4/4/22.Cannot change the deal stage if there is a property with no rental data.Begin.
- /* @AuraEnabled
-  public static Boolean beekingRentalInfoCheck(Id recId) {
-    List<property__c> issue_properties = [
-      SELECT id
+ //CIP-2288-RS.8/18/22.Begin.
+  @AuraEnabled
+  public static Void DealPropertyVlidation(Id recId, String Product_Type, returnItem ri, List<String> listMessages, String calledFor) {
+      
+    System.debug('RS999 recId :' +recId);
+    System.debug('RS999 Product_Type :' +Product_Type);
+    System.debug('RS999 ri :' +ri);
+    System.debug('RS999 listMessages :' +listMessages);      
+    List<property__c> properties = [
+      SELECT id,
+		City__c,
+		State__c,
+		ZipCode__c,
+		Acquisition_Price__c,
+		Borrower_Opinion_of_Current_Value__c,
+		Override_Initial_Disbursement__c
       FROM Property__c
-      WHERE
-        Deal__r.StageName IN (
-          'Data Tape Received',
-          'Term Sheet Issued',
-          'Term Sheet Signed/Deposit Collected',
-          'Submitted to Underwriting',
-          'Underwriting',
-          'UW Hold',
-          'Approved by Committee'
-        )
-        AND Property__c.Deal__c = :recId
-        AND Status__c NOT IN ('Inactive', 'Cancelled', 'Rescinded')
-        AND Property__c.ZipCode__c != NULL
-        AND Property__c.Property_Type__c IN (
-          'SFR',
-          'Condo',
-          'Townhome',
-          '2-4 Unit',
-          'Multifamily'
-        )
-        AND Property__c.Is_Parent__c = FALSE
-        AND deal__r.RecordType__c = 'Term'
-        AND (Estimated_Rent__c = NULL
-        OR Estimated_Min_Rent__c = NULL
-        OR Estimated_Max_Rent__c = NULL)
-      LIMIT 1
+      WHERE Deal__c = :recId
+        AND Status__c NOT IN ('Inactive', 'Cancelled')
+ 		AND Is_Sub_Unit__c = false
     ];
-    if (issue_properties.size() > 0) {
-      return true;
-    }
-    return false;
-  }*/
-  //CIP-2191-RS.4/4/22.Cannot change the deal stage if there is a property with no rental data.End.
 
+    Map<integer,String> mapReturnMessage = new Map<integer,String>();
+    String returnMessage ='';
+    For (property__c propertie : properties)
+    {        
+    if (Product_Type == 'Term Loan')
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+            if (propertie.Acquisition_Price__c == Null)
+            {
+               if(!mapReturnMessage.containsKey(4)) mapReturnMessage.Put(4,GetMessage(4)) ;
+            }      
+            if (propertie.Borrower_Opinion_of_Current_Value__c == Null)
+            {
+               if(!mapReturnMessage.containsKey(5)) mapReturnMessage.Put(5,GetMessage(5)) ;
+            }          
+    }
+      
+    if (Product_Type == 'Multifamily/CRE' || Product_Type == 'Build to Rent' )
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+            if (propertie.Override_Initial_Disbursement__c == Null && calledFor == 'UW')
+            {
+               if(!mapReturnMessage.containsKey(6)) mapReturnMessage.Put(6,GetMessage(6)) ;
+            }              
+    }
+      
+    if (Product_Type == 'Single Asset (1-4 Unit)' || Product_Type == 'Single Asset (5-10 Unit)')
+    {
+			if (String.isBlank(propertie.City__c))
+            {
+               if(!mapReturnMessage.containsKey(1)) mapReturnMessage.Put(1,GetMessage(1)) ;
+            }
+            if (String.isBlank(propertie.ZipCode__c))
+            {
+               if(!mapReturnMessage.containsKey(2)) mapReturnMessage.Put(2,GetMessage(2)) ;
+            }         
+            if (String.isBlank(propertie.State__c))
+            {
+               if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
+            }
+    }
+    }
+      if (mapReturnMessage.size() > 0)
+      {
+          If (ri != Null)
+          {
+          For(String curMessage : mapReturnMessage.values())
+          {
+              ri.otherMessage.add(curMessage);
+              System.Debug('RS999 listMessages :' +listMessages);              
+          }
+          }
+          Else
+          {
+           For(String curMessage : mapReturnMessage.values())
+          {
+              listMessages.add(curMessage);
+              System.Debug('RS999 listMessages :' +listMessages);
+          }  
+          }
+      }
+  }
+    
+  @AuraEnabled
+  public static String GetMessage(Integer messageNumber) {    
+      
+    Messages__mdt  message = [SELECT Detailed_Description__c, Messages__c, MessagetNumber__c , Message_Type__c from Messages__mdt where MessagetNumber__c = :messageNumber];
+	      
+    //String ErrorString = message.Messages__c + ' (' + String.valueOf(messageNumber)  + ')';
+    String ErrorString = message.Messages__c;
+      
+    Return ErrorString;
+      
+  }
+ //CIP-2288-RS.8/18/22.End.    
+    
   @AuraEnabled
   public static Integer queryPricingCount(Id recId) {
     try {
@@ -451,7 +537,7 @@ public without sharing class PricingReviewRequest_LightningController {
     );
     update newOpp;
 
-    String qs = 'SELECT GLC_Approved__c,RecordType.DeveloperName,OwnerId,Name,Fee__c,CAF_Upfront_Fee__c,Loan_Size__c,Spread_BPS__c,Swap_Rate__c,Exit_Fee__c,Max_Advance_Fee__c,StageName,LOC_Program_Type__c,LOC_Loan_Type__c,Product_Sub_Type__c,Type,Broker_Fees__c, YSP_perc__c, Deal_Intro_Sub_Source__c,';
+    String qs = 'SELECT GLC_Approved__c,RecordType.DeveloperName,OwnerId,Name,Fee__c,CAF_Upfront_Fee__c,Loan_Size__c,Spread_BPS__c,Swap_Rate__c,Exit_Fee__c,Max_Advance_Fee__c,StageName,LOC_Program_Type__c,LOC_Loan_Type__c,Product_Sub_Type__c,Type,Broker_Fees__c, YSP_perc__c, Deal_Intro_Sub_Source__c,Exception__c,';
 
     for (String field : termFields.keySet()) {
       if (!qs.contains(field + ',')) {
@@ -515,7 +601,7 @@ public without sharing class PricingReviewRequest_LightningController {
 
     System.debug('starting approval through server code');
 
-    String qs = 'SELECT GLC_Approved__c,RecordType.DeveloperName,OwnerId,Name,Fee__c,CAF_Upfront_Fee__c,Loan_Size__c,Spread_BPS__c,Swap_Rate__c,Exit_Fee__c,Max_Advance_Fee__c,StageName,LOC_Program_Type__c,LOC_Loan_Type__c,Product_Sub_Type__c,Type,Broker_Fees__c, YSP_perc__c, Deal_Intro_Sub_Source__c,';
+    String qs = 'SELECT GLC_Approved__c,RecordType.DeveloperName,OwnerId,Name,Fee__c,CAF_Upfront_Fee__c,Loan_Size__c,Spread_BPS__c,Swap_Rate__c,Exit_Fee__c,Max_Advance_Fee__c,StageName,LOC_Program_Type__c,LOC_Loan_Type__c,Product_Sub_Type__c,Type,Broker_Fees__c, YSP_perc__c, Deal_Intro_Sub_Source__c,Exception__c,';
 
     for (String field : termFields.keySet()) {
       if (!qs.contains(field + ',')) {
@@ -571,8 +657,13 @@ public without sharing class PricingReviewRequest_LightningController {
       opp.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)') &&
       opp.LOC_Program_Type__c == 'Standard'
     ) {
-      processName = 'Standard_SAB_Pricing_Review';
-      req.setProcessDefinitionNameOrId('Standard_SAB_Pricing_Review');
+      if (opp.Loan_Size__c < 1500000 && !opp.Exception__c) {
+        processName = 'Standard_SAB_Pricing_Review_Below_1_5M';
+        req.setProcessDefinitionNameOrId('Standard_SAB_Pricing_Review_Below_1_5M');
+      } else {
+        processName = 'Custom_SAB_Pricing_Review';
+        req.setProcessDefinitionNameOrId('Custom_SAB_Pricing_Review');
+      }
     } else if (
       (opp.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
       opp.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)') &&
@@ -700,7 +791,8 @@ public without sharing class PricingReviewRequest_LightningController {
         if (workItemIds.size() == 1) {
           if (
             processName != 'Term_Pricing_Review_Capital_Markets' &&
-            processName != 'Bridge_LOC_Pricing_Review_Capital_Market'
+            processName != 'Bridge_LOC_Pricing_Review_Capital_Market' && 
+            processName != 'Standard_SAB_Pricing_Review_Below_1_5M'
           ) {
             a.Status_Text__c = 'Pending: Underwriting Review';
           } else {

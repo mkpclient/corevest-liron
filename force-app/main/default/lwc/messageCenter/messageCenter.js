@@ -49,13 +49,15 @@ export default class MessageCenter extends LightningElement {
 
         comments.forEach((comment) => {
           if (comment.propertyId) {
-            comment.title = "Property Related:" + " " + comment.title;
+            comment.title = "Property Related" + " " + comment.subject;
           } else if (comment.loanId) {
-            comment.title = "Loan/Deal Related: " + comment.title;
+            comment.title = "Loan/Deal Related " + comment.subject;
           } else if (comment.applicationId) {
-            comment.title = "Application Related:" + " " + comment.title;
+            comment.title = "Application Related" + " " + comment.subject;
+          } else if (comment.itemId) {
+            comment.title = "Checklist Related " + comment.subject;
           } else if (comment.documentId) {
-            comment.title = "Document Related: " + comment.title;
+            comment.title = "Document Related " + comment.subject;
           }
         });
 
@@ -102,16 +104,16 @@ export default class MessageCenter extends LightningElement {
 
         comments.forEach((comment) => {
           if (comment.propertyId) {
-            comment.title = "Property Related" + " " + comment.title;
+            comment.title = "Property Related" + " " + comment.subject;
           } else if (comment.loanId) {
-            comment.title = "Loan/Deal Related " + comment.title;
+            comment.title = "Loan/Deal Related " + comment.subject;
           } else if (comment.applicationId) {
-            comment.title = "Application Related" + " " + comment.title;
+            comment.title = "Application Related" + " " + comment.subject;
           } else if (comment.documentId) {
-            comment.title = "Document Related " + comment.title;
+            comment.title = "Document Related " + comment.subject;
           }
         });
-
+        console.log(comments[0].title);
         this.commentSubject = comments[0].title;
         console.log(this.commentSubject);
         this.selectedComments = comments;

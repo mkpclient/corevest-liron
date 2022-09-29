@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Special_Asset_Reason_Already_Selected</fullName>
+    <active>true</active>
+    <description>Special asset reason cannot be changed after selection.</description>
+    <errorConditionFormula>AND( ISCHANGED(Special_Asset_Reason__c) ,
+
+
+OR(  ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;Bankruptcy&quot;) ,
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;1st Payment Default&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;60+ Days&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;75+ Days Delinquent&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;Cross Default/Same Borrower	&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;Matured&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;Non-Monetary Default&quot;),
+ISPICKVAL(PRIORVALUE(Special_Asset_Reason__c), &quot;Title&quot;)
+
+))</errorConditionFormula>
+    <errorMessage>Asset Management Reason cannot be changed after selection.</errorMessage>
+</ValidationRule>

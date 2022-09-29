@@ -8,6 +8,10 @@
     <columns>Thirty_Year_Swap__c</columns>
     <columns>OneM_SOFR__c</columns>
     <columns>OneM_LIBOR__c</columns>
+    <columns>X1M_Term_SOFR_Floor__c</columns>
+    <columns>X5_Year_Treasury_Floor__c</columns>
+    <columns>X7_Year_Treasury_Floor__c</columns>
+    <columns>X10_Year_Treasury_Floor__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

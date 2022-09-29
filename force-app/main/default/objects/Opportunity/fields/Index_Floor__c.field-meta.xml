@@ -122,6 +122,41 @@
                 <default>false</default>
                 <label>2.50%</label>
             </value>
+            <value>
+                <fullName>3.35%</fullName>
+                <default>false</default>
+                <label>3.35%</label>
+            </value>
+            <value>
+                <fullName>3.50%</fullName>
+                <default>false</default>
+                <label>3.50%</label>
+            </value>
+            <value>
+                <fullName>3.55%</fullName>
+                <default>false</default>
+                <label>3.55%</label>
+            </value>
+            <value>
+                <fullName>3.65%</fullName>
+                <default>false</default>
+                <label>3.65%</label>
+            </value>
+            <value>
+                <fullName>3.80%</fullName>
+                <default>false</default>
+                <label>3.80%</label>
+            </value>
+            <value>
+                <fullName>3.85%</fullName>
+                <default>false</default>
+                <label>3.85%</label>
+            </value>
+            <value>
+                <fullName>4.20%</fullName>
+                <default>false</default>
+                <label>4.20%</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Floating</controllingFieldValue>
@@ -210,6 +245,34 @@
         <valueSettings>
             <controllingFieldValue>Floating</controllingFieldValue>
             <valueName>2.50%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.35%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.50%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.55%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.65%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.80%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>3.85%</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Floating</controllingFieldValue>
+            <valueName>4.20%</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

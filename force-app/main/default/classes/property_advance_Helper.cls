@@ -29,13 +29,9 @@ public class property_advance_Helper {
       advanceIds.add(adv.Advance__c);
     }
 
-    Map<Id, Advance__c> constAdvMap = new Map<Id, Advance__c>(
-      [
-        SELECT Id
-        FROM Advance__c
-        WHERE RecordType_Name__c = 'Construction Advance' AND Id IN :advanceIds
-      ]
-    );
+    Map<Id,Advance__c> constAdvMap = new Map<Id,Advance__c>([
+      SELECT Id FROM Advance__c WHERE RecordType_Name__c = 'Construction Advance' AND Id IN :advanceIds
+    ]);
 
     Map<Id, Property__c> propertyMap = new Map<Id, Property__c>(
       [
@@ -70,7 +66,7 @@ public class property_advance_Helper {
           Origination_Fee_Amnt__c,
           Broker_Adv_Fee_Amnt__c,
           Perc_of_Rehab_Budget__c,
-          Daily_Interest_Rate__c,
+        Daily_Interest_Rate__c,
           Approved_Advance_Amount_Max__c,
           Rehab_Budget__c,
           Appraisal_Due_Date__c,
@@ -81,8 +77,7 @@ public class property_advance_Helper {
           Report_Fee_PH2__c,
           Report_Fee_PC__c,
           Report_Fee_SEI__c,
-          Inspection_Fee_SUY__c,
-          // Report_Fee_SUY__c,
+          Report_Fee_SUY__c,
           Report_Fee_ZN__c,
           (
             SELECT Id, Name, Property_Advance_Number__c
@@ -96,6 +91,7 @@ public class property_advance_Helper {
     );
 
     for (Property_Advance__c adv : newList) {
+      
       Property__c property = propertyMap.get(adv.Property__c);
       adv.Purchase_Price__c = property.Acquisition_Price__c;
       adv.BPO_APpraisal_Value__c = property.Appraised_Value_Amount__c; //property.Status__c == 'In Process' ? 0 : property.BPO_Appraisal_Value__c;
@@ -112,14 +108,9 @@ public class property_advance_Helper {
       adv.Initial_Disbursement__c = property.Initial_Disbursement_remaining__c;
       adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
       adv.After_Repair_Value__c = property.After_Repair_Value__c;
-      if (
-        property.Number_of_Advances__c >= 1 ||
-        constAdvMap.containsKey(adv.Advance__c)
-      ) {
+      if(property.Number_of_Advances__c >= 1 || constAdvMap.containsKey(adv.Advance__c)) {
         adv.Holdback_To_Rehab_Ratio__c = property.Deal__r.Holdback_To_Rehab_Ratio__c;
-        adv.Renovation_Reserve__c =
-          (adv.Approved_Amount__c != null ? adv.Approved_Amount__c : 0) *
-          (property.Deal__r.Holdback_To_Rehab_Ratio__c / 100);
+        adv.Renovation_Reserve__c = (adv.Approved_Amount__c != null ? adv.Approved_Amount__c : 0) * (property.Deal__r.Holdback_To_Rehab_Ratio__c / 100);
       } else {
         adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
       }
@@ -155,7 +146,7 @@ public class property_advance_Helper {
         adv.Phase_2_Report_Fee__c = property.Report_Fee_PH2__c;
         adv.Property_Condition_Report_Fee__c = property.Report_Fee_PC__c;
         adv.Seismic_Report_Fee__c = property.Report_Fee_SEI__c;
-        adv.Inspection_Fee__c = property.Inspection_Fee_SUY__c;
+        adv.Survey_Report_Fee__c = property.Report_Fee_SUY__c;
         adv.Zoning_Report_Fee__c = property.Report_Fee_ZN__c;
       }
 
@@ -368,32 +359,22 @@ public class property_advance_Helper {
     List<Property_Advance__c> newList,
     List<Property_Advance__c> oldList
   ) {
-    Map<Id, Advance__c> constAdvMap = new Map<Id, Advance__c>(
-      [
-        SELECT Id
-        FROM Advance__c
-        WHERE
-          Id IN (
-            SELECT Advance__c
-            FROM Property_Advance__c
-            WHERE Id IN :newList
-          )
-          AND RecordType_Name__c = 'Construction Advance'
-      ]
-    );
+ 
+    Map<Id, Advance__c> constAdvMap = new Map<Id, Advance__c>([
+      SELECT Id
+      FROM Advance__c
+      WHERE Id IN (SELECT Advance__c FROM Property_Advance__c WHERE Id IN :newList)
+      AND RecordType_Name__c = 'Construction Advance'
+    ]);
+    
 
     for (Integer i = 0; i < newList.size(); i++) {
-      if (
-        constAdvMap.containsKey(newList[i].Advance__c) &&
-        (newList[i].Approved_Amount__c != oldList[i].Approved_Amount__c ||
-        newList[i].Holdback_To_Rehab_Ratio__c !=
-        oldList[i].Holdback_To_Rehab_Ratio__c) &&
-        newList[i].Holdback_To_Rehab_Ratio__c != null &&
-        newList[i].Approved_Amount__c != null
-      ) {
-        newList[i].Renovation_Reserve__c =
-          newList[i].Approved_Amount__c *
-          (newList[i].Holdback_To_Rehab_Ratio__c / 100);
+      if(constAdvMap.containsKey(newList[i].Advance__c) 
+      && (newList[i].Approved_Amount__c != oldList[i].Approved_Amount__c 
+      || newList[i].Holdback_To_Rehab_Ratio__c != oldList[i].Holdback_To_Rehab_Ratio__c)
+    && newList[i].Holdback_To_Rehab_Ratio__c != null
+    && newList[i].Approved_Amount__c != null) {
+        newList[i].Renovation_Reserve__c = newList[i].Approved_Amount__c * (newList[i].Holdback_To_Rehab_Ratio__c / 100);
       }
       //if(newList[i].Advance_Status__c != oldList[i].Advance_Status__c){
       newList[i].Advance_Status_text__c = newList[i].Advance_Status__c;
@@ -449,8 +430,7 @@ public class property_advance_Helper {
             Report_Fee_PH2__c,
             Report_Fee_PC__c,
             Report_Fee_SEI__c,
-            Inspection_Fee_SUY__c,
-            //Report_Fee_SUY__c,
+            Report_Fee_SUY__c,
             Report_Fee_ZN__c
           FROM Property__c
           WHERE Id IN :propertyIds
@@ -478,7 +458,7 @@ public class property_advance_Helper {
         adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
         adv.After_Repair_Value__c = property.After_Repair_Value__c;
         //adv.Renovation_Reserve__c = property.Approved_Renovation_Holdback__c;
-        if (!constAdvMap.containsKey(adv.Advance__c)) {
+        if (!constAdvMap.containsKey(adv.Advance__c)){
           adv.Renovation_Reserve__c = property.Reno_Advance_Amount__c;
         }
         adv.Approved_Advance_Amount_Max__c = property.Approved_Advance_Amount_Max__c;
@@ -499,7 +479,7 @@ public class property_advance_Helper {
           adv.Phase_2_Report_Fee__c = property.Report_Fee_PH2__c;
           adv.Property_Condition_Report_Fee__c = property.Report_Fee_PC__c;
           adv.Seismic_Report_Fee__c = property.Report_Fee_SEI__c;
-          adv.Inspection_Fee__c = property.Inspection_Fee_SUY__c;
+          adv.Survey_Report_Fee__c = property.Report_Fee_SUY__c;
           adv.Zoning_Report_Fee__c = property.Report_Fee_ZN__c;
         }
 
@@ -966,6 +946,7 @@ public class property_advance_Helper {
     update advMap.values();
   }
 
+  @future(callout=true) // pre-empting a call out from the wire trigger
   public static void rollupWires(Set<Id> wireIds) {
     Map<Id, Wire__c> wireMap = new Map<Id, Wire__c>();
 

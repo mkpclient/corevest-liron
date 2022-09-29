@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Lender__c</fullName>
-    <description>Bridge Use</description>
     <externalId>false</externalId>
     <label>Lender</label>
     <required>false</required>
@@ -52,9 +51,14 @@
                 <label>CoreVest American Finance Lender LLC, a Delaware limited liability company</label>
             </value>
             <value>
-                <fullName>Dominion Group</fullName>
+                <fullName>Dominion Financial Services, LLC</fullName>
                 <default>false</default>
-                <label>Dominion Group</label>
+                <label>Dominion Financial Services, LLC</label>
+            </value>
+            <value>
+                <fullName>Easy Street Capital</fullName>
+                <default>false</default>
+                <label>Easy Street Capital</label>
             </value>
             <value>
                 <fullName>Great Lakes Financing</fullName>
@@ -82,6 +86,11 @@
                 <label>Patch of Land Lending</label>
             </value>
             <value>
+                <fullName>Pimlico Refinance, LLC</fullName>
+                <default>false</default>
+                <label>Pimlico Refinance, LLC</label>
+            </value>
+            <value>
                 <fullName>Revolution Realty Capital LLC</fullName>
                 <default>false</default>
                 <label>Revolution Realty Capital LLC</label>
@@ -105,6 +114,11 @@
                 <fullName>Third Party Originator</fullName>
                 <default>false</default>
                 <label>Third Party Originator</label>
+            </value>
+            <value>
+                <fullName>YouLand</fullName>
+                <default>false</default>
+                <label>YouLand</label>
             </value>
         </valueSetDefinition>
     </valueSet>

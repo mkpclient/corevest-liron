@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Field_Name__c</field>
-        <value xsi:type="xsd:string">Index_Floor__c</value>
+        <value xsi:type="xsd:string">Floor__c</value>
     </values>
     <values>
         <field>Filters__c</field>

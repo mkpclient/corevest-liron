@@ -2,6 +2,7 @@
 public class oppChatter_test {
 @testsetup
 static void datasetup() {
+    test_Helper.createDealLoanNumber();
     List<Account> al = new List<Account>();
     Account a0 = new Account();
     a0.Name = 'Berkadia Commercial Mortgage';

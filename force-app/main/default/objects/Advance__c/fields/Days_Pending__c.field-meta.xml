@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Days_Pending__c</fullName>
+    <description>If this Advance is Completed, then this will reflect days from creation to wire date.  If Pending, then days from creation to today&apos;s date.</description>
+    <externalId>false</externalId>
+    <formula>IF( ISPICKVAL( Status__c , &apos;Completed&apos;) , Wire_Date__c - DATEVALUE( CreatedDate ),
+IF( ISPICKVAL( Status__c , &apos;Cancelled&apos;) , NULL,
+TODAY()  -  DATEVALUE( CreatedDate )
+))</formula>
+    <inlineHelpText>If this Advance is Completed, then this will reflect days from creation to wire date.  If Pending, then days from creation to today&apos;s date.</inlineHelpText>
+    <label>Days Pending</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>0</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

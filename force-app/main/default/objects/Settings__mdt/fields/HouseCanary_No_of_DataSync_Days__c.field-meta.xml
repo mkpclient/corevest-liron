@@ -7,7 +7,7 @@
     <inlineHelpText>Stores the number of days before HouseCanary sync can happen.</inlineHelpText>
     <label>HouseCanary No of DataSync Days</label>
     <precision>3</precision>
-    <required>false</required>
+    <required>true</required>
     <scale>0</scale>
     <type>Number</type>
     <unique>false</unique>

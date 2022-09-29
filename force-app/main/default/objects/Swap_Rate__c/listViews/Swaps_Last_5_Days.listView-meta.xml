@@ -12,5 +12,5 @@
         <operation>equals</operation>
         <value>LAST_N_DAYS:5</value>
     </filters>
-    <label>Swaps Last 5 Days</label>
+    <label>Rates Last 5 Days</label>
 </ListView>

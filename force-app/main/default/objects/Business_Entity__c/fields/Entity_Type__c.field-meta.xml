@@ -11,9 +11,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>For Profit Corporation</fullName>
+                <fullName>Corporation</fullName>
                 <default>false</default>
-                <label>For Profit Corporation</label>
+                <label>Corporation</label>
             </value>
             <value>
                 <fullName>General Partnership</fullName>
@@ -29,11 +29,6 @@
                 <fullName>Limited Partnership</fullName>
                 <default>false</default>
                 <label>Limited Partnership</label>
-            </value>
-            <value>
-                <fullName>Non Profit Corporation</fullName>
-                <default>false</default>
-                <label>Non Profit Corporation</label>
             </value>
             <value>
                 <fullName>Sole Proprietorship</fullName>

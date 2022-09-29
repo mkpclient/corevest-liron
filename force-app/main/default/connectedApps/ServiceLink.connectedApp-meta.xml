@@ -4,7 +4,7 @@
     <label>ServiceLink</label>
     <oauthConfig>
         <callbackUrl>https://login.salesforce.com</callbackUrl>
-        <!-- <consumerKey>3MVG99H7o8BRmFkXr6xiye0ME08zUoYSFa0s7lRyllAsp1OMgQK8aRDRx7xczDwvCGvb8ZuxX2DmzYjN5HuUj</consumerKey> -->
+        <consumerKey>3MVG9MwiKwcReohz1fm8U0MfsvyExIJVSgAJ_Wff91TQEwTHcOIumrUI2OFNhd0RsDMTOjCuFm1XG3PffTkcQ</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

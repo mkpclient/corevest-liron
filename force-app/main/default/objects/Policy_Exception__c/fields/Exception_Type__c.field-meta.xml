@@ -12,8 +12,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Post-Close Appraisal</fullName>
+                <default>false</default>
+                <label>Post-Close Appraisal</label>
+            </value>
+            <value>
                 <fullName>Other</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Other</label>
             </value>
         </valueSetDefinition>

@@ -27,6 +27,11 @@
         <operation>equals</operation>
         <value>Closed Won</value>
     </filters>
+    <filters>
+        <field>Project_Strategy__c</field>
+        <operation>equals</operation>
+        <value>Multifamily Heavy Lift/CLO,Multifamily Lease-Up/No Rehab/CLO,Multifamily Light Lift/CLO</value>
+    </filters>
     <label>Bridge Deals - Closed Won</label>
     <sharedTo>
         <role>Asset_Management</role>

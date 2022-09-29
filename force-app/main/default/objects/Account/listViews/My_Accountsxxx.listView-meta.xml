@@ -7,6 +7,7 @@
     <columns>ACCOUNT.PHONE1</columns>
     <columns>ACCOUNT.TYPE</columns>
     <columns>CORE.USERS.ALIAS</columns>
+    <columns>ACCOUNT.RECORDTYPE</columns>
     <filterScope>Mine</filterScope>
     <label>My Accounts</label>
 </ListView>

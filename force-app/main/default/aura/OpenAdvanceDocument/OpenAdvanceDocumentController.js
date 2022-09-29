@@ -57,6 +57,9 @@
           }
         }
       } else if (val.substring(0, 4) == "docx") {
+        if(val === "docx-Proof_Of_Funds.docx") {
+          component.set("v.isProofOfFund", true);
+        }
         helper.generateDocx(component, val.substring(5));
       } else if (val == "Bridge IC Memo") {
         helper.createBridgeICMemoCmp(component, event);

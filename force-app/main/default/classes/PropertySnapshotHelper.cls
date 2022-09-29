@@ -28,7 +28,8 @@ public without sharing class PropertySnapshotHelper {
     'Realized_Loss_Severity__c' => 'Realized_Loss_Severity__c',
     'Total_Broker_Commissions_Fees_Paid__c' => 'Total_Broker_Commissions_Fees_Paid__c',
     'Maturity_Default_Transfer__c' => 'Maturity_Default_Transfer__c',
-    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c'
+    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c',
+    'Net_Proceeds__c' => 'Net_Proceeds__c'
   };
 
   private static final Map<String, String> SNAPSHOT_TO_EXT_COMPLETED = new Map<String, String>{
@@ -52,6 +53,8 @@ public without sharing class PropertySnapshotHelper {
   private static final String PROP_EXT_EVENT_NAME = 'Extension Completed';
 
   private static final String SPEC_ASSET_EVENT_NAME = 'Special Asset Resolved';
+
+  // changed to 'Asset Sold in the record but it now causes duplicate keys in the map so i will just programatically change it below
 
   private static final Map<String, Map<String, String>> FIELD_MAPPING_BY_EVENT = new Map<String, Map<String, String>>{
     PROP_EVENT_NAME_PAID => SNAPSHOT_TO_PROP_MAP_ASSETPAIDOFF,
@@ -131,6 +134,9 @@ public without sharing class PropertySnapshotHelper {
         } else if (SPEC_ASSET_EVENT_NAME == key) {
           propSnapshot.Special_Asset__c = (Id) obj.get('Id');
           propSnapshot.Property__c = (Id) obj.get('Property__c');
+          if(obj.get('REO_Sell_Date__c') != null) {
+            propSnapshot.Event_Type__c = 'Asset Sold';
+          }
         } else {
           propSnapshot.Property__c = (Id) obj.get('Id');
         }

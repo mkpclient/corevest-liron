@@ -71,32 +71,16 @@
                 <field>Forbearance_Term_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Days_To_Resolve__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>REO_Sell_Date__c</field>
+                <field>Repurchased_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Vintage_Year__c</field>
+                <field>Warehouse_Line__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Realized_Loss_Severity__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Total_Broker_Commissions_Fees_Paid__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Maturity_Default_Transfer__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Days_to_Resolve_REO_to_REO_Sold__c</field>
+                <field>Loan_Performing__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -127,6 +111,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Claim_Accepted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Days_To_Resolve__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Days_to_Resolve_REO_to_REO_Sold__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -186,6 +178,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Deal_Record_Type__c</fields>
+        <fields>Servicer_Name__c</fields>
+        <fields>Current_UPB__c</fields>
+        <fields>BPO_Appraisal_Date__c</fields>
+        <fields>Appraised_Value_Amount__c</fields>
         <relatedList>Property__c.Special_Asset__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -200,11 +196,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>Bankruptcy__c.Special_Asset__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Property_Snapshot__c.Special_Asset__c</relatedList>
+        <relatedList>REO__c.Special_Asset__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

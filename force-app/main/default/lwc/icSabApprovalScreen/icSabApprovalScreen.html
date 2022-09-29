@@ -15,28 +15,34 @@
               key={field.fieldName}
               class="slds-col slds-size_1-of-2 slds-p-around_x-small"
             >
-            <template if:true={field.isUrl}>
-              <div class="slds-form-element__control">
+              <template if:true={field.isUrl}>
+                <div class="slds-form-element__control">
+                  <span
+                    class="slds-form-element__label"
+                    if:true={field.customLabel}
+                    >{field.customLabel}</span
+                  >
+                  <div class="slds-form-element__static">
+                    <lightning-formatted-url
+                      value={field.value}
+                      label={field.label}
+                      target="_blank"
+                    ></lightning-formatted-url>
+                  </div>
+                </div>
+              </template>
+              <template if:false={field.isUrl}>
                 <span
                   class="slds-form-element__label"
                   if:true={field.customLabel}
                   >{field.customLabel}</span
                 >
-                <div class="slds-form-element__static">
-                  <lightning-formatted-url value={field.value} label={field.label} target="_blank"></lightning-formatted-url>
-                </div>
-              </div>
-            </template>
-            <template if:false={field.isUrl}>
-              <span class="slds-form-element__label" if:true={field.customLabel}
-                >{field.customLabel}</span
-              >
-              <lightning-output-field
-                field-name={field.fieldName}
-                variant={field.variant}
-              >
-              </lightning-output-field>
-            </template>
+                <lightning-output-field
+                  field-name={field.fieldName}
+                  variant={field.variant}
+                >
+                </lightning-output-field>
+              </template>
             </div>
           </template>
         </div>
@@ -119,10 +125,15 @@
               <div class="slds-pill_container">
                 <template for:each={guarantors} for:item="g">
                   <span key={g.label} class="slds-pill slds-pill_link">
-                    <a href={g.href} class="slds-pill__action" title={g.label} target="_blank">
+                    <a
+                      href={g.href}
+                      class="slds-pill__action"
+                      title={g.label}
+                      target="_blank"
+                    >
                       <span class="slds-pill__label">{g.label}</span>
                     </a>
-                    </span>
+                  </span>
                 </template>
               </div>
             </template>
@@ -151,24 +162,24 @@
       ></c-ic-sab-approval-property>
     </div>
   </template>
-  <div class="dashboard-section">
-    <template if:true={borrowerId}>
+  <template if:true={borrowerId}>
+    <div class="dashboard-section">
       <c-ic-sab-approval-property
-      header="Borrower Profile"
-      record-id={borrowerId}
-      record-api-name="Deal_Contact__c"
-      guarantors={guarantors}
-    ></c-ic-sab-approval-property>
-    </template>
-  </div>
-  <div class="dashboard-section">
-    <template if:true={borrowerId}>
+        header="Borrower Profile"
+        record-id={borrowerId}
+        record-api-name="Deal_Contact__c"
+        guarantors={guarantors}
+      ></c-ic-sab-approval-property>
+    </div>
+  </template>
+  <template if:true={borrowerId}>
+    <div class="dashboard-section">
       <c-ic-sab-approval-property
-      header="Borrower Structure"
-      record-id={borrowerId}
-      record-api-name="Deal_Contact__c"
-      guarantors={guarantors}
-    ></c-ic-sab-approval-property>
-    </template>
-  </div>
+        header="Borrower Structure"
+        record-id={borrowerId}
+        record-api-name="Deal_Contact__c"
+        guarantors={guarantors}
+      ></c-ic-sab-approval-property>
+    </div>
+  </template>
 </template>

@@ -3,7 +3,7 @@
     <fullName>Escrow_Agent__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Escrow Agent</label>
+    <label>Escrow Company</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Properties (Escrow Agent)</relationshipLabel>
     <relationshipName>Properties1</relationshipName>

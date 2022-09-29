@@ -42,45 +42,46 @@
   },
   sendEmail: function (component, event, helper) {
     component.set("v.emailAddress", "");
+    component.set("v.showAskEmailAddressModal", true);
 
-    let hasNullValue = false;
-    let borrowerEntity = component.get("v.record.Deal__r.Borrower_Entity__r");
-    let requiredKeys = [
-      "Name",
-      "Company_Jurisdiction__c",
-      "Date_of_Cert_of_Good_Standing__c",
-      "Entity_Filing_Date__c",
-      "Operating_Agreement_Date__c",
-      "Business_Tax_ID_EIN__c",
-      "Entity_Type__c",
-      "Entity_Number__c",
-      "Address_1__c",
-      "City__c",
-      "State__c",
-      "Zip__c"
-    ];
+    // let hasNullValue = false;
+    // let borrowerEntity = component.get("v.record.Deal__r.Borrower_Entity__r");
+    // let requiredKeys = [
+    //   "Name",
+    //   "Company_Jurisdiction__c",
+    //   "Date_of_Cert_of_Good_Standing__c",
+    //   "Entity_Filing_Date__c",
+    //   "Operating_Agreement_Date__c",
+    //   "Business_Tax_ID_EIN__c",
+    //   "Entity_Type__c",
+    //   "Entity_Number__c",
+    //   "Address_1__c",
+    //   "City__c",
+    //   "State__c",
+    //   "Zip__c"
+    // ];
 
-    if (!borrowerEntity) {
-      hasNullValue = true;
-    }
+    // if (!borrowerEntity) {
+    //   hasNullValue = true;
+    // }
 
-    if (!hasNullValue) {
-      for (const key of requiredKeys) {
-        if (
-          !borrowerEntity.hasOwnProperty(key) ||
-          borrowerEntity[key] == null
-        ) {
-          hasNullValue = true;
-          break;
-        }
-      }
-    }
+    // if (!hasNullValue) {
+    //   for (const key of requiredKeys) {
+    //     if (
+    //       !borrowerEntity.hasOwnProperty(key) ||
+    //       borrowerEntity[key] == null
+    //     ) {
+    //       hasNullValue = true;
+    //       break;
+    //     }
+    //   }
+    // }
 
-    if (hasNullValue) {
-      component.set("v.showNullFieldsModal", true);
-    } else {
-      component.set("v.showAskEmailAddressModal", true);
-    }
+    // if (hasNullValue) {
+    //   component.set("v.showNullFieldsModal", true);
+    // } else {
+    //   component.set("v.showAskEmailAddressModal", true);
+    // }
   },
   validateEmail: function (cmp, event) {
     const emailsString = event.getSource().get("v.value");

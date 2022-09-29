@@ -15,9 +15,19 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Pending Order</fullName>
+                <default>false</default>
+                <label>Pending Order</label>
+            </value>
+            <value>
                 <fullName>Ordered</fullName>
                 <default>false</default>
                 <label>Ordered</label>
+            </value>
+            <value>
+                <fullName>Ordered - Appraiser Accepted</fullName>
+                <default>false</default>
+                <label>Ordered - Appraiser Accepted</label>
             </value>
             <value>
                 <fullName>With Vendor</fullName>
@@ -80,6 +90,21 @@
                 <label>Late</label>
             </value>
             <value>
+                <fullName>Received</fullName>
+                <default>false</default>
+                <label>Received</label>
+            </value>
+            <value>
+                <fullName>Ready for Review</fullName>
+                <default>false</default>
+                <label>Ready for Review</label>
+            </value>
+            <value>
+                <fullName>Revision Required</fullName>
+                <default>false</default>
+                <label>Revision Required</label>
+            </value>
+            <value>
                 <fullName>Revision Sent</fullName>
                 <default>false</default>
                 <label>Revision Sent</label>
@@ -95,9 +120,9 @@
                 <label>In Revision</label>
             </value>
             <value>
-                <fullName>Ready for Review</fullName>
+                <fullName>Reviewed - Remargin Required</fullName>
                 <default>false</default>
-                <label>Ready for Review</label>
+                <label>Reviewed - Remargin Required</label>
             </value>
             <value>
                 <fullName>Reviewed</fullName>
@@ -108,6 +133,11 @@
                 <fullName>On Hold</fullName>
                 <default>false</default>
                 <label>On Hold</label>
+            </value>
+            <value>
+                <fullName>Reassignment Required</fullName>
+                <default>false</default>
+                <label>Reassignment Required</label>
             </value>
             <value>
                 <fullName>Cancelled</fullName>
@@ -123,6 +153,16 @@
                 <fullName>Complete-Undelivered</fullName>
                 <default>false</default>
                 <label>Complete-Undelivered</label>
+            </value>
+            <value>
+                <fullName>Verbal Pending Final</fullName>
+                <default>false</default>
+                <label>Verbal Pending Final</label>
+            </value>
+            <value>
+                <fullName>Other Pending Final</fullName>
+                <default>false</default>
+                <label>Other Pending Final</label>
             </value>
         </valueSetDefinition>
     </valueSet>

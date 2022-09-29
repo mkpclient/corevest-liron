@@ -120,12 +120,6 @@
   </lightning-card>
   <c-modal title="Submit for Approval">
     <div slot="body">
-      <template if:true={disableSave}>
-        <lightning-spinner
-          alternative-text="Loading"
-          size="medium"
-        ></lightning-spinner>
-      </template>
       <lightning-record-edit-form
         object-api-name="Batch_Approval__c"
         onsuccess={handleSuccess}

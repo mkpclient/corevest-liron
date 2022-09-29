@@ -20,9 +20,7 @@ Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + &apos;brad@cvest.com&apos; + 
     <fieldOverrides>
         <field>ToAddress</field>
         <formula>Opportunity.Underwriter__r.Email + &apos;;&apos; + 
-Opportunity.Closer__r.Email + &apos;;&apos; + 
-Opportunity.Loan_Coordinator__r.Email + &apos;;&apos; +
-Opportunity.X2nd_Underwriter__r.Email</formula>
+Opportunity.Closer__r.Email + &apos;;&apos; + Opportunity.X2nd_Underwriter__r.Email + &apos;;&apos; + Opportunity.Loan_Coordinator__r.Email</formula>
     </fieldOverrides>
     <label>New Term Loan Assigned Email</label>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>

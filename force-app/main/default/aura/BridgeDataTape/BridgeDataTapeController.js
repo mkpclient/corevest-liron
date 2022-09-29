@@ -44,7 +44,7 @@
             } else if (d.Closer__c == "0050a00000L853XAAR") {
               d.Closer = "Nate Valline";
             } else if (d.Closer__c == "0055b00000PkQo7AAF") {
-              d.Closer = "Paola De Sousa";
+              d.Closer = "Paola De Sousa";  
             } else if (d.Closer__c == "0055b00000Omc6lAAB") {
               d.Closer = "Ellie Young";
             } else if (d.Closer__c == "0055b00000PlzpMAAR") {
@@ -62,6 +62,8 @@
               d.Underwriter = "Brandon Jacobs";
             } else if (d.Underwriter__c == "0055b00000OpfG6AAJ") {
               d.Underwriter = "Henry Newell";
+            } else if (d.Underwriter__c == "0055b00000P8BrKAAV") {
+              d.Underwriter = "Joseph Felice";                
             } else if (d.Underwriter__c == "0055b00000P81j6AAB") {
               d.Underwriter = "Juan Arias";
             } else {
@@ -168,7 +170,7 @@
         } else if (el.Closer == "Nate Valline") {
           el.Closer__c = "0050a00000L853XAAR";
         } else if (el.Closer == "Paola De Sousa") {
-          el.Closer__c = "0055b00000PkQo7AAF";
+          el.Closer__c = "0055b00000PkQo7AAF";              
         } else if (el.Closer == "Ellie Young") {
           el.Closer__c = "0055b00000Omc6lAAB";
         } else if (el.Closer == "Kathleen Evans") {
@@ -187,6 +189,8 @@
           el.Underwriter__c = "0055b00000OHS0lAAH";
         } else if (el.Underwriter == "Henry Newell") {
           el.Underwriter__c = "0055b00000OpfG6AAJ";
+        } else if (el.Underwriter == "Joseph Felice") {
+          el.Underwriter__c = "0055b00000P8BrKAAV";            
         } else if (el.Underwriter == "Juan Arias") {
           el.Underwriter__c = "0055b00000P81j6AAB";
         } else {
@@ -312,7 +316,7 @@
               } else if (d.Closer__c == "0050a00000L853XAAR") {
                 d.Closer = "Nate Valline";
               } else if (d.Closer__c == "0055b00000PkQo7AAF") {
-                d.Closer = "Paola De Sousa";
+                d.Closer = "Paola De Sousa";                  
               } else if (d.Closer__c == "0055b00000Omc6lAAB") {
                 d.Closer = "Ellie Young";
               } else if (d.Closer__c == "0055b00000PlzpMAAR") {
@@ -331,6 +335,8 @@
                 d.Underwriter = "Brandon Jacobs";
               } else if (d.Underwriter__c == "0055b00000OpfG6AAJ") {
                 d.Underwriter = "Henry Newell";
+              } else if (d.Underwriter__c == "0055b00000P8BrKAAV") {
+                d.Underwriter = "Joseph Felice";                  
               } else if (d.Underwriter__c == "0055b00000P81j6AAB") {
                 d.Underwriter = "Juan Arias";
               } else {
@@ -424,15 +430,8 @@
     });
 
     let columnList = [];
-
-    let readOnlyColumns = [];
-
     for (let i = 0; i < columns.length; i++) {
       let label = columns[i].get("v.title");
-
-      if (columns[i].get("v.readOnly")) {
-        readOnlyColumns.push(columns[i].get("v.data"));
-      }
 
       if (
         !$A.util.isEmpty(label) &&
@@ -528,18 +527,11 @@
       if (!$A.util.isEmpty(property.Asset_ID__c)) {
         var index = propertyMap[property.Asset_ID__c];
         console.log(index);
-        // var id = properties[index].Id;
+        var id = properties[index].Id;
         property.Id = properties[index].Id;
-
-        readOnlyColumns.forEach((fieldName) => {
-          property[fieldName] = properties[index][fieldName];
-        });
 
         properties[index] = property;
       } else {
-        readOnlyColumns.forEach((fieldName) => {
-          delete property[x];
-        });
         properties.push(property);
       }
     }
@@ -622,7 +614,7 @@
             } else if (property.Closer__c == "0050a00000L853XAAR") {
               property.Closer = "Nate Valline";
             } else if (property.Closer__c == "0055b00000PkQo7AAF") {
-              property.Closer = "Paola De Sousa";
+              property.Closer = "Paola De Sousa"; 
             } else if (property.Closer__c == "0055b00000Omc6lAAB") {
               property.Closer = "Ellie Young";
             } else if (property.Closer__c == "0055b00000PlzpMAAR") {
@@ -641,6 +633,8 @@
               property.Underwriter = "Brandon Jacobs";
             } else if (property.Underwriter__c == "0055b00000OpfG6AAJ") {
               property.Underwriter = "Henry Newell";
+            } else if (property.Underwriter__c == "0055b00000P8BrKAAV") {
+              property.Underwriter = "Joseph Felice";                
             } else if (property.Underwriter__c == "0055b00000P81j6AAB") {
               property.Underwriter = "Juan Arias";
             } else {

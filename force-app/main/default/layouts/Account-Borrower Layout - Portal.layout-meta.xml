@@ -50,6 +50,10 @@
                 <behavior>Edit</behavior>
                 <field>Home_Depot__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

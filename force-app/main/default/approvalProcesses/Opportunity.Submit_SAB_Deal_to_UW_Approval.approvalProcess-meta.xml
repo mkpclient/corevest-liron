@@ -20,7 +20,19 @@
         <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
+                <name>angie.sinewick@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
                 <name>bryon.harland@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
+                <name>roman.walsh@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
+                <name>stephanie.gibson@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
@@ -118,7 +130,7 @@
         </action>
     </initialSubmissionActions>
     <label>Submit SAB Deal to UW Approval</label>
-    <processOrder>18</processOrder>
+    <processOrder>12</processOrder>
     <recallActions>
         <action>
             <name>Current_Approval_Process_NULL</name>

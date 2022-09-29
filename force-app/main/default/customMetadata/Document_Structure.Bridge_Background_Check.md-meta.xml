@@ -152,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Diligence Review;Lender Underwriter</value>
+        <value xsi:type="xsd:string">Diligence Review;Lender Underwriter;Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

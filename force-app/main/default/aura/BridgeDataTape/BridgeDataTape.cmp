@@ -608,7 +608,7 @@
                   title="Underwriter"
                   type="dropdown"
                   width="50"
-                  source="['Brandon Jacobs', 'Henry Newell', 'Juan Arias']"
+                  source="['Brandon Jacobs', 'Henry Newell', 'Joseph Felice', 'Juan Arias']"
                 />
                 <c:hotColumn
                   data="Closer"

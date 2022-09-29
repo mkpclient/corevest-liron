@@ -5,7 +5,7 @@
     <description>Most recent Appraised As Is Value</description>
     <externalId>false</externalId>
     <inlineHelpText>Most recent Appraised As Is Value</inlineHelpText>
-    <label>Current Appraised As Is Value</label>
+    <label>Current Appraised As-Is Value</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
