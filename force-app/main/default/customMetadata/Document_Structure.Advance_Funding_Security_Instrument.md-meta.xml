@@ -72,7 +72,7 @@
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
-        <value xsi:type="xsd:string">Advance_Docs</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Criteria__c</field>
@@ -84,19 +84,19 @@
     </values>
     <values>
         <field>Post_Closing_Required__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Post_Closing_Sort__c</field>
-        <value xsi:type="xsd:double">5.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Trigger__c</field>
-        <value xsi:type="xsd:string">afterInsert</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_sObjectType__c</field>
-        <value xsi:type="xsd:string">Advance__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Private__c</field>
@@ -152,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Servicer;Diligence Review;Title Review</value>
+        <value xsi:type="xsd:string">Servicer;Diligence Review;Title Review;Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

@@ -2,11 +2,5 @@
 <CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Bridge_Correspondent</fullName>
     <fields>Name</fields>
-    <fields>Trade_Count__c</fields>
-    <fields>Trades_Pending__c</fields>
-    <fields>Trades_Completed__c</fields>
-    <fields>Total_Purchased__c</fields>
-    <fields>Remaining_Commitment__c</fields>
-    <fields>Utilization__c</fields>
     <label>Bridge Correspondent</label>
 </CompactLayout>

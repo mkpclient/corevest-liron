@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>No_Renovaction_LOC_Fields_Locked</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>Prevents changes to Requested ARV LTV, Requested Max Reno Cost Reimbursement, and Requested Reno Limit (% Acq Cost) if the LOC deal&apos;s Product Subtype field = No Renovation.</description>
     <errorConditionFormula>AND(
-Record_Type_Name__c = &quot;LOC_Loan&quot;,
-TEXT(Product_Sub_Type__c) = &quot;No Renovation&quot;,
+  Record_Type_Name__c = &quot;LOC_Loan&quot;,
+  TEXT(Product_Sub_Type__c) = &quot;No Renovation&quot;,
+  TEXT( LOC_Loan_Type__c ) = &quot;Credit Line&quot;,
 OR(
-ISCHANGED( Requested_ARV_LTV__c ),
-ISCHANGED ( Requested_Max_Reno_Cost_Reimbursement__c ),
-ISCHANGED(  Requested_Reno_Limit__c ))
+  ISCHANGED( Requested_ARV_LTV__c ),
+  ISCHANGED ( Requested_Max_Reno_Cost_Reimbursement__c ),
+  ISCHANGED(  Requested_Reno_Limit__c ))
 )</errorConditionFormula>
     <errorMessage>This deal is a No Renovation LOC so you cannot change any of the following fields: the Requested ARV LTV, Requested Max Reno Cost Reimbursement, or Requested Reno Limit (% Acq Cost).</errorMessage>
 </ValidationRule>

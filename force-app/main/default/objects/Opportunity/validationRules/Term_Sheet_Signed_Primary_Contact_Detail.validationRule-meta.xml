@@ -6,6 +6,10 @@
     <errorConditionFormula>AND(
 $Profile.Name &lt;&gt; &quot;System Administrator&quot;,
 $Profile.Name &lt;&gt; &quot;Integrations&quot;,
+NOT( ISBLANK( Contact__c )) ,
+NOT( ISPICKVAL( Type , &apos;Acquired Bridge Loan&apos;) ),
+NOT( ISPICKVAL( Type , &apos;Table Funded Bridge Loan&apos;) ),
+NOT( ISPICKVAL( Type , &apos;Investor DSCR&apos;) ),
 OR(
 ISBLANK(Contact__r.MailingStreet),
 ISBLANK(Contact__r.MailingCity),

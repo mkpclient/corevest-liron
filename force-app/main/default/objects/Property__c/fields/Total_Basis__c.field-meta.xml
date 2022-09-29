@@ -5,7 +5,7 @@
     <externalId>false</externalId>
     <formula>Transaction_Costs__c +  IF(
  Verified_Acquisition_Price__c = 0, Acquisition_Price__c,Verified_Acquisition_Price__c) +  Rehab_Costs__c +
-IF(ISPICKVAL(Include_Rehab__c, &quot;Yes&quot;), Approved_Completed_Rehab_Costs__c, 0)</formula>
+IF(ISPICKVAL(Include_Rehab__c, &quot;Yes&quot;), Approved_Completed_Rehab_Costs__c, 0) +  Assignment_Fee__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Total Initial Cost Basis</label>
     <precision>18</precision>

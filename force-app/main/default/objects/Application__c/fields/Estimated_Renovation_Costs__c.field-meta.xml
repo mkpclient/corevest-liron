@@ -3,10 +3,10 @@
     <fullName>Estimated_Renovation_Costs__c</fullName>
     <externalId>false</externalId>
     <label>Estimated Renovation Costs</label>
-    <precision>16</precision>
+    <length>255</length>
     <required>false</required>
-    <scale>0</scale>
     <trackFeedHistory>false</trackFeedHistory>
     <trackTrending>false</trackTrending>
-    <type>Currency</type>
+    <type>Text</type>
+    <unique>false</unique>
 </CustomField>

@@ -16,7 +16,7 @@ global with sharing class PortalAPIDeal {
 
       String queryString = 'SELECT ';
       queryString += String.join(new List<String>(fields), ',');
-      queryString += ' ,Contact__r.Name,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
+      queryString += ', Application__r.Term_Sheet_Sent__c ,Contact__r.Name,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
       queryString += ' (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone, User.Portal_Profile_Pic__c FROM OpportunityTeamMembers) ';
       queryString += ' FROM Opportunity ';
       queryString += ' WHERE Id IN: dealIds';
@@ -199,9 +199,24 @@ global with sharing class PortalAPIDeal {
 
         String queryString = 'SELECT ';
         queryString += String.join(new List<String>(fields), ',');
-        queryString += ' ,Contact__r.Name ';
+        queryString += ' ,Contact__r.Name, Application__r.Term_Sheet_Sent__c ';
         queryString += ' ,Account.Name,Contact__r.OwnerId,Contact__r.Owner.Name,Contact__r.Owner.Phone,Contact__r.Owner.Email,Contact__r.Owner.smallPhotoURl, Contact__r.Owner.Portal_Profile_Pic__c, ';
         queryString += ' (SELECT Id,UserId,TeamMemberRole, User.Email, User.smallPhotoURl, User.Name,User.Phone, User.Portal_Profile_Pic__c FROM OpportunityTeamMembers) ';
+
+        Set<String> applicationFieldNames = util.getAllFieldNamesForObject(
+          'Application__c'
+        );
+
+        String applicationQueryString = 'SELECT ';
+        applicationQueryString += String.join(
+          new List<String>(applicationFieldNames),
+          ','
+        );
+        applicationQueryString += ' FROM Applications__r';
+
+        queryString += ', (' + applicationQueryString + ')';
+
+        // queryString += ', (SELECT Id FROM Application__r)';
         queryString += ' FROM Opportunity ';
         queryString += ' WHERE Id =\'' + dealId + '\'';
         queryString += ' LIMIT 1';
@@ -278,11 +293,14 @@ global with sharing class PortalAPIDeal {
     // String interestRateType
     String index;
     Decimal indexMargin;
-    String indexFloor;
+    Decimal indexFloor;
     String primaryContact;
 
     Id id;
     List<DealTeamMember> teamMembers;
+
+    List<PortalAPIApplication.ApplicationSmall> applications;
+    Id termsheetApplicationId;
 
     Loan(Opportunity o) {
       teamMembers = new List<DealTeamMember>();
@@ -298,6 +316,22 @@ global with sharing class PortalAPIDeal {
       daysRemaining = o.Days_Remaining__c;
       primaryContact = o.Contact__r.Name;
       //stage = o.StageName;
+
+      List<PortalAPIApplication.ApplicationSmall> applications = new List<PortalAPIApplication.ApplicationSmall>();
+
+      if (o.Application__r != null) {
+        for (Application__c application : o.Applications__r) {
+          applications.add(
+            new PortalAPIApplication.ApplicationSmall(application)
+          );
+        }
+      }
+
+      if (o.Application__r.Term_Sheet_Sent__c) {
+        this.termsheetApplicationId = o.Application__c;
+      }
+
+      this.applications = applications;
 
       if (o.LOC_Loan_Type__c == 'Term Loan') {
         this.loanType = 'Rental Portfolio';
@@ -319,11 +353,11 @@ global with sharing class PortalAPIDeal {
         o.LOC_Loan_Type__c == 'Credit Line' &&
         o.Product_Sub_Type__c == 'Build to Rent'
       ) {
-        this.loanType = 'Build for Rent';
+        this.loanType = 'Build For Rent';
       }
 
       if (o.LOC_Loan_Type__c == 'Build to Rent') {
-        this.loanType = 'Build for Rent';
+        this.loanType = 'Build For Rent';
       }
 
       if (
@@ -474,10 +508,10 @@ global with sharing class PortalAPIDeal {
         indexMargin = o.Requested_Index_Margin__c;
       }
 
-      indexFloor = o.Index_Floor__c;
-      if (String.isBlank(indexFloor)) {
-        indexFloor = o.Requested_Index_Floor__c;
-      }
+     // indexFloor = o.Floor__c;
+      //if (String.isBlank(indexFloor)) {
+       // indexFloor = o.Requested_Floor__c;
+      //}
 
       //interestRate = o.Rate__c;
       maxLTC = o.LTC__c;
@@ -610,7 +644,7 @@ global with sharing class PortalAPIDeal {
     'Extension_Fee__c',
     'Hold_Reason__c',
     'Index__c',
-    'Index_Floor__c',
+    'Floor__c',
     'Index_Margin__c',
     'Rate__c',
     'Last_Payment_Date__c',
@@ -658,7 +692,7 @@ global with sharing class PortalAPIDeal {
     'Extension_Fee__c',
     'Hold_Reason__c',
     'Index__c',
-    'Index_Floor__c',
+    'Floor__c',
     'Index_Margin__c',
     'Rate__c',
     'Last_Payment_Date__c',

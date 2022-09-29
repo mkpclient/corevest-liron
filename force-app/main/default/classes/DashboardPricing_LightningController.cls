@@ -9,11 +9,13 @@ public without sharing class DashboardPricing_LightningController {
     Set<String> recordTypes = new Set<String>();
     if (u.UserRole.Name.contains('Bridge')) {
       recordTypes.add('Bridge');
+      recordTypes.add('Single Asset Bridge');
     } else if (u.UserRole.Name.contains('Term')) {
       recordTypes.add('Term');
     } else {
       recordTypes.add('Term');
       recordTypes.add('Bridge');
+      recordTypes.add('Single Asset Bridge');
     }
 
     List<Approval_History__c> ahList = [

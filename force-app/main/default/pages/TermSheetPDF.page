@@ -429,6 +429,9 @@
           Term:
         </td>
         <td class="row-description">
+          <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '3 Year'}"
+            value="{!'Three (3) years'}"
+          />
           <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '5 Year'}"
             value="{!'Five (5) years'}"
           />
@@ -650,6 +653,16 @@
       <tr style="page-break-inside: avoid">
         <td class="row-title">Par Prepayment Date:</td>
         <td class="row-description">
+          <span
+            style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '30 Months', 'inline','none')}"
+          >
+            30th Payment Date
+          </span>
+          <span
+            style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '33 Months', 'inline','none')}"
+          >
+            33rd Payment Date
+          </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
           >

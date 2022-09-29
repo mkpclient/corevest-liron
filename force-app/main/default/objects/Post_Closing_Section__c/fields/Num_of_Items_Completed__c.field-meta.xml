@@ -8,7 +8,7 @@
     <summaryFilterItems>
         <field>Post_Closing_Item__c.Status__c</field>
         <operation>equals</operation>
-        <value>Received</value>
+        <value>Received, Sent to Custodian</value>
     </summaryFilterItems>
     <summaryForeignKey>Post_Closing_Item__c.Post_Closing_Section__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

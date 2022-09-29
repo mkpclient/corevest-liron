@@ -47,7 +47,7 @@
               <!-- {!v.recordType} -->
               <c:DocumentUploader
                 recordId="{#v.recordId}"
-                recordType="{!v.recordType}"
+                recordType="LOC_Loan"
               />
             </aura:if>
           </aura:if>
@@ -58,7 +58,7 @@
               <c:DocumentUploader
                 recordId="{#v.recordId}"
                 uploadType="bulk"
-                recordType="{!v.recordType}"
+                recordType="LOC_Loan"
               />
             </aura:if>
           </aura:if>
@@ -96,7 +96,7 @@
               <c:DocumentUploader
                 recordId="{!v.propertyId}"
                 sobjectType="Property__c"
-                recordType="{!v.recordType}"
+                recordType="LOC_Loan"
               />
             </aura:if>
           </aura:if>
@@ -112,7 +112,7 @@
               uploadType="bulk"
               sobjectType="Property__c"
               propertyOptions="{#v.propertyOptions}"
-              recordType="{!v.recordType}"
+              recordType="LOC_Loan"
             />
           </aura:if>
         </lightning:tab>
@@ -141,7 +141,7 @@
               <c:DocumentUploader
                 recordId="{!v.advanceId}"
                 sobjectType="advance__c"
-                recordType="{!v.recordType}"
+                recordType="LOC_Loan"
               />
             </aura:if>
           </aura:if>
@@ -157,7 +157,7 @@
               uploadType="bulk"
               sobjectType="Advance__c"
               propertyOptions="{#v.advanceOptions}"
-              recordType="{!v.recordType}"
+              recordType="LOC_Loan"
             />
           </aura:if>
         </lightning:tab>

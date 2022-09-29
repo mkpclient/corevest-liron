@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Knackly Connection Detail</label>
+    <protected>false</protected>
+    <values>
+        <field>base_url__c</field>
+        <value xsi:type="xsd:string">https://go.knackly.io/</value>
+    </values>
+    <values>
+        <field>catalog_name__c</field>
+        <value xsi:type="xsd:string">LoanDocs</value>
+    </values>
+    <values>
+        <field>key_id__c</field>
+        <value xsi:type="xsd:string">630d15a199a23c356e13d8b6</value>
+    </values>
+    <values>
+        <field>secret__c</field>
+        <value xsi:type="xsd:string">e87c915e413297a24c736b678915c2bafe0e2a96fb7bf41abcf49638bb8fee50560945d1cf84e43b4b6c3eab7e5525fb9a21f1ff471fa9b695d17f4133dd0fda144345faacc3565345127408b1e851d6cecbe91713864f4263acf5aa767bddd1fcf0881614713c74caad3f16c7b0461a9b390c796daaad5b85b104284a982cdc70d923bfa315662af2fe820d62196bcab0abf494a46aa82b4efe09ba943170319385dfd9af8199b559c36e9dfc67885faf195211a7e342ba3adb79ca0912e82700bad1fc128e1e66ffc8faee0d566d699037dcbe627ef32716d8425e98d496a63f0af1a600f9d93436b54447cc8eed24f0bc3f65638d17899d68f176629bae66</value>
+    </values>
+    <values>
+        <field>workspace__c</field>
+        <value xsi:type="xsd:string">cvest</value>
+    </values>
+</CustomMetadata>

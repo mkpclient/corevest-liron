@@ -47,21 +47,6 @@
                 <label>Non-Monetary Default</label>
             </value>
             <value>
-                <fullName>REO</fullName>
-                <default>false</default>
-                <label>REO</label>
-            </value>
-            <value>
-                <fullName>SSML1</fullName>
-                <default>false</default>
-                <label>SSML1</label>
-            </value>
-            <value>
-                <fullName>SSML2</fullName>
-                <default>false</default>
-                <label>SSML2</label>
-            </value>
-            <value>
                 <fullName>Title</fullName>
                 <default>false</default>
                 <label>Title</label>

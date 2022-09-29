@@ -45,7 +45,12 @@ public without sharing class opportunity_Helper {
     'Closed Won'
   };
 
-  public static final User INTEGRATION_USER = [SELECT Id, Name FROM User WHERE Email LIKE 'integrations@cvest.com%' LIMIT 1];
+  public static final User INTEGRATION_USER = [
+    SELECT Id, Name
+    FROM User
+    WHERE Email LIKE 'integrations@cvest.com%'
+    LIMIT 1
+  ];
 
   public static Integer CHUNK_SIZE = 1;
 
@@ -80,14 +85,14 @@ public without sharing class opportunity_Helper {
       ) {
         o.RecordTypeId = RECORDTYPE_MAP.get('Single_Asset_Bridge_Loan').Id;
         o.Type = 'SAB Loan';
-      // } else if (
-      //   o.LOC_Loan_Type__c == 'Term Loan' &&
-      //   o.Product_Sub_Type__c == 'Floating Rate Term Loan'
-      // ) {
-      //   o.RecordTypeId = RECORDTYPE_MAP.get(
-      //       'Floating_Rate_Term_Loan_Originations'
-      //     )
-      //     .Id;
+        // } else if (
+        //   o.LOC_Loan_Type__c == 'Term Loan' &&
+        //   o.Product_Sub_Type__c == 'Floating Rate Term Loan'
+        // ) {
+        //   o.RecordTypeId = RECORDTYPE_MAP.get(
+        //       'Floating_Rate_Term_Loan_Originations'
+        //     )
+        //     .Id;
       }
 
       if (
@@ -583,16 +588,16 @@ public without sharing class opportunity_Helper {
         oppsHaveTeamToDelete.put(currOpp.Id, currOpp);
       }
 
-      if (
-        prevOpp.StageName != currOpp.StageName &&
-        currOpp.StageName == 'Closed Won' &&
-        currOpp.IC_Approval__c != 'Approved' &&
-        !test.isRunningTest()
-      ) {
-        currOpp.addError(
-          'Unable to change stage to Closed Won. This deal\'s related IC Approval has not yet been approved.'
-        );
-      }
+      // if (
+      //   prevOpp.StageName != currOpp.StageName &&
+      //   currOpp.StageName == 'Closed Won' &&
+      //   currOpp.IC_Approval__c != 'Approved' &&
+      //   !test.isRunningTest()
+      // ) {
+      //   currOpp.addError(
+      //     'Unable to change stage to Closed Won. This deal\'s related IC Approval has not yet been approved.'
+      //   );
+      // }
 
       if (
         prevOpp.IC_Approval__c != 'Approved' &&
@@ -601,24 +606,26 @@ public without sharing class opportunity_Helper {
         currOpp.IC_Approval_Date__c = System.today();
       }
       System.debug('prevalidation for IC reapproval');
-   if (validateDealForIcReapproval(prevOpp, currOpp) && currOpp.IC_Approval__c == 'Approved') {
-    Savepoint sp = Database.setSavepoint();
+      if (
+        validateDealForIcReapproval(prevOpp, currOpp) &&
+        currOpp.IC_Approval__c == 'Approved'
+      ) {
+        Savepoint sp = Database.setSavepoint();
         try {
-            rejectedIcAHS.add(rejectDeal(currOpp));
-            currOpp.IC_Approval__c = null;
-            currOpp.IC_Approval_Date__c = null;
-            currOpp.StageName = 'Underwriting';
-            reveresedIcDeals.put(currOpp.Id, currOpp);
+          rejectedIcAHS.add(rejectDeal(currOpp));
+          currOpp.IC_Approval__c = null;
+          currOpp.IC_Approval_Date__c = null;
+          currOpp.StageName = 'Underwriting';
+          reveresedIcDeals.put(currOpp.Id, currOpp);
         } catch (Exception err) {
           Database.rollback(sp);
           System.debug(err.getMessage() + ' ' + err.getLineNumber());
           currOpp.addError(err.getMessage());
         }
-
       }
     }
 
-    if(rejectedIcAHS.size() > 0){
+    if (rejectedIcAHS.size() > 0) {
       insert rejectedIcAHS;
     }
     if (reveresedIcDeals.size() > 0) {
@@ -821,12 +828,12 @@ public without sharing class opportunity_Helper {
       if (o.StageName != oldMap.get(o.Id).StageName) {
         o.Loan_Status_Change_Date__c = System.today();
 
-        if (
-          oldMap.get(o.Id).StageName == 'UW Hold' &&
-          o.StageName != 'UW Hold'
-        ) {
-          o.In_Process_of_Withdrawn_or_Rejected__c = false;
-        }
+        // if (
+        //   oldMap.get(o.Id).StageName == 'UW Hold' &&
+        //   o.StageName != 'UW Hold'
+        // ) {
+        //   o.In_Process_of_Withdrawn_or_Rejected__c = false;
+        // }
 
         if (o.StageName == 'Loan Processing') {
           o.LOC_Commitment__c = o.Loan_Size__c;
@@ -834,17 +841,17 @@ public without sharing class opportunity_Helper {
           // if (o.Type == 'SAB Loan' || o.Type == 'Bridge Loan') {
           //   o.CloseDate = System.today() + 60;
           // }
-        } else if (o.StageName == 'Underwriting') {
-          if (o.Type == 'Term Loan') {
-            if (
-              o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Originations'
-            ) {
-              o.RecordTypeId = RECORDTYPE_MAP.get(
-                  'Floating_Rate_Term_Loan_Underwriting'
-                )
-                .Id;
-            }
-          }
+          // } else if (o.StageName == 'Underwriting') {
+          //   if (o.Type == 'Term Loan') {
+          //     if (
+          //       o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Originations'
+          //     ) {
+          //       o.RecordTypeId = RECORDTYPE_MAP.get(
+          //           'Floating_Rate_Term_Loan_Underwriting'
+          //         )
+          //         .Id;
+          //     }
+          //   }
         } else if (o.StageName == 'UW Hold') {
           o.Date_Stage_Changed_To_UW_Hold__c = System.today();
           //} else if (o.StageName == 'Approved by Committee') {
@@ -861,14 +868,14 @@ public without sharing class opportunity_Helper {
             if (o.Servicer_Commitment_Id__c == null) {
               oppsNeedLoanIds.add(o);
             }
-            if (
-              o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Underwriting'
-            ) {
-              o.RecordTypeId = RECORDTYPE_MAP.get(
-                  'Floating_Rate_Term_Loan_Active'
-                )
-                .Id;
-            }
+            // if (
+            //   o.Record_Type_Name__c == 'Floating_Rate_Term_Loan_Underwriting'
+            // ) {
+            //   o.RecordTypeId = RECORDTYPE_MAP.get(
+            //       'Floating_Rate_Term_Loan_Active'
+            //     )
+            //     .Id;
+            // }
           } else if (o.RecordType__c == 'Single Asset Bridge') {
             closedWonMap.put(o.Id, o);
             o.CloseDate = System.today();
@@ -888,9 +895,9 @@ public without sharing class opportunity_Helper {
           } else if (o.RecordType__c == 'Bridge') {
             if (o.Type == 'SAB Loan') {
               o.RecordTypeId = RECORDTYPE_MAP.get(
-                'Single_Asset_Bridge_Loan_Closed_Lost'
-              )
-              .Id;
+                  'Single_Asset_Bridge_Loan_Closed_Lost'
+                )
+                .Id;
               o.CloseDate = System.today();
             } else {
               o.RecordTypeId = RECORDTYPE_MAP.get('Bridge_Loan_Closed_Lost').Id;
@@ -923,9 +930,9 @@ public without sharing class opportunity_Helper {
       }
 
       if (
-        o.LOC_Loan_Type__c != oldMap.get(o.Id).LOC_Loan_Type__c ||
-        o.Product_Sub_Type__c != oldMap.get(o.Id).Product_Sub_Type__c
-      ) {
+        o.LOC_Loan_Type__c != oldMap.get(o.Id).LOC_Loan_Type__c //  ||
+      ) // o.Product_Sub_Type__c != oldMap.get(o.Id).Product_Sub_Type__c
+      {
         if (
           o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
           o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
@@ -1363,7 +1370,8 @@ public without sharing class opportunity_Helper {
       checkCreditScores(closedWonMap);
 
       // CIP 2452 end 31 May 2022
-      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings').Allow_SAB_CTC_Bypass__c;
+      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings')
+        .Allow_SAB_CTC_Bypass__c;
       List<String> sabLoanTypes = new List<String>{
         'Single Asset (1-4 Unit)',
         'Single Asset (5-10 Unit)'
@@ -1374,8 +1382,13 @@ public without sharing class opportunity_Helper {
           new List<Id>(closedWonMap.keySet())
         )
       ) {
-        
-        if (!wrapper.clearToClose && !(ctcBypass && sabLoanTypes.contains(newMap.get(wrapper.opportunityId).LOC_Loan_Type__c))) {
+        if (
+          !wrapper.clearToClose &&
+          !(ctcBypass &&
+          sabLoanTypes.contains(
+            newMap.get(wrapper.opportunityId).LOC_Loan_Type__c
+          ))
+        ) {
           if (!Test.isRunningTest()) {
             newMap.get(wrapper.opportunityId)
               .addError(
@@ -1384,102 +1397,126 @@ public without sharing class opportunity_Helper {
           }
         }
       }
-//CIP-2416.RS.5/11/22.Begin  
+      //CIP-2416.RS.5/11/22.Begin
 
-    if (closedWonMap.size() > 0)
-    {
-
-    List<Loan_Version__c> loanVersionList = [SELECT Id,Finalized__c,RecordTypeId,Deal__c   FROM Loan_Version__c WHERE RecordType.Name in ('Schedule of Lender Cost', 'Loan Agreement')
-                             AND Finalized__c = True AND Deal__c IN :closedWonMap.keySet()];
-
-	id slcId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' and DeveloperName  = 'Schedule_of_Lender_Cost'].id;
-    id laId  = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' and DeveloperName  = 'Loan_Agreement'].id;       
-    Map<id,Map<String,String>> loanVersionDealIds = new  Map<id,Map<String,String>>();
-			for (Loan_Version__c loanVersion : loanVersionList)
-            {
-
-                if (loanVersionDealIds != Null)
-                {
-                if (loanVersionDealIds.containsKey(loanVersion.Deal__c))
-                {
-                 	Map<String,String> recordTypeNameMap = loanVersionDealIds.get(loanVersion.Deal__c);
-                    if(!recordTypeNameMap.containsKey(loanVersion.RecordTypeId))
-                     {
-                        recordTypeNameMap.put(loanVersion.RecordTypeId,loanVersion.RecordTypeId);
-                        loanVersionDealIds.put(loanVersion.Deal__c,recordTypeNameMap);
-
-                     }
-                 }
-                else
-                {
-                    Map<String,String> recordTypeNameMap = new Map<String, String>();
-                    recordTypeNameMap.put(loanVersion.RecordTypeId,loanVersion.RecordTypeId);
-                    loanVersionDealIds.put(loanVersion.Deal__c,recordTypeNameMap);
-                   
-                }
-               }
-                else
-                {
-
-                    Map<String,String> recordTypeNameMap = new Map<String, String>();
-                    recordTypeNameMap.put(loanVersion.RecordTypeId,loanVersion.RecordTypeId);
-                    loanVersionDealIds.put(loanVersion.Deal__c,recordTypeNameMap);
-                   
-                }                
-            }        
-	
-
-        
-	for (id closeWonDealId : closedWonMap.keySet())
-    {
-      if (newMap.get(closeWonDealId).RecordType__c == 'Term')
-      {
-        boolean validDeal = True;
-        if (loanVersionDealIds != null )
-        {
-        if (loanVersionDealIds.size() > 0)
-        {
-        if (loanVersionDealIds.containsKey(closeWonDealId))
-        {
-
-            Map<String,String> recordTypeNameMap = loanVersionDealIds.get(closeWonDealId);
-
-			if (recordTypeNameMap.containskey(slcId) && recordTypeNameMap.containskey(laId))
-            {
-               
-                validDeal = True;
+      if (closedWonMap.size() > 0) {
+        System.debug('RS 999 closedWonMap.keySet :' + closedWonMap.keySet());
+        List<Loan_Version__c> loanVersionList = [
+          SELECT Id, Finalized__c, RecordTypeId, Deal__c
+          FROM Loan_Version__c
+          WHERE
+            RecordType.Name IN ('Schedule of Lender Cost', 'Loan Agreement')
+            AND Finalized__c = TRUE
+            AND Deal__c IN :closedWonMap.keySet()
+        ];
+        System.debug('RS 999 loanVersionList :' + loanVersionList);
+        id slcId = [
+          SELECT Id
+          FROM RecordType
+          WHERE
+            sobjecttype = 'Loan_Version__c'
+            AND DeveloperName = 'Schedule_of_Lender_Cost'
+        ]
+        .id;
+        id laId = [
+          SELECT Id
+          FROM RecordType
+          WHERE
+            sobjecttype = 'Loan_Version__c'
+            AND DeveloperName = 'Loan_Agreement'
+        ]
+        .id;
+        Map<id, Map<String, String>> loanVersionDealIds = new Map<id, Map<String, String>>();
+        for (Loan_Version__c loanVersion : loanVersionList) {
+          System.Debug('RS999 loanVersion :' + loanVersion);
+          if (loanVersionDealIds != null) {
+            if (loanVersionDealIds.containsKey(loanVersion.Deal__c)) {
+              Map<String, String> recordTypeNameMap = loanVersionDealIds.get(
+                loanVersion.Deal__c
+              );
+              if (!recordTypeNameMap.containsKey(loanVersion.RecordTypeId)) {
+                recordTypeNameMap.put(
+                  loanVersion.RecordTypeId,
+                  loanVersion.RecordTypeId
+                );
+                loanVersionDealIds.put(loanVersion.Deal__c, recordTypeNameMap);
+                System.Debug(
+                  'RS999 loanVersionDealIds 1 :' + loanVersionDealIds
+                );
+              }
+            } else {
+              Map<String, String> recordTypeNameMap = new Map<String, String>();
+              recordTypeNameMap.put(
+                loanVersion.RecordTypeId,
+                loanVersion.RecordTypeId
+              );
+              loanVersionDealIds.put(loanVersion.Deal__c, recordTypeNameMap);
+              System.Debug('RS999 loanVersionDealIds 2 :' + loanVersionDealIds);
             }
-        	else
-        	{
-     
-                validDeal = False;
-        	}			
+          } else {
+            System.Debug(
+              'RS999 - loanVersion.RecordTypeId :' + loanVersion.RecordTypeId
+            );
+            Map<String, String> recordTypeNameMap = new Map<String, String>();
+            recordTypeNameMap.put(
+              loanVersion.RecordTypeId,
+              loanVersion.RecordTypeId
+            );
+            loanVersionDealIds.put(loanVersion.Deal__c, recordTypeNameMap);
+            System.Debug('RS999 loanVersionDealIds 2 :' + loanVersionDealIds);
+          }
         }
-        else
-        {
-            validDeal = False;
+
+        System.Debug('RS999 loanVersionDealIds :' + loanVersionDealIds);
+
+        for (id closeWonDealId : closedWonMap.keySet()) {
+          if (newMap.get(closeWonDealId).RecordType__c == 'Term') {
+            boolean validDeal = true;
+            if (loanVersionDealIds != null) {
+              if (loanVersionDealIds.size() > 0) {
+                if (loanVersionDealIds.containsKey(closeWonDealId)) {
+                  System.Debug(
+                    'RS999 Into deal found with loan version records'
+                  );
+                  Map<String, String> recordTypeNameMap = loanVersionDealIds.get(
+                    closeWonDealId
+                  );
+
+                  if (
+                    recordTypeNameMap.containskey(slcId) &&
+                    recordTypeNameMap.containskey(laId)
+                  ) {
+                    System.Debug(
+                      'RS999 Into deal found with loan version records for both record types'
+                    );
+                    validDeal = true;
+                  } else {
+                    System.Debug(
+                      'RS999 Into deal NOT found with loan version records for both record types'
+                    );
+                    validDeal = false;
+                  }
+                } else {
+                  validDeal = false;
+                }
+              } else {
+                validDeal = false;
+              }
+            } else {
+              validDeal = false;
+            }
+
+            System.Debug('RS999 validDeal :' + validDeal);
+            if (!validDeal && !Test.isRunningTest()) {
+              closedWonMap.get(closeWonDealId)
+                .addError(
+                  '\'Schedule of Lender Cost\' and  \'Loan Agreement\' need to be finalized before this Deal can be updatd to Closed Won'
+                );
+            }
+          }
         }
-        }
-        else
-        {
-            validDeal = False;
-        }
-        }
-        else
-        {
-            validDeal = False;
-        }            
-        
-      
-        if(!validDeal)
-        {
-         	closedWonMap.get(closeWonDealId).addError('\'Schedule of Lender Cost\' and  \'Loan Agreement\' need to be finalized before this Deal can be updatd to Closed Won');
-        }
-	 }          
-    }
-    }
-//CIP-2416.RS.5/11/22.End  
-        
+      }
+      //CIP-2416.RS.5/11/22.End
     }
   }
 
@@ -1512,6 +1549,7 @@ public without sharing class opportunity_Helper {
     List<Opportunity> nonSecWarehouseLines = new List<Opportunity>();
     List<Opportunity> dealsWithSec = new List<Opportunity>();
     Map<Id, String> updatedWarehouseLines = new Map<Id, String>();
+    Set<Id> cemaDeals = new Set<Id>();
 
     /*CIP 2215 4/22/2022 begin */
     List<String> stagesForSfv = new List<String>{
@@ -1555,10 +1593,10 @@ public without sharing class opportunity_Helper {
     }
 
     /* CIP 2326 4/1/2022 begin */
-    Map<Id, Opportunity> oppsToCheckLossMitigation = new Map<Id, Opportunity>();
+    // Map<Id, Opportunity> oppsToCheckLossMitigation = new Map<Id, Opportunity>();
     /* CIP 2326 4/1/2022 end */
 
-    List<Property__c> propList = new List<property__c>(); /*CIP2254. 3/14/2022. Begin */
+    // List<Property__c> propList = new List<property__c>(); /*CIP2254. 3/14/2022. Begin */
     /*CIP2026.RS. 3/2/2022. Begin */
     Set<Id> propertyAdvancePropIds = new Set<Id>();
     List<String> propertyAdvanceUpdateDealFields = new List<String>{
@@ -1577,55 +1615,59 @@ public without sharing class opportunity_Helper {
       mapFromOppIdToProperties = getMapFromOppIdToProperties(newMap.keySet());
     }
     /*CIP2026.RS. 3/2/2022. End*/
-
     //CIP-2286-RS.7/15/22.BEGIN
-    List<CLO_Asset_Details__c> lst = [ select Id,Deal_Id__c from CLO_Asset_Details__c where Deal_Id__c  IN :newMap.keySet() LIMIT 1];
-    Map<ID,List<ID>> cloIdsMap = new Map<ID,List<ID>>();
-    Map<ID,List<CLO_Asset_Details__c>> dealCLOMap = new Map<ID,List<CLO_Asset_Details__c>>();
-	for (CLO_Asset_Details__c clo : lst)      
-    {
-       
-       if (!dealCLOMap.containskey(clo.Deal_Id__c))
-       {
-           dealCLOMap.put(clo.Deal_Id__c,New List<CLO_Asset_Details__c>{clo});
-       }
-       Else
-       {
-           dealCLOMap.get(clo.Deal_Id__c).add(clo);
-       }        
-        
-       if (!cloIdsMap.containskey(clo.Deal_Id__c))
-       {
-           cloIdsMap.put(clo.Deal_Id__c,New List<id>{clo.Id}); 
-       }
-       Else
-       {
-           cloIdsMap.get(clo.Deal_Id__c).add(clo.Id);
-       }
-  	 }
+    List<CLO_Asset_Details__c> lst = [
+      SELECT Id, Deal_Id__c
+      FROM CLO_Asset_Details__c
+      WHERE Deal_Id__c IN :newMap.keySet()
+      LIMIT 1
+    ];
+    Map<ID, List<ID>> cloIdsMap = new Map<ID, List<ID>>();
+    Map<ID, List<CLO_Asset_Details__c>> dealCLOMap = new Map<ID, List<CLO_Asset_Details__c>>();
+    for (CLO_Asset_Details__c clo : lst) {
+      if (!dealCLOMap.containskey(clo.Deal_Id__c)) {
+        dealCLOMap.put(clo.Deal_Id__c, new List<CLO_Asset_Details__c>{ clo });
+      } else {
+        dealCLOMap.get(clo.Deal_Id__c).add(clo);
+      }
+
+      if (!cloIdsMap.containskey(clo.Deal_Id__c)) {
+        cloIdsMap.put(clo.Deal_Id__c, new List<id>{ clo.Id });
+      } else {
+        cloIdsMap.get(clo.Deal_Id__c).add(clo.Id);
+      }
+    }
     List<CLO_Asset_Details__c> cloUpdateList = new List<CLO_Asset_Details__c>();
-    List<CLO_Asset_Details__c> cloDeleteList = new List<CLO_Asset_Details__c>();      
-    List<CLO_Asset_Details__c> cloInsertList = new List<CLO_Asset_Details__c>();            
-    //CIP-2286-RS.7/15/22.END  
+    List<CLO_Asset_Details__c> cloDeleteList = new List<CLO_Asset_Details__c>();
+    List<CLO_Asset_Details__c> cloInsertList = new List<CLO_Asset_Details__c>();
+    //CIP-2286-RS.7/15/22.END
+
     for (Opportunity o : newMap.values()) {
       system.debug('o.StageName::::' + o);
       system.debug('oldMap::::' + oldMap);
 
+      if (o.CEMA__c == 'Yes' && oldMap.get(o.Id).CEMA__c != o.CEMA__c) {
+        cemaDeals.add(o.Id);
+      }
+
       /* CIP2215 4/22/2022 begin */
-      if(o.StageName != oldMap.get(o.Id).StageName && stagesForSfv.contains(o.StageName)){
+      if (
+        o.StageName != oldMap.get(o.Id).StageName &&
+        stagesForSfv.contains(o.StageName)
+      ) {
         updatedWarehouseLines.put(o.Id, 'Closing');
       }
       /* CIP2215 4/22/2022 end */
 
       /* CIP 2326 4/1/2022 begin */
 
-      if (
-        o.Loss_Mitigation_Associate__c != null &&
-        o.Loss_Mitigation_Associate__c !=
-        oldMap.get(o.Id).Loss_Mitigation_Associate__c
-      ) {
-        oppsToCheckLossMitigation.put(o.Id, o);
-      }
+      // if (
+      //   o.Loss_Mitigation_Associate__c != null &&
+      //   o.Loss_Mitigation_Associate__c !=
+      //   oldMap.get(o.Id).Loss_Mitigation_Associate__c
+      // ) {
+      //   oppsToCheckLossMitigation.put(o.Id, o);
+      // }
 
       /* CIP 2326 4/1/2022 end */
 
@@ -1671,8 +1713,6 @@ public without sharing class opportunity_Helper {
           updatedWarehouseLines.put(o.Id, oldMap.get(o.Id).Warehouse_Line__c);
         }
       }
-
-
 
       if (
         oldMap.get(o.Id).Securitization__c != null &&
@@ -1941,7 +1981,8 @@ public without sharing class opportunity_Helper {
             .add(
               new OpportunityTeamMember(
                 OpportunityId = o.Id,
-                UserId = oldMap.get(o.Id).Loss_Mitigation_Associate__c,
+                UserId = oldMap.get(o.Id).Closer__c,
+                // UserId = oldMap.get(o.Id).Loss_Mitigation_Associate__c,
                 OpportunityAccessLevel = 'Edit',
                 TeamMemberRole = 'Loss Mitigation Associate'
               )
@@ -2099,163 +2140,169 @@ public without sharing class opportunity_Helper {
         oppsWithRolestoUpdate.add(o);
         system.debug('Going into Condition');
       }
+
       /*CIP2254.RS.3/14/2022. Begin */
-      if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected') {
-        // List<Property__c> propList = new List<property__c>();
-        if (o.Type == 'Bridge Loan') {
-          for (Property__c pr : mapFromOppIdToProperties.get(o.Id)) {
-            pr.Status__c = 'Cancelled';
-            propList.add(pr);
-          }
-        }
-        if (o.Type == 'Term Loan') {
-          for (Property__c pr : mapFromOppIdToProperties.get(o.Id)) {
-            pr.Status__c = 'Inactive';
-            pr.Active__c = false;
-            propList.add(pr);
-          }
-        }
-
-        if (propList.size() > 0) {
-          Database.Update(propList, false);
-        }
-      }
-      /*CIP2254.RS.3/14/2022. End */
-
-      /*CIP2026.RS. 3/2/2022. Begin */
-      if (o.Type == 'Bridge Loan') {
-        for (String s : propertyAdvanceUpdateDealFields) {
-          if (o.get(s) != oldMap.get(o.Id).get(s) && mapFromOppIdToProperties.containsKey(o.Id)) {
+      if (mapFromOppIdToProperties.size() > 0) {
+        if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected') {
+          List<Property__c> propList = new List<property__c>();
+          if (o.Type == 'Bridge Loan') {
             for (Property__c pr : mapFromOppIdToProperties.get(o.Id)) {
-              propertyAdvancePropIds.add(pr.Id);
+              pr.Status__c = 'Cancelled';
+              propList.add(pr);
+            }
+          }
+          if (o.Type == 'Term Loan') {
+            for (Property__c pr : mapFromOppIdToProperties.get(o.Id)) {
+              pr.Status__c = 'Inactive';
+              pr.Active__c = false;
+              propList.add(pr);
+            }
+          }
+
+          if (propList.size() > 0) {
+            Database.Update(propList, false);
+          }
+        }
+        /*CIP2254.RS.3/14/2022. End */
+
+        /*CIP2026.RS. 3/2/2022. Begin */
+        if (o.Type == 'Bridge Loan') {
+          for (String s : propertyAdvanceUpdateDealFields) {
+            if (o.get(s) != oldMap.get(o.Id).get(s)) {
+              for (Property__c pr : mapFromOppIdToProperties.get(o.Id)) {
+                propertyAdvancePropIds.add(pr.Id);
+              }
             }
           }
         }
-      }
-      /*CIP2026.RS. 3/2/2022. End */
-     //CIP-2286-RS.7/15/22.BEGIN 
-        if (o.Project_Strategy__c == 'Multifamily Heavy Lift/CLO' || o.Project_Strategy__c =='Multifamily Lease-Up/No Rehab/CLO' || o.Project_Strategy__c == 'Multifamily Light Lift/CLO')
-        {
-            CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
-            if(cloIdsMap.containsKey(o.id))
-            {
-              for(id processingCloid : cloIdsMap.get(o.id))
-              {
-                  clo.id = processingCloid;
-                  if (o.Loan_Purpose__c 				!= oldMap.get(o.Id).Loan_Purpose__c) 
-                      clo.Loan_Purpose__c = o.Loan_Purpose__c;
-                  if (o.Borrower_Entity__c 				!= oldMap.get(o.Id).Borrower_Entity__c) 
-                      clo.Borrower_Name__c = o.Borrower_Entity__c;
-                  if (o.LOC_Commitment__c 				!= oldMap.get(o.Id).LOC_Commitment__c) 
-                      clo.Loan_Commitment_Original_Balance__c = o.LOC_Commitment__c;              
-                  if (o.CloseDate 						!= oldMap.get(o.Id).CloseDate) 
-                      clo.Note_Date__c = o.CloseDate;                            
-                 // if (o.Extension_Fee__c 				!= oldMap.get(o.Id).Extension_Fee__c) 
-                 // clo.First_Extension_Fee__c = o.Extension_Fee__c;              
-                  if (o.Exit_Fee__c 					!= oldMap.get(o.Id).Exit_Fee__c) 
-                      clo.Exit_Fee__c = o.Exit_Fee__c;               
-                  if (o.Interest_Rate_Type__c 			!= oldMap.get(o.Id).Interest_Rate_Type__c) 
-                      clo.Interest_Rate_Type__c = o.Interest_Rate_Type__c;               
-                  if (o.Index__c 						!= oldMap.get(o.Id).Index__c) 
-                      clo.Index_for_Floating_Rate__c = o.Index__c;              
-                  if (o.Floor__c 					!= oldMap.get(o.Id).Floor__c) 
-                      clo.SOFR_Floor__c = o.Floor__c;              
-                  if (o.Total_ARV_LTV__c 				!= oldMap.get(o.Id).Total_ARV_LTV__c) 
-                      clo.Appraisal_Stabilized_Occupancy__c = o.Total_ARV_LTV__c;               
-                  if (o.Recourse__c 					!= oldMap.get(o.Id).Recourse__c) 
-                      clo.Recourse__c = o.Recourse__c;               
-                  if (o.Updated_Loan_Maturity_Date__c 	!= oldMap.get(o.Id).Updated_Loan_Maturity_Date__c) 
-                      clo.Maturity_Date__c = o.Updated_Loan_Maturity_Date__c;               
-                  if (o.Amortization_Term__c 			!= oldMap.get(o.Id).Amortization_Term__c) 
-                      clo.Amortization_Term__c = o.Amortization_Term__c; 
-                  cloUpdateList.add(clo);
-              }
-            }
-            Else
-            {
-              if (mapFromOppIdToProperties.size() > 0)
-              {
-               for (Property__c iProp : mapFromOppIdToProperties.get(o.Id)) 
-               {
-                clo.Property_Name__c 					= iProp.Property_Name__c;    
-                clo.Property_Address__c 				= iProp.Name;   
-                clo.Property_City__c 					= iProp.City__c;
-                clo.Property_State__c 					= iProp.State__c;
-                clo.Property_Zip_Code__c 				= iProp.ZipCode__c;
-                clo.Property_County__c 					= iProp.County__c;
-                clo.Year_Built__c 						= iProp.Year_Built__c;
-                clo.Property_Type__c 					= iProp.Property_Type__c;
-                clo.Number_of_Units__c 					= iProp.Number_of_Units__c;
-                clo.Initial_Funded_Amount__c 			= iProp.Initial_Disbursement__c;
-                clo.First_Payment_Date__c				= iProp.First_Payment_Date__c;
-                clo.Initial_Maturity_Date__c 			= iProp.Asset_Maturity_Date__c;
-                clo.Related_Property__c 				= iProp.Id;
-                clo.Deal_ID__c 							= iProp.Deal__c;            
-                clo.Deal_Loan_Number__c 				= o.Deal_Loan_Number__c;
-                clo.Loan_Purpose__c 					= o.Loan_Purpose__c;
-                clo.Borrower_Name__c 					= o.Borrower_Entity__c;
+        /*CIP2026.RS. 3/2/2022. End */
+        //CIP-2286-RS.7/15/22.BEGIN
+        if (
+          o.Project_Strategy__c == 'Multifamily Heavy Lift/CLO' ||
+          o.Project_Strategy__c == 'Multifamily Lease-Up/No Rehab/CLO' ||
+          o.Project_Strategy__c == 'Multifamily Light Lift/CLO'
+        ) {
+          CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
+          if (cloIdsMap.containsKey(o.id)) {
+            for (id processingCloid : cloIdsMap.get(o.id)) {
+              clo.id = processingCloid;
+              if (o.Loan_Purpose__c != oldMap.get(o.Id).Loan_Purpose__c)
+                clo.Loan_Purpose__c = o.Loan_Purpose__c;
+              if (o.Borrower_Entity__c != oldMap.get(o.Id).Borrower_Entity__c)
+                clo.Borrower_Name__c = o.Borrower_Entity__c;
+              if (o.LOC_Commitment__c != oldMap.get(o.Id).LOC_Commitment__c)
                 clo.Loan_Commitment_Original_Balance__c = o.LOC_Commitment__c;
-                clo.Note_Date__c 						= o.CloseDate;
-                //clo.First_Extension_Fee__c			= o.Extension_Fee__c;
-                clo.Exit_Fee__c 						= o.Exit_Fee__c;
-                clo.Interest_Rate_Type__c 				= o.Interest_Rate_Type__c;
-                clo.Index_for_Floating_Rate__c 			= o.Index__c;
-                clo.SOFR_Floor__c 						= o.Floor__c;
-                clo.Appraisal_Stabilized_Occupancy__c 	= o.Total_ARV_LTV__c;
-                clo.Maturity_Date__c 					= o.Current_Line_Maturity_Date__c;
-                clo.Amortization_Term__c 				= o.Amortization_Term__c;
-                clo.Deal_Name__c 						= o.Name;
-                cloInsertList.add(clo);
-               }
-              }                
+              if (o.CloseDate != oldMap.get(o.Id).CloseDate)
+                clo.Note_Date__c = o.CloseDate;
+              // if (o.Extension_Fee__c 				!= oldMap.get(o.Id).Extension_Fee__c)
+              // clo.First_Extension_Fee__c = o.Extension_Fee__c;
+              if (o.Exit_Fee__c != oldMap.get(o.Id).Exit_Fee__c)
+                clo.Exit_Fee__c = o.Exit_Fee__c;
+              if (
+                o.Interest_Rate_Type__c !=
+                oldMap.get(o.Id).Interest_Rate_Type__c
+              )
+                clo.Interest_Rate_Type__c = o.Interest_Rate_Type__c;
+              if (o.Index__c != oldMap.get(o.Id).Index__c)
+                clo.Index_for_Floating_Rate__c = o.Index__c;
+              if (o.Floor__c != oldMap.get(o.Id).Floor__c)
+                clo.SOFR_Floor__c = o.Floor__c;
+              if (o.Total_ARV_LTV__c != oldMap.get(o.Id).Total_ARV_LTV__c)
+                clo.Appraisal_Stabilized_Occupancy__c = o.Total_ARV_LTV__c;
+              if (o.Recourse__c != oldMap.get(o.Id).Recourse__c)
+                clo.Recourse__c = o.Recourse__c;
+              if (
+                o.Updated_Loan_Maturity_Date__c !=
+                oldMap.get(o.Id).Updated_Loan_Maturity_Date__c
+              )
+                clo.Maturity_Date__c = o.Updated_Loan_Maturity_Date__c;
+              if (
+                o.Amortization_Term__c != oldMap.get(o.Id).Amortization_Term__c
+              )
+                clo.Amortization_Term__c = o.Amortization_Term__c;
+              cloUpdateList.add(clo);
             }
-      
-        }
-        Else
-        {
-        if ((oldMap.get(o.Id).Project_Strategy__c 	== 'Multifamily Heavy Lift/CLO' 
-            || oldMap.get(o.Id).Project_Strategy__c =='Multifamily Lease-Up/No Rehab/CLO' 
-            || oldMap.get(o.Id).Project_Strategy__c == 'Multifamily Light Lift/CLO')
-            && o.Project_Strategy__c != 'Multifamily Heavy Lift/CLO' 
-            && o.Project_Strategy__c !='Multifamily Lease-Up/No Rehab/CLO' 
-            && o.Project_Strategy__c != 'Multifamily Light Lift/CLO')
-        {
-            if(cloIdsMap.containsKey(o.id))
-            {
-              for(id processingCloid : cloIdsMap.get(o.id))
-              {
-                  CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
-                  clo.id = processingCloid;
-                  cloDeleteList.add(clo);
+          } else {
+            if (mapFromOppIdToProperties.size() > 0) {
+              for (Property__c iProp : mapFromOppIdToProperties.get(o.Id)) {
+                clo.Property_Name__c = iProp.Property_Name__c;
+                clo.Property_Address__c = iProp.Name;
+                clo.Property_City__c = iProp.City__c;
+                clo.Property_State__c = iProp.State__c;
+                clo.Property_Zip_Code__c = iProp.ZipCode__c;
+                clo.Property_County__c = iProp.County__c;
+                clo.Year_Built__c = iProp.Year_Built__c;
+                clo.Property_Type__c = iProp.Property_Type__c;
+                clo.Number_of_Units__c = iProp.Number_of_Units__c;
+                clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
+                clo.First_Payment_Date__c = iProp.First_Payment_Date__c;
+                clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
+                clo.Related_Property__c = iProp.Id;
+                clo.Deal_ID__c = iProp.Deal__c;
+                clo.Deal_Loan_Number__c = o.Deal_Loan_Number__c;
+                clo.Loan_Purpose__c = o.Loan_Purpose__c;
+                clo.Borrower_Name__c = o.Borrower_Entity__c;
+                clo.Loan_Commitment_Original_Balance__c = o.LOC_Commitment__c;
+                clo.Note_Date__c = o.CloseDate;
+                //clo.First_Extension_Fee__c			= o.Extension_Fee__c;
+                clo.Exit_Fee__c = o.Exit_Fee__c;
+                clo.Interest_Rate_Type__c = o.Interest_Rate_Type__c;
+                clo.Index_for_Floating_Rate__c = o.Index__c;
+                clo.SOFR_Floor__c = o.Floor__c;
+                clo.Appraisal_Stabilized_Occupancy__c = o.Total_ARV_LTV__c;
+                clo.Maturity_Date__c = o.Current_Line_Maturity_Date__c;
+                clo.Amortization_Term__c = o.Amortization_Term__c;
+                clo.Deal_Name__c = o.Name;
+                cloInsertList.add(clo);
               }
             }
+          }
+        } else {
+          if (
+            (oldMap.get(o.Id).Project_Strategy__c ==
+            'Multifamily Heavy Lift/CLO' ||
+            oldMap.get(o.Id).Project_Strategy__c ==
+            'Multifamily Lease-Up/No Rehab/CLO' ||
+            oldMap.get(o.Id).Project_Strategy__c ==
+            'Multifamily Light Lift/CLO') &&
+            o.Project_Strategy__c != 'Multifamily Heavy Lift/CLO' &&
+            o.Project_Strategy__c != 'Multifamily Lease-Up/No Rehab/CLO' &&
+            o.Project_Strategy__c != 'Multifamily Light Lift/CLO'
+          ) {
+            if (cloIdsMap.containsKey(o.id)) {
+              for (id processingCloid : cloIdsMap.get(o.id)) {
+                CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
+                clo.id = processingCloid;
+                cloDeleteList.add(clo);
+              }
+            }
+          }
         }
-        }
-        //CIP-2286-RS.7/15/22.END         
-    }
-    /* CIP2326 - 4/1/2022. Begin */
+        //CIP-2286-RS.7/15/22.END
+      }
+      // /* CIP2326 - 4/1/2022. Begin */
 
-    if (oppsToCheckLossMitigation.size() > 0) {
-      OpportunityMethods.reassignLossMitUser(oppsToCheckLossMitigation);
+      // if (oppsToCheckLossMitigation.size() > 0) {
+      //   OpportunityMethods.reassignLossMitUser(oppsToCheckLossMitigation);
+    }
+
+    if (cemaDeals.size() > 0) {
+      createCemaDealContacts(cemaDeals);
     }
 
     /* CIP2326 - 4/1/2022. End */
-
     //CIP-2286-RS.7/15/22.BEGIN
-      if(cloUpdateList.size()>0)  
-      {  
-          update cloUpdateList;
-      }   
-      if(cloInsertList.size()>0)  
-      {  
-          Insert cloInsertList;
-      }
-      if(cloDeleteList.size()>0)  
-      {  
-          Delete cloDeleteList;
-      }      
-    //CIP-2286-RS.7/15/22.END      
-      
+    if (cloUpdateList.size() > 0) {
+      update cloUpdateList;
+    }
+    if (cloInsertList.size() > 0) {
+      insert cloInsertList;
+    }
+    if (cloDeleteList.size() > 0) {
+      delete cloDeleteList;
+    }
+    //CIP-2286-RS.7/15/22.END
+
     /*CIP 1686 3/17/2022 Begin */
     if (paidOffDeals.size() > 0) {
       OpportunityMethods.updatePaidOffProperties(paidOffDeals);
@@ -2326,10 +2373,6 @@ public without sharing class opportunity_Helper {
     if (approvedIcDeals.size() > 0) {
       processIcApproval(approvedIcDeals);
     }
-
-    // if (rtlDeals.size() > 0) {
-    //   createRtlDealContacts(rtlDeals);
-    // }
 
     Map<String, List<Opportunity>> dealTypeForFundingVehicleMap = new Map<String, List<Opportunity>>{
       'Non_Securitisation' => nonSecWarehouseLines,
@@ -2423,22 +2466,28 @@ public without sharing class opportunity_Helper {
         insert applicantToCreate;
       }
     }
+
     if (sendToYardiCSV.size() > 0) {
       system.enqueueJob(
         new YardiQueueable('termCSV', new List<Id>(sendToYardiCSV))
       );
     }
-
   }
 
-
   public static void beforeDelete(List<Opportunity> oldList) {
-    String profileName = [SELECT Name FROM Profile WHERE Id = :UserInfo.getProfileId()].Name;
-    if(profileName != 'System Administrator' || test.isRunningTest()) {
-      for(Opportunity opp : oldList) {
-        opp.addError('Deals cannot be deleted.  If there is a legit reason you would like this Deal deleted, please send the request to support@cvest.com');
+    String profileName = [
+      SELECT Name
+      FROM Profile
+      WHERE Id = :UserInfo.getProfileId()
+    ]
+    .Name;
+    if (profileName != 'System Administrator' || test.isRunningTest()) {
+      for (Opportunity opp : oldList) {
+        opp.addError(
+          'Deals cannot be deleted.  If there is a legit reason you would like this Deal deleted, please send the request to support@cvest.com'
+        );
       }
-     }
+    }
   }
 
   public static void checkClosedWonContacts(Map<Id, Opportunity> closedWonMap) {
@@ -2636,7 +2685,10 @@ public without sharing class opportunity_Helper {
     ];
 
     String recordType = opp.RecordType.DeveloperName;
-    if (recordType.contains('LOC_Loan') || recordType.contains('Table_Funded_CRE_Loan')) {
+    if (
+      recordType.contains('LOC_Loan') ||
+      recordType.contains('Table_Funded_CRE_Loan')
+    ) {
       recordType = 'LOC_Loan';
     }
 
@@ -2901,14 +2953,28 @@ public without sharing class opportunity_Helper {
     return c2cMap.values();
   }
 
-  public static Map<Id, List<Property__c>> getMapFromOppIdToProperties( 
+  public static Map<Id, List<Property__c>> getMapFromOppIdToProperties(
     Set<Id> oppIds
   ) {
     List<Property__c> allProps = [
-      SELECT Property_Type__c, Red_Bell_Sync__c, Deal__c,Property_Name__c,Name,City__c,State__c,ZipCode__c,County__c,Year_Built__c,
+      SELECT
+        Property_Type__c,
+        Red_Bell_Sync__c,
+        Deal__c,
+        Property_Name__c,
+        Name,
+        City__c,
+        State__c,
+        ZipCode__c,
+        County__c,
+        Year_Built__c,
         //CIP-2286-RS.7/15/22.Begin
-        Number_of_Units__c,Initial_Disbursement__c,First_Payment_Date__c,Asset_Maturity_Date__c,id 
-        //CIP-2286-RS.7/15/22.End.
+        Number_of_Units__c,
+        Initial_Disbursement__c,
+        First_Payment_Date__c,
+        Asset_Maturity_Date__c,
+        id
+      //CIP-2286-RS.7/15/22.End.
       FROM Property__c
       WHERE Deal__c IN :oppIds
     ];
@@ -3182,7 +3248,9 @@ public without sharing class opportunity_Helper {
         FROM Opportunity
         WHERE
           Id IN :oppMap.keySet()
-          AND RecordType__c = 'Term'
+          AND (RecordType__c = 'Term'
+          OR (RecordType__c = 'Bridge'
+          AND Project_Strategy__c LIKE '%/CLO'))
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
@@ -3196,10 +3264,24 @@ public without sharing class opportunity_Helper {
         WHERE
           Id IN :oppMap.keySet()
           AND RecordType__c = 'Bridge'
+          AND (NOT Project_Strategy__c LIKE '%/CLO')
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
             WHERE Account__c = :statebridgeAccId
+          )
+      ];
+
+      List<Opportunity> sabOppsToUpdate = [
+        SELECT Id
+        FROM Opportunity
+        WHERE
+          Id IN :oppMap.keySet()
+          AND RecordType__c = 'Single Asset Bridge'
+          AND Id NOT IN (
+            SELECT Deal__c
+            FROM Deal_Contact__c
+            WHERE Account__c = :fciAccId
           )
       ];
 
@@ -3348,7 +3430,6 @@ public without sharing class opportunity_Helper {
   public static void emailReversedIcApprovalAlert(
     Map<Id, Opportunity> dealMap
   ) {
-
     List<EmailServicesAddress> esas = [
       SELECT Id, LocalPart, EmailDomainName, DeveloperName
       FROM EmailServicesAddress
@@ -3408,17 +3489,20 @@ public without sharing class opportunity_Helper {
       }
 
       addlRecipIds.add(deal.OwnerId);
-      if(deal.Underwriter__c != null) {
+      if (deal.Underwriter__c != null) {
         addlRecipIds.add(deal.Underwriter__c);
       }
 
-      if(deal.X2nd_Underwriter__c != null) {
+      if (deal.X2nd_Underwriter__c != null) {
         addlRecipIds.add(deal.X2nd_Underwriter__c);
       }
 
       if (deal.Record_Type_Name__c == 'Term_Loan') {
         termDealIdsByRecipients.put(deal.Id, addlRecipIds);
-      } else if (deal.Record_Type_Name__c == 'LOC_Loan' || deal.Record_Type_Name__c == 'Single_Asset_Bridge_Loan') {
+      } else if (
+        deal.Record_Type_Name__c == 'LOC_Loan' ||
+        deal.Record_Type_Name__c == 'Single_Asset_Bridge_Loan'
+      ) {
         bridgeDealIdsByRecipients.put(deal.Id, addlRecipIds);
       }
     }
@@ -3533,14 +3617,15 @@ public without sharing class opportunity_Helper {
     ];
 
     for (Deal_x_Funding_Vehicle__c d : dfvs) {
-      if(dealMap.containsKey(d.Deal__c) && dealMap.get(d.Deal__c) == 'Closing') {
-        if(d.Deal__r.Payoff_Date__c != null) {
+      if (
+        dealMap.containsKey(d.Deal__c) && dealMap.get(d.Deal__c) == 'Closing'
+      ) {
+        if (d.Deal__r.Payoff_Date__c != null) {
           d.End_Date__c = d.Deal__r.Payoff_Date__c;
         } else {
           d.End_Date__c = System.today();
         }
-      }
-      else if (
+      } else if (
         d.Deal__r.Securitization__c != null &&
         dealMap.get(d.Deal__c) == d.Funding_Vehicle__r.Name &&
         d.Deal__r.Securitization__r.Close_Date__c != null
@@ -3750,43 +3835,61 @@ public without sharing class opportunity_Helper {
     Opportunity currOpp
   ) {
     Boolean isBridge =
-      currOpp.Record_Type_Name__c == 'LOC_Loan' ||
-      currOpp.Record_Type_Name__c == 'Single_Asset_Bridge_Loan';
-    System.debug('is bridge ' + isBridge);
+      (currOpp.Record_Type_Name__c.containsIgnoreCase('bridge') ||
+      currOpp.Record_Type_Name__c.containsIgnoreCase('cre') ||
+      currOpp.Record_Type_Name__c.containsIgnoreCase('bridge')) &&
+      currOpp.Record_Type_Name__c != 'Single_Asset_Bridge_Loan';
+
+    Boolean isTerm = currOpp.Record_Type_Name__c == 'Term_Loan';
+
+    Boolean isSab = currOpp.Record_Type_Name__c == 'Single_Asset_Bridge_Loan';
+
+    Boolean isSubIc = 
+      (isTerm && prevOpp.Current_Loan_Amount__c <= 2000000) ||
+      (isBridge && prevOpp.LOC_Commitment__c < 3000000);
+
     Boolean isLTVHigher = currOpp.LTV__c > prevOpp.LTV__c;
+
     Boolean isCommitmentHigher =
-      currOpp.LOC_Commitment__c > prevOpp.LOC_Commitment__c;
+      (isSab && currOpp.LOC_Commitment__c > prevOpp.LOC_Commitment__c) ||
+      (isBridge && !isSubIc && currOpp.LOC_Commitment__c >= ((prevOpp.LOC_Commitment__c == null ? 0 : prevOpp.LOC_Commitment__c) * 1.10).setScale(2, System.RoundingMode.HALF_UP)) || 
+      (isBridge && isSubIc && currOpp.LOC_Commitment__c >= ((prevOpp.LOC_Commitment__c == null ? 0 : prevOpp.LOC_Commitment__c) * 1.05).setScale(2, System.RoundingMode.HALF_UP));
 
     Boolean isRecourseChanged = currOpp.Recourse__c != prevOpp.Recourse__c;
+   
+
+    if (isBridge || isSab) {
+      return isLTVHigher ||
+        isCommitmentHigher ||
+        isRecourseChanged;
+    }
+
     Boolean shouldReapproveActualDSCR = false;
 
-    Decimal prevActualDSCR = String.isNotEmpty(prevOpp.Actual_DSCR__c) && prevOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
-        .isNumeric()
+    Decimal prevActualDSCR = String.isNotEmpty(prevOpp.Actual_DSCR__c) &&
+      prevOpp.Actual_DSCR__c.replaceAll('[^\\d]', '').isNumeric()
       ? Decimal.valueOf(prevOpp.Actual_DSCR__c.replaceAll('[^.\\d]', ''))
       : null;
     if (prevActualDSCR != null) {
-      Decimal currActualDSCR = String.isNotEmpty(currOpp.Actual_DSCR__c) && currOpp.Actual_DSCR__c.replaceAll('[^\\d]', '')
-          .isNumeric()
+      Decimal currActualDSCR = String.isNotEmpty(currOpp.Actual_DSCR__c) &&
+        currOpp.Actual_DSCR__c.replaceAll('[^\\d]', '').isNumeric()
         ? Decimal.valueOf(currOpp.Actual_DSCR__c.replaceAll('[^.\\d]', ''))
         : null;
-      Decimal dscrDifference =  prevActualDSCR - currActualDSCR;
-      shouldReapproveActualDSCR =
-        (prevActualDSCR < 1.30 && dscrDifference > 0) || 
-        (dscrDifference > 0.05 &&
+      Decimal dscrDifference = prevActualDSCR - currActualDSCR;
+      shouldReapproveActualDSCR = dscrDifference >= 0.05;
+
+      /** 
+       * validation before change: 
+       * (prevActualDSCR < 1.30 && dscrDifference > 0) ||
+        (dscrDifference >= 0.05 &&
         !(prevActualDSCR >= 1.80 &&
-        currActualDSCR >= 1.30));
+        currActualDSCR >= 1.30))
+       */
     }
 
-    if (isBridge) {
-      return isLTVHigher ||
-        isCommitmentHigher ||
-        isRecourseChanged ||
-        shouldReapproveActualDSCR;
-    }
-
-    Boolean isTerm = currOpp.Record_Type_Name__c == 'Term_Loan';
     Boolean isLoanAmountHigher =
-      currOpp.Current_Loan_Amount__c > prevOpp.Current_Loan_Amount__c;
+      (!isSubIc && currOpp.Current_Loan_Amount__c >= ((prevOpp.Current_Loan_Amount__c == null ? 0 : prevOpp.Current_Loan_Amount__c) * 1.10).setScale(2, System.RoundingMode.HALF_UP )) ||
+      (isSubIc && currOpp.Current_Loan_Amount__c >= ((prevOpp.Current_Loan_Amount__c == null ? 0 : prevOpp.Current_Loan_Amount__c) * 1.05).setScale(2, System.RoundingMode.HALF_UP ));
 
     if (isTerm) {
       return isLoanAmountHigher ||
@@ -3798,34 +3901,36 @@ public without sharing class opportunity_Helper {
     return false;
   }
 
-
   public static Approval_History__c rejectDeal(Opportunity deal) {
     List<ProcessInstance> processInstances = [
-      SELECT
-        Id,
-        Status,
-        ProcessDefinition.Name
+      SELECT Id, Status, ProcessDefinition.Name
       FROM ProcessInstance
       WHERE
         ProcessDefinition.Name LIKE '%IC%'
         AND Status = 'Approved'
         AND TargetObjectId = :deal.Id
-        ORDER BY CreatedDate Desc
+      ORDER BY CreatedDate DESC
       LIMIT 1
     ];
 
     if (processInstances.size() > 0) {
-         return createApprovalHistory(processInstances[0].ProcessDefinition.Name, deal);
+      return createApprovalHistory(
+        processInstances[0].ProcessDefinition.Name,
+        deal
+      );
     } else {
       return null;
     }
   }
-  
 
-  public static Approval_History__c createApprovalHistory(String approvalType, Opportunity deal) {
-    String ahProcessName = (approvalType != 'Term Sub-IC' || approvalType != 'Bridge Sub-IC')
-    ? approvalType + ' Process'
-    : approvalType;
+  public static Approval_History__c createApprovalHistory(
+    String approvalType,
+    Opportunity deal
+  ) {
+    String ahProcessName = (approvalType != 'Term Sub-IC' ||
+      approvalType != 'Bridge Sub-IC')
+      ? approvalType + ' Process'
+      : approvalType;
     Approval_History__c ahc = new Approval_History__c(
       Parent_Status__c = 'Rejected',
       Deal__c = deal.Id,
@@ -3846,34 +3951,98 @@ public without sharing class opportunity_Helper {
       ahc.Spread__c = deal.Final_Spread__c;
     }
 
-    if(deal.CAF_Upfront_Fee__c != null) {
+    if (deal.CAF_Upfront_Fee__c != null) {
       ahc.Origination_Fee__c = deal.CAF_Upfront_Fee__c;
     }
     return ahc;
   }
 
   // CIP 2452 Start 31 May 2022
-  public static void checkCreditScores(Map<Id,Opportunity> dealMap) {
+  public static void checkCreditScores(Map<Id, Opportunity> dealMap) {
     List<String> exemptProfiles = new List<String>{
       'Integrations',
       'System Administrator'
     };
 
     List<Deal_Contact__c> dealContacts = [
-      SELECT Id, Deal__c, Middle_Credit_Score__c, Credit_Score_Date__c FROM Deal_Contact__c WHERE Deal_Contact_Type__c = 'Individual' AND Entity_Type__c IN ('Guarantor','Sponsor') AND Deal__c IN :dealMap.keySet()
+      SELECT Id, Deal__c, Middle_Credit_Score__c, Credit_Score_Date__c
+      FROM Deal_Contact__c
+      WHERE
+        Deal_Contact_Type__c = 'Individual'
+        AND Entity_Type__c IN ('Guarantor', 'Sponsor')
+        AND Deal__c IN :dealMap.keySet()
     ];
 
     Date minDate = System.today().addDays(-180);
 
     Id currentUserProfileId = UserInfo.getProfileId();
-    String profileName = [SELECT Name FROM Profile WHERE Id =: currentUserProfileId].Name;
+    String profileName = [
+      SELECT Name
+      FROM Profile
+      WHERE Id = :currentUserProfileId
+    ]
+    .Name;
     Boolean isIntegSysAdmin = exemptProfiles.contains(profileName);
     for (Deal_Contact__c dc : dealContacts) {
-      if(dc.Middle_Credit_Score__c == 0 && !isIntegSysAdmin && !Test.isRunningTest()) {
-        dealMap.get(dc.Deal__c).addError('Credit Scores are missing for Sponsors and/or Guarantors. Please update in the Entities & Vendors Tab.');
-      } else if ((dc.Credit_Score_Date__c == null || dc.Credit_Score_Date__c < minDate) && !isIntegSysAdmin && !Test.isRunningTest()) {
-        dealMap.get(dc.Deal__c).addError('Credit Scores for an associated Sponsor and/or Guarantor are beyond 6 months.  Please check the Entities & Vendors Tab and enter the date the Credit Score was ran.');
+      if (
+        dc.Middle_Credit_Score__c == 0 &&
+        !isIntegSysAdmin &&
+        !Test.isRunningTest()
+      ) {
+        dealMap.get(dc.Deal__c)
+          .addError(
+            'Credit Scores are missing for Sponsors and/or Guarantors. Please update in the Entities & Vendors Tab.'
+          );
+      } else if (
+        (dc.Credit_Score_Date__c == null ||
+        dc.Credit_Score_Date__c < minDate) &&
+        !isIntegSysAdmin &&
+        !Test.isRunningTest()
+      ) {
+        dealMap.get(dc.Deal__c)
+          .addError(
+            'Credit Scores for an associated Sponsor and/or Guarantor are beyond 6 months.  Please check the Entities & Vendors Tab and enter the date the Credit Score was ran.'
+          );
       }
+    }
+  }
+
+  public static void createCemaDealContacts(Set<Id> dealIds) {
+    List<Account> cemaAccts = [
+      SELECT Id
+      FROM Account
+      WHERE Name = 'Harrison & Held, LLP'
+      ORDER BY CreatedDate
+      LIMIT 1
+    ];
+
+    List<Contact> cemaContacts = [
+      SELECT Id
+      FROM Contact
+      WHERE Name = 'Anthony Frink'
+      ORDER BY CreatedDate
+      LIMIT 1
+    ];
+
+    List<Deal_Contact__c> dealContacts = new List<Deal_Contact__c>();
+
+    if (cemaAccts.size() > 0 && cemaContacts.size() > 0) {
+      Id accId = cemaAccts[0].Id;
+      Id ctcId = cemaContacts[0].Id;
+
+      for (Id dId : dealIds) {
+        dealContacts.add(
+          new Deal_Contact__c(
+            Deal__c = dId,
+            Account__c = accId,
+            Contact__c = ctcId,
+            Deal_Contact_Type__c = 'Vendor',
+            Vendor_Type__c = 'Lender Legal Counsel'
+          )
+        );
+      }
+
+      insert dealContacts;
     }
   }
 

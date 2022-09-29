@@ -96,10 +96,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Cancellation_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Cancelled_By_First_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -481,6 +477,26 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>File_Funded_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Order_Change_Confirmation_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Order_Inquiry_Confirmation_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Document_Submission_Confirmation_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Portfolio_Confirmation_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Quote_Accepted_Confirmation_Date__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>

@@ -32,14 +32,14 @@ export default class IcSabApprovalScreen extends LightningElement {
       const fields = [];
       if (workItemRes.length > 0) {
         const processRes = await query({
-          queryString: `SELECT Id, (SELECT Id, StepStatus, ActorId, Actor.Name FROM StepsAndWorkitems WHERE StepStatus != 'Started') FROM ProcessInstance WHERE Id='${workItemRes[0].ProcessInstanceId}'`
+          queryString: `SELECT Id, (SELECT Id, StepStatus, ActorId, Actor.Name, OriginalActorId, OriginalActor.Name FROM StepsAndWorkitems WHERE StepStatus != 'Started') FROM ProcessInstance WHERE Id='${workItemRes[0].ProcessInstanceId}'`
         });
 
         processRes[0].StepsAndWorkitems.forEach((res) => {
           fields.push(
             {
               label: "Current Approver",
-              value: res.Actor.Name
+              value: res.OriginalActor.Name
             },
             {
               label: "Credit Memo Status",
@@ -50,7 +50,7 @@ export default class IcSabApprovalScreen extends LightningElement {
       }
       this.creditMemoFields = fields;
 
-      const gtorQuery = `SELECT Id,Contact__r.Name, Liquidity__c, Percentage_Owned__c, Deal__r.Borrower_Entity__r.Name, Deal__r.Borrower_Entity__c FROM Deal_Contact__c WHERE Deal__c='${this.deal.Id}' AND Entity_Type__c includes ('Guarantor')`;
+      const gtorQuery = `SELECT Id,Contact__r.Name, Liquidity__c, Percentage_Owned__c, Deal__r.Borrower_Entity__r.Name, Deal__r.Borrower_Entity__c FROM Deal_Contact__c WHERE Deal__c='${this.deal.Id}' AND Entity_Type__c includes ('Guarantor') AND Deal_Contact_Type__c = 'Individual'`;
       const resGuarantors = await query({ queryString: gtorQuery });
       this.guarantorRecords = resGuarantors;
       const _guarantors = [];
@@ -165,7 +165,7 @@ export default class IcSabApprovalScreen extends LightningElement {
           isGuarantors: false
         },
         {
-          fieldName: "Distinct_Property_Types__c",
+          fieldName: "Property_Type__c",
           variant: "label-hidden",
           customLabel: "Property Type",
           isBorrowerField: false,

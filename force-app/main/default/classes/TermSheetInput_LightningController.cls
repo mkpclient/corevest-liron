@@ -35,7 +35,8 @@ public without sharing class TermSheetInput_LightningController {
     'Foreign_National_picklist__c',
     'Deposit_Amount_Requested__c',
     'YSP_perc__c',
-    'Rate_Lock_Picklist__c'
+    'Rate_Lock_Picklist__c',
+    'Holdback_Multiplier__c'
   };
   // trigger, initiated by the originator,
   // docusign identify which fields need to be the signature lines
@@ -106,7 +107,7 @@ public without sharing class TermSheetInput_LightningController {
     'Draw_Period__c',
     'Requested_Interest_Type__c',
     'Requested_Origination_Fee__c',
-    'Requested_Draw_Fee__c',
+    //'Requested_Draw_Fee__c',
     // 'Requested_Exit_Fee__c',
     'Extension_Period_Days__c',
     'Broker_Fees__c',
@@ -200,7 +201,11 @@ public without sharing class TermSheetInput_LightningController {
     'Deposit_Amount_Requested__c' => 'Deposit Amount Requested',
     'YSP_perc__c' => 'Broker YSP %',
     'Broker_Fee_Paid_By_Whom__c' => 'Broker Fee Paid By Whom',
-    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When'
+    'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When',
+    'Holdback_Multiplier__c' => 'Holdback Multiplier',
+    'Requested_Rate_1_9_Months__c' => 'Requested Rate',
+    'Requested_Index__c' => 'Requested Index',
+    'Requested_Index_Margin__c' => 'Requested Index Margin'
   };
 
   @AuraEnabled
@@ -303,6 +308,13 @@ public without sharing class TermSheetInput_LightningController {
           bridgeFields.add('Requested_Max_Reno_Cost_Reimbursement__c');
           bridgeFields.add('Requested_Reno_Limit__c');
         }
+        if (o.Requested_Interest_Type__c == 'Floating') {
+          bridgeFields.add('Requested_Index__c');
+          bridgeFields.add('Requested_Index_Margin__c');
+        }
+        if (o.Requested_Interest_Type__c == 'Fixed') {
+          bridgeFields.add('Requested_Rate_1_9_Months__c');
+        }
       } else if (o.Recordtype.DeveloperName == 'Term_Loan') {
         selectedList = termFields;
       } else if (o.Recordtype.DeveloperName == 'Single_Asset_Bridge_Loan') {
@@ -351,14 +363,20 @@ public without sharing class TermSheetInput_LightningController {
       nullFields.remove(nullFields.indexOf('Distinct States'));
     }
 
-    if (
-      (o.RecordType.DeveloperName == 'LOC_Loan' ||
-      o.RecordType.DeveloperName.contains('Bridge')) &&
-      o.LOC_Program_Type__c != null &&
-      o.LOC_Program_Type__c == 'Standard'
-    ) {
-      m.put('MissingFields', null);
-    } else if (nullFields.size() > 0) {
+    /**
+     * * discovered this pre-existing validation to skip checking missing field values when program type is standard. It looks like it's been there since last year too, not sure if this was requested or not but it's causing issues.
+     * * Was this probably code from testing that was not commented out? 
+     * * - Liron
+     */
+    // if (
+    //   (o.RecordType.DeveloperName == 'LOC_Loan' ||
+    //   o.RecordType.DeveloperName.contains('Bridge')) &&
+    //   o.LOC_Program_Type__c != null &&
+    //   o.LOC_Program_Type__c == 'Standard'
+    // ) {
+    //   m.put('MissingFields', null);
+    // } else 
+    if (nullFields.size() > 0) {
       m.put('MissingFields', nullFields);
     } else {
       m.put('MissingFields', null);
@@ -438,8 +456,7 @@ public without sharing class TermSheetInput_LightningController {
         Broker_Fees__c,
         Referral_Source_Contact__c,
         Project_Strategy__c,
-        Renovation_Funding__c,
-        Term_Sheet_Expiration_Date__c
+        Renovation_Funding__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
@@ -469,7 +486,7 @@ public without sharing class TermSheetInput_LightningController {
     return [SELECT Id, PathOnClient FROM ContentVersion WHERE Id IN :recordIds];
   }
 
-  public static Opportunity updateIfLocLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static void updateIfLocLoan(Opportunity o, List<Boolean> m, Date d) {
     System.debug('inside update method');
     o.put('Negotiated_by_Counsel__c', m[0]);
     o.put('Include_3_Months_Min_Interest__c', m[1]);
@@ -483,10 +500,9 @@ public without sharing class TermSheetInput_LightningController {
     // );
     update o;
     System.debug('update was successful');
-    return o;
   }
 
-  public static Opportunity updateIfTermLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static void updateIfTermLoan(Opportunity o, List<Boolean> m, Date d) {
     o.put('NY_Counsel_Required__c', m[0]);
     o.put('Include_Assumption__c', m[1]);
     o.put('Include_Prop_Sub_Text__c', m[2]);
@@ -502,7 +518,6 @@ public without sharing class TermSheetInput_LightningController {
     // );
     System.debug('this is the opportunity: ' + o);
     update o;
-    return o;
   }
 
   public static String stringTerm(
@@ -676,23 +691,23 @@ public without sharing class TermSheetInput_LightningController {
     );
     Opportunity o = queryOpportunity(m.get('Id'));
     o.Apex_Context__c = true;
+    PageReference p;
     Integer i = queryDealDocument(o.Id);
 
-    if ((recordType == 'LOC_Loan' || recordType.containsIgnoreCase('bridge'))) {
+    if ((recordType == 'LOC_Loan' || recordType.contains('Bridge'))) {
       List<Boolean> mList = new List<Boolean>{
         Boolean.valueOf(m.get('Negotiated_by_Counsel__c')),
         Boolean.valueOf(m.get('Include_3_Months_Min_Interest__c'))
       };
-      o = updateIfLocLoan(o, mList, d);
+      updateIfLocLoan(o, mList, d);
     } else if (recordType == 'Term_Loan') {
       List<Boolean> mList = new List<Boolean>{
         Boolean.valueOf(m.get('NY_Counsel_Required__c')),
         Boolean.valueOf(m.get('Include_Assumption__c')),
         Boolean.valueOf(m.get('Include_Prop_Sub_Text__c'))
       };
-      o = updateIfTermLoan(o, mList, d);
+      updateIfTermLoan(o, mList, d);
     }
-    PageReference p;
 
     if ((String) m.get('Generate_Word_Doc') == 'true') {
       if (o.LOC_Loan_Type__c == 'Term Loan') {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>EBI_AccountC__c</fullName>
+    <description>EBI Account Construction Loan Monitoring</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI Account Construction Loan Monitoring</inlineHelpText>
+    <label>EBI_AccountC</label>
+    <length>60</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

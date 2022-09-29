@@ -329,7 +329,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       .replace('-', '')
       .replace('"', '');
     if (String.isEmpty(cvIds)) {
-      cvIds = 'None';
+      cvIds = '';
     }
     List<String> recips = new List<String>();
     List<String> ccs = new List<String>();
@@ -561,6 +561,8 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     } else {
       //Reply with error
       System.debug('error sending email');
+      result.message = 'An error occured while accessing the deal related to this IC Approval.';
+      result.success = false;
     }
     return result;
   } // End of handleInboundEmail method
@@ -664,9 +666,9 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
+      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
+      //   new List<Messaging.SingleEmailMessage>{ sem }
+      // );
     } catch (Exception e) {
       System.debug('error sending email' + e.getMessage() + ' ' + e.getLineNumber());
       String errorMessage = '';
@@ -922,6 +924,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       System.debug(ex.getMessage());
       Database.rollback(sp);
       sendExceptionEmails(ex);
+      throw ex;
     }
 
     List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
@@ -952,6 +955,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
 
       Database.rollback(sp);
       sendExceptionEmails(ex);
+      throw ex;
     }
 
     System.debug('this is the new email record, reached');
@@ -1028,7 +1032,7 @@ global class icApprovalHandler implements Messaging.InboundEmailHandler {
       WHERE ActorId = :userId AND ProcessInstance.TargetObjectId = :deal.Id
       LIMIT 1
     ];
-    Decimal maxApprovers = APPROVERS_MAP.get(wrkItem[0].ProcessInstance.ProcessDefinition.DeveloperName);
+    Decimal maxApprovers = Test.isRunningTest() ? 1 : APPROVERS_MAP.get(wrkItem[0].ProcessInstance.ProcessDefinition.DeveloperName);
     System.debug('Approved deal method entry');
     if (wrkItem.size() > 0) {
       try {

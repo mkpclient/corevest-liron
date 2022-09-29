@@ -2,441 +2,675 @@
   controller="lightning_Controller"
   implements="force:hasRecordId,flexipage:availableForAllPageTypes"
 >
-	<aura:attribute name="recordId" type="String" />
-	<aura:attribute name="sobjectType" type="String" default="Property__c" />
+  <aura:attribute name="recordId" type="String" />
+  <aura:attribute name="sobjectType" type="String" default="Property__c" />
 
-	<aura:attribute name="parentFieldName" type="String" default="Deal__c" />
-	<aura:attribute name="fieldList" type="String[]" />
-	<aura:attribute name="whereClause" type="String" />
-	<aura:attribute name="orderBy" type="String" default="" />
+  <aura:attribute name="parentFieldName" type="String" default="Deal__c" />
+  <aura:attribute name="fieldList" type="String[]" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="orderBy" type="String" default="" />
+	<aura:attribute name="lastBulkField" type="String" />
+  <aura:attribute name="title" type="String" default="Property" />
+  <aura:attribute name="footer" type="String" />
+  <aura:attribute name="recordCount" type="Integer" default="0" />
 
-	<aura:attribute name="title" type="String" default="Property" />
-	<aura:attribute name="footer" type="String" />
-	<aura:attribute name="recordCount" type="Integer" default="0" />
-
-	<aura:attribute name="editMode" type="Boolean" default="false" />
-	<aura:attribute name="pageSize" type="Integer" default="25" />
-	<aura:attribute name="appName" type="String" default="Bridge Pending" />
-	<aura:attribute name="propertyIds" type="String" />
-	<aura:attribute name="createAdvance" type="Boolean" default="true" />
-	<aura:attribute name="showGenerateDocsButton" type="Boolean" default="true" />
+  <aura:attribute name="editMode" type="Boolean" default="false" />
+  <aura:attribute name="pageSize" type="Integer" default="25" />
+  <aura:attribute name="appName" type="String" default="Bridge Pending" />
+  <aura:attribute name="propertyIds" type="String" />
+  <aura:attribute name="createAdvance" type="Boolean" default="true" />
+  <aura:attribute name="showGenerateDocsButton" type="Boolean" default="true" />
+	<aura:attribute name="bulkUpdateFields" type="String[]" default="['Title_Company__c', 'Title_Company_Contact__c', 'Escrow_Agent__c', 'Escrow_Company_Contact__c']" />; 
 	
-	<aura:attribute name="showCreatePropertyButton" type="Boolean" default="true" />
+  <aura:attribute
+    name="showCreatePropertyButton"
+    type="Boolean"
+    default="true"
+  />
 
-	<!--
+  <!--
 	<aura:handler name="pageChangeEvent" event="c:DataTablePageChangeEvent" action="{!c.handlePageChangeEvent}" phase="capture"/>
 	-->
+  <aura:handler
+    name="sortChangeEvent"
+    event="c:DataTableSortChangeEvent"
+    action="{!c.handleSortChangeEvent}"
+    phase="capture"
+  />
+
 	<aura:handler
-	name="sortChangeEvent"
-	event="c:DataTableSortChangeEvent"
-	action="{!c.handleSortChangeEvent}"
-	phase="capture"
-	/>
+    name="valueChangeEvent"
+    event="c:DataTableValueChangeEvent"
+    action="{!c.handleValueChangeEvent}"
+    phase="capture"
+  />
 
-	<aura:attribute name="records" type="Object[]" />
-	<aura:attribute name="currentPage" type="Integer" default="1" />
-	<aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="records" type="Object[]" />
+  <aura:attribute name="currentPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
 
-	<aura:attribute name="record" type="Object" />
+  <aura:attribute name="record" type="Object" />
 
-	<aura:attribute name="maxAdvanceFee" type="Double" />
-	<aura:attribute name="remainingAdvanceFee" type="Double" />
+  <aura:attribute name="maxAdvanceFee" type="Double" />
+  <aura:attribute name="remainingAdvanceFee" type="Double" />
 
-	<aura:attribute name="propertyExtensionOpen" type="Boolean" default="false" />
+  <aura:attribute name="propertyExtensionOpen" type="Boolean" default="false" />
 
-	<aura:handler event="force:closeQuickAction" action="{!c.closeModal}" />
+  <aura:handler event="force:closeQuickAction" action="{!c.closeModal}" />
 
-	<aura:handler Name="init" value="{!this}" action="{!c.init}" />
-	<aura:attribute name="permissionsMap" type="Map" />
-	<aura:attribute name="advancePermissionsMap" type="Map" />
-	<aura:attribute name="extensionPermissionsMap" type="Map" />
-  
-	<aura:attribute name="showCreatePropertyModal" type="boolean" default="false"/>
-  
-	<aura:attribute name="ObjectName" type="String" default="Deal__c" access="global"/> <!-- Object Name as String-->
-	<aura:attribute name="PropertyName" type="String" access="global"/>  <!-- Field Name as String-->
-	<aura:attribute name="City" type="String" access="global"/> <!-- Field Name as String-->
-	<aura:attribute name="State" type="String" access="global"/> <!-- Field Name as String-->
-	<aura:attribute name="ZipCode" type="String" access="global"/> <!-- Field Name as String-->
-	<aura:attribute name="Borrower_Opinion_of_Current_Value" type="String" access="global"/> <!-- Field Name as String-->
-	<aura:attribute name="Property_Type" type="String[]" />  <!-- Picklist Values of Type Field -->
-	<aura:attribute name="Property_Record_Type" type="String" />  <!-- Picklist Values of Type Field -->
-	
-	<aura:attribute name="PropertyTypeMap" type="Map" />
-	<aura:attribute name="stateMap" type="Map" />
-	
-	
-	<aura:attribute name="createProperty" type="Property__c" default="{'sObjectType' : 'Property__c','Name': ''}"/>
-	 <aura:attribute name="Spinner" type="boolean" default="false"/>
-	
-	<!-- attributes for Assign Refinance Deal-->
-	<aura:attribute name="showAssignRefinanceDeal" type="Boolean" default="true" />
-	<aura:attribute name="showRefinanceModal" type="Boolean" default="false" />
-    <aura:attribute name="isNoRowSelected" type="Boolean" default="false" />
-	<aura:attribute name="selectedRecord" type="sObject" default="{}" description="Use,for store SELECTED sObject Record"/>
-    <aura:attribute name="listOfSearchRecords" type="List" description="Use,for store the list of search records which returns from apex class"/>
-    <aura:attribute name="SearchKeyWord" type="string"/>
-    <!-- <aura:attribute name="objectAPIName" type="string" default=""/> -->
-    <aura:attribute name="IconName" type="string" default="standard:opportunity"/>
-    <aura:attribute name="label" type="string" default=""/>
-    <aura:attribute name="Message" type="String" default=""/>
-    
-    <aura:handler name="oSelectedRecordEvent" event="c:selectedsObjectRecordEventForRefinanceDeal" action="{!c.handleComponentEvent}"/>
-	
-	<aura:if isTrue="{!v.showRefinanceModal}">
-		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-			<div class="slds-modal__container">
-				<header class="slds-modal__header">
-					 <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeRefinanceModal}">
-						<lightning:icon iconName="utility:close" size="medium"/>
-						<span class="slds-assistive-text">Close</span>
-					</button>
-					
-					<h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Assign Refinance Deal</h2>
-				</header>
-                <aura:if isTrue="{!!v.isNoRowSelected}">
-                    <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1" style="height: 50%;">
-                        <div class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small">{!v.Message}</div>
-                        
-                            <div onmouseleave="{!c.onblur}" aura:id="searchRes" class="slds-form-element slds-lookup slds-is-close slds-p-bottom_xx-large" data-select="single">
-                                <label class="slds-form-element__label" for="lookup-348">Search Deal</label>
-                                <!--This part is for display search bar for lookup-->  
-                                <div class="slds-form-element__control">
-                                    
-                                    <div class="slds-input-has-icon slds-input-has-icon--right">
-                                        <!-- This markup is for when an record is selected -->
-                                        <div aura:id="lookup-pill" class="slds-pill-container slds-hide">
-                                             <lightning:pill class="pillSize" label="{!v.selectedRecord.Name}" name="{!v.selectedRecord.Name}" onremove="{! c.clear }">
-                                                  <aura:set attribute="media">
-                                                     <lightning:icon iconName="standard:opportunity" size="x-small" alternativeText="{!v.IconName}"/>
-                                                  </aura:set>
-                                              </lightning:pill>
-                                        </div>
-                                        <div aura:id="lookupField" class="slds-show">
-                                            <lightning:icon class="slds-input__icon slds-show" iconName="utility:search" size="x-small" alternativeText="search"/>
-                                            <span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
-                                                <lightning:icon class="slds-icon slds-icon slds-icon_small slds-icon-text-default" iconName="{!v.IconName}" size="x-small" alternativeText="icon"/>
-                                                <span class="slds-assistive-text"></span>
-                                            </span>
-                                            <ui:inputText click="{!c.onfocus}" updateOn="keyup" keyup="{!c.keyPressController}" class="slds-lookup__search-input slds-input leftPaddingClass" value="{!v.SearchKeyWord}" placeholder="search.."/>
-                                        </div>   
-                                    </div>
-                                </div>
-                                <!--This part is for Display typehead lookup result List-->  
-                                <ul style="min-height:40px;margin-top:0px !important" class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds" role="listbox">
-                                    <lightning:spinner class="slds-hide" variant="brand" size="small" aura:id="mySpinner"/>
-                                    <center> {!v.Message}</center>
-                                    <aura:iteration items="{!v.listOfSearchRecords}" var="singleRec">
-                                        <c:customLookupResultForRefinanceDeal oRecord="{!singleRec}" IconName="{!v.IconName}"/>
-                                    </aura:iteration>
-                                </ul>
-                            </div>
-                        
-                        <lightning:spinner aura:id="refinanceModalSpinner" style="position: revert" alternativeText="Processing.." title="Processing.." variant="brand" size="large" class="slds-hide"/>
-                    </div>
-                </aura:if>
-                <aura:if isTrue="{!v.isNoRowSelected}">
-                    <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
-                        <div class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small">{!v.Message}</div>
-                    </div>
-                </aura:if>
-				<footer class="slds-modal__footer">
-					<lightning:button variant="neutral" label="Cancel" class="slds-button" onclick="{!c.closeRefinanceModal}"></lightning:button>
-                    <aura:if isTrue="{!!v.isNoRowSelected}">
-						<lightning:button variant="brand" label="Save" class="slds-button" onclick="{!c.onAssignRefinanceDealSave}"></lightning:button>
-                    </aura:if>
-                    <aura:if isTrue="{!v.isNoRowSelected}">
-                    	<lightning:button variant="brand" label="Save" class="slds-button" disabled="true"></lightning:button>
-                    </aura:if>
-				</footer>
-			</div>
-		</section>
-		<div class="slds-backdrop slds-backdrop_open"></div>
-	</aura:if>
-	
-	<lightning:card>
-		<aura:set attribute="title">
-		  <lightning:icon iconName="standard:home" size="medium" />
-		  <span class="slds-m-left--medium">
-			{!v.title} ({!v.records.length})
-		  </span>
-		</aura:set>
+  <aura:handler Name="init" value="{!this}" action="{!c.init}" />
+  <aura:attribute name="permissionsMap" type="Map" />
+  <aura:attribute name="advancePermissionsMap" type="Map" />
+  <aura:attribute name="extensionPermissionsMap" type="Map" />
 
-		<aura:set attribute="actions">
-		  <!-- <aura:if isTrue="{!v.appName == 'Bridge Pending'}"> -->
-			<lightning:layout horizontalAlign="end">
-				
-				<aura:if isTrue="{!v.showAssignRefinanceDeal}">
-					<lightning:layoutItem>
-					  <lightning:button
-						variant="brand"
-						label="Assign Refinance Deal"
-						onclick="{!c.openRefinanceModal}"
-					  />
-					</lightning:layoutItem>
-				</aura:if>
-			
-				<aura:if
-				isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isCreateable : 'false'}"
-				>
-					<aura:if isTrue="{!v.showCreatePropertyButton}">
-							<lightning:layoutItem padding="horizontal-medium">
-							<lightning:button
-								label="Create Property"
-								onclick="{!c.openPropertyModal}"
-							/>
-							</lightning:layoutItem>
-					</aura:if>
-				</aura:if>
-				<aura:if isTrue="{!v.showGenerateDocsButton}">
-					<lightning:layoutItem padding="horizontal-medium">
-						<lightning:button
-						  label="Generate Loan Documents"
-						  onclick="{!c.openDocModal}"
-						/>
-					</lightning:layoutItem>
-				</aura:if>
-				<aura:if isTrue="{!v.createAdvance}">
-					<aura:if
-					isTrue="{!!empty(v.advancePermissionsMap) ? v.advancePermissionsMap.sobject.isCreateable : 'false'}"
-					>
-						<lightning:layoutItem>
-						  <lightning:button
-							label="Create Advance"
-							onclick="{!c.createAdvance}"
-						  />
-						</lightning:layoutItem>
-					</aura:if>
-				</aura:if>
-			</lightning:layout>
-		  <!-- </aura:if> -->
-			<aura:if isTrue="{!v.appName == 'Asset Management'}">
-				<aura:if
-				  isTrue="{!!empty(v.extensionPermissionsMap) ? v.extensionPermissionsMap.sobject.isCreateable : 'false'}"
-				>
-					<lightning:layout horizontalAlign="end">
-						<lightning:button
-						  label="Create Property Extension"
-						  onclick="{!c.createPropExtension}"
-						/>
-					</lightning:layout>
-				</aura:if>
-			</aura:if>
-			<lightning:layout horizontalAlign="end">
-				<lightning:layoutItem>
-					<lightning:button variant="base" onclick="{!c.refresh}">
-						<lightning:buttonIcon
-						  iconName="utility:refresh"
-						  variant="bare"
-						  alternativeText="Refresh"
-						/>
-					</lightning:button>
-				</lightning:layoutItem>
-			</lightning:layout>
-			<lightning:spinner
-				class=""
-				aura:id="spinner"
-				variant="brand"
-				alternativeText="Loading"
-			/>
-		</aura:set>
-		
-		<aura:if isTrue="{!v.showCreatePropertyModal}">
-			 
-			<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-				<div class="slds-modal__container">
-					<header class="slds-modal__header">
-						 <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeCreatePropertyModal}">
-                            <lightning:icon iconName="utility:close" size="medium" />
-                            <span class="slds-assistive-text">Close</span>
-                    	</button>
-						<h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Create Property</h2>
-					</header>
-					<div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">
-						
-						<aura:if isTrue="{!v.Spinner}">
-							<lightning:spinner class="spiinercls" aura:id="spinner1" variant="brand" alternativeText="Loading"/>
-						</aura:if>
-						
-						<lightning:select aura:id="PropertyRecordTypePicklist" value="{!v.Property_Record_Type}" name="PropertyRecordTypePicklist" label="Property Record Type">
-							
-							<option value="Bridge No Renovation">Bridge No Renovation</option>
-							<option value="Bridge Renovation">Bridge Renovation</option>
-							<option value="Ground Up Construction">Ground Up Construction</option>
-						</lightning:select>
-						
-						<lightning:input name="Name" type="text" label="Address" value="{!v.createProperty.Name}" />
-						<lightning:input name="City" type="text" label="City" value="{!v.createProperty.City__c}" />
-						<!-- <lightning:input name="State" type="text" label="State" value="{!v.createProperty.State__c}" /> -->
-						
-						<lightning:select aura:id="StatePicklist" value="{!v.createProperty.State__c}" name="StatePicklist" label="State">
-							<option value="">--None--</option>
-							<aura:iteration items="{!v.stateMap}" var="i" indexVar="key">
-								<option text="{!i.value}" value="{!i.key}"/>
-							</aura:iteration>
-						</lightning:select>
-						
-						<lightning:input name="ZipCode" type="text" label="ZipCode" value="{!v.createProperty.ZipCode__c}" />
-						<lightning:select aura:id="PropertyTypePicklist" value="{!v.createProperty.Property_Type__c}" name="PropertyTypePicklist" label="Property Type">
-							<option value="">--None--</option>
-							<aura:iteration items="{!v.PropertyTypeMap}" var="i" indexVar="key">
-								<option text="{!i.value}" value="{!i.key}"/>
-							</aura:iteration>
-						</lightning:select>
-						
-						<lightning:input name="Borrower_Opinion_of_Current_Value" type="number" label="Borrower Opinion of Current Value" value="{!v.createProperty.Borrower_Opinion_of_Current_Value__c}" formatter="currency" step="0.01"/>
-						
-						<lightning:input type="date" label="Acquisition Date" name="Acquisition Date" value="{!v.createProperty.Acquisition_Date__c}"/>
-					
-					</div>
-					<footer class="slds-modal__footer">
-						<lightning:button variant="neutral" label="Cancel" class="slds-button" onclick="{!c.closeCreatePropertyModal}"></lightning:button>
-						<lightning:button variant="brand" label="Save" class="slds-button" onclick="{!c.onSaveButtonClick}"></lightning:button>
-					</footer>
-				</div>
-			</section>
-			<div class="slds-backdrop slds-backdrop_open"></div>
-	
-		</aura:if>
+  <aura:attribute
+    name="showCreatePropertyModal"
+    type="boolean"
+    default="false"
+  />
 
-		<aura:if isTrue="{!v.appName == 'Asset Management'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+  <aura:attribute
+    name="ObjectName"
+    type="String"
+    default="Deal__c"
+    access="global"
+  />
+  <!-- Object Name as String-->
+  <aura:attribute name="PropertyName" type="String" access="global" />
+  <!-- Field Name as String-->
+  <aura:attribute name="City" type="String" access="global" />
+  <!-- Field Name as String-->
+  <aura:attribute name="State" type="String" access="global" />
+  <!-- Field Name as String-->
+  <aura:attribute name="ZipCode" type="String" access="global" />
+  <!-- Field Name as String-->
+  <aura:attribute
+    name="Borrower_Opinion_of_Current_Value"
+    type="String"
+    access="global"
+  />
+  <!-- Field Name as String-->
+  <aura:attribute name="Property_Type" type="String[]" />
+  <!-- Picklist Values of Type Field -->
+  <aura:attribute name="Property_Record_Type" type="String" />
+  <!-- Picklist Values of Type Field -->
 
-				<c:DataTableColumn
-				  label="Loan Status"
-				  name="Loan_Status__c"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="8"
-				/>
+  <aura:attribute name="PropertyTypeMap" type="Map" />
+  <aura:attribute name="stateMap" type="Map" />
 
-				<c:DataTableColumn
-				  label="Current PnI"
-				  name="Current_P_I__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="8"
-				/>
+  <aura:attribute
+    name="createProperty"
+    type="Property__c"
+    default="{'sObjectType' : 'Property__c','Name': ''}"
+  />
+  <aura:attribute name="Spinner" type="boolean" default="false" />
 
-				<c:DataTableColumn
-				  label="Current UPB"
-				  name="Current_UPB__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="8"
-				/>
+  <!-- attributes for Assign Refinance Deal-->
+  <aura:attribute
+    name="showAssignRefinanceDeal"
+    type="Boolean"
+    default="true"
+  />
+  <aura:attribute name="showRefinanceModal" type="Boolean" default="false" />
+  <aura:attribute name="isNoRowSelected" type="Boolean" default="false" />
+  <aura:attribute
+    name="selectedRecord"
+    type="sObject"
+    default="{}"
+    description="Use,for store SELECTED sObject Record"
+  />
+  <aura:attribute
+    name="listOfSearchRecords"
+    type="List"
+    description="Use,for store the list of search records which returns from apex class"
+  />
+  <aura:attribute name="SearchKeyWord" type="string" />
+  <!-- <aura:attribute name="objectAPIName" type="string" default=""/> -->
+  <aura:attribute
+    name="IconName"
+    type="string"
+    default="standard:opportunity"
+  />
+  <aura:attribute name="label" type="string" default="" />
+  <aura:attribute name="Message" type="String" default="" />
 
-				<c:DataTableColumn
-				  label="First Payment Date"
-				  name="First_Payment_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+  <aura:handler
+    name="oSelectedRecordEvent"
+    event="c:selectedsObjectRecordEventForRefinanceDeal"
+    action="{!c.handleComponentEvent}"
+  />
 
-				<c:DataTableColumn
-				  label="Last Payment Date"
-				  name="Date_Of_Last_Payment__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+  <aura:if isTrue="{!v.showRefinanceModal}">
+    <section
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <header class="slds-modal__header">
+          <button
+            class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+            title="Close"
+            onclick="{!c.closeRefinanceModal}"
+          >
+            <lightning:icon iconName="utility:close" size="medium" />
+            <span class="slds-assistive-text">Close</span>
+          </button>
 
-				<c:DataTableColumn
-				  label="Next Due Date"
-				  name="Next_Due_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+          <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+            Assign Refinance Deal
+          </h2>
+        </header>
+        <aura:if isTrue="{!!v.isNoRowSelected}">
+          <div
+            class="slds-modal__content slds-p-around_large"
+            id="modal-content-id-1"
+            style="height: 50%"
+          >
+            <div
+              class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small"
+            >
+              {!v.Message}
+            </div>
 
-				<c:DataTableColumn
-				  label="Funded Date"
-				  name="First_Funding_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <div
+              onmouseleave="{!c.onblur}"
+              aura:id="searchRes"
+              class="slds-form-element slds-lookup slds-is-close slds-p-bottom_xx-large"
+              data-select="single"
+            >
+              <label class="slds-form-element__label" for="lookup-348"
+                >Search Deal</label
+              >
+              <!--This part is for display search bar for lookup-->
+              <div class="slds-form-element__control">
+                <div class="slds-input-has-icon slds-input-has-icon--right">
+                  <!-- This markup is for when an record is selected -->
+                  <div
+                    aura:id="lookup-pill"
+                    class="slds-pill-container slds-hide"
+                  >
+                    <lightning:pill
+                      class="pillSize"
+                      label="{!v.selectedRecord.Name}"
+                      name="{!v.selectedRecord.Name}"
+                      onremove="{! c.clear }"
+                    >
+                      <aura:set attribute="media">
+                        <lightning:icon
+                          iconName="standard:opportunity"
+                          size="x-small"
+                          alternativeText="{!v.IconName}"
+                        />
+                      </aura:set>
+                    </lightning:pill>
+                  </div>
+                  <div aura:id="lookupField" class="slds-show">
+                    <lightning:icon
+                      class="slds-input__icon slds-show"
+                      iconName="utility:search"
+                      size="x-small"
+                      alternativeText="search"
+                    />
+                    <span
+                      class="slds-icon_container slds-combobox__input-entity-icon"
+                      title="record"
+                    >
+                      <lightning:icon
+                        class="slds-icon slds-icon slds-icon_small slds-icon-text-default"
+                        iconName="{!v.IconName}"
+                        size="x-small"
+                        alternativeText="icon"
+                      />
+                      <span class="slds-assistive-text"></span>
+                    </span>
+                    <ui:inputText
+                      click="{!c.onfocus}"
+                      updateOn="keyup"
+                      keyup="{!c.keyPressController}"
+                      class="slds-lookup__search-input slds-input leftPaddingClass"
+                      value="{!v.SearchKeyWord}"
+                      placeholder="search.."
+                    />
+                  </div>
+                </div>
+              </div>
+              <!--This part is for Display typehead lookup result List-->
+              <ul
+                style="min-height: 40px; margin-top: 0px !important"
+                class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds"
+                role="listbox"
+              >
+                <lightning:spinner
+                  class="slds-hide"
+                  variant="brand"
+                  size="small"
+                  aura:id="mySpinner"
+                />
+                <center>{!v.Message}</center>
+                <aura:iteration
+                  items="{!v.listOfSearchRecords}"
+                  var="singleRec"
+                >
+                  <c:customLookupResultForRefinanceDeal
+                    oRecord="{!singleRec}"
+                    IconName="{!v.IconName}"
+                  />
+                </aura:iteration>
+              </ul>
+            </div>
 
-				<c:DataTableColumn
-				  label="Hold Time"
-				  name="Hold_Time__c"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="7"
-				/>
+            <lightning:spinner
+              aura:id="refinanceModalSpinner"
+              style="position: revert"
+              alternativeText="Processing.."
+              title="Processing.."
+              variant="brand"
+              size="large"
+              class="slds-hide"
+            />
+          </div>
+        </aura:if>
+        <aura:if isTrue="{!v.isNoRowSelected}">
+          <div
+            class="slds-modal__content slds-p-around_large"
+            id="modal-content-id-1"
+          >
+            <div
+              class="slds-text-heading_small slds-text-align_center slds-p-bottom_xxx-small"
+            >
+              {!v.Message}
+            </div>
+          </div>
+        </aura:if>
+        <footer class="slds-modal__footer">
+          <lightning:button
+            variant="neutral"
+            label="Cancel"
+            class="slds-button"
+            onclick="{!c.closeRefinanceModal}"
+          ></lightning:button>
+          <aura:if isTrue="{!!v.isNoRowSelected}">
+            <lightning:button
+              variant="brand"
+              label="Save"
+              class="slds-button"
+              onclick="{!c.onAssignRefinanceDealSave}"
+            ></lightning:button>
+          </aura:if>
+          <aura:if isTrue="{!v.isNoRowSelected}">
+            <lightning:button
+              variant="brand"
+              label="Save"
+              class="slds-button"
+              disabled="true"
+            ></lightning:button>
+          </aura:if>
+        </footer>
+      </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
 
-				<c:DataTableColumn
-				  label="Interest Rate"
-				  name="Current_Interest_Rate__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="percent"
-				  columnWidth="6"
-				/>
+  <lightning:card>
+    <aura:set attribute="title">
+      <lightning:icon iconName="standard:home" size="medium" />
+      <span class="slds-m-left--medium">
+        {!v.title} ({!v.records.length})
+      </span>
+    </aura:set>
 
-				<c:DataTableColumn
-				  label="Payment History"
-				  name="Payment_History__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+    <aura:set attribute="actions">
+      <!-- <aura:if isTrue="{!v.appName == 'Bridge Pending'}"> -->
+      <lightning:layout horizontalAlign="end">
+        <aura:if isTrue="{!v.showAssignRefinanceDeal}">
+          <lightning:layoutItem>
+            <lightning:button
+              variant="brand"
+              label="Assign Refinance Deal"
+              onclick="{!c.openRefinanceModal}"
+            />
+          </lightning:layoutItem>
+        </aura:if>
 
-				<c:DataTableColumn
-				  label="Reserve Balance"
-				  name="Reserve_Balance__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+        <aura:if
+          isTrue="{!!empty(v.permissionsMap) ? v.permissionsMap.sobject.isCreateable : 'false'}"
+        >
+          <aura:if isTrue="{!v.showCreatePropertyButton}">
+            <lightning:layoutItem padding="horizontal-medium">
+              <lightning:button
+                label="Create Property"
+                onclick="{!c.openPropertyModal}"
+              />
+            </lightning:layoutItem>
+          </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.showGenerateDocsButton}">
+          <lightning:layoutItem padding="horizontal-medium">
+            <lightning:button
+              label="Generate Loan Documents"
+              onclick="{!c.openDocModal}"
+            />
+          </lightning:layoutItem>
+        </aura:if>
+        <aura:if isTrue="{!v.createAdvance}">
+          <aura:if
+            isTrue="{!!empty(v.advancePermissionsMap) ? v.advancePermissionsMap.sobject.isCreateable : 'false'}"
+          >
+            <lightning:layoutItem>
+              <lightning:button
+                label="Create Advance"
+                onclick="{!c.createAdvance}"
+              />
+            </lightning:layoutItem>
+          </aura:if>
+        </aura:if>
+      </lightning:layout>
+      <!-- </aura:if> -->
+      <aura:if isTrue="{!v.appName == 'Asset Management'}">
+        <aura:if
+          isTrue="{!!empty(v.extensionPermissionsMap) ? v.extensionPermissionsMap.sobject.isCreateable : 'false'}"
+        >
+          <lightning:layout horizontalAlign="end">
+            <lightning:button
+              label="Create Property Extension"
+              onclick="{!c.createPropExtension}"
+            />
+          </lightning:layout>
+        </aura:if>
+      </aura:if>
+      <lightning:layout horizontalAlign="end">
+        <lightning:layoutItem>
+          <lightning:button variant="base" onclick="{!c.refresh}">
+            <lightning:buttonIcon
+              iconName="utility:refresh"
+              variant="bare"
+              alternativeText="Refresh"
+            />
+          </lightning:button>
+        </lightning:layoutItem>
+      </lightning:layout>
+      <lightning:spinner
+        class=""
+        aura:id="spinner"
+        variant="brand"
+        alternativeText="Loading"
+      />
+    </aura:set>
 
-				<c:DataTableColumn
-				  label="Asset Maturity Date"
-				  name="Current_Asset_Maturity_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+    <aura:if isTrue="{!v.showCreatePropertyModal}">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <button
+              class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+              title="Close"
+              onclick="{!c.closeCreatePropertyModal}"
+            >
+              <lightning:icon iconName="utility:close" size="medium" />
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">
+              Create Property
+            </h2>
+          </header>
+          <div
+            class="slds-modal__content slds-p-around_large"
+            id="modal-content-id-1"
+          >
+            <aura:if isTrue="{!v.Spinner}">
+              <lightning:spinner
+                class="spiinercls"
+                aura:id="spinner1"
+                variant="brand"
+                alternativeText="Loading"
+              />
+            </aura:if>
 
-				<c:DataTableColumn
-				  label="Line Maturity Date"
-				  name="Deal__r.Current_Line_Maturity_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <lightning:select
+              aura:id="PropertyRecordTypePicklist"
+              value="{!v.Property_Record_Type}"
+              name="PropertyRecordTypePicklist"
+              label="Property Record Type"
+            >
+              <option value="Bridge No Renovation">Bridge No Renovation</option>
+              <option value="Bridge Renovation">Bridge Renovation</option>
+              <option value="Ground Up Construction">
+                Ground Up Construction
+              </option>
+            </lightning:select>
 
-				<c:DataTableColumn
-				label="Remedy Plan"
-				name="Remedy_Plan__c"
-				sortable="true"
-				displayType="select"
-				isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Remedy_Plan__c.isUpdateable}"
-				columnWidth="10"
-				selectOptions="[
+            <lightning:input
+              name="Name"
+              type="text"
+              label="Address"
+              value="{!v.createProperty.Name}"
+            />
+            <lightning:input
+              name="City"
+              type="text"
+              label="City"
+              value="{!v.createProperty.City__c}"
+            />
+            <!-- <lightning:input name="State" type="text" label="State" value="{!v.createProperty.State__c}" /> -->
+
+            <lightning:select
+              aura:id="StatePicklist"
+              value="{!v.createProperty.State__c}"
+              name="StatePicklist"
+              label="State"
+            >
+              <option value="">--None--</option>
+              <aura:iteration items="{!v.stateMap}" var="i" indexVar="key">
+                <option text="{!i.value}" value="{!i.key}" />
+              </aura:iteration>
+            </lightning:select>
+
+            <lightning:input
+              name="ZipCode"
+              type="text"
+              label="ZipCode"
+              value="{!v.createProperty.ZipCode__c}"
+            />
+            <lightning:select
+              aura:id="PropertyTypePicklist"
+              value="{!v.createProperty.Property_Type__c}"
+              name="PropertyTypePicklist"
+              label="Property Type"
+            >
+              <option value="">--None--</option>
+              <aura:iteration
+                items="{!v.PropertyTypeMap}"
+                var="i"
+                indexVar="key"
+              >
+                <option text="{!i.value}" value="{!i.key}" />
+              </aura:iteration>
+            </lightning:select>
+
+            <lightning:input
+              name="Borrower_Opinion_of_Current_Value"
+              type="number"
+              label="Borrower Opinion of Current Value"
+              value="{!v.createProperty.Borrower_Opinion_of_Current_Value__c}"
+              formatter="currency"
+              step="0.01"
+            />
+
+            <lightning:input
+              type="date"
+              label="Acquisition Date"
+              name="Acquisition Date"
+              value="{!v.createProperty.Acquisition_Date__c}"
+            />
+          </div>
+          <footer class="slds-modal__footer">
+            <lightning:button
+              variant="neutral"
+              label="Cancel"
+              class="slds-button"
+              onclick="{!c.closeCreatePropertyModal}"
+            ></lightning:button>
+            <lightning:button
+              variant="brand"
+              label="Save"
+              class="slds-button"
+              onclick="{!c.onSaveButtonClick}"
+            ></lightning:button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.appName == 'Asset Management'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
+
+            <c:DataTableColumn
+              label="Loan Status"
+              name="Loan_Status__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Current PnI"
+              name="Current_P_I__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Current UPB"
+              name="Current_UPB__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="First Payment Date"
+              name="First_Payment_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Last Payment Date"
+              name="Date_Of_Last_Payment__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Next Due Date"
+              name="Next_Due_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Funded Date"
+              name="First_Funding_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Hold Time"
+              name="Hold_Time__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="7"
+            />
+
+            <c:DataTableColumn
+              label="Interest Rate"
+              name="Current_Interest_Rate__c"
+              sortable="true"
+              isEditable="false"
+              displayType="percent"
+              columnWidth="6"
+            />
+
+            <c:DataTableColumn
+              label="Payment History"
+              name="Payment_History__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
+
+            <c:DataTableColumn
+              label="Reserve Balance"
+              name="Reserve_Balance__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="7"
+            />
+
+            <c:DataTableColumn
+              label="Asset Maturity Date"
+              name="Current_Asset_Maturity_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Line Maturity Date"
+              name="Deal__r.Current_Line_Maturity_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Remedy Plan"
+              name="Remedy_Plan__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Remedy_Plan__c.isUpdateable}"
+              columnWidth="10"
+              selectOptions="[
 														  {'label': '--Select One--', 'value': ''},
 														  {'label': 'Bring Current', 'value': 'Bring Current'},  
 														  {'label': 'Deed in Lieu', 'value': 'Deed in Lieu' },
@@ -455,76 +689,77 @@
 														  {'label': 'Special Asset Assignment', 'value': 'Special Asset Assignment'},
 														  {'label': 'Title Claim', 'value': 'Title Claim'},
 														  ]"
-			  	/>
-			  </aura:set>
+            />
+          </aura:set>
 
-			  <!-- optional -->
+          <!-- optional -->
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if>  <!-- End of Asset Management section -->
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Asset Management section -->
 
-		<aura:if isTrue="{!v.appName == 'Bridge Pending'}">
-		  <ui:scrollerWrapper>
-			<!-- <aura:if isTrue="{!!empty(v.permissionsMap)}"> -->
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+    <aura:if isTrue="{!v.appName == 'Bridge Pending'}">
+      <ui:scrollerWrapper>
+        <!-- <aura:if isTrue="{!!empty(v.permissionsMap)}"> -->
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="City"
-				  name="City__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="County"
-				  name="County__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="County"
+              name="County__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="State"
-				  name="State__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Status"
-				  name="Status__c"
-				  sortable="true"
-				  displayType="select"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
-				  columnWidth="7"
-				  selectOptions="[
+            <c:DataTableColumn
+              label="Status"
+              name="Status__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
+              columnWidth="7"
+              selectOptions="[
 															{'label': '--Select One--', 'value': ''},
 															{'label': 'Due Diligence', 'value': 'Due Diligence' },
 															{'label': 'Pending', 'value': 'Pending'},
@@ -535,158 +770,159 @@
 															{'label': 'Cancelled', 'value': 'Cancelled'},
 															{'label': 'On Hold', 'value': 'On Hold'},
 															]"
-				/>
+            />
 
-				<c:DataTableColumn
-				label="Advance Group"
-				name="Initial_Advance__r.Advance_Group_Name__c"
-				linkToRecord="Initial_Advance__c"
-				sortable="true"
-				displayType="text"
-				columnWidth="10"
-			  	/>
+            <c:DataTableColumn
+              label="Advance Group"
+              name="Initial_Advance__r.Advance_Group_Name__c"
+              linkToRecord="Initial_Advance__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="10"
+            />
 
-				<c:DataTableColumn
-				  label="Requested Funding Date"
-				  name="Requested_Funding_Date__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
-				  displayType="date"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Requested Funding Date"
+              name="Requested_Funding_Date__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
+              displayType="date"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Approved Advance Amount"
-				  name="Approved_Advance_Amount__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Approved Advance Amount"
+              name="Approved_Advance_Amount__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Acquisition Price"
-				  name="Acquisition_Price__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Acquisition Price"
+              name="Acquisition_Price__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Appraisal Value"
-				  name="Appraised_Value_Amount__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Appraisal Value"
+              name="Appraised_Value_Amount__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="After Repair Value"
-				  name="After_Repair_Value__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="After Repair Value"
+              name="After_Repair_Value__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Budget"
-				  name="Rehab_Budget__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Budget"
+              name="Rehab_Budget__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Advance_Fee_formula__c"
-				  name="Advance_Fee_formula__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Advance_Fee_formula__c"
+              name="Advance_Fee_formula__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
 
-				<c:DataTableColumn
-				  label="Current_Asset_Maturity_Date__c"
-				  name="Current_Asset_Maturity_Date__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Current_Asset_Maturity_Date__c"
+              name="Current_Asset_Maturity_Date__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
 
-				<c:DataTableColumn
-				  label="Reno_Advance_Amount_Remaining__c"
-				  name="Reno_Advance_Amount_Remaining__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
-			  </aura:set>
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if>  <!-- End of Bridge Pending section -->
+            <c:DataTableColumn
+              label="Reno_Advance_Amount_Remaining__c"
+              name="Reno_Advance_Amount_Remaining__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
+          </aura:set>
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge Pending section -->
 
-		<aura:if isTrue="{!v.appName == 'Bridge Reno Funding'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+    <aura:if isTrue="{!v.appName == 'Bridge Reno Funding'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="City"
-				  name="City__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="County"
-				  name="County__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="County"
+              name="County__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="State"
-				  name="State__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Status"
-				  name="Status__c"
-				  sortable="true"
-				  displayType="select"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
-				  columnWidth="7"
-				  selectOptions="[
+            <c:DataTableColumn
+              label="Status"
+              name="Status__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
+              columnWidth="7"
+              selectOptions="[
 																  {'label': '--Select One--', 'value': ''},
 																  {'label': 'Due Diligence', 'value': 'Due Diligence' },
 																  {'label': 'Pending', 'value': 'Pending'},
@@ -697,123 +933,123 @@
 																  {'label': 'Cancelled', 'value': 'Cancelled'},
 																  {'label': 'On Hold', 'value': 'On Hold'},
 																  ]"
-				/>
+            />
 
-				<c:DataTableColumn
-				  label="Next Funding Amount"
-				  name="Reno_Advance_Amount__c"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Reno_Advance_Amount__c.isUpdateable}"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Next Funding Amount"
+              name="Reno_Advance_Amount__c"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Reno_Advance_Amount__c.isUpdateable}"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Advance Amount Funded"
-				  name="Renovation_Advance_Amount_Used__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Advance Amount Funded"
+              name="Renovation_Advance_Amount_Used__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Advance Amount Remaining"
-				  name="Reno_Advance_Amount_Remaining__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Advance Amount Remaining"
+              name="Reno_Advance_Amount_Remaining__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Approved Advance Amount"
-				  name="Approved_Advance_Amount__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Approved Advance Amount"
+              name="Approved_Advance_Amount__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Current Asset Maturity Date"
-				  name="Current_Asset_Maturity_Date__c"
-				  sortable="true"
-				  displayType="date"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Current Asset Maturity Date"
+              name="Current_Asset_Maturity_Date__c"
+              sortable="true"
+              displayType="date"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Advance_Fee_formula__c"
-				  name="Advance_Fee_formula__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Advance_Fee_formula__c"
+              name="Advance_Fee_formula__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
+          </aura:set>
 
-			  </aura:set>
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge Reno Funding section -->
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if> <!-- End of Bridge Reno Funding section -->
+    <aura:if isTrue="{!v.appName == 'Bridge Active'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-		<aura:if isTrue="{!v.appName == 'Bridge Active'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="City"
-				  name="City__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="County"
+              name="County__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="County"
-				  name="County__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="State"
-				  name="State__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
-
-				<c:DataTableColumn
-				  label="Status"
-				  name="Status__c"
-				  sortable="true"
-				  displayType="select"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
-				  columnWidth="7"
-				  selectOptions="[
+            <c:DataTableColumn
+              label="Status"
+              name="Status__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
+              columnWidth="7"
+              selectOptions="[
 																  {'label': '--Select One--', 'value': ''},
 																  {'label': 'Due Diligence', 'value': 'Due Diligence' },
 																  {'label': 'Pending', 'value': 'Pending'},
@@ -824,57 +1060,57 @@
 																  {'label': 'Cancelled', 'value': 'Cancelled'},
 																  {'label': 'On Hold', 'value': 'On Hold'},
 																  ]"
-				/>
+            />
 
-				<c:DataTableColumn
-				  label="Next Funding Amount"
-				  name="Reno_Advance_Amount__c"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Reno_Advance_Amount__c.isUpdateable}"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Next Funding Amount"
+              name="Reno_Advance_Amount__c"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Reno_Advance_Amount__c.isUpdateable}"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Advance Amount Funded"
-				  name="Renovation_Advance_Amount_Used__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Advance Amount Funded"
+              name="Renovation_Advance_Amount_Used__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Advance Amount Remaining"
-				  name="Reno_Advance_Amount_Remaining__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Advance Amount Remaining"
+              name="Reno_Advance_Amount_Remaining__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Approved Advance Amount"
-				  name="Approved_Advance_Amount__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Approved Advance Amount"
+              name="Approved_Advance_Amount__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Current Asset Maturity Date"
-				  name="Current_Asset_Maturity_Date__c"
-				  sortable="true"
-				  displayType="date"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Current Asset Maturity Date"
+              name="Current_Asset_Maturity_Date__c"
+              sortable="true"
+              displayType="date"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				label="Remedy Plan"
-				name="Remedy_Plan__c"
-				sortable="true"
-				displayType="select"
-				isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Remedy_Plan__c.isUpdateable}"
-				columnWidth="10"
-				selectOptions="[
+            <c:DataTableColumn
+              label="Remedy Plan"
+              name="Remedy_Plan__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Remedy_Plan__c.isUpdateable}"
+              columnWidth="10"
+              selectOptions="[
 														  {'label': '--Select One--', 'value': ''},
 														  {'label': 'Bring Current', 'value': 'Bring Current'},  
 														  {'label': 'Deed in Lieu', 'value': 'Deed in Lieu' },
@@ -893,229 +1129,230 @@
 														  {'label': 'Special Asset Assignment', 'value': 'Special Asset Assignment'},
 														  {'label': 'Title Claim', 'value': 'Title Claim'},
 														  ]"
-			  	/>
+            />
 
-				<c:DataTableColumn
-				  label="Advance_Fee_formula__c"
-				  name="Advance_Fee_formula__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Advance_Fee_formula__c"
+              name="Advance_Fee_formula__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
+          </aura:set>
 
-			  </aura:set>
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge Active section -->
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if> <!-- End of Bridge Active section -->
+    <aura:if isTrue="{!v.appName == 'Bridge Paid Off'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-		<aura:if isTrue="{!v.appName == 'Bridge Paid Off'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="Loan Status"
+              name="Loan_Status__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Loan Status"
-				  name="Loan_Status__c"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Current PnI"
+              name="Current_P_I__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Current PnI"
-				  name="Current_P_I__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Current UPB"
+              name="Current_UPB__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Current UPB"
-				  name="Current_UPB__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="First Payment Date"
+              name="First_Payment_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="First Payment Date"
-				  name="First_Payment_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Last Payment Date"
+              name="Date_Of_Last_Payment__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Last Payment Date"
-				  name="Date_Of_Last_Payment__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Payoff Recieved Date"
+              name="Payoff_Received_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Payoff Recieved Date"
-				  name="Payoff_Received_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Funded Date"
+              name="First_Funding_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Funded Date"
-				  name="First_Funding_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Hold Time"
+              name="Hold_Time__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Hold Time"
-				  name="Hold_Time__c"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Interest Rate"
+              name="Current_Interest_Rate__c"
+              sortable="true"
+              isEditable="false"
+              displayType="percent"
+              columnWidth="6"
+            />
 
-				<c:DataTableColumn
-				  label="Interest Rate"
-				  name="Current_Interest_Rate__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="percent"
-				  columnWidth="6"
-				/>
+            <c:DataTableColumn
+              label="Payment History"
+              name="Payment_History__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Payment History"
-				  name="Payment_History__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
-				
-				<c:DataTableColumn
-				  label="Reserve Balance"
-				  name="Reserve_Balance__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reserve Balance"
+              name="Reserve_Balance__c"
+              sortable="true"
+              isEditable="false"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Asset Maturity Date"
-				  name="Current_Asset_Maturity_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
+            <c:DataTableColumn
+              label="Asset Maturity Date"
+              name="Current_Asset_Maturity_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
 
-				<c:DataTableColumn
-				  label="Line Maturity Date"
-				  name="Deal__r.Current_Line_Maturity_Date__c"
-				  sortable="true"
-				  isEditable="false"
-				  displayType="date"
-				  columnWidth="8"
-				/>
-			  </aura:set>
+            <c:DataTableColumn
+              label="Line Maturity Date"
+              name="Deal__r.Current_Line_Maturity_Date__c"
+              sortable="true"
+              isEditable="false"
+              displayType="date"
+              columnWidth="8"
+            />
+          </aura:set>
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if> <!-- End of Bridge Paid Off section -->
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge Paid Off section -->
 
-		<aura:if isTrue="{!v.appName == 'Bridge Cancelled'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+    <aura:if isTrue="{!v.appName == 'Bridge Cancelled'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="City"
-				  name="City__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="County"
-				  name="County__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="County"
+              name="County__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="State"
-				  name="State__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Status"
-				  name="Status__c"
-				  sortable="true"
-				  displayType="select"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
-				  columnWidth="7"
-				  selectOptions="[
+            <c:DataTableColumn
+              label="Status"
+              name="Status__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
+              columnWidth="7"
+              selectOptions="[
 																  {'label': '--Select One--', 'value': ''},
 																  {'label': 'Due Diligence', 'value': 'Due Diligence' },
 																  {'label': 'Pending', 'value': 'Pending'},
@@ -1126,142 +1363,143 @@
 																  {'label': 'Cancelled', 'value': 'Cancelled'},
 																  {'label': 'On Hold', 'value': 'On Hold'},
 																  ]"
-				/>
+            />
 
-				<c:DataTableColumn
-				  label="Requested Funding Date"
-				  name="Requested_Funding_Date__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
-				  displayType="date"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Requested Funding Date"
+              name="Requested_Funding_Date__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
+              displayType="date"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Approved Advance Amount"
-				  name="Approved_Advance_Amount__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Approved Advance Amount"
+              name="Approved_Advance_Amount__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Acquisition Price"
-				  name="Acquisition_Price__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Acquisition Price"
+              name="Acquisition_Price__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Appraisal Value"
-				  name="Appraised_Value_Amount__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Appraisal Value"
+              name="Appraised_Value_Amount__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="After Repair Value"
-				  name="After_Repair_Value__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="After Repair Value"
+              name="After_Repair_Value__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Budget"
-				  name="Rehab_Budget__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Budget"
+              name="Rehab_Budget__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Advance_Fee_formula__c"
-				  name="Advance_Fee_formula__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Advance_Fee_formula__c"
+              name="Advance_Fee_formula__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
 
-				<c:DataTableColumn
-				  label="Reno_Advance_Amount_Remaining__c"
-				  name="Reno_Advance_Amount_Remaining__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
-			  </aura:set>
+            <c:DataTableColumn
+              label="Reno_Advance_Amount_Remaining__c"
+              name="Reno_Advance_Amount_Remaining__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
+          </aura:set>
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if> <!-- End of Bridge Cancelled section -->
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge Cancelled section -->
 
-		<aura:if isTrue="{!v.appName == 'Bridge On Hold'}">
-		  <ui:scrollerWrapper>
-			<c:DataTable
-			  aura:id="dataTable"
-			  tableClass="slds-table slds-table--bordered"
-			>
-			  <aura:set attribute="columns">
-				<c:DataTableColumn
-				  label="Reno Type"
-				  name="Renovation_Type_formula__c"
-				  displayType="text"
-				  columnWidth="10"
-				/>
+    <aura:if isTrue="{!v.appName == 'Bridge On Hold'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Reno Type"
+              name="Renovation_Type_formula__c"
+              displayType="text"
+              columnWidth="10"
+            />
 
-				<c:DataTableColumn
-				  label="Street Address"
-				  name="Name"
-				  linkToRecord="Id"
-				  sortable="true"
-				  isEditable="false"
-				  columnWidth="15"
-				/>
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-				<c:DataTableColumn
-				  label="City"
-				  name="City__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="County"
-				  name="County__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="County"
+              name="County__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="State"
-				  name="State__c"
-				  sortable="true"
-				  displayType="text"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              displayType="text"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Status"
-				  name="Status__c"
-				  sortable="true"
-				  displayType="select"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
-				  columnWidth="7"
-				  selectOptions="[
+            <c:DataTableColumn
+              label="Status"
+              name="Status__c"
+              sortable="true"
+              displayType="select"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Status__c.isUpdateable}"
+              columnWidth="7"
+              selectOptions="[
 																  {'label': '--Select One--', 'value': ''},
 																  {'label': 'Due Diligence', 'value': 'Due Diligence' },
 																  {'label': 'Pending', 'value': 'Pending'},
@@ -1272,221 +1510,331 @@
 																  {'label': 'Cancelled', 'value': 'Cancelled'},
 																  {'label': 'On Hold', 'value': 'On Hold'},
 																  ]"
-				/>
+            />
 
-				<c:DataTableColumn
-				  label="Requested Funding Date"
-				  name="Requested_Funding_Date__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
-				  displayType="date"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Requested Funding Date"
+              name="Requested_Funding_Date__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Requested_Funding_Date__c.isUpdateable}"
+              displayType="date"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Approved Advance Amount"
-				  name="Approved_Advance_Amount__c"
-				  sortable="true"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Approved Advance Amount"
+              name="Approved_Advance_Amount__c"
+              sortable="true"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Acquisition Price"
-				  name="Acquisition_Price__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Acquisition Price"
+              name="Acquisition_Price__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Acquisition_Price__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Appraisal Value"
-				  name="Appraised_Value_Amount__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Appraisal Value"
+              name="Appraised_Value_Amount__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Appraised_Value_Amount__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="After Repair Value"
-				  name="After_Repair_Value__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="After Repair Value"
+              name="After_Repair_Value__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.After_Repair_Value__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Reno Budget"
-				  name="Rehab_Budget__c"
-				  sortable="true"
-				  isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
-				  displayType="currency"
-				  columnWidth="7"
-				/>
+            <c:DataTableColumn
+              label="Reno Budget"
+              name="Rehab_Budget__c"
+              sortable="true"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Rehab_Budget__c.isUpdateable}"
+              displayType="currency"
+              columnWidth="7"
+            />
 
-				<c:DataTableColumn
-				  label="Advance_Fee_formula__c"
-				  name="Advance_Fee_formula__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
+            <c:DataTableColumn
+              label="Advance_Fee_formula__c"
+              name="Advance_Fee_formula__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
 
-				<c:DataTableColumn
-				  label="Reno_Advance_Amount_Remaining__c"
-				  name="Reno_Advance_Amount_Remaining__c"
-				  hidden="true"
-				  displayType="hidden"
-				  columnWidth="0"
-				/>
-			  </aura:set>
+            <c:DataTableColumn
+              label="Reno_Advance_Amount_Remaining__c"
+              name="Reno_Advance_Amount_Remaining__c"
+              hidden="true"
+              displayType="hidden"
+              columnWidth="0"
+            />
+          </aura:set>
 
-			  <aura:set attribute="pageNumber" value="1" />
-			  <aura:set attribute="pageSize" value="{!v.pageSize}" />
-			  <aura:set attribute="sortColumnName" value="Name" />
-			  <aura:set attribute="sortDirection" value="desc" />
-			  <aura:set attribute="editMode" value="{!v.editMode}" />
-			</c:DataTable>
-		  </ui:scrollerWrapper>
-		</aura:if> <!-- End of Bridge On Hold section -->
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+    <!-- End of Bridge On Hold section -->
 
-		<aura:set attribute="footer">
-		  <div>
-			<span>
-			  <span
-				class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
-				>First</span
-			  >
-			  <a
-				disabled="true"
-				href="javascript:void(0);"
-				class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
-				onclick="{!c.firstPage}"
-				>First</a
-			  >
-			</span>
-			&nbsp;
-			<span>
-			  <span
-				class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
-				>Previous</span
-			  >
-			  <a
-				href="javascript:void(0);"
-				class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
-				onclick="{!c.prevPage}"
-				>Previous</a
-			  >
-			</span>
-			&nbsp;
-			<span>
-			  <span
-				class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
-				>Next</span
-			  >
-			  <a
-				href="javascript:void(0);"
-				class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
-				onclick="{!c.nextPage}"
-				>Next</a
-			  >
-			</span>
-			&nbsp;
-			<span>
-			  <span
-				class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
-				>Last</span
-			  >
-			  <a
-				href="javascript:void(0);"
-				class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
-				onclick="{!c.lastPage}"
-				>Last</a
-			  >
-			</span>
-		  </div>
-		  <div>
-			{!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
-			((v.currentPage)*v.pageSize lt v.records.length ?
-			(v.currentPage)*v.pageSize : v.records.length) + ' of ' +
-			v.records.length}
-		  </div>
+    <aura:if isTrue="{!v.appName == 'Title and Escrow'}">
+      <ui:scrollerWrapper>
+        <c:DataTable
+          aura:id="dataTable"
+          tableClass="slds-table slds-table--bordered"
+        >
+          <aura:set attribute="columns">
+            <c:DataTableColumn
+              label="Street Address"
+              name="Name"
+              linkToRecord="Id"
+              sortable="true"
+              isEditable="false"
+              columnWidth="15"
+            />
 
-		  <div class="{!v.editMode ? '' : 'slds-hide' }">
-			<lightning:button
-			  variant="neutral"
-			  label="Cancel"
-			  onclick="{!c.toggleEdit}"
-			/>
-			<lightning:button
-			  variant="brand"
-			  label="Save"
-			  onclick="{!c.saveRows}"
-			/>
-		  </div>
-		</aura:set>
-	</lightning:card>
+            <c:DataTableColumn
+              label="City"
+              name="City__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="8"
+            />
 
-	<div
-	role="dialog"
-	aura:id="modal"
-	tabindex="-1"
-	aria-labelledby="header43"
-	class="slds-modal slds-close"
-	>
-	<div class="slds-modal__container">
-	  <div class="slds-modal__header">
-		<button
-		  class="slds-button slds-modal__close slds-button--icon-inverse"
-		  title="Close"
-		>
-		  <span class="slds-assistive-text">Close</span>
-		</button>
-	  </div>
-	  <div class="slds-modal__content slds-p-around--medium">
-		<p>
-		  This advance will exceed the Max Advance Fee. The remaining available
-		  Advance fee is
-		  <ui:outputCurrency value="{!v.record.Advance_Fee_Remaining__c}" />. An
-		  adjustment has been added to this Advance.
-		</p>
-	  </div>
-	  <div class="slds-modal__footer">
-		<button class="slds-button slds-button--neutral" onclick="{!c.close}">
-		  Cancel
-		</button>
-		<button
-		  class="slds-button slds-button--brand"
-		  onclick="{!c.continueAdvance}"
-		>
-		  Continue
-		</button>
-	  </div>
-	</div>
-	</div>
-	<div class="slds-backdrop" aura:id="modal-backdrop"></div>
+            <c:DataTableColumn
+              label="State"
+              name="State__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="8"
+            />
 
-	<!-- <aura:if isTrue="{!v.propertyExtensionOpen}">
+            <c:DataTableColumn
+              label="Zip Code"
+              name="ZipCode__c"
+              sortable="true"
+              isEditable="false"
+              columnWidth="8"
+            />
+
+            <c:DataTableColumn
+              label="Title Company"
+              name="Title_Company__c"
+              sortable="true"
+              displayType="lookup"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Title_Company__c.isUpdateable}"
+              lookup="{
+		        							sobjectType : 'Account',
+		        							whereClause : '',
+		        							sobjectLabel : 'Title Companies',
+		        							dependentField: '',
+                          fieldName: 'Title_Company__c'
+		        						}"
+            />
+						<c:DataTableColumn
+              label="Title Company Contact"
+              name="Title_Company_Contact__c"
+              sortable="true"
+              displayType="lookup"
+              isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Title_Company_Contact__c.isUpdateable}"
+              lookup="{
+		        							sobjectType : 'Contact',
+		        							whereClause : 'AccountId = {Title_Company__c}',
+		        							sobjectLabel : 'Title Company Contacts',
+		        							dependentField: 'Title_Company__c',
+                          fieldName: 'Title_Company_Contact__c'
+		        						}"
+            />
+						<c:DataTableColumn
+						label="Escrow Company"
+						name="Escrow_Agent__c"
+						sortable="true"
+						displayType="lookup"
+						isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Escrow_Agent__c.isUpdateable}"
+						lookup="{
+												sobjectType : 'Account',
+												whereClause : '',
+												sobjectLabel : 'Escrow Companies',
+												dependentField: '',
+                        fieldName: 'Escrow_Agent__c'
+											}"
+					/>
+					<c:DataTableColumn
+						label="Escrow Company Contact"
+						name="Escrow_Company_Contact__c"
+						sortable="true"
+						displayType="lookup"
+						isEditable="{! empty(v.permissionsMap) ? false : v.permissionsMap.Escrow_Company_Contact__c.isUpdateable}"
+						lookup="{
+												sobjectType : 'Contact',
+												whereClause : 'AccountId = {Escrow_Agent__c}',
+												sobjectLabel : 'Escrow Company Contacts',
+												dependentField: 'Escrow_Agent__c',
+                        fieldName: 'Escrow_Company_Contact__c'
+											}"
+					/>
+          </aura:set>
+
+          <!-- optional -->
+
+          <aura:set attribute="pageNumber" value="1" />
+          <aura:set attribute="pageSize" value="{!v.pageSize}" />
+          <aura:set attribute="sortColumnName" value="Name" />
+          <aura:set attribute="sortDirection" value="desc" />
+          <aura:set attribute="editMode" value="{!v.editMode}" />
+        </c:DataTable>
+      </ui:scrollerWrapper>
+    </aura:if>
+
+    <aura:set attribute="footer">
+      <div>
+        <span>
+          <span
+            class="{!v.currentPage != 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >First</span
+          >
+          <a
+            disabled="true"
+            href="javascript:void(0);"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.firstPage}"
+            >First</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage > 1 ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Previous</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.prevPage}"
+            >Previous</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage lt v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Next</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.nextPage}"
+            >Next</a
+          >
+        </span>
+        &nbsp;
+        <span>
+          <span
+            class="{!v.currentPage != v.maxPage ? 'slds-hide' : 'slds-text-color--weak'}"
+            >Last</span
+          >
+          <a
+            href="javascript:void(0);"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            onclick="{!c.lastPage}"
+            >Last</a
+          >
+        </span>
+      </div>
+      <div>
+        {!(v.currentPage - 1)*v.pageSize + 1 + ' - ' +
+        ((v.currentPage)*v.pageSize lt v.records.length ?
+        (v.currentPage)*v.pageSize : v.records.length) + ' of ' +
+        v.records.length}
+      </div>
+
+      <div class="{!v.editMode ? '' : 'slds-hide' }">
+        <lightning:button
+          variant="neutral"
+          label="Cancel"
+          onclick="{!c.toggleEdit}"
+        />
+        <lightning:button
+          variant="brand"
+          label="Save"
+          onclick="{!c.saveRows}"
+        />
+      </div>
+    </aura:set>
+  </lightning:card>
+
+  <div
+    role="dialog"
+    aura:id="modal"
+    tabindex="-1"
+    aria-labelledby="header43"
+    class="slds-modal slds-close"
+  >
+    <div class="slds-modal__container">
+      <div class="slds-modal__header">
+        <button
+          class="slds-button slds-modal__close slds-button--icon-inverse"
+          title="Close"
+        >
+          <span class="slds-assistive-text">Close</span>
+        </button>
+      </div>
+      <div class="slds-modal__content slds-p-around--medium">
+        <p>
+          This advance will exceed the Max Advance Fee. The remaining available
+          Advance fee is
+          <ui:outputCurrency value="{!v.record.Advance_Fee_Remaining__c}" />. An
+          adjustment has been added to this Advance.
+        </p>
+      </div>
+      <div class="slds-modal__footer">
+        <button class="slds-button slds-button--neutral" onclick="{!c.close}">
+          Cancel
+        </button>
+        <button
+          class="slds-button slds-button--brand"
+          onclick="{!c.continueAdvance}"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="slds-backdrop" aura:id="modal-backdrop"></div>
+
+  <!-- <aura:if isTrue="{!v.propertyExtensionOpen}">
 		<c:CreatePropertyExtension
 								   modalOpen="{!v.propertyExtensionOpen}"
 								   recordId="{!v.recordId}"
 								   />
 	</aura:if> -->
-	<c:propertyExtensionNew
-	aura:id="propertyExtensionNew"
-	></c:propertyExtensionNew>
+  <c:propertyExtensionNew
+    aura:id="propertyExtensionNew"
+  ></c:propertyExtensionNew>
 
-	<aura:if isTrue="false" aura:id="advanceDocGen">
-	<c:OpenAdvanceDocument
-	  recordId="{!v.recordId}"
-	  sObjectName="Opportunity"
-	  propertyIds="{!v.propertyIds}"
-	/>
-	<div class="slds-backdrop slds-backdrop_open"></div>
-	</aura:if>
+  <aura:if isTrue="false" aura:id="advanceDocGen">
+    <c:OpenAdvanceDocument
+      recordId="{!v.recordId}"
+      sObjectName="Opportunity"
+      propertyIds="{!v.propertyIds}"
+    />
+    <div class="slds-backdrop slds-backdrop_open"></div>
+  </aura:if>
 
-	<c:util aura:id="util" />
+  <c:util aura:id="util" />
 </aura:component>

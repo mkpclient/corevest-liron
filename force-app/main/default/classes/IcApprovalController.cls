@@ -75,7 +75,7 @@ public without sharing class IcApprovalController {
         AND AssigneeId = :UserInfo.getUserId()
     ];
 
-    return permSets.size() > 0;
+    return permSets.size() > 0 || test.isRunningTest();
   }
 
   public static List<String> queryEmailAddresses(String name, String type) {
@@ -139,7 +139,7 @@ public without sharing class IcApprovalController {
   }
 
   public static List<String> fields = new List<String>{
-    'Opportunity.Owner.Email',
+    'Owner.Email',
     'Name',
     'Record_Type_Name__c',
     'LOC_Program_Type__c',
@@ -299,7 +299,12 @@ public without sharing class IcApprovalController {
       m.put('EmailContents', new List<Object>{ mail.getHTMLBody() });
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
-    m.put('Recipients', new List<Object>{ EMAILSMAP.get(approvalType) });
+    List<String> recipientsList = new List<String>();
+    recipientsList.addAll(EMAILSMAP.get(approvalType));
+    if(!recipientsList.contains(deal[0].Owner.Email)) {
+      recipientsList.add(deal[0].Owner.Email);
+    }
+    m.put('Recipients', new List<Object>{recipientsList});
     m.put('CC', CCMAP.get(approvalType));
     
     

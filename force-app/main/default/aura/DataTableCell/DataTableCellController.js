@@ -8,7 +8,7 @@
 
         console.log('rows:::: datatable cell:::',row);
         console.log('Clear_Result__c:::: datatable cell:::',row['Clear_Result__r']);
-		
+
         var clearResult = row['Clear_Result__r'];
         if(clearResult != '' && clearResult != null){
             //component.set('v.class','slds-alert_error');
@@ -20,6 +20,9 @@
         }
         
         var column = component.get( 'v.column' );
+        if(!$A.util.isEmpty(component.get("v.typeAttributes")) && component.get("v.typeAttributes") != "text") {
+            component.set("v.typeAttributesMapList", JSON.parse(component.get("v.typeAttributes")))
+        }
         if($A.util.isEmpty(column.get('v.isReadable'))) {
             component.set('v.isReadable', true);
         } else { 
@@ -149,7 +152,9 @@
 
         //var autocomplete_attributes
         if(column.get('v.displayType') == 'lookup'){
-            component.set('v.lookup', JSON.parse(JSON.stringify(column.get('v.lookup'))) );
+            let lookupParsed = JSON.parse(JSON.stringify(column.get('v.lookup')));
+            // console.log(lookupParsed);
+            component.set('v.lookup', lookupParsed);
             //console.log('--v.lookup--');
             //console.log(component.get('v.lookup'));
 
@@ -171,8 +176,25 @@
             //console.log(currentValue);
 
             helper.bindValue(component, currentValue);
+           
         }
 
+    },
+    handleRowChange: function(component, event, helper) {
+        const fieldPath = component.get('v.column').get('v.name');
+        const currentValue =  component.get('v.row');
+        const fields = fieldPath.split(".");
+        let newVal = "";
+        let oldVal = component.get("v.value");
+        if(fields.length > 1) {
+            newVal = currentValue[fields[0]][fields[1]];
+        } else {
+            newVal = currentValue[fields[0]];
+        }
+
+        if(newVal !== oldVal) {
+            component.set("v.value", newVal)
+        }
     },
 
     toggleEdit : function(component, event, helper){

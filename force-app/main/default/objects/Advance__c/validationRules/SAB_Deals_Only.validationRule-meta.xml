@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SAB_Deals_Only</fullName>
+    <active>false</active>
+    <description>DEACTIVATED buggy - Prevents SAB-specific advance fields from being used on advances related to non-SAB deals</description>
+    <errorConditionFormula>AND(
+  NOT(Deal_RecordType__c = &quot;Single_Asset_Bridge_Loan&quot;),
+  NOT(ISNULL(TEXT(Loan_Document_Status__c)))
+)</errorConditionFormula>
+    <errorDisplayField>Loan_Document_Status__c</errorDisplayField>
+    <errorMessage>Loan Document Status is for advances related to SAB deals only.</errorMessage>
+</ValidationRule>

@@ -13,6 +13,10 @@
         <formula>Property__c.Deal__c</formula>
     </fieldOverrides>
     <fieldOverrides>
+        <field>Order_Received_Date__c</field>
+        <formula>NOW()</formula>
+    </fieldOverrides>
+    <fieldOverrides>
         <field>Property_Address__c</field>
         <formula>Property__c.Name</formula>
     </fieldOverrides>
@@ -41,6 +45,11 @@
                 <emptySpace>false</emptySpace>
                 <field>Vendor_Ordered_From__c</field>
                 <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Appraiser__c</field>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>

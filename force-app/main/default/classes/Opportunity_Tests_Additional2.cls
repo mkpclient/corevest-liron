@@ -2,6 +2,7 @@
 public class Opportunity_Tests_Additional2 {
   @testsetup
   static void datasetup() {
+    Test_Helper.createDealLoanNumber();
     List<Account> al = new List<Account>();
     Account a0 = new Account();
     a0.Name = 'Berkadia Commercial Mortgage';
@@ -255,6 +256,70 @@ public class Opportunity_Tests_Additional2 {
       FROM opportunity
       LIMIT 5
     ];
+
+    List<Loan_Version__c> loanVersionList = new List<Loan_Version__c>();
+    Loan_Version__c loanVersion = new Loan_Version__c();
+    loanVersion.Deal__c = o[0].id;
+    loanVersion.Finalized__c = True;
+    loanVersion.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion);
+      
+    Loan_Version__c loanVersion1 = new Loan_Version__c();    
+    loanVersion1.Deal__c = o[0].id;
+    loanVersion1.Finalized__c = True;    
+    loanVersion1.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion1);      
+
+    Loan_Version__c loanVersion2 = new Loan_Version__c();
+    loanVersion2.Deal__c = o[1].id;
+    loanVersion2.Finalized__c = True;
+    loanVersion2.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion2);
+      
+    Loan_Version__c loanVersion3 = new Loan_Version__c();    
+    loanVersion3.Deal__c = o[1].id;
+    loanVersion3.Finalized__c = True;    
+    loanVersion3.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion3);     
+
+    Loan_Version__c loanVersion4 = new Loan_Version__c();
+    loanVersion4.Deal__c = o[2].id;
+    loanVersion4.Finalized__c = True;
+    loanVersion4.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion4);
+      
+    Loan_Version__c loanVersion5 = new Loan_Version__c();    
+    loanVersion5.Deal__c = o[2].id;
+    loanVersion5.Finalized__c = True;    
+    loanVersion5.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion5);   
+
+    Loan_Version__c loanVersion6 = new Loan_Version__c();
+    loanVersion6.Deal__c = o[3].id;
+    loanVersion6.Finalized__c = True;
+    loanVersion6.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion6);
+      
+    Loan_Version__c loanVersion7 = new Loan_Version__c();    
+    loanVersion7.Deal__c = o[3].id;
+    loanVersion7.Finalized__c = True;    
+    loanVersion7.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion7);   
+
+    Loan_Version__c loanVersion8 = new Loan_Version__c();
+    loanVersion8.Deal__c = o[4].id;
+    loanVersion8.Finalized__c = True;
+    loanVersion8.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Loan_Agreement'].Id;      
+    loanVersionList.add(loanVersion8);
+      
+    Loan_Version__c loanVersion9 = new Loan_Version__c();    
+    loanVersion9.Deal__c = o[4].id;
+    loanVersion9.Finalized__c = True;    
+    loanVersion9.RecordTypeId = [SELECT Id FROM RecordType WHERE sobjecttype = 'Loan_Version__c' AND DeveloperName = 'Schedule_of_Lender_Cost'].Id;      
+    loanVersionList.add(loanVersion9);       
+      
+	Insert loanVersionList;
+     
     ///////////////////////////////////////////
     /*List<Account> berkadiaAccs = [
       SELECT Id
@@ -308,19 +373,42 @@ public class Opportunity_Tests_Additional2 {
     //System.debug('bridgeOppsToUpdate = '+bridgeOppsToUpdate)     ;
 
     o[0].StageName = 'Closed Won';
+    o[0].Final_Loan_Amount__c = 100;
+    o[0].Final_Swap__c = 1;
+    o[0].Final_Spread__c = 	1;
+    o[0].CAF_Upfront_Fee__c = 2;
+    o[0].X2nd_Underwriter__c = UserInfo.getUserId();
     update o[0];
     o[1].StageName = 'Closed Won';
+    o[1].Final_Loan_Amount__c = 100;
+    o[1].Final_Swap__c = 1;
+    o[1].Final_Spread__c = 	1;    
     update o[1];
-    o[1].StageName = 'Closed Won';
+    o[2].StageName = 'Closed Won';
+    o[2].Final_Loan_Amount__c = 100;
+    o[2].Final_Swap__c = 1;
+    o[2].Final_Spread__c = 	1;       
     update o[2];
+    o[3].Final_Loan_Amount__c = 100;
+    o[3].Final_Swap__c = 1;
+    o[3].Final_Spread__c = 	1;       
     o[3].StageName = 'Closed Won';
     update o[3];
-    o[4].StageName = 'Closed Won';
-    update o[4];
+   /* o[4].StageName = 'Closed Won';
+    o[4].Final_Loan_Amount__c = 100;
+    o[5].Final_Swap__c = 1;
+    o[4].Final_Spread__c = 	1;       
+    update o[4];*/
 
     opportunity_Helper.attachVendors(closedWonIds);
+    opportunity_Helper.rejectDeal(o[0]);
+    opportunity_Helper.createApprovalHistory('Term Sub-IC', o[0]);
+    opportunity_Helper.emailReversedIcApprovalAlert(new Map<Id,Opportunity>{o[0].Id => o[0]});
     // opportunity_Helper.createApprovalHistory(closedWonIds);
     // opportunity_Helper.emailReversedIcApprovalAlert(closedWonIds);
+    // raj attachDealContactIFClosedWON
+    // raj getMapFromOppIdToDealDocs
+
     Test.stopTest();
   }
 }

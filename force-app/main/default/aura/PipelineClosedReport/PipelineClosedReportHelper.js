@@ -24,6 +24,7 @@
         'Spread_BPS__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName__c',
         'Current_Loan_Amount__c',
         'OwnerId__c',
@@ -57,6 +58,7 @@
         'Spread_BPS__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName',
         'Current_Loan_Amount__c',
         'Owner.LastName',
@@ -88,6 +90,7 @@
         'Final_Spread__c',
         'Floor__c',
         'State_Percentages__c',
+        'Rate_Lock_Picklist__c',
         'StageName',
         'Loan_Size__c',
         'Final_Loan_Amount__c',
@@ -182,16 +185,6 @@
     
     populateReportPreviousYears : function(yearsObj, columnNames, workbook, sheetNum, cellStart, offsetRows, offsetColumns, fieldToSort, rowStartLetter, breakpt1, breakpt2, rowEndLetter){
         
-        /*console.log('RS999 yearsObj : '); 
-        console.log(yearsObj);
-        console.log('RS999 columnNames : ');
-        console.log(columnNames);
-        console.log('RS999 workbook :');
-        console.log(workbook);
-        console.log('RS999 offsetColumns :');
-        console.log(offsetColumns);
-        console.log('RS999 rowEndLetter :');           
-        console.log(rowEndLetter);*/
         
         var years = [];
         for(year in yearsObj){
@@ -213,7 +206,6 @@
             //console.log('this is inside last row');
             //console.log(yearSum);
             //console.log('this is columnNames.length');
-           // console.log('RS999 offsetColumns + columnNames.length :');             
            // console.log(offsetColumns + columnNames.length);
             workbook.sheet(sheetNum).row(offsetRows + i).cell(offsetColumns).style('leftBorder', {style: 'thick', color: '000'});
         workbook.sheet(sheetNum).row(offsetRows + i).cell(offsetColumns + (columnNames.length - 1)).style('rightBorder', {style: 'thick', color: '000'});
@@ -269,8 +261,6 @@ workbook.sheet(sheetNum).row(offsetRows + i).cell(breakpt2).style('leftBorder', 
 workbook.sheet(sheetNum).row(offsetRows + i).cell(breakpt1).style('rightBorder', {style: 'thick', color: '000'});
 workbook.sheet(sheetNum).row(offsetRows + i).cell(rowEndLetter).style('rightBorder', {style: 'thick', color: '000'});
 
-    console.log('RS999 columnNames.length');
-	console.log(columnNames.length);
 for (var j = 0; j < columnNames.length; j++){
     
     var style = {
@@ -320,11 +310,7 @@ for (var j = 0; j < columnNames.length; j++){
         }
     }
    
-    console.log('RS999 columnNames[j]');
-    console.log(columnNames[j]);    
-    console.log('RS999 yearsObj[year][i][columnNames[j]');
-    console.log(yearsObj[year][i][columnNames[j]]);
-                      
+                     
     if(columnNames[j].split('.').length == 2){
         var f = columnNames[j].split('.');
         var v = yearsObj[year][i][f[0]];
@@ -360,8 +346,7 @@ return offsetRows;
         var sheet0 = component.get('v.sheetPipeline');
         var sheet1 = component.get('v.sheetClosed');
         
-       // Console.log('RS999 sheet0 :' +sheet0);
-       //raj Console.log('RS999 sheet1 :' +sheet1);        
+     
         
          console.log('this is the component pipeline sheet');
          console.log(sheet0);
@@ -410,22 +395,22 @@ return offsetRows;
                 var offsetRows = 3, offsetPipeline = 3, offsetClosed = 3;
                 
                 if (sheet0[currentYear]){
-                //console.log('RS999 helper.PIPELINE_FIELDS');
+
                 console.log(helper.PIPELINE_FIELDS);
-                offsetPipeline = helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 12, offsetRows, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AB', 'AD', 'AF');
+                offsetPipeline = helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 12, offsetRows, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AC', 'AE', 'AG');
             }
                   
                   if (sheet1[currentYear]){
-               // console.log('RS999 helper.CLOSED_FIELDS');
+
                 console.log(helper.CLOSED_FIELDS);                
-                offsetClosed = helper.populateReportPreviousYears(sheet1[currentYear], helper.CLOSED_FIELDS, workbook, 1, 14, offsetRows, offsetColumns, 'CloseDate', 'C', 'AA', 'AC', 'AE');
+                offsetClosed = helper.populateReportPreviousYears(sheet1[currentYear], helper.CLOSED_FIELDS, workbook, 1, 14, offsetRows, offsetColumns, 'CloseDate', 'C', 'AB', 'AD', 'AF');
             }
-                //console.log('RS999 helper.PIPELINE_FIELDS');
+
                 console.log(helper.PIPELINE_FIELDS);  
-                //console.log('RS999 helper.CLOSED_FIELDS');
+
                 console.log(helper.CLOSED_FIELDS);            
-            var offsetPipeline = helper.populateReportPreviousYears(dbPipelinePrevious, helper.PIPELINE_FIELDS, workbook, 0, 12, offsetPipeline, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AB', 'AD', 'AF');
-            var offsetClosed = helper.populateReportPreviousYears(dbClosedPrevious, helper.CLOSED_FIELDS, workbook, 1, 14, offsetClosed, offsetColumns, 'CloseDate', 'C', 'AA', 'AC', 'AE');
+            var offsetPipeline = helper.populateReportPreviousYears(dbPipelinePrevious, helper.PIPELINE_FIELDS, workbook, 0, 12, offsetPipeline, offsetColumns, 'Anticipated_Closing_Date__c', 'B', 'AC', 'AE', 'AG');
+            var offsetClosed = helper.populateReportPreviousYears(dbClosedPrevious, helper.CLOSED_FIELDS, workbook, 1, 14, offsetClosed, offsetColumns, 'CloseDate', 'C', 'AB', 'AD', 'AF');
             
             // if (sheet0[currentYear]){
             // 	helper.populateReportPreviousYears(sheet0[currentYear], helper.PIPELINE_FIELDS, workbook, 0, 13, offsetPipeline, offsetColumns, 'CloseDate', 'B', 'S', 'U', 'W');

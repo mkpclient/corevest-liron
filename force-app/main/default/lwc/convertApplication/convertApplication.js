@@ -51,7 +51,7 @@ export default class ConvertApplication extends NavigationMixin(
   }
 
   get showRecordTypeSelection() {
-    return this.record.Loan_Type__c == "Build for Rent";
+    return this.record.Loan_Type__c == "Bridge and Rental";
   }
 
   get options() {
@@ -112,7 +112,7 @@ export default class ConvertApplication extends NavigationMixin(
     //console.log(params);
 
     let recordTypes = [];
-    if (this.record.Loan_Type__c == "Build for Rent") {
+    if (this.record.Loan_Type__c == "Bridge and Rental") {
       const checkboxGroup = this.template.querySelector(
         "lightning-checkbox-group"
       );

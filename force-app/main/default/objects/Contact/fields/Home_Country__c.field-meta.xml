@@ -109,11 +109,19 @@
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>French Polynesia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Germany</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Greece</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Guatemala</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
@@ -194,6 +202,10 @@
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>
             <valueName>Singapore</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>South Africa</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Yes</controllingFieldValue>

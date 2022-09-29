@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Floating_Interest_Rate_No_Req_Rate</fullName>
+    <active>true</active>
+    <description>Prevents changes to Requested Rate if Floating is selected for Requested Interest Type.</description>
+    <errorConditionFormula>AND(
+  Record_Type_Name__c = &quot;LOC_Loan&quot;,
+  TEXT( LOC_Loan_Type__c ) = &quot;Credit Line&quot;,
+  TEXT( Requested_Interest_Type__c ) = &quot;Floating&quot;,
+  NOT( ISBLANK( Requested_Rate_1_9_Months__c ) )
+)</errorConditionFormula>
+    <errorDisplayField>Requested_Rate_1_9_Months__c</errorDisplayField>
+    <errorMessage>A Floating Interest Rate cannot have a Requested Rate.</errorMessage>
+</ValidationRule>

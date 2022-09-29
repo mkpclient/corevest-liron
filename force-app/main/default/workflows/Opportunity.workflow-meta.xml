@@ -50,6 +50,10 @@
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
         <senderType>CurrentUser</senderType>
         <template>Submit_to_UW_Approval_Email_Templates/A_Deal_has_been_submitted_for_UW_Approval</template>
     </alerts>
@@ -131,12 +135,11 @@
     </alerts>
     <alerts>
         <fullName>Berkadia_Onboarding_Documents</fullName>
-        <ccEmails>newloan.boarding@berkadia.com</ccEmails>
         <description>Berkadia Onboarding Documents Email Alert</description>
         <protected>false</protected>
         <recipients>
-            <field>LastModifiedById</field>
-            <type>userLookup</type>
+            <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Process_Builder_Emails/Berkadia_Onboarding_Documents</template>
@@ -169,6 +172,10 @@
         </recipients>
         <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -384,46 +391,6 @@
         <template>Process_Builder_Emails/Kickoff_Date_Assigned</template>
     </alerts>
     <alerts>
-        <fullName>Deal_Subject_to_Reprice</fullName>
-        <ccEmails>michael.peerson@cvest.com.invalid</ccEmails>
-        <ccEmails>conor.flannery@redwoodtrust.com.invalid</ccEmails>
-        <description>Deal Subject to Reprice</description>
-        <protected>false</protected>
-        <recipients>
-            <type>owner</type>
-        </recipients>
-        <recipients>
-            <recipient>amelia.cunningham@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
-            <recipient>brad.chmura@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
-            <recipient>dan.federico@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
-            <recipient>micaela.lumpkin@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
-            <field>Closer__c</field>
-            <type>userLookup</type>
-        </recipients>
-        <recipients>
-            <field>Co_Originator__c</field>
-            <type>userLookup</type>
-        </recipients>
-        <recipients>
-            <field>Loan_Coordinator__c</field>
-            <type>userLookup</type>
-        </recipients>
-        <senderType>CurrentUser</senderType>
-        <template>Process_Builder_Emails/Deal_Subject_to_Reprice</template>
-    </alerts>
-    <alerts>
         <fullName>Deal_Withdrawn</fullName>
         <description>Deal Withdrawn</description>
         <protected>false</protected>
@@ -458,6 +425,10 @@
         </recipients>
         <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -594,9 +565,10 @@
     </alerts>
     <alerts>
         <fullName>Expense_Deposit_Line_of_Credit</fullName>
-        <ccEmails>cafaccounting@cvest.com.invalid</ccEmails>
-        <ccEmails>Paul.Basmajian@cvest.com.invalid</ccEmails>
-        <ccEmails>alexander.acevedo@cvest.com.invalid</ccEmails>
+        <ccEmails>cafaccounting@cvest.com</ccEmails>
+        <ccEmails>Paul.Basmajian@cvest.com</ccEmails>
+        <ccEmails>alexander.acevedo@cvest.com</ccEmails>
+        <ccEmails>amelia.cunningham@cvest.com</ccEmails>
         <description>Expense Deposit – Line of Credit</description>
         <protected>false</protected>
         <recipients>
@@ -604,15 +576,7 @@
             <type>opportunityTeam</type>
         </recipients>
         <recipients>
-            <recipient>amelia.cunningham@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <recipient>jimmy.rojas@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
-            <recipient>lisha.mcdaniel@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -620,7 +584,7 @@
     </alerts>
     <alerts>
         <fullName>IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@d-1h6fo5wxt0y3slmisit0672ek6t92j2w7ucay5ovbfzo77dwtw.8b-4fyguai.cs215.apex.sandbox.salesforce.com</ccEmails>
         <description>IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
@@ -628,10 +592,6 @@
             <type>group</type>
         </recipients>
         <recipients>
-            <recipient>2nd Underwriter</recipient>
-            <type>opportunityTeam</type>
-        </recipients>
-        <recipients>
             <recipient>Closer</recipient>
             <type>opportunityTeam</type>
         </recipients>
@@ -677,6 +637,10 @@
         <recipients>
             <recipient>saritha.bhumani@cvest.com</recipient>
             <type>user</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
         </recipients>
         <senderAddress>caf-apps@cvest.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
@@ -684,16 +648,12 @@
     </alerts>
     <alerts>
         <fullName>IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@d-1h6fo5wxt0y3slmisit0672ek6t92j2w7ucay5ovbfzo77dwtw.8b-4fyguai.cs215.apex.sandbox.salesforce.com</ccEmails>
         <description>IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>
             <recipient>Term_IC_Approval</recipient>
             <type>group</type>
-        </recipients>
-        <recipients>
-            <recipient>2nd Underwriter</recipient>
-            <type>opportunityTeam</type>
         </recipients>
         <recipients>
             <recipient>Closer</recipient>
@@ -741,6 +701,10 @@
         <recipients>
             <recipient>saritha.bhumani@cvest.com</recipient>
             <type>user</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
         </recipients>
         <senderAddress>caf-apps@cvest.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
@@ -754,6 +718,10 @@
         <protected>false</protected>
         <recipients>
             <recipient>brad.chmura@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -799,7 +767,7 @@
     </alerts>
     <alerts>
         <fullName>Mini_Sub_IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@1h7vjrtz3932032urrgucghf8yklcdckp15obk15qwkodb8ejn.j-l4sceas.na159.apex.salesforce.com</ccEmails>
         <description>Mini Sub IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
@@ -875,7 +843,7 @@
     </alerts>
     <alerts>
         <fullName>Mini_Sub_IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@1h7vjrtz3932032urrgucghf8yklcdckp15obk15qwkodb8ejn.j-l4sceas.na159.apex.salesforce.com</ccEmails>
         <description>Mini Sub IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>
@@ -1042,10 +1010,6 @@
             <type>group</type>
         </recipients>
         <recipients>
-            <recipient>2nd Underwriter</recipient>
-            <type>opportunityTeam</type>
-        </recipients>
-        <recipients>
             <recipient>Closer</recipient>
             <type>opportunityTeam</type>
         </recipients>
@@ -1075,6 +1039,10 @@
         <recipients>
             <recipient>lisha.mcdaniel@cvest.com</recipient>
             <type>user</type>
+        </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Pricing_Approval_Email_Templates/Pricing_Approval_Email</template>
@@ -1133,7 +1101,15 @@
         <description>SAB Deal enters Underwriting</description>
         <protected>false</protected>
         <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>stephanie.gibson@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
@@ -1185,16 +1161,12 @@
     </alerts>
     <alerts>
         <fullName>Sub_IC_Approved_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@1h7vjrtz3932032urrgucghf8yklcdckp15obk15qwkodb8ejn.j-l4sceas.na159.apex.salesforce.com</ccEmails>
         <description>Sub IC Approved Alert</description>
         <protected>false</protected>
         <recipients>
             <recipient>Term_Sub_IC</recipient>
             <type>group</type>
-        </recipients>
-        <recipients>
-            <recipient>2nd Underwriter</recipient>
-            <type>opportunityTeam</type>
         </recipients>
         <recipients>
             <recipient>Closer</recipient>
@@ -1243,22 +1215,22 @@
             <recipient>saritha.bhumani@cvest.com</recipient>
             <type>user</type>
         </recipients>
+        <recipients>
+            <field>X2nd_Underwriter__c</field>
+            <type>userLookup</type>
+        </recipients>
         <senderAddress>caf-apps@cvest.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Ic_Memo_Approval_Emails/IC_Approval_Email</template>
     </alerts>
     <alerts>
         <fullName>Sub_IC_Rejected_Alert</fullName>
-        <ccEmails>icapprovalhandler@k-wn74jpiey1q7dxwd9dzqamgam1zz6qekbighhgv7m5rguvzjw.78-4apseaa.cs213.apex.sandbox.salesforce.com</ccEmails>
+        <ccEmails>icapprovalhandler@1h7vjrtz3932032urrgucghf8yklcdckp15obk15qwkodb8ejn.j-l4sceas.na159.apex.salesforce.com</ccEmails>
         <description>Sub IC Rejected Alert</description>
         <protected>false</protected>
         <recipients>
             <recipient>Term_Sub_IC</recipient>
             <type>group</type>
-        </recipients>
-        <recipients>
-            <recipient>2nd Underwriter</recipient>
-            <type>opportunityTeam</type>
         </recipients>
         <recipients>
             <recipient>Closer</recipient>
@@ -1362,11 +1334,19 @@
             <type>owner</type>
         </recipients>
         <recipients>
+            <recipient>behnam.hoss@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
             <recipient>brad.chmura@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
@@ -1393,6 +1373,7 @@
         <ccEmails>Paul.Basmajian@cvest.com.invalid</ccEmails>
         <ccEmails>cafbridgepostclosing@cvest.com.invalid</ccEmails>
         <ccEmails>alexander.acevedo@cvest.com.invalid</ccEmails>
+        <ccEmails>amelia.cunningham@cvest.com.invalid</ccEmails>
         <description>UCC1 Filing Request</description>
         <protected>false</protected>
         <recipients>
@@ -1431,6 +1412,10 @@
         </recipients>
         <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>dan.federico@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
@@ -1733,7 +1718,7 @@
     </fieldUpdates>
     <fieldUpdates>
         <fullName>Stage_to_Issue_Term_Sheet</fullName>
-        <description>Updates the Stage to Issue Term Sheet Issued</description>
+        <description>Updates the Stage to Issue Term Sheet/Order Appraisal</description>
         <field>StageName</field>
         <literalValue>Term Sheet Issued</literalValue>
         <name>Stage to Issue Term Sheet</name>
@@ -2219,16 +2204,8 @@ Then update Awaiting_Kickoff_Call__c to false</description>
             <type>Alert</type>
         </actions>
         <active>false</active>
-        <description>Sends email alerts for Expense Deposit and UCC1 Filing Request</description>
-        <formula>AND(
-ISCHANGED ( StageName ),
-
-TEXT( StageName ) = &quot;Closed Won&quot;,
-
-NOT(ISPICKVAL(PRIORVALUE( StageName ), &quot;Expired&quot;)),
-
-TEXT ( LOC_Loan_Type__c ) = &quot;Credit Line&quot;
-)</formula>
+        <description>Deactivated: see flow Deal-Edit-Closed Won. Sends email alerts for Expense Deposit and UCC1 Filing Request when a bridge LOC is Closed Won (also prevents resending of this alert if an Expired deal is changed back to Closed Won)</description>
+        <formula>AND( ISCHANGED ( StageName ),  TEXT( StageName ) = &quot;Closed Won&quot;,  NOT(ISPICKVAL(PRIORVALUE( StageName ), &quot;Expired&quot;)),  TEXT ( LOC_Loan_Type__c ) = &quot;Credit Line&quot; )</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
@@ -2348,7 +2325,7 @@ Based on Total Property field on Deal.</description>
         <criteriaItems>
             <field>Opportunity.StageName</field>
             <operation>notEqual</operation>
-            <value>UW Hold</value>
+            <value>UW Hold,Processing Hold</value>
         </criteriaItems>
         <criteriaItems>
             <field>Opportunity.In_Process_of_Withdrawn_or_Rejected__c</field>
@@ -2421,56 +2398,6 @@ Based on Total Property field on Deal.</description>
             <value>NULL</value>
         </criteriaItems>
         <description>Updates the Deal&apos;s Internal Referral Fee field to 20% if the Internal Referral field is populated.</description>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
-    <rules>
-        <fullName>Update SAR Deal to Closed Won</fullName>
-        <actions>
-            <name>Update_to_Stage_to_Closed_Won</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>false</active>
-        <criteriaItems>
-            <field>Opportunity.Type</field>
-            <operation>equals</operation>
-            <value>Single Rental Loan</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.StageName</field>
-            <operation>equals</operation>
-            <value>Underwriting</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.Loan_Status_SR__c</field>
-            <operation>equals</operation>
-            <value>Funded,Purchased</value>
-        </criteriaItems>
-        <description>Updates SAR Deals to Closed Won automatically.</description>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
-    <rules>
-        <fullName>Update SAR Deal to Withdrawn</fullName>
-        <actions>
-            <name>Update_Deal_Stage_to_Withdrawn</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>false</active>
-        <criteriaItems>
-            <field>Opportunity.Type</field>
-            <operation>equals</operation>
-            <value>Single Rental Loan</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.StageName</field>
-            <operation>equals</operation>
-            <value>Underwriting</value>
-        </criteriaItems>
-        <criteriaItems>
-            <field>Opportunity.Loan_Status_SR__c</field>
-            <operation>equals</operation>
-            <value>Cancelled,Denied,Withdrawn,Closed</value>
-        </criteriaItems>
-        <description>Updates SAR Deals to Withdrawn automatically.</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>

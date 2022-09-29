@@ -4,8 +4,8 @@
     <description>Sponsor&apos;s Monthly Payment</description>
     <externalId>false</externalId>
     <formula>IF( TEXT(Term_Loan_Type_Months__c) =  TEXT(IO_Term__c),
-  Final_Loan_Amount__c * Indicative_Rate__c / 12 * 365 / 360,
-  Final_Loan_Amount__c * Indicative_Rate__c / 12 * 365 / 360)</formula>
+  Final_Loan_Amount__c * Indicative_Rate_Calc__c / 12 * 365 / 360,
+  Final_Loan_Amount__c * Indicative_Rate_Calc__c / 12 * 365 / 360)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Monthly Payment</label>
     <precision>18</precision>

@@ -111,7 +111,7 @@
 
     delete : function(component, event, helper){
         var table = component.find('dataTable');
-
+        let rowsChecked = [];
         table.getChecked(function(resp){
             rowsChecked = resp;
         });

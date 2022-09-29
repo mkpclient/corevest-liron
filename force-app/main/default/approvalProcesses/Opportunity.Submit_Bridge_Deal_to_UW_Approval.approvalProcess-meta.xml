@@ -24,6 +24,10 @@
                 <type>user</type>
             </approver>
             <approver>
+                <name>eileen.mcdonald@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
                 <name>gregg.moore@cvest.com</name>
                 <type>user</type>
             </approver>
@@ -130,7 +134,7 @@
         </action>
     </initialSubmissionActions>
     <label>Submit Bridge Deal to UW Approval</label>
-    <processOrder>10</processOrder>
+    <processOrder>11</processOrder>
     <recallActions>
         <action>
             <name>Current_Approval_Process_NULL</name>

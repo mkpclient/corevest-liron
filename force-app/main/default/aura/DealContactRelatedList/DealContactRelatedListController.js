@@ -38,9 +38,9 @@
           var tableCmp = component.find("dataTable");
   
           var rows = tableCmp.get("v.rows");
-          //console.log(JSON.parse(data));
+          let newData = helper.processTypeAttributes(data);
   
-          tableCmp.set("v.rows", rows.concat(data));
+          tableCmp.set("v.rows", rows.concat(newData));
         }
       );
     },
@@ -78,8 +78,8 @@
         },
         function (data) {
           var tableCmp = component.find("dataTable");
-  
-          tableCmp.set("v.rows", data);
+          let newData = helper.processTypeAttributes(data);
+          tableCmp.set("v.rows", newData);
           //tableCmp.set('v.rows', []);
         }
       );
@@ -93,11 +93,11 @@
       component.set("v.editMode", !component.get("v.editMode"));
     },
     refresh: function (component, event, helper) {
-      helper.queryRecords(component);
+      helper.queryRecords(component, helper);
     },
   
     delete: function (component, event, helper) {
-      var table = component.find("dataTable");
+      var table = component.find("dataTable"), rowsChecked = [];
   
       table.getChecked(function (resp) {
         rowsChecked = resp;
@@ -113,7 +113,7 @@
     },
   
     callclearAPiModel: function (component, event, helper) {
-      var table = component.find("dataTable");
+      var table = component.find("dataTable"), rowsChecked = [];
   
       table.getChecked(function (resp) {
         rowsChecked = resp;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Appraisal_COD__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Indicates that the Borrower is paying for the Appraisal</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates that the Borrower is paying for the Appraisal</inlineHelpText>
+    <label>Appraisal COD</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

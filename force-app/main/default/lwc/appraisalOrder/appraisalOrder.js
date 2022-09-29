@@ -2,6 +2,7 @@ import { LightningElement, track, api, wire } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 import query from "@salesforce/apex/lightning_Util.query";
 import submitOrder from "@salesforce/apex/AppraisalMergeController.submitOrder";
+import submitOrderEBI from "@salesforce/apex/AppraisalMergeController.submitOrderEBI";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import checkStatus from "@salesforce/apex/AppraisalMergeController.checkStatus";
 // import retrieveOrder from "@salesforce/apex/AppraisalMergeController.retrieveOrder";
@@ -454,6 +455,8 @@ export default class AppraisalOrder extends LightningElement {
       validated = this.checkValidationsVS();
     } else if (appraisalFirm === "US RES") {
       validated = this.checkValidationsUSRES();
+    } else if (appraisalFirm === "EBI") {
+      validated = true;
     }
 
     return validated;
@@ -708,7 +711,8 @@ export default class AppraisalOrder extends LightningElement {
       // this.toggleFooterButtons();
 
       // if(params.productType.in)
-
+      if (params.appraisalFirm != "EBI") //RS.
+      { 
       this.selectedPropertyIds.reduce((promise, propertyId, index) => {
         return promise.then(() => {
           return submitOrder({
@@ -717,7 +721,7 @@ export default class AppraisalOrder extends LightningElement {
           }).then(
             (res) => {
               // do stuff
-              //console.log("property???");
+              console.log("property???");
 
               if (index === this.selectedPropertyIds.length - 1) {
                 if (isError) {
@@ -781,6 +785,42 @@ export default class AppraisalOrder extends LightningElement {
           );
         });
       }, Promise.resolve());
+    }
+    //RS.Begin.    
+    else
+    {
+      console.log('RS999 into EBI processing');
+      submitOrderEBI({
+        propertyIds: this.selectedPropertyIds,
+        arguments: this.isCda ? { ...params, cvId: this.selectedFiles.find(f => f.propId == propertyId).cvId} : params
+      }).then(
+        (res) => {
+                  this.toggleFooterButtons();
+                  this.closeOrderModal();
+                  this.template
+                    .querySelector('[data-id="orderModal"]')
+                    .hideSpinner();
+                  this.showNotification("Success", "Orders created", "success");
+                  this.queryProperties();
+                 },
+        (error) => {
+          console.log("error");
+          errorMsgs.push(error.body.message);
+            this.template
+              .querySelector('[data-id="orderModal"]')
+              .hideSpinner();
+            this.toggleFooterButtons();
+            let errorMsg = "An error occured on one or more properties.";
+            for (let msg of errorMsgs) {
+              errorMsg += "\n" + msg;
+            }
+            console.log(errorMsg);
+            this.queryProperties();
+            this.showNotification("Error", errorMsg, "error");
+        }
+      ); 
+    }
+    //RS.Begin.
     } else {
       this.toggleFooterButtons();
       this.template
@@ -1133,7 +1173,7 @@ export default class AppraisalOrder extends LightningElement {
       //   value: "Clarocity Valuation Services"
       // },
       { label: "Clear Capital", value: "Clear Capital" },
-      // { label: "EBI", value: "EBI" },
+      { label: "EBI", value: "EBI" },
       { label: "US RES", value: "US RES" },
       { label: "Valuation Services AMC", value: "Valuation Services AMC" }
     ];

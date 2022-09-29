@@ -152,6 +152,9 @@ controller="TermSheetInput_LightningController"
                   />
                 </div>
               </div>
+                
+               <div style="{!if(v.deal.Term_Loan_Type__c == '3 Year', 'display:none;', '')}"> 
+            <!-- <aura:if isTrue="{!v.deal.Term_Loan_Type__c != '3 Year'}"> -->
               <div class="slds-form-element">
                 <div class="slds-form-element__control">
                   <lightning:input
@@ -174,6 +177,8 @@ controller="TermSheetInput_LightningController"
                   />
                 </div>
               </div>
+                </div>
+                   <!-- </aura:if>-->
             </aura:if>
 
             <div

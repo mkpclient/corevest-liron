@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Acquisition_Date_is_Required</fullName>
+    <active>true</active>
+    <description>Acquisition Refinance = Refinance, Status = Pending, Acquisition Date = Null</description>
+    <errorConditionFormula>ISPICKVAL(Refinance_Acquisition__c,&apos;Refinance&apos;)
+&amp;&amp;
+ISCHANGED(Status__c)
+&amp;&amp;
+ISPICKVAL(Status__c,&apos;Pending&apos;)
+&amp;&amp;
+ISNULL(Acquisition_Date__c)</errorConditionFormula>
+    <errorDisplayField>Refinance_Acquisition__c</errorDisplayField>
+    <errorMessage>Acquisition Date is required to move to Pending Status</errorMessage>
+</ValidationRule>

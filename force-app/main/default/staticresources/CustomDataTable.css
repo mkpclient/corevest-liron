@@ -20,6 +20,22 @@ th.slds-has-focus, td.slds-has-focus{
     box-shadow: none !important;
 }
 
-/* .slds-table_edit thead th:first-child{
+.slds-table_edit thead th:first-child{
     width: 60px;
+}
+
+span.slds-file-selector__text{
+  display:none;
+}
+
+/* [lightning-input_input-host]{
+  display:none;
 } */
+
+/* .slds-form-element__label{
+  display:none;
+} */
+
+lightning-file-upload  .slds-form-element__label{
+  display:none;
+}

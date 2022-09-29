@@ -1,5 +1,8 @@
-trigger Foreclosure_Trigger on Foreclosure__c (after insert, after update) {
-  if(Trigger.isAfter && Trigger.isUpdate) {
+trigger Foreclosure_Trigger on Foreclosure__c (before insert, after insert, after update) {
+  if(Trigger.isBefore && Trigger.isInsert) {
+    ForeclosureHelper.beforeInsert(Trigger.new);
+  }
+   if(Trigger.isAfter && Trigger.isUpdate) {
     ForeclosureHelper.afterUpdate(Trigger.oldMap, Trigger.newMap);
   }
 

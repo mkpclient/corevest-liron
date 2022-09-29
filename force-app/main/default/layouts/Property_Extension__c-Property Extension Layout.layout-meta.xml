@@ -60,12 +60,16 @@
                 <field>Subsequent_Sales_Price__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Days_To_Resolve__c</field>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>New_Rate_Effective_Date__c</field>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -108,6 +112,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>New_Asset_Interest_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Days_To_Resolve__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -250,19 +258,6 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Property__c</fields>
-        <fields>Resolution_Type__c</fields>
-        <fields>Resolved_Date__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Property_Snapshot__c.Property_Extension__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <fields>Deal_Record_Type__c</fields>
-        <relatedList>Property__c.Newest_Property_Extension__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

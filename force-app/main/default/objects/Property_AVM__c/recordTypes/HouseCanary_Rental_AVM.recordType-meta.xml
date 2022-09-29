@@ -22,8 +22,12 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>HouseCanary</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Red Bell</fullName>
-            <default>true</default>
+            <default>false</default>
         </values>
     </picklistValues>
 </RecordType>

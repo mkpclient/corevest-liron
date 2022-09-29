@@ -6,7 +6,7 @@
     <externalId>false</externalId>
     <label>2nd Underwriter</label>
     <referenceTo>User</referenceTo>
-    <relationshipName>Deals2ndUnderwriter</relationshipName>
+    <relationshipName>Deals2ndunderwriter</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>

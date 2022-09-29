@@ -72,31 +72,31 @@
     </values>
     <values>
         <field>Post_Close_Setting__c</field>
-        <value xsi:type="xsd:string">Advance_Docs</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Criteria__c</field>
-        <value xsi:type="xsd:string">ISCHANGED(Distinct_Counties__c)</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Item_Per_County__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Post_Closing_Required__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Post_Closing_Sort__c</field>
-        <value xsi:type="xsd:double">9.0</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_Trigger__c</field>
-        <value xsi:type="xsd:string">afterUpdate</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Post_Closing_sObjectType__c</field>
-        <value xsi:type="xsd:string">Advance__c</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Private__c</field>
@@ -104,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>

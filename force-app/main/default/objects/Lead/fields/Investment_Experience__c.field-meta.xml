@@ -19,14 +19,9 @@
                 <label>0 Properties</label>
             </value>
             <value>
-                <fullName>100+ Properties</fullName>
+                <fullName>Under 3 Properties</fullName>
                 <default>false</default>
-                <label>100+ Properties</label>
-            </value>
-            <value>
-                <fullName>11-20 Properties</fullName>
-                <default>false</default>
-                <label>11-20 Properties</label>
+                <label>Under 3 Properties</label>
             </value>
             <value>
                 <fullName>1-4 Properties</fullName>
@@ -34,14 +29,14 @@
                 <label>1-4 Properties</label>
             </value>
             <value>
-                <fullName>20+ Properties</fullName>
-                <default>false</default>
-                <label>20+ Properties</label>
-            </value>
-            <value>
                 <fullName>3-10 Properties</fullName>
                 <default>false</default>
                 <label>3-10 Properties</label>
+            </value>
+            <value>
+                <fullName>3-19 Properties</fullName>
+                <default>false</default>
+                <label>3-19 Properties</label>
             </value>
             <value>
                 <fullName>3-50 Properties</fullName>
@@ -49,50 +44,88 @@
                 <label>3-50 Properties</label>
             </value>
             <value>
-                <fullName>51-100 Properties</fullName>
-                <default>false</default>
-                <label>51-100 Properties</label>
-            </value>
-            <value>
                 <fullName>5-19 Properties</fullName>
                 <default>false</default>
                 <label>5-19 Properties</label>
             </value>
             <value>
-                <fullName>Under 3 Properties</fullName>
+                <fullName>11-20 Properties</fullName>
                 <default>false</default>
-                <label>Under 3 Properties</label>
+                <label>11-20 Properties</label>
+            </value>
+            <value>
+                <fullName>20+ Properties</fullName>
+                <default>false</default>
+                <label>20+ Properties</label>
+            </value>
+            <value>
+                <fullName>20-50 Properties</fullName>
+                <default>false</default>
+                <label>20-50 Properties</label>
+            </value>
+            <value>
+                <fullName>51-100 Properties</fullName>
+                <default>false</default>
+                <label>51-100 Properties</label>
+            </value>
+            <value>
+                <fullName>50+ Properties</fullName>
+                <default>false</default>
+                <label>50+ Properties</label>
+            </value>
+            <value>
+                <fullName>100+ Properties</fullName>
+                <default>false</default>
+                <label>100+ Properties</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
-            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
-            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
-            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
-            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
-            <valueName>100+ Properties</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
-            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
-            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
-            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
-            <valueName>3-50 Properties</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
-            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
-            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
-            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
-            <valueName>51-100 Properties</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
             <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
             <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
             <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
             <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
             <valueName>Under 3 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
+            <valueName>3-19 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
+            <valueName>20-50 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Build for Rent Complete</controllingFieldValue>
+            <controllingFieldValue>Rental Portfolio Loan</controllingFieldValue>
+            <controllingFieldValue>Portfolio Acquisition Credit Line</controllingFieldValue>
+            <controllingFieldValue>Renovate to Rent Credit Line</controllingFieldValue>
+            <controllingFieldValue>Fix and Flip Credit Line</controllingFieldValue>
+            <controllingFieldValue>Multifamily Loan</controllingFieldValue>
+            <controllingFieldValue>Short Term Portfolio</controllingFieldValue>
+            <valueName>50+ Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
+            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
+            <valueName>3-10 Properties</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
@@ -106,9 +139,19 @@
             <valueName>20+ Properties</valueName>
         </valueSettings>
         <valueSettings>
-            <controllingFieldValue>Multifamily-CRE Bridge Loan</controllingFieldValue>
-            <controllingFieldValue>Single Project Bridge Loan</controllingFieldValue>
-            <valueName>3-10 Properties</valueName>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>3-50 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>51-100 Properties</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Rental Aggregation Credit Line</controllingFieldValue>
+            <controllingFieldValue>Build to Rent Complete</controllingFieldValue>
+            <valueName>100+ Properties</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Single Rental Property Loan</controllingFieldValue>

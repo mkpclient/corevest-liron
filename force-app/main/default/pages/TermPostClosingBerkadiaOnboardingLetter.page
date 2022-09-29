@@ -2,13 +2,16 @@
   applyHtmlTag="false" showHeader="false">
   <apex:image url="{!$Resource.corevestLogo}" width="210" height="38" style="float:right; margin-top: -5px; margin-right: -4px;"
   />
-  <div style="margin-left:10px; margin-right: 10px;font-size: 10pt; page-break-after: always">
+  <div style="margin-left:10px; margin-right: 10px;font-size: 10pt; {!IF(and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term'), 'page-break-after: always', '')}">
     <apex:outputText value="{0,date,MMMM d',' yyyy} ">
-      <apex:param value="{!TODAY()}"
-      />
+      <apex:param value="{!TODAY()}" />
     </apex:outputText>
     <p style="font-weight:bold;">RE: {!Opportunity.Name}
-      <br />CAF Loan Number: {!Opportunity.Deal_Loan_Number__c}</p>
+      <br />CAF Loan Number: {!Opportunity.Deal_Loan_Number__c}
+      <apex:outputPanel rendered="{!and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term')}">
+        <br />Yardi #: {!Opportunity.Yardi_ID__c}
+      </apex:outputPanel>
+    </p>
     <p>Ami Gilbert
       <br /> Client Relations Manager
       <br /> Berkadia Commercial Mortgage LLC
@@ -22,8 +25,10 @@
     <p>In reference to
       <span style="font-weight: bold">&nbsp;{!Opportunity.Name}&nbsp;</span>please find monthly payments below:
       <br/>
-      <span style="font-weight: bold">Note:&nbsp;</span>Please refer to the tax information found under
-      <span style="font-weight: bold">&nbsp;Exhibit A&nbsp;</span>on page 2.
+      <apex:outputPanel rendered="{!and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term')}">
+        <span style="font-weight: bold">Note:&nbsp;</span>Please refer to the Asset/Loan Amount information found under
+        <span style="font-weight: bold">&nbsp;Exhibit A&nbsp;</span>on page 2.
+      </apex:outputPanel>
     </p>
     <div>
       <table style="margin: auto; table-layout:fixed;border:2px solid black;border-collapse:collapse;width:400px;display:inline-table;
@@ -136,7 +141,8 @@
           </tr>
           <tr>
             <td style="border:1px solid black;">
-              Address <span style="font-size: 9pt !important;">(for loan correspondence)</span>
+              Address
+              <span style="font-size: 9pt !important;">(for loan correspondence)</span>
             </td>
             <td style="border:1px solid black;text-align:right;">
               <apex:outputtext value="{!Opportunity.Contact__r.MailingStreet}" />&#32;
@@ -184,7 +190,7 @@
     </div>
     <br />
     <div style="text-align:right">
-      <p>CoreVest American Finance Leader, LLC,
+      <p>CoreVest American Finance Lender, LLC,
         <br /> a Delaware Limited Liability Company</p>
       <p>Name: Christopher Hoeffel
         <br /> Title: President</p>
@@ -196,7 +202,45 @@
     <p style="font-size: 9px !important;">4 Park Plaza, Suite 900
       <br /> Irvine, CA 92614</p>
   </div>
-  <div style="margin-left:10px; margin-right: 10px;font-size: 10pt;">
+  <apex:outputPanel rendered="{!and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term')}">
+    <div style="margin-left:10px; margin-right: 10px;font-size: 10pt;">
+      <div style="text-align: center">
+        <p>
+          <span style="font-weight: bold;">Exhibit A</span>
+          <br />
+          <span style="text-decoration: underline;">Asset/Loan Amount Information</span>
+        </p>
+        <br />
+        <table style="margin: auto; table-layout:fixed;border:2px solid black;border-collapse:collapse;width:400px;">
+          <colgroup>
+            <col class="one" style="width:4%;border:1px solid black;padding:6px;" />
+            <col class="two" style="width:48%;border:1px solid black;padding:6px;text-align:left !important;" />
+            <col class="three" style="width:48%;border:1px solid black;padding:6px;text-align:right;" />
+          </colgroup>
+          <tbody>
+            <apex:variable var="rowNum" value="{!1}" />
+            <apex:repeat value="{!Opportunity.Properties__r}" var="prop">
+              <tr>
+                <td style="border:1px solid black;">
+                  {!rowNum}
+                </td>
+                <td style="border:1px solid black;text-align:left;">
+                  {!prop.Name}&nbsp;{!prop.City__c},&nbsp;{!prop.State__c}&nbsp;{!prop.ZipCode__c}
+                </td>
+                <td style="border:1px solid black;text-align:right;">
+                  <apex:outputtext value="{0, Number, Currency}">
+                    <apex:param value="{!prop.ALA__c}" />
+                  </apex:outputText>
+                </td>
+              </tr>
+              <apex:variable var="rowNum" value="{!rowNum+1}" />
+            </apex:repeat>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </apex:outputPanel>
+  <!-- <div style="margin-left:10px; margin-right: 10px;font-size: 10pt;">
     <div style="text-align: center">
       <p>
         <span style="font-weight: bold;">Exhibit A</span>
@@ -271,5 +315,5 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
 </apex:page>

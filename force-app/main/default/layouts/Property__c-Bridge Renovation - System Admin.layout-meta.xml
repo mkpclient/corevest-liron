@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
     <excludeButtons>ChangeOwnerOne</excludeButtons>
+    <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>Delete</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -33,43 +35,35 @@
                 <field>Days_Remaining__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Days_To_Resolve__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Probability__c</field>
+                <behavior>Edit</behavior>
+                <field>RET_Upfront_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Max_Rent__c</field>
+                <field>RET_Monthly_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <field>Insurance_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <field>Capex_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>UPB_Before_Payoff__c</field>
+                <field>Late_Charge__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Number_of_Occupied_Units__c</field>
+                <field>REO__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Occupancy_Pct__c</field>
+                <behavior>Edit</behavior>
+                <field>Foreclosure__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Current_UPB__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Aggregate_Funding__c</field>
@@ -134,6 +128,10 @@
         <editHeading>true</editHeading>
         <label>Information</label>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Name__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Name</field>
@@ -208,6 +206,10 @@
                 <behavior>Readonly</behavior>
                 <field>Asset_ID__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Lot_Area__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -254,6 +256,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Escrow_Company_Contact__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Escrow_Contact_Name__c</field>
             </layoutItems>
             <layoutItems>
@@ -266,7 +272,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Title_Company_text__c</field>
+                <field>Title_Company_Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -423,6 +429,34 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Appraisal_Sync__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Interest_Holdback_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Requested_Assignment_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Assignment_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Assign_Fee_to_Purchase_Ratio__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Occupied_Units__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Occupancy_Pct__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -933,20 +967,12 @@
                 <field>Deal_Record_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Property_Name__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Clean_Name__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Clean_Property_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Override_Advance_Amount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -971,6 +997,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Max_LTV_Dollar__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Title_Company_text__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -1126,10 +1156,6 @@
                 <behavior>Readonly</behavior>
                 <field>DealID__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Interest_Reserves__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -1164,6 +1190,11 @@
             <actionName>Property__c.Upload_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Property__c.New_Draw</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>4</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Property__c.New_Appraisal</actionName>
@@ -1226,9 +1257,9 @@
             <sortOrder>16</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Property__c.New_Draw</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
+            <actionName>Clone</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>17</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1308,13 +1339,19 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Event_Type__c</fields>
+        <fields>Days_To_Resolve__c</fields>
+        <fields>Days_to_Resolve_REO_to_REO_Sold__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Resolved_Date__c</fields>
+        <relatedList>Property_Snapshot__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>AVM_Calculated_Price__c</fields>
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
-        <fields>Estimated_Rent__c</fields>
-        <fields>Estimated_Max_Rent__c</fields>
-        <fields>Estimated_Min_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -1346,7 +1383,10 @@
         <fields>NAME</fields>
         <fields>Initial_Disbursement__c</fields>
         <fields>Renovation_Reserve__c</fields>
+        <fields>Holdback_Amount__c</fields>
+        <fields>Approved_Advance_Amount__c</fields>
         <fields>Advance__c.Wire_Date__c</fields>
+        <fields>Advance__c.Status__c</fields>
         <relatedList>Property_Advance__c.Property__c</relatedList>
         <sortField>Advance__c.Wire_Date__c</sortField>
         <sortOrder>Asc</sortOrder>
@@ -1386,46 +1426,19 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Event_Type__c</fields>
-        <fields>CREATED_DATE</fields>
-        <relatedList>Property_Snapshot__c.Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Property_Sales_history__c.RelatedProperty__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Property_Mortgage_lien_all__c.RelatedProperty__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>HouseCanaryForReporting__c.RelatedProperty__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Custodial_Exception__c.Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Title_Order__c.Property__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
         <fields>Released_Collateral__c</fields>
         <fields>UPB_at_Release__c</fields>
         <fields>Completed_date__c</fields>
         <fields>CREATED_DATE</fields>
-        <fields>Days_to_Resolve__c</fields>
         <relatedList>Partial_Release__c.Property__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Property_Tax_History__c.RelatedProperty__c</relatedList>
+        <relatedList>Policy_Exception__c.Property__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>CLO_Asset_Details__c.Related_Property__c</relatedList>
+        <relatedList>REO__c.Property__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

@@ -12,17 +12,22 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Bring Current</fullName>
+                <fullName>Title Claim</fullName>
                 <default>false</default>
-                <label>Bring Current</label>
+                <label>Title Claim</label>
             </value>
             <value>
-                <fullName>Covenant Default</fullName>
+                <fullName>Assumption</fullName>
                 <default>false</default>
-                <label>Covenant Default</label>
+                <label>Assumption</label>
             </value>
             <value>
-                <fullName>Deed In Lieu</fullName>
+                <fullName>Converted to REO</fullName>
+                <default>false</default>
+                <label>Converted to REO</label>
+            </value>
+            <value>
+                <fullName>Deed in Lieu</fullName>
                 <default>false</default>
                 <label>Deed In Lieu</label>
             </value>
@@ -32,69 +37,29 @@
                 <label>Discounted Payoff</label>
             </value>
             <value>
-                <fullName>Extension Req</fullName>
+                <fullName>Full Payoff</fullName>
                 <default>false</default>
-                <label>Extension Req</label>
+                <label>Full Payoff</label>
             </value>
             <value>
-                <fullName>FC with Guarantee</fullName>
+                <fullName>Fully Charged off (No Recovery)</fullName>
                 <default>false</default>
-                <label>FC with Guarantee</label>
+                <label>Fully Charged off (No Recovery)</label>
             </value>
             <value>
-                <fullName>FC without Guarantee</fullName>
+                <fullName>Indiv Note Sale</fullName>
                 <default>false</default>
-                <label>FC without Guarantee</label>
+                <label>Indiv Note Sale</label>
             </value>
             <value>
-                <fullName>Forbearance</fullName>
+                <fullName>NPL Restructure</fullName>
                 <default>false</default>
-                <label>Forbearance</label>
+                <label>NPL Restructure</label>
             </value>
             <value>
-                <fullName>Foreclosure</fullName>
+                <fullName>Other Loan Correction</fullName>
                 <default>false</default>
-                <label>Foreclosure</label>
-            </value>
-            <value>
-                <fullName>In-House Refi</fullName>
-                <default>false</default>
-                <label>In-House Refi</label>
-            </value>
-            <value>
-                <fullName>Mod/Assumption</fullName>
-                <default>false</default>
-                <label>Mod/Assumption</label>
-            </value>
-            <value>
-                <fullName>No Response</fullName>
-                <default>false</default>
-                <label>No Response</label>
-            </value>
-            <value>
-                <fullName>Note Sale</fullName>
-                <default>false</default>
-                <label>Note Sale</label>
-            </value>
-            <value>
-                <fullName>Paid Off</fullName>
-                <default>false</default>
-                <label>Paid Off</label>
-            </value>
-            <value>
-                <fullName>Payoff Pending</fullName>
-                <default>false</default>
-                <label>Payoff Pending</label>
-            </value>
-            <value>
-                <fullName>Pursue Guarantee</fullName>
-                <default>false</default>
-                <label>Pursue Guarantee</label>
-            </value>
-            <value>
-                <fullName>Refinance</fullName>
-                <default>false</default>
-                <label>Refinance</label>
+                <label>Other Loan Correction</label>
             </value>
             <value>
                 <fullName>Reinstated</fullName>
@@ -102,34 +67,138 @@
                 <label>Reinstated</label>
             </value>
             <value>
+                <fullName>Sold REO</fullName>
+                <default>false</default>
+                <label>Sold REO</label>
+            </value>
+            <value>
+                <fullName>Within a Bulk Sale</fullName>
+                <default>false</default>
+                <label>Within a Bulk Sale</label>
+            </value>
+            <value>
+                <fullName>Forbearance</fullName>
+                <default>false</default>
+                <label>Forbearance</label>
+            </value>
+            <value>
+                <fullName>Paid off at Receivership</fullName>
+                <default>false</default>
+                <label>Paid off at Receivership</label>
+            </value>
+            <value>
+                <fullName>Bring Current</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Bring Current</label>
+            </value>
+            <value>
+                <fullName>Covenant Default</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Covenant Default</label>
+            </value>
+            <value>
+                <fullName>Extension Req</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Extension Req</label>
+            </value>
+            <value>
+                <fullName>FC with Guarantee</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FC with Guarantee</label>
+            </value>
+            <value>
+                <fullName>FC without Guarantee</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>FC without Guarantee</label>
+            </value>
+            <value>
+                <fullName>Foreclosure</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Foreclosure</label>
+            </value>
+            <value>
+                <fullName>In-House Refi</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>In-House Refi</label>
+            </value>
+            <value>
+                <fullName>Mod/Assumption</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Mod/Assumption</label>
+            </value>
+            <value>
+                <fullName>No Response</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>No Response</label>
+            </value>
+            <value>
+                <fullName>Note Sale</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Note Sale</label>
+            </value>
+            <value>
+                <fullName>Paid Off</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Paid Off</label>
+            </value>
+            <value>
+                <fullName>Payoff Pending</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Payoff Pending</label>
+            </value>
+            <value>
+                <fullName>Pursue Guarantee</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Pursue Guarantee</label>
+            </value>
+            <value>
                 <fullName>REO with Guarantee</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>REO with Guarantee</label>
             </value>
             <value>
                 <fullName>REO without Guarantee</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>REO without Guarantee</label>
+            </value>
+            <value>
+                <fullName>Refinance</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Refinance</label>
             </value>
             <value>
                 <fullName>Sale Pending</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Sale Pending</label>
             </value>
             <value>
                 <fullName>Sell REO</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Sell REO</label>
             </value>
             <value>
                 <fullName>Special Asset Tracking</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Special Asset Tracking</label>
-            </value>
-            <value>
-                <fullName>Title Claim</fullName>
-                <default>false</default>
-                <label>Title Claim</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -2,6 +2,7 @@
 public with sharing class CAFTestingClassTest {
   @isTest
   public static void testCAFEmail() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);

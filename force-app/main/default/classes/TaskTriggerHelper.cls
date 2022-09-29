@@ -52,6 +52,20 @@ public static void afterInsert(List<Task> tskList){
 }
 public static void beforeUpdate(List<Task> tskList){
     for(Task tsk: tskList) {
+       
+      Id recordTypeId = Schema.getGlobalDescribe().get('Task').getDescribe().getRecordTypeInfosByName().get('Draw Request').getRecordTypeId();
+
+     if (recordTypeId != Null && tsk.RecordTypeId == recordTypeId && tsk.Status == 'Completed')
+     {
+         List<Advance__c> adv = [select id from Advance__c where id = :tsk.WhatId];
+         if (adv.Size() > 0)
+         {
+         adv[0].Custodial_File_Sent_to_Custodian__c = date.today();
+         update adv;
+         }
+     }
+        
+        
       if(tsk.WhoId == null) {
         continue;
       }
@@ -59,6 +73,4 @@ public static void beforeUpdate(List<Task> tskList){
       tsk.put(lookupField, tsk.WhoId);
     }
 }
-
-
 }

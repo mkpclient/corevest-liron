@@ -147,7 +147,8 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Legal_Fee__c: this.deal.Legal_Fee__c,
       Holdback_Reserve_Month_Multiplier__c: this.deal
         .Holdback_Reserve_Month_Multiplier__c,
-      Installment_Comment__c: this.deal.Installment_Comment__c
+      Installment_Comment__c: this.deal.Installment_Comment__c,
+      Deposit_Amount__c: this.deal.Deposit_Amount__c
     };
 
     this.discountFeeVal = this.discountFeeCalculation();
@@ -806,7 +807,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     let loanVersion = {
       Early_Lock_Deposit__c: calculatedFields.Early_Lock_Deposit__c,
       Final_Loan_Amount__c: deal.Current_Loan_Amount__c,
-      Deposit_Amount__c: deal.Deposit_Amount__c,
+      Deposit_Amount__c: calculatedFields.hasOwnProperty('Deposit_Amount__c') && calculatedFields.Deposit_Amount__c ? calculatedFields.Deposit_Amount__c : deal.Deposit_Amount__c,
       Deal_Loan_Number__c: deal.Deal_Loan_Number__c,
       Borrower__c: deal.Borrower_Name,
       CloseDate__c: deal.CloseDate,

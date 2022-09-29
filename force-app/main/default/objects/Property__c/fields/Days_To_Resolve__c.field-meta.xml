@@ -4,7 +4,7 @@
     <description>If Extension exists then Payoff Received Date - Extension Completed Date. If no Extension then Payoff Received Date - Original Asset Maturity Date (use Current Asset Maturity Date if Payoff Received Date &gt; Original Asset Maturity Date).</description>
     <externalId>false</externalId>
     <formula>IF( 
-   AND(NOT(ISNULL(Newest_Property_Extension__c)), NOT(ISBLANK(Newest_Property_Extension__c)))
+   AND(NOT(ISBLANK(Newest_Property_Extension__c)), NOT(ISBLANK(Newest_Property_Extension__r.Extension_Date__c)))
  , Payoff_Received_Date__c - Newest_Property_Extension__r.Extension_Date__c,
       IF(Payoff_Received_Date__c &gt; Asset_Maturity_Date__c
       , Payoff_Received_Date__c -  ( Current_Asset_Maturity_Date__c - 60 )

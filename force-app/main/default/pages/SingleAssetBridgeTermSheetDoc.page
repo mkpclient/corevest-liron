@@ -263,7 +263,7 @@ Sponsor Initials ________
                         </strong>
                     </td>
                     <td class="row-description">
-                        Loan will be made to a single-purpose limited liability company (LLC) ("
+                        Loan will be made to an individual or a US legal entity ("
                         <strong>Borrower</strong>")
                     </td>
                 </tr>
@@ -286,7 +286,7 @@ Sponsor Initials ________
                     </td>
                     <td class="row-description">
                         Purchase or refinance of an eligible property recently acquired by Borrower for a <apex:outputText value=" {!Opportunity.LOC_Loan_Type__c}" /> 
-                        with <apex:outputText value=" {!Opportunity.Product_Sub_Type__c}" /> and <apex:outputText value=" {!Opportunity.Project_Strategy__c}" />
+                        with <apex:outputText value=" {!Opportunity.Product_Sub_Type__c}" /> for the purpose of <apex:outputText value=" {!Opportunity.Project_Strategy__c}" />
                         <!-- <apex:outputPanel rendered="{!Opportunity.Product_Sub_Type__c != 'Renovation'}">
                             Purchase or refinance of an eligible property recently acquired by Borrower
                         </apex:outputPanel>
@@ -397,7 +397,7 @@ Sponsor Initials ________
                                 Origination Fee:
                             </td>
                             <td class="row-description">
-                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Borrower' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
                                     <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
                                         <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
                                 </span>
@@ -446,7 +446,10 @@ Sponsor Initials ________
                         </strong>
                     </td>
                     <td class="row-description">
-                        <apex:outputText value="{!processingFeeText}" />                        <!-- Multifamily 5+: $1,295
+                        <apex:outputText value="{!processingFeeText}" />                       
+                        <br /> <p>Construction Onboarding Fees (Renovation Assets only): $250
+                        </p>
+                         <!-- Multifamily 5+: $1,295
                         <br /> New Construction: $1,195
                         <br /> Single Family: $995
                         <br /> Portfolio: 3-8 homes - $1,295, 9+ homes - $1,495 -->
@@ -1046,4 +1049,219 @@ Sponsor Initials ________
         <apex:inputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" rendered="false" />
         <apex:inputField value="{!Opportunity.Broker_Fee_Paid_When__c}" rendered="false" />
     </apex:form>
+    
+          <div class="pagebreak" style="page-break-before: always;"></div>
+    <h3 style="text-align: center; font-family: Times; margin-top: -15px;">Exhibit A</h3>
+<br />
+<br />
+
+     <table style="
+        table-layout: fixed;
+        width: 95vw;
+        border-collapse: collapse;
+        border: 1px solid #bebebe;
+      " border="1" cellspacing="0">
+      <colgroup>
+        <col class="short" />
+        <col class="long" />
+      </colgroup>
+      
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+        <strong>Transaction Type:</strong>
+        </td>
+        <td class="row-description">
+        <apex:outputText value="{!sabProperty.Refinance_Acquisition__c}" />
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Total Loan Amount:</strong>
+        </td>
+        <td class="row-description">
+        <apex:outputText value="{0, number}">
+            <apex:param value="{! Opportunity.LOC_Commitment__c}" /></apex:outputText>        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Initial Loan Funding:</strong>
+        </td>
+        <td class="row-description">
+               <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Initial_Disbursement__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Future Loan Funding:</strong>
+        </td>
+        <td class="row-description">
+                      <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Approved_Renovation_Holdback__c}" /></apex:outputText>        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Borrower Equity:</strong>
+        </td>
+        <td class="row-description">
+                              <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Borrower_Equity__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Purchase Price:</strong>
+        </td>
+        <td class="row-description">
+                                      <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Acquisition_Price__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+        <strong>Estimated ARV:</strong>
+        </td>
+        <td class="row-description">
+                                            <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Borrower_Opinion_of_ARV__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong>  Approximate Total Project Cost:</strong>
+        </td>
+        <td class="row-description">
+                                                <apex:outputText value="{0, number}">
+            <apex:param value="{! sabProperty.Total_Cost_Basis__c}" /></apex:outputText>
+            
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Max LTC:</strong>
+        </td>
+        <td class="row-description">
+               <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.LTC__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Max LTV:</strong>
+        </td>
+        <td class="row-description">
+               <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.LTV__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+     <strong>   Loan Terms (Months):</strong>
+        </td>
+        <td class="row-description">
+        <apex:outputText value="{!Opportunity.LOC_Term__c}" />
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Rate Type:</strong>
+        </td>
+        <td class="row-description">
+        <apex:outputText value="{!Opportunity.Interest_Rate_Type__c}" />
+        </td>
+        </tr>
+        
+
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Interest Rate:</strong>
+        </td>
+        <td class="row-description">
+                       <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.Rate__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+       <strong> Origination Fee:</strong>
+        </td>
+        <td class="row-description">
+                               <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.CAF_Upfront_Fee__c }" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Exit Fee:</strong>
+        </td>
+        <td class="row-description">
+                                      <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.Exit_Fee__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+     <strong>   Third Party Brokerage Fee:</strong>
+        </td>
+        <td class="row-description">
+                                          <apex:outputText value="{0, number, 0.00}%">
+                  <apex:param value="{! Opportunity.Broker_Fees__c}" /></apex:outputText>
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong> Call Protection:</strong>
+        </td>
+        <td class="row-description">
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Collateral:</strong>
+        </td>
+        <td class="row-description">
+        1st Lien
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Recourse Provisions:</strong>
+        </td>
+        <td class="row-description">
+        Full Recourse
+        </td>
+        </tr>
+        
+      <tr style="page-break-inside:avoid;">
+        <td class="row-title">
+      <strong>  Estimated Closing Date:</strong>
+        </td>
+        <td class="row-description">
+       <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+            <apex:param value="{!Opportunity.Anticipated_Closing_Date__c}" /></apex:outputText>        </td>
+        </tr>
+        
+        
+        
+        </table>
 </apex:page>

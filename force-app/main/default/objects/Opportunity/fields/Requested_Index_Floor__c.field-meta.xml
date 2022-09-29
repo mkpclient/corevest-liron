@@ -13,94 +13,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>0.00%</fullName>
-                <default>false</default>
-                <label>0.00%</label>
-            </value>
-            <value>
-                <fullName>0.10%</fullName>
-                <default>false</default>
-                <label>0.10%</label>
-            </value>
-            <value>
-                <fullName>0.15%</fullName>
-                <default>false</default>
-                <label>0.15%</label>
-            </value>
-            <value>
-                <fullName>0.25%</fullName>
-                <default>false</default>
-                <label>0.25%</label>
-            </value>
-            <value>
-                <fullName>0.50%</fullName>
-                <default>false</default>
-                <label>0.50%</label>
-            </value>
-            <value>
-                <fullName>0.75%</fullName>
-                <default>false</default>
-                <label>0.75%</label>
-            </value>
-            <value>
-                <fullName>1.00%</fullName>
-                <default>false</default>
-                <label>1.00%</label>
-            </value>
-            <value>
                 <fullName>1.25%</fullName>
                 <default>false</default>
                 <label>1.25%</label>
-            </value>
-            <value>
-                <fullName>1.50%</fullName>
-                <default>false</default>
-                <label>1.50%</label>
-            </value>
-            <value>
-                <fullName>1.55%</fullName>
-                <default>false</default>
-                <label>1.55%</label>
-            </value>
-            <value>
-                <fullName>1.60%</fullName>
-                <default>false</default>
-                <label>1.60%</label>
-            </value>
-            <value>
-                <fullName>1.65%</fullName>
-                <default>false</default>
-                <label>1.65%</label>
-            </value>
-            <value>
-                <fullName>1.70%</fullName>
-                <default>false</default>
-                <label>1.70%</label>
-            </value>
-            <value>
-                <fullName>1.75%</fullName>
-                <default>false</default>
-                <label>1.75%</label>
-            </value>
-            <value>
-                <fullName>1.80%</fullName>
-                <default>false</default>
-                <label>1.80%</label>
-            </value>
-            <value>
-                <fullName>1.85%</fullName>
-                <default>false</default>
-                <label>1.85%</label>
-            </value>
-            <value>
-                <fullName>1.90%</fullName>
-                <default>false</default>
-                <label>1.90%</label>
-            </value>
-            <value>
-                <fullName>1.95%</fullName>
-                <default>false</default>
-                <label>1.95%</label>
             </value>
             <value>
                 <fullName>2.00%</fullName>
@@ -108,108 +23,129 @@
                 <label>2.00%</label>
             </value>
             <value>
+                <fullName>0.00%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.00%</label>
+            </value>
+            <value>
+                <fullName>0.10%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.10%</label>
+            </value>
+            <value>
+                <fullName>0.15%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.15%</label>
+            </value>
+            <value>
+                <fullName>0.25%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.25%</label>
+            </value>
+            <value>
+                <fullName>0.50%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.50%</label>
+            </value>
+            <value>
+                <fullName>0.75%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>0.75%</label>
+            </value>
+            <value>
+                <fullName>1.00%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.00%</label>
+            </value>
+            <value>
+                <fullName>1.50%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.50%</label>
+            </value>
+            <value>
+                <fullName>1.55%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.55%</label>
+            </value>
+            <value>
+                <fullName>1.60%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.60%</label>
+            </value>
+            <value>
+                <fullName>1.65%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.65%</label>
+            </value>
+            <value>
+                <fullName>1.70%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.70%</label>
+            </value>
+            <value>
+                <fullName>1.75%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.75%</label>
+            </value>
+            <value>
+                <fullName>1.80%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.80%</label>
+            </value>
+            <value>
+                <fullName>1.85%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.85%</label>
+            </value>
+            <value>
+                <fullName>1.90%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.90%</label>
+            </value>
+            <value>
+                <fullName>1.95%</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>1.95%</label>
+            </value>
+            <value>
                 <fullName>2.25%</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>2.25%</label>
             </value>
             <value>
                 <fullName>2.30%</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>2.30%</label>
             </value>
             <value>
                 <fullName>2.50%</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>2.50%</label>
             </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.00%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.10%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.15%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.25%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.50%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>0.75%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.00%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.25%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.50%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.55%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.60%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.65%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.70%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.75%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.80%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.85%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.90%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>1.95%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
             <valueName>2.00%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>2.25%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>2.30%</valueName>
-        </valueSettings>
-        <valueSettings>
-            <controllingFieldValue>Floating</controllingFieldValue>
-            <valueName>2.50%</valueName>
         </valueSettings>
     </valueSet>
 </CustomField>

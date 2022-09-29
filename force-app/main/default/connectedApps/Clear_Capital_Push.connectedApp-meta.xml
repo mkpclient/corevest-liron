@@ -4,7 +4,7 @@
     <label>Clear Capital Push</label>
     <oauthConfig>
         <callbackUrl>https://login.salesforce.com</callbackUrl>
-        <consumerKey>3MVG99H7o8BRmFkVv02_uD4Lt97jP_tJOrx8TNHni9iSvxgBRWeFp3KgFi37i54WEUUkIVCh8Hy1y0pUF4HWO</consumerKey>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdOD2gKB6W7tES8BegbHHXSREJzBsvHxA.YCiitfA9QvUcPxVPG83Tx5wl1w9</consumerKey>
         <isAdminApproved>false</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>

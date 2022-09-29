@@ -3,10 +3,53 @@
     <fullName>This_Appraisal_is_Made__c</fullName>
     <externalId>false</externalId>
     <label>This Appraisal is Made</label>
-    <length>255</length>
     <required>false</required>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>AS IS</fullName>
+                <default>false</default>
+                <label>AS IS</label>
+            </value>
+            <value>
+                <fullName>As-Is Only</fullName>
+                <default>false</default>
+                <label>As-Is Only</label>
+            </value>
+            <value>
+                <fullName>As-Is w/ARV</fullName>
+                <default>false</default>
+                <label>As-Is w/ARV</label>
+            </value>
+            <value>
+                <fullName>AS IS/ARV</fullName>
+                <default>false</default>
+                <label>AS IS/ARV</label>
+            </value>
+            <value>
+                <fullName>AS REPAIR</fullName>
+                <default>false</default>
+                <label>AS REPAIR</label>
+            </value>
+            <value>
+                <fullName>AS REPAIRED</fullName>
+                <default>false</default>
+                <label>AS REPAIRED</label>
+            </value>
+            <value>
+                <fullName>ARV Only</fullName>
+                <default>false</default>
+                <label>ARV Only</label>
+            </value>
+            <value>
+                <fullName>SUBJECT TO/AS IS</fullName>
+                <default>false</default>
+                <label>SUBJECT TO/AS IS</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
 </CustomField>

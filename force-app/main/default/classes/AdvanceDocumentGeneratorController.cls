@@ -20,6 +20,62 @@ public class AdvanceDocumentGeneratorController {
         
         
     }
+
+    @AuraEnabled
+    public static void saveProofOfFunds(Id parentId, String fileName, String base64Data, String contentType){
+        try {
+            
+            Opportunity opp = [
+                SELECT Id, OwnerId
+                FROM Opportunity
+                WHERE Id = : parentId
+            ];
+            ContentVersion cv = new ContentVersion();
+            cv.ContentLocation = 'S';
+            cv.VersionData = EncodingUtil.base64Decode(base64Data);
+            cv.Title = fileName;
+            cv.PathOnClient = fileName;
+
+            insert cv;
+
+            ContentVersion cv2 = [
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :cv.Id
+            LIMIT 1
+            ];
+
+            Deal_Document__c dealDoc = new Deal_Document__c();
+            dealDoc.File_Name__c = fileName;
+            dealDoc.ContentVersion_Id__c = cv.Id;
+            dealDoc.Attachment_Id__c = cv2.ContentDocumentId;
+            dealDoc.Deal__c = parentId;
+            
+            dealDoc.Document_Loaded__c = true;
+            dealDoc.Added_By__c = UserInfo.getUserId();
+            dealDoc.Added_On__c = system.now();
+            dealDoc.Type__c = 'Misc Documents'; 
+            dealDoc.Document_Type__c = 'Proof of Funds';
+
+            insert dealDoc;
+
+            Task task = new Task();
+            task.Status = 'Open';
+            task.Subject = 'Proof of Funds Letter Expiration';
+            task.Description = 'Proof of Funds Letter has Expired. Please reach out to the borrower to see if they need a new one.';
+            task.ActivityDate = System.today().addDays(90);
+            task.Priority = 'Normal';
+            task.WhatId = parentId;
+            task.Type = 'Reminder';
+            task.IsReminderSet = true;
+            task.OwnerId = opp.OwnerId;
+            
+
+            insert task;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + ' Line: ' + e.getLineNumber());
+        }
+    }
     
     public static Id saveTheFile(Id parentId, String fileName, String base64Data, String contentType) {
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');

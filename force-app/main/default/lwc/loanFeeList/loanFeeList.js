@@ -48,6 +48,7 @@ export default class LoanFeeLists extends LightningElement {
     let queryString = `SELECT Id, Name, Payment_Instructions__c FROM Account WHERE Name = 'Berkadia Commercial Mortgage' AND RecordType.Name = 'Vendor'`;
     let results = await query({ queryString });
 
+   if(results.length > 0) {
     let berkadiaAccount = results[0];
 
     let berkadiaLoanFee = {
@@ -59,6 +60,7 @@ export default class LoanFeeLists extends LightningElement {
     };
     //console.log(berkadiaLoanFee);
     this.berkadiaLoanFee = berkadiaLoanFee;
+   }
     this.queryLoanFees();
   };
 

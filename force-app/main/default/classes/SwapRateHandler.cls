@@ -9,28 +9,42 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
     Decimal rate_10;
     Decimal rate_30;
     Decimal rate_1M;
-    Decimal rate_1S;      
+    Decimal rate_1S;  
+//CIP-2526.RS.9/21/22.Begin              
+	Decimal rate_1M_Floor;      
+	Decimal rate_3Y_Floor;
+	Decimal rate_5Y_Floor;
+	Decimal rate_7Y_Floor;
+	Decimal rate_10Y_Floor;      
+//CIP-2526.RS.9/21/22.End              
     Boolean rate_5_valid = false;
     Boolean rate_7_valid = false;
     Boolean rate_10_valid = false;
     Boolean rate_30_valid = false;
     Boolean rate_1ML_valid = false;
-    Boolean rate_1SF_valid = false;      
-
+    Boolean rate_1SF_valid = false;  
+//CIP-2526.RS.9/21/22.Begin              
+    Boolean rate_1M_Floor_valid = false;        
+    Boolean rate_3Y_Floor_valid = false;  
+    Boolean rate_5Y_Floor_valid = false;  
+    Boolean rate_7Y_Floor_valid = false;  
+    Boolean rate_10Y_Floor_valid = false;  
+//CIP-2526.RS.9/21/22.End              
    String emailsubject = email.subject.normalizeSpace().toLowerCase();
    String emailBody = email.plainTextBody.toLowerCase();   
-   System.Debug('RS9998 emailBody :' +emailBody);      
+    
     List<String> emailBodyLines = emailBody.split('\n');        
+
 	Integer indexRate = 0;
         
     for(string emailLine : emailBodyLines)
     {
-        System.Debug('RS999 emailLine :' +emailLine);
+
         indexRate = emailLine.indexOf('5yr:', 0);
         if (indexRate != -1 && !rate_5_valid )
         {
 		String  rate_5yr = getRate(emailLine,'5yr:');
-        System.Debug('RS9998 rate_5yr :' +rate_5yr);
+
         if (rate_5yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 5 years rate :';
@@ -52,7 +66,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_7_valid )
         {
 		String  rate_7yr = getRate(emailLine,'7yr:');
-        System.Debug('RS9998 rate_7yr :' +rate_7yr);
+
         if (rate_7yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 7 years rate :';
@@ -74,7 +88,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_10_valid )
         {
 		String  rate_10yr = getRate(emailLine,'10yr:');
-        System.Debug('RS9998 rate_10yr :' +rate_10yr);
+
         if (rate_10yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 10 years rate :';
@@ -96,7 +110,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_30_valid )
         {
 		String  rate_30yr = getRate(emailLine,'30yr:');
-        System.Debug('RS9998 rate_30yr :' +rate_30yr);
+
         if (rate_30yr == 'Error')
         {
            rateerror = rateerror + 'Invalid 30 years rate :';
@@ -119,7 +133,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_1ML_valid )
         {
 		String  rate_1ML = getRate(emailLine,'1m libor:');
-        System.Debug('RS9998 rate_1ML :' +rate_1ML);
+
         if (rate_1ML == 'Error')
         {
            rateerror = rateerror + 'Invalid 1 Month Libor :';
@@ -142,7 +156,7 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
         if (indexRate != -1 && !rate_1SF_valid )
         {
 		String  rate_1SF = getRate(emailLine,'1m term sofr swap:');
-        System.Debug('RS9998 rate_1SF :' +rate_1SF);
+
         if (rate_1SF == 'Error')
         {
            rateerror = rateerror + 'Invalid 1 Month Term Soft Swap rate :';
@@ -161,6 +175,124 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
 
         }
         
+//CIP-2526.RS.9/21/22.Begin        
+    	System.Debug('RS999 emailLine 1:' +emailLine);
+        indexRate = emailLine.indexOf('1m term sofr floor:', 0);
+		System.Debug('RS999 indexRate 1 :' +indexRate);        
+        if (indexRate != -1 && !rate_1M_Floor_valid )
+        {
+		String  rate_1M_Floor_ret = getRate(emailLine,'1m term sofr floor:');
+		System.Debug('RS999 rate_1M_Floor_ret :' +rate_1M_Floor_ret);
+            
+        if (rate_1M_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 1M Term SOFR Floor :';
+        }
+        Else
+        {
+         rate_1M_Floor_valid = True;
+         try {    
+               rate_1M_Floor = Decimal.valueOf(rate_1M_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_1M_Floor_valid = False;  
+            }            
+        }
+        }   
+        
+        indexRate = emailLine.indexOf('3 year treasury floor:', 0);
+		System.Debug('RS999 indexRate 3 :' +indexRate);            
+        if (indexRate != -1 && !rate_3Y_Floor_valid )
+        {
+		String  rate_3Y_Floor_ret = getRate(emailLine,'3 year treasury floor:');
+		System.Debug('RS999 rate_3Y_Floor_ret :' +rate_3Y_Floor_ret);
+        if (rate_3Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 3 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_3Y_Floor_valid = True;
+         try {    
+               rate_3Y_Floor = Decimal.valueOf(rate_3Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_3Y_Floor_valid = False;  
+            }            
+        }
+        } 
+        
+        indexRate = emailLine.indexOf('5 year treasury floor:', 0);
+		System.Debug('RS999 indexRate 5:' +indexRate);            
+        if (indexRate != -1 && !rate_5Y_Floor_valid )
+        {
+		String  rate_5Y_Floor_ret = getRate(emailLine,'5 year treasury floor:');
+		System.Debug('RS999 rate_5Y_Floor_ret :' +rate_5Y_Floor_ret);
+        if (rate_5Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 5 year Treasury floor :';
+        }
+        Else
+        {
+         rate_5Y_Floor_valid = True;
+         try {    
+               rate_5Y_Floor = Decimal.valueOf(rate_5Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_5Y_Floor_valid = False;  
+            }            
+        }
+        }     
+        
+        indexRate = emailLine.indexOf('7 year treasury floor:', 0);
+		System.Debug('RS999 indexRate 7:' +indexRate);            
+        if (indexRate != -1 && !rate_7Y_Floor_valid )
+        {
+		String  rate_7Y_Floor_ret = getRate(emailLine,'7 year treasury floor:');
+		System.Debug('RS999 rate_7Y_Floor_ret :' +rate_7Y_Floor_ret);
+        if (rate_7Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 7 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_7Y_Floor_valid = True;
+         try {    
+               rate_7Y_Floor = Decimal.valueOf(rate_7Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_7Y_Floor_valid = False;  
+            }            
+        }
+        }   
+        
+        indexRate = emailLine.indexOf('10 year treasury floor:', 0);
+		System.Debug('RS999 indexRate 10 :' +indexRate);            
+        if (indexRate != -1 && !rate_10Y_Floor_valid )
+        {
+		String  rate_10Y_Floor_ret = getRate(emailLine,'10 year treasury floor:');
+		System.Debug('RS999 rate_10Y_Floor_ret :' +rate_10Y_Floor_ret);
+        if (rate_10Y_Floor_ret == 'Error')
+        {
+           rateerror = rateerror + 'Invalid 10 Year Treasury Floor :';
+        }
+        Else
+        {
+         rate_10Y_Floor_valid = True;
+         try {    
+               rate_10Y_Floor = Decimal.valueOf(rate_10Y_Floor_ret.trim());
+             }
+         catch (TypeException e) 
+             {
+                rate_10Y_Floor_valid = False;  
+            }            
+        }
+        }           
+//CIP-2526.RS.9/21/22.End.                
     }
     Swap_Rate__c S = new Swap_Rate__c();
     if (rate_5_valid)
@@ -186,19 +318,37 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
     if (rate_1SF_valid)
       S.OneM_SOFR__c = rate_1S;
     else
-      S.OneM_SOFR__c = null;        
+      S.OneM_SOFR__c = null;   
+//CIP-2526.RS.9/21/22.Begin.       
+    if (rate_1M_Floor_valid)
+      S.X1M_Term_SOFR_Floor__c = rate_1M_Floor;
+    else
+      S.X1M_Term_SOFR_Floor__c = null;      
+
+    if (rate_3Y_Floor_valid)
+      S.X3_Year_Treasury_Floor__c = rate_3Y_Floor;
+    else
+      S.X3_Year_Treasury_Floor__c = null; 
+
+    if (rate_5Y_Floor_valid)
+      S.X5_Year_Treasury_Floor__c = rate_5Y_Floor;
+    else
+      S.X5_Year_Treasury_Floor__c = null; 
+
+    if (rate_7Y_Floor_valid)
+      S.X7_Year_Treasury_Floor__c = rate_7Y_Floor;
+    else
+      S.X7_Year_Treasury_Floor__c = null; 
+
+    if (rate_10Y_Floor_valid)
+      S.X10_Year_Treasury_Floor__c = rate_10Y_Floor;
+    else
+      S.X10_Year_Treasury_Floor__c = null;       
+ //CIP-2526.RS.9/21/22.End.      
 
     S.CreatedDateTime__c = DateTime.now();
     Date createdate = date.today();
    
-     system.Debug('RS999 rate_5 : ' +rate_5);
-     system.Debug('RS999 rate_7 : ' +rate_7);      
-     system.Debug('RS999 rate_10 : ' +rate_10);
-     system.Debug('RS999 rate_30 : ' +rate_30);
-     system.Debug('RS999 rate_1M : ' +rate_1M);
-     system.Debug('RS999 rate_1S : ' +rate_1S);      
-     System.Debug('RS999 - createdate :' +createdate);
-
     if (rate_5_valid && rate_7_valid && rate_10_valid && rate_30_valid  && rate_1ML_valid && rate_1SF_valid)
     {
             
@@ -206,7 +356,6 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
                                                   and Ten_Year_Swap__c =:rate_10 and Thirty_Year_Swap__c = :rate_30 
                                                   and OneM_LIBOR__c = :rate_1M and OneM_SOFR__c = :rate_1S and CreatedDateTime__c = TODAY];
         
-            System.Debug('RS999 todaysswaprate :' +todaysswaprate);
             if (todaysswaprate.size() == 0)
             {        
                 try {
@@ -242,36 +391,37 @@ global class SwapRateHandler implements Messaging.InboundEmailHandler {
 Private String getRate(String emailLine,String searchRateString)
  {
      String returnValue;
-     
-     System.Debug('RS999 emailLine 1:' +emailLine);
-     System.Debug('RS999 searchRateString :' +searchRateString);     
-     
+    
      returnValue = emailLine.normalizeSpace().substringBetween(searchRateString, '(');
-     System.Debug('RS999 returnValue :' +returnValue);  
      
      if (returnValue == null)
      {
-	//emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.length());
-		emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.indexOf(searchRateString, 0)+searchRateString.length()+5);
-        System.debug('rs999 emailLine 2: ' +emailLine);
+     returnValue = emailLine.normalizeSpace().substringBetween(searchRateString, '%'); //for Floor related fields
+         
+     if (returnValue == null)
+     {    
+    emailLine = emailLine.removeEnd('%'); 
+	emailLine= emailLine.substring(emailLine.indexOf(searchRateString, 0)+searchRateString.length(),emailLine.indexOf(searchRateString, 0)+searchRateString.length()+5);
+	System.Debug('RS999 emailLine :' +emailLine);
+         
     	if (emailLine != Null)     
     	{
         String  rate_sub = emailLine.deleteWhitespace();
-        System.Debug('rate_sub :' +rate_sub);            
+           
 		String  rate_subdot = rate_sub.remove('.');            
-        System.Debug('rate_subdot:' +rate_subdot);
+
             if (rate_subdot.isNumeric())
             {
-             System.Debug('Into rate_sub if :' +rate_sub );
+
              rate_sub = rate_sub.rightPad(5);
-             System.Debug('Into rate_sub if 1:' +rate_sub );
+
              String rate_ret;
              For (integer i = 0;i <= 4;i++)  
               {
-                  System.Debug('Valie of i 1:' +i);
+
                   if (rate_sub.substring(i,i+1).isNumeric())
                   {
-                        System.Debug('Value of i 2:' +i); 
+
                         if (rate_ret== null)
                         {
                         rate_ret=   rate_sub.substring(i,i+1);                    
@@ -279,14 +429,14 @@ Private String getRate(String emailLine,String searchRateString)
                         Else
                         {
                         rate_ret=  rate_ret + rate_sub.substring(i,i+1);
-                        System.Debug('Into rate_ret0,0 1:' +rate_ret);          
+        
                         }
                   }
                   else
                   {
                       if (rate_sub.substring(i,i+1) == '.')
                         {
-                            System.Debug('Valie of i 3:' +i);
+
                             if (rate_ret != null)
                             {
                             rate_ret=  rate_ret+ rate_sub.substring(i,i+1);
@@ -295,7 +445,7 @@ Private String getRate(String emailLine,String searchRateString)
                             {
                              rate_ret=  rate_sub.substring(i,i+1);   
                             }
-                            System.Debug('Into rate_ret0,0 2:' +rate_ret);          
+        
                         }          
                   }              
               }
@@ -303,24 +453,16 @@ Private String getRate(String emailLine,String searchRateString)
             }
         }         
      }
+     }
      
      if (returnValue == null)
      {
          returnValue = 'Error';
      }
-         System.Debug('RS999 returnValue :' + searchRateString + ' --- ' + returnValue);
+
      Return returnValue;
  }
 
-//////////////////////////////////////////////////////////////////////////
-    
-  public Boolean isNumericOrDecimal(String s) {
-    if (s == null)
-      return false;
-    else if (s.contains('.') && s.indexOf('.') == s.lastIndexOf('.'))
-      s = s.replace('.', '');
-    return s.isNumeric();
-  }
 //////////////////////////////////////////////////////////////////////////    
 
     public static void sendEmailMessage(
@@ -328,21 +470,13 @@ Private String getRate(String emailLine,String searchRateString)
     String rateerror
   ) {
     Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-   // List<String> ccAddresses = email.ccAddresses != null
-   //   ? email.ccAddresses
-   //   : new List<String>();
-   // List<String> toAddresses != null
-   //   ? email.fromAddress
-   //   : new List<String>();
     OrgWideEmailAddress[] owea = [
       SELECT Id
       FROM OrgWideEmailAddress
       WHERE DisplayName = 'Integrations User'
     ];
-   // message.OrgWideEmailAddressId = owea[0].id;
     message.ToAddresses = new List<String>{
-     // 'support@cvest.com',email.fromAddress
-     email.fromAddress
+     'support@cvest.com',email.fromAddress
     };
    // message.CcAddresses = ccAddresses;
     message.subject = 'Errors found in the Swap Rate Email from ' + date.today();

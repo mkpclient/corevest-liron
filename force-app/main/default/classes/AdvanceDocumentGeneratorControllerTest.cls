@@ -2,6 +2,7 @@
 private class AdvanceDocumentGeneratorControllerTest {
   static testMethod void test1() {
     
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact( acc );
     Opportunity deal = test_Helper.createOpportunity( acc, cont );
@@ -26,7 +27,8 @@ private class AdvanceDocumentGeneratorControllerTest {
         
         AdvanceDocumentGeneratorController.saveChunk(deal.Id, 'TestFileName', 'base64Data', 'pdf', fileId, false, 'test@gmail.com', 'testcc@gmail.com', 'testcc@gmail.com',subject,emailBody,listAttributes);
         try{
-            AdvanceDocumentGeneratorController.saveChunk(deal.Id, 'TestFileName', 'base64Data', 'pdf', fileId, true, 'test@gmail.com', 'testcc@gmail.com', 'testcc@gmail.com',subject,emailBody,listAttributes);
+          AdvanceDocumentGeneratorController.saveProofOfFunds(deal.Id, 'TESTFILENAME','testdata', 'pdf');
+          AdvanceDocumentGeneratorController.saveChunk(deal.Id, 'TestFileName', 'base64Data', 'pdf', fileId, true, 'test@gmail.com', 'testcc@gmail.com', 'testcc@gmail.com',subject,emailBody,listAttributes);
         }
       catch(exception e){}
         

@@ -8,6 +8,7 @@
   <aura:attribute name="filterFields" type="Map" />
   <aura:attribute name="assignmentSetStateOptions" type="Object[]" />
   <aura:attribute name="showAssignmentSets" type="Boolean" default="false" />
+  <aura:attribute name="isProofOfFund" type="Boolean" default="false" />
   <aura:attribute
     name="displayBridgeIcMemoCmp"
     type="Boolean"
@@ -17,7 +18,7 @@
 
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
 
-  <aura:attribute
+<aura:attribute
     name="staticResourceName"
     type="String"
     default="AdvanceDocuments"
@@ -65,41 +66,37 @@
               <option value=""></option>
               <aura:if isTrue="{!v.sObjectName == 'Advance__c'}">
                 <option value="{!'/apex/AdvancePrint?Id=' + v.recordId}">
-                  Print
+                  Advance Print
                 </option>
-              </aura:if>
-              <aura:if isTrue="{!v.sObjectName == 'Advance__c'}">
                 <option value="Funding Memo">Funding Memo</option>
               </aura:if>
 
+              <!-- Begin Documents for Record Type Single_Asset_Bridge_Loan  -->
               <aura:if
-                isTrue="{!and(v.filterFields.RecordType == 'Single_Asset_Bridge_Loan',  v.filterFields.ProductType == 'Single Asset (1-4 Unit)',or(v.filterFields.ProductSubType == 'Renovation',v.filterFields.ProductSubType == 'No Renovation'))}"
+                isTrue="{!v.filterFields.RecordType == 'Single_Asset_Bridge_Loan'}"
               >
-                <option value="{!'/apex/SABDealMemo?Id=' + v.dealId}">
-                  Deal Memo
-                </option>
-                <!--   <aura:if isTrue="{!and(v.filterFields.RecordType == 'Single_Asset_Bridge_Loan',  v.filterFields.ProductType == 'Single Asset (1-4 Unit)',or(v.filterFields.ProductSubType == 'Renovation',v.filterFields.ProductSubType == 'No Renovation'))}">
-                        <option value="{!'/apex/SABICMemo?Id=' + v.recordId}">
-                            Funding Memo
-                        </option> 
-                    </aura:if> -->
-                <!-- To display the documents in the Generate Document Tab
-      Added a 'OR' condition to sort the documents for SAB (Renovation and No Renovation) - Trivikram-->
-                <option value="docx-Guaranty_SAB_basic.docx">
-                  Guaranty SAB
-                </option>
-                <option value="docx-Environmental_Indemnity_SAB_basic.docx">
-                  Environmental Indemnity
-                </option>
-                <option value="docx-Promissory_Note_SAB_basic.docx">
-                  Secured Promissory Note
-                </option>
                 <option
                   value="docx-Architects_Consent_and_Agreement_SAB_Construction.docx"
                 >
                   Architect's Consent and Agreement - SAB (Construction)
                 </option>
-
+                <option value="docx-Borrower_Resolutions_-_SAB_Corp_v1.docx">
+                  Borrowing Resolutions Corporate
+                </option>
+                <option value="docx-Borrower_Resolutions_-_SAB_LLC_v1.docx">
+                  Borrowing Resolutions LLC
+                </option>
+                <option value="Bridge IC Memo">Bridge IC Memo</option>
+                <option
+                  value="docx-Form_Closing_Instructions_Borrower_Owned_Property-_SAB_Loan.docx"
+                >
+                  Closing Instructions (Borrower Owned Property)
+                </option>
+                <option
+                  value="docx-Form_Closing_Instructions_SAB_Acquisition.docx"
+                >
+                  Closing Instructions (Third Party Acquisition)
+                </option>
                 <option value="docx-Completion_Guaranty_SAB_Construction.docx">
                   Completion Guaranty - SAB (Construction)
                 </option>
@@ -108,99 +105,117 @@
                 >
                   Contractor Consent and Agreement - SAB (Construction)
                 </option>
+                <option value="{!'/apex/SABDealMemo?Id=' + v.dealId}">
+                  Deal Memo
+                </option>
                 <option
                   value="docx-Engineers_Consent_and_Agreement_SAB_Construction.docx"
                 >
                   Engineer's Consent and Agreement - SAB (Construction)
                 </option>
-                <option value="docx-Escrow_Instructions.docx">
+                <option value="docx-Environmental_Indemnity_-_SAB_v2.docx">
+                  Environmental Indemnity
+                </option>
+                  <aura:if isTrue="{!or(v.filterFields.ProductType == 'Single Asset (5-10 Unit)',v.filterFields.ProductType == 'Single Asset (1-4 Unit)')}">
+                        <option value="docx-Proof_Of_Funds.docx">
+                            Proof of Funds
+                        </option> 
+                    </aura:if>
+                <option value="docx-Guaranty_-_SAB_Full_Recourse_v2.docx">
+                  Guaranty SAB
+                </option>
+                <option value="docx-Secured_Promissory_Note_-_SAB_v1.docx">
+                  Secured Promissory Note
+                </option>
+                <!-- <option value="docx-Escrow_Instructions.docx">
                   Escrow Instructions
-                </option>
-                <option value="docx-Loan_Agreement_SAB_Construction.docx">
-                  Loan Agreement - SAB (Construction)
-                </option>
-
+                </option> -->
                 <option value="State Level Security Instruments">
                   State Level Security Instruments
                 </option>
-                <!-- <option value="Assignments">Assignments</option> -->
-                <option value="docx-Borrower_Action_SAB_LLC_Members.docx">
+                <!-- <option value="docx-Borrower_Action_SAB_LLC_Members.docx">
                   Borrower Action - SAB LLC Members
-                </option>
-                <option value="docx-Form_Corp_Borrowing_Resolutions.docx">
-                  Borrowing Resolutions Corporate
-                </option>
-                <option value="docx-Form_LLC_Borrowing_Resolutions.docx">
-                  Borrowing Resolutions LLC
-                </option>
-                <option value="docx-Borrower_Action_SAB_Corp.docx">
+                </option> -->
+
+                <!-- <option value="docx-Borrower_Action_SAB_Corp.docx">
                   Borrower Action - SAB Corp
                 </option>
                 <option
                   value="docx-Borrower_Action_SAB_LLC_Managers_and_Members.docx"
                 >
                   Borrower Action - SAB LLC Managers and Members
-                </option>
-              </aura:if>
-              <aura:if
-                isTrue="{!and(v.filterFields.RecordType == 'Single_Asset_Bridge_Loan',  v.filterFields.ProductSubType == 'No Renovation')}"
-              >
-                <option value="docx-Loan_Agreement_SAB_basic.docx">
-                  Loan Agreement SAB Basic
-                </option>
-                <option value="docx-Broker_Disclosure_SAB_basic.docx">
-                  Broker Disclosure Basic
-                </option>
-              </aura:if>
-              <aura:if
-                isTrue="{!and(v.filterFields.RecordType == 'Single_Asset_Bridge_Loan', v.filterFields.ProductSubType != 'No Renovation')}"
-              >
-                <option value="docx-Loan_Agreement_SAB_Advance.docx">
-                  Loan Agreement SAB Advance
-                </option>
-              </aura:if>
-              <aura:if
-                isTrue="{!and(v.filterFields.RecordType == 'Single_Asset_Bridge_Loan', (v.filterFields.ProductSubType == 'Renovation'))}"
-              >
-                <option value="docx-Broker_Disclosure_SAB_Advance.docx">
-                  Broker Disclosure Advance
-                </option>
-              </aura:if>
-              <!-- <aura:if isTrue="{!and(v.filterFields.RecordType == 'LOC_Loan',  v.sObjectName == 'Opportunity')}">
+                </option> -->
+                <aura:if isTrue="{!v.sObjectName == 'Opportunity'}">
+                  <aura:if
+                    isTrue="{!v.filterFields.ProductSubType == 'No Renovation'}"
+                  >
+                    <option value="docx-Loan_Agreement_-_SAB_Non-Renovation_v2.docx">
+                      Loan Agreement Non Renovation (Basic)
+                    </option>
+                    <!-- <option value="docx-Broker_Disclosure_SAB_basic.docx">
+                      Broker Disclosure Basic
+                    </option> -->
+                  </aura:if>
+                  <aura:if
+                    isTrue="{!v.filterFields.ProductSubType != 'No Renovation'}"
+                  >
+                    <option value="docx-Loan_Agreement_-_SAB_Renovation_Advances_v4.docx">
+                      Loan Agreement-Renovation (Advanced)
+                    </option>
+                    <option value="docx-Loan_Agreement_-_SAB_INDIVIDUAL_Renovation_Advances_v2.docx">
+                      Loan Agreement for Individual-Renovation (Advanced)
+                    </option>
+                    <!-- <option value="docx-Loan_Agreement_SAB_Construction.docx">
+                      Loan Agreement - SAB (Construction)
+                    </option> -->
+                    <!-- <option value="docx-Broker_Disclosure_SAB_Advance.docx">
+                      Broker Disclosure Advance
+                    </option> -->
+                  </aura:if>
+                  <!-- <aura:if isTrue="{!and(v.filterFields.RecordType == 'LOC_Loan',  v.sObjectName == 'Opportunity')}">
                         <option value="{!'/apex/BridgeICMemo?Id=' + v.recordId}">
                             Bridge IC Memo (No fill ins)
                         </option>
                     </aura:if> -->
-              <aura:if
-                isTrue="{!and(or(v.filterFields.RecordType == 'LOC_Loan', v.filterFields.RecordType == 'Single_Asset_Bridge_Loan'),  v.sObjectName == 'Opportunity')}"
-              >
+                  <option value="Loan Approval Request Form">
+                    Loan Approval Request Form
+                  </option>
+                  <aura:if
+                    isTrue="{!v.filterFields.ProductSubType == 'Renovation'}"
+                  >
+                    <option value="Schedule A">Schedule A - Renovation</option>
+                  </aura:if>
+                  <aura:if
+                    isTrue="{!v.filterFields.ProductSubType == 'No Renovation'}"
+                  >
+                    <option value="Schedule A">
+                      Schedule A - No Renovation
+                    </option>
+                  </aura:if>
+                </aura:if>
+                <option value="docx-Summary_of_Terms_-_SAB_DRAFT_v1.docx">
+                  Summary of Terms
+                </option>
+                <option value="docx-UCC-1.docx">UCC-1 Filing</option>
+              </aura:if>
+              <!-- End Documents for Record Type Single_Asset_Bridge_Loan  -->
+
+              <!-- Begin Documents for Record Type LOC_Loan  -->
+              <aura:if isTrue="{!v.filterFields.RecordType == 'LOC_Loan'}">
                 <option value="Bridge IC Memo">Bridge IC Memo</option>
+                <option
+                value="docx-Form_Closing_Instructions_Borrower_Owned_Property.docx"
+                >
+                  Closing Instructions (Borrower Owned Property)
+                </option>
+                <option
+                  value="docx-Form_Closing_Instructions_Third_Party_Acquisition.docx"
+                >
+                  Closing Instructions (Third Party Acquisition)
+                </option>
                 <option value="Loan Approval Request Form">
                   Loan Approval Request Form
                 </option>
-                <aura:if
-                  isTrue="{!v.filterFields.ProductSubType == 'Renovation'}"
-                >
-                  <option value="Schedule A">Schedule A - Renovation</option>
-                </aura:if>
-                <aura:if
-                  isTrue="{!v.filterFields.ProductSubType == 'No Renovation'}"
-                >
-                  <option value="Schedule A">Schedule A - No Renovation</option>
-                </aura:if>
-              </aura:if>
-
-              <option
-                value="docx-CoreVest_Form_Closing_Instructions_Borrower_Owned_Property.docx"
-              >
-                Closing Instructions (Borrower Owned Property)
-              </option>
-              <option
-                value="docx-Corevest_Form_Closing_Instructions_Third_Party_Acquisition.docx"
-              >
-                Closing Instructions (Third Party Acquisition)
-              </option>
-              <aura:if isTrue="{!v.filterFields.RecordType == 'LOC_Loan'}">
                 <aura:if
                   isTrue="{!and(v.filterFields.ProductType == 'Credit Line',  v.sObjectName == 'Advance__c')}"
                 >
@@ -241,14 +256,12 @@
                   State Level Security Instruments
                 </option>
               </aura:if>
-              <option value="docx-TestDoc.docx">Test Document</option>
-              <option
-                value="docx-CoreVest_Form_Renovation_Certificate_Institutional.DOCX"
-              >
-                Testing Doc Name
-              </option>
+              <!-- End Documents for Record Type LOC_Loan  -->
+              <option value="docx-TestDoc.docx">Test Document1</option>
+              <option value="TestDoc.docx">Test Document 2</option>
             </lightning:select>
 
+            <!-- Begin Documents for State Level Security Instruments  -->
             <aura:if
               isTrue="{!v.documentType == 'State Level Security Instruments'}"
             >
@@ -358,6 +371,9 @@
                 <option value="Form_Mortgage_Wyoming.docx">Wyoming</option>
               </lightning:select>
             </aura:if>
+            <!-- End Documents for State Level Security Documents  -->
+
+            <!-- Begin Documents for Assignments  -->
             <aura:if isTrue="{!v.documentType == 'Assignments'}">
               <lightning:select
                 aura:id="assignments"
@@ -400,6 +416,8 @@
                 <option value="Assignment Sets">Assignment Sets</option>
               </lightning:select>
             </aura:if>
+            <!-- End DOcuments for Assignments  -->
+
             <aura:if isTrue="{!v.showAssignmentSets}">
               <lightning:select aura:id="assignmentSets" label="Select State">
                 <option value=""></option>
@@ -409,7 +427,6 @@
                 >
                   <option value="{!opt.value}">{!opt.label}</option>
                 </aura:iteration>
-                <option value="TestDoc.docx">Test Document</option>
               </lightning:select>
             </aura:if>
           </div>
@@ -438,28 +455,29 @@
       <c:AdvanceDocumentGenerator
         aura:id="generator"
         StaticResourceName="{!v.staticResourceName}"
+        isProofOfFund="{!v.isProofOfFund}"
+        recordId="{!v.dealId}"
       />
       <aura:set attribute="else"> {!v.body } </aura:set>
     </aura:if>
   </aura:if>
   <aura:if isTrue="{!v.generateScheduleA}">
     <section
-        role="dialog"
-        tabindex="-1"
-        aria-labelledby="modal-heading-01"
-        aria-modal="true"
-        aria-describedby="modal-content-id-1"
-        class="slds-modal slds-fade-in-open"
-      >
-        <div class="slds-modal__container">
-
-    <c:scheduleA
-      dealId="{!v.dealId}"
-      prodSubtype="{!v.filterFields.ProductSubType}"
-      propertyIds="{!v.propertyIds}"
-      oncancel="{!c.cancel}"
-    />
-    </div>
+      role="dialog"
+      tabindex="-1"
+      aria-labelledby="modal-heading-01"
+      aria-modal="true"
+      aria-describedby="modal-content-id-1"
+      class="slds-modal slds-fade-in-open"
+    >
+      <div class="slds-modal__container">
+        <c:scheduleA
+          dealId="{!v.dealId}"
+          prodSubtype="{!v.filterFields.ProductSubType}"
+          propertyIds="{!v.propertyIds}"
+          oncancel="{!c.cancel}"
+        />
+      </div>
     </section>
   </aura:if>
 </aura:component>
