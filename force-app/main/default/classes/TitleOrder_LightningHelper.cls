@@ -101,6 +101,14 @@ public without sharing class TitleOrder_LightningHelper {
     return dealDoc;
   }
 
+  public static ContentVersion queryCv(Id cdId) {
+    return [
+        SELECT Id, ContentSize, VersionData, Title, FileExtension
+        FROM ContentVersion
+        WHERE ContentDocumentId = :cdId
+      ];
+  }
+
   @AuraEnabled
   public static String retrieveData(Id dealId) {
     try {
@@ -199,11 +207,7 @@ public without sharing class TitleOrder_LightningHelper {
       WHERE Deal__c = :dealId
     ];
 
-    ContentVersion cv = [
-      SELECT Id, ContentSize, VersionData, Title
-      FROM ContentVersion
-      WHERE ContentDocumentId = :cdId
-    ];
+    ContentVersion cv = queryCv(cdId);
 
     System.debug(cv);
 
@@ -219,8 +223,8 @@ public without sharing class TitleOrder_LightningHelper {
     Opportunity deal = Database.query(queryString);
 
 
-    ServiceLinkAPI.QuoteRequest qRequest = ServiceLinkAPI.generateQuoteRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
-    ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
+    ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
+    ServiceLinkAPI.performRequest(
       'QuoteRequest',
       JSON.serialize(qRequest)
     );
@@ -240,7 +244,6 @@ public without sharing class TitleOrder_LightningHelper {
           Comments__c = qRequest.Comments,
           Document_Name__c = qRequest.Document.DocumentName,
           Document_Type__c = qRequest.Document.DocumentType,
-          Bulk_Project_Order_Num__c = qResponse.BulkProjectOrderNum,
           Deal__c = dealId
         )
       );
@@ -262,23 +265,22 @@ public without sharing class TitleOrder_LightningHelper {
         .fields.getMap()
         .keySet();
 
-      ContentVersion cv = [
-        SELECT Id, ContentSize, VersionData, Title
-        FROM ContentVersion
-        WHERE ContentDocumentId = :cdId
-      ];
-      String dealFields = 'Deal__r.Contact__r.FirstName,Deal__r.Contact__r.LastName,Deal__r.Account.Name,Deal__r.Contact__r.Email,Deal__r.Contact__r.MailingStreet,Deal__r.Contact__r.MailingCity,Deal__r.Contact__r.MailingState,Deal__r.Contact__r.MailingPostalCode,Deal__r.Contact__r.Phone,Deal__r.Contact__r.MobilePhone';
+      ContentVersion cv = queryCv(cdId);
+      
       String queryString =
-        'SELECT ' + String.join(new List<String>(toFields), ',') + ',' + dealFields + ',Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
+        'SELECT ' + String.join(new List<String>(toFields), ',') + ',Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
 
       queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
+
 
       List<Title_Order__c> titleOrders = Database.query(queryString);
       Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
       Map<String, Map<Id,List<Property__c>>> parentChildMapList = new Map<String, Map<Id,List<Property__c>>>();
-      Map<String, ServiceLinkAPI.ServiceLinkRequest> qRequests = new Map<String, ServiceLinkAPI.ServiceLinkRequest>();
+      Map<String, ServiceLinkAPI.QuoteAccepted> qRequests = new Map<String, ServiceLinkAPI.QuoteAccepted>();
 
       Map<Id,Property__c> childProps = new Map<Id,Property__c>([SELECT Id, (SELECT Id, Name, City__c, County__c, State__c, ZipCode__c FROM Properties__r ) FROM Property__c WHERE Deal__c = :dealId AND Is_Parent__c = True]);
+
+      Opportunity deal = queryDealChildren(dealId);
 
       for (Title_Order__c to : titleOrders) {
         
@@ -308,15 +310,14 @@ public without sharing class TitleOrder_LightningHelper {
 
         List<Property__c> props = propListsMap.get(to.Quote_ID__c);
         Map<Id,List<Property__c>> propMap = parentChildMapList.get(to.Quote_ID__c);
-        ServiceLinkAPI.ServiceLinkRequest qR = new ServiceLinkAPI.ServiceLinkRequest();
-        qR.generateQuoteAcceptedRequest(to, cv, props, propMap);
+        ServiceLinkAPI.QuoteAccepted qR = new ServiceLinkAPI.QuoteAccepted(to, cv, props, propMap, deal);
         qRequests.put(to.Quote_ID__c, qr);
       }
 
       
 
-      for (ServiceLinkAPI.ServiceLinkRequest qr : qRequests.values()) {
-        ServiceLinkAPI.ServiceLinkRequest qResponse = ServiceLinkAPI.performRequest(
+      for (ServiceLinkAPI.QuoteAccepted qr : qRequests.values()) {
+        ServiceLinkAPI.performRequest(
           'QuoteAccepted',
           JSON.serialize(qr)
         );
@@ -330,6 +331,62 @@ public without sharing class TitleOrder_LightningHelper {
       System.debug(e.getStackTraceString());
       throw new AuraHandledException(e.getMessage() + ' ' + e.getLineNumber());
     }
+  }
+
+  @AuraEnabled
+  public static void cancelRequest(List<Id> titleOrderIds){
+    try {
+      List<ServiceLinkAPI.CancelRequest> cancelReqs = new List<ServiceLinkAPI.CancelRequest>();
+      List<Title_Order__c> tos = [SELECT Id,Bulk_Project_Order_Num__c, Incoming_Transaction_Id__c, Loan_Number__c FROM Title_Order__c WHERE Id IN :titleOrderIds];
+      
+      for(Title_Order__c to: tos) {
+        to.Incoming_Transaction_Id__c = (to.Id + '-' + System.now() + '-CRQ').replaceAll(':', '').deleteWhitespace();
+        cancelReqs.add(new ServiceLinkAPI.CancelRequest(to));
+      }
+
+
+      for(ServiceLinkAPI.CancelRequest cr : cancelReqs) {
+        ServiceLinkAPI.performRequest(
+          'CancelRequest',
+          JSON.serialize(cr)
+        );
+      }
+
+      update tos; 
+
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  public static Opportunity queryDealChildren(Id dealId) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    Set<String> userFields = schemaMap.get('User')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    Set<String> contactFields = schemaMap.get('Contact')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    List<String> dealContactFields = new List<String>(schemaMap.get('Deal_Contact__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet());
+    
+    dealContactFields.addAll(new Set<String>{'Account__r.Name'});
+
+    for(String cf : contactFields) {
+      dealContactFields.add('Contact__r.' + cf);
+    }
+
+
+    String queryString = 'SELECT Id,';
+    queryString += '(SELECT User.' + String.join(new List<String>(userFields), ',User.') + ' FROM OpportunityTeamMembers WHERE TeamMemberRole=\'Legal Team\' AND User.Street != null),';
+    queryString += '(SELECT ' + String.join(dealContactFields, ',') + ' FROM Deal_Contacts__r WHERE Contact__r.Name != null AND Vendor_Type__c IN (\'Lender Legal Counsel\', \'Lender Local Legal Counsel	\'))';
+    queryString += ' FROM Opportunity WHERE Id=\'' + dealId + '\'';
+
+    return Database.query(queryString);
   }
 
   @future

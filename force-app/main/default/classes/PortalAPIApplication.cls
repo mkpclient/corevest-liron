@@ -212,7 +212,7 @@ global without sharing class PortalAPIApplication {
     return applications;
   }
 
-  public virtual class Application {
+  public g class Application {
     public Id id; //id
     public String status;
     public String loanType; // Loan_Type__cloanType
