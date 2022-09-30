@@ -5,10 +5,16 @@ public without sharing class BatchApprovalHelper {
   };
 
   public static final Map<String,String> CHATTER_MESSAGE_MAP = new Map<String,String>{
-    'Advance_Batch_Approvers' => 'A new batch of advances have entered approval and require your review.\n Submitter Comment: '
+    'Advance_Batch_Approvers' => 'A new batch of advances have entered approval and require your review.\n Submitter Comment: ',
+    'Advance_IC_Approvers' => 'This Advance has entered IC approval and requires your review. Submitter comment: '
   };
 
-  public static final String RECIPIENT_GROUP = 'Advance_Batch_Additional_Recipients';
+  public static final Map<String,String> RECIPIENT_GROUP_MAP = new Map<String,String>{
+    'Advance Batch Approval' => 'Advance_Batch_Additional_Recipients'
+  };
+
+  
+
   public static final Map<String, String> TEMPLATE_MAP = new Map<String, String>{
     'submitted' => 'Advance_Batch_Submitted',
     'approved' => 'Advance_Batch_Approved',
@@ -22,7 +28,9 @@ public without sharing class BatchApprovalHelper {
       ba.Week_Of__c = System.today().toStartOfWeek().addDays(1);
 
       if(ba.Approval_Type__c == 'Advance Batch Approval') {
-        ba.RecordTypeId = recTypeMap.get('Batch Approval').getRecordTypeId();
+        ba.RecordTypeId = recTypeMap.get('Batch Approval').getRecordTypeId();//Single Approval	
+      } else if (ba.Approval_Type__c == 'Advance IC Approval') {
+        ba.RecordTypeId = recTypeMap.get('Single Approval').getRecordTypeId();	
       }
     }
   }
@@ -30,14 +38,22 @@ public without sharing class BatchApprovalHelper {
   public static void afterInsert(Map<Id, Batch_Approval__c> newMap) {
     List<Batch_Approval__c> batchApprovals = new List<Batch_Approval__c>();
     List<Batch_Approval__c> icApprovals = new List<Batch_Approval__c>();
+    Map<String,List<Batch_Approval__c>> approvalMap = new Map<String, List<Batch_Approval__c>>();
     for(Batch_Approval__c ba: newMap.values()) {
-      if(ba.Approval_Type__c == 'Advance Batch Approval') {
-        batchApprovals.add(ba);
+      if(!approvalMap.containsKey(ba.Approval_Type__c)) {
+        approvalMap.put(ba.Approval_Type__c, new List<Batch_Approval__c>{ba});
+      } else {
+        approvalMap.get(ba.Approval_Type__c).add(ba);
       }
+      // if(ba.Approval_Type__c == 'Advance Batch Approval') {
+      //   batchApprovals.add(ba);
+      // }
     }
 
-    if(batchApprovals.size() > 0){ 
-      createBatchApprovers(batchApprovals, APPROVER_GROUP_MAP.get(batchApprovals[0].Approval_Type__c));
+    if(approvalMap.size() > 0){ 
+      for(String appType : approvalMap.keySet()) {
+        createBatchApprovers(approvalMap.get(appType), APPROVER_GROUP_MAP.get(appType));
+      }
     }
   }
 
@@ -78,7 +94,8 @@ public without sharing class BatchApprovalHelper {
 
       if (
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
-        newBa.Approval_Status__c == 'Approved'
+        newBa.Approval_Status__c == 'Approved' &&
+        newBa.Approval_Type__c == 'Advance Batch Approval'
       ) {
         approvedMap.put(newBa.Id, newBa);
       }
@@ -117,7 +134,7 @@ public without sharing class BatchApprovalHelper {
     String type
   ) {
     Set<Id> sendTo = retrieveGroupMembers(
-      new List<String>{ APPROVER_GROUP_MAP.get('Advance Batch Approval'), RECIPIENT_GROUP }
+      new List<String>{ APPROVER_GROUP_MAP.get('Advance Batch Approval'), RECIPIENT_GROUP_MAP.get('Advance Batch Approval') }
     );
     String templateName = TEMPLATE_MAP.get(type);
     List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
