@@ -133,23 +133,23 @@ const ADV_FIELDS_MAP = {
 };
 
 const DEAL_REC_TYPES = [
-  "LOC_Loan",
-  "Single_Asset_Bridge_Loan",
-  "Table_Funded_CRE_Loan_Active",
-  "Table_Funded_CRE_Loan",
-  "Acquired_Bridge_Loan",
-  "Acquired_Bridge_Loan_Active"
+  'LOC_Loan',
+  'Single_Asset_Bridge_Loan',
+  'Table_Funded_CRE_Loan_Active',
+  'Table_Funded_CRE_Loan',
+  'Acquired_Bridge_Loan',
+  'Acquired_Bridge_Loan_Active'
 ];
 
-const PROP_STATUSES = ["Due Diligence", "Pending", "Closing"];
+const PROP_STATUSES = ['Due Diligence', 'Pending', 'Closing'];
 
 const DEAL_STAGES = [
-  "Loan Processing",
-  "Processing Hold",
-  "Underwriting",
-  "UW Hold",
-  "Approved by Committee",
-  "Closed Won"
+  'Loan Processing',
+  'Processing Hold',
+  'Underwriting',
+  'UW Hold',
+  'Approved by Committee',
+  'Closed Won'
 ];
 
 const PROP_ADV_FIELDS = ["Property__c", "Advance__c"];

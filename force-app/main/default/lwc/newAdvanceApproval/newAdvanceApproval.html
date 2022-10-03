@@ -1,0 +1,56 @@
+<template>
+  <lightning-quick-action-panel header="New Advance Approval">
+    <template if:true={isLoading}>
+      <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+    </template>
+    <template if:false={isLoading}>
+      <template if:true={hasApproval}>
+        This Advance is currently in an active approval.
+      </template>
+      <template if:false={hasApproval}>
+        <lightning-record-edit-form
+          object-api-name="Batch_Approval__c"
+          onsuccess={handleSuccess}
+          onerror={handleError}
+        >
+          <lightning-messages> </lightning-messages>
+          <lightning-input-field
+            field-name="Initial_Comments__c"
+            required
+          ></lightning-input-field>
+          <lightning-input-field
+            field-name="Approval_Type__c"
+            value="Advance IC Approval"
+            style="display: none"
+          ></lightning-input-field>
+          <lightning-input-field
+            field-name="Advance__c"
+            value={recordId}
+            style="display: none"
+          ></lightning-input-field>
+          <lightning-button
+            variant="brand"
+            label="Save"
+            type="submit"
+            data-name="submit"
+            style="display: none"
+          ></lightning-button>
+        </lightning-record-edit-form>
+      </template>
+      <div slot="footer">
+        <lightning-button
+          variant="neutral"
+          label="Cancel"
+          onclick={handleClick}
+        ></lightning-button>
+        <lightning-button
+          variant="brand"
+          label="Save"
+          class="slds-m-left_x-small"
+          onclick={handleClick}
+          if:false={hasApproval}
+        ></lightning-button>
+      </div>  
+    </template>
+  </lightning-quick-action-panel>
+</template>

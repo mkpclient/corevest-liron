@@ -15,7 +15,7 @@ export default class BatchApprovalInProgress extends LightningElement {
   }
 
   async queryApprovalData() {
-    const queryString = "SELECT Id, Approver__c, Approver__r.Name, Status__c, Batch_Approval__c, Batch_Approval__r.Name, Batch_Approval__r.CreatedDate, Batch_Approval__r.Week_Of__c, Batch_Approval__r.No_of_Advances__c, Batch_Approval__r.Total_Funding__c FROM Batch_Approver__c WHERE Batch_Approval__r.Approval_Status__c != 'Rejected' AND Batch_Approval__r.Approval_Status__c != 'Approved'";
+    const queryString = "SELECT Id, Approver__c, Approver__r.Name, Status__c, Batch_Approval__c, Batch_Approval__r.Name, Batch_Approval__r.CreatedDate, Batch_Approval__r.Week_Of__c, Batch_Approval__r.No_of_Advances__c, Batch_Approval__r.Total_Funding__c FROM Batch_Approver__c WHERE Batch_Approval__r.Approval_Status__c NOT IN ('Recalled','Rejected') AND Batch_Approval__r.Approval_Status__c != 'Approved' AND Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval'";
 
     const res = await query({ queryString });
 

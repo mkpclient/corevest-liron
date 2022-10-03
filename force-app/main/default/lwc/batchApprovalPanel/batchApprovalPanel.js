@@ -45,7 +45,7 @@ export default class BatchApprovalPanel extends LightningElement {
 
     if(res.length > 0) {
       this.batchReadOnlyIds = res.map(v => v.Id);
-      const approver = res.find(v => v.Approver__c === this.userId && v.Status__c === "Pending");
+      const approver = res.find(v => v.Approver__c === this.userId && v.Status__c === "Pending" && v.Batch_Approval__r.Approval_Status__c != "Recalled");
       if(approver) {
         this.batchApproverId = approver.Id;
       }

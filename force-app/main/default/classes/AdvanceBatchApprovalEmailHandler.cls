@@ -2,11 +2,15 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
   static final String HANDLERADDRESS = retrieveEmailServiceAddress();
   //Advance_Batch_Approvers
 
-  Map<Id, User> USERINFO_MAP = queryUserInfo('Advance_Batch_Approvers');
+  Map<String,Map<Id, User>> USERINFO_MAP = new Map<String,Map<Id,User>>{
+    'Advance Batch Approval' => queryUserInfo('Advance_Batch_Approvers'),
+    'Advance IC Approval' => queryUserInfo('Advance_IC_Approvers')
+  };
 
-  public static final Set<String> EMAIL_ADDRESSES = queryEmailAddresses(
-    'Advance_Batch_Approvers'
-  );
+  public static final Map<String, Set<String>> EMAIL_ADDRESSES = new Map<String, Set<String>>{
+    'Advance Batch Approval' => queryEmailAddresses('Advance_Batch_Approvers'),
+    'Advance IC Approval' => queryEmailAddresses('Advance_IC_Approvers')
+  };
 
   global Messaging.InboundEmailResult handleInboundEmail(
     Messaging.InboundEmail email,
@@ -17,7 +21,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     String batchName = email.subject.substringAfter('#');
     System.debug('BATCH NAME : ' + batchName);
     String fromAddress = email.fromAddress;
-    
+
     Set<String> alreadySentTo = new Set<String>();
     Set<String> setEmails = new Set<String>();
     Set<String> approverEmails = new Set<String>();
@@ -50,15 +54,8 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
       }
     }
 
-    if (
-      !alreadySentTo.equals(EMAIL_ADDRESSES) &&
-      !alreadyCcs.equals(EMAIL_ADDRESSES)
-    ) {
-      setCcs.addAll(EMAIL_ADDRESSES);
-    }
-
     List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
-    
+
     Integer characterLim = 6 + email.Subject.length() <= 80
       ? email.Subject.length()
       : 80 - 6;
@@ -69,16 +66,23 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     List<String> recips = new List<String>();
     List<String> ccs = new List<String>();
 
-    recips.addAll(alreadySentTo);
-    ccs.addAll(alreadyCcs);
-
     List<Batch_Approval__c> batchApproval = [
-      SELECT Id, OwnerId, Owner.Email
+      SELECT Id, OwnerId, Owner.Email, Approval_Type__c
       FROM Batch_Approval__c
       WHERE Name = :batchName
     ];
 
     if (batchApproval.size() > 0) {
+      if (
+        !alreadySentTo.equals(EMAIL_ADDRESSES.get(batchApproval[0].Approval_Type__c)) &&
+        !alreadyCcs.equals(EMAIL_ADDRESSES.get(batchApproval[0].Approval_Type__c))
+      ) {
+        setCcs.addAll(EMAIL_ADDRESSES.get(batchApproval[0].Approval_Type__c));
+      }
+
+      recips.addAll(alreadySentTo);
+      ccs.addAll(alreadyCcs);
+
       String alternateAddress = '';
       if (fromAddress.contains('@cvest.com')) {
         alternateAddress = fromAddress.replace(
@@ -87,8 +91,8 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         );
       }
 
-      for (Id key : USERINFO_MAP.keySet()) {
-        approverEmails.add(USERINFO_MAP.get(key).Email);
+      for (Id key : USERINFO_MAP.get(batchApproval[0].Approval_Type__c).keySet()) {
+        approverEmails.add(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Email);
       }
 
       List<Batch_Approver__c> batchApprovers = [
@@ -108,7 +112,9 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
           AND Status__c = 'Pending'
       ];
 
-      Batch_Approver__c batchApprover = batchApprovers.size() > 0 ? batchApprovers[0] : null;
+      Batch_Approver__c batchApprover = batchApprovers.size() > 0
+        ? batchApprovers[0]
+        : null;
 
       if (
         (fromAddress == batchApproval[0].Owner.Email ||
@@ -154,7 +160,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
           batchApproval[0],
           listEmails,
           listCcs,
-          new List<Id>(USERINFO_MAP.keySet()),
+          new List<Id>(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).keySet()),
           batchApproval[0].OwnerId,
           false
         );
@@ -174,15 +180,15 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
 
         if (batchApprover != null) {
           User fromUser = new User();
-          for (Id key : USERINFO_MAP.keySet()) {
+          for (Id key : USERINFO_MAP.get(batchApproval[0].Approval_Type__c).keySet()) {
             if (
-              (USERINFO_MAP.get(key).Email.toLowerCase() == fromAddress ||
-              USERINFO_MAP.get(key).Email.toLowerCase() == alternateAddress) &&
+              (USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Email.toLowerCase() == fromAddress ||
+              USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Email.toLowerCase() == alternateAddress) &&
               htmlBody.toLowerCase()
-                .contains(USERINFO_MAP.get(key).Approver_Code__c.toLowerCase())
+                .contains(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Approver_Code__c.toLowerCase())
             ) {
               toId = key;
-              fromUser = USERINFO_MAP.get(key);
+              fromUser = USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key);
               break;
             }
           }
@@ -327,7 +333,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     if (Test.isRunningTest()) {
       userIds.add(UserInfo.getUserId());
     }
-    
+
     List<User> userList = [SELECT Email FROM User WHERE Id IN :userIds];
     for (User u : userList) {
       emailAdds.add(u.Email);
@@ -466,12 +472,11 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     if (null != recipients && recipients.size() > 0) {
       recipientStr = String.join(recipients, '; ');
     }
-    
+
     String ccStr = '';
     if (null != ccEmails && ccEmails.size() > 0) {
       ccStr = String.join(ccEmails, '; ');
     }
-
 
     System.debug(em.headers);
     DateTime emailDate;
@@ -503,7 +508,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     if (ccEmailIds.size() > 0) {
       emm.CcIds = ccEmailIds;
     }
-    if(recipientEmailIds.size() > 0) {
+    if (recipientEmailIds.size() > 0) {
       emm.ToIds = recipientEmailIds;
     }
 
@@ -534,7 +539,7 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         advEmm.CcIds = ccEmailIds;
       }
 
-      if(recipientEmailIds.size() > 0) {
+      if (recipientEmailIds.size() > 0) {
         advEmm.ToIds = recipientEmailIds;
       }
 
