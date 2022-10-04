@@ -2,7 +2,7 @@ import { api, LightningElement, wire } from "lwc";
 import { CloseActionScreenEvent } from "lightning/actions";
 import upsertRecord from "@salesforce/apex/lightning_Controller.upsertRecord";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-import { getFieldValue, getRecord } from 'lightning/uiRecordApi';
+import { getFieldValue, getRecord, getRecordNotifyChange } from 'lightning/uiRecordApi';
 
 import ADVANCE_APPROVAL from "@salesforce/schema/Advance__c.Batch_Approval__c";
 import APPROVAL_STATUS from "@salesforce/schema/Advance__c.Batch_Approval__r.Approval_Status__c";
@@ -55,6 +55,7 @@ export default class NewAdvanceApproval extends LightningElement {
 
     await upsertRecord({ record: batch });
 
+    getRecordNotifyChange([{recordId: this.recordId}, {recordId: recId}]);
 
     this.dispatchEvent(new CloseActionScreenEvent());
     this.dispatchEvent(

@@ -6,7 +6,7 @@ public without sharing class BatchApproverHelper {
     for (Batch_Approver__c newBa : newMap.values()) {
       Batch_Approver__c oldBa = oldMap.get(newBa.Id);
 
-      if(newBa.Status__c == 'Approved' && oldBa.Status__c != newBa.Status__c) {
+      if (newBa.Status__c == 'Approved' && oldBa.Status__c != newBa.Status__c) {
         newBa.Approval_Date__c = System.today();
       }
     }
@@ -22,7 +22,7 @@ public without sharing class BatchApproverHelper {
     for (Batch_Approver__c newBa : newMap.values()) {
       Batch_Approver__c oldBa = oldMap.get(newBa.Id);
 
-      if(oldBa.Status__c != newBa.Status__c && newBa.Status__c == 'Approved') {
+      if (oldBa.Status__c != newBa.Status__c && newBa.Status__c == 'Approved') {
         approvedMap.put(newBa.Batch_Approval__c, newBa.Approver_Name__c);
       }
 
@@ -49,7 +49,7 @@ public without sharing class BatchApproverHelper {
       }
     }
 
-    if(approvedMap.size() > 0) {
+    if (approvedMap.size() > 0) {
       postApprovalChatter(approvedMap);
     }
 
@@ -62,31 +62,52 @@ public without sharing class BatchApproverHelper {
     }
   }
 
-  public static void postApprovalChatter(Map<Id,String> appMap) {
+  public static void postApprovalChatter(Map<Id, String> appMap) {
     List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
 
-    for(Batch_Approval__c ba : [
-      SELECT Id, Submitted_By__c,
-      (SELECT Id, Approver__c, Approver_Name__c, Comments__c, Status__c FROM Batch_Approvers__r)
-      FROM Batch_Approval__c WHERE Id IN :appMap.keySet()
+    for (Batch_Approval__c ba : [
+      SELECT
+        Id,
+        Submitted_By__c,
+        Approval_Type__c,
+        Advance__c,
+        (
+          SELECT Id, Approver__c, Approver_Name__c, Comments__c, Status__c
+          FROM Batch_Approvers__r
+        )
+      FROM Batch_Approval__c
+      WHERE Id IN :appMap.keySet()
     ]) {
       List<Id> mentionIds = new List<Id>();
       mentionIds.add(ba.Submitted_By__c);
       String comment = 'Approver comment: ';
-      if(ba.Batch_Approvers__r != null && ba.Batch_Approvers__r.size() > 0) {
-        for(Batch_Approver__c bapp : ba.Batch_Approvers__r) {
+      if (ba.Batch_Approvers__r != null && ba.Batch_Approvers__r.size() > 0) {
+        for (Batch_Approver__c bapp : ba.Batch_Approvers__r) {
           mentionIds.add(bapp.Approver__c);
-          if(appMap.get(ba.Id) == bapp.Approver_Name__c && bapp.Status__c == 'Approved') {
+          if (
+            appMap.get(ba.Id) == bapp.Approver_Name__c &&
+            bapp.Status__c == 'Approved'
+          ) {
             comment += bapp.Comments__c;
           }
         }
       }
 
-      feedElements.add(BatchApprovalHelper.constructBatchChatterPost('This batch of advances has been approved by ' + appMap.get(ba.Id) + '.\n' + comment, ba.Id, mentionIds));
-
+      feedElements.add(
+        BatchApprovalHelper.constructBatchChatterPost(
+          'This ' + ba.Approval_Type__c + ' has been approved by ' +
+          appMap.get(ba.Id) +
+          '.\n' +
+          comment,
+          (ba.Approval_Type__c == 'Advance Batch Approval'
+            ? ba.Id
+            : ba.Advance__c),
+          mentionIds
+        )
+      );
     }
 
-    if(!test.isRunningTest()) {
+    if (!test.isRunningTest()) {
       BatchApprovalHelper.postChatterBatch(feedElements);
     }
   }

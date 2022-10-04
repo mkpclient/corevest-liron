@@ -19,7 +19,10 @@ public without sharing class BatchApprovalHelper {
     'submittedBatch' => 'Advance_Batch_Submitted',
     'approvedBatch' => 'Advance_Batch_Approved',
     'rejectedBatch' => 'Advance_Batch_Rejected',
-    'submittedIc' => 'Advance_IC_Submitted'
+    'submittedIc' => 'Advance_IC_Submitted',
+    'rejectedIc' => 'Advance_IC_Rejected',
+    'approvedIc' => 'Advance_IC_Approved',
+    'recalledIc' => 'Advance_IC_Recalled'
   };
   //
 
@@ -83,35 +86,56 @@ public without sharing class BatchApprovalHelper {
     Map<Id, Batch_Approval__c> rejectedBatches = new Map<Id, Batch_Approval__c>();
     Map<Id, Batch_Approval__c> approvedMap = new Map<Id, Batch_Approval__c>();
     Map<Id, Batch_Approval__c> submittedBatches = new Map<Id, Batch_Approval__c>();
-    
+    Map<Id, Batch_Approval__c> recalledRecords = new Map<Id, Batch_Approval__c>();
+
     Map<Id, Batch_Approval__c> submittedIc = new Map<Id, Batch_Approval__c>();
+    Map<Id, Batch_Approval__c> approvedIc = new Map<Id, Batch_Approval__c>();
+    Map<Id, Batch_Approval__c> rejectedIc = new Map<Id, Batch_Approval__c>();
+
+    List<Batch_Approval__c> advancesToUpdate = new List<Batch_Approval__c>();
     for (Batch_Approval__c newBa : newMap.values()) {
       Batch_Approval__c oldBa = oldMap.get(newBa.Id);
 
       if (
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
-        newBa.Approval_Status__c == 'Rejected' && 
-        newBa.Approval_Type__c == 'Advance Batch Approval'
+        newBa.Approval_Status__c == 'Rejected'
       ) {
-        rejectedBatches.put(newBa.Id, newBa);
+        if(newBa.Approval_Type__c == 'Advance Batch Approval') {
+          rejectedBatches.put(newBa.Id, newBa);
+        } else if(newBa.Approval_Type__c == 'Advance IC Approval') {
+          rejectedIc.put(newBa.Id, newBa);
+          advancesToUpdate.add(newBa);
+        }
       }
 
       if (
         newBa.Approval_Status__c != oldBa.Approval_Status__c &&
-        newBa.Approval_Status__c == 'Approved' &&
-        newBa.Approval_Type__c == 'Advance Batch Approval'
+        newBa.Approval_Status__c == 'Approved'
       ) {
-        approvedMap.put(newBa.Id, newBa);
+        if(newBa.Approval_Type__c == 'Advance Batch Approval') {
+          approvedMap.put(newBa.Id, newBa);
+        } else if(newBa.Approval_Type__c == 'Advance IC Approval') {
+          approvedIc.put(newBa.Id, newBa);
+          advancesToUpdate.add(newBa);
+        }
+      }
+
+      if(newBa.Is_Recalled__c != oldBa.Is_Recalled__c &&
+      newBa.Is_Recalled__c) {
+        recalledRecords.put(newBa.Id, newBa);
+        advancesToUpdate.add(newBa);
       }
 
       if (
         oldBa.AttachmentPosted__c != newBa.AttachmentPosted__c &&
-        newBa.AttachmentPosted__c && 
-        newBa.Approval_Type__c == 'Advance Batch Approval'
+        newBa.AttachmentPosted__c
       ) {
-        submittedBatches.put(newBa.Id, newBa);
-      } else if (oldBa.AttachmentPosted__c != newBa.AttachmentPosted__c && newBa.Approval_Type__c == 'Advance IC Approval' && newBa.Approval_Status__c != 'Recalled') {
-        submittedIc.put(newBa.Id, newBa);
+        if(newBa.Approval_Type__c == 'Advance Batch Approval') {
+          submittedBatches.put(newBa.Id, newBa);
+        } else if (newBa.Approval_Type__c == 'Advance IC Approval') {
+          submittedIc.put(newBa.Id, newBa);
+          advancesToUpdate.add(newBa);
+        }
       }
     }
 
@@ -122,11 +146,25 @@ public without sharing class BatchApprovalHelper {
       sendEmail(rejectedBatches.values(), 'rejectedBatch');
     }
 
+    if(rejectedIc.size() > 0) {
+      updateApprovalHistories(rejectedIc.keySet(), 'Rejected');
+      postApproveRejectChatter(rejectedIc.keySet());
+      updateNonResponse(rejectedIc.keySet());
+      sendEmail(rejectedIc.values(), 'rejectedIc');
+    }
+
     if (approvedMap.size() > 0) {
       updateApprovalHistories(approvedMap.keySet(), 'Approved');
       postApproveRejectChatter(approvedMap.keySet());
       updateNonResponse(approvedMap.keySet());
       sendEmail(approvedMap.values(), 'approvedBatch');
+    }
+
+    if(approvedIc.size() > 0) {
+      updateApprovalHistories(approvedIc.keySet(), 'Approved');
+      postApproveRejectChatter(approvedIc.keySet());
+      updateNonResponse(approvedIc.keySet());
+      sendEmail(approvedIc.values(), 'approvedIc');
     }
 
     if (submittedBatches.size() > 0) {
@@ -137,6 +175,73 @@ public without sharing class BatchApprovalHelper {
       aggregateAdvances(submittedIc.keySet(), submittedIc.values()[0].Approval_Type__c);
       sendEmail(submittedIc.values(), 'submittedIc');
     }
+
+    if(recalledRecords.size() > 0) {
+      updateRecalled(recalledRecords.keySet());
+      updateApprovalHistories(recalledRecords.keySet(), 'Recalled');
+      sendEmail(recalledRecords.values(), 'recalledIc');
+    }
+
+    if(advancesToUpdate.size() > 0) {
+      updateAdvanceStatus(advancesToUpdate);
+    }
+  }
+
+  public static void updateAdvanceStatus(List<Batch_Approval__c> approvals) {
+    Map<Id,Advance__c> advsToUpdate = new Map<Id,Advance__c>();
+
+    for(Batch_Approval__c a : approvals) {
+      if(a.Advance__c != null) {
+        advsToUpdate.put(a.Advance__c, new Advance__c(
+          Id = a.Advance__c,
+          IC_Approval_Status__c = a.Approval_Status__c
+        ));
+      }
+    }
+
+    if(advsToUpdate.size() > 0) {
+      update advsToUpdate.values();
+    }
+  }
+
+  public static void updateRecalled(Set<Id> recIds) {
+    Map<Id, ConnectApi.BatchInput> feedElements = new Map<Id, ConnectApi.BatchInput>();
+    Map<Id, List<Id>> mentionIdsMap = new Map<Id,List<Id>>();
+    List<Batch_Approver__c> bApprovers = [
+      SELECT Id, Approver__c,Batch_Approval__r.Submitted_By__c, Status__c, Batch_Approval__c, Batch_Approval__r.Advance__c, Batch_Approval__r.Approval_Type__c
+      FROM Batch_Approver__c
+      WHERE Batch_Approval__c IN :recIds
+      FOR UPDATE
+    ];
+
+    for(Batch_Approver__c ba : bApprovers) {
+      if(ba.Status__c != 'Rejected') {
+        ba.Status__c = 'Recalled';
+      }
+
+      if(!mentionIdsMap.containsKey(ba.Batch_Approval__c)) {
+        mentionIdsMap.put(ba.Batch_Approval__c, new List<Id>{ba.Approver__c, ba.Batch_Approval__r.Submitted_By__c});
+      } else {
+        mentionIdsMap.get(ba.Batch_Approval__c).add(ba.Approver__c);
+      }
+
+    }
+
+    for(Batch_Approver__c ba: bApprovers) {
+      if(feedElements.containsKey(ba.Batch_Approval__c)) {
+        continue;
+      }
+      feedElements.put(ba.Batch_Approval__c, constructBatchChatterPost('This approval has been recalled by ' + UserInfo.getName(), (ba.Batch_Approval__r.Approval_Type__c == 'Advance Batch Approval'?  ba.Batch_Approval__c : ba.Batch_Approval__r.Advance__c), mentionIdsMap.get(ba.Batch_Approval__c)));
+
+    }
+
+    update bApprovers;
+    
+    if (!test.isRunningTest()) {
+      postChatterBatch(feedElements.values());
+    }
+
+    
   }
 
   public static void sendEmail(
@@ -151,7 +256,7 @@ public without sharing class BatchApprovalHelper {
       groupList
     );
     String templateName = TEMPLATE_MAP.get(type);
-    Boolean shouldGetFromAdvance = new List<String>{'submittedIc'}.contains(type);
+    Boolean shouldGetFromAdvance = new List<String>{'submittedIc', 'rejectedIc', 'approvedIc', 'recalledIc'}.contains(type);
 
     List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
     Map<Id, Messaging.EmailFileAttachment> attachmentMap = new Map<Id, Messaging.EmailFileAttachment>();
@@ -227,13 +332,23 @@ public without sharing class BatchApprovalHelper {
 
   public static void postApproveRejectChatter(Set<Id> batchIds) {
     List<ConnectApi.BatchInput> feedElements = new List<ConnectApi.BatchInput>();
-    String approvedMessage = 'This batch of advances has been approved by all approvers.';
-    String rejectedMessage = 'This batch of advances has been rejected by ';
+    Map<String,String> approvedMessage = new Map<String,String>{
+      'Advance Batch Approval' => 'This batch of advances has been approved by all approvers.',
+      'Advance IC Approval' => 'This advance has been approved by all approvers.'
+    };
+    Map<String,String> rejectedMessage = new Map<String,String>{
+      'Advance Batch Approval' => 'This batch of advances has been rejected by ',
+      'Advance IC Approval' => 'This advance has been rejected by '
+    };
+
+
     for (Batch_Approval__c ba : [
       SELECT
         Id,
         Submitted_By__c,
         Approval_Status__c,
+        Approval_Type__c,
+        Advance__c,
         (
           SELECT Id, Approver__c, Approver__r.Name, Status__c, Comments__c
           FROM Batch_Approvers__r
@@ -244,8 +359,8 @@ public without sharing class BatchApprovalHelper {
       List<Id> mentionIds = new List<Id>();
       mentionIds.add(ba.Submitted_By__c);
       String message = ba.Approval_Status__c == 'Approved'
-        ? approvedMessage
-        : rejectedMessage;
+        ? approvedMessage.get(ba.Approval_Type__c)
+        : rejectedMessage.get(ba.Approval_Type__c);
 
       if (ba.Batch_Approvers__r != null && ba.Batch_Approvers__r.size() > 0) {
         for (Batch_Approver__c bapp : ba.Batch_Approvers__r) {
@@ -262,7 +377,7 @@ public without sharing class BatchApprovalHelper {
         }
       }
 
-      feedElements.add(constructBatchChatterPost(message, ba.Id, mentionIds));
+      feedElements.add(constructBatchChatterPost(message, (ba.Approval_Type__c == 'Advance Batch Approval'?  ba.Id : ba.Advance__c ), mentionIds));
     }
 
     if (!test.isRunningTest()) {
@@ -331,7 +446,7 @@ public without sharing class BatchApprovalHelper {
         constructBatchChatterPost(
           CHATTER_MESSAGE_MAP.get(approverGroup) +
           b.Initial_Comments__c,
-          b.Id,
+          (b.Approval_Type__c == 'Advance Batch Approval' ? b.Id : b.Advance__c),
           new List<Id>(apprIds)
         )
       );
