@@ -104,6 +104,7 @@ public without sharing class ServiceLinkAPI {
 
   public class Borrower extends BaseAddress {
     public String BorrowerType;
+    public String Name;
     public String FirstName;
     public String MiddleName;
     public String LastName;
@@ -114,6 +115,50 @@ public without sharing class ServiceLinkAPI {
     public String Trustee2Name;
     public String Trustee3Name;
     public String Trustee4Name;
+
+    public Borrower(Deal_Contact__c dc) {
+      // 1 - individual, 2 - business entity, 3- trust
+      this.BorrowerType = dc.Deal_Contact_Type__c == 'Entity' ? '2' : '1';
+      this.Name = '';
+      this.FirstName = '';
+      this.MiddleName  = '';
+      this.LastName = '';
+      this.Address1 = '';
+      this.Address2 = '';
+      this.City = '';
+      this.State = '';
+      this.Zipcode = '';
+      this.EmailAddress = '';
+      this.MobilePhone = '';
+      this.TrustDate = '';
+      this.Trustee1Name = '';
+      this.Trustee2Name = '';
+      this.Trustee3Name = '';
+      this.Trustee4Name = '';
+
+      Contact c = dc?.Contact__r;
+      Account a = dc?.Account__r;
+
+      if(dc.Deal_Contact_Type__c == 'Entity' && a != null) {
+        this.Name = a.Name;
+        this.Address1 = stringEval(a.BillingStreet);
+        this.City = stringEval(a.BillingCity);
+        this.State = stringEval(a.BillingState);
+        this.Zipcode = stringEval(a.BillingPostalCode);
+        this.EmailAddress = stringEval(dc.Email__c);
+        this.MobilePhone = stringEval(a.Phone);
+      } else if (c != null) {
+        this.FirstName = stringEval(c.FirstName);
+        this.MiddleName = stringEval(c.MiddleName);
+        this.LastName = stringEval(c.LastName);
+        this.Address1 = stringEval(c.MailingStreet);
+        this.City = stringEval(c.MailingCity);
+        this.State = stringEval(c.MailingState);
+        this.Zipcode = stringEval(c.MailingPostalCode);
+        this.EmailAddress = stringEval(c.Email);
+        this.MobilePhone = stringEval(c.MobilePhone, c.Phone);
+      }
+    }
   }
 
   public class PropertyAddress extends BaseAddress {
@@ -310,7 +355,50 @@ public without sharing class ServiceLinkAPI {
 
   public class LoanPortfolioChangeRequest extends ServiceLinkBase {
     public String AnticipatedCloseDate;
-    // jonathan will circle back
+    public TitleDocument Document;
+    public List<ServicelinkContact> Contacts;
+    public List<Borrower> BorrowerDetails;
+    public List<Property> Properties;
+    public LoanPortfolioChangeRequest(
+      Title_Order__c to,
+      ContentVersion cv,
+      List<Property__c> props,
+      Map<Id, List<Property__c>> parentToChildMap,
+      Opportunity dealLegal,
+      Opportunity dealBorrower
+    ) {
+      this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
+      this.LoanNumber = to.Loan_Number__c;
+      this.LoanAmount = to.Loan_Amount__c;
+      this.AnticipatedCloseDate = to.Anticipated_Close_Date__c != null
+        ? to.Anticipated_Close_Date__c.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss') +
+          '+00:00'
+        : '';
+      this.Document = new TitleDocument().generateDocument(cv, 'DATATAPE');
+
+      this.Contacts = new List<ServiceLinkContact>();
+      this.BorrowerDetails = new List<Borrower>();
+
+      List<OpportunityTeamMember> otms = dealLegal?.OpportunityTeamMembers;
+      List<Deal_Contact__c> dealContacts = dealLegal?.Deal_Contacts__r;
+      List<Deal_Contact__c> borrowerList = dealBorrower?.Deal_Contacts__r;
+      for (OpportunityTeamMember otm : otms) {
+        this.Contacts.add(new ServiceLinkContact(otm, 'LENDERATTORNEY'));
+      }
+
+      for (Deal_Contact__c dc : dealContacts) {
+        this.Contacts.add(new ServiceLinkContact(dc, 'LENDERATTORNEY'));
+      }
+
+      for(Deal_Contact__c b : borrowerList) {
+        this.BorrowerDetails.add(new Borrower(b));
+      }
+
+      this.Properties = new List<Property>();
+      for (Property__c p : props) {
+        this.Properties.add(new Property(p, parentToChildMap));
+      }
+    } 
   }
 
   public class DocumentSubmission extends ServiceLinkBase {
@@ -354,7 +442,13 @@ public without sharing class ServiceLinkAPI {
     public String Comments;
     public String RequestorEmail;
     public List<TitleDocument> Documents;
-    public OrderInquiry (Title_Order__c to, List<ContentVersion> cvs, Map<Id,String> cvToDocType, String inquiryType, String comments) {
+    public OrderInquiry(
+      Title_Order__c to,
+      List<ContentVersion> cvs,
+      Map<Id, String> cvToDocType,
+      String inquiryType,
+      String comments
+    ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
       this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
@@ -364,11 +458,19 @@ public without sharing class ServiceLinkAPI {
       this.Comments = comments;
       this.RequestorEmail = UserInfo.getUserEmail();
       this.Documents = new List<TitleDocument>();
-      for(ContentVersion cv :cvs) {
-        this.Documents.add(new TitleDocument().generateDocument(cv, cvToDocType.get(cv.Id)));
+      for (ContentVersion cv : cvs) {
+        this.Documents.add(
+          new TitleDocument().generateDocument(cv, cvToDocType.get(cv.Id))
+        );
       }
-      
     }
   }
-  
+
+  public static String stringEval(String v, String w) {
+    return v != null && String.isNotEmpty(v) ? v : w;
+  }
+
+  public static String stringEval(String v) {
+    return v != null && String.isNotEmpty(v) ? v : '';
+  }
 }

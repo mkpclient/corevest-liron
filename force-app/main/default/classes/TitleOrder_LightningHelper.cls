@@ -103,10 +103,10 @@ public without sharing class TitleOrder_LightningHelper {
 
   public static ContentVersion queryCv(Id cdId) {
     return [
-        SELECT Id, ContentSize, VersionData, Title, FileExtension
-        FROM ContentVersion
-        WHERE ContentDocumentId = :cdId
-      ];
+      SELECT Id, ContentSize, VersionData, Title, FileExtension
+      FROM ContentVersion
+      WHERE ContentDocumentId = :cdId
+    ];
   }
 
   @AuraEnabled
@@ -222,12 +222,13 @@ public without sharing class TitleOrder_LightningHelper {
       ' FROM Opportunity WHERE Id = :dealId';
     Opportunity deal = Database.query(queryString);
 
-
-    ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest(deal, dealDoc, cv, numOfTitleOrders + 1);
-    ServiceLinkAPI.performRequest(
-      'QuoteRequest',
-      JSON.serialize(qRequest)
+    ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest(
+      deal,
+      dealDoc,
+      cv,
+      numOfTitleOrders + 1
     );
+    ServiceLinkAPI.performRequest('QuoteRequest', JSON.serialize(qRequest));
 
     List<Title_Order__c> titleOrders = new List<Title_Order__c>();
 
@@ -266,65 +267,79 @@ public without sharing class TitleOrder_LightningHelper {
         .keySet();
 
       ContentVersion cv = queryCv(cdId);
-      
+
       String queryString =
-        'SELECT ' + String.join(new List<String>(toFields), ',') + ',Property__r.' + String.join(new List<String>(propFields), ',Property__r.'); 
+        'SELECT ' +
+        String.join(new List<String>(toFields), ',') +
+        ',Property__r.' +
+        String.join(new List<String>(propFields), ',Property__r.');
 
       queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
 
-
       List<Title_Order__c> titleOrders = Database.query(queryString);
       Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
-      Map<String, Map<Id,List<Property__c>>> parentChildMapList = new Map<String, Map<Id,List<Property__c>>>();
+      Map<String, Map<Id, List<Property__c>>> parentChildMapList = new Map<String, Map<Id, List<Property__c>>>();
       Map<String, ServiceLinkAPI.QuoteAccepted> qRequests = new Map<String, ServiceLinkAPI.QuoteAccepted>();
 
-      Map<Id,Property__c> childProps = new Map<Id,Property__c>([SELECT Id, (SELECT Id, Name, City__c, County__c, State__c, ZipCode__c FROM Properties__r ) FROM Property__c WHERE Deal__c = :dealId AND Is_Parent__c = True]);
+      Map<Id, Property__c> childProps = new Map<Id, Property__c>(
+        [
+          SELECT
+            Id,
+            (
+              SELECT Id, Name, City__c, County__c, State__c, ZipCode__c
+              FROM Properties__r
+            )
+          FROM Property__c
+          WHERE Deal__c = :dealId AND Is_Parent__c = TRUE
+        ]
+      );
 
-      Opportunity deal = queryDealChildren(dealId);
+      Opportunity deal = queryLegalTeam(dealId);
 
       for (Title_Order__c to : titleOrders) {
-        
         List<Property__c> props = new List<Property__c>();
-        Map<Id,List<Property__c>> propMap = new Map<Id,List<Property__c>>();
-        if(propListsMap.containsKey(to.Quote_ID__c)) {
+        Map<Id, List<Property__c>> propMap = new Map<Id, List<Property__c>>();
+        if (propListsMap.containsKey(to.Quote_ID__c)) {
           props.add(to.Property__r);
           props.addAll(propListsMap.get(to.Quote_ID__c));
         }
-        if(parentChildMapList.containsKey(to.Quote_ID__c)) {
+        if (parentChildMapList.containsKey(to.Quote_ID__c)) {
           propMap = parentChildMapList.get(to.Quote_ID__c);
         }
 
-        if(childProps.containsKey(to.Property__c)) {
-          propMap.put(to.Property__c, childProps.get(to.Property__c).Properties__r);
+        if (childProps.containsKey(to.Property__c)) {
+          propMap.put(
+            to.Property__c,
+            childProps.get(to.Property__c).Properties__r
+          );
         }
-        
-        
-        propListsMap.put(to.Quote_ID__c,props);
+
+        propListsMap.put(to.Quote_ID__c, props);
         parentChildMapList.put(to.Quote_ID__c, propMap);
       }
 
       for (Title_Order__c to : titleOrders) {
-        if(qRequests.containsKey(to.Quote_ID__c)) {
+        if (qRequests.containsKey(to.Quote_ID__c)) {
           continue;
         }
 
         List<Property__c> props = propListsMap.get(to.Quote_ID__c);
-        Map<Id,List<Property__c>> propMap = parentChildMapList.get(to.Quote_ID__c);
-        ServiceLinkAPI.QuoteAccepted qR = new ServiceLinkAPI.QuoteAccepted(to, cv, props, propMap, deal);
+        Map<Id, List<Property__c>> propMap = parentChildMapList.get(
+          to.Quote_ID__c
+        );
+        ServiceLinkAPI.QuoteAccepted qR = new ServiceLinkAPI.QuoteAccepted(
+          to,
+          cv,
+          props,
+          propMap,
+          deal
+        );
         qRequests.put(to.Quote_ID__c, qr);
       }
 
-      
-
       for (ServiceLinkAPI.QuoteAccepted qr : qRequests.values()) {
-        ServiceLinkAPI.performRequest(
-          'QuoteAccepted',
-          JSON.serialize(qr)
-        );
+        ServiceLinkAPI.performRequest('QuoteAccepted', JSON.serialize(qr));
       }
-
-
-
     } catch (Exception e) {
       System.debug(e.getMessage());
       System.debug(e.getLineNumber());
@@ -334,32 +349,137 @@ public without sharing class TitleOrder_LightningHelper {
   }
 
   @AuraEnabled
-  public static void cancelRequest(List<Id> titleOrderIds){
+  public static void loanPortfolioChangeRequest(List<Id> titleOrderIds, Id dealId, Id cdId) {
+    try {
+      Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+      Set<String> propFields = schemaMap.get('Property__c')
+        .getDescribe()
+        .fields.getMap()
+        .keySet();
+      Set<String> toFields = schemaMap.get('Title_Order__c')
+        .getDescribe()
+        .fields.getMap()
+        .keySet();
+
+      ContentVersion cv = queryCv(cdId);
+
+      String queryString =
+        'SELECT ' +
+        String.join(new List<String>(toFields), ',') +
+        ',Property__r.' +
+        String.join(new List<String>(propFields), ',Property__r.');
+
+      queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
+
+      List<Title_Order__c> titleOrders = Database.query(queryString);
+      Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
+      Map<String, Map<Id, List<Property__c>>> parentChildMapList = new Map<String, Map<Id, List<Property__c>>>();
+      Map<String, ServiceLinkAPI.loanPortfolioChangeRequest> qRequests = new Map<String, ServiceLinkAPI.loanPortfolioChangeRequest>();
+
+      Map<Id, Property__c> childProps = new Map<Id, Property__c>(
+        [
+          SELECT
+            Id,
+            (
+              SELECT Id, Name, City__c, County__c, State__c, ZipCode__c
+              FROM Properties__r
+            )
+          FROM Property__c
+          WHERE Deal__c = :dealId AND Is_Parent__c = TRUE
+        ]
+      );
+
+      Opportunity dealLegal = queryLegalTeam(dealId);
+      Opportunity dealBorrower = queryBorrowers(dealId);
+
+      for (Title_Order__c to : titleOrders) {
+        List<Property__c> props = new List<Property__c>();
+        Map<Id, List<Property__c>> propMap = new Map<Id, List<Property__c>>();
+        if (propListsMap.containsKey(to.Quote_ID__c)) {
+          props.add(to.Property__r);
+          props.addAll(propListsMap.get(to.Quote_ID__c));
+        }
+        if (parentChildMapList.containsKey(to.Quote_ID__c)) {
+          propMap = parentChildMapList.get(to.Quote_ID__c);
+        }
+
+        if (childProps.containsKey(to.Property__c)) {
+          propMap.put(
+            to.Property__c,
+            childProps.get(to.Property__c).Properties__r
+          );
+        }
+
+        propListsMap.put(to.Quote_ID__c, props);
+        parentChildMapList.put(to.Quote_ID__c, propMap);
+      }
+
+      for (Title_Order__c to : titleOrders) {
+        if (qRequests.containsKey(to.Quote_ID__c)) {
+          continue;
+        }
+
+        List<Property__c> props = propListsMap.get(to.Quote_ID__c);
+        Map<Id, List<Property__c>> propMap = parentChildMapList.get(
+          to.Quote_ID__c
+        );
+        ServiceLinkAPI.LoanPortfolioChangeRequest qR = new ServiceLinkAPI.LoanPortfolioChangeRequest(
+          to,
+          cv,
+          props,
+          propMap,
+          dealLegal,
+          dealBorrower
+        );
+        qRequests.put(to.Quote_ID__c, qr);
+      }
+
+      for (ServiceLinkAPI.LoanPortfolioChangeRequest qr : qRequests.values()) {
+        ServiceLinkAPI.performRequest('LoanPortfolioChangeRequest', JSON.serialize(qr));
+      }
+    } catch (Exception e) {
+      System.debug(e.getMessage());
+      System.debug(e.getLineNumber());
+      System.debug(e.getStackTraceString());
+      throw new AuraHandledException(e.getMessage() + ' ' + e.getLineNumber());
+    }
+  }
+
+  @AuraEnabled
+  public static void cancelRequest(List<Id> titleOrderIds) {
     try {
       List<ServiceLinkAPI.CancelRequest> cancelReqs = new List<ServiceLinkAPI.CancelRequest>();
-      List<Title_Order__c> tos = [SELECT Id,Bulk_Project_Order_Num__c, Incoming_Transaction_Id__c, Loan_Number__c FROM Title_Order__c WHERE Id IN :titleOrderIds];
-      
-      for(Title_Order__c to: tos) {
-        to.Incoming_Transaction_Id__c = (to.Id + '-' + System.now() + '-CRQ').replaceAll(':', '').deleteWhitespace();
+      List<Title_Order__c> tos = [
+        SELECT
+          Id,
+          Bulk_Project_Order_Num__c,
+          Incoming_Transaction_Id__c,
+          Loan_Number__c
+        FROM Title_Order__c
+        WHERE Id IN :titleOrderIds
+      ];
+
+      for (Title_Order__c to : tos) {
+        to.Incoming_Transaction_Id__c = (to.Id +
+          '-' +
+          System.now() +
+          '-CRQ')
+          .replaceAll(':', '')
+          .deleteWhitespace();
         cancelReqs.add(new ServiceLinkAPI.CancelRequest(to));
       }
 
-
-      for(ServiceLinkAPI.CancelRequest cr : cancelReqs) {
-        ServiceLinkAPI.performRequest(
-          'CancelRequest',
-          JSON.serialize(cr)
-        );
+      for (ServiceLinkAPI.CancelRequest cr : cancelReqs) {
+        ServiceLinkAPI.performRequest('CancelRequest', JSON.serialize(cr));
       }
 
-      update tos; 
-
+      update tos;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
   }
 
-  public static Opportunity queryDealChildren(Id dealId) {
+  public static Opportunity queryLegalTeam(Id dealId) {
     Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
     Set<String> userFields = schemaMap.get('User')
       .getDescribe()
@@ -369,21 +489,57 @@ public without sharing class TitleOrder_LightningHelper {
       .getDescribe()
       .fields.getMap()
       .keySet();
-    List<String> dealContactFields = new List<String>(schemaMap.get('Deal_Contact__c')
-      .getDescribe()
-      .fields.getMap()
-      .keySet());
-    
-    dealContactFields.addAll(new Set<String>{'Account__r.Name'});
+    List<String> dealContactFields = new List<String>(
+      schemaMap.get('Deal_Contact__c').getDescribe().fields.getMap().keySet()
+    );
 
-    for(String cf : contactFields) {
+    dealContactFields.addAll(new Set<String>{ 'Account__r.Name' });
+
+    for (String cf : contactFields) {
       dealContactFields.add('Contact__r.' + cf);
     }
 
+    String queryString = 'SELECT Id,';
+    queryString +=
+      '(SELECT User.' +
+      String.join(new List<String>(userFields), ',User.') +
+      ' FROM OpportunityTeamMembers WHERE TeamMemberRole=\'Legal Team\' AND User.Street != null),';
+    queryString +=
+      '(SELECT ' +
+      String.join(dealContactFields, ',') +
+      ' FROM Deal_Contacts__r WHERE Contact__r.Name != null AND Vendor_Type__c IN (\'Lender Legal Counsel\', \'Lender Local Legal Counsel	\'))';
+    queryString += ' FROM Opportunity WHERE Id=\'' + dealId + '\'';
+
+    return Database.query(queryString);
+  }
+
+  public static Opportunity queryBorrowers(Id dealId) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    Set<String> contactFields = schemaMap.get('Contact')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    Set<String> accountFields = schemaMap.get('Account')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    List<String> dealContactFields = new List<String>(
+      schemaMap.get('Deal_Contact__c').getDescribe().fields.getMap().keySet()
+    );
+
+    for(String af: accountFields) {
+      dealContactFields.add('Account__r.' + af);
+    }
+
+    for (String cf : contactFields) {
+      dealContactFields.add('Contact__r.' + cf);
+    }
 
     String queryString = 'SELECT Id,';
-    queryString += '(SELECT User.' + String.join(new List<String>(userFields), ',User.') + ' FROM OpportunityTeamMembers WHERE TeamMemberRole=\'Legal Team\' AND User.Street != null),';
-    queryString += '(SELECT ' + String.join(dealContactFields, ',') + ' FROM Deal_Contacts__r WHERE Contact__r.Name != null AND Vendor_Type__c IN (\'Lender Legal Counsel\', \'Lender Local Legal Counsel	\'))';
+    queryString +=
+      '(SELECT ' +
+      String.join(dealContactFields, ',') +
+      ' FROM Deal_Contacts__r WHERE (Contact__r.Name != null OR Account__r.Name != null) AND Entity_Type__c INCLUDES (\'Borrower\'))';
     queryString += ' FROM Opportunity WHERE Id=\'' + dealId + '\'';
 
     return Database.query(queryString);

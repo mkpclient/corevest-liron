@@ -18,6 +18,10 @@ global without sharing class ServiceLinkEndpoint {
     'OrderInquiryConfirmation'
   };
 
+  public static final List<String> NEW_BULK_NUM = new List<String>{
+    'QuoteReceivedConfirm'
+  };
+
   @HttpPost
   global static void postMethod() {
     RestRequest req = RestContext.request;
@@ -36,7 +40,8 @@ global without sharing class ServiceLinkEndpoint {
 
       List<Title_Order__c> titleOrders = queryTitleOrders(
         respMap.values()[0],
-        NEW_ORDER_NUM_REQS.contains(reqType)
+        NEW_ORDER_NUM_REQS.contains(reqType),
+        NEW_BULK_NUM.contains(reqType)
       );
       if (titleOrders.size() == 0) {
         throwNullError();
@@ -556,7 +561,7 @@ global without sharing class ServiceLinkEndpoint {
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
-    Date atcDate = parseDateString(resp.AllTitlesCompleted);
+    Date atcDate = parseDateString(resp.AllTitlesCompletedDate);
     Date tcDate = parseDateString(resp.TitleCompleteDate);
     Date otcDate = parseDateString(resp.OriginalTitleClearedDate);
     Date oatcDate = parseDateString(resp.OriginalAllTitlesClearedDate);
@@ -862,7 +867,8 @@ global without sharing class ServiceLinkEndpoint {
 
   public static List<Title_Order__c> queryTitleOrders(
     ServiceLinkResponse resp,
-    Boolean isNewOrderNumber
+    Boolean isNewOrderNumber,
+    Boolean isNewBulkNum
   ) {
     Map<String, String> fieldValueMap = new Map<String, String>();
 
@@ -871,7 +877,7 @@ global without sharing class ServiceLinkEndpoint {
     }
     if (
       resp.BulkProjectOrderNum != null &&
-      String.isNotEmpty(resp.BulkProjectOrderNum)
+      String.isNotEmpty(resp.BulkProjectOrderNum) && !isNewBulkNum
     ) {
       fieldValueMap.put('Bulk_Project_Order_Num__c', resp.BulkProjectOrderNum);
     }
@@ -947,7 +953,7 @@ global without sharing class ServiceLinkEndpoint {
   public virtual class ServiceLinkTitles extends ServiceLinkAttachmentFields {
     public String AllTitlesOrderedDate;
     public String TitleCompleteDate;
-    public String AllTitlesCompleted;
+    public String AllTitlesCompletedDate;
     public String OriginalTitleClearedDate;
     public String OriginalAllTitlesClearedDate;
     public String LatestTitleClearedDate;
