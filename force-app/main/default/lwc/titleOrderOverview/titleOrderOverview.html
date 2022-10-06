@@ -1,0 +1,86 @@
+<template>
+  <lightning-card>
+    <lightning-button-group class="slds-p-horizontal_small" slot="actions">
+      <lightning-button
+        label="Quote Request"
+        value="Quote Request"
+        onclick={handleClick}
+      ></lightning-button>
+      <lightning-button
+        label="Order Inquiry"
+        value="Order Inquiry"
+        disabled={hasNoRequest}
+        onclick={handleClick}
+      ></lightning-button>
+      <lightning-button
+        label="Cancel Request"
+        value="Cancel Request"
+        disabled={hasNoRequest}
+        onclick={handleClick}
+      ></lightning-button>
+      <lightning-button
+        label="Quote Accepted"
+        value="Quote Accepted"
+        disabled={hasNoRequest}
+        onclick={handleClick}
+      ></lightning-button>
+      <lightning-button-menu
+        alternative-text="Show menu"
+        variant="border-filled"
+        onselect={handleClick}
+      >
+        <lightning-menu-item
+          label="Loan Portfolio Change Request"
+          value="Loan Portfolio Change Request"
+          disabled={hasNoRequest}
+        ></lightning-menu-item>
+        <lightning-menu-item
+          label="Order Change Request"
+          value="Order Change Request"
+          disabled={hasNoRequest}
+        ></lightning-menu-item>
+        <lightning-menu-item
+          label="Document Submission"
+          value="Document Submission"
+          disabled={hasNoRequest}
+        ></lightning-menu-item>
+      </lightning-button-menu>
+    </lightning-button-group>
+    <div class="slds-p-horizontal_small">
+      <div class="slds-box" style="text-align: center">
+        <h3>
+          This loan's current title order status is:&nbsp;
+          <strong><span style="color: green">{titleOrderStatus}</span></strong>
+        </h3>
+      </div>
+      <div class="slds-box" style="text-align: center">
+        <h3>
+          Next step:&nbsp;
+          <strong><span style="color: blue">{nextStep}</span></strong>
+        </h3>
+      </div>
+    </div>
+  </lightning-card>
+  <c-modal title={selectedRequest}>
+    <div slot="body">
+      <lightning-progress-indicator current-step="1" type="path" variant="base">
+        <lightning-progress-step
+          label="Request Form"
+          value="1"
+        ></lightning-progress-step>
+        <lightning-progress-step
+          label="Document Attachment"
+          value="2"
+        ></lightning-progress-step>
+        <lightning-progress-step
+          label="Review"
+          value="3"
+        ></lightning-progress-step>
+      </lightning-progress-indicator>
+      <lightning-card> </lightning-card>
+    </div>
+    <div slot="footer">
+      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+    </div>
+  </c-modal>
+</template>
