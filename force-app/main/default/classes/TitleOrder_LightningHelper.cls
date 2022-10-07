@@ -196,6 +196,25 @@ public without sharing class TitleOrder_LightningHelper {
       returnList.add(objMap);
     }
 
+    List<Advance__c> advance__c = [
+      SELECT Id, Name,Target_Advance_Date__c,Advance_Group_Name__c,Purchase_Price_Total__c,Batch_Approval__r.CreatedDate,Batch_Approval__c,Batch_Approval__r.Approval_Status__c,Batch_Approval__r.Approved_Rejected_Date__c,Batch_Approval__r.Initial_Comments__c,Batch_Approval__r.Approval_Comments__c,Batch_Approval__r.Name,Batch_Approval__r.Id,Deal__c,Deal__r.Account.Name,Deal__r.Name,Deal__r.Index__c,Deal__r.Index_Margin__c,Deal__r.Deal_Loan_Number__c,Deal__r.StageName,Deal__r.LOC_Loan_Type__c,Deal__r.CloseDate,Deal__r.Project_Strategy__c,Deal__r.Warehouse_Line__c,Deal__r.Loan_Size__c,Deal__r.Owner.Full_Name__c,Deal__r.LOC_Commitment__c,Deal__r.Underwriter__c,Deal__r.Underwriter__r.Name,Deal__r.Closer__c,Deal__r.Closer__r.Name, (
+      SELECT Id, Property__c,Advance__c, Property__r.Name,Property__r.Property_Type__c,Property__r.Status__c,Property__r.City__c,Property__r.State__c,Property__r.Refinance_Acquisition__c,Property__r.Acquisition_Price__c,Property__r.Funding_Probability__c,Property__r.Projected_Initial_Disbursement__c,Property__r.Initial_Disbursement__c,Property__r.Requested_Funding_Date__c,Property__r.Underwriter__c,Property__r.Underwriter__r.Name,Property__r.Closer__c,Property__r.Closer__r.Name
+      FROM Property_Advances__r WHERE Property__r.Status__c IN ('Due Diligence','Pending','Closing')
+AND (Property__r.Requested_Funding_Date__c = NEXT_N_DAYS:10
+  OR Property__r.Requested_Funding_Date__c < TODAY)
+ ORDER BY Property__r.Requested_Funding_Date__c ASC NULLS LAST
+    ) FROM Advance__c WHERE Id IN (SELECT Advance__c FROM Property_Advance__c WHERE Property__r.Status__c IN ('Due Diligence','Pending','Closing')
+AND (Property__r.Requested_Funding_Date__c = NEXT_N_DAYS:10
+  OR Property__r.Requested_Funding_Date__c < TODAY)
+) AND Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval' AND Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')(Deal__r.RecordType.DeveloperName IN ('LOC_Loan','Single_Asset_Bridge_Loan','Table_Funded_CRE_Loan_Active','Table_Funded_CRE_Loan','Acquired_Bridge_Loan','Acquired_Bridge_Loan_Active')
+AND Deal__r.StageName IN ('Loan Processing','Processing Hold','Underwriting','UW Hold','Approved by Committee','Closed Won')
+AND (Target_Advance_Date__c = NEXT_N_DAYS:10
+OR Target_Advance_Date__c < TODAY)
+AND ((Loan_Type__c = 'Credit Line' AND Approved_Advance_Amount_Max_Total__c < 1000000) 
+OR (RecordType.DeveloperName = 'Construction_Advance'))) ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC
+
+    ]
+
     return JSON.serialize(returnList);
   }
 

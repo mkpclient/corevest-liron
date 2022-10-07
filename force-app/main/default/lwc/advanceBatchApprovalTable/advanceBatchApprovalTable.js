@@ -242,7 +242,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   sortDirection = "asc";
   sortedBy = "approvalBatch";
   isLoading = false;
-
+  pendingWhereClause = "Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval' AND Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
   get hasData() {
     return this.tableData.length > 0;
   }
@@ -250,7 +250,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   get advFullWhereClause() {
     const onlyBatches =
       this.additionalWhereClause ===
-      "Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
+      this.pendingWhereClause;
     const orderClause =
       " ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC";
 

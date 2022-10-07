@@ -82,7 +82,7 @@
         </lightning-tab>
         <lightning-tab
           label="Advances with Pending Approval"
-          value="Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval' AND Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')"
+          value={pendingWhereClause}
           onactive={handleTabChange}
         >
           <lightning-card>
