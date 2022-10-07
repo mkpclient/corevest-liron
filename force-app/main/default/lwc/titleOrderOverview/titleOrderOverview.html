@@ -5,6 +5,7 @@
         label="Quote Request"
         value="Quote Request"
         onclick={handleClick}
+        disabled={disableQuoteRequest}
       ></lightning-button>
       <lightning-button
         label="Order Inquiry"
@@ -63,7 +64,11 @@
   </lightning-card>
   <c-modal title={selectedRequest}>
     <div slot="body">
-      <lightning-progress-indicator current-step="1" type="path" variant="base">
+      <lightning-progress-indicator
+        current-step={currStep}
+        type="path"
+        variant="base"
+      >
         <lightning-progress-step
           label="Request Form"
           value="1"
@@ -77,10 +82,164 @@
           value="3"
         ></lightning-progress-step>
       </lightning-progress-indicator>
-      <lightning-card> </lightning-card>
+      <template if:false={isLoading}>
+        <lightning-card>
+          <template if:true={isFormStep}>
+            <lightning-record-edit-form
+              record-id={recordId}
+              object-api-name="Opportunity"
+            >
+              <lightning-layout multiple-rows="true">
+                <template for:each={currForm} for:item="c" for:index="idx">
+                  <lightning-layout-item
+                    key={key}
+                    size={c.size}
+                    class="slds-p-around-small"
+                  >
+                    <template if:true={c.isDealField}>
+                      <lightning-input-field
+                        field-name={c.fieldName}
+                        disabled={c.disabled}
+                        data-name={c.dataName}
+                        onchange={handleChange}
+                        data-type="requestForm"
+                        required={c.required}
+                      ></lightning-input-field>
+                    </template>
+                    <template if:true={c.isComments}>
+                      <lightning-textarea
+                        label={c.label}
+                        disabled={c.disabled}
+                        data-name={c.dataName}
+                        value={c.value}
+                        onchange={handleChange}
+                        data-type="requestForm"
+                        required={c.required}
+                        variant="label-inline"
+                      ></lightning-textarea>
+                    </template>
+                    <template if:false={c.isDealField}>
+                      <template if:false={c.isComments}>
+                        <lightning-input
+                          type={c.type}
+                          label={c.label}
+                          value={c.value}
+                          disabled={c.disabled}
+                          data-name={c.dataName}
+                          onchange={handleChange}
+                          data-type="requestForm"
+                          required={c.required}
+                          variant="label-inline"
+                        ></lightning-input>
+                      </template>
+                    </template>
+                  </lightning-layout-item>
+                </template>
+              </lightning-layout>
+            </lightning-record-edit-form>
+          </template>
+          <template if:true={isDocStep}>
+            <lightning-layout
+              vertical-align="center"
+              class="slds-p-around-medium"
+            >
+              <template if:true={acceptedFormats.length}>
+                <lightning-layout-item
+                  flexibility="auto"
+                  padding="around-small"
+                  if:true={excelConfig}
+                >
+                  <lightning-button
+                    label="Generate Document"
+                    variant="brand"
+                    onclick={handleModalClick}
+                  ></lightning-button>
+                  <br />
+                  <template if:true={docAttributes}>
+                    The generated file has also been downloaded. Please review
+                    the file before moving forward. If you have to make edits,
+                    please do so and then re-upload the file.
+                  </template>
+                </lightning-layout-item>
+                <lightning-layout-item
+                  flexibility="auto"
+                  padding="around-small"
+                  if:true={excelConfig}
+                >
+                  OR
+                </lightning-layout-item>
+                <lightning-layout-item
+                  flexibility="auto"
+                  padding="around-small"
+                >
+                  <lightning-file-upload
+                    label="Upload a file"
+                    name="fileUploader"
+                    accept={acceptedFormats}
+                    onuploadfinished={handleUploadFinished}
+                    multiple="false"
+                  >
+                  </lightning-file-upload>
+                </lightning-layout-item>
+              </template>
+            </lightning-layout>
+          </template>
+          <template if:true={isPreviewStep}>
+            <lightning-layout
+              vertical-align="center"
+              class="slds-p-around-medium"
+            >
+              <lightning-layout-item flexibility="auto" padding="around-small">
+                <lightning-input label="File" type="text" value={docAttributes.fileName} disabled="true"></lightning-input>
+                <p><lightning-formatted-url value={downloadLink} tooltip={downloadLink} label="Download File" target="_blank" ></lightning-formatted-url></p>
+              </lightning-layout-item>
+            </lightning-layout>
+          </template>
+        </lightning-card>
+      </template>
+      <template if:true={isLoading}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="small"
+        ></lightning-spinner>
+      </template>
     </div>
     <div slot="footer">
-      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+      <template if:true={showPrev}>
+        <lightning-button
+          label="Previous"
+          variant="brand"
+          onclick={handleModalClick}
+        ></lightning-button>
+      </template>
+      <template if:true={showNext}>
+        <lightning-button
+          label="Next"
+          variant="brand"
+          onclick={handleModalClick}
+          disabled={disableNext}
+        ></lightning-button>
+      </template>
+      <template if:true={showSave}>
+        <lightning-button
+          label="Submit"
+          variant="brand"
+          onclick={handleModalClick}
+        ></lightning-button>
+      </template>
+
+      <lightning-button
+        label="Close"
+        onclick={handleModalClick}
+      ></lightning-button>
     </div>
   </c-modal>
+  <template if:true={excelConfig}>
+    <c-excel-generator
+      file-name={excelFileName}
+      row-config={excelConfig}
+      query-string={excelQueryString}
+      ongenerate={handleDocumentGeneration}
+    ></c-excel-generator>
+  </template>
 </template>

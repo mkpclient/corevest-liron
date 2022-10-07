@@ -706,6 +706,7 @@ global without sharing class ServiceLinkEndpoint {
         if (String.isNotEmpty(sl.OrderNumber)) {
           to.Order_Number__c = sl.OrderNumber;
         }
+        to.Error_Message__c = null;
       } else {
         to.Error_Message__c = sl.ErrorMessage;
       }
@@ -733,6 +734,7 @@ global without sharing class ServiceLinkEndpoint {
       if (ordConf.Status == 'SUCCESS') {
         to.Order_Number__c = ordConf.OrderNumber;
         to.Recording_Order_Number__c = ordConf.OrderNumber;
+        to.Error_Message__c = null;
       } else {
         to.Error_Message__c = ordConf.ErrorMessage;
       }
@@ -835,6 +837,7 @@ global without sharing class ServiceLinkEndpoint {
             ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
             : tO.Order_Opened_Date__c;
           tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
+          to.Error_Message__c = null;
         } else {
           tO.Error_Message__c = reqObj.ErrorMessage;
         }

@@ -1,13 +1,36 @@
 <template>
   <lightning-tabset>
     <lightning-tab label="Overview">
-      <c-title-order-overview record-id={recordId}></c-title-order-overview>
+      <template if:true={titleOrderParams}>
+        <c-title-order-overview
+          record-id={recordId}
+          title-order-params={titleOrderParams}
+          onrequestsubmission={retrieveData}
+        ></c-title-order-overview>
+      </template>
     </lightning-tab>
     <lightning-tab label="Title Orders">
+      <lightning-card title="Title Orders">
+        <template if:true={titleOrderParams}>
+          <template if:true={titleOrderParams.hasError}>
+            <c-custom-alert
+              icon-name="utility:warning"
+              variant="Warning"
+              alert-text="One or several title orders need your attention. Please read the error message associated with them and send the relevant request."
+            ></c-custom-alert>
+          </template>
+        </template>
+        <div style="overflow-x: scroll">
+          <div style="width: 100vw">
+            <lightning-datatable key-field="id" data={allData} columns={cols}>
+            </lightning-datatable>
+          </div>
+        </div>
+      </lightning-card>
     </lightning-tab>
     <lightning-tab label="Documents">
+      <c-title-order-documents record-id={recordId}></c-title-order-documents>
     </lightning-tab>
-    <lightning-tab label="Appointments">
-    </lightning-tab>
-</lightning-tabset>
+    <lightning-tab label="Appointments"> </lightning-tab>
+  </lightning-tabset>
 </template>

@@ -1,30 +1,177 @@
+import deleteRecords from "@salesforce/apex/lightning_Util.deleteRecords";
+import saveGeneratedFile from "@salesforce/apex/TitleOrder_LightningHelper.saveGeneratedFile";
 import { api, LightningElement } from "lwc";
+import sendRequest from "@salesforce/apex/TitleOrder_LightningHelper.sendRequest";
+import LightningAlert from "lightning/alert";
+
+const QuoteRequest = [
+  {
+    type: "text",
+    disabled: true,
+    label: "Source Party ID",
+    value: "COREVEST-SFR",
+    dataName: "sourcePartyId",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Destination Party ID",
+    value: "COREVEST-QUOTE",
+    dataName: "destinationPartyId",
+    size: 6
+  },
+  {
+    isDealField: true,
+    disabled: true,
+    fieldName: "Deal_Loan_Number__c",
+    dataName: "dealLoanNumber",
+    size: 6
+  },
+  {
+    isDealField: true,
+    disabled: true,
+    fieldName: "Current_Loan_Amount__c",
+    dataName: "currentLoanAmount",
+    size: 6
+  },
+  {
+    isDealField: true,
+    disabled: true,
+    fieldName: "Name",
+    dataName: "dealName",
+    size: 6
+  },
+  {
+    isComments: true,
+    label: "Comments",
+    disabled: false,
+    dataName: "comments",
+    size: 12,
+    value: null,
+    required: true
+  }
+];
+
+const nextSteps = {
+  "Unordered": "Open a Quote Request to get started",
+  "Cancelled": "Open a Quote Request to get started",
+  "Quote Requested": "Wait for a response from ServiceLink or send an Order Inquiry. You can also submit any additional document that you need to submit."
+}
 export default class TitleOrderOverview extends LightningElement {
   @api recordId;
   selectedRequestLocal = "";
-  
+  currStepLocal = 1;
+  formValues = {};
+  docAttributes;
+  isLoading = false;
+  contentDocumentIdsForDeletion = [];
+  titleOrderStatusLocal = "Unordered";
+  @api titleOrderParams = {};
+
+  get downloadLink() {
+    return (
+      "/sfc/servlet.shepherd/document/download/" +
+      this.docAttributes.contentDocumentId +
+      "?operationContext=S1"
+    );
+  }
+
+  get currStep() {
+    return this.currStepLocal.toString();
+  }
+
+  get isFormStep() {
+    return this.currStepLocal !== 2;
+  }
+
+  get formConfigs() {
+    return { QuoteRequest };
+  }
+
+  get disableQuoteRequest() {
+    return this.titleOrderStatus !== "Unordered";
+  }
+
   get selectedRequest() {
     return this.selectedRequestLocal;
+  }
+
+  get showNext() {
+    return this.currStepLocal < 3;
+  }
+
+  get showPrev() {
+    return this.currStepLocal > 1;
+  }
+
+  get showSave() {
+    return this.currStepLocal === 3;
   }
 
   set selectedRequest(val) {
     this.selectedRequestLocal = val;
   }
 
-  get titleOrderStatus() {
-    return "unordered";
+  get isPreviewStep() {
+    return this.currStepLocal === 3;
   }
 
+  get isDocStep() {
+    return this.currStepLocal === 2;
+  }
+
+  get disableNext() {
+    return this.isDocStep && !this.docAttributes;
+  }
+
+  get currForm() {
+    return (
+      this.selectedRequest &&
+      this.formConfigs[this.selectedRequest.replace(" ", "")].map((c, i) => {
+        let { dataName, value, disabled } = c;
+        if (this.formValues.hasOwnProperty(dataName)) {
+          value = this.formValues[dataName];
+        }
+        disabled = disabled || this.isPreviewStep;
+        return { ...c, key: i, value, disabled };
+      })
+    );
+  }
+
+  
+  get titleOrderStatus() {
+    return this.titleOrderParams.status;
+  }
+
+
   get hasNoRequest() {
-    return this.titleOrderStatus == "unordered";
+    return this.titleOrderStatus == "Unordered" || this.titleOrderStatus == "Cancelled";
   }
 
   get nextStep() {
-    return this.hasNoRequest ? "open a quote request to get started" : "";
+    return nextSteps[this.titleOrderStatus];
   }
 
   get requestName() {
     return this.selectedRequest ? this.selectedRequest : "";
+  }
+
+  disconnectedCallback() {
+    if (this.contentDocumentIdsForDeletion.length > 0) {
+      const records = this.contentDocumentIdsForDeletion.map((c) => ({
+        Id: c
+      }));
+
+      deleteRecords({ records });
+    }
+  }
+
+  handleChange(evt) {
+    const { value } = evt.detail;
+    const { name } = evt.target.dataset;
+    console.log(name, value);
+    this.formValues[name] = value;
   }
 
   handleClick(evt) {
@@ -34,21 +181,132 @@ export default class TitleOrderOverview extends LightningElement {
     this.template.querySelector("c-modal").openModal();
   }
 
-  closeModal(event) {
+  handleModalClick(evt) {
+    const { label } = evt.target;
+    if (label == "Close") {
+      this.closeModal();
+    } else if (label == "Next") {
+      const allValid = [
+        ...this.template.querySelectorAll(`[data-type="requestForm"]`)
+      ].reduce((validSoFar, inputCmp) => {
+        inputCmp.reportValidity();
+        return validSoFar && inputCmp.value;
+      }, true);
+
+      if (!allValid) {
+        return;
+      }
+
+      this.currStepLocal = this.currStepLocal + 1;
+    } else if (label == "Previous") {
+      this.currStepLocal = this.currStepLocal - 1;
+    } else if (label == "Submit") {
+      this.isLoading = true;
+      this.handleSubmit();
+    } else if (label == "Generate Document") {
+      this.isLoading = true;
+      this.template.querySelector("c-excel-generator").generateExcel();
+    }
+  }
+
+  async handleSubmit() {
+    //String requestType, Id dealId, Id cdId, String comments
+    const requestType = this.selectedRequest.replace(" ", "");
+    const dealId = this.recordId;
+    const cdId = this.docAttributes.contentDocumentId;
+    const comments = this.formValues.hasOwnProperty("comments")
+      ? this.formValues.comments
+      : "";
+    const res = await sendRequest({ requestType, dealId, cdId, comments });
+
+    const resObj = JSON.parse(res);
+    const isSuccess = resObj.result !== "FAIL";
+
+    await LightningAlert.open({
+      message: isSuccess ? resObj.message : resObj.errorMessage,
+      theme: isSuccess ? "success" : "error", // a red theme intended for error states
+      label: isSuccess ? "Success!" : "Error!" // this is the header text
+    });
+
+    if(isSuccess) {
+      this.dispatchEvent(new CustomEvent("requestsubmission"));
+      this.closeModal(true);
+    } else {
+      this.isLoading = false;
+    }
+  }
+
+  async handleDocumentGeneration(evt) {
+    const { fileName, base64Data } = evt.detail;
+
+    const contentDocumentId = await saveGeneratedFile({
+      fileName,
+      base64Data,
+      parentId: this.recordId
+    });
+    console.log(contentDocumentId);
+    if (this.docAttributes) {
+      this.contentDocumentIdsForDeletion = [
+        ...this.contentDocumentIdsForDeletion,
+        this.docAttributes.contentDocumentId
+      ];
+    }
+    this.docAttributes = { fileName, base64Data, contentDocumentId };
+    this.isLoading = false;
+  }
+
+  closeModal(isSubmissionSuccess=false) {
     this.template.querySelector("c-modal").closeModal();
     this.selectedRequest = "";
+    this.currStepLocal = 1;
+    if (this.docAttributes && !isSubmissionSuccess) {
+      this.contentDocumentIdsForDeletion = [
+        ...this.contentDocumentIdsForDeletion,
+        this.docAttributes.contentDocumentId
+      ];
+    }
+    this.docAttributes = null;
+    this.formValues = {};
+    this.isLoading = false;
+  }
+
+  handleUploadFinished(evt) {
+    const { name, documentId } = evt.detail.files[0];
+    if (this.docAttributes) {
+      this.contentDocumentIdsForDeletion = [
+        ...this.contentDocumentIdsForDeletion,
+        this.docAttributes.contentDocumentId
+      ];
+    }
+
+    this.docAttributes = {
+      fileName: name,
+      contentDocumentId: documentId
+    };
   }
 
   get excelConfig() {
-    return this.selectedRequest === "Quote Request" && this.dataTapeConfig;
+    return (
+      this.selectedRequest &&
+      this.excelConfigs.hasOwnProperty(this.selectedRequest) &&
+      this.excelConfigs[this.selectedRequest]
+    );
   }
 
   get excelFileName() {
-    return this.selectedRequest === "Quote Request" && "datatape.xlsx";
+    return (
+      this.selectedRequest &&
+      this.excelFileNames.hasOwnProperty(this.selectedRequest) &&
+      this.excelFileNames[this.selectedRequest]
+    );
   }
 
   get excelQueryString() {
-    return this.selectedRequest === "Quote Request" && this.dataTapeQueryString;
+    return (
+      this.selectedRequest &&
+      this.excelQueries.hasOwnProperty(this.selectedRequest) &&
+      this.excelQueries[this.selectedRequest]
+    );
   }
 
   get dataTapeConfig() {
@@ -125,7 +383,33 @@ export default class TitleOrderOverview extends LightningElement {
     };
   }
 
+  get excelConfigs() {
+    return {
+      "Quote Request": this.dataTapeConfig
+    };
+  }
+
+  get excelFileNames() {
+    return {
+      "Quote Request": "datatape.xlsx"
+    };
+  }
+
+  get excelQueries() {
+    return {
+      "Quote Request": this.dataTapeQueryString
+    };
+  }
+
+  get acceptedFormats() {
+    return this.selectedRequest === "Quote Request" ? [".xlsx"] : [];
+  }
+
   get dataTapeQueryString() {
-    return `SELECT Id,${Object.keys(this.dataTapeConfig).join(",")} FROM Property__c WHERE Deal__c = '${this.recordId}' AND Is_Sub_Unit__c = FALSE`;
+    return `SELECT Id,${Object.keys(this.dataTapeConfig).join(
+      ","
+    )} FROM Property__c WHERE Deal__c = '${
+      this.recordId
+    }' AND Is_Sub_Unit__c = FALSE`;
   }
 }

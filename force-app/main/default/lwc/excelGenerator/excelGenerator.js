@@ -37,18 +37,19 @@ export default class ExcelGenerator extends LightningElement {
 
         const worksheet = XLSX.utils.json_to_sheet(rows);
         const workbook = XLSX.utils.book_new();
+        const fileName = this.fileName.includes(".xlsx") ? this.fileName : this.fileName + ".xlsx";
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, this.fileName.includes(".xlsx") ? this.fileName : this.fileName + ".xlsx");
-        const base64Data = XLSX.write(workbook, { bookType: "xlsx", type: "base64" });
-
+        XLSX.writeFile(workbook, fileName);
+        const base64Data = XLSX.write(workbook, { type: "base64" });
+        console.log(base64Data);
         this.dispatchEvent(
-          new CustomEvent("generate", { detail: { base64Data } })
+          new CustomEvent("generate", { detail: { base64Data, fileName } })
         );
       });
   }
 
   async queryRecords() {
-    const res = await query(this.queryString);
+    const res = await query( {queryString: this.queryString} );
     const modifiedRes = [];
 
     // flatten the objects to make parsing the config easier
@@ -59,6 +60,7 @@ export default class ExcelGenerator extends LightningElement {
     this.records = modifiedRes;
   }
 
+  @api
   flattenObj(ob) {
     // The object which contains the
     // final result

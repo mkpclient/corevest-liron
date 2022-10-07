@@ -22,9 +22,6 @@ public without sharing class ServiceLinkAPI {
     String body = '';
 
     HttpResponse res = new Http().send(req);
-    system.debug(res.getBody());
-    system.debug(res.getStatus());
-    system.debug(res.getStatusCode());
     if (Integer.valueOf(res.getStatusCode()) >= 400) {
       throw new ServiceLinkEndpoint.ServiceLinkException(res.getBody());
     }
@@ -121,7 +118,7 @@ public without sharing class ServiceLinkAPI {
       this.BorrowerType = dc.Deal_Contact_Type__c == 'Entity' ? '2' : '1';
       this.Name = '';
       this.FirstName = '';
-      this.MiddleName  = '';
+      this.MiddleName = '';
       this.LastName = '';
       this.Address1 = '';
       this.Address2 = '';
@@ -139,7 +136,7 @@ public without sharing class ServiceLinkAPI {
       Contact c = dc?.Contact__r;
       Account a = dc?.Account__r;
 
-      if(dc.Deal_Contact_Type__c == 'Entity' && a != null) {
+      if (dc.Deal_Contact_Type__c == 'Entity' && a != null) {
         this.Name = a.Name;
         this.Address1 = stringEval(a.BillingStreet);
         this.City = stringEval(a.BillingCity);
@@ -279,9 +276,9 @@ public without sharing class ServiceLinkAPI {
     public TitleDocument Document; // type is QUOTEREQUEST and send XLSX format. "Data Tape" of properties for the quote request
     public QuoteRequest(
       Opportunity deal,
-      Deal_Document__c doc,
       ContentVersion cv,
-      Integer sequenceNumber
+      Integer sequenceNumber,
+      String comments
     ) {
       this.Document = new TitleDocument().generateDocument(cv, 'QUOTEREQUEST');
       this.SourcePartyID = 'COREVEST-SFR';
@@ -293,7 +290,7 @@ public without sharing class ServiceLinkAPI {
       this.LoanNumber = deal.Deal_Loan_Number__c;
       this.LoanAmount = deal.Current_Loan_Amount__c;
       this.LoanPortfolioName = deal.Name;
-      this.Comments = '';
+      this.Comments = comments;
     }
   }
 
@@ -390,7 +387,7 @@ public without sharing class ServiceLinkAPI {
         this.Contacts.add(new ServiceLinkContact(dc, 'LENDERATTORNEY'));
       }
 
-      for(Deal_Contact__c b : borrowerList) {
+      for (Deal_Contact__c b : borrowerList) {
         this.BorrowerDetails.add(new Borrower(b));
       }
 
@@ -398,7 +395,7 @@ public without sharing class ServiceLinkAPI {
       for (Property__c p : props) {
         this.Properties.add(new Property(p, parentToChildMap));
       }
-    } 
+    }
   }
 
   public class DocumentSubmission extends ServiceLinkBase {
@@ -444,24 +441,24 @@ public without sharing class ServiceLinkAPI {
     public List<TitleDocument> Documents;
     public OrderInquiry(
       Title_Order__c to,
-      List<ContentVersion> cvs,
-      Map<Id, String> cvToDocType,
+      ContentVersion cv,
       String inquiryType,
-      String comments
+      String comments,
+      String incTransacId
     ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
+      this.IncomingTransactionId = incTransacId;
       this.AssetID = to.Asset_ID__c;
       this.OrderNumber = to.Order_Number__c;
       this.InquiryType = inquiryType;
       this.Comments = comments;
       this.RequestorEmail = UserInfo.getUserEmail();
       this.Documents = new List<TitleDocument>();
-      for (ContentVersion cv : cvs) {
+      if (inquiryType == 'REVISEDQUO') {
         this.Documents.add(
-          new TitleDocument().generateDocument(cv, cvToDocType.get(cv.Id))
-        );
+          new TitleDocument().generateDocument(cv, 'REVQUOTEREQ')
+        );  
       }
     }
   }
