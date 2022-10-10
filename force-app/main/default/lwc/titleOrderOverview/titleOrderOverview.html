@@ -1,5 +1,13 @@
 <template>
-  <lightning-card>
+  <template if:true={isLoading}>
+    <lightning-spinner
+      alternative-text="Loading"
+      size="small"
+    ></lightning-spinner>
+  </template>
+
+  <lightning-card if:false={isLoading}>
+    
     <lightning-button-group class="slds-p-horizontal_small" slot="actions">
       <lightning-button
         label="Quote Request"
@@ -96,41 +104,71 @@
                     size={c.size}
                     class="slds-p-around-small"
                   >
-                    <template if:true={c.isDealField}>
-                      <lightning-input-field
-                        field-name={c.fieldName}
-                        disabled={c.disabled}
-                        data-name={c.dataName}
-                        onchange={handleChange}
+                    <template if:true={c.isPropertySelection}>
+                      <lightning-combobox
+                        name="propertyselection"
+                        label="Select a Property"
+                        value={selectedToId}
+                        placeholder="Select Property"
+                        options={titleOrderSelections}
+                        onchange={handlePropertySelection}
                         data-type="requestForm"
-                        required={c.required}
-                      ></lightning-input-field>
+                        required
+                      ></lightning-combobox>
                     </template>
-                    <template if:true={c.isComments}>
-                      <lightning-textarea
-                        label={c.label}
-                        disabled={c.disabled}
-                        data-name={c.dataName}
-                        value={c.value}
-                        onchange={handleChange}
-                        data-type="requestForm"
-                        required={c.required}
-                        variant="label-inline"
-                      ></lightning-textarea>
-                    </template>
-                    <template if:false={c.isDealField}>
-                      <template if:false={c.isComments}>
-                        <lightning-input
-                          type={c.type}
-                          label={c.label}
-                          value={c.value}
+                    <template if:false={c.isPropertySelection}>
+                      <template if:true={c.isDealField}>
+                        <lightning-input-field
+                          field-name={c.fieldName}
                           disabled={c.disabled}
                           data-name={c.dataName}
                           onchange={handleChange}
                           data-type="requestForm"
                           required={c.required}
-                          variant="label-inline"
-                        ></lightning-input>
+                        ></lightning-input-field>
+                      </template>
+                      <template if:false={c.isDealField}>
+                        <template if:true={c.isComments}>
+                          <lightning-textarea
+                            label={c.label}
+                            disabled={c.disabled}
+                            data-name={c.dataName}
+                            value={c.value}
+                            onchange={handleChange}
+                            data-type="requestForm"
+                            required={c.required}
+                            variant="label-inline"
+                          ></lightning-textarea>
+                        </template>
+                        <template if:false={c.isComments}>
+                          <template if:true={c.isCombobox}>
+                            <lightning-combobox
+                              label={c.label}
+                              value={c.value}
+                              disabled={c.disabled}
+                              data-name={c.dataName}
+                              placeholder="Make a Selection"
+                              options={c.options}
+                              onchange={handleChange}
+                              data-type="requestForm"
+                              required={c.required}
+                              variant="label-inline"
+                            ></lightning-combobox>
+                          </template>
+                          <template if:false={c.isCombobox}>
+                            <lightning-input
+                              type={c.type}
+                              label={c.label}
+                              value={c.value}
+                              disabled={c.disabled}
+                              data-name={c.dataName}
+                              onchange={handleChange}
+                              data-type="requestForm"
+                              required={c.required}
+                              variant="label-inline"
+                            ></lightning-input>
+                          </template>
+                        </template>
                       </template>
                     </template>
                   </lightning-layout-item>
@@ -182,6 +220,16 @@
                   </lightning-file-upload>
                 </lightning-layout-item>
               </template>
+              <template if:false={acceptedFormats.length}>
+                <lightning-layout-item
+                  flexibility="auto"
+                  padding="around-small"
+                >
+                  This request does not allow document attachments. Please use
+                  "Document Submission" if you need to submit any additional
+                  file.
+                </lightning-layout-item>
+              </template>
             </lightning-layout>
           </template>
           <template if:true={isPreviewStep}>
@@ -190,19 +238,26 @@
               class="slds-p-around-medium"
             >
               <lightning-layout-item flexibility="auto" padding="around-small">
-                <lightning-input label="File" type="text" value={docAttributes.fileName} disabled="true"></lightning-input>
-                <p><lightning-formatted-url value={downloadLink} tooltip={downloadLink} label="Download File" target="_blank" ></lightning-formatted-url></p>
+                <lightning-input
+                  label="File"
+                  type="text"
+                  value={docAttributes.fileName}
+                  disabled="true"
+                ></lightning-input>
+                <p>
+                  <lightning-formatted-url
+                    value={downloadLink}
+                    tooltip={downloadLink}
+                    label="Download File"
+                    target="_blank"
+                  ></lightning-formatted-url>
+                </p>
               </lightning-layout-item>
             </lightning-layout>
           </template>
         </lightning-card>
       </template>
-      <template if:true={isLoading}>
-        <lightning-spinner
-          alternative-text="Loading"
-          size="small"
-        ></lightning-spinner>
-      </template>
+      
     </div>
     <div slot="footer">
       <template if:true={showPrev}>

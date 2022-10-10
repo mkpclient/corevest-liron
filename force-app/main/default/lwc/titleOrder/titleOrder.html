@@ -6,6 +6,7 @@
           record-id={recordId}
           title-order-params={titleOrderParams}
           onrequestsubmission={retrieveData}
+          title-orders={titleOrders}
         ></c-title-order-overview>
       </template>
     </lightning-tab>
@@ -31,6 +32,6 @@
     <lightning-tab label="Documents">
       <c-title-order-documents record-id={recordId}></c-title-order-documents>
     </lightning-tab>
-    <lightning-tab label="Appointments"> </lightning-tab>
+    <lightning-tab label="Notes and Appointments"> </lightning-tab>
   </lightning-tabset>
 </template>

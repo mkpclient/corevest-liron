@@ -12,6 +12,13 @@ global without sharing class ServiceLinkEndpoint {
     'LoanPortfolioChangeConfirm' => 'Loan_Portfolio_Confirmation_Date__c'
   };
 
+  public static final Map<String, String> REQ_TO_STATUS_MAP = new Map<String,STring>{
+    'CancelRequestConfirmation' => 'Cancelled',
+    'OrderChangeConfirmation' => 'Order Change Confirmed',
+    'QuoteAcceptedConfirmation' => 'Quote Accepted',
+    'LoanPortfolioChangeConfirm' => 'Loan Portfolio Change Confirmed'
+  };
+
   //these requests send a new order number so it won't be possible to query them just yet
   public static final List<String> NEW_ORDER_NUM_REQS = new List<String>{
     'OrderConfirmation',
@@ -664,12 +671,11 @@ global without sharing class ServiceLinkEndpoint {
       List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
 
       for (Title_Order__c to : titleOrders) {
-        Boolean isUpdated = false;
+        to.Has_Order_Inquiry_Response__c = true;
         if (
           String.isEmpty(to.Asset_ID__c) && String.isNotEmpty(ordInq.AssetID)
         ) {
           to.Asset_ID__c = ordInq.AssetID;
-          isUpdated = true;
         }
         if (
           String.isEmpty(to.Order_Number__c) &&
@@ -677,11 +683,8 @@ global without sharing class ServiceLinkEndpoint {
         ) {
           to.Order_Number__c = ordInq.OrderNumber;
           to.Recording_Order_Number__c = ordInq.OrderNumber;
-          isUpdated = true;
         }
-        if (isUpdated) {
-          updatedTitleOrders.add(to);
-        }
+        
       }
 
       if (updatedTitleOrders.size() > 0) {
@@ -700,6 +703,10 @@ global without sharing class ServiceLinkEndpoint {
     for (Title_Order__c to : titleOrders) {
       if (sl.Status == 'SUCCESS') {
         to.put(REQ_TO_DATEFIELD_MAP.get(reqType), (DateTime) System.now());
+        if(REQ_TO_STATUS_MAP.containsKey(reqType)) {
+          to.Status__c = REQ_TO_STATUS_MAP.get(reqType);
+        }
+
         if (String.isNotEmpty(sl.AssetID)) {
           to.Asset_ID__c = sl.AssetID;
         }
@@ -838,6 +845,7 @@ global without sharing class ServiceLinkEndpoint {
             : tO.Order_Opened_Date__c;
           tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
           to.Error_Message__c = null;
+          to.Status__c = 'Quote Request Received';
         } else {
           tO.Error_Message__c = reqObj.ErrorMessage;
         }

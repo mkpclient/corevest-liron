@@ -131,7 +131,6 @@ public without sharing class TitleOrder_LightningHelper {
       .fields.getMap()
       .keySet();
 
-
     String queryString =
       'SELECT ' +
       String.join(new List<String>(toFields), ',') +
@@ -140,7 +139,6 @@ public without sharing class TitleOrder_LightningHelper {
 
     queryString += ' FROM Title_Order__c WHERE Deal__c = :dealId ORDER BY Quote_ID__c';
 
-    
     List<Title_Order__c> titleOrders = Database.query(queryString);
 
     return titleOrders;
@@ -313,7 +311,9 @@ public without sharing class TitleOrder_LightningHelper {
     String requestType,
     Id dealId,
     Id cdId,
-    String comments
+    String comments,
+    Title_Order__c to,
+    String inquiryType
   ) {
     if (requestType == 'QuoteRequest') {
       List<Id> propIds = new List<Id>(
@@ -327,7 +327,10 @@ public without sharing class TitleOrder_LightningHelper {
           .keySet()
       );
       return quoteRequest(propIds, dealId, cdId, comments);
-    } else {
+    } else if (requestType == 'OrderInquiry') {
+      return orderInquiry(to, cdId, inquiryType, comments, dealId);
+    }
+    else {
       return '';
     }
   }
@@ -608,18 +611,22 @@ public without sharing class TitleOrder_LightningHelper {
           Id,
           Bulk_Project_Order_Num__c,
           Incoming_Transaction_Id__c,
-          Loan_Number__c
+          Loan_Number__c,
+          Status__c,
+          Deal__c
         FROM Title_Order__c
         WHERE Id IN :titleOrderIds
       ];
-
+      String transacId;
       for (Title_Order__c to : tos) {
-        to.Incoming_Transaction_Id__c = (to.Deal__c +
-          '-' +
-          System.now() +
-          '-CRQ')
-          .replaceAll(':', '')
-          .deleteWhitespace();
+        transacId = (to.Deal__c +
+        '-' +
+        System.now() +
+        '-CRQ')
+        .replaceAll(':', '')
+        .deleteWhitespace();
+        to.Incoming_Transaction_Id__c = transacId;
+        to.Status__c = 'Cancel Requested';
         cancelReqs.add(new ServiceLinkAPI.CancelRequest(to));
       }
 
@@ -634,7 +641,7 @@ public without sharing class TitleOrder_LightningHelper {
   }
 
   public static String orderInquiry(
-    List<Title_Order__c> titleOrders,
+    Title_Order__c to,
     Id cdId,
     String inquiryType,
     String comments,
@@ -653,7 +660,7 @@ public without sharing class TitleOrder_LightningHelper {
       .deleteWhitespace();
 
     ServiceLinkAPI.OrderInquiry orderInq = new ServiceLinkAPI.OrderInquiry(
-      titleOrders[0],
+      to,
       cv,
       inquiryType,
       comments,
@@ -667,16 +674,13 @@ public without sharing class TitleOrder_LightningHelper {
     }
 
     List<Title_Order__c> updTitleOrders = new List<Title_Order__c>();
-
-    for (Title_Order__c to : titleOrders) {
-      updTitleOrders.add(
-        new Title_Order__c(
-          Id = to.Id,
-          Has_Order_Inquiry__c = true,
-          Incoming_Transaction_Id__c = incTransacId
-        )
-      );
-    }
+    updTitleOrders.add(
+      new Title_Order__c(
+        Id = to.Id,
+        Has_Order_Inquiry__c = true,
+        Incoming_Transaction_Id__c = incTransacId
+      )
+    );
 
     performDmlFuture(JSON.serialize(updTitleOrders));
 

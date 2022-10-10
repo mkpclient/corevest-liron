@@ -105,6 +105,7 @@ export default class TitleOrder extends LightningElement {
   titleOrderParams;
   allData = [];
   cols = columns;
+  titleOrders = [];
 
   connectedCallback() {
     this.retrieveData();
@@ -118,19 +119,23 @@ export default class TitleOrder extends LightningElement {
     let hasOrderInquiry = false;
     let orderInquiryAccepted = false;
     let hasProblemItem = false;
+    let hasBulkProjectId = false;
 
     const dataTemp = [];
+    this.titleOrders = res;
     for (const to of res) {
       const {
         Status__c,
         Error_Message__c,
         Has_Order_Inquiry__c,
-        Has_Order_Inquiry_Response__c
+        Has_Order_Inquiry_Response__c,
+        Bulk_Project_Order_Num__c
       } = to;
       hasProblemItem ||= Status__c == "Problem Curative Item";
       hasError ||= !!Error_Message__c;
       hasOrderInquiry ||= Has_Order_Inquiry__c;
       orderInquiryAccepted ||= Has_Order_Inquiry_Response__c;
+      hasBulkProjectId ||= !!Bulk_Project_Order_Num__c;
       if (SHOW_STATUSES.includes(Status__c) || Status__c.includes("All")) {
         status = Status__c;
       }
@@ -151,7 +156,8 @@ export default class TitleOrder extends LightningElement {
       hasError,
       hasOrderInquiry,
       orderInquiryAccepted,
-      hasProblemItem
+      hasProblemItem,
+      hasBulkProjectId
     };
   }
 

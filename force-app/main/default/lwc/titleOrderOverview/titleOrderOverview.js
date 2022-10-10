@@ -3,6 +3,9 @@ import saveGeneratedFile from "@salesforce/apex/TitleOrder_LightningHelper.saveG
 import { api, LightningElement } from "lwc";
 import sendRequest from "@salesforce/apex/TitleOrder_LightningHelper.sendRequest";
 import LightningAlert from "lightning/alert";
+import LightningConfirm from "lightning/confirm";
+import retrieveSchemas from "@salesforce/apex/TitleOrder_LightningHelper.retrieveSchemas";
+import cancelRequest from "@salesforce/apex/TitleOrder_LightningHelper.cancelRequest";
 
 const QuoteRequest = [
   {
@@ -53,13 +56,88 @@ const QuoteRequest = [
   }
 ];
 
+const OrderInquiry = [
+  {
+    isPropertySelection: true,
+    size: 12,
+    dataName: "propertySel",
+    value: "",
+    disabled: false
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Bulk Project Order Num",
+    value: "",
+    dataName: "Bulk_Project_Order_Num__c",
+    size: 6
+  },
+  {
+    isDealField: true,
+    disabled: true,
+    fieldName: "Deal_Loan_Number__c",
+    dataName: "dealLoanNumber",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Asset ID",
+    value: "",
+    dataName: "Asset_ID__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Order Number",
+    value: "",
+    dataName: "Order_Number__c",
+    size: 6
+  },
+  {
+    isCombobox: true,
+    disabled: false,
+    label: "Inquiry Type",
+    value: "",
+    dataName: "inquiryType",
+    size: 6,
+    required: true,
+    options: []
+  },
+  {
+    isComments: true,
+    label: "Comments",
+    disabled: false,
+    dataName: "comments",
+    size: 12,
+    value: null,
+    required: true
+  }
+];
+
+const acceptedFormatMap = {
+  "Quote Request": [".xlsx"],
+  "Order Inquiry": [".xlsx"]
+};
+
 const nextSteps = {
-  "Unordered": "Open a Quote Request to get started",
-  "Cancelled": "Open a Quote Request to get started",
-  "Quote Requested": "Wait for a response from ServiceLink or send an Order Inquiry. You can also submit any additional document that you need to submit."
-}
+  Unordered: "Open a Quote Request to get started",
+  Cancelled: "Open a Quote Request to get started",
+  "Quote Requested":
+    "No action is needed. Please wait for a response from service link.",
+  "Quote Request Received":
+    "Your quote has been received by servicelink. No action is currently required, but you can submit additional documents, cancel the request, or make an order inquiry.",
+  "Cancel Requested": "A cancel request is currently being processed. Please wait for confirmation from ServiceLink before submitting a new Quote Request."
+};
 export default class TitleOrderOverview extends LightningElement {
   @api recordId;
+  @api titleOrderParams = {};
+  @api titleOrders = [];
+  selectedTitleOrder = {};
+  selectedToId;
+  comboboxSchemas = {};
+
   selectedRequestLocal = "";
   currStepLocal = 1;
   formValues = {};
@@ -67,7 +145,22 @@ export default class TitleOrderOverview extends LightningElement {
   isLoading = false;
   contentDocumentIdsForDeletion = [];
   titleOrderStatusLocal = "Unordered";
-  @api titleOrderParams = {};
+
+  get disallowAttachments() {
+    return (
+      this.selectedRequest != "Quote Request" ||
+      (this.selectedRequest == "Order Inquiry" &&
+        this.formValues.inquiryType &&
+        this.formValues.inquiryType !== "REVISEDQUO")
+    );
+  }
+
+  get titleOrderSelections() {
+    return this.titleOrders.map((to) => ({
+      label: to.Property__r.Name + ", " + to.Property__r.State__c,
+      value: to.Id
+    }));
+  }
 
   get downloadLink() {
     return (
@@ -86,7 +179,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get formConfigs() {
-    return { QuoteRequest };
+    return { QuoteRequest, OrderInquiry };
   }
 
   get disableQuoteRequest() {
@@ -122,7 +215,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get disableNext() {
-    return this.isDocStep && !this.docAttributes;
+    return this.isDocStep && !this.docAttributes && !this.disallowAttachments;
   }
 
   get currForm() {
@@ -130,23 +223,33 @@ export default class TitleOrderOverview extends LightningElement {
       this.selectedRequest &&
       this.formConfigs[this.selectedRequest.replace(" ", "")].map((c, i) => {
         let { dataName, value, disabled } = c;
+        let options = [];
         if (this.formValues.hasOwnProperty(dataName)) {
           value = this.formValues[dataName];
         }
+        if (this.selectedTitleOrder.hasOwnProperty(dataName)) {
+          value = this.selectedTitleOrder[dataName];
+        }
+        if (this.comboboxSchemas.hasOwnProperty(dataName)) {
+          options = this.comboboxSchemas[dataName];
+        }
         disabled = disabled || this.isPreviewStep;
-        return { ...c, key: i, value, disabled };
+        return { ...c, key: i, value, disabled, options };
       })
     );
   }
 
-  
   get titleOrderStatus() {
     return this.titleOrderParams.status;
   }
 
-
   get hasNoRequest() {
-    return this.titleOrderStatus == "Unordered" || this.titleOrderStatus == "Cancelled";
+    return (
+      this.titleOrderStatus == "Unordered" ||
+      this.titleOrderStatus == "Cancelled" ||
+      this.titleOrderStatus == "Cancel Requested" ||
+      !this.titleOrderParams.hasBulkProjectId
+    );
   }
 
   get nextStep() {
@@ -155,6 +258,20 @@ export default class TitleOrderOverview extends LightningElement {
 
   get requestName() {
     return this.selectedRequest ? this.selectedRequest : "";
+  }
+
+  async connectedCallback() {
+    const schemas = await retrieveSchemas();
+    const tempData = {};
+    for (const key in schemas) {
+      const vals = schemas[key];
+      tempData[key] = vals.map((v) => ({
+        label: v,
+        value: v
+      }));
+    }
+
+    this.comboboxSchemas = tempData;
   }
 
   disconnectedCallback() {
@@ -167,6 +284,14 @@ export default class TitleOrderOverview extends LightningElement {
     }
   }
 
+  handlePropertySelection(evt) {
+    const { value } = evt.detail;
+
+    this.selectedToId = value;
+
+    this.selectedTitleOrder = this.titleOrders.find((to) => to.Id === value);
+  }
+
   handleChange(evt) {
     const { value } = evt.detail;
     const { name } = evt.target.dataset;
@@ -176,9 +301,39 @@ export default class TitleOrderOverview extends LightningElement {
 
   handleClick(evt) {
     const req = evt.target.value || evt.detail.value;
-    this.selectedRequest = req;
-    console.log(this.selectedRequest);
-    this.template.querySelector("c-modal").openModal();
+
+    if (req === "Cancel Request") {
+      this.handleCancel();
+    } else {
+      this.selectedRequest = req;
+      console.log(this.selectedRequest);
+      this.template.querySelector("c-modal").openModal();
+    }
+  }
+
+  async handleCancel() {
+    const result = await LightningConfirm.open({
+      message: "Would you like to cancel this request? This is an irreversible request.",
+      label: "Request Cancelation",
+      theme: "warning"
+    });
+
+    if(result){
+      this.isLoading = true;
+      const titleOrderIds = this.titleOrders.map(to => to.Id);
+      try {
+        await cancelRequest({ titleOrderIds });
+        await LightningAlert.open({
+          message: "Your cancel request has been successfully submitted.",
+          theme: "success",
+          label: "Success"
+        });
+        this.dispatchEvent(new CustomEvent("requestsubmission"));
+        this.isLoading = false;
+      } catch(err){
+        console.error(err);
+      }    
+    }
   }
 
   handleModalClick(evt) {
@@ -190,7 +345,7 @@ export default class TitleOrderOverview extends LightningElement {
         ...this.template.querySelectorAll(`[data-type="requestForm"]`)
       ].reduce((validSoFar, inputCmp) => {
         inputCmp.reportValidity();
-        return validSoFar && inputCmp.value;
+        return validSoFar && (inputCmp.value || !inputCmp.required);
       }, true);
 
       if (!allValid) {
@@ -217,7 +372,20 @@ export default class TitleOrderOverview extends LightningElement {
     const comments = this.formValues.hasOwnProperty("comments")
       ? this.formValues.comments
       : "";
-    const res = await sendRequest({ requestType, dealId, cdId, comments });
+    const inquiryType = this.formValues.hasOwnProperty("inquiryType")
+      ? this.formValues.inquiryType
+      : "";
+    const to = this.selectedTitleOrder.hasOwnProperty("Id")
+      ? this.selectedTitleOrder
+      : null;
+    const res = await sendRequest({
+      requestType,
+      dealId,
+      cdId,
+      comments,
+      to,
+      inquiryType
+    });
 
     const resObj = JSON.parse(res);
     const isSuccess = resObj.result !== "FAIL";
@@ -228,7 +396,7 @@ export default class TitleOrderOverview extends LightningElement {
       label: isSuccess ? "Success!" : "Error!" // this is the header text
     });
 
-    if(isSuccess) {
+    if (isSuccess) {
       this.dispatchEvent(new CustomEvent("requestsubmission"));
       this.closeModal(true);
     } else {
@@ -255,7 +423,7 @@ export default class TitleOrderOverview extends LightningElement {
     this.isLoading = false;
   }
 
-  closeModal(isSubmissionSuccess=false) {
+  closeModal(isSubmissionSuccess = false) {
     this.template.querySelector("c-modal").closeModal();
     this.selectedRequest = "";
     this.currStepLocal = 1;
@@ -402,7 +570,11 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get acceptedFormats() {
-    return this.selectedRequest === "Quote Request" ? [".xlsx"] : [];
+    return !this.disallowAttachments &&
+      this.selectedRequest &&
+      acceptedFormatMap.hasOwnProperty(this.selectedRequest)
+      ? acceptedFormatMap[this.selectedRequest]
+      : [];
   }
 
   get dataTapeQueryString() {
