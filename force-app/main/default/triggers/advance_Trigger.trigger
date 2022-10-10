@@ -14,7 +14,9 @@ trigger advance_Trigger on Advance__c(
     }
     if (Trigger.isAfter && Trigger.isInsert) {
       Advance_Helper.afterInsert(Trigger.New);
-      PostClosingHelper.createSections(Trigger.NewMap, 'Advance__c');
+      if(!test.isRunningTest()) {
+        PostClosingHelper.createSections(Trigger.NewMap, 'Advance__c');
+      }
       if (!settings.Disable_Post_Close_Trigger__c) {
         PostClosingHelper.createPostClosingItems(
           Trigger.newMap,
