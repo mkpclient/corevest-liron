@@ -46,7 +46,7 @@
         <lightning-menu-item
           label="Order Change Request"
           value="Order Change Request"
-          disabled={hasNoRequest}
+          disabled={titleOrderParams.hasNoOrderNumber}
         ></lightning-menu-item>
         <lightning-menu-item
           label="Document Submission"
@@ -166,6 +166,8 @@
                               data-type="requestForm"
                               required={c.required}
                               variant="label-inline"
+                              formatter={c.formatter}
+                              step={c.step}
                             ></lightning-input>
                           </template>
                         </template>
@@ -237,7 +239,7 @@
               vertical-align="center"
               class="slds-p-around-medium"
             >
-              <lightning-layout-item flexibility="auto" padding="around-small">
+              <lightning-layout-item flexibility="auto" padding="around-small" if:true={downloadLink}>
                 <lightning-input
                   label="File"
                   type="text"

@@ -329,8 +329,9 @@ public without sharing class TitleOrder_LightningHelper {
       return quoteRequest(propIds, dealId, cdId, comments);
     } else if (requestType == 'OrderInquiry') {
       return orderInquiry(to, cdId, inquiryType, comments, dealId);
-    }
-    else {
+    } else if (requestType == 'OrderChangeRequest') {
+      return orderChangeRequest(to);
+    } else {
       return '';
     }
   }
@@ -602,6 +603,33 @@ public without sharing class TitleOrder_LightningHelper {
     }
   }
 
+  public static String orderChangeRequest(Title_Order__c to) {
+    String incTransacId = (to.Deal__c +
+      '-' +
+      System.now() +
+      '-OIQ')
+      .replaceAll(':', '')
+      .deleteWhitespace();
+    ServiceLinkAPI.OrderChangeRequest ocr = new ServiceLinkAPI.OrderChangeRequest(
+      to, incTransacId
+    );
+    try {
+      ServiceLinkAPI.performRequest('OrderChangeRequest', JSON.serialize(ocr));
+
+      to.Status__c = 'Order Change Requested';
+      to.Incoming_Transaction_Id__c = incTransacId;
+      update to;
+      return JSON.serialize(
+        new Map<String, String>{
+          'result' => 'SUCCESS',
+          'message' => 'Your Change Request has been submitted.'
+        }
+      );
+    } catch (Exception err) {
+      return err.getMessage();
+    }
+  }
+
   @AuraEnabled
   public static void cancelRequest(List<Id> titleOrderIds) {
     try {
@@ -620,11 +648,11 @@ public without sharing class TitleOrder_LightningHelper {
       String transacId;
       for (Title_Order__c to : tos) {
         transacId = (to.Deal__c +
-        '-' +
-        System.now() +
-        '-CRQ')
-        .replaceAll(':', '')
-        .deleteWhitespace();
+          '-' +
+          System.now() +
+          '-CRQ')
+          .replaceAll(':', '')
+          .deleteWhitespace();
         to.Incoming_Transaction_Id__c = transacId;
         to.Status__c = 'Cancel Requested';
         cancelReqs.add(new ServiceLinkAPI.CancelRequest(to));

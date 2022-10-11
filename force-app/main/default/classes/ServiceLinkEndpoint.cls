@@ -672,6 +672,7 @@ global without sharing class ServiceLinkEndpoint {
 
       for (Title_Order__c to : titleOrders) {
         to.Has_Order_Inquiry_Response__c = true;
+        to.Has_Order_Inquiry__c = false;
         if (
           String.isEmpty(to.Asset_ID__c) && String.isNotEmpty(ordInq.AssetID)
         ) {
@@ -684,7 +685,7 @@ global without sharing class ServiceLinkEndpoint {
           to.Order_Number__c = ordInq.OrderNumber;
           to.Recording_Order_Number__c = ordInq.OrderNumber;
         }
-        
+        updatedTitleOrders.add(to);
       }
 
       if (updatedTitleOrders.size() > 0) {

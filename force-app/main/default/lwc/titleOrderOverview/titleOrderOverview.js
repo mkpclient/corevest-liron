@@ -116,6 +116,99 @@ const OrderInquiry = [
   }
 ];
 
+const OrderChangeRequest = [
+  {
+    isPropertySelection: true,
+    size: 12,
+    dataName: "propertySel",
+    value: "",
+    disabled: false
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Bulk Project Order Num",
+    value: "",
+    dataName: "Bulk_Project_Order_Num__c",
+    size: 6
+  },
+  {
+    isDealField: true,
+    disabled: true,
+    fieldName: "Deal_Loan_Number__c",
+    dataName: "dealLoanNumber",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Asset ID",
+    value: "",
+    dataName: "Asset_ID__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Address",
+    value: "",
+    dataName: "Property__r.Name",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "City",
+    value: "",
+    dataName: "Property__r.City__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "State",
+    value: "",
+    dataName: "Property__r.State__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "County",
+    value: "",
+    dataName: "Property__r.County__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Zip Code",
+    value: "",
+    dataName: "Property__r.ZipCode__c",
+    size: 6
+  },
+  {
+    type: "text",
+    disabled: true,
+    label: "Property APN",
+    value: "",
+    dataName: "Property__r.APN__c",
+    size: 6
+  },
+  {
+    type: "number",
+    disabled: true,
+    label: "Allocated Loan Amount",
+    value: "",
+    dataName: "Property__r.ALA__c",
+    size: 6,
+    formatter: "currency",
+    step: "0.01"
+  },
+];
+
+const FORM_CONFIGS = { QuoteRequest, OrderChangeRequest, OrderInquiry };
+
 const acceptedFormatMap = {
   "Quote Request": [".xlsx"],
   "Order Inquiry": [".xlsx"]
@@ -128,7 +221,9 @@ const nextSteps = {
     "No action is needed. Please wait for a response from service link.",
   "Quote Request Received":
     "Your quote has been received by servicelink. No action is currently required, but you can submit additional documents, cancel the request, or make an order inquiry.",
-  "Cancel Requested": "A cancel request is currently being processed. Please wait for confirmation from ServiceLink before submitting a new Quote Request."
+  "Cancel Requested": "A cancel request is currently being processed. Please wait for confirmation from ServiceLink before submitting a new Quote Request.",
+  "Order Change Requested": "There is an active order change request for this loan awaiting confirmation from the vendor.",
+  "Order Change Confirmed": "A recent order change request has been accepted by the vendor."
 };
 export default class TitleOrderOverview extends LightningElement {
   @api recordId;
@@ -148,7 +243,7 @@ export default class TitleOrderOverview extends LightningElement {
 
   get disallowAttachments() {
     return (
-      this.selectedRequest != "Quote Request" ||
+      (this.selectedRequest !== "Quote Request" && this.selectedRequest !== "Order Inquiry")||
       (this.selectedRequest == "Order Inquiry" &&
         this.formValues.inquiryType &&
         this.formValues.inquiryType !== "REVISEDQUO")
@@ -163,7 +258,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get downloadLink() {
-    return (
+    return this.docAttributes &&  this.docAttributes.contentDocumentId && (
       "/sfc/servlet.shepherd/document/download/" +
       this.docAttributes.contentDocumentId +
       "?operationContext=S1"
@@ -179,7 +274,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get formConfigs() {
-    return { QuoteRequest, OrderInquiry };
+    return FORM_CONFIGS;
   }
 
   get disableQuoteRequest() {
@@ -221,7 +316,7 @@ export default class TitleOrderOverview extends LightningElement {
   get currForm() {
     return (
       this.selectedRequest &&
-      this.formConfigs[this.selectedRequest.replace(" ", "")].map((c, i) => {
+      this.formConfigs[this.selectedRequest.replaceAll(" ", "")].map((c, i) => {
         let { dataName, value, disabled } = c;
         let options = [];
         if (this.formValues.hasOwnProperty(dataName)) {
@@ -289,7 +384,7 @@ export default class TitleOrderOverview extends LightningElement {
 
     this.selectedToId = value;
 
-    this.selectedTitleOrder = this.titleOrders.find((to) => to.Id === value);
+    this.selectedTitleOrder = this.flattenObj(this.titleOrders.find((to) => to.Id === value));
   }
 
   handleChange(evt) {
@@ -366,18 +461,19 @@ export default class TitleOrderOverview extends LightningElement {
 
   async handleSubmit() {
     //String requestType, Id dealId, Id cdId, String comments
-    const requestType = this.selectedRequest.replace(" ", "");
+    const requestType = this.selectedRequest.replaceAll(" ", "");
     const dealId = this.recordId;
-    const cdId = this.docAttributes.contentDocumentId;
+    const cdId = this.docAttributes && this.docAttributes.contentDocumentId || null;
     const comments = this.formValues.hasOwnProperty("comments")
       ? this.formValues.comments
       : "";
     const inquiryType = this.formValues.hasOwnProperty("inquiryType")
       ? this.formValues.inquiryType
       : "";
-    const to = this.selectedTitleOrder.hasOwnProperty("Id")
-      ? this.selectedTitleOrder
+    const to = this.selectedToId 
+      ? this.titleOrders.find(t => t.Id === this.selectedToId)
       : null;
+    
     const res = await sendRequest({
       requestType,
       dealId,
@@ -553,19 +649,22 @@ export default class TitleOrderOverview extends LightningElement {
 
   get excelConfigs() {
     return {
-      "Quote Request": this.dataTapeConfig
+      "Quote Request": this.dataTapeConfig,
+      "Order Inquiry": this.dataTapeConfig
     };
   }
 
   get excelFileNames() {
     return {
-      "Quote Request": "datatape.xlsx"
+      "Quote Request": "datatape.xlsx",
+      "Order Inquiry": "reviseddatatape.xlsx"
     };
   }
 
   get excelQueries() {
     return {
-      "Quote Request": this.dataTapeQueryString
+      "Quote Request": this.dataTapeQueryString,
+      "Order Inquiry": this.dataTapeQueryString
     };
   }
 
@@ -583,5 +682,31 @@ export default class TitleOrderOverview extends LightningElement {
     )} FROM Property__c WHERE Deal__c = '${
       this.recordId
     }' AND Is_Sub_Unit__c = FALSE`;
+  }
+
+  flattenObj(ob) {
+    // The object which contains the
+    // final result
+    let result = {};
+
+    // loop through the object "ob"
+    for (const i in ob) {
+      // We check the type of the i using
+      // typeof() function and recursively
+      // call the function again
+      if (typeof ob[i] === "object" && !Array.isArray(ob[i])) {
+        const temp = this.flattenObj(ob[i]);
+        for (const j in temp) {
+          // Store temp in result
+          result[i + "." + j] = temp[j];
+        }
+      }
+
+      // Else store ob[i] in result directly
+      else {
+        result[i] = ob[i];
+      }
+    }
+    return result;
   }
 }

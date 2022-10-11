@@ -168,7 +168,7 @@ public without sharing class ServiceLinkAPI {
       this.State = p.State__c;
       this.County = p.County__c;
       this.Zipcode = p.ZipCode__c;
-      this.PropertyAPN = p.APN__c;
+      this.PropertyAPN = String.isNotEmpty(p.APN__c) ? p.APN__c : '';
       this.PropertyType = p.Property_Type__c;
     }
   }
@@ -423,13 +423,14 @@ public without sharing class ServiceLinkAPI {
   public class OrderChangeRequest extends ServiceLinkBase {
     public Decimal AllocatedLoanAmount;
     public PropertyAddress PropertyAddress;
-    public OrderChangeRequest(Title_Order__c to) {
+    public OrderChangeRequest(Title_Order__c to, String incTransacId) {
       Property__c p = to.Property__r;
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
       this.AssetID = to.Asset_ID__c;
       this.OrderNumber = to.Order_Number__c;
-      this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
+      this.IncomingTransactionId = incTransacId;
+      this.AllocatedLoanAmount = p.ALA__c;
       this.PropertyAddress = new PropertyAddress(p);
     }
   }
@@ -450,7 +451,7 @@ public without sharing class ServiceLinkAPI {
       this.LoanNumber = to.Loan_Number__c;
       this.IncomingTransactionId = incTransacId;
       this.AssetID = to.Asset_ID__c;
-      this.OrderNumber = to.Order_Number__c;
+      this.OrderNumber = String.isNotEmpty(to.Order_Number__c) ? to.Order_Number__c : '' ;
       this.InquiryType = inquiryType;
       this.Comments = comments;
       this.RequestorEmail = UserInfo.getUserEmail();

@@ -1,4 +1,29 @@
 <template>
+  <template if:true={titleOrderParams}>
+    <template if:true={titleOrderParams.hasError}>
+      <c-custom-alert
+        icon-name="utility:warning"
+        variant="Warning"
+        alert-text="One or several title orders need your attention. Please read the error message associated with them and send the relevant request."
+      ></c-custom-alert>
+    </template>
+    <template if:true={titleOrderParams.hasOrderInquiry}>
+      <c-custom-alert
+        icon-name="utility:clock"
+        variant="Warning"
+        bg-color="purple"
+        alert-text="One or several title orders related to this deal have an active order inquiry pending response."
+      ></c-custom-alert>
+    </template>
+    <template if:true={titleOrderParams.orderInquiryAccepted}>
+      <c-custom-alert
+        icon-name="utility:email"
+        bg-color="green"
+        text-color="white"
+        alert-text="One or several order inquiries related to title orders in this deal have a response. Please proceed to the 'Notes and Appointments' to review."
+      ></c-custom-alert>
+    </template>
+  </template>
   <lightning-tabset>
     <lightning-tab label="Overview">
       <template if:true={titleOrderParams}>
@@ -12,15 +37,6 @@
     </lightning-tab>
     <lightning-tab label="Title Orders">
       <lightning-card title="Title Orders">
-        <template if:true={titleOrderParams}>
-          <template if:true={titleOrderParams.hasError}>
-            <c-custom-alert
-              icon-name="utility:warning"
-              variant="Warning"
-              alert-text="One or several title orders need your attention. Please read the error message associated with them and send the relevant request."
-            ></c-custom-alert>
-          </template>
-        </template>
         <div style="overflow-x: scroll">
           <div style="width: 100vw">
             <lightning-datatable key-field="id" data={allData} columns={cols}>
@@ -32,6 +48,11 @@
     <lightning-tab label="Documents">
       <c-title-order-documents record-id={recordId}></c-title-order-documents>
     </lightning-tab>
-    <lightning-tab label="Notes and Appointments"> </lightning-tab>
+    <lightning-tab label="Notes and Appointments">
+      <c-title-order-misc
+        record-id={recordId}
+        title-orders={titleOrders}
+      ></c-title-order-misc>
+    </lightning-tab>
   </lightning-tabset>
 </template>

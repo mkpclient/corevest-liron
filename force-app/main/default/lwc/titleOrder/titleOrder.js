@@ -94,6 +94,16 @@ const columns = [
     fieldName: "All_Cleared_To_Close_Date__c"
   },
   {
+    label: "Has Active Order Inquiry",
+    type: "boolean",
+    fieldName: "Has_Order_Inquiry__c"
+  },
+  {
+    label: "Has Response to Order Inquiry",
+    type: "boolean",
+    fieldName: "Has_Order_Inquiry_Response__c"
+  },
+  {
     label: "Comments",
     type: "text",
     fieldName: "Comments__c"
@@ -113,29 +123,32 @@ export default class TitleOrder extends LightningElement {
 
   async retrieveData() {
     const res = await queryTitleOrders({ dealId: this.recordId });
-
+    const tempRes = res.filter(to => to.Status__c !== "Cancelled");
     let status = "Unordered";
     let hasError = false;
     let hasOrderInquiry = false;
     let orderInquiryAccepted = false;
     let hasProblemItem = false;
     let hasBulkProjectId = false;
+    let hasNoOrderNumber = false || tempRes.length === 0;
 
     const dataTemp = [];
-    this.titleOrders = res;
+    this.titleOrders = tempRes;
     for (const to of res) {
       const {
         Status__c,
         Error_Message__c,
         Has_Order_Inquiry__c,
         Has_Order_Inquiry_Response__c,
-        Bulk_Project_Order_Num__c
+        Bulk_Project_Order_Num__c,
+        Order_Number__c
       } = to;
       hasProblemItem ||= Status__c == "Problem Curative Item";
       hasError ||= !!Error_Message__c;
       hasOrderInquiry ||= Has_Order_Inquiry__c;
       orderInquiryAccepted ||= Has_Order_Inquiry_Response__c;
       hasBulkProjectId ||= !!Bulk_Project_Order_Num__c;
+      hasNoOrderNumber ||= !Order_Number__c;
       if (SHOW_STATUSES.includes(Status__c) || Status__c.includes("All")) {
         status = Status__c;
       }
@@ -157,7 +170,8 @@ export default class TitleOrder extends LightningElement {
       hasOrderInquiry,
       orderInquiryAccepted,
       hasProblemItem,
-      hasBulkProjectId
+      hasBulkProjectId,
+      hasNoOrderNumber
     };
   }
 
