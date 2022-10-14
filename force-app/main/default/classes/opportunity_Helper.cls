@@ -1646,7 +1646,7 @@ public without sharing class opportunity_Helper {
       system.debug('o.StageName::::' + o);
       system.debug('oldMap::::' + oldMap);
 
-      if (o.CEMA__c == 'Yes' && oldMap.get(o.Id).CEMA__c != o.CEMA__c) {
+      if (o.RecordType__c == 'Term' && o.CEMA__c == 'Yes' && oldMap.get(o.Id).CEMA__c != o.CEMA__c) {
         cemaDeals.add(o.Id);
       }
 
