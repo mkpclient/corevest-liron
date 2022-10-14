@@ -1220,6 +1220,45 @@ public without sharing class opportunity_Helper {
         }
 
         if (
+          o.Servicer_Name__c != oldMap.get(o.id).Servicer_Name__c &&
+          o.Servicer_Commitment_Id__c !=
+          oldMap.get(o.id).Servicer_Commitment_Id__c &&
+          oldMap.get(o.id).Servicer_Commitment_Id__c != null &&
+          oldMap.get(o.id).Servicer_Name__c != null
+        ) {
+          Servicer_Loan__c servicerloan = new Servicer_Loan__c(
+            Name = oldMap.get(o.id).Servicer_Name__c +
+              '-' +
+              o.Deal_Loan_Number__c,
+            Deal__c = o.Id,
+            Servicer_Commitment_ID__c = oldMap.get(o.id)
+              .Servicer_Commitment_Id__c,
+            Servicer_Name__c = oldMap.get(o.id).Servicer_Name__c,
+            First_Payment_Date__c = oldMap.get(o.id).First_Payment_Date__c,
+            Last_Payment_Date__c = oldMap.get(o.id).Last_Payment_Date__c,
+            Delinquent_30_Days__c = oldMap.get(o.id).Delinquent_30_Days__c,
+            Delinquent_60_Days__c = oldMap.get(o.id).Delinquent_60_Days__c,
+            Delinquent_90_Days__c = oldMap.get(o.id).Delinquent_90_Days__c,
+            Delinquent_120_Days__c = oldMap.get(o.id).Delinquent_120_Days__c,
+            Current_UPB__c = oldMap.get(o.id).Current_UPB__c,
+            Onboarded_at_Servicer__c = oldMap.get(o.id)
+              .Onboarded_at_Servicer__c,
+            Onboarding_File_Sent_to_Servicer__c = oldMap.get(o.id)
+              .Onboarding_File_Sent_to_Servicer__c,
+            P_and_I__c = oldMap.get(o.id).P_I__c,
+            T_and_I__c = oldMap.get(o.id).T_I__c,
+            Servicer_Loan_Status__c = oldMap.get(o.id).Servicer_Status__c,
+            Servicer_Provided_Portfolio_Name__c = oldMap.get(o.id)
+              .Servicer_Provided_Portfolio_Name__c
+          );
+          insert servicerloan;
+          // o.Delinquent_30_Days__c = null;
+          // o.Delinquent_60_Days__c = null;
+          // o.Delinquent_90_Days__c = null;
+          // o.Delinquent_120_Days__c = null;
+        }
+
+        if (
           oldMap.get(o.Id).Current_UPB__c != newMap.get(o.Id).Current_UPB__c &&
           newMap.get(o.Id).Current_UPB__c == 0
         ) {
