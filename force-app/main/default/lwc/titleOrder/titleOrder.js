@@ -134,7 +134,7 @@ export default class TitleOrder extends LightningElement {
 
     const dataTemp = [];
     this.titleOrders = tempRes;
-    for (const to of res) {
+    for (const to of tempRes) {
       const {
         Status__c,
         Error_Message__c,

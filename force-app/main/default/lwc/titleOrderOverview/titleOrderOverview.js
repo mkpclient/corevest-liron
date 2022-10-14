@@ -347,6 +347,10 @@ export default class TitleOrderOverview extends LightningElement {
     );
   }
 
+  get cannotAcceptOrder() {
+    return this.titleOrderStatus !== 'Quote Response Received';
+  }
+
   get nextStep() {
     return nextSteps[this.titleOrderStatus];
   }
@@ -681,7 +685,7 @@ export default class TitleOrderOverview extends LightningElement {
       ","
     )} FROM Property__c WHERE Deal__c = '${
       this.recordId
-    }' AND Is_Sub_Unit__c = FALSE`;
+    }' AND Is_Sub_Unit__c = FALSE AND Status__c != 'Inactive' AND Status__c != 'Cancelled'`;
   }
 
   flattenObj(ob) {

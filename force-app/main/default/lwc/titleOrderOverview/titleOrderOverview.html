@@ -30,7 +30,7 @@
       <lightning-button
         label="Quote Accepted"
         value="Quote Accepted"
-        disabled={hasNoRequest}
+        disabled={cannotAcceptOrder}
         onclick={handleClick}
       ></lightning-button>
       <lightning-button-menu
@@ -90,6 +90,12 @@
           value="3"
         ></lightning-progress-step>
       </lightning-progress-indicator>
+      <template if:true={isLoading}>
+        <lightning-spinner
+          alternative-text="Loading"
+          size="small"
+        ></lightning-spinner>
+      </template>    
       <template if:false={isLoading}>
         <lightning-card>
           <template if:true={isFormStep}>

@@ -322,6 +322,7 @@ public without sharing class TitleOrder_LightningHelper {
               SELECT Id
               FROM Property__c
               WHERE Deal__c = :dealId AND Is_Sub_Unit__c = FALSE
+              AND Status__c NOT IN ('Inactive', 'Cancelled')
             ]
           )
           .keySet()
