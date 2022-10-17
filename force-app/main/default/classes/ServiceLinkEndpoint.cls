@@ -116,7 +116,7 @@ global without sharing class ServiceLinkEndpoint {
           'AllHOACompleted' {
           resMap.put(
             'LoanNumber',
-            processHoa(respMap.values()[0], titleOrders)
+            processHoa(respMap.values()[0], titleOrders, reqType)
           );
         }
         when 'PayOffExists',
@@ -126,7 +126,7 @@ global without sharing class ServiceLinkEndpoint {
           'AllPayoffsCompleted' {
           resMap.put(
             'LoanNumber',
-            processPayoff(respMap.values()[0], titleOrders)
+            processPayoff(respMap.values()[0], titleOrders, reqType)
           );
         }
         when 'ProblemCurativeItem' {
@@ -401,23 +401,30 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processPayoff(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    List<Title_Order__c> titleOrders,
+    String reqType
   ) {
     Date poOrderedDate = parseDateString(resp.PayoffOrderedDate);
     Date allPoOrderedDate = parseDateString(resp.AllPayoffsOrderedDate);
     Date poCompletedDate = parseDateString(resp.PayoffCompletedDate);
     Date allPoCompletedDate = parseDateString(resp.AllPayoffsCompletedDate);
 
-    if (resp.RecId != null && String.isNotEmpty(resp.RecId)) {
-      Loan_Status__c loanNote = new Loan_Status__c();
+    if (!reqType.containsIgnoreCase('all')) {
+      Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
+      
+      for(Loan_Status__c ls : [SELECT Id, Comment__c FROM Loan_Status__c WHERE Payoff_Rec_Id__c = :titleOrders[0].Id]) {
+        loanNote.Comment__c += ls.Comment__c;
+        break;
+      }
 
-      loanNote.Payoff_Rec_Id__c = resp.RecId;
+      loanNote.Payoff_Rec_Id__c = titleOrders[0].Id;
       loanNote.Subject__c = 'Payoff for Property with Asset ID ' + resp.AssetID;
       loanNote.Title_Order__c = titleOrders[0].Id;
       loanNote.Deal__c = titleOrders[0].Deal__c;
 
-      String comment =
-        'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber;
+      String comment = String.isEmpty(loanNote.Comment__c) ?
+        'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber
+        : loanNote.Comment__c;
       if (poCompletedDate != null) {
         comment += '\nPayoff Completed Date: ' + poCompletedDate;
       }
@@ -455,22 +462,26 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processHoa(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    List<Title_Order__c> titleOrders,
+    String reqType
   ) {
     Date hoaOrderedDate = parseDateString(resp.HOAOrderedDate);
     Date allHoaOrderedDate = parseDateString(resp.AllHOAOrderedDate);
     Date hoaCompletedDate = parseDateString(resp.HOACompletedDate);
     Date allHoaCompDate = parseDateString(resp.AllHOACompletedDate);
 
-    if (resp.RecId != null && String.isNotEmpty(resp.RecId)) {
-      Loan_Status__c loanNote = new Loan_Status__c();
-
-      loanNote.HOA_Rec_Id__c = resp.RecId;
+    if (!reqType.containsIgnoreCase('all')) {
+      Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
+      for(Loan_Status__c ls : [SELECT Id, Comment__c FROM Loan_Status__c WHERE HOA_Rec_Id__c = :titleOrders[0].Id]) {
+        loanNote.Comment__c += ls.Comment__c;
+        break;
+      }
+      loanNote.HOA_Rec_Id__c = titleOrders[0].Id;
       loanNote.Subject__c = 'HOA for Property with Asset ID ' + resp.AssetID;
       loanNote.Title_Order__c = titleOrders[0].Id;
       loanNote.Deal__c = titleOrders[0].Deal__c;
 
-      String comment = 'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber;
+      String comment = String.isEmpty(loanNote.Comment__c) ?  'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber : loanNote.Comment__c;
       if (hoaCompletedDate != null) {
         comment += '\nHOA Completed Date: ' + hoaCompletedDate;
       }
@@ -717,6 +728,7 @@ global without sharing class ServiceLinkEndpoint {
         to.Error_Message__c = null;
       } else {
         to.Error_Message__c = sl.ErrorMessage;
+        to.Status__c = to.Status_Formula__c;
       }
     }
 
