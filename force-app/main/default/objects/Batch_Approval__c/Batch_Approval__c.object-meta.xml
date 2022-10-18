@@ -156,7 +156,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Batch Approval</label>
+    <label>Advance Approval</label>
     <nameField>
         <displayFormat>B-{MMDDYYYY}-{000}</displayFormat>
         <label>Batch Approval Name</label>
@@ -164,7 +164,7 @@
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Batch Approvals</pluralLabel>
+    <pluralLabel>Advance Approvals</pluralLabel>
     <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts></searchLayouts>

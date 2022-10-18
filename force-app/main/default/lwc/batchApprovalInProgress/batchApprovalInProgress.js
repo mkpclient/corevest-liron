@@ -42,7 +42,7 @@ export default class BatchApprovalInProgress extends LightningElement {
         timeSinceSub: timeSinceString,
         approverName: d.Approver__r.Name,
         approvalUrl: "/" + d.Batch_Approval__c,
-        advanceUrl: "/" + d.Advance__c,
+        advanceUrl: "/" + d.Batch_Approval__r.Advance__c,
         approverId: d.Approver__c,
         noAdvances: d.Batch_Approval__r.No_of_Advances__c,
         totalFunding: d.Batch_Approval__r.Total_Funding__c,

@@ -290,6 +290,9 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
     if (userMap.size() > 0) {
       for (Id key : userMap.keySet()) {
         String name2 = userMap.get(key).Name;
+        if(name2.contains('Hoeffel')) {
+          name2 = 'Chris Hoeffel';
+        }
         names.add(name2);
       }
     }
@@ -301,6 +304,9 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
         for (Id key : userMap.keySet()) {
           User userInfo = userMap.get(key);
           String name3 = userInfo.Name;
+          if(name3.contains('Hoeffel')) {
+            name3 = 'Chris Hoeffel';
+          }
           if (String.isNotEmpty(settings.get(name3).Email_Address__c)) {
             userInfo.Email = settings.get(name3).Email_Address__c;
           }

@@ -153,14 +153,14 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <label>Batch Approver</label>
+    <label>Advance Approver</label>
     <nameField>
         <displayFormat>BA-{00000}</displayFormat>
         <label>Batch Approver Name</label>
         <trackHistory>false</trackHistory>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Batch Approvers</pluralLabel>
+    <pluralLabel>Advance Approvers</pluralLabel>
     <searchLayouts></searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>

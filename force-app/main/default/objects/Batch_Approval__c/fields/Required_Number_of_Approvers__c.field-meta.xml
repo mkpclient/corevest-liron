@@ -2,12 +2,14 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Required_Number_of_Approvers__c</fullName>
     <externalId>false</externalId>
-    <formula>$CustomMetadata.Settings__mdt.Universal_Settings.Minimum_Advance_Batch_Approvers__c</formula>
+    <formula>IF(ISPICKVAL( Approval_Type__c, &apos;Advance Batch Approval&apos;),
+$CustomMetadata.Settings__mdt.Universal_Settings.Minimum_Advance_Batch_Approvers__c,
+$CustomMetadata.Settings__mdt.Universal_Settings.Minimum_Advance_IC_Approvers__c)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Required Number of Approvers</label>
     <precision>18</precision>
     <required>false</required>
-    <scale>2</scale>
+    <scale>0</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Number</type>

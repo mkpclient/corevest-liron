@@ -2,12 +2,38 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
      <types>
         <members>IC_Advance_Approval_Templates/Advance_IC_Submitted</members>
+        <members>IC_Advance_Approval_Templates/Advance_IC_Rejected</members>
+        <members>IC_Advance_Approval_Templates/Advance_IC_Recalled</members>
+        <members>IC_Advance_Approval_Templates/Advance_IC_Approved</members>
         <members>IC_Advance_Approval_Templates</members>
         <name>EmailTemplate</name>
     </types>
-    
-
-    
+    <types>
+        <members>AdvanceICEmail</members>
+        <name>ApexComponent</members>
+    </types>
+    <types>
+        <members>AdvanceBatchApprovalEmailHandler</members>
+        <members>BatchApprovalHelper</members>
+        <members>BatchApproverHelper</members>
+        <members>AdvanceICEmailController</members>
+        <members>AdvanceICEmailControllerTests</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Batch_Approval__c</members>
+        <members>Batch_Approver__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Advance__c.IC_Approval_Status__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>batchApprovalInProgress</members>
+        <members>advanceApprovalRecordPageTab</members>
+        <name>LightningComponentBundle</name>
+    </types>
     <version>53.0</version>
 </Package>
-<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r OpportunityMethodsTest,PaidOffSabPropertiesBatchTest -->
+<!-- sfdx force:source:deploy -x manifest/deploy.xml -l RunSpecifiedTests -r AdvanceBatchApprovalHandlerTests,BatchApprovalHelperTests,AdvanceICEmailControllerTests -->

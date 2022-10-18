@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>56.0</apiVersion>
-    <available>false</available>
+    <available>true</available>
     <encodingKey>ISO-8859-1</encodingKey>
     <name>Advance IC Submitted</name>
     <style>none</style>
-    <subject>The following advance has been submitted for review - Approval #{!Advance__c.Advance_Approval_Name__c}</subject>
+    <subject>The following advance has been submitted for review- Approval #</subject>
     <type>visualforce</type>
     <uiType>Aloha</uiType>
 </EmailTemplate>
