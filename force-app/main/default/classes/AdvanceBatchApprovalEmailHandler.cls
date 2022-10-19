@@ -184,8 +184,9 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
             if (
               (USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Email.toLowerCase() == fromAddress ||
               USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Email.toLowerCase() == alternateAddress) &&
-              htmlBody.toLowerCase()
-                .contains(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Approver_Code__c.toLowerCase())
+              (htmlBody.toLowerCase()
+                .contains(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Approver_Code__c.toLowerCase()) || htmlBody.toLowerCase()
+                .contains(USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key).Approver_Code__c.toLowerCase().replace('approved', 'rejected')))
             ) {
               toId = key;
               fromUser = USERINFO_MAP.get(batchApproval[0].Approval_Type__c).get(key);
@@ -196,9 +197,9 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
           System.debug(fromUser);
 
           if (null != fromUser.Approver_Code__c) {
-            String rejectCode = fromUser.Approver_Code__c.replace(
-              'Approved',
-              'Rejected'
+            String rejectCode = fromUser.Approver_Code__c.toLowerCase().replace(
+              'approved',
+              'rejected'
             );
             Boolean isApprover =
               htmlBody.toLowerCase()
@@ -643,11 +644,10 @@ global class AdvanceBatchApprovalEmailHandler implements Messaging.InboundEmailH
   ) {
     ba.Status__c = approved ? 'Approved' : 'Rejected';
     ba.Comments__c =
+      '\nApproval Comment: ' +
       ba.Status__c +
       ' from Email by ' +
-      ba.Approver__r.Name +
-      '\nApproval Comment: ' +
-      ba.Comments__c;
+      ba.Approver__r.Name ;
 
     update ba;
 

@@ -56,7 +56,7 @@ export default class AdvanceApprovalRecordPageTab extends LightningElement {
 
   get isRecalledRejected() {
     return (
-      this.approvalStatus == "Recalled" || this.approvalStatus == "Rejected"
+      this.approvalStatus == "Recalled" || this.approvalStatus == "Rejected" || this.approvalStatus == "Approved"
     );
   }
 
