@@ -22,6 +22,9 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> entityMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Integer i = 0; i < newList.size(); i++) {
+      if(newList[i].Disable_Apex__c) {
+        continue;
+      }
       opportunityMap.put(newList[i].Deal__c, null);
 
       if (newList[i].Is_Guarantor__c == true) {
@@ -77,6 +80,9 @@ public class deal_Contact_Helper {
     List<Business_Entity__c> businessEntityInserts = new List<Business_Entity__c>();
     List<Deal_Contact__c> newEntityList = new List<Deal_Contact__c>();
     for (Integer i = 0; i < newList.size(); i++) {
+      if(newList[i].Disable_Apex__c) {
+        continue;
+      }
       if (String.isNotBlank(newList[i].Company_Name__c)) {
         if (
           businessEntityMap.containsKey(
@@ -140,7 +146,10 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> contactPrepopulateMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Deal_Contact__c entity : newList) {
-      if (entity.Contact__c != null && !entity.Disable_Apex__c) {
+      if(entity.Disable_Apex__c) {
+        continue;
+      }
+      if (entity.Contact__c != null) {
         if (
           entity.Contact__c != null &&
           !contactPrepopulateMap.containsKey(entity.Contact__c)
@@ -328,6 +337,9 @@ public class deal_Contact_Helper {
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
     for (Deal_Contact__c entity : newList) {
       system.debug(entity);
+      if(entity.Disable_Apex__c) {
+        continue;
+      }
       if (
         entity.Vendor_Type__c != null &&
         entity.Account__c != null &&
