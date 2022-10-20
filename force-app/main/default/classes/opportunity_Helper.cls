@@ -2,6 +2,7 @@ public without sharing class opportunity_Helper {
   public static boolean isRecursive = false;
   public static boolean hasBeforeUpdateRun = false;
   public static boolean hasAfterUpdateRun = false;
+  public static boolean runForTest = false;
 
   public static final List<String> IC_REVERSE_TEMPLATES = new List<String>{
     'IC_Metrics_For_Term',
@@ -65,8 +66,14 @@ public without sharing class opportunity_Helper {
   // public static Map<String, ID> VENDOR_MAP;
 
   public static void beforeInsert(List<Opportunity> newList) {
+    Deal_Loan_Number__c dln = Deal_Loan_Number__c.getOrgDefaults();
+    Integer nextNumber = Integer.valueOf(dln.Next_Loan_Number__c);
     for (Opportunity o : newList) {
       o.Pricebook2Id = '01sj0000001DCOIAA4';
+      if (String.isEmpty(o.Deal_Loan_Number__c)) {
+        o.Deal_Loan_Number__c = String.valueOf(nextNumber);
+        nextNumber++;
+      }
       List<Swap_Rate__c> SwapRate = [
         SELECT
           Five_Year_Swap__c,
@@ -147,15 +154,14 @@ public without sharing class opportunity_Helper {
           o.Min_DSCR__c = '1.20x';
         }
 
-        if (o.Term_Loan_Type__c == '5 Year') {
+        if (o.Term_Loan_Type__c == '3 Year') {
+          o.Term_Loan_Type_Months__c = '36 months';
+        } else if (o.Term_Loan_Type__c == '5 Year') {
           o.Term_Loan_Type_Months__c = '60 months';
-          // o.Floor__c = 1.5;
         } else if (o.Term_Loan_Type__c == '7 Year') {
           o.Term_Loan_Type_Months__c = '84 months';
-          // o.Floor__c = 1.55;
         } else if (o.Term_Loan_Type__c == '10 Year') {
           o.Term_Loan_Type_Months__c = '120 months';
-          // o.Floor__c = 1.65;
         } else if (o.Term_Loan_Type__c == '30 Year') {
           o.Term_Loan_Type_Months__c = '360 months';
           // o.Floor__c = 1.8;
@@ -243,6 +249,10 @@ public without sharing class opportunity_Helper {
         } //switch
       }
       //Raj. 2/14/2022. CIP304. End
+    }
+    if (nextNumber > Integer.valueOf(dln.Next_Loan_Number__c)) {
+      dln.Next_Loan_Number__c = String.valueOf(nextNumber);
+      update dln;
     }
   }
 
@@ -363,6 +373,14 @@ public without sharing class opportunity_Helper {
         );
 
         termRecordIds.add(o.Id);
+        OpportunityLineItem oli = new OpportunityLineItem();
+        oli.OpportunityId = o.id;
+        // Product2Id = PRODUCT_MAP.get('Term Loan').Id,
+        oli.PricebookEntryId = '01u0a00000K75E5AAJ';
+        oli.Quantity = 1;
+        oli.ServiceDate = o.CloseDate;
+        oli.UnitPrice = util.fixNull(o.Loan_Size__c);
+        insert oli;
       } else if (o.RecordType__c == 'Bridge') {
         applicants.add(
           new Deal_Contact__c(
@@ -404,6 +422,90 @@ public without sharing class opportunity_Helper {
             Vendor_Type__c = 'Insurance'
           )
         );
+      } else if (o.RecordType__c == 'Single Asset Bridge') {
+        applicants.add(
+          new Deal_Contact__c(
+            Contact__c = o.Contact__c,
+            Deal__c = o.Id,
+            Deal_Contact_Type__c = 'Individual',
+            // Entity_Type__c = 'Applicant'
+            Entity_Type__c = accrecTypeId[0].Contact__r.Account.RecordTypeId ==
+              accBrokerId
+              ? 'Broker'
+              : 'Applicant'
+          )
+        );
+        // applicants.add(
+        //   new Deal_Contact__c(
+        //     Deal__c = o.Id,
+        //     Deal_Contact_Type__c = 'Vendor',
+        //     Vendor_Type__c = 'Title Review'
+        //   )
+        // );
+        // applicants.add(
+        //   new Deal_Contact__c(
+        //     Deal__c = o.Id,
+        //     Deal_Contact_Type__c = 'Vendor',
+        //     Vendor_Type__c = 'Valuation'
+        //   )
+        // );
+        // applicants.add(
+        //   new Deal_Contact__c(
+        //     Deal__c = o.Id,
+        //     Deal_Contact_Type__c = 'Vendor',
+        //     Vendor_Type__c = 'Flood Check'
+        //   )
+        // );
+        // applicants.add(
+        //   new Deal_Contact__c(
+        //     Deal__c = o.Id,
+        //     Deal_Contact_Type__c = 'Vendor',
+        //     Vendor_Type__c = 'Insurance'
+        //   )
+        // );
+        // OpportunityLineItem oli = new OpportunityLineItem(
+        //     OpportunityId = o.id,
+        //     // Product2Id = PRODUCT_MAP.get('Bridge Loan').Id,
+        //     PricebookEntryId = '01u0a00000K75EAAAZ',
+        //     Quantity = 1,
+        //     UnitPrice = util.fixNull(o.Loan_Size__c)
+        // );
+        // insert oli;
+      } else if (o.RecordType__c == 'Single Asset Rental') {
+        if (o.Loan_Size__c != null && o.Final_Loan_Amount__c == null) {
+          OpportunityLineItem oli = new OpportunityLineItem(
+            OpportunityId = o.id,
+            // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
+            PricebookEntryId = '01u0a00000K75EKAAZ',
+            Quantity = 1,
+            ServiceDate = o.CloseDate,
+            UnitPrice = util.fixNull(o.Loan_Size__c)
+          );
+          insert oli;
+        } else if (o.Final_Loan_Amount__c != null) {
+          OpportunityLineItem oli = new OpportunityLineItem(
+            OpportunityId = o.id,
+            // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
+            PricebookEntryId = '01u0a00000K75EKAAZ',
+            Quantity = 1,
+            ServiceDate = o.CloseDate,
+            UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
+          );
+          insert oli;
+        }
+      } else if (o.RecordType__c == 'Investor DSCR') {
+        OpportunityLineItem oli = new OpportunityLineItem(
+          OpportunityId = o.id,
+          // Product2Id = PRODUCT_MAP.get('Single Rental Loan').Id,
+          PricebookEntryId = '01u5b00000L8lMhAAJ',
+          Quantity = 1,
+          ServiceDate = o.CloseDate,
+          UnitPrice = util.fixNull(o.Final_Loan_Amount__c)
+        );
+        //raj
+        if (!Test.isRunningTest()) {
+          insert oli;
+        }
       }
 
       if (o.Underwriter__c != null) {
@@ -605,7 +707,7 @@ public without sharing class opportunity_Helper {
       ) {
         currOpp.IC_Approval_Date__c = System.today();
       }
-      System.debug('prevalidation for IC reapproval');
+
       if (
         validateDealForIcReapproval(prevOpp, currOpp) &&
         currOpp.IC_Approval__c == 'Approved'
@@ -893,16 +995,14 @@ public without sharing class opportunity_Helper {
             o.RecordTypeId = RECORDTYPE_MAP.get('Term_Loan_Closed_Lost').Id;
             o.CloseDate = System.today();
           } else if (o.RecordType__c == 'Bridge') {
-            if (o.Type == 'SAB Loan') {
-              o.RecordTypeId = RECORDTYPE_MAP.get(
-                  'Single_Asset_Bridge_Loan_Closed_Lost'
-                )
-                .Id;
-              o.CloseDate = System.today();
-            } else {
-              o.RecordTypeId = RECORDTYPE_MAP.get('Bridge_Loan_Closed_Lost').Id;
-              o.CloseDate = System.today();
-            }
+            o.RecordTypeId = RECORDTYPE_MAP.get('Bridge_Loan_Closed_Lost').Id;
+            o.CloseDate = System.today();
+          } else if (o.RecordType__c == 'Single Asset Bridge') {
+            o.RecordTypeId = RECORDTYPE_MAP.get(
+              'Single_Asset_Bridge_Loan_Closed_Lost'
+            )
+            .Id;
+            o.CloseDate = System.today();
           } else if (o.RecordType__c == 'Single Asset Rental') {
             o.RecordTypeId = RECORDTYPE_MAP.get(
                 'Single_Rental_Loan_Closed_Lost'
@@ -1076,18 +1176,16 @@ public without sharing class opportunity_Helper {
         }
 
         if (o.Term_Loan_Type__c != oldMap.get(o.Id).Term_Loan_Type__c) {
-          if (o.Term_Loan_Type__c == '5 Year') {
+          if (o.Term_Loan_Type__c == '3 Year') {
+            o.Term_Loan_Type_Months__c = '36 months';
+          } else if (o.Term_Loan_Type__c == '5 Year') {
             o.Term_Loan_Type_Months__c = '60 months';
-            // o.Floor__c = 1.5;
           } else if (o.Term_Loan_Type__c == '7 Year') {
             o.Term_Loan_Type_Months__c = '84 months';
-            // o.Floor__c = 1.55;
           } else if (o.Term_Loan_Type__c == '10 Year') {
             o.Term_Loan_Type_Months__c = '120 months';
-            // o.Floor__c = 1.65;
           } else if (o.Term_Loan_Type__c == '30 Year') {
             o.Term_Loan_Type_Months__c = '360 months';
-            // o.Floor__c = 1.8;
           }
         }
 
@@ -1095,18 +1193,16 @@ public without sharing class opportunity_Helper {
           o.Term_Loan_Type_Months__c !=
           oldMap.get(o.Id).Term_Loan_Type_Months__c
         ) {
-          if (o.Term_Loan_Type_Months__c == '60 months') {
+          if (o.Term_Loan_Type_Months__c == '36 months') {
+            o.Term_Loan_Type__c = '3 Year';
+          } else if (o.Term_Loan_Type_Months__c == '60 months') {
             o.Term_Loan_Type__c = '5 Year';
-            // o.Floor__c = 1.5;
           } else if (o.Term_Loan_Type_Months__c == '84 months') {
             o.Term_Loan_Type__c = '7 Year';
-            // o.Floor__c = 1.55;
           } else if (o.Term_Loan_Type_Months__c == '120 months') {
             o.Term_Loan_Type__c = '10 Year';
-            // o.Floor__c = 1.65;
           } else if (o.Term_Loan_Type_Months__c == '360 months') {
             o.Term_Loan_Type__c = '30 Year';
-            // o.Floor__c = 1.8;
           }
         }
 
@@ -1367,11 +1463,10 @@ public without sharing class opportunity_Helper {
       //List<ClearToCloseWrapper> closedWrappers = );
 
       // CIP 2452 start 31 May 2022
-      checkCreditScores(closedWonMap);
+      // checkCreditScores(closedWonMap);
 
       // CIP 2452 end 31 May 2022
-      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings')
-        .Allow_SAB_CTC_Bypass__c;
+      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings').Allow_SAB_CTC_Bypass__c;
       List<String> sabLoanTypes = new List<String>{
         'Single Asset (1-4 Unit)',
         'Single Asset (5-10 Unit)'
@@ -1611,7 +1706,7 @@ public without sharing class opportunity_Helper {
       'Broker_Fees__c'
     };
     Map<Id, List<Property__c>> mapFromOppIdToProperties = new Map<Id, List<Property__c>>();
-    if (!Test.isRunningTest()) {
+    if (!Test.isRunningTest() || runForTest) {
       mapFromOppIdToProperties = getMapFromOppIdToProperties(newMap.keySet());
     }
     /*CIP2026.RS. 3/2/2022. End*/
@@ -2142,7 +2237,7 @@ public without sharing class opportunity_Helper {
       }
 
       /*CIP2254.RS.3/14/2022. Begin */
-      if (mapFromOppIdToProperties.size() > 0) {
+      if (mapFromOppIdToProperties.size() > 0 && mapFromOppIdToProperties.containsKey(o.Id)) {
         if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected') {
           List<Property__c> propList = new List<property__c>();
           if (o.Type == 'Bridge Loan') {
@@ -2176,15 +2271,17 @@ public without sharing class opportunity_Helper {
           }
         }
         /*CIP2026.RS. 3/2/2022. End */
+
         //CIP-2286-RS.7/15/22.BEGIN
+        System.Debug('RS999 o.Project_Strategy__c :' + o.Project_Strategy__c);
         if (
           o.Project_Strategy__c == 'Multifamily Heavy Lift/CLO' ||
           o.Project_Strategy__c == 'Multifamily Lease-Up/No Rehab/CLO' ||
           o.Project_Strategy__c == 'Multifamily Light Lift/CLO'
         ) {
-          CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
           if (cloIdsMap.containsKey(o.id)) {
             for (id processingCloid : cloIdsMap.get(o.id)) {
+              CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
               clo.id = processingCloid;
               if (o.Loan_Purpose__c != oldMap.get(o.Id).Loan_Purpose__c)
                 clo.Loan_Purpose__c = o.Loan_Purpose__c;
@@ -2223,8 +2320,12 @@ public without sharing class opportunity_Helper {
               cloUpdateList.add(clo);
             }
           } else {
-            if (mapFromOppIdToProperties.size() > 0) {
+            if (
+              mapFromOppIdToProperties.size() > 0 &&
+              mapFromOppIdToProperties.containsKey(o.Id)
+            ) {
               for (Property__c iProp : mapFromOppIdToProperties.get(o.Id)) {
+                CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
                 clo.Property_Name__c = iProp.Property_Name__c;
                 clo.Property_Address__c = iProp.Name;
                 clo.Property_City__c = iProp.City__c;
@@ -2685,10 +2786,7 @@ public without sharing class opportunity_Helper {
     ];
 
     String recordType = opp.RecordType.DeveloperName;
-    if (
-      recordType.contains('LOC_Loan') ||
-      recordType.contains('Table_Funded_CRE_Loan')
-    ) {
+    if (recordType.contains('LOC_Loan')) {
       recordType = 'LOC_Loan';
     }
 
@@ -2961,6 +3059,7 @@ public without sharing class opportunity_Helper {
         Property_Type__c,
         Red_Bell_Sync__c,
         Deal__c,
+        //CIP-2286-RS.7/15/22.Begin
         Property_Name__c,
         Name,
         City__c,
@@ -2968,7 +3067,6 @@ public without sharing class opportunity_Helper {
         ZipCode__c,
         County__c,
         Year_Built__c,
-        //CIP-2286-RS.7/15/22.Begin
         Number_of_Units__c,
         Initial_Disbursement__c,
         First_Payment_Date__c,
@@ -3082,11 +3180,7 @@ public without sharing class opportunity_Helper {
 
         dealTypes.retainAll(filters);
 
-        if (
-          dealTypes.size() > 0 ||
-          (recordType == 'Term_Loan' ||
-          recordType == 'Single_Asset_Bridge_Loan')
-        ) {
+        if (dealTypes.size() > 0 || recordType == 'Term_Loan') {
           this.docMap.put(docString, new C2CDocWrapper(doc.Required__c));
         }
       }
@@ -3248,9 +3342,9 @@ public without sharing class opportunity_Helper {
         FROM Opportunity
         WHERE
           Id IN :oppMap.keySet()
-          AND (RecordType__c = 'Term'
-          OR (RecordType__c = 'Bridge'
-          AND Project_Strategy__c LIKE '%/CLO'))
+          AND (RecordType__c = 'Term' OR
+          (RecordType__c = 'Bridge' AND
+          Project_Strategy__c LIKE '%/CLO'))
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
@@ -3264,7 +3358,7 @@ public without sharing class opportunity_Helper {
         WHERE
           Id IN :oppMap.keySet()
           AND RecordType__c = 'Bridge'
-          AND (NOT Project_Strategy__c LIKE '%/CLO')
+          AND (NOT (Project_Strategy__c LIKE '%/CLO'))
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
@@ -3346,6 +3440,16 @@ public without sharing class opportunity_Helper {
         newDC.Deal__c = o.Id;
         newDC.Deal_Contact_Type__c = 'Vendor';
         newDC.Account__c = statebridgeAccId;
+        newDC.Entity_Type__c = 'Vendor';
+        newDealContacts.add(newDC);
+      }
+
+      for (Opportunity o : sabOppsToUpdate) {
+        Deal_Contact__c newDC = new Deal_Contact__c();
+        newDC.Vendor_Type__c = 'Servicer';
+        newDC.Deal__c = o.Id;
+        newDC.Deal_Contact_Type__c = 'Vendor';
+        newDC.Account__c = fciAccId;
         newDC.Entity_Type__c = 'Vendor';
         newDealContacts.add(newDC);
       }
@@ -3835,35 +3939,13 @@ public without sharing class opportunity_Helper {
     Opportunity currOpp
   ) {
     Boolean isBridge =
-      (currOpp.Record_Type_Name__c.containsIgnoreCase('bridge') ||
-      currOpp.Record_Type_Name__c.containsIgnoreCase('cre') ||
-      currOpp.Record_Type_Name__c.containsIgnoreCase('bridge')) &&
-      currOpp.Record_Type_Name__c != 'Single_Asset_Bridge_Loan';
-
-    Boolean isTerm = currOpp.Record_Type_Name__c == 'Term_Loan';
-
-    Boolean isSab = currOpp.Record_Type_Name__c == 'Single_Asset_Bridge_Loan';
-
-    Boolean isSubIc = 
-      (isTerm && prevOpp.Current_Loan_Amount__c <= 2000000) ||
-      (isBridge && prevOpp.LOC_Commitment__c < 3000000);
-
+      currOpp.Record_Type_Name__c == 'LOC_Loan' ||
+      currOpp.Record_Type_Name__c == 'Single_Asset_Bridge_Loan';
     Boolean isLTVHigher = currOpp.LTV__c > prevOpp.LTV__c;
-
     Boolean isCommitmentHigher =
-      (isSab && currOpp.LOC_Commitment__c > prevOpp.LOC_Commitment__c) ||
-      (isBridge && !isSubIc && currOpp.LOC_Commitment__c >= ((prevOpp.LOC_Commitment__c == null ? 0 : prevOpp.LOC_Commitment__c) * 1.10).setScale(2, System.RoundingMode.HALF_UP)) || 
-      (isBridge && isSubIc && currOpp.LOC_Commitment__c >= ((prevOpp.LOC_Commitment__c == null ? 0 : prevOpp.LOC_Commitment__c) * 1.05).setScale(2, System.RoundingMode.HALF_UP));
+      currOpp.LOC_Commitment__c > prevOpp.LOC_Commitment__c;
 
     Boolean isRecourseChanged = currOpp.Recourse__c != prevOpp.Recourse__c;
-   
-
-    if (isBridge || isSab) {
-      return isLTVHigher ||
-        isCommitmentHigher ||
-        isRecourseChanged;
-    }
-
     Boolean shouldReapproveActualDSCR = false;
 
     Decimal prevActualDSCR = String.isNotEmpty(prevOpp.Actual_DSCR__c) &&
@@ -3876,20 +3958,23 @@ public without sharing class opportunity_Helper {
         ? Decimal.valueOf(currOpp.Actual_DSCR__c.replaceAll('[^.\\d]', ''))
         : null;
       Decimal dscrDifference = prevActualDSCR - currActualDSCR;
-      shouldReapproveActualDSCR = dscrDifference >= 0.05;
-
-      /** 
-       * validation before change: 
-       * (prevActualDSCR < 1.30 && dscrDifference > 0) ||
-        (dscrDifference >= 0.05 &&
+      shouldReapproveActualDSCR =
+        (prevActualDSCR < 1.30 && dscrDifference > 0) ||
+        (dscrDifference > 0.05 &&
         !(prevActualDSCR >= 1.80 &&
-        currActualDSCR >= 1.30))
-       */
+        currActualDSCR >= 1.30));
     }
 
+    if (isBridge) {
+      return isLTVHigher ||
+        isCommitmentHigher ||
+        isRecourseChanged ||
+        shouldReapproveActualDSCR;
+    }
+
+    Boolean isTerm = currOpp.Record_Type_Name__c == 'Term_Loan';
     Boolean isLoanAmountHigher =
-      (!isSubIc && currOpp.Current_Loan_Amount__c >= ((prevOpp.Current_Loan_Amount__c == null ? 0 : prevOpp.Current_Loan_Amount__c) * 1.10).setScale(2, System.RoundingMode.HALF_UP )) ||
-      (isSubIc && currOpp.Current_Loan_Amount__c >= ((prevOpp.Current_Loan_Amount__c == null ? 0 : prevOpp.Current_Loan_Amount__c) * 1.05).setScale(2, System.RoundingMode.HALF_UP ));
+      currOpp.Current_Loan_Amount__c > prevOpp.Current_Loan_Amount__c;
 
     if (isTerm) {
       return isLoanAmountHigher ||
@@ -3958,54 +4043,29 @@ public without sharing class opportunity_Helper {
   }
 
   // CIP 2452 Start 31 May 2022
-  public static void checkCreditScores(Map<Id, Opportunity> dealMap) {
-    List<String> exemptProfiles = new List<String>{
-      'Integrations',
-      'System Administrator'
-    };
+  // public static void checkCreditScores(Map<Id,Opportunity> dealMap) {
+  //   List<String> exemptProfiles = new List<String>{
+  //     'Integrations',
+  //     'System Administrator'
+  //   };
 
-    List<Deal_Contact__c> dealContacts = [
-      SELECT Id, Deal__c, Middle_Credit_Score__c, Credit_Score_Date__c
-      FROM Deal_Contact__c
-      WHERE
-        Deal_Contact_Type__c = 'Individual'
-        AND Entity_Type__c IN ('Guarantor', 'Sponsor')
-        AND Deal__c IN :dealMap.keySet()
-    ];
+  //   List<Deal_Contact__c> dealContacts = [
+  //     SELECT Id, Deal__c, Middle_Credit_Score__c, Credit_Score_Date__c FROM Deal_Contact__c WHERE Deal_Contact_Type__c = 'Individual' AND Entity_Type__c IN ('Guarantor','Sponsor') AND Deal__c IN :dealMap.keySet()
+  //   ];
 
-    Date minDate = System.today().addDays(-180);
+  //   Date minDate = System.today().addDays(-180);
 
-    Id currentUserProfileId = UserInfo.getProfileId();
-    String profileName = [
-      SELECT Name
-      FROM Profile
-      WHERE Id = :currentUserProfileId
-    ]
-    .Name;
-    Boolean isIntegSysAdmin = exemptProfiles.contains(profileName);
-    for (Deal_Contact__c dc : dealContacts) {
-      if (
-        dc.Middle_Credit_Score__c == 0 &&
-        !isIntegSysAdmin &&
-        !Test.isRunningTest()
-      ) {
-        dealMap.get(dc.Deal__c)
-          .addError(
-            'Credit Scores are missing for Sponsors and/or Guarantors. Please update in the Entities & Vendors Tab.'
-          );
-      } else if (
-        (dc.Credit_Score_Date__c == null ||
-        dc.Credit_Score_Date__c < minDate) &&
-        !isIntegSysAdmin &&
-        !Test.isRunningTest()
-      ) {
-        dealMap.get(dc.Deal__c)
-          .addError(
-            'Credit Scores for an associated Sponsor and/or Guarantor are beyond 6 months.  Please check the Entities & Vendors Tab and enter the date the Credit Score was ran.'
-          );
-      }
-    }
-  }
+  //   Id currentUserProfileId = UserInfo.getProfileId();
+  //   String profileName = [SELECT Name FROM Profile WHERE Id =: currentUserProfileId].Name;
+  //   Boolean isIntegSysAdmin = exemptProfiles.contains(profileName);
+  //   for (Deal_Contact__c dc : dealContacts) {
+  //     if(dc.Middle_Credit_Score__c == 0 && !isIntegSysAdmin && !Test.isRunningTest()) {
+  //       dealMap.get(dc.Deal__c).addError('Credit Scores are missing for Sponsors and/or Guarantors. Please update in the Entities & Vendors Tab.');
+  //     } else if ((dc.Credit_Score_Date__c == null || dc.Credit_Score_Date__c < minDate) && !isIntegSysAdmin && !Test.isRunningTest()) {
+  //       dealMap.get(dc.Deal__c).addError('Credit Scores for an associated Sponsor and/or Guarantor are beyond 6 months.  Please check the Entities & Vendors Tab and enter the date the Credit Score was ran.');
+  //     }
+  //   }
+  // }
 
   public static void createCemaDealContacts(Set<Id> dealIds) {
     List<Account> cemaAccts = [
