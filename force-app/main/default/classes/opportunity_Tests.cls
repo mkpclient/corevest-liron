@@ -13,7 +13,8 @@
 public with sharing class opportunity_Tests {
   @TestSetup
   static void dataSetup() {
-    test_Helper.createDealLoanNumber();
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
 
     acc.Alternate_Phone__c = '7777777777';
@@ -25,7 +26,6 @@ public with sharing class opportunity_Tests {
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'TERM TEST 123';
-    topp1.Deal_Loan_NUmber__c = '7777x';
     topp1.CloseDate = System.today();
     topp1.StageName = 'Initial Review';
     topp1.Loan_Size__c = 2000000;
@@ -77,7 +77,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -92,7 +92,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -107,7 +107,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -122,7 +122,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -137,7 +137,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -152,7 +152,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -167,7 +167,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -182,7 +182,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -197,7 +197,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -212,7 +212,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -227,7 +227,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -242,7 +242,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -257,7 +257,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -272,7 +272,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -317,7 +317,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -332,7 +332,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -347,7 +347,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -362,7 +362,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -377,7 +377,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -392,7 +392,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -407,7 +407,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -422,7 +422,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -437,7 +437,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -452,7 +452,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -467,7 +467,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -482,7 +482,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -497,7 +497,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -512,7 +512,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -562,7 +562,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -577,7 +577,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -592,7 +592,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -607,7 +607,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -622,7 +622,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -637,7 +637,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -652,7 +652,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -667,7 +667,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -682,7 +682,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -697,7 +697,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -712,7 +712,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -727,7 +727,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -742,7 +742,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -757,7 +757,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -814,7 +814,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -829,7 +829,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -844,7 +844,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -859,7 +859,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -874,7 +874,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -889,7 +889,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -904,7 +904,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -919,7 +919,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -934,7 +934,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -949,14 +949,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
 
     User uwU3 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -964,14 +964,14 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter3@teada.com'
+      UserName = 'underwriter3@cvest.com'
     );
     //insert p;
     insert uwU3;
 
     User uwU4 = new User(
       Alias = 'underw',
-      Email = 'standarduser@testorg.com',
+      Email = 'standarduser@cvest.com',
       EmailEncodingKey = 'UTF-8',
       LastName = 'Testing',
       LanguageLocaleKey = 'en_US',
@@ -979,7 +979,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter4@teada.com'
+      UserName = 'underwriter4@cvest.com'
     );
     //insert p;
     insert uwU4;
@@ -994,7 +994,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -1009,7 +1009,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -1024,7 +1024,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -1039,7 +1039,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1098,7 +1098,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -1113,7 +1113,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -1128,7 +1128,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -1143,7 +1143,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -1158,7 +1158,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -1173,7 +1173,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -1188,7 +1188,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -1203,7 +1203,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -1218,7 +1218,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -1233,7 +1233,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -1248,7 +1248,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -1263,7 +1263,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -1278,7 +1278,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -1293,7 +1293,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1362,7 +1362,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -1377,7 +1377,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -1392,7 +1392,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -1407,7 +1407,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -1422,7 +1422,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -1437,7 +1437,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -1452,7 +1452,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -1467,7 +1467,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -1482,7 +1482,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -1497,7 +1497,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -1512,7 +1512,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -1527,7 +1527,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -1542,7 +1542,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -1557,7 +1557,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1628,7 +1628,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -1643,7 +1643,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -1658,7 +1658,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -1673,7 +1673,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -1688,7 +1688,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -1703,7 +1703,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -1718,7 +1718,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -1733,7 +1733,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -1748,7 +1748,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -1763,7 +1763,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -1778,7 +1778,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -1793,7 +1793,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -1808,7 +1808,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -1823,7 +1823,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -1896,7 +1896,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -1911,7 +1911,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -1926,7 +1926,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -1941,7 +1941,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -1956,7 +1956,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -1971,7 +1971,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -1986,7 +1986,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -2001,7 +2001,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -2016,7 +2016,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -2031,7 +2031,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -2046,7 +2046,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -2061,7 +2061,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -2076,7 +2076,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -2091,7 +2091,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2165,7 +2165,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -2180,7 +2180,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -2195,7 +2195,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -2210,7 +2210,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -2225,7 +2225,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -2240,7 +2240,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -2255,7 +2255,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -2270,7 +2270,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -2285,7 +2285,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -2300,7 +2300,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -2315,7 +2315,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -2330,7 +2330,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -2345,7 +2345,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -2360,7 +2360,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2401,8 +2401,6 @@ public with sharing class opportunity_Tests {
     topp1.Closer__c = closerU.Id;
     topp1.Kickoff_Date__c = System.today();
     // topp1.Commission_Type__c = 'Direct';
-    topp1.StageName = 'UW Hold';
-    topp1.StageName = 'Underwriting';
     topp1.IO_Term__c = '120 months';
     topp1.Final_Loan_Amount__c = 1000000;
     topp1.CAF_Analyst__c = analystU2.Id;
@@ -2418,7 +2416,8 @@ public with sharing class opportunity_Tests {
     topp1.Anticipated_Closing_Date__c = System.today() + 30;
     topp1.Final_Loan_Amount__c = null;
     topp1.OwnerId = origU2.Id;
-    topp1.StageName = 'Underwriting';
+    topp1.IC_Approval__c = 'Approved';
+    topp1.IC_Approval_Date__c = System.today();
     topp1.StageName = 'Approved by Committee';
     update topp1;
     Test.stopTest();
@@ -2436,7 +2435,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -2451,7 +2450,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -2466,7 +2465,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -2481,7 +2480,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -2496,7 +2495,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -2511,7 +2510,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -2526,7 +2525,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -2541,7 +2540,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -2556,7 +2555,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -2571,7 +2570,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -2586,7 +2585,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -2601,7 +2600,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -2616,7 +2615,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -2631,7 +2630,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -2704,7 +2703,8 @@ public with sharing class opportunity_Tests {
     topp1.Anticipated_Closing_Date__c = System.today() + 30;
     topp1.Final_Loan_Amount__c = null;
     topp1.OwnerId = origU2.Id;
-    topp1.StageName = 'Underwriting';
+    topp1.IC_Approval__c = 'Approved';
+    topp1.IC_Approval_Date__c = System.today();
     topp1.StageName = 'Approved by Committee';
     topp1.Final_Loan_Amount__c = 2000000;
     topp1.StageName = 'Closed Won';
@@ -2744,7 +2744,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -2759,7 +2759,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -2774,7 +2774,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -2789,7 +2789,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -2804,7 +2804,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -2819,7 +2819,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -2834,7 +2834,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -2849,7 +2849,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -2864,7 +2864,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -2879,7 +2879,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -2894,7 +2894,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -2909,7 +2909,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -2924,7 +2924,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -2939,7 +2939,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -3048,7 +3048,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -3063,7 +3063,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -3078,7 +3078,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -3093,7 +3093,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -3108,7 +3108,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -3123,7 +3123,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -3138,7 +3138,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -3153,7 +3153,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -3168,7 +3168,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -3183,7 +3183,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -3198,7 +3198,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -3213,7 +3213,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -3228,7 +3228,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -3243,7 +3243,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -3444,7 +3444,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator@teada.com'
+      UserName = 'originator@cvest.com'
     );
     //insert p;
     insert origU;
@@ -3459,7 +3459,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator2@teada.com'
+      UserName = 'originator2@cvest.com'
     );
     //insert p;
     insert origU2;
@@ -3474,7 +3474,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator3@teada.com'
+      UserName = 'originator3@cvest.com'
     );
     //insert p;
     insert origU3;
@@ -3489,7 +3489,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Relationship Manager']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'originator4@teada.com'
+      UserName = 'originator4@cvest.com'
     );
     //insert p;
     insert origU4;
@@ -3504,7 +3504,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst@teada.com'
+      UserName = 'analyst@cvest.com'
     );
     //insert p;
     insert analystU;
@@ -3519,7 +3519,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst2@teada.com'
+      UserName = 'analyst2@cvest.com'
     );
     //insert p;
     insert analystU2;
@@ -3534,7 +3534,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst3@teada.com'
+      UserName = 'analyst3@cvest.com'
     );
     //insert p;
     insert analystU3;
@@ -3549,7 +3549,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Sales Analyst']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'analyst4@teada.com'
+      UserName = 'analyst4@cvest.com'
     );
     //insert p;
     insert analystU4;
@@ -3564,7 +3564,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter@teada.com'
+      UserName = 'underwriter@cvest.com'
     );
     //insert p;
     insert uwU;
@@ -3579,7 +3579,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'underwriter2@teada.com'
+      UserName = 'underwriter2@cvest.com'
     );
     //insert p;
     insert uwU2;
@@ -3594,7 +3594,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord1@teada.com'
+      UserName = 'coord1@cvest.com'
     );
     //insert p;
     insert lcU;
@@ -3609,7 +3609,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'coord2@teada.com'
+      UserName = 'coord2@cvest.com'
     );
     //insert p;
     insert lcU2;
@@ -3624,7 +3624,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer1@teada.com'
+      UserName = 'closer1@cvest.com'
     );
     //insert p;
     insert closerU;
@@ -3639,7 +3639,7 @@ public with sharing class opportunity_Tests {
       ProfileId = [SELECT Id FROM Profile WHERE Name = 'Term Operations']
       .Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'closer2@teada.com'
+      UserName = 'closer2@cvest.com'
     );
     //insert p;
     insert closerU2;
@@ -3690,7 +3690,7 @@ public with sharing class opportunity_Tests {
       LocaleSidKey = 'en_US',
       ProfileId = p.Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'afafadfavvte@teada.com'
+      UserName = 'afafadfavvte@cvest.com'
     );
     //insert p;
     insert u;
@@ -3726,9 +3726,11 @@ public with sharing class opportunity_Tests {
     bridgedeal.Requested_Reno_Limit__c = 75;
     bridgedeal.Requested_Total_Loan_LTC__c = 75;
     update bridgedeal;
-    bridgedeal.Product_Sub_Type__c = 'No Renovation';
-    update bridgedeal;
+    // bridgedeal.Product_Sub_Type__c = 'No Renovation';
+    // update bridgedeal;
     bridgedeal.LOC_Commitment__c = 3000000;
+    bridgedeal.IC_Approval__c = 'Approved';
+    bridgedeal.IC_Approval_Date__c = System.today();
     bridgedeal.StageName = 'Closed Won';
     bridgedeal.LOC_Term__c = '12 Months';
     bridgedeal.CloseDate = Date.newInstance(2014, 4, 17);
@@ -3771,7 +3773,7 @@ public with sharing class opportunity_Tests {
       LocaleSidKey = 'en_US',
       ProfileId = p.Id,
       TimeZoneSidKey = 'America/Los_Angeles',
-      UserName = 'afafadfavvte@teada.com'
+      UserName = 'afafadfavvte@cvest.com'
     );
     //insert p;
     insert u;
@@ -3812,8 +3814,8 @@ public with sharing class opportunity_Tests {
     dc.Business_Tax_ID_EIN__c = 'test';
     insert dc;
 
-    bridgedeal.Product_Sub_Type__c = 'No Renovation';
-    update bridgedeal;
+    // bridgedeal.Product_Sub_Type__c = 'No Renovation';
+    // update bridgedeal;
 
     bridgedeal.LOC_Loan_Type__c = 'Single Asset (1-4 Unit)';
     bridgedeal.Product_Sub_Type__c = 'Renovation';
@@ -4162,6 +4164,8 @@ public with sharing class opportunity_Tests {
     opp2.CloseDate = System.today();
     opp2.Final_Spread__c = 2;
     opp2.Final_Swap__c = 2;
+    opp2.IC_Approval__c = 'Approved';
+    opp2.IC_Approval_Date__c = System.today();
     opp2.StageName = 'Closed Won';
     opp2.Type = 'Term Loan';
     opp2.Loan_Size__c = 2000000;
@@ -4203,22 +4207,22 @@ public with sharing class opportunity_Tests {
       'RS999 - 8 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Commission_Type__c = 'Internal';
-    update opp;
+    // opp.Commission_Type__c = 'Internal';
+    // update opp;
     System.debug(
       'RS999 - 9 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Term_Loan_Type__c = '5 Year';
-    opp.YM_Prepayment_Penalty__c = '48 Months';
-    update opp;
+    // opp.Term_Loan_Type__c = '5 Year';
+    // opp.YM_Prepayment_Penalty__c = '48 Months';
+    // update opp;
     System.debug(
       'RS999 - 10 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Term_Loan_Type__c = '10 Year';
-    opp.YM_Prepayment_Penalty__c = '114 Months';
-    update opp;
+    // opp.Term_Loan_Type__c = '10 Year';
+    // opp.YM_Prepayment_Penalty__c = '114 Months';
+    // update opp;
     System.debug(
       'RS999 - 11 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
@@ -4366,10 +4370,161 @@ public with sharing class opportunity_Tests {
     newerTestDeal.Securitized__c = true;
     newerTestDeal.Securitization__c = testSc2.Id;
     newTestMap.put(newerTestDeal.Id, newerTestDeal);
-
+    Test.startTest();
     opportunity_Helper.beforeUpdate(newTestMap, oldTestMap);
     opportunity_Helper.afterUpdate(newTestMap, oldTestMap);
-
+    Test.stopTest();
     update newerTestDeal;
+  }
+
+  static testMethod void opportunity_LoanTermTest() {
+    Account acc = [
+      SELECT Id
+      FROM Account
+      WHERE Name = 'Test Helper Account'
+      LIMIT 1
+    ];
+
+    Contact cont = [
+      SELECT Id
+      FROM Contact
+      WHERE Legal_Name__c = 'Legal Name Test'
+      LIMIT 1
+    ];
+
+    Opportunity opp = new Opportunity();
+    opp.Name = 'TERM TEST 1';
+    opp.CloseDate = System.today();
+    opp.Rate_Locked__c = false;
+    opp.LOC_Loan_Type__c = 'Term Loan';
+    opp.Product_Sub_Type__c = 'Long Term Rental';
+    opp.Term_Loan_Type__c = '3 Year';
+    opp.StageName = 'Initial Review';
+    opp.Loan_Size__c = 2000000;
+    opp.AccountId = acc.Id;
+    opp.Contact__c = cont.Id;
+    opp.Apex_Context__c = true;
+    Id id1 = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'Term_Loan'
+    ]
+    .Id;
+    opp.RecordTypeId = id1;
+
+    Opportunity opp1 = new Opportunity();
+    opp1.Name = 'TERM TEST 2';
+    opp1.CloseDate = System.today();
+    opp1.Rate_Locked__c = false;
+    opp1.LOC_Loan_Type__c = 'Term Loan';
+    opp1.Product_Sub_Type__c = 'Long Term Rental';
+    opp1.Term_Loan_Type__c = '5 Year';
+    opp1.StageName = 'Initial Review';
+    opp1.Loan_Size__c = 2000000;
+    opp1.AccountId = acc.Id;
+    opp1.Contact__c = cont.Id;
+    opp1.Apex_Context__c = true;
+    opp1.RecordTypeId = id1;
+
+    Opportunity opp2 = new Opportunity();
+    opp2.Name = 'TERM TEST 3';
+    opp2.CloseDate = System.today();
+    opp2.Rate_Locked__c = false;
+    opp2.LOC_Loan_Type__c = 'Term Loan';
+    opp2.Product_Sub_Type__c = 'Long Term Rental';
+    opp2.Term_Loan_Type__c = '7 Year';
+    opp2.StageName = 'Initial Review';
+    opp2.Loan_Size__c = 2000000;
+    opp2.AccountId = acc.Id;
+    opp2.Contact__c = cont.Id;
+    opp2.Apex_Context__c = true;
+    opp2.RecordTypeId = id1;
+
+    Opportunity opp3 = new Opportunity();
+    opp3.Name = 'TERM TEST 4';
+    opp3.CloseDate = System.today();
+    opp3.Rate_Locked__c = false;
+    opp3.LOC_Loan_Type__c = 'Term Loan';
+    opp3.Product_Sub_Type__c = 'Long Term Rental';
+    opp3.Term_Loan_Type__c = '10 Year';
+    opp3.StageName = 'Initial Review';
+    opp3.Loan_Size__c = 2000000;
+    opp3.AccountId = acc.Id;
+    opp3.Contact__c = cont.Id;
+    opp3.Apex_Context__c = true;
+    opp3.RecordTypeId = id1;
+
+    Opportunity opp4 = new Opportunity();
+    opp4.Name = 'TERM TEST 5';
+    opp4.CloseDate = System.today();
+    opp4.Rate_Locked__c = false;
+    opp4.LOC_Loan_Type__c = 'Term Loan';
+    opp4.Product_Sub_Type__c = 'Long Term Rental';
+    opp4.Term_Loan_Type__c = '30 Year';
+    opp4.StageName = 'Initial Review';
+    opp4.Loan_Size__c = 2000000;
+    opp4.AccountId = acc.Id;
+    opp4.Contact__c = cont.Id;
+    opp4.Apex_Context__c = true;
+    opp4.RecordTypeId = id1;
+
+    List<Opportunity> oppLst = new List<Opportunity>();
+    oppLst.add(opp);
+    oppLst.add(opp1);
+    oppLst.add(opp2);
+    oppLst.add(opp3);
+    oppLst.add(opp4);
+    insert oppLst;
+
+    opp4.Term_Loan_Type_Months__c = '36 months';
+    opp4.Stepdown_Prepayment_Period__c = 'N/A';
+    opp4.YM_Prepayment_Penalty__c = '30 Months';
+    update opp4;
+    opp3.Term_Loan_Type_Months__c = '60 months';
+    opp3.Stepdown_Prepayment_Period__c = 'N/A';
+    opp3.YM_Prepayment_Penalty__c = '54 Months';
+    update opp3;
+    opp2.Term_Loan_Type_Months__c = '84 months';
+    opp2.Stepdown_Prepayment_Period__c = 'N/A';
+    opp2.YM_Prepayment_Penalty__c = '81 Months';
+    update opp2;
+    opp1.Term_Loan_Type_Months__c = '120 months';
+    opp1.Stepdown_Prepayment_Period__c = 'N/A';
+    opp1.YM_Prepayment_Penalty__c = '114 Months';
+    update opp1;
+    opp.Term_Loan_Type_Months__c = '360 months';
+    opp.Stepdown_Prepayment_Period__c = 'N/A';
+    opp.YM_Prepayment_Penalty__c = '120 Months';
+    update opp;
+
+    opp4.Term_Loan_Type__c = '30 Year';
+    opp4.YM_Prepayment_Penalty__c = '120 Months';
+    update opp4;
+    opp3.Term_Loan_Type__c = '10 Year';
+    opp3.YM_Prepayment_Penalty__c = '114 Months';
+    update opp3;
+    opp2.Term_Loan_Type__c = '7 Year';
+    opp2.YM_Prepayment_Penalty__c = '81 Months';
+    update opp2;
+    opp1.Term_Loan_Type__c = '5 Year';
+    opp1.YM_Prepayment_Penalty__c = '54 Months';
+    update opp1;
+    opp.Term_Loan_Type__c = '3 Year';
+    opp.YM_Prepayment_Penalty__c = '30 Months';
+    update opp;
+  }
+
+  static testMethod void testCEMA() {
+    Account a = [SELECT Id, Name FROM Account LIMIT 1];
+    Contact c = [SELECT FirstName, LastName FROM Contact WHERE AccountId = :a.Id];
+
+    a.Name = 'Harrison & Held, LLP';
+    c.FirstName = 'Anthony';
+    c.LastName = 'Frink';
+
+    update a;
+    update c;
+
+    opportunity_Helper.createCemaDealContacts(new Map<Id, Opportunity>([SELECT Id FROM Opportunity]).keySet());
   }
 }

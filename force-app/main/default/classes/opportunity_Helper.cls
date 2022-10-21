@@ -154,14 +154,15 @@ public without sharing class opportunity_Helper {
           o.Min_DSCR__c = '1.20x';
         }
 
-        if (o.Term_Loan_Type__c == '3 Year') {
-          o.Term_Loan_Type_Months__c = '36 months';
-        } else if (o.Term_Loan_Type__c == '5 Year') {
+        if (o.Term_Loan_Type__c == '5 Year') {
           o.Term_Loan_Type_Months__c = '60 months';
+          // o.Floor__c = 1.5;
         } else if (o.Term_Loan_Type__c == '7 Year') {
           o.Term_Loan_Type_Months__c = '84 months';
+          // o.Floor__c = 1.55;
         } else if (o.Term_Loan_Type__c == '10 Year') {
           o.Term_Loan_Type_Months__c = '120 months';
+          // o.Floor__c = 1.65;
         } else if (o.Term_Loan_Type__c == '30 Year') {
           o.Term_Loan_Type_Months__c = '360 months';
           // o.Floor__c = 1.8;
@@ -1176,16 +1177,18 @@ public without sharing class opportunity_Helper {
         }
 
         if (o.Term_Loan_Type__c != oldMap.get(o.Id).Term_Loan_Type__c) {
-          if (o.Term_Loan_Type__c == '3 Year') {
-            o.Term_Loan_Type_Months__c = '36 months';
-          } else if (o.Term_Loan_Type__c == '5 Year') {
+          if (o.Term_Loan_Type__c == '5 Year') {
             o.Term_Loan_Type_Months__c = '60 months';
+            // o.Floor__c = 1.5;
           } else if (o.Term_Loan_Type__c == '7 Year') {
             o.Term_Loan_Type_Months__c = '84 months';
+            // o.Floor__c = 1.55;
           } else if (o.Term_Loan_Type__c == '10 Year') {
             o.Term_Loan_Type_Months__c = '120 months';
+            // o.Floor__c = 1.65;
           } else if (o.Term_Loan_Type__c == '30 Year') {
             o.Term_Loan_Type_Months__c = '360 months';
+            // o.Floor__c = 1.8;
           }
         }
 
@@ -1193,16 +1196,18 @@ public without sharing class opportunity_Helper {
           o.Term_Loan_Type_Months__c !=
           oldMap.get(o.Id).Term_Loan_Type_Months__c
         ) {
-          if (o.Term_Loan_Type_Months__c == '36 months') {
-            o.Term_Loan_Type__c = '3 Year';
-          } else if (o.Term_Loan_Type_Months__c == '60 months') {
+          if (o.Term_Loan_Type_Months__c == '60 months') {
             o.Term_Loan_Type__c = '5 Year';
+            // o.Floor__c = 1.5;
           } else if (o.Term_Loan_Type_Months__c == '84 months') {
             o.Term_Loan_Type__c = '7 Year';
+            // o.Floor__c = 1.55;
           } else if (o.Term_Loan_Type_Months__c == '120 months') {
             o.Term_Loan_Type__c = '10 Year';
+            // o.Floor__c = 1.65;
           } else if (o.Term_Loan_Type_Months__c == '360 months') {
             o.Term_Loan_Type__c = '30 Year';
+            // o.Floor__c = 1.8;
           }
         }
 
@@ -1462,11 +1467,8 @@ public without sharing class opportunity_Helper {
     if (closedWonMap.keySet().size() > 0) {
       //List<ClearToCloseWrapper> closedWrappers = );
 
-      // CIP 2452 start 31 May 2022
-      // checkCreditScores(closedWonMap);
-
-      // CIP 2452 end 31 May 2022
-      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings').Allow_SAB_CTC_Bypass__c;
+      Boolean ctcBypass = Settings__mdt.getInstance('Universal_Settings')
+        .Allow_SAB_CTC_Bypass__c;
       List<String> sabLoanTypes = new List<String>{
         'Single Asset (1-4 Unit)',
         'Single Asset (5-10 Unit)'
@@ -2237,7 +2239,7 @@ public without sharing class opportunity_Helper {
       }
 
       /*CIP2254.RS.3/14/2022. Begin */
-      if (mapFromOppIdToProperties.size() > 0 && mapFromOppIdToProperties.containsKey(o.Id)) {
+      if (mapFromOppIdToProperties.size() > 0) {
         if (o.StageName == 'Withdrawn' || o.StageName == 'Rejected') {
           List<Property__c> propList = new List<property__c>();
           if (o.Type == 'Bridge Loan') {
@@ -3342,9 +3344,7 @@ public without sharing class opportunity_Helper {
         FROM Opportunity
         WHERE
           Id IN :oppMap.keySet()
-          AND (RecordType__c = 'Term' OR
-          (RecordType__c = 'Bridge' AND
-          Project_Strategy__c LIKE '%/CLO'))
+          AND RecordType__c = 'Term'
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
@@ -3358,7 +3358,6 @@ public without sharing class opportunity_Helper {
         WHERE
           Id IN :oppMap.keySet()
           AND RecordType__c = 'Bridge'
-          AND (NOT (Project_Strategy__c LIKE '%/CLO'))
           AND Id NOT IN (
             SELECT Deal__c
             FROM Deal_Contact__c
@@ -4042,31 +4041,6 @@ public without sharing class opportunity_Helper {
     return ahc;
   }
 
-  // CIP 2452 Start 31 May 2022
-  // public static void checkCreditScores(Map<Id,Opportunity> dealMap) {
-  //   List<String> exemptProfiles = new List<String>{
-  //     'Integrations',
-  //     'System Administrator'
-  //   };
-
-  //   List<Deal_Contact__c> dealContacts = [
-  //     SELECT Id, Deal__c, Middle_Credit_Score__c, Credit_Score_Date__c FROM Deal_Contact__c WHERE Deal_Contact_Type__c = 'Individual' AND Entity_Type__c IN ('Guarantor','Sponsor') AND Deal__c IN :dealMap.keySet()
-  //   ];
-
-  //   Date minDate = System.today().addDays(-180);
-
-  //   Id currentUserProfileId = UserInfo.getProfileId();
-  //   String profileName = [SELECT Name FROM Profile WHERE Id =: currentUserProfileId].Name;
-  //   Boolean isIntegSysAdmin = exemptProfiles.contains(profileName);
-  //   for (Deal_Contact__c dc : dealContacts) {
-  //     if(dc.Middle_Credit_Score__c == 0 && !isIntegSysAdmin && !Test.isRunningTest()) {
-  //       dealMap.get(dc.Deal__c).addError('Credit Scores are missing for Sponsors and/or Guarantors. Please update in the Entities & Vendors Tab.');
-  //     } else if ((dc.Credit_Score_Date__c == null || dc.Credit_Score_Date__c < minDate) && !isIntegSysAdmin && !Test.isRunningTest()) {
-  //       dealMap.get(dc.Deal__c).addError('Credit Scores for an associated Sponsor and/or Guarantor are beyond 6 months.  Please check the Entities & Vendors Tab and enter the date the Credit Score was ran.');
-  //     }
-  //   }
-  // }
-
   public static void createCemaDealContacts(Set<Id> dealIds) {
     List<Account> cemaAccts = [
       SELECT Id
@@ -4105,8 +4079,6 @@ public without sharing class opportunity_Helper {
       insert dealContacts;
     }
   }
-
-  // CIP 2452 End 31 May 2022
 
   // public static void createRtlDealContacts(Set<Id> dealIds) {
   //   List<Account> rtlAccs = [
