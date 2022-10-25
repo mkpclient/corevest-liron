@@ -278,7 +278,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get disableQuoteRequest() {
-    return this.titleOrderStatus !== "Unordered";
+    return this.titleOrderStatus !== "Unordered" || this.titleOrderStatus == "Quote Request Rejected";
   }
 
   get selectedRequest() {

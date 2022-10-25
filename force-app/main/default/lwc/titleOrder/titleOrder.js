@@ -10,7 +10,8 @@ const SHOW_STATUSES = [
   "Loan Portfolio Change Confirmed",
   "Quote Request Received",
   "Quote Response Received",
-  "Order Confirmed"
+  "Order Confirmed",
+  "Quote Request Rejected"
 ];
 
 const columns = [

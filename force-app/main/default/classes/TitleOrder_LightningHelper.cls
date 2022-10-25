@@ -313,23 +313,14 @@ public without sharing class TitleOrder_LightningHelper {
     Id cdId,
     String comments,
     Title_Order__c to,
-    String inquiryType
+    String inquiryType,
+    List<Id> propIds,
+    List<Id> propTitleIds
   ) {
     if (requestType == 'QuoteRequest') {
-      List<Id> propIds = new List<Id>(
-        new Map<Id, Property__c>(
-            [
-              SELECT Id
-              FROM Property__c
-              WHERE Deal__c = :dealId AND Is_Sub_Unit__c = FALSE
-              AND Status__c NOT IN ('Inactive', 'Cancelled')
-            ]
-          )
-          .keySet()
-      );
       return quoteRequest(propIds, dealId, cdId, comments);
     } else if (requestType == 'OrderInquiry') {
-      return orderInquiry(to, cdId, inquiryType, comments, dealId);
+      return orderInquiry(to, cdId, inquiryType, comments, dealId, propIds, propTitleIds);
     } else if (requestType == 'OrderChangeRequest') {
       return orderChangeRequest(to);
     } else {
@@ -344,12 +335,8 @@ public without sharing class TitleOrder_LightningHelper {
     Id cdId,
     String comments
   ) {
-    Integer numOfTitleOrders = [
-      SELECT COUNT()
-      FROM Title_Order__c
-      WHERE Deal__c = :dealId
-    ];
-
+    TitleOrderQuoteId__c toQuoteSetting = TitleOrderQuoteId__c.getOrgDefaults();
+    String quoteId = toQuoteSetting.Next_Quote_ID__c;
     ContentVersion cv = queryCv(cdId);
 
     System.debug(cv);
@@ -363,7 +350,7 @@ public without sharing class TitleOrder_LightningHelper {
     ServiceLinkAPI.QuoteRequest qRequest = new ServiceLinkAPI.QuoteRequest(
       deal,
       cv,
-      numOfTitleOrders + 1,
+      quoteId,
       comments
     );
     try {
@@ -371,30 +358,44 @@ public without sharing class TitleOrder_LightningHelper {
     } catch (Exception ex) {
       return ex.getMessage();
     }
+
     createDealDocument('Data Tape', cv, dealId);
-    List<Title_Order__c> titleOrders = new List<Title_Order__c>();
+
+    List<Property_Title__c> propertyTitles = new List<Property_Title__c>();
+    Title_Order__c titleOrder = new Title_Order__c(
+      Source_Party_ID__c = qRequest.SourcePartyID,
+      Destination_Party_ID__c = qRequest.DestinationPartyID,
+      Quote_ID__c = qRequest.QuoteID,
+      Loan_Number__c = qRequest.LoanNumber,
+      Loan_Portfolio_Name__c = qRequest.LoanPortfolioName,
+      Loan_Amount__c = qRequest.LoanAmount,
+      Comments__c = 'QuoteRequest Comments: ' + qRequest.Comments + '\n',
+      Document_Name__c = qRequest.Document.DocumentName,
+      Document_Type__c = qRequest.Document.DocumentType,
+      Deal__c = dealId,
+      Status__c = 'Quote Requested',
+      Title_Vendor__c = 'Servicelink'
+    );
+
+    insert titleOrder;
 
     for (Id propId : propertyIds) {
-      titleOrders.add(
-        new Title_Order__c(
+      propertyTitles.add(
+        new Property_Title__c(
           Property__c = propId,
-          Source_Party_ID__c = qRequest.SourcePartyID,
-          Destination_Party_ID__c = qRequest.DestinationPartyID,
-          Quote_ID__c = qRequest.QuoteID,
-          Loan_Number__c = qRequest.LoanNumber,
-          Loan_Portfolio_Name__c = qRequest.LoanPortfolioName,
-          Loan_Amount__c = qRequest.LoanAmount,
-          Comments__c = qRequest.Comments,
-          Document_Name__c = qRequest.Document.DocumentName,
-          Document_Type__c = qRequest.Document.DocumentType,
-          Deal__c = dealId,
-          Status__c = 'Quote Requested',
-          Title_Vendor__c = 'Servicelink'
+          Title_Order__c = titleOrder.Id
         )
       );
     }
 
-    performDmlFuture(JSON.serialize(titleOrders));
+    insert propertyTitles;
+
+    toQuoteSetting.Next_Quote_ID__c = String.valueOf(
+        Integer.valueOf(quoteId) + 1
+      )
+      .leftPad(quoteId.length(), '0');
+
+    upsert toQuoteSetting;
 
     return JSON.serialize(
       new Map<String, String>{
@@ -612,7 +613,8 @@ public without sharing class TitleOrder_LightningHelper {
       .replaceAll(':', '')
       .deleteWhitespace();
     ServiceLinkAPI.OrderChangeRequest ocr = new ServiceLinkAPI.OrderChangeRequest(
-      to, incTransacId
+      to,
+      incTransacId
     );
     try {
       ServiceLinkAPI.performRequest('OrderChangeRequest', JSON.serialize(ocr));
@@ -674,7 +676,9 @@ public without sharing class TitleOrder_LightningHelper {
     Id cdId,
     String inquiryType,
     String comments,
-    Id dealId
+    Id dealId,
+    List<Id> propIds,
+    List<Id> propTitleIds
   ) {
     ContentVersion cv = new ContentVersion();
     if (inquiryType == 'REVISEDQUO') {
@@ -693,7 +697,8 @@ public without sharing class TitleOrder_LightningHelper {
       cv,
       inquiryType,
       comments,
-      incTransacId
+      incTransacId,
+      propTitleIds.size() > 0 ? [SELECT Id,Property__c, Property__r.Asset_ID__c, OrderNumber__c FROM Property_Title__c WHERE Id = :propTitleIds[0]] : new Property_Title__c()
     );
 
     try {
@@ -702,16 +707,23 @@ public without sharing class TitleOrder_LightningHelper {
       return ex.getMessage();
     }
 
-    List<Title_Order__c> updTitleOrders = new List<Title_Order__c>();
-    updTitleOrders.add(
-      new Title_Order__c(
-        Id = to.Id,
-        Has_Order_Inquiry__c = true,
-        Incoming_Transaction_Id__c = incTransacId
-      )
+    update new Title_Order__c(
+      Id = to.Id,
+      Has_Order_Inquiry__c = true,
+      Incoming_Transaction_Id__c = incTransacId
     );
 
-    performDmlFuture(JSON.serialize(updTitleOrders));
+    if (inquiryType == 'REVISEDQUO' && propIds.size() > 0) {
+      List<Property_Title__c> propTitles = new List<Property_Title__c>();
+
+      for (Id pId : propIds) {
+        propTitles.add(
+          new Property_Title__c(Title_Order__c = to.Id, Property__c = pId)
+        );
+      }
+
+      insert propTitles;
+    }
 
     return JSON.serialize(
       new Map<String, String>{

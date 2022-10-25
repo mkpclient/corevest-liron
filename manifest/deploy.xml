@@ -5,6 +5,8 @@
         <members>Title_Order__c</members>
         <members>Signing_Attendee__c</members>
         <members>Loan_Status__c</members>
+        <members>Property_Title__c</members>
+        <members>TitleOrderQuoteId__c</members>
         <name>CustomObject</name>
     </types>
     <types>

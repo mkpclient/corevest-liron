@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Formula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF
+ (
+  NOT(ISBLANK(Cancelled_Date__c)),
+  &apos;Cancelled&apos;,
+IF
+ (
+  NOT(ISBLANK(All_HOA_Ordered_Date__c)),
+  &apos;All HOA Ordered&apos;,
+  IF(
+   NOT(ISBLANK(HOA_Ordered_Date__c)),
+   &apos;HOA Ordered&apos;,
+   IF(HOA_Exists__c = TRUE,
+   &apos;HOA Exists&apos;,
+   IF
+   (
+    NOT(ISBLANK(All_Taxes_Completed_Date__c)),
+    &apos;All Taxes Completed&apos;,
+    IF
+    (
+     NOT(ISBLANK(Taxes_Completed_Date__c)),
+     &apos;Taxes Completed&apos;,
+     IF
+     (
+      NOT(ISBLANK(All_Taxes_Ordered_Date__c)),
+      &apos;All Taxes Ordered&apos;,
+      IF
+      (
+       NOT(ISBLANK(Taxes_Ordered_Date__c)),
+       &apos;Taxes Ordered&apos;,
+       IF
+       (
+        Document_Received__c = TRUE,
+        &apos;Document Received&apos;,
+        IF
+        (
+         NOT(ISBLANK(All_Titles_Complete_Date__c)),
+         &apos;All Titles Completed&apos;,
+         IF
+         (
+          NOT(ISBLANK(Title_Complete_Date__c)),
+          &apos;Title Completed&apos;,
+          IF
+          (
+           NOT(ISBLANK(All_Titles_Ordered_Date__c)),
+           &apos;All Titles Ordered&apos;,
+           IF
+           (
+            NOT(ISBLANK(Order_Opened_Date__c)),
+            IF
+            (
+             NOT(ISBLANK(Error_Message__c)) &amp;&amp; ISBLANK(Order_Number__c),
+             &apos;Order Confirmation Failed&apos;,
+             IF(NOT(ISBLANK(Order_Number__c)),&apos;Order Confirmed&apos;, &apos;Order Created&apos;)
+            ),
+            &apos;Order Created&apos;
+           )
+          )
+         )
+        )
+       )
+      )
+     )
+    )
+   )
+  )
+ )
+))</formula>
+    <label>Status Formula</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

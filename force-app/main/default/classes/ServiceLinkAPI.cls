@@ -277,16 +277,13 @@ public without sharing class ServiceLinkAPI {
     public QuoteRequest(
       Opportunity deal,
       ContentVersion cv,
-      Integer sequenceNumber,
+      String quoteId,
       String comments
     ) {
       this.Document = new TitleDocument().generateDocument(cv, 'QUOTEREQUEST');
       this.SourcePartyID = 'COREVEST-SFR';
       this.DestinationPartyID = 'COREVEST-QUOTE';
-      this.QuoteID =
-        deal.Id +
-        '-' +
-        String.valueOf(sequenceNumber).leftPad(3, '0');
+      this.QuoteID =quoteId;
       this.LoanNumber = deal.Deal_Loan_Number__c;
       this.LoanAmount = deal.Current_Loan_Amount__c;
       this.LoanPortfolioName = deal.Name;
@@ -445,13 +442,14 @@ public without sharing class ServiceLinkAPI {
       ContentVersion cv,
       String inquiryType,
       String comments,
-      String incTransacId
+      String incTransacId,
+      Property_Title__c pt
     ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
       this.IncomingTransactionId = incTransacId;
-      this.AssetID = to.Asset_ID__c;
-      this.OrderNumber = String.isNotEmpty(to.Order_Number__c) ? to.Order_Number__c : '' ;
+      this.AssetID = pt?.Property__r.Asset_ID__c != null ? pt.Property__r.Asset_ID__c : '';
+      this.OrderNumber = pt?.OrderNumber__c != null ? pt.OrderNumber__c : '' ;
       this.InquiryType = inquiryType;
       this.Comments = comments;
       this.RequestorEmail = UserInfo.getUserEmail();

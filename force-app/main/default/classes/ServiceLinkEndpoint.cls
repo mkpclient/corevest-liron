@@ -12,17 +12,9 @@ global without sharing class ServiceLinkEndpoint {
     'LoanPortfolioChangeConfirm' => 'Loan_Portfolio_Confirmation_Date__c'
   };
 
-  public static final Map<String, String> REQ_TO_STATUS_MAP = new Map<String,STring>{
-    'CancelRequestConfirmation' => 'Cancelled',
-    'OrderChangeConfirmation' => 'Order Change Confirmed',
-    'QuoteAcceptedConfirmation' => 'Quote Accepted',
-    'LoanPortfolioChangeConfirm' => 'Loan Portfolio Change Confirmed'
-  };
-
   //these requests send a new order number so it won't be possible to query them just yet
   public static final List<String> NEW_ORDER_NUM_REQS = new List<String>{
-    'OrderConfirmation',
-    'OrderInquiryConfirmation'
+    'OrderConfirmation'
   };
 
   public static final List<String> NEW_BULK_NUM = new List<String>{
@@ -58,19 +50,19 @@ global without sharing class ServiceLinkEndpoint {
         when 'QuoteReceivedConfirm' {
           resMap.put(
             'LoanNumber',
-            processQuoteReceivedConfirm(respMap.values()[0], titleOrders)
+            processQuoteReceivedConfirm(respMap.values()[0], titleOrders[0])
           );
         }
         when 'QuoteResponse' {
           resMap.put(
             'LoanNumber',
-            processQuoteResponse(respMap.values()[0], titleOrders)
+            processQuoteResponse(respMap.values()[0], titleOrders[0])
           );
         }
         when 'OrderInquiryResponse' {
           resMap.put(
             'LoanNumber',
-            processOrderInquiry(respMap.values()[0], titleOrders)
+            processOrderInquiry(respMap.values()[0], titleOrders[0])
           );
         }
         when 'OrderConfirmation' {
@@ -175,8 +167,15 @@ global without sharing class ServiceLinkEndpoint {
           );
         }
         when else {
-          if(REQ_TO_DATEFIELD_MAP.keySet().contains(reqType)) {
-            resMap.put('LoanNumber', processRequestConfirmations(respMap.values()[0], titleOrders, reqType));
+          if (REQ_TO_DATEFIELD_MAP.keySet().contains(reqType)) {
+            resMap.put(
+              'LoanNumber',
+              processRequestConfirmations(
+                respMap.values()[0],
+                titleOrders[0],
+                reqType
+              )
+            );
           } else {
             ServiceLinkException err = new ServiceLinkException();
             err.setMessage('Unable to identify request ' + reqType + '.');
@@ -411,8 +410,12 @@ global without sharing class ServiceLinkEndpoint {
 
     if (!reqType.containsIgnoreCase('all')) {
       Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
-      
-      for(Loan_Status__c ls : [SELECT Id, Comment__c FROM Loan_Status__c WHERE Payoff_Rec_Id__c = :titleOrders[0].Id]) {
+
+      for (Loan_Status__c ls : [
+        SELECT Id, Comment__c
+        FROM Loan_Status__c
+        WHERE Payoff_Rec_Id__c = :titleOrders[0].Id
+      ]) {
         loanNote.Comment__c += ls.Comment__c;
         break;
       }
@@ -422,8 +425,8 @@ global without sharing class ServiceLinkEndpoint {
       loanNote.Title_Order__c = titleOrders[0].Id;
       loanNote.Deal__c = titleOrders[0].Deal__c;
 
-      String comment = String.isEmpty(loanNote.Comment__c) ?
-        'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber
+      String comment = String.isEmpty(loanNote.Comment__c)
+        ? 'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber
         : loanNote.Comment__c;
       if (poCompletedDate != null) {
         comment += '\nPayoff Completed Date: ' + poCompletedDate;
@@ -472,7 +475,11 @@ global without sharing class ServiceLinkEndpoint {
 
     if (!reqType.containsIgnoreCase('all')) {
       Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
-      for(Loan_Status__c ls : [SELECT Id, Comment__c FROM Loan_Status__c WHERE HOA_Rec_Id__c = :titleOrders[0].Id]) {
+      for (Loan_Status__c ls : [
+        SELECT Id, Comment__c
+        FROM Loan_Status__c
+        WHERE HOA_Rec_Id__c = :titleOrders[0].Id
+      ]) {
         loanNote.Comment__c += ls.Comment__c;
         break;
       }
@@ -481,7 +488,9 @@ global without sharing class ServiceLinkEndpoint {
       loanNote.Title_Order__c = titleOrders[0].Id;
       loanNote.Deal__c = titleOrders[0].Deal__c;
 
-      String comment = String.isEmpty(loanNote.Comment__c) ?  'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber : loanNote.Comment__c;
+      String comment = String.isEmpty(loanNote.Comment__c)
+        ? 'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber
+        : loanNote.Comment__c;
       if (hoaCompletedDate != null) {
         comment += '\nHOA Completed Date: ' + hoaCompletedDate;
       }
@@ -562,7 +571,7 @@ global without sharing class ServiceLinkEndpoint {
     )[0];
     List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
     for (Title_Order__c to : titleOrders) {
-      Deal_Document__c dealDoc = createDealDocument(doc, cv, to);
+      Deal_Document__c dealDoc = createDealDocument(doc, cv, to, null);
       dealDoc.Service_Link_Id__c = resp.DocumentID + '-' + to.Id;
       dealDocs.add(dealDoc);
       to.Document_Received__c = true;
@@ -632,107 +641,138 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processOrderInquiry(
     ServiceLinkResponse ordInq,
-    List<Title_Order__c> titleOrders
+    Title_Order__c titleOrder
   ) {
-    if (titleOrders.size() > 0) {
-      Id cvParentId = titleOrders[0].Deal__c;
-      Loan_Status__c note = new Loan_Status__c();
-      note.OrderInquiryId__c = ordInq.CustInqId;
-      note.OrderInquiryNoteId__c = ordInq.NoteId;
-      if (titleOrders.size() == 1) {
-        note.Title_Order__c = titleOrders[0].Id;
-      }
-      note.Deal__c = titleOrders[0].Deal__c;
-      note.Subject__c =
-        'Title Order Inquiry ' + System.now().format('yyyy-MM-dd h:mm a');
-      note.Comment__c = ordInq.NoteText;
+    Id cvParentId = titleOrder.Deal__c;
+    Loan_Status__c note = new Loan_Status__c();
+    Property_Title__c propTitle = new Property_Title__c();
+    note.OrderInquiryId__c = ordInq.CustInqId;
+    note.OrderInquiryNoteId__c = ordInq.NoteId;
+    note.Title_Order__c = titleOrder.Id;
+    note.Deal__c = titleOrder.Deal__c;
+    note.Subject__c =
+      'Title Order Inquiry ' + System.now().format('yyyy-MM-dd h:mm a');
+    note.Comment__c = ordInq.NoteText;
 
-      insert note;
-
-      if (String.isNotEmpty(ordInq.AssetID)) {
-        cvParentId = titleOrders[0].Id;
-      }
-
-      List<ContentVersion> contentVersions = ordInq.Documents != null &&
-        ordInq.Documents.size() > 0
-        ? createContentVersion(ordInq.Documents, cvParentId)
-        : new List<ContentVersion>();
-
-      List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
-
-      if (contentVersions.size() > 0) {
-        Map<String, ServiceLinkAPI.TitleDocument> docMap = new Map<String, ServiceLinkAPI.TitleDocument>();
-        for (ServiceLinkAPI.TitleDocument doc : ordInq.Documents) {
-          docMap.put(doc.DocumentName, doc);
-        }
-
-        for (ContentVersion cv : contentVersions) {
-          for (Title_Order__c to : titleOrders) {
-            Deal_Document__c dd = createDealDocument(
-              docMap.get(cv.PathOnClient),
-              cv,
-              to
-            );
-            dealDocs.add(dd);
-          }
-        }
-        insert dealDocs;
-      }
-
-      List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
-
-      for (Title_Order__c to : titleOrders) {
-        to.Has_Order_Inquiry_Response__c = true;
-        to.Has_Order_Inquiry__c = false;
-        if (
-          String.isEmpty(to.Asset_ID__c) && String.isNotEmpty(ordInq.AssetID)
-        ) {
-          to.Asset_ID__c = ordInq.AssetID;
-        }
-        if (
-          String.isEmpty(to.Order_Number__c) &&
-          String.isNotEmpty(ordInq.OrderNumber)
-        ) {
-          to.Order_Number__c = ordInq.OrderNumber;
-          to.Recording_Order_Number__c = ordInq.OrderNumber;
-        }
-        updatedTitleOrders.add(to);
-      }
-
-      if (updatedTitleOrders.size() > 0) {
-        update updatedTitleOrders;
-      }
+    if (ordInq.OrderNumber != null && String.isNotEmpty(ordInq.OrderNumber)) {
+      propTitle = [
+        SELECT Id, Property__c
+        FROM Property_Title__c
+        WHERE OrderNumber__c = :ordInq.OrderNumber
+      ];
+      note.Property_Title__c = propTitle.Id;
     }
+
+    insert note;
+
+    if (String.isNotEmpty(ordInq.AssetID)) {
+      cvParentId = propTitle?.Id != null
+        ? propTitle.Id
+        : titleOrder.Id;
+    }
+
+    List<ContentVersion> contentVersions = ordInq.Documents != null &&
+      ordInq.Documents.size() > 0
+      ? createContentVersion(ordInq.Documents, cvParentId)
+      : new List<ContentVersion>();
+
+    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
+
+    if (contentVersions.size() > 0) {
+      Map<String, ServiceLinkAPI.TitleDocument> docMap = new Map<String, ServiceLinkAPI.TitleDocument>();
+      for (ServiceLinkAPI.TitleDocument doc : ordInq.Documents) {
+        docMap.put(doc.DocumentName, doc);
+      }
+
+      for (ContentVersion cv : contentVersions) {
+        Deal_Document__c dd = createDealDocument(
+          docMap.get(cv.PathOnClient),
+          cv,
+          titleOrder,
+          propTitle?.Property__c != null ? propTitle.Property__c : null
+        );
+        dealDocs.add(dd);
+      }
+      insert dealDocs;
+    }
+
+    List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
+
+
+    update new Title_Order__c(
+      Has_Order_Inquiry_Response__c = true,
+      Has_Order_Inquiry__c = false,
+      Id = titleOrder.Id
+    );
 
     return ordInq.LoanNumber;
   }
 
   public static String processRequestConfirmations(
     ServiceLinkResponse sl,
-    List<Title_Order__c> titleOrders,
+    Title_Order__c titleOrder,
     String reqType
   ) {
-    for (Title_Order__c to : titleOrders) {
-      if (sl.Status == 'SUCCESS') {
-        to.put(REQ_TO_DATEFIELD_MAP.get(reqType), (DateTime) System.now());
-        if(REQ_TO_STATUS_MAP.containsKey(reqType)) {
-          to.Status__c = REQ_TO_STATUS_MAP.get(reqType);
-        }
+    Title_Order__c to = new Title_Order__c(Id = titleOrder.Id);
+    List<Property_Title__c> propertyTitles = new List<Property_Title__c>();
 
-        if (String.isNotEmpty(sl.AssetID)) {
-          to.Asset_ID__c = sl.AssetID;
-        }
-        if (String.isNotEmpty(sl.OrderNumber)) {
-          to.Order_Number__c = sl.OrderNumber;
-        }
-        to.Error_Message__c = null;
-      } else {
-        to.Error_Message__c = sl.ErrorMessage;
-        to.Status__c = to.Status_Formula__c;
+    if (sl.Status == 'SUCCESS') {
+      to.put(REQ_TO_DATEFIELD_MAP.get(reqType), (DateTime) System.now());
+
+      if (reqType == 'CancelRequestConfirmation') {
+        to.Status__c = 'Cancelled';
+      } else if (reqType == 'QuoteAcceptedConfirmation') {
+        to.Status__c = 'Quote Accepted Confirmed';
+      } else if (
+        reqType == 'OrderChangeConfirmation' &&
+        sl.OrderNumber != null &&
+        String.isNotEmpty(sl.OrderNumber)
+      ) {
+        propertyTitles.add(
+          new Property_Title__c(
+            Status__c = 'Order Change Confirmed',
+            OrderNumber__c = sl.OrderNumber
+          )
+        );
+      } else if (reqType == 'LoanPortfolioChangeConfirm') {
+        to.Status__c = 'Loan Portfolio Change Confirmed';
+      }
+
+      // if (String.isNotEmpty(sl.AssetID)) {
+      //   to.Asset_ID__c = sl.AssetID;
+      // }
+      // if (String.isNotEmpty(sl.OrderNumber)) {
+      //   to.Order_Number__c = sl.OrderNumber;
+      // }
+
+      to.Error_Message__c = null;
+    } else {
+      to.Error_Message__c = sl.ErrorMessage;
+      if (reqType == 'CancelRequestConfirmation') {
+        to.Status__c = 'Cancel Request Failed';
+      } else if (reqType == 'QuoteAcceptedConfirmation') {
+        to.Status__c = 'Quote Accepted Failed';
+      } else if (
+        reqType == 'OrderChangeConfirmation' &&
+        sl.OrderNumber != null &&
+        String.isNotEmpty(sl.OrderNumber)
+      ) {
+        propertyTitles.add(
+          new Property_Title__c(
+            Status__c = 'Order Change Failed',
+            OrderNumber__c = sl.OrderNumber
+          )
+        );
+      } else if (reqType == 'LoanPortfolioChangeConfirm') {
+        to.Status__c = 'Loan Portfolio Change Failed';
       }
     }
 
-    update titleOrders;
+    update to;
+
+    if (propertyTitles.size() > 0) {
+      upsert propertyTitles OrderNumber__c;
+    }
 
     return sl.LoanNumber;
   }
@@ -767,21 +807,40 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processQuoteResponse(
     ServiceLinkResponse qteRes,
-    List<Title_Order__c> titleOrders
+    Title_Order__c titleOrder
   ) {
-    if (titleOrders.size() > 0) {
-      ContentVersion cv = createContentVersion(
-        new List<ServiceLinkAPI.TitleDocument>{ qteRes.Document },
-        titleOrders[0].Deal__c
-      )[0];
-      List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
-      for (Title_Order__c to : titleOrders) {
-        ServiceLinkAPI.TitleDocument doc = qteRes.Document;
-        Deal_Document__c dd = createDealDocument(doc, cv, to);
-        dealDocs.add(dd);
-      }
-      insert dealDocs;
+    List<String> requiredFields = new List<String>{
+      'DocumentType',
+      'DocumentName',
+      'Format',
+      'Size',
+      'Base64FileData'
+    };
+
+    if (qteRes.Document == null) {
+      throwMissingFieldError(new List<String>{ 'Document' });
+    } else {
+      Map<String, Object> resDocument = (Map<String, Object>) JSON.deserializeUntyped(
+        JSON.serialize(qteRes.Document)
+      );
+      verifyMissingFields(requiredFields, resDocument);
     }
+
+    ContentVersion cv = createContentVersion(
+      new List<ServiceLinkAPI.TitleDocument>{ qteRes.Document },
+      titleOrder.Deal__c
+    )[0];
+
+    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
+    ServiceLinkAPI.TitleDocument doc = qteRes.Document;
+    Deal_Document__c dd = createDealDocument(doc, cv, titleOrder, null);
+
+    insert dd;
+
+    update new Title_Order__c(
+      Id = titleOrder.Id,
+      Status__c = 'Quote Response Received'
+    );
 
     return qteRes.LoanNumber;
   }
@@ -789,7 +848,8 @@ global without sharing class ServiceLinkEndpoint {
   public static Deal_Document__c createDealDocument(
     ServiceLinkAPI.TitleDocument doc,
     ContentVersion cv,
-    Title_Order__c to
+    Title_Order__c to,
+    Id propId
   ) {
     return new Deal_Document__c(
       File_Name__c = cv.Title,
@@ -802,7 +862,7 @@ global without sharing class ServiceLinkEndpoint {
       Added_By__c = userInfo.getUserId(),
       Other_Document_Type__c = 'Title Order Documents',
       Deal__c = to.Deal__c,
-      Property__c = to.Property__c,
+      Property__c = propId != null ? propId : null,
       Title_Order__c = to.Id
     );
   }
@@ -847,24 +907,23 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processQuoteReceivedConfirm(
     ServiceLinkResponse reqObj,
-    List<Title_Order__c> titleOrders
+    Title_Order__c titleOrder
   ) {
-    if (titleOrders.size() > 0) {
-      for (Title_Order__c tO : titleOrders) {
-        if (reqObj.Status == 'SUCCESS') {
-          tO.Order_Opened_Date__c = reqObj.OrderOpenedDate != null &&
-            String.isNotEmpty(reqObj.OrderOpenedDate)
-            ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
-            : tO.Order_Opened_Date__c;
-          tO.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
-          to.Error_Message__c = null;
-          to.Status__c = 'Quote Request Received';
-        } else {
-          tO.Error_Message__c = reqObj.ErrorMessage;
-        }
-      }
-      update titleOrders;
+    Title_Order__c updatedTitleOrder = new Title_Order__c(Id = titleOrder.Id);
+    if (reqObj.Status == 'SUCCESS') {
+      updatedTitleOrder.Order_Opened_Date__c = reqObj.OrderOpenedDate != null &&
+        String.isNotEmpty(reqObj.OrderOpenedDate)
+        ? DateTime.valueOf(reqObj.OrderOpenedDate.replace('T', ' '))
+        : updatedTitleOrder.Order_Opened_Date__c;
+      updatedTitleOrder.Bulk_Project_Order_Num__c = reqObj.BulkProjectOrderNum;
+      updatedTitleOrder.Error_Message__c = null;
+      updatedTitleOrder.Status__c = 'Quote Received Success';
+    } else {
+      updatedTitleOrder.Error_Message__c = reqObj.ErrorMessage;
+      updatedTitleOrder.Status__c = 'Quote Received Failed';
     }
+
+    update updatedTitleOrder;
 
     return reqObj.LoanNumber;
   }
@@ -884,7 +943,15 @@ global without sharing class ServiceLinkEndpoint {
   public static void throwNullError() {
     ServiceLinkException err = new ServiceLinkException();
     err.setMessage(
-      'Unable to locate orders. Please make sure that the relevant ID parameters are correct.'
+      'Unable to locate records. Please make sure that the relevant ID parameters are correct.'
+    );
+    throw err;
+  }
+
+  public static void throwMissingFieldError(List<String> fields) {
+    ServiceLinkException err = new ServiceLinkException();
+    err.setMessage(
+      'The following fields are required: ' + String.join(fields, ', ')
     );
     throw err;
   }
@@ -901,29 +968,31 @@ global without sharing class ServiceLinkEndpoint {
     }
     if (
       resp.BulkProjectOrderNum != null &&
-      String.isNotEmpty(resp.BulkProjectOrderNum) && !isNewBulkNum
+      String.isNotEmpty(resp.BulkProjectOrderNum) &&
+      !isNewBulkNum
     ) {
       fieldValueMap.put('Bulk_Project_Order_Num__c', resp.BulkProjectOrderNum);
     }
+
     if (resp.LoanNumber != null && String.isNotEmpty(resp.LoanNumber)) {
       fieldValueMap.put('Loan_Number__c', resp.LoanNumber);
     }
-    if (resp.AssetID != null && String.isNotEmpty(resp.AssetID)) {
-      fieldValueMap.put('Asset_ID__c', resp.AssetID);
-    }
-    if (
-      resp.OrderNumber != null &&
-      String.isNotEmpty(resp.OrderNumber) &&
-      !isNewOrderNumber
-    ) {
-      fieldValueMap.put('Order_Number__c', resp.OrderNumber);
-    }
-    if (
-      resp.RecordingOrderNumber != null &&
-      String.isNotEmpty(resp.RecordingOrderNumber)
-    ) {
-      fieldValueMap.put('Recording_Order_Number__c', resp.RecordingOrderNumber);
-    }
+    // if (resp.AssetID != null && String.isNotEmpty(resp.AssetID)) {
+    //   fieldValueMap.put('Asset_ID__c', resp.AssetID);
+    // }
+    // if (
+    //   resp.OrderNumber != null &&
+    //   String.isNotEmpty(resp.OrderNumber) &&
+    //   !isNewOrderNumber
+    // ) {
+    //   fieldValueMap.put('Order_Number__c', resp.OrderNumber);
+    // }
+    // if (
+    //   resp.RecordingOrderNumber != null &&
+    //   String.isNotEmpty(resp.RecordingOrderNumber)
+    // ) {
+    //   fieldValueMap.put('Recording_Order_Number__c', resp.RecordingOrderNumber);
+    // }
 
     if (fieldValueMap.size() > 0) {
       Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
@@ -945,6 +1014,65 @@ global without sharing class ServiceLinkEndpoint {
       return Database.query(queryString);
     } else {
       return new List<Title_Order__c>();
+    }
+  }
+
+  public static List<Property_Title__c> queryPropertyTitles(
+    String orderNumber,
+    Id titleOrderId,
+    String bulkProjectOrderNum
+  ) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    List<String> fieldList = new List<String>(
+      schemaMap.get('Property_Title__c').getDescribe().fields.getMap().keySet()
+    );
+
+    String queryString =
+      'SELECT ' +
+      String.join(fieldList, ', ') +
+      ' FROM Property_Title__c';
+
+    List<String> whereClauseList = new List<String>();
+
+    if (orderNumber != null && String.isNotEmpty(orderNumber)) {
+      whereClauseList.add('OrderNumber__c=\'' + orderNumber + '\'');
+    }
+
+    if (titleOrderId != null && String.isNotEmpty(titleOrderId)) {
+      whereClauseList.add('Title_Order__c=\'' + titleOrderId + '\'');
+    }
+
+    if (bulkProjectOrderNum != null && String.isNotEmpty(bulkProjectOrderNum)) {
+      whereClauseList.add(
+        'Title_Order__r.Bulk_Project_Order_Num__c=\'' +
+        bulkProjectOrderNum +
+        '\''
+      );
+    }
+
+    if (whereClauseList.size() > 0) {
+      queryString += ' WHERE ' + String.join(whereClauseList, ' AND ');
+    }
+
+    return Database.query(queryString);
+  }
+
+  public static void verifyMissingFields(
+    List<String> requiredFields,
+    Map<String, Object> reqObject
+  ) {
+    List<String> missingFields = new List<String>();
+    for (String field : requiredFields) {
+      if (
+        reqObject.get(field) == null ||
+        String.isEmpty(String.valueOf(reqObject.get(field)))
+      ) {
+        missingFields.add(field);
+      }
+    }
+
+    if (missingFields.size() > 0) {
+      throwMissingFieldError(missingFields);
     }
   }
 

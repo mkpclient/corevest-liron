@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Custom_Compact_Layout</fullName>
+    <fields>Name</fields>
+    <fields>Address_1__c</fields>
+    <fields>Address_2__c</fields>
+    <fields>All_Cleared_To_Close_Date__c</fields>
+    <fields>All_HOA_Completed_Date__c</fields>
+    <fields>All_HOA_Ordered_Date__c</fields>
+    <fields>Allocated_Loan_Amount__c</fields>
+    <fields>All_Payoffs_Completed_Date__c</fields>
+    <fields>All_Payoffs_Ordered_Date__c</fields>
+    <fields>All_Taxes_Completed_Date__c</fields>
+    <label>Custom Compact Layout</label>
+</CompactLayout>
