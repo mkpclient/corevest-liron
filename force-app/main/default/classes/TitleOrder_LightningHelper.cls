@@ -318,7 +318,7 @@ public without sharing class TitleOrder_LightningHelper {
     List<Id> propTitleIds
   ) {
     if (requestType == 'QuoteRequest') {
-      return quoteRequest(propIds, dealId, cdId, comments);
+      return quoteRequest(dealId, cdId, comments);
     } else if (requestType == 'OrderInquiry') {
       return orderInquiry(to, cdId, inquiryType, comments, dealId, propIds, propTitleIds);
     } else if (requestType == 'OrderChangeRequest') {
@@ -330,11 +330,11 @@ public without sharing class TitleOrder_LightningHelper {
 
   @AuraEnabled
   public static String quoteRequest(
-    List<Id> propertyIds,
     Id dealId,
     Id cdId,
     String comments
   ) {
+    Set<Id> propertyIds = new Map<Id, Property__c>([SELECT Id FROM Property__c WHERE Deal__c = :dealId AND Is_Sub_Unit__c = FALSE AND Status__c != 'Inactive' AND Status__c != 'Cancelled']).keySet();
     TitleOrderQuoteId__c toQuoteSetting = TitleOrderQuoteId__c.getOrgDefaults();
     String quoteId = toQuoteSetting.Next_Quote_ID__c;
     ContentVersion cv = queryCv(cdId);

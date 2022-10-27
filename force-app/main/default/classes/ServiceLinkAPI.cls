@@ -1,4 +1,22 @@
 public without sharing class ServiceLinkAPI {
+  public static final Map<String,String> PROP_TYPE_MAP = new Map<String, String> {
+    'sfr' => 'SINGLE_FAM',
+    'townhome' => 'TOWN',
+    'condo' => 'CONDO',
+    'mixed use' => 'MIX',
+    'commercial' => 'COMM',
+    'pud' => 'PUD',
+    'other' => 'OTH',
+    'multifamily' => 'MULTI_FAM',
+    'manufactured housing' => 'MANUF',
+    'land/lot' => 'VACANT',
+    'land' => 'VACANT',
+    'lot' => 'VACANT',
+    '2-4 unit,2' => 'DUPLEX',
+    '2-4 unit,3' => 'TRIPLEX',
+    '2-4 unit,4' => 'FOURPLEX'
+  };
+
   public static void performRequest(String reqType, String sr) {
     String url =
       'https://betaapps.servicelinkdtc.com/DataConnectorAPI/CoreVest/' +
@@ -162,6 +180,11 @@ public without sharing class ServiceLinkAPI {
     public String PropertyType;
     public String PropertyAPN;
     public PropertyAddress(Property__c p) {
+      String propTypeKey = p.Property_Type__c.toLowerCase();
+
+      if(p.Number_of_Units__c != null && propTypeKey == '2-4 unit') {
+        propTypeKey = propTypeKey + ',' + p.Number_of_Units__c;
+      }
       this.Address1 = p.Name;
       this.Address2 = '';
       this.City = p.City__c;
@@ -169,7 +192,7 @@ public without sharing class ServiceLinkAPI {
       this.County = p.County__c;
       this.Zipcode = p.ZipCode__c;
       this.PropertyAPN = String.isNotEmpty(p.APN__c) ? p.APN__c : '';
-      this.PropertyType = p.Property_Type__c;
+      this.PropertyType = PROP_TYPE_MAP.containsKey(propTypeKey) ? PROP_TYPE_MAP.get(propTypeKey) : 'OTH';
     }
   }
 
@@ -234,6 +257,12 @@ public without sharing class ServiceLinkAPI {
         }
       }
 
+      String propTypeKey = p.Property_Type__c.toLowerCase();
+
+      if(p.Number_of_Units__c != null && propTypeKey == '2-4 unit') {
+        propTypeKey = propTypeKey + ',' + p.Number_of_Units__c;
+      }
+
       this.AssetID = p.Asset_ID__c;
       this.DestinationPartyID = p.Refinance_Acquisition__c == 'Refinance'
         ? 'COREVEST-REFI'
@@ -246,7 +275,7 @@ public without sharing class ServiceLinkAPI {
       this.County = p.County__c;
       this.Zipcode = p.ZipCode__c;
       this.APN = p.APN__c;
-      this.PropertyType = p.Property_Type__c;
+      this.PropertyType = PROP_TYPE_MAP.containsKey(propTypeKey) ? PROP_TYPE_MAP.get(propTypeKey) : 'OTH';
       this.AllocatedLoanAmount = p.ALA__c;
       this.ParentProperty = p.Is_Parent__c ? 'Y' : 'N';
       this.Remarks = p.Is_Parent__c ? String.join(childAddresses, '; ') : '';
