@@ -334,7 +334,7 @@ global without sharing class ServiceLinkEndpoint {
     ServiceLinkResponse resp,
     List<Title_Order__c> titleOrders
   ) {
-    Date doDate = parseDateString(resp.DeedsOrdered);
+    Date doDate = parseDateString(resp.DeedsOrderedDate);
     Date uedsDate = parseDateString(resp.UnExecDeedSentDate);
     Date actcDate = parseDateString(resp.AllClearedToCloseDate);
 
@@ -361,7 +361,7 @@ global without sharing class ServiceLinkEndpoint {
     Boolean isAllCleared
   ) {
     Date ltcDate = parseDateString(resp.LatestTitleClearedDate);
-    Date latcDate = parseDateString(resp.LatestAllTitlesCleared);
+    Date latcDate = parseDateString(resp.LatestAllTitlesClearedDate);
 
     for (Title_Order__c to : titleOrders) {
       to.Latest_Title_Cleared_Date__c = isAllCleared
@@ -721,6 +721,12 @@ global without sharing class ServiceLinkEndpoint {
 
       if (reqType == 'CancelRequestConfirmation') {
         to.Status__c = 'Cancelled';
+        propertyTitles.add(
+          new Property_Title__c(
+            Status__c = 'Cancelled',
+            OrderNumber__c = sl.OrderNumber
+          )
+        );
       } else if (reqType == 'QuoteAcceptedConfirmation') {
         to.Status__c = 'Quote Accepted Confirmed';
       } else if (
@@ -932,12 +938,7 @@ global without sharing class ServiceLinkEndpoint {
     if (dateString == null || String.isEmpty(dateString)) {
       return null;
     }
-    List<String> dateList = dateString.split('-');
-    return Date.newInstance(
-      Integer.valueOf(dateList[0]),
-      Integer.valueOf(dateList[1]),
-      Integer.valueOf(dateList[2])
-    );
+    return Date.valueOf(dateString);
   }
 
   public static void throwNullError() {
@@ -1109,7 +1110,7 @@ global without sharing class ServiceLinkEndpoint {
     public String OriginalTitleClearedDate;
     public String OriginalAllTitlesClearedDate;
     public String LatestTitleClearedDate;
-    public String LatestAllTitlesCleared;
+    public String LatestAllTitlesClearedDate;
   }
 
   public virtual class ServiceLinkTaxes extends ServiceLinkTitles {
@@ -1121,7 +1122,7 @@ global without sharing class ServiceLinkEndpoint {
 
   public virtual class ServiceLinkMisc extends ServiceLinkTaxes {
     public String OrderOpenedDate;
-    public String DeedsOrdered;
+    public String DeedsOrderedDate;
     public String UnExecDeedSentDate;
     public String ItemId;
     public String ItemType;
