@@ -350,7 +350,7 @@ public without sharing class ServiceLinkAPI {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.QuoteID = to.Quote_ID__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.loanAmount = to.Loan_Amount__c;
+      this.loanAmount = to.Deal__r.Current_Loan_Amount__c;
       this.AnticipatedCloseDate = to.Anticipated_Close_Date__c != null
         ? to.Anticipated_Close_Date__c.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss') +
           '+00:00'
@@ -358,11 +358,22 @@ public without sharing class ServiceLinkAPI {
       this.Document = new TitleDocument().generateDocument(cv, 'DATATAPE');
       this.Contacts = new List<ServiceLinkContact>();
 
-      List<OpportunityTeamMember> otms = deal?.OpportunityTeamMembers;
       List<Deal_Contact__c> dealContacts = deal?.Deal_Contacts__r;
 
-      for (OpportunityTeamMember otm : otms) {
-        this.Contacts.add(new ServiceLinkContact(otm, 'LENDERATTORNEY'));
+      if(deal.Closer__r != null) {
+        this.Contacts.add(new ServiceLinkContact(deal.Closer__r, 'LOANCLOSER'));
+      }
+
+      if(deal.Underwriter__r != null) {
+        this.Contacts.add(new ServiceLinkContact(deal.Underwriter__r, 'LOANUNDERWRITER'));
+      }
+
+      if(deal.Loan_Coordinator__r != null) {
+        this.Contacts.add(new ServiceLinkContact(deal.Loan_Coordinator__r, 'LOANMANAGER'));
+      }
+
+      if(deal.Owner != null) {
+        this.Contacts.add(new ServiceLinkContact(deal.Owner, 'LOANORIGINATOR'));
       }
 
       for (Deal_Contact__c dc : dealContacts) {
@@ -387,12 +398,12 @@ public without sharing class ServiceLinkAPI {
       ContentVersion cv,
       List<Property__c> props,
       Map<Id, List<Property__c>> parentToChildMap,
-      Opportunity dealLegal,
-      Opportunity dealBorrower
+      Map<String, Deal_Contact__c> typeDealContactMap,
+      Map<String, User> typeUserMap
     ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.LoanAmount = to.Loan_Amount__c;
+      this.LoanAmount = to.Deal__r.Current_Loan_Amount__c;
       this.AnticipatedCloseDate = to.Anticipated_Close_Date__c != null
         ? to.Anticipated_Close_Date__c.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss') +
           '+00:00'
@@ -402,24 +413,28 @@ public without sharing class ServiceLinkAPI {
       this.Contacts = new List<ServiceLinkContact>();
       this.BorrowerDetails = new List<Borrower>();
 
-      List<OpportunityTeamMember> otms = dealLegal?.OpportunityTeamMembers;
-      List<Deal_Contact__c> dealContacts = dealLegal?.Deal_Contacts__r;
-      List<Deal_Contact__c> borrowerList = dealBorrower?.Deal_Contacts__r;
-      for (OpportunityTeamMember otm : otms) {
-        this.Contacts.add(new ServiceLinkContact(otm, 'LENDERATTORNEY'));
+      if(typeDealContactMap.size() > 0) {
+        for(String type : typeDealContactMap.keySet()) {
+          if(type == 'BORROWER') {
+            this.BorrowerDetails.add(new Borrower(typeDealContactMap.get(type)));
+          } else {
+            this.Contacts.add(new ServiceLinkContact(typeDealContactMap.get(type), type));
+          }
+        }
       }
 
-      for (Deal_Contact__c dc : dealContacts) {
-        this.Contacts.add(new ServiceLinkContact(dc, 'LENDERATTORNEY'));
-      }
+      if(typeUserMap.size() > 0) {
+        for(String type : typeUserMap.keySet()) {
+          this.Contacts.add(new ServiceLinkContact(typeUserMap.get(type), type));
+        }
+       }
 
-      for (Deal_Contact__c b : borrowerList) {
-        this.BorrowerDetails.add(new Borrower(b));
-      }
 
       this.Properties = new List<Property>();
-      for (Property__c p : props) {
-        this.Properties.add(new Property(p, parentToChildMap));
+      if(props.size() > 0) {
+        for (Property__c p : props) {
+          this.Properties.add(new Property(p, parentToChildMap));
+        }
       }
     }
   }
@@ -449,12 +464,13 @@ public without sharing class ServiceLinkAPI {
   public class OrderChangeRequest extends ServiceLinkBase {
     public Decimal AllocatedLoanAmount;
     public PropertyAddress PropertyAddress;
-    public OrderChangeRequest(Title_Order__c to, String incTransacId) {
-      Property__c p = to.Property__r;
+    public OrderChangeRequest(Property_Title__c pt, String incTransacId) {
+      Title_Order__c to = pt.Title_Order__r;
+      Property__c p = pt.Property__r;
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.AssetID = to.Asset_ID__c;
-      this.OrderNumber = to.Order_Number__c;
+      this.AssetID = p.Asset_ID__c;
+      this.OrderNumber = pt.OrderNumber__c;
       this.IncomingTransactionId = incTransacId;
       this.AllocatedLoanAmount = p.ALA__c;
       this.PropertyAddress = new PropertyAddress(p);

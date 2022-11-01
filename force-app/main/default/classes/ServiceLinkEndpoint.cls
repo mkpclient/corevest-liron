@@ -68,13 +68,13 @@ global without sharing class ServiceLinkEndpoint {
         when 'OrderConfirmation' {
           resMap.put(
             'LoanNumber',
-            processOrderConfirmation(respMap.values()[0], titleOrders)
+            processOrderConfirmation(respMap.values()[0], titleOrders[0])
           );
         }
         when 'AllTitlesOrdered' {
           resMap.put(
             'LoanNumber',
-            processAllQuotesOrdered(respMap.values()[0], titleOrders)
+            processAllQuotesOrdered(respMap.values()[0], titleOrders[0])
           );
         }
         when 'TitleComplete',
@@ -613,29 +613,29 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processAllQuotesOrdered(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c titleOrder
   ) {
-    List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
-    for (Title_Order__c to : titleOrders) {
-      if (String.isNotEmpty(resp.AllTitlesOrderedDate)) {
-        Date updATODate = parseDateString(resp.AllTitlesOrderedDate);
-        if (updATODate != to.All_Titles_Ordered_Date__c) {
-          to.All_Titles_Ordered_Date__c = updATODate;
-          updatedTitleOrders.add(to);
-        }
-      } else if (
-        String.isEmpty(resp.AllTitlesOrderedDate) &&
-        to.All_Titles_Ordered_Date__c != null
-      ) {
-        to.All_Titles_Ordered_Date__c = null;
-        updatedTitleOrders.add(to);
+    Title_Order__c updatedTo = new Title_Order__c(Id = titleOrder.Id);
+    Boolean wasUpdated = false;
+    if (String.isNotEmpty(resp.AllTitlesOrderedDate)) {
+      Date updATODate = parseDateString(resp.AllTitlesOrderedDate);
+      if (updATODate != titleOrder.All_Titles_Ordered_Date__c) {
+        updatedTo.All_Titles_Ordered_Date__c = updATODate;
       }
+      updatedTo.Status__c = 'All Titles Ordered';
+      wasUpdated = true;
+    } else if (
+      String.isEmpty(resp.AllTitlesOrderedDate) &&
+      titleOrder.All_Titles_Ordered_Date__c != null
+    ) {
+      updatedTo.All_Titles_Ordered_Date__c = null;
+      updatedTo.Status__c = 'Order Confirmed';
+      wasUpdated = true;
     }
 
-    if (updatedTitleOrders.size() > 0) {
-      update updatedTitleOrders;
+    if (wasUpdated) {
+      update updatedTo;
     }
-
     return resp.LoanNumber;
   }
 
@@ -666,9 +666,7 @@ global without sharing class ServiceLinkEndpoint {
     insert note;
 
     if (String.isNotEmpty(ordInq.AssetID)) {
-      cvParentId = propTitle?.Id != null
-        ? propTitle.Id
-        : titleOrder.Id;
+      cvParentId = propTitle?.Id != null ? propTitle.Id : titleOrder.Id;
     }
 
     List<ContentVersion> contentVersions = ordInq.Documents != null &&
@@ -697,7 +695,6 @@ global without sharing class ServiceLinkEndpoint {
     }
 
     List<Title_Order__c> updatedTitleOrders = new List<Title_Order__c>();
-
 
     update new Title_Order__c(
       Has_Order_Inquiry_Response__c = true,
@@ -785,28 +782,58 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processOrderConfirmation(
     ServiceLinkResponse ordConf,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
     List<String> dateString = ordConf.OrderOpenedDate.split('-');
-    for (Title_Order__c to : titleOrders) {
-      to.Order_Opened_Date__c = ordConf.OrderOpenedDate != null &&
-        String.isNotEmpty(ordConf.OrderOpenedDate)
-        ? DateTime.newInstance(
-            Integer.valueOf(dateString[0]),
-            Integer.valueOf(dateString[1]),
-            Integer.valueOf(dateString[2])
-          )
-        : to.Order_Opened_Date__c;
-      if (ordConf.Status == 'SUCCESS') {
-        to.Order_Number__c = ordConf.OrderNumber;
-        to.Recording_Order_Number__c = ordConf.OrderNumber;
-        to.Error_Message__c = null;
-      } else {
-        to.Error_Message__c = ordConf.ErrorMessage;
-      }
+    DateTime orderOpenedDate = null;
+
+    if (
+      ordConf.OrderOpenedDate != null &&
+      String.isNotEmpty(ordConf.OrderOpenedDate)
+    ) {
+      orderOpenedDate = DateTime.valueOf(
+        ordConf.OrderOpenedDate.replace('T', ' ')
+      );
     }
 
-    update titleOrders;
+    //Order Confirmed
+
+    Property_Title__c pt = [
+      SELECT
+        Id,
+        Status__c,
+        ErrorMessage__c,
+        OrderNumber__c,
+        OrderOpenedDate__c,
+        Property__c,
+        Property__r.Asset_ID__c
+      FROM Property_Title__c
+      WHERE
+        Property__r.Asset_ID__c = :ordConf.AssetId
+        AND Title_Order__c = :to.Id
+    ];
+
+    if (ordConf.Status == 'SUCCESS') {
+      pt.OrderNumber__c = ordConf.OrderNumber;
+      pt.OrderOpenedDate__c = orderOpenedDate;
+      pt.Status__c = 'Order Confirmed';
+    } else {
+      pt.ErrorMessage__c = ordConf.ErrorMessage;
+      pt.Status__c = 'Loan Portfolio Change Required';
+      ContentNote cn = new ContentNote();
+      cn.Title = 'Order Confirmation Error Details';
+      cn.Content = Blob.valueOf(ordConf.ErrorMessage);
+      insert cn;
+
+      ContentDocumentLink cdl = new ContentDocumentLink();
+      cdl.ContentDocumentId = cn.Id;
+      cdl.LinkedEntityId = pt.Id;
+      cdl.ShareType = 'C';
+      cdl.Visibility = 'AllUsers';
+      insert cdl;
+    }
+
+    update pt;
 
     return ordConf.LoanNumber;
   }

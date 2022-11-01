@@ -320,21 +320,36 @@ public without sharing class TitleOrder_LightningHelper {
     if (requestType == 'QuoteRequest') {
       return quoteRequest(dealId, cdId, comments);
     } else if (requestType == 'OrderInquiry') {
-      return orderInquiry(to, cdId, inquiryType, comments, dealId, propIds, propTitleIds);
+      return orderInquiry(
+        to,
+        cdId,
+        inquiryType,
+        comments,
+        dealId,
+        propIds,
+        propTitleIds
+      );
     } else if (requestType == 'OrderChangeRequest') {
-      return orderChangeRequest(to);
+      return orderChangeRequest(propTitleIds[0]);
     } else {
       return '';
     }
   }
 
   @AuraEnabled
-  public static String quoteRequest(
-    Id dealId,
-    Id cdId,
-    String comments
-  ) {
-    Set<Id> propertyIds = new Map<Id, Property__c>([SELECT Id FROM Property__c WHERE Deal__c = :dealId AND Is_Sub_Unit__c = FALSE AND Status__c != 'Inactive' AND Status__c != 'Cancelled']).keySet();
+  public static String quoteRequest(Id dealId, Id cdId, String comments) {
+    Set<Id> propertyIds = new Map<Id, Property__c>(
+        [
+          SELECT Id
+          FROM Property__c
+          WHERE
+            Deal__c = :dealId
+            AND Is_Sub_Unit__c = FALSE
+            AND Status__c != 'Inactive'
+            AND Status__c != 'Cancelled'
+        ]
+      )
+      .keySet();
     TitleOrderQuoteId__c toQuoteSetting = TitleOrderQuoteId__c.getOrgDefaults();
     String quoteId = toQuoteSetting.Next_Quote_ID__c;
     ContentVersion cv = queryCv(cdId);
@@ -407,7 +422,7 @@ public without sharing class TitleOrder_LightningHelper {
   }
 
   @AuraEnabled
-  public static void quoteAccepted(List<Id> titleOrderIds, Id dealId, Id cdId) {
+  public static void quoteAccepted(Id toId, Id dealId, Id cdId) {
     try {
       Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
       Set<String> propFields = schemaMap.get('Property__c')
@@ -422,17 +437,20 @@ public without sharing class TitleOrder_LightningHelper {
       ContentVersion cv = queryCv(cdId);
 
       String queryString =
-        'SELECT ' +
+        'SELECT Deal__r.Current_Loan_Amount__c,' +
         String.join(new List<String>(toFields), ',') +
-        ',Property__r.' +
+        ',(SELECT Id, Property__c, Property__r.' +
         String.join(new List<String>(propFields), ',Property__r.');
 
-      queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
+      queryString +=
+        'FROM Property_Titles__r) FROM Title_Order__c WHERE Id =' +
+        toId +
+        ' ORDER BY Quote_ID__c';
 
-      List<Title_Order__c> titleOrders = Database.query(queryString);
-      Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
-      Map<String, Map<Id, List<Property__c>>> parentChildMapList = new Map<String, Map<Id, List<Property__c>>>();
-      Map<String, ServiceLinkAPI.QuoteAccepted> qRequests = new Map<String, ServiceLinkAPI.QuoteAccepted>();
+      Title_Order__c titleOrder = Database.query(queryString);
+
+      Map<Id, List<Property__c>> parentChildMap = new Map<Id, List<Property__c>>();
+      List<Property__c> props = new List<Property__c>();
 
       Map<Id, Property__c> childProps = new Map<Id, Property__c>(
         [
@@ -447,52 +465,36 @@ public without sharing class TitleOrder_LightningHelper {
         ]
       );
 
-      Opportunity deal = queryLegalTeam(dealId);
+      Opportunity deal = queryDealContacts(dealId);
 
-      for (Title_Order__c to : titleOrders) {
-        List<Property__c> props = new List<Property__c>();
-        Map<Id, List<Property__c>> propMap = new Map<Id, List<Property__c>>();
-        if (propListsMap.containsKey(to.Quote_ID__c)) {
-          props.add(to.Property__r);
-          props.addAll(propListsMap.get(to.Quote_ID__c));
-        }
-        if (parentChildMapList.containsKey(to.Quote_ID__c)) {
-          propMap = parentChildMapList.get(to.Quote_ID__c);
-        }
+      for (Property_Title__c pt : titleOrder.Property_Titles__r) {
+        Property__c p = pt.Property__r;
 
-        if (childProps.containsKey(to.Property__c)) {
-          propMap.put(
-            to.Property__c,
-            childProps.get(to.Property__c).Properties__r
+        props.add(p);
+
+        if (
+          childProps.containsKey(pt.Property__c) &&
+          childProps.get(pt.Property__c).Properties__r != null &&
+          childProps.get(pt.Property__c).Properties__r.size() > 0
+        ) {
+          parentChildMap.put(
+            pt.Property__c,
+            childProps.get(pt.Property__c).Properties__r
           );
         }
-
-        propListsMap.put(to.Quote_ID__c, props);
-        parentChildMapList.put(to.Quote_ID__c, propMap);
       }
 
-      for (Title_Order__c to : titleOrders) {
-        if (qRequests.containsKey(to.Quote_ID__c)) {
-          continue;
-        }
+      ServiceLinkAPI.QuoteAccepted qR = new ServiceLinkAPI.QuoteAccepted(
+        titleOrder,
+        cv,
+        props,
+        parentChildMap,
+        deal
+      );
 
-        List<Property__c> props = propListsMap.get(to.Quote_ID__c);
-        Map<Id, List<Property__c>> propMap = parentChildMapList.get(
-          to.Quote_ID__c
-        );
-        ServiceLinkAPI.QuoteAccepted qR = new ServiceLinkAPI.QuoteAccepted(
-          to,
-          cv,
-          props,
-          propMap,
-          deal
-        );
-        qRequests.put(to.Quote_ID__c, qr);
-      }
+      ServiceLinkAPI.performRequest('QuoteAccepted', JSON.serialize(qR));
 
-      for (ServiceLinkAPI.QuoteAccepted qr : qRequests.values()) {
-        ServiceLinkAPI.performRequest('QuoteAccepted', JSON.serialize(qr));
-      }
+      update new Title_Order__c(Id = toId, Status__c = 'Quote Accepted');
     } catch (Exception e) {
       System.debug(e.getMessage());
       System.debug(e.getLineNumber());
@@ -503,9 +505,12 @@ public without sharing class TitleOrder_LightningHelper {
 
   @AuraEnabled
   public static void loanPortfolioChangeRequest(
-    List<Id> titleOrderIds,
+    Id titleOrderId,
     Id dealId,
-    Id cdId
+    Id cdId,
+    List<Id> ptIds,
+    Map<String, Id> dealContactIds, // Contact Type => Deal Contact ID,
+    Map<String, Id> userIds // Contact Type => userID
   ) {
     try {
       Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
@@ -521,82 +526,103 @@ public without sharing class TitleOrder_LightningHelper {
       ContentVersion cv = queryCv(cdId);
 
       String queryString =
-        'SELECT ' +
-        String.join(new List<String>(toFields), ',') +
-        ',Property__r.' +
-        String.join(new List<String>(propFields), ',Property__r.');
+        'SELECT Deal__r.Current_Loan_Amount__c, ' +
+        String.join(new List<String>(toFields), ',');
 
-      queryString += ' FROM Title_Order__c WHERE Id IN :titleOrderIds ORDER BY Quote_ID__c';
+      if (ptIds.size() > 0) {
+        queryString +=
+          ',(SELECT Id, Property__c, Property__r.' +
+          String.join(new List<String>(propFields), ',Property__r.') +
+          ' FROM Property_Titles__r WHERE Id IN (\'' +
+          String.join(ptIds, '\',\'') +
+          '\'))';
+      }
 
-      List<Title_Order__c> titleOrders = Database.query(queryString);
-      Map<String, List<Property__c>> propListsMap = new Map<String, List<Property__c>>();
-      Map<String, Map<Id, List<Property__c>>> parentChildMapList = new Map<String, Map<Id, List<Property__c>>>();
-      Map<String, ServiceLinkAPI.loanPortfolioChangeRequest> qRequests = new Map<String, ServiceLinkAPI.loanPortfolioChangeRequest>();
+      queryString +=
+        ' FROM Title_Order__c WHERE Id =\'' +
+        titleOrderId +
+        '\' ORDER BY Quote_ID__c';
 
-      Map<Id, Property__c> childProps = new Map<Id, Property__c>(
-        [
-          SELECT
-            Id,
-            (
-              SELECT Id, Name, City__c, County__c, State__c, ZipCode__c
-              FROM Properties__r
-            )
-          FROM Property__c
-          WHERE Deal__c = :dealId AND Is_Parent__c = TRUE
-        ]
-      );
+      Title_Order__c titleOrder = Database.query(queryString);
 
-      Opportunity dealLegal = queryLegalTeam(dealId);
-      Opportunity dealBorrower = queryBorrowers(dealId);
+      List<Property__c> props = new List<Property__c>();
+      Map<Id, List<Property__c>> parentChildMap = new Map<Id, List<Property__c>>();
+      Map<Id, Property__c> childProps = new Map<Id, Property__c>();
+      Map<String, Deal_Contact__c> dealContactAndTypeMap = new Map<String, Deal_Contact__c>();
+      Map<String, User> userAndTypeMap = new Map<String, User>();
 
-      for (Title_Order__c to : titleOrders) {
-        List<Property__c> props = new List<Property__c>();
-        Map<Id, List<Property__c>> propMap = new Map<Id, List<Property__c>>();
-        if (propListsMap.containsKey(to.Quote_ID__c)) {
-          props.add(to.Property__r);
-          props.addAll(propListsMap.get(to.Quote_ID__c));
-        }
-        if (parentChildMapList.containsKey(to.Quote_ID__c)) {
-          propMap = parentChildMapList.get(to.Quote_ID__c);
-        }
+      if (dealContactIds.size() > 0) {
+        Map<Id, Deal_Contact__c> dealContactMap = queryDealContactsMap(
+          dealContactIds.values()
+        );
 
-        if (childProps.containsKey(to.Property__c)) {
-          propMap.put(
-            to.Property__c,
-            childProps.get(to.Property__c).Properties__r
+        for (String type : dealContactIds.keySet()) {
+          dealContactAndTypeMap.put(
+            type,
+            dealContactMap.get(dealContactIds.get(type))
           );
         }
-
-        propListsMap.put(to.Quote_ID__c, props);
-        parentChildMapList.put(to.Quote_ID__c, propMap);
       }
 
-      for (Title_Order__c to : titleOrders) {
-        if (qRequests.containsKey(to.Quote_ID__c)) {
-          continue;
+      if (userIds.size() > 0) {
+        Map<Id, User> usersMap = queryUsersMap(userIds.values());
+
+        for (String type : userIds.keySet()) {
+          userAndTypeMap.put(type, usersMap.get(userIds.get(type)));
         }
-
-        List<Property__c> props = propListsMap.get(to.Quote_ID__c);
-        Map<Id, List<Property__c>> propMap = parentChildMapList.get(
-          to.Quote_ID__c
-        );
-        ServiceLinkAPI.LoanPortfolioChangeRequest qR = new ServiceLinkAPI.LoanPortfolioChangeRequest(
-          to,
-          cv,
-          props,
-          propMap,
-          dealLegal,
-          dealBorrower
-        );
-        qRequests.put(to.Quote_ID__c, qr);
       }
 
-      for (ServiceLinkAPI.LoanPortfolioChangeRequest qr : qRequests.values()) {
-        ServiceLinkAPI.performRequest(
-          'LoanPortfolioChangeRequest',
-          JSON.serialize(qr)
+      if (
+        ptIds.size() > 0 &&
+        titleOrder.Property_Titles__r != null &&
+        titleOrder.Property_Titles__r.size() > 0
+      ) {
+        childProps = new Map<Id, Property__c>(
+          [
+            SELECT
+              Id,
+              (
+                SELECT Id, Name, City__c, County__c, State__c, ZipCode__c
+                FROM Properties__r
+              )
+            FROM Property__c
+            WHERE Deal__c = :dealId AND Is_Parent__c = TRUE
+          ]
         );
+        for (Property_Title__c pt : titleOrder.Property_Titles__r) {
+          props.add(pt.Property__r);
+
+          if (
+            childProps.containsKey(pt.Property__c) &&
+            childProps.get(pt.Property__c).Properties__r != null &&
+            childProps.get(pt.Property__c).Properties__r.size() > 0
+          ) {
+            parentChildMap.put(
+              pt.Property__c,
+              childProps.get(pt.Property__c).Properties__r
+            );
+          }
+        }
       }
+
+      ServiceLinkAPI.LoanPortfolioChangeRequest qR = new ServiceLinkAPI.LoanPortfolioChangeRequest(
+        titleOrder,
+        cv,
+        props,
+        parentChildMap,
+        dealContactAndTypeMap,
+        userAndTypeMap
+      );
+
+      ServiceLinkAPI.performRequest(
+        'LoanPortfolioChangeRequest',
+        JSON.serialize(qr)
+      );
+
+      update new Title_Order__c(
+        Id = titleOrderId,
+        Status__c = 'Loan Portfolio Change Submitted'
+      );
     } catch (Exception e) {
       System.debug(e.getMessage());
       System.debug(e.getLineNumber());
@@ -605,23 +631,50 @@ public without sharing class TitleOrder_LightningHelper {
     }
   }
 
-  public static String orderChangeRequest(Title_Order__c to) {
-    String incTransacId = (to.Deal__c +
+  public static String orderChangeRequest(Id ptId) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    Set<String> propTitleFields = schemaMap.get('Property_Title__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    Set<String> propFields = schemaMap.get('Property__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+    Set<String> toFields = schemaMap.get('Title_Order__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+
+    String queryString =
+      'SELECT ' + String.join(new List<String>(propTitleFields), ',');
+    queryString +=
+      ',Property__r.' +
+      String.join(new List<String>( propFields ), ',Property__r.');
+    queryString +=
+      ',Title_Order__r.' +
+      String.join(new List<String>( toFields ), ', Title_Order__r.');
+    queryString += ' FROM Property_Title__c WHERE Id=\'' + ptId + '\'';
+
+    Property_Title__c pt = Database.query(queryString);
+    String incTransacId = (pt.Title_Order__c +
       '-' +
       System.now() +
       '-OIQ')
       .replaceAll(':', '')
       .deleteWhitespace();
+
     ServiceLinkAPI.OrderChangeRequest ocr = new ServiceLinkAPI.OrderChangeRequest(
-      to,
+      pt,
       incTransacId
     );
+
     try {
       ServiceLinkAPI.performRequest('OrderChangeRequest', JSON.serialize(ocr));
 
-      to.Status__c = 'Order Change Requested';
-      to.Incoming_Transaction_Id__c = incTransacId;
-      update to;
+
+      update new Property_Title__c(Id = ptId, Status__c = 'Order Change Requested');
+
       return JSON.serialize(
         new Map<String, String>{
           'result' => 'SUCCESS',
@@ -698,7 +751,13 @@ public without sharing class TitleOrder_LightningHelper {
       inquiryType,
       comments,
       incTransacId,
-      propTitleIds.size() > 0 ? [SELECT Id,Property__c, Property__r.Asset_ID__c, OrderNumber__c FROM Property_Title__c WHERE Id = :propTitleIds[0]] : new Property_Title__c()
+      propTitleIds.size() > 0
+        ? [
+            SELECT Id, Property__c, Property__r.Asset_ID__c, OrderNumber__c
+            FROM Property_Title__c
+            WHERE Id = :propTitleIds[0]
+          ]
+        : new Property_Title__c()
     );
 
     try {
@@ -733,12 +792,52 @@ public without sharing class TitleOrder_LightningHelper {
     );
   }
 
-  public static Opportunity queryLegalTeam(Id dealId) {
+  public static Map<Id, Deal_Contact__c> queryDealContactsMap(
+    List<Id> dealContactIds
+  ) {
     Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
-    Set<String> userFields = schemaMap.get('User')
-      .getDescribe()
-      .fields.getMap()
-      .keySet();
+
+    List<String> contactFields = new List<String>(
+      schemaMap.get('Contact').getDescribe().fields.getMap().keySet()
+    );
+    List<String> dealContactFields = new List<String>(
+      schemaMap.get('Deal_Contact__c').getDescribe().fields.getMap().keySet()
+    );
+
+    dealContactFields.addAll(new Set<String>{ 'Account__r.Name' });
+
+    String queryString = 'SELECT ';
+    queryString +=
+      String.join(dealContactFields, ',') +
+      ',Contact__r.' +
+      String.join(contactFields, ',Contact__r.');
+    queryString += ' FROM Deal_Contact__c WHERE Id IN :dealContactIds';
+
+    return new Map<Id, Deal_Contact__c>(
+      (List<Deal_Contact__c>) Database.query(queryString)
+    );
+  }
+
+  public static Map<Id, User> queryUsersMap(List<Id> userIds) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+
+    List<String> userFields = new List<String>(
+      schemaMap.get('User').getDescribe().fields.getMap().keySet()
+    );
+
+    String queryString =
+      'SELECT ' +
+      String.join(userFields, ',') +
+      ' FROM User WHERE Id IN :userIds';
+
+    return new Map<Id, User>((List<User>) Database.query(queryString));
+  }
+
+  public static Opportunity queryDealContacts(Id dealId) {
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+    List<String> userFields = new List<String>(
+      schemaMap.get('User').getDescribe().fields.getMap().keySet()
+    );
     Set<String> contactFields = schemaMap.get('Contact')
       .getDescribe()
       .fields.getMap()
@@ -754,12 +853,15 @@ public without sharing class TitleOrder_LightningHelper {
     }
 
     String queryString = 'SELECT Id,';
+    queryString += 'Closer__r.' + String.join(userFields, ', Closer__r.');
     queryString +=
-      '(SELECT User.' +
-      String.join(new List<String>(userFields), ',User.') +
-      ' FROM OpportunityTeamMembers WHERE TeamMemberRole=\'Legal Team\' AND User.Street != null),';
+      ',Underwriter__r.' + String.join(userFields, ', Underwriter__r.');
     queryString +=
-      '(SELECT ' +
+      ',Loan_Coordinator__r.' +
+      String.join(userFields, ',Loan_Coordinator__r.');
+    queryString += ',Owner.' + String.join(userFields, ',Owner.');
+    queryString +=
+      ',(SELECT ' +
       String.join(dealContactFields, ',') +
       ' FROM Deal_Contacts__r WHERE Contact__r.Name != null AND Vendor_Type__c IN (\'Lender Legal Counsel\', \'Lender Local Legal Counsel	\'))';
     queryString += ' FROM Opportunity WHERE Id=\'' + dealId + '\'';
