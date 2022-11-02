@@ -39,8 +39,10 @@ public without sharing class BridgePipelineHelper {
     'propCity' => 'string',
     'propState' => 'string',
     'loanSize' => 'currency',
+    'locTerm' => 'string',
     'interestRate' => 'percent',
     'index' => 'string',
+    'indexFloor' => 'percent',
     'indexMargin' => 'percent',
     'acqOrRef' => 'string',
     'acqPrice' => 'currency',
@@ -125,6 +127,7 @@ public without sharing class BridgePipelineHelper {
         Deal__r.Name,
         Deal__r.Index__c,
         Deal__r.Index_Margin__c,
+        Deal__r.Index_Floor__c,
         Deal__r.Deal_Loan_Number__c,
         Deal__r.StageName,
         Deal__r.LOC_Loan_Type__c,
@@ -139,6 +142,7 @@ public without sharing class BridgePipelineHelper {
         Deal__r.Underwriter__r.Name,
         Deal__r.Closer__c,
         Deal__r.Closer__r.Name,
+        DeaL__r.LOC_Term__c,
         Underwriter__c,
         Underwriter__r.Name,
         Closer__c,
@@ -235,9 +239,11 @@ public without sharing class BridgePipelineHelper {
       rowData.put('prodType', p.Deal__r.LOC_Loan_Type__c);
       rowData.put('projStrat', p.Deal__r.Project_Strategy__c);
       rowData.put('warehouseLine', p.Deal__r.Warehouse_Line__c);
+      rowData.put('locTerm', p.DeaL__r.LOC_Term__c);
       rowData.put('loanSize', p.Deal__r.LOC_Commitment__c != null ? String.valueOf(p.Deal__r.LOC_Commitment__c) : p.Deal__r.Loan_Size__c != null ? String.valueOf(p.Deal__r.Loan_Size__c) : '');
       rowData.put('interestRate', p.Deal__r.Rate__c != null ? String.valueOf(p.Deal__r.Rate__c) : '0');
       rowData.put('index', p.Deal__r.Index__c);
+      rowData.put('indexFloor', String.isNotBlank(p.Deal__r.Index_Floor__c) ? p.Deal__r.Index_Floor__c.replace('%', '') : '0');
       rowData.put('indexMargin', p.Deal__r.Index_Margin__c != null ? String.valueOf(p.Deal__r.Index_Margin__c) : '0');
       rowData.put('dealUw', p.Deal__r.Underwriter__c != null ? p.Deal__r.Underwriter__r.Name : '');
       rowData.put('dealCloser', p.Deal__r.Closer__c != null ? p.Deal__r.Closer__r.Name : '');
