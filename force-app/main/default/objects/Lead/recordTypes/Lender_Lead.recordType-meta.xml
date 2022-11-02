@@ -18,6 +18,21 @@
             <fullName>Lender</fullName>
             <default>true</default>
         </values>
+        <values>
+            <fullName>Spam</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CX_Portal_Round_Robin__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
     </picklistValues>
     <picklistValues>
         <picklist>Channel__c</picklist>
@@ -1066,6 +1081,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>%2415M%2B to %2425M</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>%241M to %245M</fullName>
             <default>false</default>
         </values>
@@ -1082,11 +1101,31 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>%2425M%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2425M%2B to %2450M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%242M to %2415M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%242M%2B</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>%242M%2B to %2410M</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>%242M%2B to %245M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%243M to %2425M</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1099,6 +1138,10 @@
         </values>
         <values>
             <fullName>%24500k%2B to %241M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>%2450M%2B</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1131,6 +1174,10 @@
         </values>
         <values>
             <fullName>Under %241M</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Under %242M</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1265,6 +1312,17 @@
         </values>
         <values>
             <fullName>Under 660</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2497,6 +2555,69 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>How_Did_You_Hear_About_CoreVest__c</picklist>
+        <values>
+            <fullName>Bigger Pockets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bing Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fit Small Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Ad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral - Broker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scotsman Guide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Industry</picklist>
         <values>
             <fullName>Agriculture</fullName>
@@ -2685,10 +2806,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Adam Luray Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Americatalyst</fullName>
             <default>false</default>
         </values>
@@ -2709,10 +2826,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Bobby Ash Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Boris Zhuravel Sourced</fullName>
             <default>false</default>
         </values>
@@ -2721,7 +2834,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Brandon Sarhad Sourced</fullName>
+            <fullName>Brady Regier Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2761,10 +2874,6 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Charlie Flynn Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Chatbot</fullName>
             <default>false</default>
         </values>
@@ -2798,6 +2907,14 @@
         </values>
         <values>
             <fullName>Dan Federico Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dan Niemeyer Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dane Fitch Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2853,6 +2970,14 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>IMN Multifamily</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>IMN Short Term Rental</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>IMN West</fullName>
             <default>false</default>
         </values>
@@ -2877,11 +3002,27 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Jacob Franz Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Jared Dror Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Joakim Mortensen Sourced</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>John Prins Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Keith Hegidio Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Kevin Sherouse Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2937,6 +3078,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Matthew Hiley Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Matthew Kappas Sourced</fullName>
             <default>false</default>
         </values>
@@ -2945,7 +3090,23 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Max Garrison Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Melissa Data</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Gregory Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Huffman Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Michael Parrish Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -2981,6 +3142,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>NRHC</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>New England Mortgage Expo</fullName>
             <default>false</default>
         </values>
@@ -2993,11 +3158,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Omar Popal Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Originator Connect</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Paolo de Jesus Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3037,6 +3210,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Real Estate Entrepreneurs Event - Attend Growth</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Real Investor Roundtable</fullName>
             <default>false</default>
         </values>
@@ -3057,11 +3234,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Riverbend Lending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Ryan Amill Sourced</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Ryan Dome Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Ryan Guisness Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3073,11 +3258,19 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>SFR East</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>SFR Expo</fullName>
             <default>false</default>
         </values>
         <values>
             <fullName>Scotsman Guide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Sean Robbins Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3106,6 +3299,10 @@
         </values>
         <values>
             <fullName>Tim Leber Sourced</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Tony Gioia Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3172,7 +3369,15 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>20-50 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>3-10 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3-19 Properties</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3181,6 +3386,10 @@
         </values>
         <values>
             <fullName>5-19 Properties</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>50%2B Properties</fullName>
             <default>false</default>
         </values>
         <values>
@@ -3538,6 +3747,10 @@
     <picklistValues>
         <picklist>Loan_Product_s__c</picklist>
         <values>
+            <fullName>Build for Rent Complete</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Build to Rent Complete</fullName>
             <default>false</default>
         </values>
@@ -3864,6 +4077,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Multifamily 5-10 Units</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Multifamily 5-20 Units</fullName>
             <default>false</default>
         </values>
@@ -4042,6 +4259,18 @@
         </values>
         <values>
             <fullName>CoreVest %26 5arch</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CoreVest %26 Riverbend</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>CoreVest%2C 5Arch %26 Riverbend</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Riverbend</fullName>
             <default>false</default>
         </values>
     </picklistValues>

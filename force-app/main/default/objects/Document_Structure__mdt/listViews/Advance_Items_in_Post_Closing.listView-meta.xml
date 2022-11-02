@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advance_Items_in_Post_Closing</fullName>
+    <columns>Folder_Structure_String__c</columns>
+    <columns>Document_Type__c</columns>
+    <columns>MasterLabel</columns>
+    <columns>RecordType__c</columns>
+    <columns>sObject__c</columns>
+    <columns>Sort__c</columns>
+    <columns>Post_Close_Setting__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>sObject__c</field>
+        <operation>equals</operation>
+        <value>Advance__c</value>
+    </filters>
+    <filters>
+        <field>RecordType__c</field>
+        <operation>equals</operation>
+        <value>LOC_Loan,Single_Asset_Bridge_Loan</value>
+    </filters>
+    <filters>
+        <field>Post_Close_Setting__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>Advance - Items in Post Closing</label>
+</ListView>

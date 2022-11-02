@@ -412,6 +412,9 @@
                                     <li style="margin-bottom: -5px;">
                                         --Lesser of $1,000,000.00 or 50% of the Loan Amount
                                     </li>
+                                                                <li>
+                                --a stabilized debt yield (defined as ratio of annualized stabilized underwritten net cash flow and the Advance amount) shall be no less than a minimum threshold necessary to obtain permanent refinance proceeds to repay the advance, as determined by Lender in its sole discretion. 
+                            </li>
                                 </ul>
                             </td>
                         </tr>
@@ -439,11 +442,13 @@
                             <apex:outputText rendered="{! If( Opportunity.Requested_Interest_Type__c == 'Fixed', true, false ) }" value="Fixed at {0, number, 0.00}%">
                                 <apex:param value="{! Opportunity.Requested_Rate_1_9_Months__c }" /></apex:outputText>
                             <apex:outputText rendered="{! If( Opportunity.Requested_Interest_Type__c == 'Floating', true, false ) }">
-                                <apex:outputText value="{! Opportunity.Requested_Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Requested_Index__c } floor of ">
+                                <apex:outputText value="{! Opportunity.Requested_Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Requested_Index__c }  floor that will be set 48 hours prior to closing of the LOC at the greater of 25bps below the then current Term SOFR rate or 25bps)">
                                     <apex:param value="{! Opportunity.Requested_Index_Margin__c }" />
                                 </apex:outputText>
-                                <apex:outputText value="{!Opportunity.Requested_Index_Floor__c})" />
+                                <!-- <apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" /> -->
+                                <!-- <apex:outputText value="+ {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> -->
                             </apex:outputText>
+                            <p>Pricing of rate or margin is indicative and subject to re-pricing at lender's discretion based on factors that may include, but are not limited to, prevailing market conditions and underwriting / diligence review.</p>
                         </td>
                     </tr>
                     <apex:outputText rendered="{! If(Opportunity.Requested_Origination_Fee__c != 0.00 && Opportunity.Requested_Origination_Fee__c != null, true, false)}">
@@ -453,7 +458,7 @@
                                     Origination Fee:
                                 </td>
                                 <td class="row-description">
-                                    <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                    <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Borrower' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
                                         <apex:outputText value="{0, number, 0.00}% of the Maximum Loan Amount Payable at Closing">
                                         <apex:param value="{! Opportunity.Requested_Origination_Fee__c }" /></apex:outputText>
                                     </span>
@@ -498,7 +503,7 @@
                                     Advance Fee:
                                 </td>
                                 <td class="row-description">
-                                    <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Escrow' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
+                                    <span style="{!IF(Opportunity.Broker_Fee_Paid_By_Whom__c == 'Borrower' || Opportunity.Broker_Fee_Paid_By_Whom__c == 'N/A', 'page-break-inside:avoid;', 'display:none;')}">
                                         <apex:outputText value="{0, number, 0.00}% on each Advance approved by Lender">
                                             <apex:param value="{! Opportunity.Requested_Draw_Fee__c }" /></apex:outputText>
                                     </span>
@@ -674,9 +679,8 @@ Construction Management Fee: $800.00 (for each Property with renovation advances
                             Closing:
                         </td>
                         <td class="row-description">
-                            <apex:outputText value="On or about {0,date, MMMM d',' yyyy}, assuming timely delivery of due
-                                                        diligence items">
-                                <!--<apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 60}"/>-->
+                            <apex:outputText value="Approximately forty five (45) days from the execution of this document (provided timely delivery of Due Diligence),on or about {0,date, MMMM d',' yyyy}, Any loan closing more than 45 days after execution of this document may be subject to repricing and additional underwriting fees. ">
+                                <!--<apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 45}"/>-->
                                 <apex:param value="{! Opportunity.CloseDate }" />
                             </apex:outputText>
                         </td>
@@ -720,7 +724,7 @@ Construction Management Fee: $800.00 (for each Property with renovation advances
                 </P>
                 <h3 class="paragraph-title">NON-BINDING</h3>
                 <P class="paragraph">
-                    With the exception of paragraph above in regards to the expense deposit, this proposal does not purport to be and does not
+                    With the exception of paragraph above in regard to the expense deposit, this proposal does not purport to be and does not
                     constitute a binding agreement among the parties, and the parties hereto shall have no obligations whatsoever,
                     express or implied, written or oral, with regard to this proposal. This proposal is for discussion purposes
                     only and does not in any way whatsoever constitute a commitment to lend or an agreement to issue a commitment,

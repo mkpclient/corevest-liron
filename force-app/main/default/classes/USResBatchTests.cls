@@ -46,6 +46,7 @@ public with sharing class USResBatchTests {
 
   @isTest
   public static void USresBatchTest() {
+    test_Helper.createDealLoanNumber();
     Account acc = Test_Helper.createAccount();
     Contact cont = Test_Helper.createContact(acc);
     Opportunity opp = Test_Helper.createOpportunity(acc, cont);

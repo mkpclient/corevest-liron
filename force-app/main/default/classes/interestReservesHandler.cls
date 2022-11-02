@@ -4,7 +4,6 @@ public class interestReservesHandler {
         List<id> iRId = new List<id>();
         MAP<id, id> myMap = new MAP<id,id>();
         
-        
         for(integer i = 0; i < newList.size(); i++){
             iRId.add(newList[i].Property__c);
         }
@@ -16,8 +15,10 @@ public class interestReservesHandler {
         }
         
         for(integer i = 0; i < newList.size(); i++){
+        	Date monthDate = newList[i].Date__c == null? System.today().toStartOfMonth():newList[i].Date__c;
+
             newList[i].Deal__c = myMap.get(newList[i].Property__c);
-            newList[i].Date__c = System.today().toStartOfMonth();
+            newList[i].Date__c = monthDate;
 
             system.debug('value'+ myMap.get(newList[i].Property__c));
         }

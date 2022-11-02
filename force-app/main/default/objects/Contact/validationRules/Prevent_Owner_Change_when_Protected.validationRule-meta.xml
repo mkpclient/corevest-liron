@@ -6,7 +6,9 @@
     <errorConditionFormula>AND( ISCHANGED( OwnerId ) , 
 Protected_Contact__c = true,
 PRIORVALUE(OwnerId ) &lt;&gt;  $User.Id ,
+NOT( $Permission.Can_Change_Contact_Owner ),
 NOT($Profile.Name= &quot;System Administrator&quot;),
+NOT($Profile.Name= &quot;Integration&quot;),
 NOT($Profile.Name= &quot;Origination Manager&quot;))</errorConditionFormula>
     <errorMessage>The Owner cannot be changed on a Protected Contact.  Only the current Owner or Originations Manager can update the Owner of this record.</errorMessage>
 </ValidationRule>

@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
     <fieldOverrides>
+        <field>City__c</field>
+        <formula>Property__c.City__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>County__c</field>
+        <formula>Property__c.County__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
         <field>Deal__c</field>
         <formula>Property__c.Deal__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Order_Received_Date__c</field>
+        <formula>NOW()</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Property_Address__c</field>
+        <formula>Property__c.Name</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Property_Asset_Id__c</field>
+        <formula>Property__c.Asset_ID__c</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>State__c</field>
+        <formula>TEXT(Property__c.State__c)</formula>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Status__c</field>
+        <literalValue>Complete-Delivered</literalValue>
+    </fieldOverrides>
+    <fieldOverrides>
+        <field>Zip__c</field>
+        <formula>Property__c.ZipCode__c</formula>
     </fieldOverrides>
     <label>New Appraisal</label>
     <optionsCreateFeedItem>true</optionsCreateFeedItem>
@@ -13,6 +45,11 @@
                 <emptySpace>false</emptySpace>
                 <field>Vendor_Ordered_From__c</field>
                 <uiBehavior>Required</uiBehavior>
+            </quickActionLayoutItems>
+            <quickActionLayoutItems>
+                <emptySpace>false</emptySpace>
+                <field>Appraiser__c</field>
+                <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>

@@ -41,7 +41,7 @@ public with sharing class InsuranceReserveCalcExtension {
 
     @AuraEnabled(cacheable=true)
     public static Opportunity getDeal(Id recordId){
-        return [SELECT Id, Name, First_Payment_Due_Date__c
+        return [SELECT Id, Name, First_Payment_Date__c
                 FROM Opportunity
                 WHERE Id =: recordId];
     }

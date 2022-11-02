@@ -1,0 +1,130 @@
+<template>
+  <lightning-card>
+    <div slot="title">
+      <p>
+        <lightning-formatted-url
+          value={tabUrl}
+          label={batchHeader}
+          tooltip={batchHeader}
+          target="_blank"
+        ></lightning-formatted-url>
+      </p>
+    </div>
+    <lightning-button-menu
+      onselect={handleSelectBatch}
+      alternative-text="Show menu"
+      variant="border-filled"
+      slot="actions"
+      icon-name="utility:filterList"
+      menu-alignment="bottom-right"
+    >
+      <lightning-menu-item
+        value="My Batch Approvals"
+        label="My Batch Approvals"
+      ></lightning-menu-item>
+      <lightning-menu-item
+        value="All"
+        label="All Batch Approvals"
+      ></lightning-menu-item>
+    </lightning-button-menu>
+    <div class="slds-p-horizontal_small">
+      <lightning-accordion allow-multiple-sections-open>
+        <template for:each={approvalDataBatch} for:item="approval">
+          <lightning-accordion-section
+            key={approval.id}
+            name={approval.id}
+            label={approval.approvalName}
+          >
+            <p><strong>Status: </strong> {approval.subStatus}</p>
+            <p>
+              <strong>Date Submitted: </strong>
+              <lightning-formatted-date-time
+                value={approval.dateSubmitted}
+              ></lightning-formatted-date-time>
+            </p>
+            <p>
+              <strong>Approval for Week of: </strong>
+              <lightning-formatted-date-time
+                value={approval.weekOf}
+              ></lightning-formatted-date-time>
+            </p>
+            <p>
+              <strong>Time since submission: </strong> {approval.timeSinceSub}
+            </p>
+            <p><strong>Approver Name: </strong> {approval.approverName}</p>
+            <p><strong>Number of Advances: </strong> {approval.noAdvances}</p>
+            <p><strong>Total Fundings: </strong> <lightning-formatted-number format-style="currency" currency-code="USD" value={approval.totalFunding}></lightning-formatted-number></p>
+            <p>
+              <strong>
+                <lightning-formatted-url
+                  value={approval.approvalUrl}
+                  label="Link to Approval Page"
+                  tooltip="Link to Approval Page"
+                  target="_blank"
+                ></lightning-formatted-url>
+              </strong>
+            </p>
+          </lightning-accordion-section>
+        </template>
+      </lightning-accordion>
+    </div>
+  </lightning-card>
+  <lightning-card>
+    <div slot="title">
+      <p>
+        {icHeader}
+      </p>
+    </div>
+    <lightning-button-menu
+      onselect={handleSelectIc}
+      alternative-text="Show menu"
+      variant="border-filled"
+      slot="actions"
+      icon-name="utility:filterList"
+      menu-alignment="bottom-right"
+    >
+      <lightning-menu-item
+        value="My Batch Approvals"
+        label="My Batch Approvals"
+      ></lightning-menu-item>
+      <lightning-menu-item
+        value="All"
+        label="All Batch Approvals"
+      ></lightning-menu-item>
+    </lightning-button-menu>
+    <div class="slds-p-horizontal_small">
+      <lightning-accordion allow-multiple-sections-open>
+        <template for:each={approvalDataIc} for:item="approval">
+          <lightning-accordion-section
+            key={approval.id}
+            name={approval.id}
+            label={approval.approvalName}
+          >
+            <p><strong>Status: </strong> {approval.subStatus}</p>
+            <p>
+              <strong>Date Submitted: </strong>
+              <lightning-formatted-date-time
+                value={approval.dateSubmitted}
+              ></lightning-formatted-date-time>
+            </p>
+            <p>
+              <strong>Time since submission: </strong> {approval.timeSinceSub}
+            </p>
+            <p><strong>Approver Name: </strong> {approval.approverName}</p>
+            <p><strong>Total Fundings: </strong> <lightning-formatted-number format-style="currency" currency-code="USD" value={approval.totalFunding}></lightning-formatted-number></p>
+            <p>
+              <strong>
+                <lightning-formatted-url
+                  value={approval.advanceUrl}
+                  label="Link to Advance Page"
+                  tooltip="Link to Advance Page"
+                  target="_blank"
+                ></lightning-formatted-url>
+              </strong>
+            </p>
+          </lightning-accordion-section>
+        </template>
+      </lightning-accordion>
+    </div>
+  </lightning-card>
+</template>

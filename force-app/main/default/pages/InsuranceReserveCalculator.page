@@ -22,7 +22,7 @@
                         <th>1st Payment Due Date</th>
                         <th style="border: 1px solid #000; background: #fffd9b; color: #002663; text-align: right;">
                             <apex:outputText value="{0, date, MM/dd/yyyy}">
-                                <apex:param value="{!Opportunity.First_Payment_Due_Date__c}" />
+                                <apex:param value="{!Opportunity.First_Payment_Date__c}" />
                             </apex:outputText>
                         </th>
                     </tr>

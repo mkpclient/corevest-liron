@@ -64,6 +64,10 @@
                 <behavior>Edit</behavior>
                 <field>Top_Accounts_Imported_Leads_List__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

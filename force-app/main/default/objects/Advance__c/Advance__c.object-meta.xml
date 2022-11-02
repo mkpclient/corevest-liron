@@ -150,7 +150,7 @@
     <deploymentStatus>Deployed</deploymentStatus>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableLicensing>false</enableLicensing>
     <enableReports>true</enableReports>
@@ -161,10 +161,12 @@
     <label>Advance</label>
     <nameField>
         <label>Advance #</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>true</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Advances</pluralLabel>
+    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypeTrackHistory>true</recordTypeTrackHistory>
     <searchLayouts>
         <searchResultsAdditionalFields>Deal__c</searchResultsAdditionalFields>

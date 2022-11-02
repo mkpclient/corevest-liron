@@ -5,7 +5,10 @@ public class EmailMessageHelper {
     //list<opportunity> finalOppsToUpdate = new list<opportunity>();
 
     list<id> propId = new List<id>();
+    list<id> propIdIr = new List<id>();
     list<Property__c> propToUpdate = new List<Property__c>();
+    list<Property__c> propToUpdateIr = new List<Property__c>();
+
     list<Property__c> finalPropToUpdate = new List<Property__c>();
 
     list<id> advanceId = new List<id>();
@@ -36,7 +39,13 @@ public class EmailMessageHelper {
           em.HtmlBody.Contains('Appraisal Order Date:')
         ) {
           propId.add(em.RelatedToId);
-        } else if (
+        } else if(em.Subject != null &&
+          ((String) em.RelatedToId).startsWith(prop_prefix) &&
+          em.Subject.Contains('Insurance Review') 
+        ) {
+          propIdIr.add(em.RelatedToId);
+        }
+          else if (
           em.Subject != null &&
           ((String) em.RelatedToId).startsWith(advance_prefix) &&
           em.Subject.Contains('Funding Conditions -')
@@ -74,9 +83,26 @@ public class EmailMessageHelper {
       prop.Title_Review_Order_Date__c = date.today();
       finalPropToUpdate.add(prop);
     }
+      
+                propToUpdateIr = [
+      SELECT id, Insurance_Status__c 
+      FROM Property__c
+      WHERE Insurance_Status__c  = NULL AND id IN :propIdIr
+    ];
+    System.debug(propToUpdateIr.size());
+
+    for (Property__c prop : propToUpdateIr) {
+      prop.Insurance_Status__c  = 'Requested';
+      finalPropToUpdate.add(prop);
+    }
     if (finalPropToUpdate.size() > 0) {
       update finalPropToUpdate;
     }
+      
+
+
+      
+      
 
     if (advanceYardiIds.size() > 0) {
       system.enqueueJob(

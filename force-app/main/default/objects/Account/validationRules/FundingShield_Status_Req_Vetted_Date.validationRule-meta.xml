@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FundingShield_Status_Req_Vetted_Date</fullName>
+    <active>true</active>
+    <description>If the FundingShield Status field is vetted, the FundingShield Last Vetted Date cannot be blank</description>
+    <errorConditionFormula>AND(
+ ISBLANK( FundingShield_Last_Vetted_Date__c ),
+ ISPICKVAL(FundingShield_Status__c , &quot;Vetted with expiration&quot;)
+)</errorConditionFormula>
+    <errorDisplayField>FundingShield_Last_Vetted_Date__c</errorDisplayField>
+    <errorMessage>Account requires FundingShield Last Vetted Date since the FundingShield Status is Vetted with Expiration.</errorMessage>
+</ValidationRule>

@@ -7,8 +7,8 @@
     <label># of Loans Bid On/Purchased</label>
     <summaryFilterItems>
         <field>TPO_Pool_x_Deal__c.Status__c</field>
-        <operation>equals</operation>
-        <value>Bid, Purchase</value>
+        <operation>notEqual</operation>
+        <value>No Bid</value>
     </summaryFilterItems>
     <summaryForeignKey>TPO_Pool_x_Deal__c.TPO_Pool__c</summaryForeignKey>
     <summaryOperation>count</summaryOperation>

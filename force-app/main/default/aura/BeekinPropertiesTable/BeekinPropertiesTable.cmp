@@ -5,13 +5,20 @@
   <aura:attribute name="selectedRows" type="List" default="[]" />
   <aura:attribute name="selectedRowsCount" type="Integer" default="0" />
   <aura:attribute name="currentPage" type="Integer" default="1" />
-	<aura:attribute name="maxPage" type="Integer" default="1" />
+  <aura:attribute name="maxPage" type="Integer" default="1" />
   <aura:attribute name="pageSize" type="Integer" default="15" />
   <aura:attribute name="compProperty" type="Object" />
+  <aura:attribute name="CurrentUser" type="Object"/> 
+  <aura:attribute name="ShowSyncBtn" type="String" default="No"/>     
 
   <aura:handler name="init" value="{! this }" action="{! c.onInit }"/>
   <ltng:require styles="{!$Resource.multilineToastCSS}" />
 
+<force:recordData recordId="{!$SObjectType.CurrentUser.Id}"
+                  fields="Profile.Name"
+                  targetFields="{!v.CurrentUser}"
+                  recordUpdated="{!c.recordUpdate}" />     
+    
   <lightning:card>
 		<aura:set attribute="title" >
 			<lightning:icon iconName="standard:home" size="medium" />
@@ -22,9 +29,11 @@
 
     <aura:set attribute="actions">
 			<lightning:layout horizontalAlign="space">
+            <aura:if isTrue="{!v.ShowSyncBtn == 'Yes'}">                 
 					<lightning:layoutItem class="slds-m-right_x-small">
 						<lightning:button variant="brand" label="Beekin Sync" onclick="{!c.getBeekinData}" />
 					</lightning:layoutItem>
+            </aura:if>                     
           <lightning:layoutItem>
             <lightning:button variant="brand" label="Export" onclick="{!c.openReport}" />
           </lightning:layoutItem>
@@ -55,10 +64,10 @@
                 </div>
               </th>
               <aura:iteration items="{! v.columns }" var="column">
-                <th class="slds-text-title_caps slds-is-resizable slds-is-sortable" scope="col">
-                  <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);">
+                <th class="slds-text-title_caps slds-is-resizable slds-is-sortable" scope="col" >
+                  <a class="slds-th__action slds-text-link_reset" href="javascript:void(0);" style="height : 4rem;">
                     <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
-                      <span class="slds-truncate">{! column.label }</span>
+                      <span class="slds-truncate slds-cell-wrap">{! column.label }</span>
                     </div>
                   </a>
                 </th>
@@ -95,7 +104,10 @@
                 <td>
                   <div class="slds-truncate">{! row.Square_Feet__c }</div>
                 </td>
-                <td>
+                <td><div class="slds-truncate">{! row.Monthly_Rent__c}</div></td>
+                <td></td>
+                <td></td>                  
+           <!--     <td>
                   <div class="slds-truncate">{! row.Estimated_Rent__c }</div>
                 </td>
                 <td>
@@ -103,7 +115,7 @@
                 </td>
                 <td>
                   <div class="slds-truncate">{! row.Estimated_Max_Rent__c }</div>
-                </td>                   
+                </td>     -->              
                 <td>
                   <div class="slds-truncate"></div>
                 </td>

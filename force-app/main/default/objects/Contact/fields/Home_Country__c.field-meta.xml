@@ -8,7 +8,256 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
+        <controllingField>Foreign_National__c</controllingField>
         <restricted>true</restricted>
         <valueSetName>Country</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Argentina</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Aruba</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Australia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Austria</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Bahamas</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Bahrain</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Barbados</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Belgium</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Belize</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Bermuda</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Brazil</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Brunei Darussalam</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Canada</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Cayman Islands</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Chile</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>China*</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Cook Islands</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Costa Rica</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Curaçao</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Denmark</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Dominican Republic</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Egypt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Finland</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>France</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>French Polynesia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Germany</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Greece</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Guatemala</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>India</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Israel</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Italy</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Korea, Republic of</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Liechtenstein</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Luxembourg</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Macao</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Mexico</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Monaco</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Netherlands</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>New Zealand</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Norway</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Panama</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Philippines</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Poland</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Portugal</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Qatar</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Saint Martin (French part)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Saudi Arabia</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Singapore</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>South Africa</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Spain</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Sweden</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Switzerland</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Taiwan</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Thailand</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Trinidad and Tobago</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Turks and Caicos Islands</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>United Arab Emirates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>United Kingdom</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Uruguay</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Vietnam</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Yes</controllingFieldValue>
+            <valueName>Virgin Islands, British</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>No</controllingFieldValue>
+            <valueName>United States</valueName>
+        </valueSettings>
     </valueSet>
 </CustomField>

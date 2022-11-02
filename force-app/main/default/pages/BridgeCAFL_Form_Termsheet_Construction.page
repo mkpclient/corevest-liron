@@ -190,7 +190,7 @@
                     <br />
                 </span>
                 <apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c } " /> ("
-                <strong>Sponsor</strong>")
+                <strong>Sponsor</strong>")  
             </p>
             <p style="{!IF(Opportunity.Project_Strategy__c = 'Build to Rent', 'page-break-inside:avoid;', 'display:none;')}">
                 <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
@@ -206,12 +206,11 @@
             <p style="{!IF(Opportunity.Project_Strategy__c = 'Multifamily GUC', 'page-break-inside:avoid;', 'display:none;')}">
                 <span style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
                     <strong>[USE FOR MULTIFAMILY PROJECTS]</strong>
-                    <apex:outputText value=" ${0,number} ">
+                    <apex:outputText value=" ${0,number} Construction Loan Proposal to finance the acquisition/refinancing and construction of a multifamily apartment project to be comprised of [XXX] Residential Units defined below located {1}">
                         <apex:param value="{!Opportunity.Loan_Size__c}" />
+                        <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, 'in ' + allProperties[0].City__c + ', ' + allProperties[0].State__c, 'at ' + allProperties[0].Name + ' ' + allProperties[0].City__c + ', ' + allProperties[0].State__c)}"
+                        />
                     </apex:outputText>
-                    <strong>[USE FOR MULTIFAMILY PROJECTS]</strong>$[XXX] Construction Loan Proposal to finance the acquisition/refinancing
-                    and construction of a multifamily apartment project to be comprised of [XXX] Residential Units (defined
-                    below located at [_____________] (the "Property")
                 </span>
             </p>
 
@@ -241,7 +240,7 @@
                     </td>
                     <td class="row-description">
                         A bankruptcy-remote, single-purpose limited liability company (LLC) acceptable to Lender. The LLC will include
-                        <apex:outputText value="{!Opportunity.Borrower_Entity__r.Name}" /> (
+                        <apex:outputText value="{!Opportunity.Contact__r.Name}" /> (
                         <strong>"Sponsor"</strong>) or an affiliate of Sponsor approved by Lender as an equity owner and as managing
                         member or manager. Lender reserves the right to approve any other equity owners and/or managers in
                         the LLC prior to closing, and no transfers, pledges or assignments of direct or indirect equity interests
@@ -439,7 +438,7 @@
                     </td>
                     <td class="row-description">
                         [
-                        <span class="mark">XXX</span>] months [
+                        <span class="mark"><apex:outputText value="{0,number}"><apex:param value="{!numTermLoanMonths}" /></apex:outputText></span>] months [
                         <span class="mark">INSERT IF EXTENSION OPTION</span> "Initial Stated Maturity Date"]
                     </td>
                 </tr>
@@ -464,8 +463,8 @@
                         Interest Rate:
                     </td>
                     <td class="row-description">
-                        <p>The Loan will bear interest at a floating rate per annum equal to Term SOFR plus
-                            <apex:outputText value="{0,number,0}%">
+                        <p>The Loan will bear interest at a floating rate per annum equal to Term SOFR plus 
+                            <apex:outputText value=" {0,number,0}%">
                                 <apex:param value="{!Opportunity.Requested_Index_Margin__c}" /></apex:outputText> (
                             <strong>"Interest Rate"</strong>), adjusted monthly and provided Term SOFR shall not be less than the
                             Floor. Interest will be paid monthly in arrears on the tenth day of each calendar month for accrued
@@ -474,8 +473,8 @@
                             the actual number of days elapsed (Actual/360) and will accrue on any unpaid principal balance.
                             As used herein, the following terms shall have the meanings set forth below:</p>
                         <p>
-                            <strong> "Floor" </strong> means
-                            <apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" />per annum.</p>
+                            <strong> "Floor" </strong> means 
+                            <apex:outputText value=" {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> per annum.</p>
                         <p>
                             <strong>"Interest Adjustment Date"</strong> means, for the initial Interest Accrual Period, the date
                             that is two U.S. Government Securities Business Days prior to the first day of the calendar month
@@ -542,11 +541,11 @@
                         Exit Fee:
                     </td>
                     <td class="row-description">
-                        if requested fee is not zero [USE IF NO PARTIAL RELEASES]
+                        if requested fee is not zero <span class="mark">[USE IF NO PARTIAL RELEASES]</span>
                         <apex:outputText value="{!Opportunity.Requested_Exit_Fee__c}" /> of the Maximum Loan Amount, which shall be due and payable in full upon the earlier of (a) the maturity
                         date of the Loan, and (b) the date the Loan is repaid in full, provided that the Exit Fee will be
-                        waived if the Loan is repaid in full with a permanent term loan from Lender or Lender's affiliate.][or
-                        replace with NONE if no Exit Fee]
+                        waived if the Loan is repaid in full with a permanent term loan from Lender or Lender's affiliate.]<span class="mark">[or
+                        replace with NONE if no Exit Fee]</span>
 
                     </td>
                 </tr>
@@ -574,8 +573,8 @@
                         Extension Fee:
                     </td>
                     <td class="row-description">
-                        <apex:outputText value="{!Opportunity.Extension_Fee__c}" /> of the [USE IF NO PARTIAL RELEASES]Maximum Loan Amount. [USE IF PARTIAL RELEASES]outstanding principal
-                        balance of the Loan on the Initial Stated Maturity Date.]
+                        <apex:outputText value="{!Opportunity.Extension_Fee__c}" /> of the <span class="mark">[USE IF NO PARTIAL RELEASES]Maximum Loan Amount. [USE IF PARTIAL RELEASES] outstanding principal
+                        balance of the Loan on the Initial Stated Maturity Date.]</span>
 
                     </td>
                 </tr>
@@ -596,8 +595,8 @@
                         <p> (e) Completion of all of the Improvements, including issuance of a permanent certificate of occupancy
                             for each Residential Unit and if applicable, dedication and acceptance of all public on and offsite
                             improvements has occurred; </p>
-                        <p> (f) An As-Is LTV ratio of no greater than [XX]%[INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED
-                            MAXIMUM LOAN AMOUNT] as tested by an updated current appraisal; </p>
+                        <p> (f) An As-Is LTV ratio of no greater than [XX]% <span class="mark">[INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED
+                            MAXIMUM LOAN AMOUNT]</span> as tested by an updated current appraisal; </p>
                         <p> (g) Borrower shall have provided evidence satisfactory to Lender that at least [
                             <strong>85</strong>]% of the Residential Units are occupied by Eligible Tenants pursuant to Eligible
                             Leases as of the Initial Stated Maturity Date; and</p>
@@ -605,8 +604,8 @@
                             would materially and adversely affect Guarantor's ability to perform its obligations under the
                             Loan Documents, as determined by Lender, and Guarantor shall have delivered to Lender a Compliance
                             Certificate dated as of the Initial Stated Maturity Date, with all supporting documentation,
-                            evidencing Guarantor is in compliance with Guarantor's minimum liquidity and net worth covenants.[IF
-                            NO EXTENSION OPTION, DELETE (a)-(h) TEXT AND REPLACE WITH N/A] </p>
+                            evidencing Guarantor is in compliance with Guarantor's minimum liquidity and net worth covenants.<span class="mark">[IF
+                            NO EXTENSION OPTION, DELETE (a)-(h) TEXT AND REPLACE WITH N/A]</span> </p>
 
 
                     </td>
@@ -632,7 +631,7 @@
                         The Loan is freely pre-payable in whole but not in in part, without premium or penalty, upon giving to the Lender of at least
                         ten (10) business days prior written notice and payment of all principal, accrued but unpaid interest,
                         the Exit Fee (unless waived by Lender as provided in the section entitled "Exit Fee) and any and
-                        all other amounts then due under the Loan [INSERT IF PARTIAL RELEASES]and provided that partial prepayments
+                        all other amounts then due under the Loan <span class="mark">[INSERT IF PARTIAL RELEASES]</span>and provided that partial prepayments
                         of principal are permitted, without premium or penalty in connection with the payment of the Release
                         Price for the release of Completed Residential Lot and satisfaction of the other Release Conditions
                         set forth in the below section entitled "Property Release"].
@@ -655,8 +654,8 @@
                             Release Price or (ii) the net sales proceeds or net refinancing proceeds, as applicable, plus
                             (b) interest accrued thereon, fees and expenses of Lender and the Property Exit Fee (unless waived
                             per the above section entitled "Property Exit Fee"). As used herein,
-                            <strong>"Minimum Release Price"</strong> means for each Release Property, 125% of 1/[total number of
-                            Residential Units] of the Maximum Loan Amount, as may be adjusted by Lender on a Release Property
+                            <strong>"Minimum Release Price"</strong> means for each Release Property, 125% of 1/<span class="mark">[total number of
+                            Residential Units]</span> of the Maximum Loan Amount, as may be adjusted by Lender on a Release Property
                             by Release Property basis during Lender's due diligence based on the Residential Unit composition
                             (e.g., unit type and size), per Release Property appraised value or other pertinent factors as
                             determined by Lender. </p>
@@ -745,7 +744,7 @@
                     </td>
                     <td class="row-description">
                         If there is a developer fee payable to an affiliate of Borrower or Sponsor, a portion of the developer fee equal to [
-                        <strong>4.0</strong>]% of Hard Costs will be included in the Budget, of which [3.0]% shall be reimbursed
+                        <span class="mark"><strong>4.0</strong>]%</span> of Hard Costs will be included in the Budget, of which <span class="mark">[3.0]%</span> shall be reimbursed
                         to Borrower based on a percentage of project Completion basis until project Completion. The remaining
                         1.0% shall be reimbursed to Borrower at project Completion. Any remaining developer fee will be subordinated
                         to the Loan.
@@ -924,8 +923,8 @@
                         of the Improvements, (ii) Borrower's obligation to keep the Loan in balance in accordance with the
                         terms of the loan agreement, including, among other things, depositing Balancing Funds with Lender,
                         (iii) the payment of property taxes, insurance premiums and interest on the Loan as and when due
-                        [DELETE (iv) IF NO ADDITIONAL EQUITY CONTRIBUTION[, and (iv) Borrower's obligation to invest Borrower's
-                        Additional Equity Contribution in the time and manner set forth in the loan documents].
+                        <span class="mark">[DELETE (iv) IF NO ADDITIONAL EQUITY CONTRIBUTION[, and (iv) Borrower's obligation to invest Borrower's
+                        Additional Equity Contribution in the time and manner set forth in the loan documents]</span>.
                     </td>
                 </tr>
 
@@ -1009,7 +1008,7 @@
                         and indirect owners) and Guarantor, as required by Lender. See
                         <strong>
                             <u>Exhibit E</u>
-                        </strong> – Due Diligence Deliverables.
+                        </strong> - Due Diligence Deliverables.
                     </td>
                 </tr>
 
@@ -1027,7 +1026,7 @@
                         <strong>
                             <u>Exhibit C</u>
                         </strong> and otherwise acceptable to Lender; (vi) evidence the Property is a Finished Lot; (vii) receipt and
-                        approval of (A) the as–is and as-completed appraised values of the Property, (B) Budget, (C) final
+                        approval of (A) the as-is and as-completed appraised values of the Property, (B) Budget, (C) final
                         plans and specifications and final construction drawings for the Improvements to be constructed on
                         the Property approved by all applicable governmental agencies (
                         <strong>"Final Plans"</strong>), (D) executed Construction Documents (E) evidence satisfactory to Lender
@@ -1105,9 +1104,9 @@
                         Sponsor shall indemnify and hold harmless Lender and its affiliates against any and all loss, cost, damage, liability and
                         expenses suffered or incurred by Lender or its affiliates arising out of, or in connection with,
                         any claims by brokers, agents or finders claiming to have assisted or represented Sponsor in connection
-                        with the Loan. [USE IF THERE IS A BROKER] It is understood
-                        <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> is acting as the mortgage broker on this Loan and shall receive a fee from the Borrower equal to
-                        [X.XX]% of the Maximum Loan Amount at Loan closing (
+                        with the Loan. <span class="mark">[USE IF THERE IS A BROKER]</span> It is understood
+                        <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> is acting as the mortgage broker on this Loan and shall receive a fee from the Borrower equal to&nbsp;
+                        <apex:outputText value="{0,number}%"><apex:param value="{!Opportunity.Broker_Fees__c}" /></apex:outputText> of the Maximum Loan Amount at Loan closing (
                         <strong> "Broker Fee" </strong>), which Broker Fee has been capitalized in the Budget and is not included
                         in Lender's fees listed herein. Lender will require evidence that the Broker's Fee has been or will
                         be paid in full prior to or at Loan Closing.

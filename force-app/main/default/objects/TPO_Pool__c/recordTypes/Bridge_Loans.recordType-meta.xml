@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Bridge_Loans</fullName>
     <active>true</active>
+    <compactLayoutAssignment>Bridge_Compact_Layout</compactLayoutAssignment>
     <label>Bridge Loans</label>
     <picklistValues>
         <picklist>Stage__c</picklist>

@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:type="xsd:double">16.0</value>
     </values>
@@ -148,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Engineering;Legal Counsel;Lender Underwriter</value>
+        <value xsi:type="xsd:string">Engineering;Legal Counsel;Lender Underwriter;Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

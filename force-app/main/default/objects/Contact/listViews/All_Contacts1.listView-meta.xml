@@ -13,10 +13,5 @@
         <operation>equals</operation>
         <value>Broker</value>
     </filters>
-    <filters>
-        <field>Non_Borrower_Account_Type__c</field>
-        <operation>equals</operation>
-        <value>Broker Plus</value>
-    </filters>
-    <label>All Broker Plus Contacts</label>
+    <label>All Broker Contacts</label>
 </ListView>

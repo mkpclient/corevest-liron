@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>roof_type__c</fullName>
+    <description>Roof structure. One of [Bowstring Truss, Dome,Flat, Gable, Gable or Hip, Gambrel, Hip, Irr/Cathedral, Mansard, Prestress Concrete, Reinforced Concrete, Rigid frm bar JT, Sawtooth, Shed, Steel frm/truss, Wood Truss]</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Roof structure. One of [Bowstring Truss, Dome,Flat, Gable, Gable or Hip, Gambrel, Hip, Irr/Cathedral, Mansard, Prestress Concrete, Reinforced Concrete, Rigid frm bar JT, Sawtooth, Shed, Steel frm/truss, Wood Truss]</inlineHelpText>
+    <label>Roof type</label>
+    <length>50</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -17,7 +17,7 @@
     <!-- Lightning Form in Edit Mode -->
     <lightning-card title="Sold Loan Pool" icon-name="custom:custom11">
       <div class="slds-m-around_medium">
-        <lightning-record-form
+        <lightning-record-view-form
           record-id={soldLoanPoolId}
           object-api-name="Sold_Loan_Pool__c"
 
@@ -25,17 +25,42 @@
         >
           <lightning-messages></lightning-messages>
           <div class="slds-grid slds-wrap slds-gutters">
-            <div class="slds-col slds-size_1-of-2">
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
               <lightning-output-field
-                field-name="Name"
+                field-name="Sold_To__c"
               ></lightning-output-field>
             </div>
-            <div class="slds-col slds-size_1-of-2">
-                <lightning-output-field
-                  field-name="Sold_Date__c"
-                ></lightning-output-field>
-              </div>
-            <div class="slds-col slds-size_5-of-12"></div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Sold_Date__c"
+              ></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Purchased_Price__c"
+              ></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Purchaser_Interest_Rate__c"
+              ></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Interest_Adjustment__c"
+              ></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Servicer__c"
+              ></lightning-output-field>
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-border_bottom">
+              <lightning-output-field
+                field-name="Servicing_Status__c"
+              ></lightning-output-field>
+            </div>
+            <!-- <div class="slds-col slds-size_5-of-12"></div>
             <div class="slds-col slds-size_2-of-12">
               <lightning-button class="slds-m-top_small" label="Cancel" onclick={handleReset}></lightning-button>
               <lightning-button
@@ -45,9 +70,9 @@
                 label="Save"
               ></lightning-button>
             </div>
-            <div class="slds-col slds-size_5-of-12"></div>
+            <div class="slds-col slds-size_5-of-12"></div> -->
           </div>
-        </lightning-record-form>
+        </lightning-record-view-form>
       </div>
     </lightning-card>
   </template>

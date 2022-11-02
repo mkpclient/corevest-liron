@@ -78,6 +78,10 @@
                 <behavior>Edit</behavior>
                 <field>Inbound_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CX_Portal_Round_Robin__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -113,7 +117,7 @@
                 <field>Desired_Loan_Amount__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
+                <behavior>Edit</behavior>
                 <field>Introduction_Source__c</field>
             </layoutItems>
             <layoutItems>
@@ -131,6 +135,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Referral_Source__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>How_Did_You_Hear_About_CoreVest__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -193,7 +201,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -660,7 +668,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>X5aSFID__c</field>
+                <field>External_Record_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -712,11 +720,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Lead.Update_Lead</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -740,6 +743,11 @@
             <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>ChangeOwnerOne</actionName>

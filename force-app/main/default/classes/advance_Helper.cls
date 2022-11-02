@@ -113,42 +113,42 @@ public class advance_Helper {
       }
     }
 
-    for (Opportunity o : [
-      SELECT
-        id,
-        Aggregate_Funding__c,
-        Aggregate_Payoffs__c,
-        Aggregate_Value_PreAdvance__c,
-        Aggregate_Advance_Fee_PreAdvance__c,
-        Outstanding_Facility_Amount__c,
-        Outstanding_Loan_Amount_PreAdvance__c,
-        (
-          SELECT id
-          FROM Advances__r
-          WHERE RecordTypeID = :RECORDTYPE_MAP.get('Interest Reserve')
-        )
-      FROM Opportunity
-      WHERE id IN :interestReserveMap.keySet()
-    ]) {
-      for (Advance__c adv : interestReserveMap.get(o.Id)) {
-        adv.Aggregate_Funding__c = o.Aggregate_Funding__c;
-        adv.Aggregate_Payoffs__c = o.Aggregate_Payoffs__c;
-        adv.Aggregate_Advance_Fee_PreAdvance__c = o.Aggregate_Advance_Fee_PreAdvance__c;
-        adv.Aggregate_Value_PreAdvance__c = o.Aggregate_Value_PreAdvance__c;
-        adv.Outstanding_Facility_Amount__c = o.Outstanding_Facility_Amount__c;
+    // for (Opportunity o : [
+    //   SELECT
+    //     id,
+    //     Aggregate_Funding__c,
+    //     Aggregate_Payoffs__c,
+    //     Aggregate_Value_PreAdvance__c,
+    //     Aggregate_Advance_Fee_PreAdvance__c,
+    //     Outstanding_Facility_Amount__c,
+    //     Outstanding_Loan_Amount_PreAdvance__c,
+    //     (
+    //       SELECT id
+    //       FROM Advances__r
+    //       WHERE RecordTypeID = :RECORDTYPE_MAP.get('Interest Reserve')
+    //     )
+    //   FROM Opportunity
+    //   WHERE id IN :interestReserveMap.keySet()
+    // ]) {
+    //   for (Advance__c adv : interestReserveMap.get(o.Id)) {
+    //     adv.Aggregate_Funding__c = o.Aggregate_Funding__c;
+    //     adv.Aggregate_Payoffs__c = o.Aggregate_Payoffs__c;
+    //     adv.Aggregate_Advance_Fee_PreAdvance__c = o.Aggregate_Advance_Fee_PreAdvance__c;
+    //     adv.Aggregate_Value_PreAdvance__c = o.Aggregate_Value_PreAdvance__c;
+    //     adv.Outstanding_Facility_Amount__c = o.Outstanding_Facility_Amount__c;
 
-        adv.Outstanding_Loan_Amount_PreAdvance__c = o.Outstanding_Loan_Amount_PreAdvance__c;
+    //     adv.Outstanding_Loan_Amount_PreAdvance__c = o.Outstanding_Loan_Amount_PreAdvance__c;
 
-        if (String.isBlank(adv.Name)) {
-          if (o.Advances__r.size() > 0) {
-            adv.Name = 'IR-' + o.Advances__r.size() + 1; //String.valueOf(o.Advances__r[0].Advance_Number__c + 1);
-          } else {
-            adv.name = 'IR-1';
-          }
-        }
-        SYSTEM.DEBUG('RS999 - adv' + adv);
-      }
-    }
+    //     if (String.isBlank(adv.Name)) {
+    //       if (o.Advances__r.size() > 0) {
+    //         adv.Name = 'IR-' + o.Advances__r.size() + 1; //String.valueOf(o.Advances__r[0].Advance_Number__c + 1);
+    //       } else {
+    //         adv.name = 'IR-1';
+    //       }
+    //     }
+    //     SYSTEM.DEBUG('RS999 - adv' + adv);
+    //   }
+    // }
   }
 
   /**
@@ -229,7 +229,7 @@ public class advance_Helper {
 
     Map<Id, Advance__c> advMap = new Map<Id, Advance__c>();
     List<Id> advancesForCompletion = new List<Id>();
-    Map<Id, Advance__c> advanceWithNameChanges = new Map<Id, Advance__c>();
+    // Map<Id, Advance__c> advanceWithNameChanges = new Map<Id, Advance__c>();
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
@@ -242,13 +242,13 @@ public class advance_Helper {
       }
 
       if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
-        if(
-          (newList[i].Name != oldList[i].Name ||
-          newList[i].Advance_Num__c != oldList[i].Advance_Num__c) &&
-          newList[i].Status__c != 'Completed'
-        ) {
-          advanceWithNameChanges.put(newList[i].Id, newList[i]);
-        }
+        // if(
+        //   (newList[i].Name != oldList[i].Name ||
+        //   newList[i].Advance_Num__c != oldList[i].Advance_Num__c) &&
+        //   newList[i].Status__c != 'Completed'
+        // ) {
+        //   advanceWithNameChanges.put(newList[i].Id, newList[i]);
+        // }
 
         if (
           newList[i].Status__c != oldList[i].Status__c &&
@@ -367,7 +367,11 @@ public class advance_Helper {
       }
     }
 
-    List<Advance__c> advsToValidate = isCreditLine(advancesForCompletion);
+    List<Advance__c> advsToValidate = new List<Advance__c>();
+
+    if(advancesForCompletion.size() > 0 || Test.isRunningTest()) {
+      advsToValidate = isCreditLine(advancesForCompletion);
+    }
 
     if (advsToValidate.size() > 0) {
       Map<Id, Boolean> completionMap = validateCompletions(advsToValidate);
@@ -388,9 +392,9 @@ public class advance_Helper {
       }
     }
 
-    if(advanceWithNameChanges.size() > 0) {
-      // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
-    }
+    // if(advanceWithNameChanges.size() > 0) {
+    //   // PropertyTriggerExtensions.validateAdvanceNames(advanceWithNameChanges);
+    // }
 
     for (Opportunity o : [
       SELECT
@@ -757,7 +761,7 @@ public class advance_Helper {
           OR Advance__c IN :updateRollups
       ];
     }
-// completed advances create commission records CRE/MultiFamily will generate commission
+
     if (myAdvanceList.size() > 0) {
       system.debug('advance list size' + myAdvanceList.size());
       list<advance__c> myAdv = [
@@ -803,10 +807,10 @@ public class advance_Helper {
 
         if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 10000000
+          adv.Approved_Advance_Amount_Total__c <= 5000000
         ) {
           rateBasedOnBorrowed = 0.20;
-          system.debug('under 10 mil');
+          system.debug('under 5 mil and direct');
           if (
             adv.Deal__r.Internal_Referral__c != null &&
             adv.Deal__r.Internal_Referral__r.isActive == true &&
@@ -901,11 +905,11 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 10000000 &&
+          adv.Approved_Advance_Amount_Total__c > 5000000 &&
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 100000000
+          adv.Approved_Advance_Amount_Total__c <= 75000000
         ) {
-          system.debug('over 10 mil to 100 mil');
+          system.debug('over 5 mil and direct');
           rateBasedOnBorrowed = 0.10;
 
           if (
@@ -996,9 +1000,9 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 100000000
+          adv.Approved_Advance_Amount_Total__c > 75000000
         ) {
-          system.debug('over 100 mil and above');
+          system.debug('over 20 mil and direct');
           rateBasedOnBorrowed = 0.04;
 
           if (
@@ -1092,10 +1096,10 @@ public class advance_Helper {
       }
 
       if (myCommsToAdd.size() > 0) {
-        insert myCommsToAdd;
+        insertCommsFuture(JSON.serialize(myCommsToAdd));
       }
     }
-// delete commission based on uncompleted advance
+
     if (uncompletedAdvanceIds.size() > 0) {
       system.debug('uncompleted advance' + uncompletedAdvanceIds.size());
       List<Commission__c> myCommissionList = [
@@ -1368,6 +1372,13 @@ public class advance_Helper {
     }
 
     update oliList;
+  }
+
+  @future
+  public static void insertCommsFuture (String jsonobj) {
+    List<Commission__c> comms = (List<Commission__c>) JSON.deserialize(jsonobj, List<Commission__c>.class);
+
+    insert comms;
   }
 
   // public static void validateCompletion(Advance__c advance) {

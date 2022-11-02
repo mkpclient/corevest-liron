@@ -238,7 +238,7 @@
     var advance = {
       sobjectType: "Advance__c",
       Deal__c: component.get("v.recordId"),
-      Status__c: "Pending",
+      // Status__c: "Pending",
       // Property_Record_Type__c: renoType
     };
 
@@ -294,7 +294,7 @@
 
   compilePermissions: function (component) {
     let fields = ["Name", "Requested_Funding_Date__c", "Status__c", "Rehab_Budget__c", "Acquisition_Price__c",
-      "After_Repair_Value__c", "Appraised_Value_Amount__c", "Reno_Advance_Amount__c", "Remedy_Plan__c"];
+      "After_Repair_Value__c", "Appraised_Value_Amount__c", "Reno_Advance_Amount__c", "Remedy_Plan__c", "Title_Company__c", "Title_Company_Contact__c", "Escrow_Agent__c", "Escrow_Company_Contact__c", "Insurance_Company__c", "Insurance_Contact__c"];
 
     component.find("util").getPermissions("Property__c", fields, (response) => {
       console.log(response);

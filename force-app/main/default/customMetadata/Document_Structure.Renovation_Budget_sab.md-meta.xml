@@ -4,11 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
-        <value xsi:type="xsd:string">SAB;Commercial;BTR</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Additional_C2C_Filtering__c</field>
-        <value xsi:type="xsd:string">SAB;Commercial;BTR</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Borrower_Access__c</field>
@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:type="xsd:double">4.0</value>
     </values>
@@ -112,7 +116,7 @@
     </values>
     <values>
         <field>Required__c</field>
-        <value xsi:type="xsd:boolean">true</value>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Required_for_Onboarding__c</field>
@@ -148,7 +152,7 @@
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:type="xsd:string">Engineering;Legal Counsel;Valuation;Lender Underwriter</value>
+        <value xsi:type="xsd:string">Engineering;Legal Counsel;Valuation;Lender Underwriter;Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

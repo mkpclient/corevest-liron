@@ -5,10 +5,33 @@
         icon-name="utility:connected_apps"
         size="small"
       ></lightning-icon>
-      IC Approvals in Progress
+      {componentHeader}
     </h3>
+    <lightning-button-menu
+      onselect={handleSelect}
+      alternative-text="Show menu"
+      variant="border-filled"
+      slot="actions"
+      icon-name="utility:filterList"
+      menu-alignment="bottom-right"
+    >
+      <lightning-menu-item
+        value="My IC Approvals"
+        label="My IC Approvals"
+      ></lightning-menu-item>
+      <lightning-menu-item
+        value="All"
+        label="All IC Approvals"
+      ></lightning-menu-item>
+    </lightning-button-menu>
     <div class="slds-p-horizontal_small">
-      <lightning-datatable key-field="id" data={tableData} columns={columns}>
+      <lightning-datatable 
+        key-field="id" 
+        data={tableData} 
+        columns={columns}
+        sorted-by={sortBy}
+        sorted-direction={sortDirection}
+        onsort={handleSort}>
       </lightning-datatable>
     </div>
   </lightning-card>

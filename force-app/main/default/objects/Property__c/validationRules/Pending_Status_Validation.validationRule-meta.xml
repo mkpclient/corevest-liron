@@ -16,7 +16,8 @@ OR(
  ISBLANK(TEXT(Valuation_Type__c)),
  ISBLANK(BPO_Appraisal_Date__c),
  ISBLANK(Appraised_Value_Amount__c),
- ISBLANK(TEXT(Refinance_Acquisition__c))
+ ISBLANK(TEXT(Refinance_Acquisition__c)),
+ ISBLANK( APN__c )
 ))</errorConditionFormula>
-    <errorMessage>Appraisal details are required before updating the Status to Pending.  Please verify these fields are populated: Appraised As Is Value, Appraisal Firm, Appraisal Fee, Appraisal Order Date, Appraisal Date, Refinance Acquisition, Valuation Type</errorMessage>
+    <errorMessage>Several fields are required before updating the Status to Pending.  Please verify these fields are populated: Appraised As Is Value, Appraisal Firm, Appraisal Fee, Appraisal Order Date, Appraisal Date, Refinance Acquisition, Valuation Type, APN.</errorMessage>
 </ValidationRule>

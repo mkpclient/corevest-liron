@@ -1,4 +1,136 @@
 public without sharing class ChecklistHelper {
+  // public static void createChecklistAccount(Set<Id> accountIds) {
+  //   Map<String, Id> recordTypeMap = new Map<String, Id>();
+
+  //   for (RecordType rt : [
+  //     SELECT Id, DeveloperName
+  //     FROM RecordType
+  //     WHERE Sobjecttype = 'Checklist_Item__c'
+  //   ]) {
+  //     recordTypeMap.put(rt.DeveloperName, rt.Id);
+  //   }
+
+  //   Map<Id, String> accRecordTypeMap = new Map<Id, String>();
+
+  //   for (Account acc : [
+  //     SELECT Id, RecordType.DeveloperName
+  //     FROM Account
+  //     WHERE Id = :accountIds
+  //   ]) {
+  //     accRecordTypeMap.put(acc.Id, acc.RecordType.DeveloperName);
+  //   }
+
+  //   Map<String, List<Checklist_Item_Config__mdt>> recordTypeConfigMap = new Map<String, List<Checklist_Item_Config__mdt>>();
+  //   for (
+  //     Checklist_Item_Config__mdt checklistConfig : [
+  //       SELECT
+  //         Id,
+  //         RecordType__c,
+  //         Responsible_Party__c,
+  //         Approver__c,
+  //         Milestone__c,
+  //         Uploader__c,
+  //         Reviewer__c,
+  //         Checklist_Type__c,
+  //         Checklist_Item_Name__c,
+  //         sObject__c,
+  //         Type__c,
+  //         Use_Historical_Uploads__c,
+  //         Document_Structure__c,
+  //         Label,
+  //         Document_Structure__r.Folder_Structure_String__c,
+  //         Document_Structure__r.Document_Type__c,
+  //         Is_Bulk__c
+  //       // Is_Property_Level__c
+  //       FROM Checklist_Item_Config__mdt
+  //       WHERE
+  //         RecordType__c IN :accRecordTypeMap.values()
+  //         AND sObject__c = 'Account'
+  //         AND Type__c != NULL
+  //     ]
+  //   ) {
+  //     system.debug(checklistConfig.Label);
+  //     if (!recordTypeConfigMap.containsKey(checklistConfig.RecordType__c)) {
+  //       recordTypeConfigMap.put(
+  //         checklistConfig.RecordType__c,
+  //         new List<Checklist_Item_Config__mdt>()
+  //       );
+  //     }
+  //     recordTypeConfigMap.get(checklistConfig.RecordType__c)
+  //       .add(checklistConfig);
+  //   }
+
+  //   // system.debug(checklist)
+
+  //   List<Checklist__c> checklists = new List<Checklist__c>();
+  //   Map<Id, Checklist__c> accChecklistMap = new Map<Id, Checklist__c>();
+  //   Map<Id, Checklist_Section__c> accSectionMap = new Map<Id, Checklist_Section__c>();
+  //   for (Id accId : accRecordTypeMap.keySet()) {
+  //     String recordTypeName = accRecordTypeMap.get(accId);
+  //     if (recordTypeConfigMap.containsKey(recordTypeName)) {
+  //       Checklist__c checklist = new Checklist__c();
+  //       checklist.Milestone__c = 'Onboarding';
+  //       checklist.Account__c = accId;
+  //       accChecklistMap.put(accId, checklist);
+  //     }
+  //   }
+
+  //   //system.debug(dealChecklistMap.values());
+  //   insert accChecklistMap.values();
+
+  //   for (Id accId : accRecordTypeMap.keySet()) {
+  //     if (accChecklistMap.containsKey(accId)) {
+  //       Checklist_Section__c section = new Checklist_Section__c();
+  //       section.Type__c = 'Lender';
+  //       section.Account__c = accId;
+  //       section.Checklist__c = accChecklistMap.get(accId).Id;
+  //       section.Name = 'Lender';
+  //       accSectionMap.put(section.Account__c, section);
+  //     }
+  //   }
+
+  //   insert accSectionMap.values();
+
+  //   system.debug(recordTypeConfigMap);
+  //   List<Checklist_Item__c> checklistItems = new List<Checklist_Item__c>();
+  //   for (Id accId : accRecordTypeMap.keySet()) {
+  //     String recordTypeName = accRecordTypeMap.get(accId);
+  //     if (recordTypeConfigMap.containsKey(recordTypeName)) {
+  //       for (
+  //         Checklist_Item_Config__mdt itemConfig : recordTypeConfigMap.get(
+  //           recordTypeName
+  //         )
+  //       ) {
+  //         Checklist_Item__c item = new Checklist_Item__c();
+  //         item.Checklist_Section__c = accSectionMap.get(accId).Id;
+  //         item.Account__c = accId;
+  //         item.Status__c = 'Pending';
+  //         item.Responsible_Party__c = itemConfig.Responsible_Party__c;
+  //         item.Milestone__c = itemConfig.Milestone__c;
+  //         item.Checklist_Type__c = itemConfig.Checklist_Type__c;
+  //         item.Name = itemConfig.Checklist_Item_Name__c;
+  //         item.Document_Type__c = itemConfig.Document_Structure__r.Document_Type__c;
+  //         item.Doc_Structure_Id__c = itemConfig.Document_Structure__c;
+  //         item.Folder_String__c = itemConfig.Document_Structure__r.Folder_Structure_String__c;
+  //         item.Approver__c = itemConfig.Approver__c;
+  //         item.Uploader__c = itemConfig.Approver__c;
+  //         item.Reviewer__c = itemConfig.Reviewer__c;
+  //         item.Is_Bulk__c = itemConfig.Is_Bulk__c;
+  //         // item.Is_Property_Level__c = itemConfig.Is_Property_Level__c;
+
+  //         if (itemConfig.Type__c == 'Upload') {
+  //           item.RecordTypeId = recordTypeMap.get('Document_Upload'); //'012Z0000000aZRZIA2';
+  //         } else if (itemConfig.Type__c == 'Action') {
+  //           item.RecordTypeId = recordTypeMap.get('Task'); //'012Z0000000aZRUIA2';
+  //         }
+
+  //         checklistItems.add(item);
+  //       }
+  //     }
+  //   }
+  //   insert checklistItems;
+  // }
+
   public static void createChecklist(Set<Id> opportunityIds) {
     Map<String, Id> recordTypeMap = new Map<String, Id>();
 
@@ -13,11 +145,15 @@ public without sharing class ChecklistHelper {
     Map<Id, String> oppRecordTypeMap = new Map<Id, String>();
 
     for (Opportunity opp : [
-      SELECT Id, RecordType.DeveloperName
+      SELECT Id, RecordType.DeveloperName, LOC_Loan_Type__c
       FROM Opportunity
       WHERE Id = :opportunityIds
     ]) {
-      oppRecordTypeMap.put(opp.Id, opp.RecordType.DeveloperName);
+      if (opp.LOC_Loan_Type__c == 'Multifamily/CRE') {
+        oppRecordTypeMap.put(opp.Id, 'CRE_Loan');
+      } else {
+        oppRecordTypeMap.put(opp.Id, opp.RecordType.DeveloperName);
+      }
     }
 
     Map<String, List<Checklist_Item_Config__mdt>> recordTypeConfigMap = new Map<String, List<Checklist_Item_Config__mdt>>();
@@ -69,6 +205,7 @@ public without sharing class ChecklistHelper {
       String recordTypeName = oppRecordTypeMap.get(oppId);
       if (recordTypeConfigMap.containsKey(recordTypeName)) {
         Checklist__c checklist = new Checklist__c();
+        checklist.Milestone__c = 'Kick-Off';
         checklist.Deal__c = oppId;
         dealChecklistMap.put(oppId, checklist);
       }
@@ -147,15 +284,24 @@ public without sharing class ChecklistHelper {
     Map<Id, List<Property__c>> dealPropertyMap = new Map<Id, List<Property__C>>();
 
     for (Property__c property : [
-      SELECT Id, Name, Deal__c, Deal__r.RecordType.DeveloperName
+      SELECT
+        Id,
+        Name,
+        Deal__c,
+        Deal__r.RecordType.DeveloperName,
+        Deal__r.LOC_Loan_Type__c
       FROM Property__c
       WHERE Id IN :propertyIds
     ]) {
       propertyDealMap.put(property.Id, property.Deal__c);
-      oppRecordTypeMap.put(
-        property.Deal__c,
-        property.Deal__r.RecordType.DeveloperName
-      );
+      if (property.Deal__r.LOC_Loan_Type__c == 'Multifamily/CRE') {
+        oppRecordTypeMap.put(property.Deal__c, 'CRE_Loan');
+      } else {
+        oppRecordTypeMap.put(
+          property.Deal__c,
+          property.Deal__r.RecordType.DeveloperName
+        );
+      }
 
       if (!dealPropertyMap.containsKey(property.Deal__c)) {
         dealPropertyMap.put(property.Deal__c, new List<Property__c>());
@@ -213,6 +359,9 @@ public without sharing class ChecklistHelper {
 
       for (Property__c property : dealPropertyMap.get(checklist.Deal__c)) {
         String recordTypeName = property.Deal__r.RecordType.DeveloperName;
+        if (property.Deal__r.LOC_Loan_Type__c == 'Multifamily/CRE') {
+          recordTypeName = 'CRE_Loan';
+        }
         if (recordTypeConfigMap.containsKey(recordTypeName)) {
           Checklist_Section__c section = new Checklist_Section__c();
           section.Checklist__c = checklist.Id;
@@ -269,6 +418,7 @@ public without sharing class ChecklistHelper {
     insert checklistItems;
   }
 
+  @future
   public static void createChecklistDealContact(Set<Id> dealContactIds) {
     Map<String, Id> recordTypeMap = new Map<String, Id>();
 
@@ -282,7 +432,7 @@ public without sharing class ChecklistHelper {
     Map<Id, String> oppRecordTypeMap = new Map<Id, String>();
     Map<Id, Id> contactDealMap = new Map<Id, Id>();
     Map<Id, List<Deal_Contact__c>> dealContactMap = new Map<Id, List<Deal_Contact__c>>();
-
+    // Map<Id, Set<Id>> dealContactMap = new Map<Id, Set<Id>>();
     for (Deal_Contact__c dealContact : [
       SELECT
         Id,
@@ -293,29 +443,46 @@ public without sharing class ChecklistHelper {
         Vendor_Type__c,
         Entity_Type__c,
         Contact__r.Name,
-        Account__r.Name
+        Account__r.Name,
+        Deal__r.LOC_Loan_Type__c
       FROM Deal_Contact__c
       WHERE Id IN :dealContactIds
     ]) {
       contactDealMap.put(dealContact.Id, dealContact.Deal__c);
-      oppRecordTypeMap.put(
-        dealContact.Deal__c,
-        dealContact.Deal__r.RecordType.DeveloperName
-      );
+      if (dealContact.Deal__r.LOC_Loan_Type__c == 'Multifamily/CRE') {
+        oppRecordTypeMap.put(dealContact.Deal__c, 'CRE_Loan');
+      } else {
+        oppRecordTypeMap.put(
+          dealContact.Deal__c,
+          dealContact.Deal__r.RecordType.DeveloperName
+        );
+      }
 
       if (!dealContactMap.containsKey(dealContact.Deal__c)) {
         dealContactMap.put(dealContact.Deal__c, new List<Deal_Contact__c>());
+        // dealContactMap.put(dealCOntact.Deal__c, new Set<Id>());
       }
 
       dealContactMap.get(dealContact.Deal__c).add(dealContact);
     }
 
     for (Checklist_Section__c section : [
-      SELECT Id, Deal_Contact__c
+      SELECT Id, Contact__c, Checklist__r.Deal__c
       FROM Checklist_Section__c
-      WHERE Deal_Contact__c IN :dealContactMap.keySet()
+      WHERE Checklist__r.Deal__c IN :dealContactMap.keySet()
     ]) {
-      dealContactMap.remove(section.Deal_Contact__c);
+      if (dealCOntactMap.containsKey(section.Checklist__r.Deal__c)) {
+        //if(dealContactMap.get(Checklist__r.Deal__c.contains))
+        List<Deal_Contact__c> dcList = dealContactMap.get(
+          section.Checklist__r.Deal__c
+        );
+        for (Integer i = dcList.size() - 1; i >= 0; i--) {
+          if (dcList[i].Contact__c == section.Contact__c) {
+            dcList.remove(i);
+          }
+        }
+      }
+      // dealContactMap.remove(section.Deal_Contact__c);
     }
 
     // system.debug(oppRecordTypeMap);
@@ -380,9 +547,13 @@ public without sharing class ChecklistHelper {
           }
         }
         String recordTypeName = dealContact.Deal__r.RecordType.DeveloperName;
+        if (dealContact.Deal__r.LOC_Loan_Type__c == 'Multifamily/CRE') {
+          recordTypeName = 'CRE_Loan';
+        }
         if (recordTypeConfigMap.containsKey(recordTypeName)) {
           Checklist_Section__c section = new Checklist_Section__c();
           section.Checklist__c = checklist.Id;
+          section.Contact__c = dealContact.Contact__c;
           section.Deal_Contact__c = dealContact.Id;
           if (dealContact.Entity_Type__c != null) {
             section.Name = dealContact.Contact__r.Name;

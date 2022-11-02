@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Gross_Yield__c</fullName>
+    <description>Calculates the income/property value as (Annual Rent + Other Income) / Assumed 3rd Party Value</description>
+    <externalId>false</externalId>
+    <formula>(Annual_Rent__c +  Other_Income__c +  Other_Income_2__c) /  Assumed_3rd_Party_Value__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Gross Yield</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>1</scale>
+    <trackHistory>false</trackHistory>
+    <type>Percent</type>
+</CustomField>

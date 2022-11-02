@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reno_Amount_Funded_Pending__c</fullName>
+    <description>The amount of the Renovation Advance that has been funded and is pending to fund</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The amount of the Renovation Advance that has been funded and is pending to fund</inlineHelpText>
+    <label>Reno Amount Funded &amp; Pending</label>
+    <summarizedField>Property_Advance__c.Renovation_Reserve__c</summarizedField>
+    <summaryFilterItems>
+        <field>Property_Advance__c.Advance_Status_text__c</field>
+        <operation>notEqual</operation>
+        <value>Cancelled,Rescinded</value>
+    </summaryFilterItems>
+    <summaryForeignKey>Property_Advance__c.Property__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

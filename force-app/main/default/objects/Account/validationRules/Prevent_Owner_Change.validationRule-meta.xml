@@ -3,12 +3,13 @@
     <fullName>Prevent_Owner_Change</fullName>
     <active>true</active>
     <description>This rule will only allow a user to change the owner of an Account if they are the existing user</description>
-    <errorConditionFormula>AND( ISCHANGED( OwnerId ) , 
-OR (PRIORVALUE(OwnerId ) &lt;&gt;  $User.Id) ,
+    <errorConditionFormula>AND( 
+ISCHANGED( OwnerId ) ,
+NOT( $Permission.Can_Change_Account_Owner ), 
+PRIORVALUE(OwnerId ) &lt;&gt;  $User.Id ,
 NOT(PRIORVALUE(Owner_Profile__c) = &quot;Sales Analyst&quot;),
 NOT($Profile.Name= &quot;System Administrator&quot;),
-NOT($Profile.Name= &quot;Operations&quot;),
-NOT($Profile.Name= &quot;Origination Manager&quot;),
-$User.Id = &quot;0050a00000L8MJrAAN&quot;)</errorConditionFormula>
+NOT($Profile.Name= &quot;Origination Manager&quot;)
+)</errorConditionFormula>
     <errorMessage>Only a Manager or the current record owner can transfer this record</errorMessage>
 </ValidationRule>

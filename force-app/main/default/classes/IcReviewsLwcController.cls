@@ -1,8 +1,10 @@
-public with sharing class IcReviewsLwcController {
+public without sharing class IcReviewsLwcController {
   public static List<String> IC_PROCESS_NAMES = new List<String>{
     'Bridge IC Process',
-    'Term Sub-IC',
-    'Term IC Process'
+    'Term Sub-IC Process',
+    'Term IC Process',
+    'Bridge Sub-IC Process',
+    'Bridge Mini Sub-IC Process'
   };
 
   @AuraEnabled(cacheable=true)
@@ -79,7 +81,9 @@ public with sharing class IcReviewsLwcController {
     System.debug(JSON.serializePretty(returnVal));
     for(Map<String, Object> val: returnVal) {
       if(processInstanceMap.size() > 0 && processInstanceMap.containsKey((Id) val.get('processId'))) {
-        val.put('approverName', processInstanceMap.get((Id) val.get('processId')).Actor.Name);
+        String actorName  = processInstanceMap.get((Id) val.get('processId')).Actor.Name;
+        val.put('approverName', actorName);
+        val.put('approvalName', val.get('approvalName') + ' (' + actorName + ')');
       }
     }
 

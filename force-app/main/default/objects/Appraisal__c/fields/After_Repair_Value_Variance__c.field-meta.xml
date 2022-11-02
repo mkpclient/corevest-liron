@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>After_Repair_Value_Variance__c</fullName>
+    <description>Comparison of the After Repair Value on the Reviewed Appraisal and Appraisal Review</description>
+    <externalId>false</externalId>
+    <formula>(Appraised_After_Repair_Value__c - Reviewed_Appraisal_After_Repair_Value__c)/Reviewed_Appraisal_After_Repair_Value__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Comparison of the After Repair Value on the Reviewed Appraisal and Appraisal Review</inlineHelpText>
+    <label>After Repair Value Variance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

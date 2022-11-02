@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CX_Portal_Round_Robin__c</fullName>
+    <description>This lead has come through our website and continued to the portal. This picklist is used to assist our Round Robin app.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This lead has come through our website and continued to the portal. This picklist is used to assist our Round Robin app.</inlineHelpText>
+    <label>CX Portal Round Robin</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <label>Yes</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

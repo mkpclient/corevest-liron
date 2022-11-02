@@ -348,13 +348,13 @@ public without sharing class community_Controller {
       'Sold'
     };
 
-    queryString += 'AND ((StageName IN : termStages AND RecordType__c =\'Term\') OR (StageName IN : bridgeStages AND RecordType__c =\'Bridge\'))';
+    queryString += 'AND ((StageName IN : termStages AND RecordType__c =\'Term\') OR (StageName IN : bridgeStages AND RecordType__c LIKE \'%Bridge%\'))';
 
     // // queryString += ' AND StageName IN : stages';
     if (showOnlyOpen != null && showOnlyOpen) {
       //queryString += ' AND (StageName = \'Underwriting\' OR StageName =\'Approved by Committee\' OR StageName =\'UW Hold\' OR StageName =\'Data Tape Received\' OR StageName =\'Term Sheet Issues\' OR StageName =\'Term Sheet Signed/Desposit Collected\'OR StageName =\'Initial Review\')';
       // queryString += ' AND StageName NOT IN : closedStages';
-      queryString += ' AND ( (StageName NOT IN : termClosedStages AND RecordType__c =\'Term\') OR (StageName NOT IN : bridgeClosedStages AND RecordType__c =\'Bridge\') )';
+      queryString += ' AND ( (StageName NOT IN : termClosedStages AND RecordType__c =\'Term\') OR (StageName NOT IN : bridgeClosedStages AND RecordType__c LIKE \'%Bridge%\') )';
     }
 
     if (showOnlyTerm != null && showOnlyTerm) {
@@ -362,7 +362,7 @@ public without sharing class community_Controller {
     }
 
     if (showOnlyTerm != null && showOnlyBridge) {
-      queryString += ' AND (RecordType__c =\'Bridge\')';
+      queryString += ' AND (RecordType__c LIKE \'%Bridge%\')';
     }
 
     if (String.isNotBlank(whereClause)) {
@@ -454,6 +454,7 @@ public without sharing class community_Controller {
       'Term SHeet Signed/Deposit Collected',
       'Submitted to Underwriting',
       'Loan Processing',
+      'Processing Hold',
       'Underwriting',
       'Approved by Committee',
       'UW Hold',

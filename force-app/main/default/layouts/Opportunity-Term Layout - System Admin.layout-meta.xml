@@ -93,6 +93,34 @@
                 <behavior>Edit</behavior>
                 <field>GLC_Required__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Pipeline_Comments__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CEMA__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Int_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Index_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -141,7 +169,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -229,10 +257,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Discount_Fee__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>CAF_YSP__c</field>
             </layoutItems>
             <layoutItems>
@@ -265,7 +289,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Discount_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Rate_Lock_Picklist__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rate_Lock_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rate_Lock_Expiration_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -931,10 +967,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Initial_Monthly_Debt_Service_Payment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Current_Approval_Process__c</field>
             </layoutItems>
             <layoutItems>
@@ -942,16 +974,8 @@
                 <field>Term_Sheet_Generated__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Origination_Fee_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Trigger_Field__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Broker_Fee_Formula__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -962,12 +986,20 @@
                 <field>Interest_Rate_Type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Interest_Rate_Formula__c</field>
+                <behavior>Edit</behavior>
+                <field>Rate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Rate__c</field>
+                <field>Initial_Monthly_Debt_Service_Payment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Monthly_Debt_Service__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Loan_in_Default__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -1010,22 +1042,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Submission_into_UW_Comments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>MSA_HPA_Year_1__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>MSA_HPA_Year_2__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Originations_Model_Saved_via_X_Author__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Term_UW_Model_Saved_via_X_Author__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -1095,6 +1111,14 @@
                 <behavior>Edit</behavior>
                 <field>Sold_Loan_Pool__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Rate_Based_On__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Status_Change_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -1143,56 +1167,6 @@
             <actionName>Opportunity.Data_Tape</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Upload_Documents</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Export_Documents</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>6</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Pricing_Review_Request</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>7</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Generate_Term_Sheet</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>8</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Termsheet_Bypass</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Term_Sheet_Approval</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>10</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Submit_to_UW</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>11</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Update_Swap_Rate</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>12</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Send_to_Yardi</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>13</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Clone_Term_Deal</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>14</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>FeedItem.ContentNote</actionName>
@@ -1245,54 +1219,114 @@
             <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Task</actionName>
+            <actionName>Opportunity.Sync_With_Knackly</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>25</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Loan_Sizing</actionName>
+            <actionName>Opportunity.Task</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>26</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Log_a_Call</actionName>
+            <actionName>Opportunity.Loan_Sizing</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>27</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Term_Email</actionName>
+            <actionName>Opportunity.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>28</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.New_Term_Loan_Assigned_Email</actionName>
+            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>29</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>pi__Send_Single_Pardot_Email</actionName>
-            <actionType>CustomButton</actionType>
+            <actionName>Opportunity.Term_Email</actionName>
+            <actionType>QuickAction</actionType>
             <sortOrder>30</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Term_Kick_Off_Email</actionName>
+            <actionName>Opportunity.New_Term_Loan_Assigned_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>31</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Rate_Lock_Email</actionName>
-            <actionType>QuickAction</actionType>
+            <actionName>pi__Send_Single_Pardot_Email</actionName>
+            <actionType>CustomButton</actionType>
             <sortOrder>32</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Send_Email</actionName>
+            <actionName>Opportunity.Term_Kick_Off_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>33</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Event</actionName>
+            <actionName>Opportunity.Rate_Lock_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>34</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Send_Email</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>35</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Event</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>36</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Upload_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Export_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>6</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Pricing_Review_Request</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>7</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Generate_Term_Sheet</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>8</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Termsheet_Bypass</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>9</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Term_Sheet_Approval</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Submit_to_UW</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>11</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Update_Swap_Rate</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>12</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Send_to_Yardi</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>13</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Clone_Term_Deal</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>14</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1309,6 +1343,18 @@
             </layoutItem>
         </relatedContentItems>
     </relatedContent>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Property__c</fields>
+        <fields>Exception_Status_Internal__c</fields>
+        <fields>Exception_Status_Custodian__c</fields>
+        <fields>Exception_Description__c</fields>
+        <fields>Exception_Code__c</fields>
+        <fields>Exception_Assigned_Date__c</fields>
+        <relatedList>Custodial_Exception__c.Deal__c</relatedList>
+        <sortField>Exception_Assigned_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Account__c</fields>
@@ -1331,6 +1377,7 @@
         <fields>NAME</fields>
         <fields>Entity_Type__c</fields>
         <fields>Deal_Contact_Type__c</fields>
+        <fields>Business_Entity__c</fields>
         <fields>Contact__c</fields>
         <fields>Account__c</fields>
         <fields>Vendor_Type__c</fields>
@@ -1574,6 +1621,19 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Status__c</fields>
+        <fields>Name__c</fields>
+        <fields>DOB__c</fields>
+        <fields>Borrower_Name__c</fields>
+        <fields>Loan_Type__c</fields>
+        <fields>Loan_Purpose__c</fields>
+        <fields>Signature_Date__c</fields>
+        <relatedList>Application__c.Deal_2__c</relatedList>
+        <sortField>Signature_Date__c</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Borrower_Documents_Reviewed__c</fields>
         <fields>Borrower_Documents_Uploaded__c</fields>
         <fields>Deal_Documents_Reviewed__c</fields>
@@ -1613,7 +1673,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

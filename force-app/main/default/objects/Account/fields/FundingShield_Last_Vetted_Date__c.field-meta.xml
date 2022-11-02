@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FundingShield_Last_Vetted_Date__c</fullName>
+    <description>Works with the FundingShield Status for title &amp; escrow vendor accounts and showing on which date they were last vetted by funding shield</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The date on which this title &amp; escrow account was last vetted by FundingShield (account&apos;s vetting may have expired since this date; look to the FundingShield Status field on whether their vetting is current)</inlineHelpText>
+    <label>FundingShield Last Vetted Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

@@ -18,7 +18,7 @@
     <filters>
         <field>Account_Name__c</field>
         <operation>notContain</operation>
-        <value>Test</value>
+        <value>Inhouse Test</value>
     </filters>
     <label>Pending Commission Type Approval</label>
 </ListView>

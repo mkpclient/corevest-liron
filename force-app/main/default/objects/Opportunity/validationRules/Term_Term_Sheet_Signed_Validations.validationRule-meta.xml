@@ -4,6 +4,7 @@
     <active>true</active>
     <description>This will require that Deposit details are entered before moving to Term Sheet Signed/Deposit Collected</description>
     <errorConditionFormula>AND(
+ NOT( ISPICKVAL( LOC_Loan_Type__c , &apos;Single Asset (1-4 Unit)&apos;) ),
  NOT ( $Profile.Name= &quot;System Administrator&quot;),
  ISCHANGED(StageName),
  ISPICKVAL(StageName, &apos;Term Sheet Signed/Deposit Collected&apos;),

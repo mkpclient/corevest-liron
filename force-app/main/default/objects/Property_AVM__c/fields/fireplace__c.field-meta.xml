@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>fireplace__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>true if home has fireplace. false otherwise.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>true if home has fireplace. false otherwise.</inlineHelpText>
+    <label>Fireplace</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

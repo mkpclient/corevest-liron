@@ -76,6 +76,11 @@ Collateralized Loan Obligation (CLO): a single security backed by a pool of debt
                 <default>false</default>
                 <label>Renovate and Rent</label>
             </value>
+            <value>
+                <fullName>Ground Up Construction</fullName>
+                <default>false</default>
+                <label>Ground Up Construction</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Credit Line</controllingFieldValue>
@@ -98,6 +103,11 @@ Collateralized Loan Obligation (CLO): a single security backed by a pool of debt
             <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
             <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
             <valueName>Renovate and Rent</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Single Asset (1-4 Unit)</controllingFieldValue>
+            <controllingFieldValue>Single Asset (5-10 Unit)</controllingFieldValue>
+            <valueName>Ground Up Construction</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Multifamily/CRE</controllingFieldValue>

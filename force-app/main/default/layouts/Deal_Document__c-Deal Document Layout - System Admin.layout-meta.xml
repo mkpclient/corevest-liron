@@ -16,6 +16,10 @@
                 <field>Deal__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Account__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Deal_RecordType__c</field>
             </layoutItems>
@@ -114,6 +118,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Deal_Loan_Number__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -215,14 +223,18 @@
                 <field>Executive_Approval_Date__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>TermSheet_sent_to_Portal__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Portal_Error_Message__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>TermSheet_sent_to_Portal__c</field>
+                <behavior>Edit</behavior>
+                <field>Borrower_Term_Sheet_Signature_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -290,6 +302,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Checklist_Item__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Legal_Review__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>

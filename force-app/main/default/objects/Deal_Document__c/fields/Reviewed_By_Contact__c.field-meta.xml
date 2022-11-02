@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reviewed_By_Contact__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This is the Contact Record that reviewed a Document</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This is the Contact Record that reviewed a Document</inlineHelpText>
+    <label>Reviewed By Contact</label>
+    <referenceTo>Contact</referenceTo>
+    <relationshipLabel>Deal Documents (Reviewed By Contact)</relationshipLabel>
+    <relationshipName>Documents_Reviewed</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

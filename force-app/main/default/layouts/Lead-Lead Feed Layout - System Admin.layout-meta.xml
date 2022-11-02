@@ -114,6 +114,10 @@
                 <behavior>Edit</behavior>
                 <field>Do_Not_Re_Assign__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CX_Portal_Round_Robin__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -221,7 +225,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

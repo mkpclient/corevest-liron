@@ -4,17 +4,12 @@
     <attachmentOption>All</attachmentOption>
     <authenticationFailureAction>Discard</authenticationFailureAction>
     <authorizationFailureAction>Discard</authorizationFailureAction>
-    <emailServicesAddresses>
-        <developerName>icApprovalHandler</developerName>
-        <isActive>true</isActive>
-        <localPart>icapprovalhandler</localPart>
-        <runAsUser>mkpartners@colonyamericanfinance.com.qa</runAsUser>
-    </emailServicesAddresses>
+    <errorRoutingAddress>integrations@cvest.com</errorRoutingAddress>
     <functionInactiveAction>Discard</functionInactiveAction>
     <functionName>icApprovalHandler</functionName>
     <isActive>true</isActive>
     <isAuthenticationRequired>false</isAuthenticationRequired>
-    <isErrorRoutingEnabled>false</isErrorRoutingEnabled>
+    <isErrorRoutingEnabled>true</isErrorRoutingEnabled>
     <isTextAttachmentsAsBinary>false</isTextAttachmentsAsBinary>
     <isTlsRequired>false</isTlsRequired>
     <overLimitAction>Discard</overLimitAction>

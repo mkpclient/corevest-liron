@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -100,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>

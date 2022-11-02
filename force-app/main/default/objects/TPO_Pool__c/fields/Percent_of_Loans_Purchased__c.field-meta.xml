@@ -3,7 +3,7 @@
     <fullName>Percent_of_Loans_Purchased__c</fullName>
     <description>The percent of Loans being bid on or purchased out of the entire pool of Loans</description>
     <externalId>false</externalId>
-    <formula>Number_of_Loans__c /  Number_of_Loans_Bid_On_Purchased__c</formula>
+    <formula>Number_of_Loans_Bid_On_Purchased__c / Number_of_Loans__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>The percent of Loans being bid on or purchased out of the entire pool of Loans</inlineHelpText>
     <label>% of Loans Purchased</label>

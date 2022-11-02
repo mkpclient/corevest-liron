@@ -19,6 +19,32 @@ public with sharing class Test_Helper {
     return eList;
   }
 
+  public static String generateRandomString(Integer len) {
+    final String chars = 'xaxPmno2IDdEwLzbtEvhv6oG1RDT6xQJX3MvF4amaDQ9TUvHgJfdbodlllPTnnuw';
+    String randStr = '';
+    while (randStr.length() < len) {
+      Integer idx = Math.mod(
+        Math.abs(Crypto.getRandomInteger()),
+        chars.length()
+      );
+      randStr += chars.substring(idx, idx + 1);
+    }
+    return randStr;
+  }
+
+  public static String generateRandomNumberString(Integer len) {
+    final String chars = '0123456789';
+    String randStr = '';
+    while (randStr.length() < len) {
+      Integer idx = Math.mod(
+        Math.abs(Crypto.getRandomInteger()),
+        chars.length()
+      );
+      randStr += chars.substring(idx, idx + 1);
+    }
+    return randStr;
+  }
+
   // public static Folder createFolder(){
   //  Folder f = new Folder(
   //      AccessType = 'Public'
@@ -28,6 +54,35 @@ public with sharing class Test_Helper {
   //  insert f;
   //  return f;
   // }
+
+  public static List<Deal_Loan_Number__c> createDealLoanNumber() {
+    List<Deal_Loan_Number__c> settings = new List<Deal_Loan_Number__c>{
+      new Deal_Loan_Number__c(Next_Loan_Number__c = '11111')
+    };
+
+    insert settings;
+    return settings;
+  }
+
+  public static void createRate() {
+    Swap_Rate__c rate = new Swap_Rate__c(
+      Name = 'Swap Rate',
+      CreatedDateTime__c = System.now(),
+      Term_Rates_Based_On__c = 'Treasury',
+      Three_Year_Swap__c = 3,
+      X3_Year_Treasury_Floor__c = 2.5,
+      Five_Year_Swap__c = 5,
+      X5_Year_Treasury_Floor__c = 4.5,
+      Seven_Year_Swap__c = 7,
+      X7_Year_Treasury_Floor__c = 6.5,
+      Ten_Year_Swap__c = 10,
+      X10_Year_Treasury_Floor__c = 9.5,
+      Thirty_Year_Swap__c = 9,
+      OneM_LIBOR__c = 5,
+      OneM_SOFR__c = 6
+    );
+    insert rate;
+  }
 
   public static void setupProduct2() {
     Product2 prod = new Product2(
@@ -132,13 +187,13 @@ public with sharing class Test_Helper {
 
   public static Contact createContact(Account a) {
     Contact c = new Contact();
-    c.FirstName = 'test';
-    c.LastName = 'test';
+    c.FirstName = generateRandomString(10);
+    c.LastName = generateRandomString(10);
     c.MailingCountry = 'United States';
     c.MailingState = 'California';
     c.AccountId = a.Id;
-    c.MobilePhone = '5555555555';
-    c.Phone = '7777777777';
+    c.MobilePhone = generateRandomNumberString(10);
+    c.Phone = generateRandomNumberString(10);
     c.Experian__c = 700;
     c.TransUnion__c = 710;
     c.Equifax__c = 700;
@@ -147,6 +202,7 @@ public with sharing class Test_Helper {
     c.Sponsor_Tier__c = 'Tier 1';
     c.Experience__c = 5;
     c.Legal_Name__c = 'Legal Name Test';
+    c.Email = 'test' + Math.ceil(Math.random() * 999999) + '@cvest.com';
     insert c;
     return c;
   }
@@ -399,6 +455,7 @@ public with sharing class Test_Helper {
         new Property__c(
           Deal__c = o.Id,
           Name = i + ' Test',
+          State__c = 'CA',
           Property_Name__c = i + ' Test',
           Property_Type__c = 'SFR',
           Number_of_Units__c = 1,
@@ -415,6 +472,19 @@ public with sharing class Test_Helper {
 
   public static Appraisal__c createAppraisal(Opportunity o, Property__c p) {
     Appraisal__c app = new Appraisal__c(Deal__c = o.Id, Property__c = p.Id);
+    insert app;
+    return app;
+  }
+
+  public static Appraisal__c createUserCreatedAppraisal(Opportunity o, Property__c p) {
+    Appraisal__c app = new Appraisal__c(
+      Deal__c = o.Id,
+      Property__c = p.Id,
+      Delivery_Method__c = 'User Created',
+      Appraisal_Fee__c = 500,
+      Order_Received_Date__c = System.now(),
+      Estimated_Completion_Date__c = System.now() + 5
+      );
     insert app;
     return app;
   }

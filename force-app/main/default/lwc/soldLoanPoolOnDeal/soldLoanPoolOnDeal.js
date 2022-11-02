@@ -3,6 +3,7 @@ import { getRecord } from "lightning/uiRecordApi";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 const fields = ["Opportunity.Name", "Opportunity.Sold_Loan_Pool__c"];
+
 export default class SoldLoanPoolOnDeal extends LightningElement {
     @api recordId;
     @track deal;

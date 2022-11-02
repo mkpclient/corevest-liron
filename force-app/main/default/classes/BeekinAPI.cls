@@ -1,4 +1,4 @@
-public class BeekinAPI {
+public without sharing class BeekinAPI {
     public static Beekin_Settings__c BeekinSettings = Beekin_Settings__c.getInstance();
     static String BASE_URL = BeekinSettings.Endpoint__c;
     static String ACCESS_TOKEN = BeekinSettings.APIKey__c;
@@ -10,7 +10,7 @@ public class BeekinAPI {
         Map<String, Object> response = new Map<String, Object>();
         
         List<Property__c> properties = [SELECT Id, Name, City__c, State__c, ZipCode__c, Status__c, Number_of_Beds__c, Number_of_Bath__c
-                                        , Square_Feet__c, Year_Built__c, Pool__c, Property_Type__c, Invalid_Address__c,Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c,
+                                        , Square_Feet__c, Year_Built__c, Pool__c, Property_Type__c, Invalid_Address__c,Monthly_Rent__c,//Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c,
 											(SELECT AVM_Address__c,Estimated_Rent__c,Estimated_Min_Rent__c,Estimated_Max_Rent__c
 											 FROM Property_AVMs__r where recordtypeid in (SELECT Id FROM RecordType WHERE sobjecttype = 'Property_AVM__c' 
                                                                                         and DeveloperName  = 'Beekin_Rental_AVM') order by CreatedDate desc Limit 1)
@@ -110,6 +110,7 @@ public class BeekinAPI {
         String rawJSON;
         AveResData Response;
 
+        AveResDataMsg ResponseDataMsg = New AveResDataMsg();
         string noofbeds = string.valueof(prop.Number_of_Beds__c);
         string noofbath = string.valueof(prop.Number_of_Bath__c);
         string sqft = string.valueof(prop.Square_Feet__c);
@@ -147,7 +148,14 @@ public class BeekinAPI {
         headers.put('Content-Type', 'application/json');
       
         String parameter = '';
-        
+      
+      	if (prop.City__c == Null || prop.State__c == Null || prop.ZipCode__c == Null || sqft == null || noofbeds == null || noofbath == null || propertytype == null)
+        {
+           		ResponseDataMsg.Message = 'Error - You have selected a Property that is missing City, State, Zip, Bed Count, Bath Count and/or Square Feet. These fields are required to run Beekin Rent Analysis' ;
+        		ResponseDataMsg.Code = '-1'; 
+        }
+        Else
+        {
         if (prop.Name != null)
         {
          String address = prop.Name + ',' + prop.City__c + ','+ prop.State__c + ' ' + prop.ZipCode__c;
@@ -173,13 +181,11 @@ public class BeekinAPI {
         {
         parameter = parameter + '&property_type=' + EncodingUtil.urlEncode(propertytype, 'UTF-8');
         }
-   		System.Debug('parameter :' +parameter);
         endpoint = BASE_URL + '/rent-estimate' + parameter;
         method = 'GET';
       
        rawJSON = callOut(method, endpoint, headers,prop.id);
-       AveResDataMsg ResponseDataMsg = New AveResDataMsg();
-
+      
         if (rawJSON.Substring(0,5) != 'Error')
         {
         Response = (AveResData)JSON.deserialize(rawJSON, AveResData.class);
@@ -192,8 +198,8 @@ public class BeekinAPI {
 		ResponseDataMsg.Message = rawJSON;
         ResponseDataMsg.Code = '-1';
        }
+       }
 		return ResponseDataMsg;
-      
      }
 ///////////////////////
     public static void populatePropertyWithFields(List<Property__c> props, List<AveResDataMsg> aveResponseMsg) 
@@ -222,17 +228,17 @@ public class BeekinAPI {
         avm.Estimated_Min_Rent__c =  aveResponse.lower;
         avm.Estimated_Rent__c =  aveResponse.estimated_rent; 
         avmList.add(avm);
-        props[i].Estimated_Max_Rent__c = aveResponse.upper ;
-        props[i].Estimated_Min_Rent__c =  aveResponse.lower;
-        props[i].Estimated_Rent__c =  aveResponse.estimated_rent; 
-        PropList.add(props[i]);
+       // props[i].Estimated_Max_Rent__c = aveResponse.upper ; //Commented updated to property fields
+       // props[i].Estimated_Min_Rent__c =  aveResponse.lower;
+       // props[i].Estimated_Rent__c =  aveResponse.estimated_rent; 
+       // PropList.add(props[i]);
         } // != Error
         } //For
 
 	if (avmList.size() > 0)
     {
         Database.Upsert(avmList,false);
-        Database.Update(PropList,false);        
+       // Database.Update(PropList,false);        
     }
         
     }
@@ -265,7 +271,7 @@ public static String callOut(String method, String endpoint, Map<String, String>
 		if (settings[0].Enable_Beekin_API_Response_Logging__c == True && settings[0].Enable_Beekin_API_Error_Response_Logging__c == False)          
         {
          request.setBody('{"call":"Beekin Call"}');
-         System.enqueueJob(new APILoggerQueueable(request, response, id, e));     
+         //System.enqueueJob(new APILoggerQueueable(request, response, id, e));     
 		}            
         return response.getBody();
       }
@@ -278,7 +284,7 @@ public static String callOut(String method, String endpoint, Map<String, String>
         {        
         request.setBody('{"call":"Beekin Call"}');
         response.setBody('{"call":"Beekin Call in Error"}');
-        System.enqueueJob(new APILoggerQueueable(request, response, id, e));
+       // System.enqueueJob(new APILoggerQueueable(request, response, id, e));
         }
 		return ErrorMessage;
     }

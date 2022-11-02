@@ -88,20 +88,36 @@
                 <field>Other_Income_2__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Probability__c</field>
+                <behavior>Edit</behavior>
+                <field>RET_Upfront_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Max_Rent__c</field>
+                <field>RET_Monthly_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <field>Insurance_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <field>Capex_Escrow__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Late_Charge__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>REO__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreclosure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Insurance_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -276,6 +292,10 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>REO__c.Property__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

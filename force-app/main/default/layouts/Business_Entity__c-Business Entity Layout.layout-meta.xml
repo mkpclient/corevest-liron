@@ -26,11 +26,27 @@
                 <behavior>Edit</behavior>
                 <field>Date_of_Cert_of_Good_Standing__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>X36mo_Experience_Verified__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Borrower_Email_Address__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OwnerId</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Borrower_Approval_Status__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Primary_Guarantor_Approval_Status__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -47,6 +63,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Business_Tax_ID_EIN__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Length_of_Time_in_Real_Estate__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -128,6 +148,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>LOMOS_Id__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>External_Record_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

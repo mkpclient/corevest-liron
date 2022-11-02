@@ -50,7 +50,8 @@ public without sharing class APILoggerQueueable implements Queueable {
         Enable_Valuation_API_Response_Logging__c,
         Enable_Clear_API_Response_Logging__c,
         Enable_CoreLogic_API_Response_Logging__c,
-        Enable_Beekin_API_Response_Logging__c
+        // Enable_Beekin_API_Response_Logging__c,
+        Enable_Clear_Capital_API_Logging__c
       FROM Settings__mdt
       WHERE DeveloperName = 'Universal_Settings'
     ];
@@ -58,14 +59,17 @@ public without sharing class APILoggerQueueable implements Queueable {
     Clarocity_API_Settings__c clarocitySettings = Clarocity_API_Settings__c.getInstance();
     Appraisal_Nation_API__c appraisalSettings = Appraisal_Nation_API__c.getInstance();
     Valuation_Services_API__c valuationSettings = Valuation_Services_API__c.getInstance();
+    Clear_Capital_API__c clearCapitalSettings = Clear_Capital_API__c.getInstance();
     String appraisalBaseEndPoint = appraisalSettings.Endpoint__c;
     String clarocityBaseEndpoint = clarocitySettings.Endpoint__c;
     String valuationBaseEndpoint = valuationSettings.Endpoint__c;
+    String clearCapitalEndpoint = clearCapitalSettings.Endpoint__c;
 
     if (Test.isRunningTest()) {
       clarocityBaseEndpoint = 'cvs';
       appraisalBaseEndPoint = 'appraisal';
       valuationBaseEndpoint = 'valuation';
+      clearCapitalEndpoint = 'clearcapital';
     }
 
     Boolean enableLogging = true;
@@ -80,41 +84,36 @@ public without sharing class APILoggerQueueable implements Queueable {
         ? settings[0].Enable_BOX_API_Response_Logging__c
         : true;
       log.Type__c = 'Box';
-    // } else if (endpoint.contains('clearcapital')) {
-    //   enableLogging = settings.size() > 0
-    //     ? settings[0].Enable_Valuation_API_Response_Logging__c
-    //     : true;
-    //   log.Type__c = 'Clear Capital';
-    // } else if (endpoint.contains(clarocityBaseEndpoint)) {
-    //   enableLogging = settings.size() > 0
-    //     ? settings[0].Enable_Valuation_API_Response_Logging__c
-    //     : true;
-    //   log.Type__c = 'Clarocity';
-    // } else if (endpoint.contains(appraisalBaseEndPoint)) {
-    //   enableLogging = settings.size() > 0
-    //     ? settings[0].Enable_Valuation_API_Response_Logging__c
-    //     : true;
-    //   log.Type__c = 'Appraisal';
-    // } else if (endpoint.contains(valuationBaseEndpoint)) {
-    //   enableLogging = settings.size() > 0
-    //     ? settings[0].Enable_Valuation_API_Response_Logging__c
-    //     : true;
-    //   log.Type__c = 'Valuation';
+      } else if (endpoint.contains('clearcapital')) {
+        enableLogging = settings.size() > 0
+          ? settings[0].Enable_Clear_Capital_API_Logging__c
+          : true;
+        log.Type__c = 'Clear Capital';
+      // } else if (endpoint.contains(clarocityBaseEndpoint)) {
+      //   enableLogging = settings.size() > 0
+      //     ? settings[0].Enable_Valuation_API_Response_Logging__c
+      //     : true;
+      //   log.Type__c = 'Clarocity';
+      // } else if (endpoint.contains(appraisalBaseEndPoint)) {
+      //   enableLogging = settings.size() > 0
+      //     ? settings[0].Enable_Valuation_API_Response_Logging__c
+      //     : true;
+      //   log.Type__c = 'Appraisal';
+      // } else if (endpoint.contains(valuationBaseEndpoint)) {
+      //   enableLogging = settings.size() > 0
+      //     ? settings[0].Enable_Valuation_API_Response_Logging__c
+      //     : true;
+      //   log.Type__c = 'Valuation';
     } else if (endpoint.contains('thomsonreuters')) {
       enableLogging = settings.size() > 0
         ? settings[0].Enable_Clear_API_Response_Logging__c
         : true;
       log.Type__c = 'Clear';
-    } else if (endpoint.contains('beekin')) {
-      enableLogging = settings.size() > 0
-        ? settings[0].Enable_Beekin_API_Response_Logging__c
-        : true;
-      log.Type__c = 'Beekin';        
-    // } else if (endpoint.contains('corelogic')) {
-    //   enableLogging = settings.size() > 0
-    //     ? settings[0].Enable_CoreLogic_API_Response_Logging__c
-    //     : true;
-    //   log.Type__c = 'CoreLogic';
+      // } else if (endpoint.contains('corelogic')) {
+      //   enableLogging = settings.size() > 0
+      //     ? settings[0].Enable_CoreLogic_API_Response_Logging__c
+      //     : true;
+      //   log.Type__c = 'CoreLogic';
     }
 
     if (enableLogging || test.isRunningTest()) {
@@ -149,6 +148,12 @@ public without sharing class APILoggerQueueable implements Queueable {
         }
       }
 
+      if (log.Type__c == 'Yardi') {
+        if (log.Response_Body__c.contains('Message messageType="Error"')) {
+          log.Callout_Failed__c = true;
+        }
+      }
+
       insert log;
 
       if (next != null && !Test.isRunningTest()) {
@@ -178,7 +183,7 @@ public without sharing class APILoggerQueueable implements Queueable {
         Map<String, Object> body = (Map<String, Object>) JSON.deserializeUntyped(
           request.getBody()
         );
-        log.Request_Body__c = JSON.serializePretty(body);
+        log.Request_Body__c = JSON.serializePretty(body).abbreviate(131072);
       } else {
         //    else if (requestContentType.contains('text/xml')) {
         //     Dom.Document domDoc = new Dom.Document(); //new Dom.Document(request.getBody());
@@ -191,7 +196,7 @@ public without sharing class APILoggerQueueable implements Queueable {
         //       log.Request_Body__c = request.getBody();
         //     }
         //   }
-        log.Request_Body__c = request.getBody();
+        log.Request_Body__c = request.getBody().abbreviate(131072);
       }
 
       log.Response_Status__c = response.getStatus();
@@ -216,7 +221,6 @@ public without sharing class APILoggerQueueable implements Queueable {
         }
 
         log.Response_Body__c = resBody;
-
       } else {
         //   else if (responseContentType.contains('text/xml')) {
         //     Dom.Document domDoc = new Dom.Document(); //new Dom.Document(request.getBody());

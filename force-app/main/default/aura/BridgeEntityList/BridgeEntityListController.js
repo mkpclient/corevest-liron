@@ -98,14 +98,15 @@
 
   delete: function (component, event, helper) {
     var table = component.find("dataTable");
-
+    var rowsChecked = [];
+    console.log('rows checked init');
     table.getChecked(function (resp) {
       rowsChecked = resp;
     });
 
     var rows = table.get("v.rows");
     var rowsToDelete = [];
-
+    
     rowsChecked.forEach(function (el) {
       rowsToDelete.push(rows[el]);
     });
@@ -114,7 +115,8 @@
 
   callclearAPiModel: function (component, event, helper) {
     var table = component.find("dataTable");
-
+    var rowsChecked = [];
+    
     table.getChecked(function (resp) {
       rowsChecked = resp;
     });

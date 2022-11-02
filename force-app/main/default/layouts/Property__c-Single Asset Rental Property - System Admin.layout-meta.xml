@@ -16,10 +16,6 @@
                 <field>Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Probability__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Reason_For_Inactive__c</field>
             </layoutItems>
@@ -89,15 +85,19 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Max_Rent__c</field>
+                <field>Late_Charge__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <field>REO__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <field>Foreclosure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Insurance_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -506,6 +506,10 @@
                 <behavior>Edit</behavior>
                 <field>Origination_Date_Valuation_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ALA__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -660,10 +664,6 @@
                 <field>Cap_Ex__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>ALA__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Active_Last_Changed__c</field>
             </layoutItems>
@@ -702,6 +702,21 @@
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Property__c.New_Appraisal</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Delete</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <relatedLists>
         <fields>NAME</fields>
@@ -751,9 +766,6 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
-        <fields>Estimated_Rent__c</fields>
-        <fields>Estimated_Max_Rent__c</fields>
-        <fields>Estimated_Min_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -775,6 +787,14 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Policy_Exception__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>REO__c.Property__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

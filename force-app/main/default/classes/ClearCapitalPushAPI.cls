@@ -86,7 +86,7 @@ global without sharing class ClearCapitalPushAPI {
     );
 
     appraisal.City__c = addressString.substringBetween('<city>', '</city>');
-    appraisal.State__c = addressString.substringBetween('<state>', '</state>');
+    appraisal.Property_State__c = addressString.substringBetween('<state>', '</state>');
     appraisal.Zip__c = addressString.substringBetween('<zip>', '</zip>');
     appraisal.County__c = propertyString.substringBetween(
       '<county>',

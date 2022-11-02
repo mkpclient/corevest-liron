@@ -229,7 +229,7 @@ public without sharing class AppraisalParser implements Queueable {
     }
     city = String.join(cityNames, ' ');
     appraisal.City__c = city;
-    appraisal.State__c = property_node.getAttribute('_State', null);
+    appraisal.Property_State__c = property_node.getAttribute('_State', null);
     appraisal.Zip__c = property_node.getAttribute('_PostalCode', null);
 
     String county = property_node.getAttribute('_County', null).toLowerCase();
@@ -889,7 +889,7 @@ public without sharing class AppraisalParser implements Queueable {
       'StateCd',
       'http://schemas.datacontract.org/2004/07/CJC.Xpi.Vendor.Models'
     );
-    appraisal.State__c = stateNode.getText();
+    appraisal.Property_State__c = stateNode.getText();
 
     DOM.XmlNode zipNode = propertyValuationNode.getChildElement(
       'ZipCode',
@@ -1167,7 +1167,7 @@ public without sharing class AppraisalParser implements Queueable {
       'Wyoming' => 'WY'
     };
 
-    appraisal.State__c = stateMap.get(appraisal.State__c);
+    appraisal.Property_State__c = stateMap.get(appraisal.Property_State__c);
 
     upsert appraisal;
   }

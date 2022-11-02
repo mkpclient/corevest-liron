@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Fees__c</fullName>
+    <description>Total All Fees</description>
+    <externalId>false</externalId>
+    <formula>Origination_Fee_Total__c + 
+Advance_Fee_Total__c + 
+BPO_Appraisal_Fee_Total__c + 
+Doc_Prep_Fee_Total__c + 
+BlackSquare_Fee_Total__c + 
+Daily_Interest_Rate_Total__c + 
+Inspection_Fee_Total__c +
+Wire_Fee_Total__c +
+Servicing_Fee_Total__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Total All Fees</inlineHelpText>
+    <label>Total Fees</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

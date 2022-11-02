@@ -11,5 +11,10 @@
     <columns>Approved_Advance_Amount__c</columns>
     <columns>Status__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Deal__c</field>
+        <operation>contains</operation>
+        <value>BRIDGETOPIA LLC</value>
+    </filters>
     <label>All</label>
 </ListView>

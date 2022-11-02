@@ -16,6 +16,7 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
   loanFees;
   loanVersion;
   showDiscountFee = false;
+  showEarlyLockField = false;
 
   connectedCallback() {
     console.log(this.recordId);
@@ -33,6 +34,7 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
     console.log("--edit query--");
 
     const fields = [
+      "Early_Lock_Deposit__c",
       "Loan_Fees_JSON__c",
       "Final_Interest_Rate__c",
       "Required_Holdback_Reserve__c",
@@ -57,7 +59,10 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       "Term__c",
       "Legal_Fee__c",
       "Discount_Fee__c",
-      "Discount_Fee_Number__c"
+      "Discount_Fee_Number__c",
+      "Deal__r.Rate_Lock_Picklist__c",
+      "Deposit_Amount__c",
+      "Lender_Credit__c"
     ];
     let queryString = `SELECT Id, ${fields.join(",")}`;
     queryString += ` FROM Loan_Version__c WHERE Id = '${versionId}'`;
@@ -74,6 +79,10 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       if(loanVersion.Discount_Fee__c) {
         this.showDiscountFee = true;
       }
+
+      if(loanVersion.Deal__r.Rate_Lock_Picklist__c == "Early Rate Locked") {
+        this.showEarlyLockField = true;
+      } 
 
       this.loanFees = loanFees;
       console.log(loanVersion);
@@ -121,6 +130,7 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
     console.log(loanVersion);
 
     let calculatedFields = {
+      Early_Lock_Deposit__c: loanVersion.Early_Lock_Deposit__c,
       Final_Interest_Rate__c: loanVersion.Final_Interest_Rate__c,
       Holdback_Reserve__c: loanVersion.Holdback_Reserve__c,
       Required_Holdback_Reserve__c: loanVersion.Required_Holdback_Reserve__c,
@@ -140,7 +150,8 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       Net_Proceeds_to_Borrower__c: loanVersion.Net_Proceeds_to_Borrower__c,
       Total_Uses__c: loanVersion.Total_Uses__c,
       Holdback_Reserve_Override__c: loanVersion.Holdback_Reserve_Override__c,
-      Interest_Rate_Type__c: loanVersion.Interest_Rate_Type__c
+      Interest_Rate_Type__c: loanVersion.Interest_Rate_Type__c,
+      Deposit_Amount__c: loanVersion.Deposit_Amount__c
     };
 
     console.log(calculatedFields);

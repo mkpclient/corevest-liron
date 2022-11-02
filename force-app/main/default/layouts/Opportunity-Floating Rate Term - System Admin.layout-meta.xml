@@ -58,10 +58,6 @@
                 <field>Referral_Source_Contact__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Sourcing_Fee_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Internal_Referral__c</field>
             </layoutItems>
@@ -88,6 +84,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>GLC_Required__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -137,7 +145,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -906,16 +914,8 @@
                 <field>Term_Sheet_Generated__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Origination_Fee_Formula__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Trigger_Field__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Broker_Fee_Formula__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -950,22 +950,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Submission_into_UW_Comments__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>MSA_HPA_Year_1__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>MSA_HPA_Year_2__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Originations_Model_Saved_via_X_Author__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Term_UW_Model_Saved_via_X_Author__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -1035,6 +1019,11 @@
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.New_Entity</actionName>
             <actionType>QuickAction</actionType>
@@ -1136,59 +1125,59 @@
             <sortOrder>20</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Task</actionName>
+            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>21</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Loan_Sizing</actionName>
+            <actionName>Opportunity.Task</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>22</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Log_a_Call</actionName>
+            <actionName>Opportunity.Loan_Sizing</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Term_Email</actionName>
+            <actionName>Opportunity.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.New_Term_Loan_Assigned_Email</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>25</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>pi__Send_Single_Pardot_Email</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>26</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Term_Kick_Off_Email</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>27</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Rate_Lock_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>28</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Send_Email</actionName>
+            <actionName>Opportunity.Term_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>29</sortOrder>
+            <sortOrder>25</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.New_Term_Loan_Assigned_Email</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>26</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>pi__Send_Single_Pardot_Email</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>27</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Event</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>30</sortOrder>
+            <sortOrder>31</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
+            <actionName>Opportunity.Rate_Lock_Email</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>29</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Send_Email</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>30</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1216,6 +1205,7 @@
         <fields>NAME</fields>
         <fields>Entity_Type__c</fields>
         <fields>Deal_Contact_Type__c</fields>
+        <fields>Business_Entity__c</fields>
         <fields>Contact__c</fields>
         <fields>Account__c</fields>
         <fields>Vendor_Type__c</fields>
@@ -1429,7 +1419,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

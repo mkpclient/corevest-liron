@@ -48,7 +48,7 @@
     </values>
     <values>
         <field>Uploader__c</field>
-        <value xsi:type="xsd:string">LM</value>
+        <value xsi:type="xsd:string">Loan Manager</value>
     </values>
     <values>
         <field>Use_Historical_Uploads__c</field>

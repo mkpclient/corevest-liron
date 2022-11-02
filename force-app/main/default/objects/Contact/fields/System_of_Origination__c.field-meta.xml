@@ -11,7 +11,6 @@
     <trackHistory>false</trackHistory>
     <type>Picklist</type>
     <valueSet>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -25,9 +24,24 @@
                 <label>CoreVest</label>
             </value>
             <value>
-                <fullName>CoreVest &amp; 5arch</fullName>
+                <fullName>CoreVest &amp; 5Arch</fullName>
                 <default>false</default>
-                <label>CoreVest &amp; 5arch</label>
+                <label>CoreVest &amp; 5Arch</label>
+            </value>
+            <value>
+                <fullName>Riverbend</fullName>
+                <default>false</default>
+                <label>Riverbend</label>
+            </value>
+            <value>
+                <fullName>CoreVest &amp; Riverbend</fullName>
+                <default>false</default>
+                <label>CoreVest &amp; Riverbend</label>
+            </value>
+            <value>
+                <fullName>CoreVest, 5Arch &amp; Riverbend</fullName>
+                <default>false</default>
+                <label>CoreVest, 5Arch &amp; Riverbend</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Report_Fee_Total__c</fullName>
+    <description>Formula field to sum all report fee fields on the property advance</description>
+    <externalId>false</externalId>
+    <formula>Property_Condition_Report_Fee__c +  PCR_Report_Fee__c +  Budget_Review_Report_Fee__c +  Zoning_Report_Fee__c +  Geotechnical_Report_Fee__c +  Seismic_Report_Fee__c +  Survey_Report_Fee__c +  Phase_1_Report_Fee__c +  Phase_2_Report_Fee__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>Sums all report fees</inlineHelpText>
+    <label>Report Fee Total</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CEMA_Requires_NY_Property</fullName>
+    <active>true</active>
+    <description>A deal must have at least 1 property with an NY address in order to mark the CEMA field as Yes (apex carries property states over to Distinct States deal field).</description>
+    <errorConditionFormula>IF(
+  AND(ISBLANK( Distinct_States__c ),  
+      ISCHANGED( CEMA__c ),
+      TEXT( CEMA__c ) = &quot;Yes&quot;), TRUE,
+
+AND(
+  ISCHANGED( CEMA__c ),
+  TEXT( CEMA__c ) = &quot;Yes&quot;,
+  NOT(CONTAINS( Distinct_States__c , &quot;NY&quot;))
+)
+)</errorConditionFormula>
+    <errorMessage>Deal must have a property with a New York address before marking CEMA field as Yes.</errorMessage>
+</ValidationRule>

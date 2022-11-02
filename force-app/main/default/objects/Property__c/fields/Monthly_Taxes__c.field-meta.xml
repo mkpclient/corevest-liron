@@ -2,8 +2,11 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Monthly_Taxes__c</fullName>
     <externalId>false</externalId>
-    <formula>Annual_Taxes__c /12</formula>
-    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <formula>IF(
+ ISBLANK( Verified_Tax__c ),
+ (Annual_Taxes__c /12),
+ (Verified_Tax__c / 12)
+)</formula>
     <label>Monthly Taxes</label>
     <precision>18</precision>
     <required>false</required>

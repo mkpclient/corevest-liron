@@ -60,8 +60,20 @@
                 <field>Subsequent_Sales_Price__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>Days_To_Resolve__c</field>
+                <field>Index_Rate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -104,6 +116,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>New_Asset_Interest_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Days_To_Resolve__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -246,10 +262,6 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <fields>NAME</fields>
-        <relatedList>Property_Snapshot__c.Property_Extension__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

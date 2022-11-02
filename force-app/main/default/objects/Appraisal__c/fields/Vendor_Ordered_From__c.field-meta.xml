@@ -45,6 +45,11 @@
                 <label>EBI</label>
             </value>
             <value>
+                <fullName>Individual Licensed Appraiser</fullName>
+                <default>false</default>
+                <label>Individual Licensed Appraiser</label>
+            </value>
+            <value>
                 <fullName>Martin Montserrat</fullName>
                 <default>false</default>
                 <label>Martin Montserrat</label>

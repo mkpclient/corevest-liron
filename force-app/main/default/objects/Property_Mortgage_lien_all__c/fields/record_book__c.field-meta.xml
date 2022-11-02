@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>record_book__c</fullName>
+    <description>Record book number for the recorded lien. A unique transaction in many counties may be defined in the recorder’s books by a unique: record_book, record_page, record_doc.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Record book number for the recorded lien. A unique transaction in many counties may be defined in the recorder’s books by a unique: record_book, record_page, record_doc.</inlineHelpText>
+    <label>Record Book</label>
+    <length>40</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

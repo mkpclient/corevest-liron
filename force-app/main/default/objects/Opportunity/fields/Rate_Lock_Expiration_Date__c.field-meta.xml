@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rate_Lock_Expiration_Date__c</fullName>
+    <description>Goes along with the Rate Lock Type field to display a manually inputted expiration date and is required (by validation rule) if the deal&apos;s Rate Lock Type = Early Rate Lock</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Date that the deal&apos;s Rate Lock expires on.</inlineHelpText>
+    <label>Rate Lock Expiration Date</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Date</type>
+</CustomField>

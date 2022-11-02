@@ -410,7 +410,7 @@
           >
             5 Year&nbsp;
           </span>
-          Swap Rate as of the Closing (see defined term below) Date, subject to a floor
+          <apex:outputText value="{!Opportunity.Rate_Based_On__c} " /> Rate as of the Closing (see defined term below) Date, subject to a floor
           of&nbsp;
           <apex:outputText value="{0,number,###.00}">
             <apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>% and (b)&nbsp;
@@ -429,6 +429,9 @@
           Term:
         </td>
         <td class="row-description">
+          <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '3 Year'}"
+            value="{!'Three (3) years'}"
+          />
           <apex:outputText rendered="{!Opportunity.Term_Loan_Type__c == '5 Year'}"
             value="{!'Five (5) years'}"
           />
@@ -524,10 +527,10 @@
           Closing:
         </td>
         <td class="row-description">
-          Approximately sixty (60) days from the execution of this Summary of
+          Approximately forty-five (45) days from the execution of this Summary of
           Terms (provided timely delivery of Due Diligence), on or about
           <apex:outputText value=" {0,date,MMMM d',' yyyy}">
-            <apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 60}" /></apex:outputText>. Any loan closing more than sixty (60) days after execution of
+            <apex:param value="{! DATE(todayYear, todayMonth, todayDay) + 45}" /></apex:outputText>. Any loan closing more than forty-five (45) days after execution of
           Summary of Terms may be subject to additional underwriting fees.
         </td>
       </tr>
@@ -578,7 +581,11 @@
           Reserves:
         </td>
         <td class="row-description">
-          Reserves required for taxes, insurance, capital expenditures
+          Reserves required for taxes, insurance
+          <span
+            style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'inline','none')}"
+            >, capital expenditures</span
+          >
           <span
             style="display:{!IF(Opportunity.Recourse__c != 'Recourse' && Opportunity.Cash_Management__c != 'None', 'inline','none')}"
             >, advance rent and cash collateral</span
@@ -646,6 +653,16 @@
       <tr style="page-break-inside: avoid">
         <td class="row-title">Par Prepayment Date:</td>
         <td class="row-description">
+          <span
+            style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '30 Months', 'inline','none')}"
+          >
+            30th Payment Date
+          </span>
+          <span
+            style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '33 Months', 'inline','none')}"
+          >
+            33rd Payment Date
+          </span>
           <span
             style="display:{!IF(Opportunity.YM_Prepayment_Penalty__c == '34 Months', 'inline','none')}"
           >
@@ -996,7 +1013,7 @@
         </td>
       </tr>
       <tr
-        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c = 'Recourse','page-break-inside:avoid;','display:none;')}"
+        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c = 'Recourse' && Opportunity.Term_Loan_Type__c != '30 Year','page-break-inside:avoid;','display:none;')}"
       >
         <td class="row-title">
           Reporting:
@@ -1007,7 +1024,7 @@
         </td>
       </tr>
       <tr
-        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c != 'Recourse','page-break-inside:avoid;','display:none;')}"
+        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c < 5000000 && Opportunity.Recourse__c != 'Recourse' && Opportunity.Term_Loan_Type__c != '30 Year','page-break-inside:avoid;','display:none;')}"
       >
         <td class="row-title">
           Reporting:
@@ -1019,7 +1036,7 @@
         </td>
       </tr>
       <tr
-        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 15000000,'page-break-inside:avoid;','display:none;')}"
+        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 15000000 && Opportunity.Term_Loan_Type__c != '30 Year','page-break-inside:avoid;','display:none;')}"
       >
         <td class="row-title">
           Reporting:
@@ -1031,7 +1048,7 @@
         </td>
       </tr>
       <tr
-        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 5000000 && Opportunity.Loan_Size__c < 15000000,'page-break-inside:avoid;','display:none')}"
+        style="{!IF(Opportunity.Loan_Size__c != null && Opportunity.Loan_Size__c >= 5000000 && Opportunity.Loan_Size__c < 15000000 && Opportunity.Term_Loan_Type__c != '30 Year','page-break-inside:avoid;','display:none')}"
       >
         <td class="row-title">
           Reporting:
@@ -1456,11 +1473,11 @@ If the Loan closes more than sixty (60) days after execution of this Summary of 
               <td class="definition-title">
                 Pledgor:
               </td>
-              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
                 A newly-formed, single purpose, Delaware limited liability
                 company acceptable to Lender.
               </td>
-              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'definition', 'hidden')}">
                 A newly-formed, single purpose, Delaware limited liability
                 company acceptable to Lender if the Loan is $5,000,000 or above
                 or an entity or individual acceptable to Lender following due
@@ -1704,11 +1721,13 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 absolute discretion.
               </td>
             </tr>
-            <tr style="page-break-inside: avoid">
+            <tr 
+              style="{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'page-break-inside:avoid;', 'display:none;')}"
+            >
               <td class="definition-title">
                 Reporting:
               </td>
-              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'definition', 'hidden')}">
                 Borrower shall provide to Lender (i) if the Loan is
                 non-recourse, balance sheets, statements of operations, equity
                 holders’ capital and cash flows for each calendar year as set
@@ -1721,7 +1740,7 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 other reports reasonably requested by Lender, in each case
                 certified true and correct by an officer of Borrower.
               </td>
-              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Fixed Rate Short Term Loan', 'definition', 'hidden')}">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
                 Borrower shall provide to Lender (i) if the Loan is
                 non-recourse, balance sheets, statements of operations, equity
                 holders’ capital and cash flows for each calendar year as set
@@ -1916,9 +1935,16 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                 Reserves:
               </td>
               <td class="definition">
-                Borrower shall establish and fund reserves at Closing and on an
-                ongoing basis for taxes, insurance, capital expenditures,
-                advance rent and cash collateral, as follows:
+                <span style="display:{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'inline','none')}">
+                  Borrower shall establish and fund reserves at Closing and on an
+                  ongoing basis for taxes, Insurance, capital expenditures, advance
+                  rent and cash collateral, as follows:
+                </span>
+                <span style="display:{!IF(Opportunity.Term_Loan_Type__c == '30 Year', 'inline','none')}">
+                  Borrower shall establish and fund reserves at Closing and on an
+                  ongoing basis for taxes, Insurance, advance
+                  rent and cash collateral, as follows:
+                </span>
                 <br />
                 <span style="float: right; font-weight: bold"
                   >Initials:
@@ -1970,7 +1996,7 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                       thirty (30) days before due.
                     </td>
                   </tr>
-                  <tr style="page-break-inside: avoid">
+                  <tr style="{!IF(Opportunity.Term_Loan_Type__c != '30 Year', 'page-break-inside:avoid;', 'display:none;')}">
                     <td class="sub-definition-title">
                       Capital Expenditures:
                     </td>
@@ -2037,7 +2063,7 @@ The loan can be prepaid anytime during the loan term subject to a declining prep
                     </td>
                   </tr>
                   <tr
-                    style="{!IF(Opportunity.Product_Sub_Type__c != 'Fixed Rate Short Term Loan', 'page-break-inside:avoid;', 'display:none;')}"
+                    style="{!IF(Opportunity.Product_Sub_Type__c != 'Short Term Rental', 'page-break-inside:avoid;', 'display:none;')}"
                   >
                     <td class="sub-definition-title">
                       Advance Rent:

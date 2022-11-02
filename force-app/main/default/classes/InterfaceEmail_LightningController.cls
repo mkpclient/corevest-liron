@@ -17,29 +17,44 @@ public without sharing class InterfaceEmail_LightningController {
   // public static final String emailAddress = 'deal_approval_handler@1-2ubmvsr19x7o406nnymb5zkfzbl7wsflro23z72qyy25g7hr6z.5c-8jnxuay.cs62.apex.sandbox.salesforce.com';
   // public static final String emailAddress = 'dealapprovalhandler@pyo7p2pzqqm356qd6r207z35fsfvn6429vh6lwamowp6ctfb5.j-l4sceas.na54.apex.salesforce.com';
   public static final String emailAddress = retrieveEmailServiceAddress();
-  public static final String BETH = queryEmailAddress('Beth O\'Brien')
-    .Email_Address__c;
-  public static final String RYAN = queryEmailAddress('Ryan McBride')
-    .Email_Address__c;
-  public static final String CHRIS = queryEmailAddress('Chris Hoeffel')
-    .Email_Address__c;
-  public static final String BRAD = queryEmailAddress('Brad Chmura')
-    .Email_Address__c;
+  // public static final String BETH = queryEmailAddress('Beth O\'Brien')
+  //   .Email_Address__c;
+  // public static final String RYAN = queryEmailAddress('Ryan McBride')
+  //   .Email_Address__c;
+  // public static final String CHRIS = queryEmailAddress('Chris Hoeffel')
+  //   .Email_Address__c;
   public static final String MICAELA = queryEmailAddress('Micaela Lumpkin')
     .Email_Address__c;
-  public static final String MATT = queryEmailAddress('Matthew Orrino')
+  public static final String SEAN = queryEmailAddress('Sean Robbins')
     .Email_Address__c;
+  public static final String JEFFREY = queryEmailAddress('Jeffrey Swiney')
+    .Email_Address__c;
+  public static final String EMILIAN = queryEmailAddress('Emilian Halloran')
+    .Email_Address__c;
+  // public static final String MATT = queryEmailAddress('Matthew Orrino')
+  //   .Email_Address__c;
   public static final String BRYON = queryEmailAddress('Bryon Harland')
     .Email_Address__c;
+
+  public static final String DAN_F = queryEmailAddress('Dan Federico')
+    .Email_Address__c;
+  public static final String MARC_H = queryEmailAddress('Marc Heenan')
+    .Email_Address__c;
+
   public static final String BRIDGE_LIST = queryEmailAddress(
       'Bridge Term Sheet Mailing List'
     )
     .Email_Address__c;
+
   public static final String TERM_LIST = queryEmailAddress(
       'Term Sheet Mailing List'
     )
     .Email_Address__c;
 
+  public static final List<String> SAB_LOANTYPES = new List<String>{
+    'Single Asset (1-4 Unit)',
+    'Single Asset (5-10 Unit)'
+  };
   // public static final String BRIDGE_LIST = 'caf.test@cvest.com';
   // public static final String TERM_LIST = 'caf.test@cvest.com';
 
@@ -59,7 +74,6 @@ public without sharing class InterfaceEmail_LightningController {
     return (emailServicesAddress.LocalPart +
     '@' +
     emailServicesAddress.EmailDomainName);
-
   }
 
   public static Email_Addresses__c queryEmailAddress(String name) {
@@ -121,7 +135,8 @@ public without sharing class InterfaceEmail_LightningController {
     'Name',
     'Record_Type_Name__c',
     'LOC_Program_Type__c',
-    'Product_Sub_Type__c'
+    'Product_Sub_Type__c',
+    'LOC_Loan_Type__c'
   };
 
   // public static Map<String,String> loansToTemplate = new Map<String,String>{
@@ -409,12 +424,19 @@ public without sharing class InterfaceEmail_LightningController {
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
     // replace in body w/ opp details
-    m.put('Recipients', new List<Object>{ BRAD, MICAELA, MATT });
+    List<Object> recipients = new List<Object>{ MICAELA, MARC_H, DAN_F };
+    if (
+      String.isNotBlank(o.LOC_Loan_Type__c) &&
+      SAB_LOANTYPES.contains(o.LOC_Loan_Type__c)
+    ) {
+      recipients.add(JEFFREY);
+      recipients.add(SEAN);
+      recipients.add(EMILIAN);
+    }
+    m.put('Recipients', recipients);
+
     if (null != oRecordType && oRecordType == 'Term_Loan') {
-      m.put(
-        'CC',
-        new List<Object>{ o.Owner.Email, TERM_LIST, BETH, RYAN, CHRIS }
-      );
+      m.put('CC', new List<Object>{ o.Owner.Email, TERM_LIST });
     }
     if (
       null != oRecordType &&
@@ -422,10 +444,7 @@ public without sharing class InterfaceEmail_LightningController {
       oRecordType.contains('Bridge') ||
       oRecordType.contains('LOC'))
     ) {
-      m.put(
-        'CC',
-        new List<Object>{ o.Owner.Email, BRIDGE_LIST, BETH, RYAN, CHRIS }
-      );
+      m.put('CC', new List<Object>{ o.Owner.Email, BRIDGE_LIST });
     }
     m.put('ContentVersions', cvList);
     m.put('CurrentUser', p);
@@ -538,7 +557,9 @@ public without sharing class InterfaceEmail_LightningController {
     System.debug('these are the people included in IE_LC: ');
     System.debug(addresses);
     Opportunity op = [
-      SELECT Contact__c, Id FROM Opportunity WHERE Id = :m.get('recordId')
+      SELECT Contact__c, Id
+      FROM Opportunity
+      WHERE Id = :m.get('recordId')
     ];
     sendMail(
       addresses,

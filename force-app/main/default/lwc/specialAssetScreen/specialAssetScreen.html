@@ -16,7 +16,7 @@
 
   <!-- Lightning Form in Edit Mode -->
   <lightning-card title="Special Asset" icon-name="custom:custom11">
-    <div class="slds-m-around_medium">
+    <div class="slds-m-around_medium" if:true={property.data}>
       <lightning-record-edit-form
         record-id={specialAssetId}
         object-api-name="Special_Asset__c"
@@ -46,9 +46,13 @@
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Estimated_Recovery_Date__c"
-            ></lightning-input-field>
+            <lightning-input
+              type="date"
+              label="Created Date"
+              value={createdDate}
+              variant="label-inline"
+              disabled
+            ></lightning-input>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
@@ -56,63 +60,108 @@
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
-            <template if:false={autoDate}>
+            <lightning-input-field
+              field-name="Special_Asset_Reason__c"
+              disabled
+            ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input-field
+                field-name="Resolved_Date__c"
+                value={autoDate}
+              ></lightning-input-field>
+            <!-- <template if:false={autoDate}>
               <lightning-input-field
                 field-name="Resolved_Date__c"
               ></lightning-input-field>
             </template>
             <template if:true={autoDate}>
-              <lightning-input
-                type="date"
-                label="Resolved Date"
+              <lightning-input-field
+                field-name="Resolved_Date__c"
                 value={autoDate}
-                disabled
-              ></lightning-input>
-            </template>
+              ></lightning-input-field>
+            </template> -->
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-              field-name="Litigation_Pending__c"
+              field-name="In_FCL_del__c"
+              value={inFclValue}
+              disabled
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-              field-name="Accrual_Stop_Date__c"
-            ></lightning-input-field>
-          </div>
-          <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Special_Asset_Reason__c"
+              field-name="Loan_Performing__c"
+              value={inFclValue}
+              disabled
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="Referred_for_FC_Date__c"
+              value={referredForFcDate}
+              disabled
             ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input
+              label="Foreclosure Type"
+              value={fcType}
+              variant="label-inline"
+              disabled
+            ></lightning-input>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="REO_Date__c"
-              onchange={handleChange}
+              value={convertedToReoDate}
+              disabled
             ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input
+              type="number"
+              label="Days in FC"
+              value={daysInFc}
+              variant="label-inline"
+              disabled
+            ></lightning-input>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="REO_Sell_Date__c"
-              onchange={handleChange}
+              disabled
             ></lightning-input-field>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input
+              type="number"
+              label="Days to REO Sold"
+              value={daysToReoSold}
+              step="1"
+              variant="label-inline"
+              disabled
+            ></lightning-input>
+          </div>
+          <div class="slds-col slds-size_1-of-2">
+            <lightning-input
+              type="number"
+              label="Gross Sale Proceeds"
+              value={grossSalesProc}
+              formatter="currency"
+              step="0.01"
+              variant="label-inline"
+              disabled
+            ></lightning-input>
           </div>
           <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
-              field-name="Vintage_Year__c"
+              field-name="Net_Proceeds__c"
+              value={netProceeds}
+              disabled
             ></lightning-input-field>
           </div>
-          <div class="slds-col slds-size_1-of-2">
-            <lightning-input-field
-              field-name="Realized_Loss_Severity__c"
-            ></lightning-input-field>
-          </div>
-          <div class="slds-col slds-size_1-of-2">
+          <!-- <div class="slds-col slds-size_1-of-2">
             <lightning-input-field
               field-name="Total_Broker_Commissions_Fees_Paid__c"
             ></lightning-input-field>
@@ -126,7 +175,7 @@
             <lightning-input-field
               field-name="Net_Proceeds__c"
             ></lightning-input-field>
-          </div>
+          </div> -->
           <div class="slds-col slds-size_1-of-3">
             <lightning-input-field
               field-name="Property_ALA__c"
@@ -161,12 +210,14 @@
             ></lightning-input-field>
           </div>
           <div class="slds-col slds-size_5-of-12"></div>
-          <div class="slds-col slds-size_2-of-12">
+          <div class="slds-col slds-size_1-of-12">
             <lightning-button
               class="slds-m-top_small"
               label="Cancel"
               onclick={handleReset}
             ></lightning-button>
+          </div>
+          <div class="slds-col slds-size_1-of-12">
             <lightning-button
               class="slds-m-top_small"
               type="submit"

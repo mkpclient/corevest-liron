@@ -167,7 +167,17 @@
     </nameField>
     <pluralLabel>TPO Pools</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>RECORDTYPE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Stage__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Lender__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Loan_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Original_UPB__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Total_Bid_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Number_of_Loans__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Percent_of_Loans_Purchased__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Bid_Date__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

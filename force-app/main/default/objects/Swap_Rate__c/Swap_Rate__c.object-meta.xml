@@ -149,7 +149,6 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
-    <description>Swap Rates</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -160,12 +159,12 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Swap Rates</label>
+    <label>Rates</label>
     <nameField>
         <label>Rate Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Swap Rates</pluralLabel>
+    <pluralLabel>Rates</pluralLabel>
     <searchLayouts>
         <searchResultsAdditionalFields>Five_Year_Swap__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Seven_Year_Swap__c</searchResultsAdditionalFields>

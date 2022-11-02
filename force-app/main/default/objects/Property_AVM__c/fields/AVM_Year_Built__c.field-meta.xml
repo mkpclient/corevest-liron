@@ -3,11 +3,10 @@
     <fullName>AVM_Year_Built__c</fullName>
     <externalId>false</externalId>
     <label>AVM Year Built</label>
-    <precision>4</precision>
+    <length>6</length>
     <required>false</required>
-    <scale>0</scale>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Number</type>
+    <type>Text</type>
     <unique>false</unique>
 </CustomField>

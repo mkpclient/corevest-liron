@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>total_assessed_value__c</fullName>
+    <description>The total current assessed value of both land and improvements (before exemptions, if any) as reported on the county tax/assessment roll.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>The total current assessed value of both land and improvements (before exemptions, if any) as reported on the county tax/assessment roll.</inlineHelpText>
+    <label>Total assessed value</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Currency</type>
+</CustomField>

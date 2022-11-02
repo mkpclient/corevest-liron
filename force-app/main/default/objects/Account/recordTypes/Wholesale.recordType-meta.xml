@@ -63,17 +63,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Any_changes_that_can_impact_renewal__c</picklist>
-        <values>
-            <fullName>No</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Yes</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Approval_Status__c</picklist>
         <values>
             <fullName>Approved</fullName>
@@ -713,6 +702,25 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>FundingShield_Status__c</picklist>
+        <values>
+            <fullName>Expired</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Not vetted</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vetted with expiration</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vetted with no expiration</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Industry</picklist>
         <values>
             <fullName>Agriculture</fullName>
@@ -879,10 +887,6 @@
         </values>
         <values>
             <fullName>Boris Zhuravel Sourced</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Brandon Sarhad Sourced</fullName>
             <default>false</default>
         </values>
         <values>
@@ -1564,7 +1568,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Minimum_net_worth_of_50_000__c</picklist>
+        <picklist>Minimum_two_years_in_business__c</picklist>
         <values>
             <fullName>No</fullName>
             <default>false</default>
@@ -1575,13 +1579,49 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Minimum_two_years_in_business__c</picklist>
+        <picklist>NPS_Score__c</picklist>
         <values>
-            <fullName>No</fullName>
+            <fullName>0</fullName>
             <default>false</default>
         </values>
         <values>
-            <fullName>Yes</fullName>
+            <fullName>1</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>10</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>2</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>3</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>4</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>5</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>6</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>7</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>8</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>9</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -1942,7 +1982,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>CoreVest %26 5arch</fullName>
+            <fullName>CoreVest %26 5Arch</fullName>
             <default>false</default>
         </values>
     </picklistValues>

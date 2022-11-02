@@ -10,6 +10,7 @@ private with sharing class ClearCapitalAPITests {
     ];
     insert new Account(Name = 'Clear Capital', RecordTypeId = rt.Id);
 
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);

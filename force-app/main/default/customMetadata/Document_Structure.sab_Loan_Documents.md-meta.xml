@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Loan Documents</label>
+    <label>sab Loan Documents</label>
     <protected>false</protected>
     <values>
         <field>Additional_Borrower_Checklist_Filtering__c</field>
@@ -63,6 +63,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Legal_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Loan_Status_Sort__c</field>
         <value xsi:nil="true"/>
     </values>
@@ -100,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>
@@ -144,11 +148,11 @@
     </values>
     <values>
         <field>Vendor_Access__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

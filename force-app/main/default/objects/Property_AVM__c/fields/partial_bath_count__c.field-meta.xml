@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>partial_bath_count__c</fullName>
+    <description>Partial bathroom count, if provided by the county assessor</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Partial bathroom count, if provided by the county assessor</inlineHelpText>
+    <label>Partial bath count</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

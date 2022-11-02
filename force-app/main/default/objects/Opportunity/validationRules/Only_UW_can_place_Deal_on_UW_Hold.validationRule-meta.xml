@@ -10,6 +10,8 @@ $Profile.Name &lt;&gt; &quot;Operations&quot;,
 $Profile.Name &lt;&gt; &quot;Single Asset Bridge Operations&quot;, 
 $Profile.Name &lt;&gt; &quot;System Administrator&quot;,
 $Profile.Name &lt;&gt; &quot;Loan Management&quot;,
+$Profile.Name &lt;&gt; &quot;Sales Analyst Bridge Operations Hybrid&quot;,
+$Profile.Name &lt;&gt; &quot;Sales Analyst Term Operations Hybrid&quot;,
 ISCHANGED(StageName),
 TEXT(StageName) = &quot;UW Hold&quot;)</errorConditionFormula>
     <errorMessage>Only an Operations User can place a Deal on &quot;UW Hold&quot;</errorMessage>

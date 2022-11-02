@@ -86,7 +86,10 @@
 				}) //Output the document using Data-URI
                 
                 if(!component.get("v.isSendEmail")){
-					 saveAs(out, params.fileName);
+									if(component.get("v.isProofOfFund")) {
+										helper.uploadHelper(component, event, out);
+									}
+					 				saveAs(out, params.fileName);
                 }else{
                     console.log('File Generated-->'+out);
                     helper.uploadHelper(component, event, out);

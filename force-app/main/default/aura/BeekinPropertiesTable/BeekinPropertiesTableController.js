@@ -4,6 +4,14 @@
 		component.set("v.columns", helper.getColumns());
 	},
 
+    recordUpdate: function(component, event, helper) {
+       let profile = component.get('v.CurrentUser')['Profile'].Name;
+       if (profile == "Term Operations" || profile == "System Administrator") 
+       {
+          component.set("v.ShowSyncBtn", "Yes");
+       } 
+    },  
+    
 	refresh: function(component, event, helper) {
 		helper.getProperties(component);
 	},
@@ -35,11 +43,11 @@
 		component.set('v.selectedRowsCount', 0);
 	},
 
-	/*openReport: function(component, event, helper) {
+	openReport: function(component, event, helper) {
 		let recordId = component.get('v.recordId');
 		let reportUrl = '/lightning/r/Report/00O0a000005C8byEAC/view?fv0=' + recordId;
 		window.open(reportUrl);
-	},*/
+	},
 
 	
 	toggleSelectAll: function(component, event, helper) {

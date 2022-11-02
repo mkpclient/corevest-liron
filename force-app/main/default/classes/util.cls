@@ -462,10 +462,12 @@ public without sharing class util {
     return new Map<String, Boolean>{
       'Submit_Term_Deal_to_UW_Approval' => true,
       'Submit_Bridge_Deal_to_UW_Approval' => true,
+      'Submit_SAB_Deal_to_UW_Approval' => true,
       'Term_Pricing_Review' => true,
       'Bridge_LOC_Pricing_Review' => true,
       'Custom_SAB_Pricing_Review' => true,
       'Standard_SAB_Pricing_Review' => true,
+      'Standard_SAB_Pricing_Review_Below_1_5M' => true,
       'Term_Pricing_Review_Capital_Markets' => true,
       'Bridge_LOC_Pricing_Review_Capital_Market' => true,
       'Term_Confirmation_of_Terms' => true,

@@ -6,6 +6,10 @@
     <errorConditionFormula>AND(
 ISPICKVAL(Deal_Intro_Source__c, &apos;Referral&apos;),
 ISPICKVAL(Deal_Intro_Sub_Source__c, &apos;Broker&apos;),
-Referral_Source_Contact__r.RecordType.Name &lt;&gt; &apos;Broker&apos;)</errorConditionFormula>
-    <errorMessage>If a Deal_Intro_Source__c = “Referral” and Deal_Intro_Sub_Source__c = ”Broker” is chosen, then Referral_Source_Contact__c has to be a “Broker” (Contact Record Type)</errorMessage>
+Referral_Source_Contact__r.RecordType.Name &lt;&gt; &apos;Broker&apos;,
+OR(
+ ISCHANGED(Deal_Intro_Sub_Source__c),
+ ISCHANGED(Referral_Source_Contact__c))
+)</errorConditionFormula>
+    <errorMessage>If the Deal Intro Source = “Referral” and Deal Intro Sub-Source = ”Broker”, then the Referral Source Contact has to be a “Broker” Record Type</errorMessage>
 </ValidationRule>

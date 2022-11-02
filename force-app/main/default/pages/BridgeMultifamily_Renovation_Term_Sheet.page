@@ -188,12 +188,13 @@
                     <br />
                 </span>
                 <apex:outputText value="{!'Attention: ' & Opportunity.Primary_Contact__c } " /> ("
-                <strong>Sponsor Name</strong>")
+                <strong>Sponsor Name</strong>") 
             </p>
 
             <p style="font-family: Times; font-size: 11pt; line-height: 1.3;  page-break-inside:avoid;">
-                <apex:outputText value=" ${0,number} Loan Proposal to finance the acquisition and renovation of an existing [TBD #]-unit multifamily property located {1} ">
+                <apex:outputText value=" ${0,number} Loan Proposal to finance the acquisition and renovation of an existing {1,number}-unit multifamily property located {2} ">
                     <apex:param value="{!Opportunity.Loan_Size__c}" />
+                    <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, allProperties[0].Number_of_Units__c, 0)}" />
                     <apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, 'in ' + allProperties[0].City__c + ', ' + allProperties[0].State__c, 'at ' + allProperties[0].Name + ' ' + allProperties[0].City__c + ', ' + allProperties[0].State__c)}"
                     />
                 </apex:outputText>(
@@ -209,8 +210,8 @@
             <p class="paragraph">
                 CoreVest American Finance Lender LLC or an affiliated entity (
                 <strong>"Lender"</strong>) is pleased to present this summary proposal to provide a secured loan to finance the acquisition/refinancing
-                of the Property and Eligible Project Costs (defined below) for the renovation of an existing [TBD]-unit multifamily
-                rental project (the
+                of the Property and Eligible Project Costs (defined below) for the renovation of an existing <apex:outputText value="{0,number}-unit"><apex:param value="{!IF(Opportunity.Number_of_Properties__c != null && Opportunity.Number_of_Properties__c > 1, allProperties[0].Number_of_Units__c, 0)}" />
+                </apex:outputText> multifamily rental project (the
                 <strong>"Improvements"</strong>). As further set forth below, this proposal is for discussion purposes only and is
                 neither an expressed nor implied commitment to provide any financing or to provide or purchase any loans
                 or securities in connection with the transactions contemplated hereby. </p>
@@ -228,7 +229,7 @@
                     </td>
                     <td class="row-description">
                         A bankruptcy-remote, single-purpose limited liability company (LLC) acceptable to Lender. The LLC will include
-                        <apex:outputText value="{!Opportunity.Borrower_Entity__r.Name}" /> (
+                        <apex:outputText value="{!Opportunity.Contact__r.Name}" /> (
                         <strong>"Sponsor"</strong>) or an affiliate of Sponsor approved by Lender as an equity owner and as managing
                         member or manager. Lender reserves the right to approve any other equity owners and/or managers in
                         the LLC prior to closing, and no transfers, es or assignments of direct or indirect equity interests
@@ -255,8 +256,8 @@
                         <p style="{!IF(Opportunity.Loan_Size__c >= 10000000, 'page-break-inside:avoid;', 'display:none;')}">
 
                             A bankruptcy remote, Delaware limited liability company, acceptable to Lender following due diligence, which shall be the
-                            sole member of Borrower. [REPLACE WITH "NOT REQUIRED" IF NO EQUITY PLEDGE (FOR LOANS $10MILLION
-                            AND UNDER]
+                            sole member of Borrower. <span class="mark">[REPLACE WITH "NOT REQUIRED" IF NO EQUITY PLEDGE (FOR LOANS $10MILLION
+                            AND UNDER]</span>
                         </p>
                         <p style="{!IF(Opportunity.Loan_Size__c < 10000000, 'page-break-inside:avoid;', 'display:none;')}">
                             None.
@@ -282,11 +283,11 @@
                         Property:
                     </td>
                     <td class="row-description">
-                        An existing multifamily property located at the above address that is improved with a [TBD] net square foot project comprised
-                        of [TBD]-residential units (each, a
+                        An existing multifamily property located at the above address that is improved with a <span class="mark">[TBD]</span> net square foot project comprised
+                        of <span class="mark">[TBD]</span>-residential units (each, a
                         <strong>"Residential Unit"</strong>) and collectively, together with any related improvements included in
-                        the Final Plans and Budget, the "Improvements"). The Improvements include [TBD], 1BD/1BA units, [TBD]
-                        2BD/1BA units, [TBD] 2BD/1.5BA units and [TBD] 3BD/2BA units to be renovated pursuant to Final Plans
+                        the Final Plans and Budget, the "Improvements"). The Improvements include <span class="mark">[TBD], 1BD/1BA</span> units, <span class="mark">[TBD]
+                        2BD/1BA</span> units, <span class="mark">[TBD] 2BD/1.5BA</span> units and <span class="mark">[TBD] 3BD/2BA</span> units to be renovated pursuant to Final Plans
                         (defined below), Renovation Documents (defined below) and a renovation budget, detailing by line
                         item total eligible project costs, as approved by Lender prior to the closing of the Loan (as approved
                         by Lender, the "Budget"), and otherwise in accordance with the terms and conditions to be set forth
@@ -365,9 +366,9 @@
                             The initial advance to be disbursed on the Closing Date for financing the acquisition or refinancing of the Property which
                             may include reimbursement of any project costs incurred and paid for in full by Borrower prior
                             to Loan closing to the extent such paid project costs are verified as such by Lender prior to
-                            Loan closing and have not been credited to Borrower's [Initial] Equity Contribution (the
-                            <strong>"Initial Advance"</strong>) is anticipated to be the lesser of (a) [XXX]% of the Third Party
-                            Purchase Price paid for the Property and (b)[XXX]% of the "As-Is" appraised value as determined
+                            Loan closing and have not been credited to Borrower's <span class="mark">Initial]</span> Equity Contribution (the
+                            <strong>"Initial Advance"</strong>) is anticipated to be the lesser of (a) <span class="mark">[XXX]</span>% of the Third Party
+                            Purchase Price paid for the Property and (b)<span class="mark">[XXX]</span>% of the "As-Is" appraised value as determined
                             by Lender based on the appraisal of the Property prepared by an appraiser selected by Lender
                             and in form and scope acceptable to Lender (
                             <strong>"As-Is Value"</strong>). The remaining portion of the Maximum Loan Amount for the Property (the
@@ -376,7 +377,7 @@
                             herein,
                             <strong>"Renovation Advance"</strong> means an Advance to pay for Eligible Project Costs other than Advances
                             from the Interest Allocation to pay interest on the Loan. The Renovation Loan Proceeds are estimated
-                            to be [$TBD] subject to confirmation by Lender. See
+                            to be <span class="mark">[$TBD]</span> subject to confirmation by Lender. See
                             <strong>Exhibit A</strong> - "Sources and Uses</p>
 
                     </td>
@@ -387,15 +388,15 @@
                         Borrower Equity Contribution:
                     </td>
                     <td class="row-description">
-                        <p>[USE IF NO ADDITIONAL EQUITY]An estimated $[TBD] of invested equity capital, inclusive of cash and
+                        <p><span class="mark">[USE IF NO ADDITIONAL EQUITY]</span>An estimated $<span class="mark">[TBD]</span> of invested equity capital, inclusive of cash and
                             land equity, to be evidenced at Loan closing (
                             <strong>" Equity Contribution"</strong>), subject to confirmation as determined by Lender that the Renovation
                             Loan Proceeds are not less than Eligible Project Costs.. </p>
-                        <p>[USE IF ADDITIONAL EQUITY REQUIRED] an estimated $[XXX] of invested equity capital, inclusive of
+                        <p><span class="mark">[USE IF ADDITIONAL EQUITY REQUIRED]</span> an estimated $<span class="mark">[XXX]</span> of invested equity capital, inclusive of
                             cash and land equity, to be evidenced at Loan closing (
                             <strong>"Borrower's Initial Equity Contribution"</strong>) at Loan Closing, subject to Lender confirmation
                             prior to Loan Closing.</p>
-                        <p>Following Loan Closing, an additional estimated $[XXX] of equity capital to be fully invested by
+                        <p>Following Loan Closing, an additional estimated $<span class="mark">[XXX]</span> of equity capital to be fully invested by
                             Borrower towards Eligible Project Costs prior to and as a condition to the disbursement of any
                             Renovation Advance under the Loan (
                             <strong>"Borrower's Additional Equity Contribution"</strong>), subject to confirmation as determined
@@ -406,7 +407,7 @@
                             Contribution. Evidence that Borrower's Additional Equity Contribution ha been fully invested
                             shall be by way of submitting to Lender a Draw Package. The outside date for Borrower to fully
                             invest Borrower's Additional Equity Contribution to be determined by Lender during the due diligence
-                            period and prior to Loan Closing. [END ADDITIONAL EQUITY REQUIRED INSERT]</p>
+                            period and prior to Loan Closing. <span class="mark">[END ADDITIONAL EQUITY REQUIRED INSERT]</span></p>
 
                     </td>
                 </tr>
@@ -416,7 +417,7 @@
                         Initial Loan Term:
                     </td>
                     <td class="row-description">
-                        24 months (
+                       <span class="mark">24</span> months (
                         <strong>"Initial Stated Maturity Date"</strong>)
                     </td>
                 </tr>
@@ -426,7 +427,7 @@
                         Extension Options:
                     </td>
                     <td class="row-description">
-                        One, 6-month extension option(s) subject to extension requirements below.
+                        <span class="mark">One, 6-month</span> extension option(s) subject to extension requirements below.
                     </td>
                 </tr>
 
@@ -435,7 +436,7 @@
                         Interest Rate:
                     </td>
                     <td class="row-description">
-                        <p>The Loan will bear interest at a floating rate per annum equal to Term SOFR plus
+                        <p>The Loan will bear interest at a floating rate per annum equal to Term SOFR plus&nbsp;
                             <apex:outputText value="{0,number,0}%">
                                 <apex:param value="{!Opportunity.Requested_Index_Margin__c}" /></apex:outputText> (
                             <strong>"Interest Rate"</strong>), adjusted monthly and provided Term SOFR shall not be less than the
@@ -445,8 +446,8 @@
                             the actual number of days elapsed (Actual/360) and will accrue on any unpaid principal balance.
                             As used herein, the following terms shall have the meanings set forth below:</p>
                         <p>
-                            <strong>"Floor"</strong> means
-                            <apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" /> per annum.</p>
+                            <strong>"Floor"</strong> means&nbsp;
+                            <apex:outputText value=" {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> per annum.</p>
                         <p>
                             <strong>"Interest Adjustment Date</strong>" means, for the initial Interest Accrual Period, the date
                             that is two U.S. Government Securities Business Days prior to the first day of the calendar month
@@ -514,7 +515,7 @@
                         Renovation Monitoring Fee:
                     </td>
                     <td class="row-description">
-                        $[ ] per Renovation Advance to Lender as a condition to each Renovation Advance plus the cost of reports prepared by Lender's
+                        $<span class="mark">[ ]</span> per Renovation Advance to Lender as a condition to each Renovation Advance plus the cost of reports prepared by Lender's
                         Consultant and Lender's reasonable out of pocket expenses.
                     </td>
                 </tr>
@@ -528,8 +529,8 @@
                         if requested exit fee is not zero[USE IF NO PARTIAL RELEASES]
                         <apex:outputText value="{!Opportunity.Exit_Fee__c}" /> % of the Maximum Loan Amount, which shall be due and payable in full upon the earlier of (a) the
                         maturity date of the Loan, and (b) the date the Loan is repaid in full, provided that the Exit Fee
-                        will be waived if the Loan is repaid in full with a permanent term loan from Lender [IF NO EXIT FEE,
-                        REPLACE WITH None]
+                        will be waived if the Loan is repaid in full with a permanent term loan from Lender <span class="mark">[IF NO EXIT FEE,
+                        REPLACE WITH None]</span>
                     </td>
                 </tr>
 
@@ -539,7 +540,7 @@
 
                     </td>
                     <td class="row-description">
-                        0.50% of the Maximum Loan Amount
+                        <span class="mark">0.50%</span> of the Maximum Loan Amount
                     </td>
                 </tr>
 
@@ -563,18 +564,18 @@
                             e) Completion of the Renovation Work must have occurred, as determined by Lender, including issuance of a permanent certificate
                             of occupancy for each Residential Unit. </p>
                         <p>
-                            f) An As-Is LTV ratio of no greater than [X.XX]% [INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT]
+                            f) An As-Is LTV ratio of no greater than <span class="mark">[X.XX]% [INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT]</span>
                             as tested by a current appraisal; </p>
                         <p>
-                            g) Borrower shall have provided evidence satisfactory to Lender that at least [85]% of the Residential Units are occupied
+                            g) Borrower shall have provided evidence satisfactory to Lender that at least [<span class="mark">85</span>]% of the Residential Units are occupied
                             by Eligible Tenants pursuant to Eligible Leases as of the Initial Stated Maturity Date; and</p>
                         <p>
                             h) There shall have been no material adverse change in the financial condition of Guarantor that would materially and adversely
                             affect Guarantor's ability to perform its obligations under the Loan Documents, as determined
                             by Lender, and Guarantor shall have delivered to Lender a Compliance Certificate dated as of
                             the Initial Stated Maturity Date, with all supporting documentation, evidencing Guarantor is
-                            in compliance with Guarantor's minimum liquidity and net worth covenants.[IF NO EXTENSION OPTION,
-                            DELETE (a)-(h) TEXT AND REPLACE WITH N/A] </p>
+                            in compliance with Guarantor's minimum liquidity and net worth covenants.<span class="mark">[IF NO EXTENSION OPTION,
+                            DELETE (a)-(h) TEXT AND REPLACE WITH N/A]</span> </p>
 
                     </td>
                 </tr>
@@ -602,7 +603,7 @@
                         Outside Completion Date:
                     </td>
                     <td class="row-description">
-                        The Improvements must be Completed no later than the date that is [XXX] months following the closing of the Loan (
+                        The Improvements must be Completed no later than the date that is <span class="mark">[XXX]</span> months following the closing of the Loan (
                         <strong>"Outside Completion Date"</strong>).
                     </td>
                 </tr>
@@ -620,7 +621,7 @@
                     </td>
                 </tr>
 
-                <tr style="page-break-inside:avoid;">
+                <tr >
                     <td class="row-title">
                         Subsequent Advances:
                     </td>
@@ -703,7 +704,7 @@
                         Renovation Loan Proceeds designated in the Budget for the payment of interest on the Loan (the
                         <strong>"Interest Allocation"</strong>), provided, however, to the extent that there is net cash flow generated
                         by the Property, such funds shall be utilized to pay accrued but unpaid interest prior to any Advance
-                        from the Interest Allocation. The estimated amount of the Interest Allocation is $[TBD]. The Interest
+                        from the Interest Allocation. The estimated amount of the Interest Allocation is $<span class="mark">[TBD]</span>. The Interest
                         Allocation is subject to change by Lender during underwriting, in its sole and absolute discretion.
                         If Lender determines, at any time during the Loan term, that the undisbursed Renovation Loan Proceeds
                         allocated to the Interest Allocation along with projected cash flow from Property operations (if
@@ -774,8 +775,8 @@
                     <td class="row-description">
                         The Residential Units shall be leased only to Eligible Tenants pursuant to Eligible Leases. As used herein,
                         <strong>"Eligible Lease"</strong> means a written Lease that (a) is executed by an Eligible Tenant and Borrower,
-                        (b) has an initial term (together with all renewal options) of not less than [one (1) year and not
-                        greater than two (2) years], (c) has a rental rate and terms consistent with rates and terms then
+                        (b) has an initial term (together with all renewal options) of not less than <span class="mark">[one (1) year and not
+                        greater than two (2) years]</span>, (c) has a rental rate and terms consistent with rates and terms then
                         prevailing in the local market where the Property is located, (d) otherwise complies with the leasing
                         requirements to be set forth in the Loan Agreement. As used herein,
                         <strong>"Eligible Tenant"</strong> means a bona fide third-party tenant of a Residential Unit who satisfies
@@ -795,9 +796,9 @@
                         <p>In addition to Completing all of the Renovation Work no later than the Outside Completion Date, Borrower
                             will agree to cause the Renovation Work to be:</p>
                         <p>
-                            (a) Not less than [___]% completed no later than [___] months following Loan closing.</p>
+                            (a) Not less than <span class="mark">[___]%</span> completed no later than <span class="mark">[___]</span> months following Loan closing.</p>
                         <p>
-                            (b) Not less than [___]% completed no later than [___] months following Loan closing.</p>
+                            (b) Not less than <span class="mark">[___]%</span> completed no later than <span class="mark">[___]</span> months following Loan closing.</p>
 
                     </td>
                 </tr>
@@ -810,10 +811,10 @@
                         <p>The following minimum leasing requirements for the Property must be achieved on or before the dates
                             set forth below:</p>
                         <p>
-                            (a) No later than [__] months following Loan closing, not less than [__]% of the Residential Units must be occupied by Eligible
+                            (a) No later than <span class="mark">[__]</span> months following Loan closing, not less than <span class="mark">[__]</span>% of the Residential Units must be occupied by Eligible
                             Tenants pursuant to Eligible Leases. </p>
                         <p>
-                            (b) No later than [__] months following Loan closing, not less than [__]% of the Residential Units must be occupied by Eligible
+                            (b) No later than <span class="mark">[__]</span> months following Loan closing, not less than <span class="mark">[__]</span>% of the Residential Units must be occupied by Eligible
                             Tenants pursuant to Eligible Leases.</p>
 
                     </td>
@@ -831,7 +832,7 @@
                         a collateral assignment of the architect and engineering agreement(s), the GMP Contract (unless not
                         required as discussed above) any renovation management agreement and any other renovation contracts
                         as determined by Lender (collectively,
-                        <strong>"Renovation Documents"</strong>) [and (e) a pledge of the 100% of the equity interests in the Borrower].
+                        <strong>"Renovation Documents"</strong>) <span class="mark">[and (e) a pledge of the 100% of the equity interests in the Borrower]</span>.
                         The owner's interest under each of the Renovation Documents must be in the name of the Borrower.
                     </td>
                 </tr>
@@ -852,7 +853,7 @@
                         of the Improvements, (ii) Borrower's obligation to keep the Loan in balance in accordance with the
                         terms of the loan agreement, including, among other things, depositing Balancing Funds with Lender,
                         (iii) the payment of property taxes, insurance premiums and interest on the Loan as and when due
-                        [DELETE (iv) IF NO ADDITIONAL EQUITY CONTRIBUTION[,
+                        <span class="mark">[DELETE (iv) IF NO ADDITIONAL EQUITY CONTRIBUTION</span>[,
                         <strong>and (iv) Borrower's obligation to invest Borrower's Additional Equity Contribution in the time and
                             manner set forth in the loan documents].</strong>
                     </td>
@@ -1095,9 +1096,9 @@
                         with the Loan.
                         <span style="{!IF(includeCOBroker = true, 'page-break-inside:avoid;', 'display:none;')}">
 
-                            [USE IF THERE IS A BROKER] It is understood
+                            <span class="mark">[USE IF THERE IS A BROKER]</span> It is understood
                             <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> is acting as the mortgage broker on this Loan and shall receive a fee from the Borrower equal
-                            to [X.XX]% of the Maximum Loan Amount at Loan closing (
+                            to <span class="mark">[X.XX]</span>% of the Maximum Loan Amount at Loan closing (
                             <Strong>"Broker Fee"</strong>), which Broker Fee has been capitalized in the Budget and is not included
                             in Lender's fees listed herein. Lender will require evidence that the Broker's Fee has been or
                             will be paid in full prior to or at Loan Closing.

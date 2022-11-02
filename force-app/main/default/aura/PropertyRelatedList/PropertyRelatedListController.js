@@ -7,7 +7,7 @@
       //if(columns[i].get('v.name')!='possibleDuplicate'){
       fields.push(columns[i].get("v.name"));
       //}
-    } 
+    }
 
     component.set("v.fieldList", fields);
     //console.log(component.get('v.fieldList'));

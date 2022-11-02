@@ -8,6 +8,7 @@
 private class TermSheetInput_LightningControllerTest {
 
     static testMethod void testTermSheet() {
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );

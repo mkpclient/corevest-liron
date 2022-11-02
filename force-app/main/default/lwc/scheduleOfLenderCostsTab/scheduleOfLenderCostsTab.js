@@ -26,9 +26,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
   deal = {};
   versionId = "";
   loanVersions = [{ label: "", value: "" }];
-
+  lenderCredit= null;
   selectedLoanVersionId = "";
-
+  showSpinner = false;
   versionFinalized = false;
   finalizedVersionId = "";
   recordTypeName = "Schedule_Of_Lender_Cost";
@@ -41,10 +41,12 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
     // to: [],
     body: ""
   };
+  earlyRateLockAmount = null;
+
 
   // dealQueried = "";
   // added a wire to make the tab aut-refresh when these fields are changed
-  @wire(getRecord, { recordId: "$recordId", fields: ["Opportunity.IO_Term__c", "Opportunity.Amortization_Term__c", "Opportunity.Discount_Fee__c", "Opportunity.Final_Loan_Amount__c", "Opportunity.Interest_Rate_Type__c"] })
+  @wire(getRecord, { recordId: "$recordId", fields: ["Opportunity.IO_Term__c","Opportunity.Rate_Lock_Picklist__c", "Opportunity.Amortization_Term__c", "Opportunity.Discount_Fee__c", "Opportunity.Final_Loan_Amount__c", "Opportunity.Interest_Rate_Type__c"] })
   wiredDeal({ error, data }) {
     if (data) {
       this.connectedCallback();
@@ -121,7 +123,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       "Term_Loan_Type__c",
       "Amortization_Term__c",
       "Discount_Fee__c",
-      "RecordTypeId"
+      "RecordTypeId",
+      "Rate_Lock_Picklist__c",
+      "Holdback_Multiplier__c"
       //   "(SELECT Id', Name, Loan_Agreement_Name__c,  Finalized__c FROM Loan_Versions__r Order By CreatedDate ASC)",
     ];
 
@@ -184,7 +188,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       let sessionData = sessionStorage.getItem(`scheduleData-${this.recordId}`);
       if (sessionData) {
         const calculatedData = JSON.parse(sessionData);
-        console.log(calculatedData);
+        console.log('RS999 scheduleofendercoststab : ' ,calculatedData);
+        this.earlyRateLockAmount = calculatedData.Early_Lock_Deposit__c;
+        this.lenderCredit = calculatedData.Lender_Credit__c;
         deal.Total_Annual_Tax__c = calculatedData.Total_Annual_Tax__c;
         deal.Total_Annual_Insurance__c =
           calculatedData.Total_Annual_Insurance__c;
@@ -215,6 +221,12 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
         deal.Holdback_Reserve_Month_Multiplier__c =
           calculatedData.Holdback_Reserve_Month_Multiplier__c;
         deal.Installment_Comment__c = calculatedData.Installment_Comment__c;
+        if(calculatedData.hasOwnProperty('Deposit_Amount__c')) {
+          deal.Deposit_Amount__c = calculatedData.Deposit_Amount__c;
+        }
+        if(calculatedData.hasOwnProperty('Final_Swap__c')) {
+          deal.Final_Swap__c = calculatedData.Final_Swap__c;
+        }        
       }
 
       if (!deal.Installment_Comment__c) {
@@ -296,7 +308,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
 
   createLoanVersion() {
     //console.log("save");
-
+    this.showSpinner = true;
     const loanVersion = this.template
       .querySelector("c-schedule-of-lender-costs-new")
       .returnLoanVersion();
@@ -310,12 +322,16 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       this.selectedLoanVersionId = results[0].Id;
       this.queryOpportunity();
       this.generateDocument();
+    })
+    .then(() => {
+      this.showSpinner = false;
     });
+
   }
 
   finalizeVersion() {
-    //console.log("finalize");
-
+    //console.log("finalize"); 
+    this.showSpinner = true;
     const loanVersion = {
       sobjectType: "Loan_Version__c",
       Id: this.selectedLoanVersionId,
@@ -326,13 +342,16 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       console.log("results");
       this.versionFinalized = true;
       this.finalizedVersionId = this.selectedLoanVersionId;
+    })
+    .then(() => {
+      this.showSpinner = false;
     });
   }
 
   unfinalizeVersion() {
     //console.log("unfinalize");
     //console.log("finalize");
-
+    this.showSpinner = true;
     const loanVersion = {
       sobjectType: "Loan_Version__c",
       Id: this.selectedLoanVersionId,
@@ -343,6 +362,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       //console.log("results");
       this.versionFinalized = false;
       this.finalizedVersionId = "";
+    })
+    .then(() => {
+      this.showSpinner = false;
     });
   }
 
@@ -389,6 +411,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
   };
 
   generateDocument = async () => {
+    this.showSpinner = true;
     const loanVersion = await this.queryLoanVersion(this.selectedLoanVersionId);
     // console.log(loanVersion);
 
@@ -398,6 +421,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       detail: loanVersion
     });
     this.dispatchEvent(generationEvent);
+    this.showSpinner = false;
   };
 
   queryUser() {

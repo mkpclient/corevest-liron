@@ -20,6 +20,10 @@
         <default>false</default>
     </values>
     <values>
+        <fullName>Issue Term Sheet%2FOrder Appraisal</fullName>
+        <default>false</default>
+    </values>
+    <values>
         <fullName>Loan Processing</fullName>
         <default>false</default>
     </values>
@@ -41,18 +45,6 @@
     </values>
     <values>
         <fullName>Sold</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Submitted to Underwriting</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Term Sheet Issued</fullName>
-        <default>false</default>
-    </values>
-    <values>
-        <fullName>Term Sheet Signed%2FDeposit Collected</fullName>
         <default>false</default>
     </values>
     <values>

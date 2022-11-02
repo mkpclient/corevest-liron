@@ -2,6 +2,7 @@
 private class BridgeICMemoControllerTest {
 
     static TestMethod void testMethod1(){
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );
@@ -25,6 +26,7 @@ private class BridgeICMemoControllerTest {
     }
     
     static TestMethod void testMethodSuccess(){
+        test_Helper.createDealLoanNumber();
         Account acc = test_Helper.createAccount();
         Contact cont = test_Helper.createContact( acc );
         Opportunity opp = test_Helper.createOpportunity( acc, cont );

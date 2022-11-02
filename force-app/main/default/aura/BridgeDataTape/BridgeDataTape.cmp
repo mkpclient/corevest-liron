@@ -116,7 +116,7 @@
                   data="Property_Type__c"
                   title="Property Type"
                   type="dropdown"
-                  source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Multifamily', 'SFR', 'Townhome']"
+                  source="['2-4 Unit', 'Commercial', 'Condo', 'Land/Lot', 'Mixed Use', 'Multifamily', 'SFR', 'Townhome']"
                 />
                 <c:hotColumn
                   data="Number_of_Units__c"
@@ -317,24 +317,29 @@
                   correctFormat="true"
                 />
                 <c:hotColumn
-                  data="Title_Company_text__c"
+                  data="Title_Company__r.Name"
                   title="Title Company"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Name__c"
+                  data="Title_Company_Contact__r.Full_Name__c"
                   title="Title Contact Name"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Phone__c"
+                  data="Title_Company_Contact__r.Phone"
                   title="Title Contact Phone"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Email_Address__c"
+                  data="Title_Company_Contact__r.Email"
                   title="Title Contact Email"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Insurance_Company_text__c"
+                  data="Insurance_Company__r.Name"
                   title="Insurance Company"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Insurance_Status__c"
@@ -343,12 +348,14 @@
                   source="['Requested', 'Revisions', 'Approved']"
                 />
                 <c:hotColumn
-                  data="Insurance_Contact_Name__c"
+                  data="Insurance_Contact__r.Full_Name__c"
                   title="Insurance Contact Name"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Insurance_Contact_Number__c"
+                  data="Insurance_Contact__r.Phone"
                   title="Insurance Contact Number"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Insurance_Effective_Date__c"
@@ -608,14 +615,14 @@
                   title="Underwriter"
                   type="dropdown"
                   width="50"
-                  source="['Brandon Jacobs', 'Henry Newell', 'Juan Arias']"
+                  source="['Brandon Jacobs', 'Henry Newell', 'Joseph Felice', 'Juan Arias']"
                 />
                 <c:hotColumn
                   data="Closer"
                   title="Closer"
                   type="dropdown"
                   width="50"
-                  source="['Amy Piana', 'David Carrillo', 'Ellie Young', 'Gina Lambis', 'Jaime Chavez', 'Jenna Taylor', 'Jessica Lievanos', 'Joseph Felice', 'Kathy Perez', 'Nate Valline', 'Paola De Sousa']"
+                  source="['Amy Piana', 'Brian Campbell', 'Cassandra Balthasar', 'Gina Lambis', 'Jenna Taylor', 'Jolene Czarnota', 'Joseph Felice', 'Kathleen Evans', 'Nate Valline', 'Paola De Sousa']"
                 />
                 <c:hotColumn
                   data="Funding_Status__c"

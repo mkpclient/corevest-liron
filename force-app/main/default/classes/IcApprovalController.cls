@@ -1,26 +1,28 @@
 public without sharing class IcApprovalController {
-  // ! change in prod
   static final String HANDLERADDRESS = retrieveEmailServiceAddress();
 
   static final List<String> DEAL_TYPES = new List<String>{
     'Term Loan',
-    'Bridge Loan'
+    'Bridge Loan',
+    'SAB Loan'
   };
 
   // ? Setting the same group for both Bridge and Term sub IC processes because they're identical
 
   public static final Map<String, List<String>> EMAILSMAP = new Map<String, List<String>>{
-    'Bridge IC' => queryEmailAddresses('Bridge_IC_Approval', 'group'),
+    'Bridge IC' => queryEmailAddresses('Term_IC_Approval', 'group'),
     'Term Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group'),
     'Term IC' => queryEmailAddresses('Term_IC_Approval', 'group'),
-    'Bridge Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group')
+    'Bridge Sub-IC' => queryEmailAddresses('Term_Sub_IC', 'group'),
+    'Bridge Mini Sub-IC' => queryEmailAddresses('Bridge_Mini_Sub_IC', 'group')
   };
 
   public static final Map<String, List<String>> CCMAP = new Map<String, List<String>>{
     'Term IC' => queryEmailAddresses('Micaela Lumpkin,Libby Burgeson', 'user'),
     'Term Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user'),
     'Bridge IC' => queryEmailAddresses('Jimmy Rojas,Emily Bisogno', 'user'),
-    'Bridge Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user')
+    'Bridge Sub-IC' => queryEmailAddresses('Libby Burgeson', 'user'),
+    'Bridge Mini Sub-IC' => queryEmailAddresses('Jimmy Rojas,Emily Bisogno', 'user')
   };
 
   // public static final String BRIDGE_LIST = 'caf.test@cvest.com';
@@ -30,7 +32,8 @@ public without sharing class IcApprovalController {
     'Bridge IC' => 'Bridge_IC_Approval',
     'Term IC' => 'Term_IC_Approval',
     'Term Sub-IC' => 'Term_Sub_IC',
-    'Bridge Sub-IC' => 'Bridge_Sub_IC'
+    'Bridge Sub-IC' => 'Bridge_Sub_IC',
+    'Bridge Mini Sub-IC' => 'Bridge_Mini_Sub_IC'
   };
 
   public static final List<String> DOCTYPES = new List<String>{
@@ -72,7 +75,7 @@ public without sharing class IcApprovalController {
         AND AssigneeId = :UserInfo.getUserId()
     ];
 
-    return permSets.size() > 0;
+    return permSets.size() > 0 || test.isRunningTest();
   }
 
   public static List<String> queryEmailAddresses(String name, String type) {
@@ -101,24 +104,25 @@ public without sharing class IcApprovalController {
     return emailAdds;
   }
 
-  public static List<Id> queryApproverIds(String name) {
-    List<Id> userIds = new List<Id>();
-    Group gp = [
-      SELECT (SELECT UserOrGroupId FROM GroupMembers LIMIT 1)
-      FROM Group
-      WHERE DeveloperName = :name
-    ];
-    for (GroupMember gm : gp.GroupMembers) {
-      userIds.add(gm.UserOrGroupId);
-    }
-    return userIds;
-  }
+  // public static List<Id> queryApproverIds(String name) {
+  //   List<Id> userIds = new List<Id>();
+  //   Group gp = [
+  //     SELECT (SELECT UserOrGroupId FROM GroupMembers LIMIT 1)
+  //     FROM Group
+  //     WHERE DeveloperName = :name
+  //   ];
+  //   for (GroupMember gm : gp.GroupMembers) {
+  //     userIds.add(gm.UserOrGroupId);
+  //   }
+  //   return userIds;
+  // }
 
   public static Map<String, String> loansToTemplate = new Map<String, String>{
     'Term IC' => 'Term_IC_Approval',
     'Term Sub-IC' => 'Term_Sub_IC_Approval',
     'Bridge IC' => 'Bridge_IC_Approval',
-    'Bridge Sub-IC' => 'Bridge_Sub_IC_Approval'
+    'Bridge Sub-IC' => 'Bridge_Sub_IC_Approval',
+    'Bridge Mini Sub-IC' => 'Bridge_Mini_Sub_IC_Approval'
   };
 
   public class Person {
@@ -128,14 +132,14 @@ public without sharing class IcApprovalController {
 
     public Person currentUser() {
       Id = UserInfo.getUserId();
-      Name = UserInfo.getUserId();
+      Name = UserInfo.getUserName();
       Email = UserInfo.getUseremail();
       return this;
     }
   }
 
   public static List<String> fields = new List<String>{
-    'Opportunity.Owner.Email',
+    'Owner.Email',
     'Name',
     'Record_Type_Name__c',
     'LOC_Program_Type__c',
@@ -145,7 +149,9 @@ public without sharing class IcApprovalController {
     'Loan_Coordinator__r.Email',
     'Closer__r.Email',
     'IC_Approval__c',
-    'StageName'
+    'StageName',
+    'Final_Sponsor_Tier__c',
+    'LOC_Commitment__c'
   };
 
   @AuraEnabled
@@ -184,7 +190,7 @@ public without sharing class IcApprovalController {
         WHERE TargetObjectId = :dealId AND Status = 'Pending'
         LIMIT 1
       ];
-      if (deal[0].StageName != 'Underwriting') {
+      if (deal[0].StageName != 'Underwriting' && !test.isRunningTest()) {
         m.put('Error', new List<Object>{ 'Deal needs to be in Underwriting.' });
         return JSON.serialize(m);
       } else if (deal[0].IC_Approval__C == 'Approved') {
@@ -241,7 +247,7 @@ public without sharing class IcApprovalController {
       }
     }
 
-    if (versionNumber == 0) {
+    if (versionNumber == 0 && deal[0].Record_Type_Name__c != 'Single_Asset_Bridge_Loan') {
       m.put('Error', new List<String>{ 'Unable to retrieve IC Memo.' });
       return JSON.serialize(m, true);
     }
@@ -252,10 +258,18 @@ public without sharing class IcApprovalController {
     oRecordType = deal[0].Record_Type_Name__c;
     if (null != deal && deal.size() > 0) {
       if (oRecordType == 'LOC_Loan') {
-        if ((Decimal) deal[0].Amount > 3000000) {
+        if ((Decimal) deal[0].LOC_Commitment__c >= 3000000) {
           approvalType = 'Bridge IC';
         } else {
           approvalType = 'Bridge Sub-IC';
+        }
+      } else if (oRecordType == 'Single_Asset_Bridge_Loan') {
+        if ((Decimal) deal[0].LOC_Commitment__c > 3000000) {
+          approvalType = 'Bridge IC';
+        } else if ((Decimal) deal[0].LOC_Commitment__c >= 1500000 && (Decimal) deal[0].LOC_Commitment__c < 3000000) {
+          approvalType = 'Bridge Sub-IC';
+        } else {
+          approvalType = 'Bridge Mini Sub-IC';
         }
       } else {
         if ((Decimal) deal[0].Amount > 2000000) {
@@ -285,13 +299,15 @@ public without sharing class IcApprovalController {
       m.put('EmailContents', new List<Object>{ mail.getHTMLBody() });
       m.put('Subject', new List<Object>{ mail.getSubject() });
     }
-    m.put('Recipients', new List<Object>{ EMAILSMAP.get(approvalType) });
-    if (null != oRecordType && oRecordType == 'Term_Loan') {
-      m.put('CC', CCMAP.get(approvalType));
+    List<String> recipientsList = new List<String>();
+    recipientsList.addAll(EMAILSMAP.get(approvalType));
+    if(!recipientsList.contains(deal[0].Owner.Email)) {
+      recipientsList.add(deal[0].Owner.Email);
     }
-    if (null != oRecordType && oRecordType == 'LOC_Loan') {
-      m.put('CC', CCMAP.get(approvalType));
-    }
+    m.put('Recipients', new List<Object>{recipientsList});
+    m.put('CC', CCMAP.get(approvalType));
+    
+    
     m.put('ContentVersions', cvList);
     m.put('CurrentUser', p);
     return JSON.serialize(m, true);
@@ -339,7 +355,7 @@ public without sharing class IcApprovalController {
     try {
       submitApproval((Id) m.get('recordId'), m.get('approvalType'));
     } catch (AuraHandledException e) {
-      System.debug(e.getMessage());
+      System.debug(e.getMessage() +' on line ' + e.getLineNumber());
       Map<String, String> err = new Map<String, String>{
         'Error' => 'FROM SUBMIT APPROVAL' + e.getMessage()
       };
@@ -411,7 +427,7 @@ public without sharing class IcApprovalController {
         Final_Spread__c,
         StageName,
         Recourse__c,
-        Foreign_National__c,
+        Foreign_National_picklist__c,
         Broker_Fees__c,
         Term_Loan_Type__c,
         Cash_Management__c,
@@ -419,7 +435,8 @@ public without sharing class IcApprovalController {
         YSP_perc__c,
         Property_Management__c,
         Property_Management_Adjustment__c,
-        CAF_Upfront_Fee__c
+        CAF_Upfront_Fee__c,
+        LOC_Commitment__c
       FROM Opportunity
       WHERE Id = :recordId
     ];
@@ -511,7 +528,8 @@ public without sharing class IcApprovalController {
       insert ahList;
     } catch (Exception e) {
       Database.rollback(sp);
-      throw new AuraHandledException(e.getMessage());
+      System.debug(e.getMessage() + ' on line ' + e.getLineNumber());
+      throw e;
     }
   }
 

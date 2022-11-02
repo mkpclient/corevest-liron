@@ -58,16 +58,6 @@
 		<name>EmailServicesFunction</name>
 	</types>
     <types>
-        <members>Pricing_Approval_Email_Templates/Pricing_Review_Request_Custom</members>
-        <members>IC_Memo_Approval_Emails/Term_Sub_IC_Approval</members>
-        <members>IC_Memo_Approval_Emails/Term_IC_Approval</members>
-        <members>IC_Memo_Approval_Emails/IC_Reversed_Email</members>
-        <members>IC_Memo_Approval_Emails/IC_Rejected_Email</members>
-        <members>IC_Memo_Approval_Emails/IC_Metrics_For_Term</members>
-        <members>IC_Memo_Approval_Emails/IC_Metrics_For_Bridge</members>
-        <members>IC_Memo_Approval_Emails/IC_Memo_Approval_From_Bridge_Deals</members>
-        <members>IC_Memo_Approval_Emails/IC_Approval_Email</members>
-        <members>IC_Memo_Approval_Emails/Bridge_Sub_IC_Approval</members>
         <members>*</members>
         <name>EmailTemplate</name>
     </types>

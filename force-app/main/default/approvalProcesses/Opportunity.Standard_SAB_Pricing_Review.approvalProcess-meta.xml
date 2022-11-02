@@ -13,10 +13,6 @@
         <allowDelegate>true</allowDelegate>
         <approvalActions>
             <action>
-                <name>Change_Approval_Status_to_Approved</name>
-                <type>FieldUpdate</type>
-            </action>
-            <action>
                 <name>Pricing_Approval_Alert_Bridge</name>
                 <type>Alert</type>
             </action>
@@ -30,7 +26,7 @@
                 <name>locpricingrequests@cvest.com</name>
                 <type>user</type>
             </approver>
-            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+            <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
         </assignedApprover>
         <label>Underwriter and Capital Markets Review</label>
         <name>Underwriter_and_Capital_Markets_Review</name>
@@ -68,6 +64,10 @@
         <action>
             <name>Current_Approval_Process_NULL</name>
             <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Pricing_Rejected_Alert_Bridge</name>
+            <type>Alert</type>
         </action>
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>

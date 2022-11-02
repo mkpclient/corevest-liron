@@ -13,9 +13,9 @@
     <columns>Days_In_Underwriting__c</columns>
     <columns>Anticipated_IC_Approval__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
-    <columns>of_Pending_Properties__c</columns>
     <columns>Loan_Coordinator__c</columns>
     <columns>Underwriter__c</columns>
+    <columns>Index__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>OPPORTUNITY.TYPE</field>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Foreign_National_Validation</fullName>
+    <active>false</active>
+    <description>This will require 3 months of debt service holdback if Non Recourse and No Cash Management</description>
+    <errorConditionFormula>AND(
+ OR(
+  OR(
+   ISCHANGED( Foreign_National_picklist__c ),
+   ISCHANGED( Cash_Management__c ) ,
+   ISCHANGED( Recourse__c ) ),
+  ISNEW() ),
+ RecordType__c = &apos;Term&apos;,
+ ISPICKVAL( Foreign_National_picklist__c , &apos;Yes&apos;) ,
+ ISPICKVAL( Cash_Management__c , &apos;None&apos;) ,
+ ISPICKVAL( Recourse__c , &apos;Non-Recourse&apos;) ,
+OR(
+ Holdback_Multiplier__c  &lt; 3,
+ ISBLANK( Holdback_Multiplier__c ) )
+)</errorConditionFormula>
+    <errorDisplayField>Holdback_Multiplier__c</errorDisplayField>
+    <errorMessage>3 months of Debt Service Holdback required for a Foreign National on a Non Recourse and no Cash Management Loan</errorMessage>
+</ValidationRule>

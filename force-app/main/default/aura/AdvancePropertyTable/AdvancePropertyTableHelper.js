@@ -29,12 +29,22 @@
         if ($A.util.isEmpty(record["Inspection_Fee_Adjustment__c"])) {
           record["Inspection_Fee_Adjustment__c"] = 0;
         }
+        if ($A.util.isEmpty(record["Servicing_Fee_Adjustment__c"])) {
+          record["Servicing_Fee_Adjustment__c"] = 0;
+        }
+        if ($A.util.isEmpty(record["Report_Fee_Adjustment__c"])) {
+          record["Report_Fee_Adjustment__c"] = 0;
+        }
+        if ($A.util.isEmpty(record["Wire_Fee_Adjustment__c"])) {
+          record["Wire_Fee_Adjustment__c"] = 0;
+        }
 
         delete record["attributes"];
 
         record["sobjectType"] = "Advance__c";
         console.log(record);
         component.set("v.record", JSON.parse(JSON.stringify(record)));
+
         if (
           !!record["Broker_Fee_Paid_By_Whom__c"] &&
           record["Broker_Fee_Paid_By_Whom__c"].toLowerCase() == "corevest"
@@ -42,7 +52,7 @@
           component.set("v.brokerFeeLabel", "Broker Fee Paid by CoreVest");
         } else if (
           !!record["Broker_Fee_Paid_By_Whom__c"] &&
-          record["Broker_Fee_Paid_By_Whom__c"].toLowerCase() == "escrow"
+          record["Broker_Fee_Paid_By_Whom__c"].toLowerCase() == "borrower"
         ) {
           component.set("v.brokerFeeLabel", "Broker Fee Paid on HUD");
         } else {
@@ -55,7 +65,7 @@
     $A.enqueueAction(action);
   },
 
-  queryPropertyAdvances: function (component) {
+  queryPropertyAdvances: function (component, helper) {
     var fieldList = [
       "Property__r.APN__c",
       "Property__r.Name",
@@ -64,6 +74,9 @@
       "Purchase_Price__c",
       "Property__r.Status__c",
       "Property__r.Special_Asset__c",
+      "Property__r.Reno_Advance_Amount_Remaining__c",
+      "Property__r.Approved_Renovation_Holdback__c",
+      "Property__r.Renovation_Advance_Amount_Used__c",
       "Appraisal_Due_Date__c",
       "Renovation_Budget__c",
       "BPO_Appraisal_Value__c",
@@ -104,7 +117,14 @@
       "Approved_Renovation_Holdback__c",
       "Approved_Advance_Amount_Max__c",
       "Property__r.Title_Review_Company__c",
-      "Advance__r.Status__c"
+      "Advance__r.Status__c",
+      "Original_Requested_Renovation_Amount__c",
+      "Approved_Amount__c",
+      "Holdback_To_Rehab_Ratio__c",
+      "Servicing_Fee__c",
+      "Report_Fee_Total__c",
+      "Wire_Fee__c",
+      "Id"
     ];
 
     var action = component.get("c.getRecordList");
@@ -125,6 +145,7 @@
         console.log(response.getReturnValue());
         if (response.getReturnValue().length > 0) {
           component.set("v.propertyAdvances", response.getReturnValue());
+          helper.calculatePropAdvTotals(component);
           component.find("refresh").set("v.disabled", false);
         } else if(response.getReturnValue().length == 0 && component.get("v.record") != null) {
           var navEvt = $A.get("e.force:navigateToSObject");
@@ -200,6 +221,9 @@
           }
           if ($A.util.isEmpty(el.Inspection_Fee_Adjustment__c)) {
             el.Inspection_Fee_Adjustment__c = 0;
+          }
+          if ($A.util.isEmpty(el.Servicing_Fee_Adjustment__c)) {
+            el.Servicing_Fee_Adjustment__c = 0;
           }
         });
         component.set("v.wires", response.getReturnValue());
@@ -282,6 +306,9 @@
       $A.util.toggleClass(component.find("spinner"), "slds-hide");
     }
   },
+  updateDeal: function (component, helper, records) {
+    
+  },
   retrievePropertyStatusPicklistValues: function (component, helper, records) {
     let action = component.get("c.getPicklistFieldValue");
     action.setParams({
@@ -342,5 +369,50 @@
   clearUpdatedPropertyStatuses: function (component) {
     component.set("v.updatedPropertyStatuses", {});
     component.set("v.isEditButtonClicked", false);
-  }
+  },
+  calculatePropAdvTotals: function (component) {
+    let propAdvs = component.get("v.updatedPropAdvances") || [];
+    if(propAdvs.length == 0) {
+      propAdvs = component.get("v.propertyAdvances");
+    }
+    let propAdvTotals = component.get("v.propAdvTotals") != null ? component.get("v.propAdvTotals") : {};
+    const totalKeys = [
+      "Original_Requested_Renovation_Amount__c",
+      "Approved_Amount__c",
+      "Holdback_To_Rehab_Ratio__c",
+      "Servicing_Fee__c"
+    ];
+    
+    
+    for(let i = 0; i < propAdvs.length; i++) {
+      const pAdv = propAdvs[i];
+      for(const [key, value] of Object.entries(pAdv)) {
+        
+        if(totalKeys.includes(key)) {
+          if(i === 0) {
+            propAdvTotals[key] = 0;
+          }
+        propAdvTotals[key] += isNaN(value) ? 0 : parseFloat(value);
+        }
+      }
+    }
+    component.set("v.updatedPropAdvances",propAdvs);
+    propAdvs = component.get("v.propertyAdvances");
+    let total = 0;
+    for(const pAdv of propAdvs) {
+      let property = pAdv.Property__r;
+      if(property.hasOwnProperty("Reno_Advance_Amount_Remaining__c") && !isNaN(property["Reno_Advance_Amount_Remaining__c"])) {
+        let renoRemaining = parseFloat(property["Reno_Advance_Amount_Remaining__c"]);
+        if(component.get("v.record.Status__c") != "Completed") {
+          let renoReserve = pAdv.hasOwnProperty("Renovation_Reserve__c") && pAdv.Renovation_Reserve__c != null ? parseFloat(pAdv.Renovation_Reserve__c) : 0;
+          total += renoRemaining - renoReserve;
+        } else {
+          total += renoRemaining;
+        }
+      }
+    }
+    propAdvTotals["totalRenoAdvanceRemaining"] = total;
+    console.log("prop adv totals", propAdvTotals);
+    component.set("v.propAdvTotals", propAdvTotals);
+  },
 });

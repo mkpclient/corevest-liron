@@ -8,11 +8,13 @@
   <aura:attribute name="status" type="String" />
   <aura:attribute name="userRole" type="String" />
   <aura:attribute name="oppId" type="Id" />
+  <aura:attribute name="dealName" type="String" />
   <aura:attribute name="modalTitle" type="String" />
   <aura:attribute name="comments" type="String" />
   <aura:attribute name="response" type="String" />
   <aura:attribute name="approvalName" type="String" />
-
+  <aura:attribute name="processDisplayName" type="String" />
+  <aura:attribute name="isIcApproval" type="Boolean" default="false" />
   <aura:attribute name="glcModalOpen" type="Boolean" />
 
   <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -33,7 +35,7 @@
         </span>
       </div>
       <div class="slds-media__body">
-        <p class="slds-text-title_caps">Approval Request</p>
+        <p class="slds-text-title_caps">Approval Request:  {!v.processDisplayName}</p>
         <!-- <p class="slds-text-body_small slds-line-height_reset">Mark Jaeckal • Unlimited Customer • 11/13/15</p>             -->
         <h1 class="slds-page-header__title slds-truncate slds-align-middle"
           >Deal Approval
@@ -51,11 +53,12 @@
           <!-- <aura:if
             isTrue="{!or(v.approvalName == 'Bridge_LOC_Pricing_Review', v.approvalName == 'Term_Pricing_Review', v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review')}"
           > -->
+          <aura:if isTrue="{!!v.isIcApproval}" >
             <lightning:button
               label="Require GLC Approval"
               onclick="{!c.toggleGLC}"
             />
-          <!-- </aura:if> -->
+          </aura:if>
           <button
             class="slds-button slds-button_neutral"
             onclick="{!c.openApproval}"
@@ -80,7 +83,24 @@
       <li
         class="slds-page-header__detail-block"
         role="listitem"
-        style="max-width: 125.203px;"
+        style="max-width: 180.203px;"
+      >
+        <p
+          class="slds-text-heading--label-normal slds-m-bottom--xx-small slds-truncate"
+          title="Deal Name"
+        >
+          Deal Name
+        </p>
+        <p class="slds-text-body--regular">
+          <span class="uiOutputText" data-aura-class="uiOutputText">
+            <ui:outputURL value="{!'/lightning/r/Opportunity/' + v.oppId + '/view'}" label="{!v.dealName}" />
+          </span>
+        </p>
+      </li>
+      <li
+        class="slds-page-header__detail-block"
+        role="listitem"
+        style="max-width: 160.203px;"
       >
         <p
           class="slds-text-heading--label-normal slds-m-bottom--xx-small slds-truncate"
@@ -88,7 +108,7 @@
         >
           Submitter
         </p>
-        <p class="slds-text-body--regular  slds-truncate">
+        <p class="slds-text-body--regular">
           <span class="uiOutputText" data-aura-class="uiOutputText">
             {!v.submitter}
           </span>
@@ -187,6 +207,23 @@
             </aura:if>
 
             <aura:if
+              isTrue="{!v.approvalName == 'Submit_SAB_Deal_to_UW_Approval'}"
+            >
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Underwriter__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Loan_Coordinator__c"
+              ></lightning:inputField>
+              <lightning:inputField
+                aura:id="fields"
+                fieldName="Closer__c"
+              ></lightning:inputField>
+            </aura:if>
+
+            <aura:if
               isTrue="{!v.approvalName == 'Submit_Term_Deal_to_UW_Approval'}"
             >
               <lightning:inputField
@@ -207,7 +244,7 @@
               ></lightning:inputField>
             </aura:if>
 
-            <aura:if
+            <!-- <aura:if
               isTrue="{!and(or(v.approvalName == 'Custom_SAB_Pricing_Review', v.approvalName == 'Standard_SAB_Pricing_Review'), v.userRole != 'Capital Markets')}"
             >
               <lightning:inputField
@@ -222,7 +259,7 @@
                 aura:id="fields"
                 fieldName="Closer__c"
               ></lightning:inputField>
-            </aura:if>
+            </aura:if> -->
           </lightning:recordEditForm>
 
           <div class="slds-form-element">

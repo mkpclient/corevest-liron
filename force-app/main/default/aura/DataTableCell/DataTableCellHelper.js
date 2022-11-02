@@ -14,7 +14,7 @@
         var fields = fieldPath.split( '.' );
         console.log('fields:::::',fields);
         var value = null;
-
+        console.log(obj);
         if ( obj.hasOwnProperty( fields[0] ) ) {
 
             value = obj[fields[0]];
@@ -39,13 +39,20 @@
                                 component.set('v.addcss','changeColorRed');
                             }
                             console.log('slds-alert_error::::',component.get('v.addcss'));
+                        } else if (fields[i] == 'isReadable') {
+                            console.log('isreadable:::value',value);
+                            component.set('v.isReadable', value);
                         }
+                    
                     } else {
                         value = null;
                         break;
                     }
                 }
 
+            }  else if (fields[i] == 'isReadable' ) {
+                console.log('isreadable:::value',value);
+                component.set('v.isReadable', value);
             }
         }else{
             //console.log(fields[0]);
@@ -60,14 +67,15 @@
         //  console.log('--bind value--');
         // console.log(value);
         var row = component.get('v.row');
+        let rowIdx = component.get("v.rowIdx");
         var fieldPath = component.get('v.column').get('v.name');
 
-        // console.log(row);
-        // console.log(fieldPath);
+        console.log(row);
+        console.log(fieldPath);
 
         var fields = fieldPath.split('.');
 
-        if( row.hasOwnProperty(fields[0]) ){
+        if(fields.length > 0 && row.hasOwnProperty(fields[0]) ){
             //row[fields[0]] = value;
 
             var obj = row[fields[0]];
@@ -80,6 +88,7 @@
                 row[fields[0]] = value;
             }
         }
+
 
         // component.set('v.row', JSON.parse(JSON.stringify(row)));
     },

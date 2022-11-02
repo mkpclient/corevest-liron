@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>SAB_Post_Closing_Docs</fullName>
+    <columns>Document_Type__c</columns>
     <columns>MasterLabel</columns>
     <columns>DeveloperName</columns>
-    <columns>Clear_To_Close_Setting__c</columns>
-    <columns>Required__c</columns>
-    <columns>Document_Type__c</columns>
+    <columns>Folder_Structure_String__c</columns>
+    <columns>Post_Close_Setting__c</columns>
+    <columns>Post_Closing_sObjectType__c</columns>
+    <columns>Post_Closing_Trigger__c</columns>
+    <columns>Post_Closing_Item_Per_County__c</columns>
+    <columns>Post_Closing_Criteria__c</columns>
+    <columns>Post_Closing_Sort__c</columns>
     <columns>RecordType__c</columns>
     <filterScope>Everything</filterScope>
     <filters>

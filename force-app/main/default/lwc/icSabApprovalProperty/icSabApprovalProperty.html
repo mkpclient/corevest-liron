@@ -1,0 +1,96 @@
+<template>
+  <button class="section" onclick={showSection}>
+    <span class="marker"> + </span>
+    &nbsp; {headerTitle}
+  </button>
+  <lightning-record-view-form
+    record-id={recordId}
+    object-api-name={recordApiName}
+  >
+    <div
+      style="display: inline-block"
+      class="slds-p-horizontal_small slds-grid slds-wrap"
+      if:true={sectionVisible}
+    >
+      <template for:each={propertyFields} for:item="field" for:index="idx">
+        <div
+          style="display: inline-block"
+          key={field.key}
+          class="slds-col slds-size_1-of-2 slds-p-around_x-small"
+        >
+          <template if:false={field.isEmpty}>
+            <template if:false={field.isParentField}>
+              <template if:false={field.isPillContainer}>
+                <span
+                  class="slds-form-element__label"
+                  if:true={field.customLabel}
+                  >{field.customLabel}</span
+                >
+                <lightning-output-field
+                  field-name={field.fieldName}
+                  variant={field.variant}
+                >
+                </lightning-output-field>
+              </template>
+            </template>
+            <template if:true={field.isParentField}>
+              <template if:false={field.isUrl}>
+                <template if:false={field.isNumber}>
+                  <lightning-input
+                    type={field.type}
+                    label={field.label}
+                    value={field.value}
+                    readonly
+                  ></lightning-input>
+                </template>
+                <template if:true={field.isNumber}>
+                  <lightning-input
+                    type={field.type}
+                    label={field.label}
+                    value={field.value}
+                    formatter={field.formatter}
+                    step={field.step}
+                    readonly
+                  ></lightning-input>
+                </template>
+              </template>
+              <template if:true={field.isUrl}>
+                <div class="slds-form-element__control">
+                  <span
+                    class="slds-form-element__label"
+                    if:true={field.fieldLabel}
+                    >{field.fieldLabel}</span
+                  >
+                  <div class="slds-form-element__static">
+                    <lightning-formatted-url
+                      value={field.value}
+                      label={field.label}
+                      target="_blank"
+                    ></lightning-formatted-url>
+                  </div>
+                </div>
+              </template>
+            </template>
+            <template if:true={field.isPillContainer}>
+              <span class="slds-form-element__label">{field.label}</span>
+              <div class="slds-pill_container">
+                <template for:each={field.value} for:item="g">
+                  <span key={g.label} class="slds-pill slds-pill_link">
+                    <a
+                      href={g.href}
+                      class="slds-pill__action"
+                      title={g.label}
+                      target="_blank"
+                    >
+                      <span class="slds-pill__label">{g.label}</span>
+                    </a>
+                  </span>
+                </template>
+              </div>
+            </template>
+          </template>
+        </div>
+      </template>
+    </div>
+  </lightning-record-view-form>
+</template>

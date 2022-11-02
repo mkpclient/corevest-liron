@@ -2,11 +2,15 @@
 private class lightningUtil_Tests {
 
     @testSetup static void setup(){
+        test_Helper.createDealLoanNumber();
         List<Account> testAccts = new List<Account>();
         for(Integer i=0;i<2;i++) {
             testAccts.add(new Account(Name = 'TestAcct'+i, BillingCountry = 'United States', BillingState='California',Phone='1122334455'));
         }
         insert testAccts; 
+
+        Contact cont = test_Helper.createContact( testAccts[0] );
+        Opportunity opp = test_Helper.createOpportunity( testAccts[0], cont );
     }
 
     static TestMethod void queryTests(){
@@ -53,20 +57,20 @@ private class lightningUtil_Tests {
     }
 
     static TestMethod void deleteTests(){
-        List<sobject> accounts = database.query('select id from account');
-        accounts.add(new Account(Name = 'Test'));
+        List<Account> accs = [SELECT Id FROM Account];
+        Contact cont = test_Helper.createContact( accs[0] );
         Test.startTest();
-        lightning_Util.deleteRecords(new List<sObject>{accounts[0]} );
+        lightning_Util.deleteRecords(new List<Contact>{cont});
         Test.stopTest();
-        List<sObject> records = database.query('select id from account');
-        system.assertEquals(records.size(), 1);
+        // List<sObject> records = database.query('select id from account');
+        // system.assertEquals(records.size(), 1);
         
         // Code Added By Trivikram : Start
         try {
-            lightning_Util.deleteRecords(new List<sObject>{accounts[0]} );
+            lightning_Util.deleteRecords(new List<sObject>{new Account(Name = 'Test')} );
         }
         catch(Exception ex) {
-        
+            
         }
         // Code Added By Trivikram : End
     }
@@ -97,12 +101,17 @@ private class lightningUtil_Tests {
         Test.stopTest();
     }
     static testmethod void getAppnameTypeTest(){
-           Account acc = test_Helper.createAccount();
-           Contact cont = test_Helper.createContact( acc );
-           Opportunity opp = test_Helper.createOpportunity( acc, cont );
+           Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
            //lightning_util.getAppName();
            lightning_util.getType(opp.id);
        
+    }
+
+    static testMethod void testCreateDealDocs() {
+        Opportunity opp = [SELECT Id FROM Opportunity LIMIT 1];
+        List<Id> oppIds = new List<Id>{opp.Id};
+
+        lightning_Util.createDealDocumentsFromFile(oppIds, 'test', 'test.txt', 'test');
     }
 
 

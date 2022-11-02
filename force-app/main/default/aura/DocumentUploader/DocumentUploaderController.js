@@ -1,4 +1,9 @@
-({
+(
+  /**
+   * * SUMMARY OF METHODS *
+   * * handleJsonConvert - uses an LWC to convert excel files into JSON. Change the key / headers here if the relevant headers were changed in Insurance Review Data Tape
+   */
+  {
   init: function (component, event, helper) {
     if ($A.util.isUndefinedOrNull(component.get("v.picklistMap"))) {
       helper.queryPicklists(component);
@@ -22,9 +27,8 @@
     var rowString = target.get("v.class");
     console.log(rowString);
     if (rowString == "bulk") {
-      var typeOptions = component.get("v.picklistMap")[
-        component.get("v.section")
-      ];
+      var typeOptions =
+        component.get("v.picklistMap")[component.get("v.section")];
 
       console.log(typeOptions);
 
@@ -47,9 +51,8 @@
       var files = component.get("v.files");
       //console.log(files[row]);
 
-      files[row].typeOptions = component.get("v.picklistMap")[
-        files[row].section
-      ];
+      files[row].typeOptions =
+        component.get("v.picklistMap")[files[row].section];
 
       //console.log(files[row].typeOptions.indexOf(files[row].documentType));
 
@@ -82,12 +85,16 @@
           savedCount++;
         }
 
+        if (file.documentType == "Insurance Review Data Tape") {
+          component.set("v.contentVersionId", file.contentVersionId);
+          helper.convertToJson(component, helper);
+        }
+
         if (file.requireValidations) {
           requireValidations = true;
           fileForValidation = file;
         }
       });
-
       console.log(files);
 
       if (requireValidations) {
@@ -113,14 +120,6 @@
         // close.fire();
         // $A.get("e.force:closeQuickAction").fire();
       } else if (files.length > 0 && savedCount == files.length) {
-        let payload = {
-          recordId: component.get("v.recordId"),
-          sobjectType: component.get("v.sobjectType"),
-          files: files,
-          message: 'All files are saved successfully.',
-          source: 'DocumentUploader'
-        };
-        component.find("POVMC").publish(payload);
         var toastEvent = $A.get("e.force:showToast");
         toastEvent.setParams({
           title: "Success!",
@@ -220,5 +219,73 @@
 
   filesChanged: function (component, event, helper) {
     console.log("files changed");
+  },
+
+  /* 
+  * @Name: handleJsonConvert
+  * @Description: once the custom event from the LWC is fired, it returns a JSON string containing data from the excel file. 
+  * It's data structure should be { <sheetName> : [{<header> : <value>}]} Each array element is the sheet's row. 
+  * Possibly necessary to trim white spaces from the keys ("column headers") due to original Formatting in excel.
+  * It is currently only designed for the Insurance Review Data Tape excel file uploaded into an Advance record. 
+  * If we need it for more objects, just move  the lines starting "let queryStringProp" all the way to the bottom 
+  * to the helper class in its own method, preferrably per document type.
+  */
+
+  handleJsonConvert: function (component, event, helper) {
+    const sheetData = JSON.parse(event.getParam("fileJson"));
+    const fileData = JSON.parse(sheetData.Sheet1).map((d) => {
+      let newReturn = {};
+      Object.keys(d).forEach((k) => {
+        let newKey = k.trim();
+        newReturn[newKey] = d[k].toString();
+      });
+      return newReturn;
+    });
+    console.log(fileData);
+    let queryStringProp =
+      "SELECT Id, Name, Asset_ID__c FROM Property__c WHERE Deal__r.Deal_Loan_Number__c = '" +
+      fileData[0]["Deal Number"] +
+      "' AND Asset_ID__c IN ('" +
+      fileData.map((d) => d["ID"].trim().replaceAll("'", "\\'")).join("','") +
+      "')";
+
+    let insuranceCompanies = [];
+
+    fileData.forEach((d) => {
+      if (!insuranceCompanies.includes(d["Insurance Company"].trim().replaceAll("'", "\\'"))) {
+        insuranceCompanies.push(d["Insurance Company"].trim().replaceAll("'", "\\'"));
+      }
+    });
+    let queryStringAcct = "SELECT Id, Name FROM Account WHERE Name ";
+    if (insuranceCompanies.length > 1) {
+      queryStringAcct += "IN ('" + insuranceCompanies.join("','") + "')";
+    } else {
+      queryStringAcct += "='" + insuranceCompanies[0] + "'";
+    }
+
+    Promise.all([
+      component.find("jsonConverter").getRecords(queryStringAcct),
+      component.find("jsonConverter").getRecords(queryStringProp)
+    ])
+      .then(([accs, props]) => {
+        let records = [];
+        props.forEach((d) => {
+          let newVals = fileData.find((fd) => fd["ID"] == d.Asset_ID__c);
+          let propRecord = {
+            Id: d.Id,
+            sobjectType: "Property__c",
+            Insurance_Effective_Date__c: newVals["Insurance Effective Date"],
+            Insurance_Expiration_Date__c: newVals["Insurance Expiration Date"],
+            Insurance_Status__c: "Approved"
+          };
+
+          if(accs.some(a => a.Name == newVals["Insurance Company"])) {
+            propRecord.Insurance_Company__c = accs.find(a => a.Name == newVals["Insurance Company"]).Id;
+          }
+          records.push(propRecord);
+        });
+        component.find("jsonConverter").saveRecords(records);
+      })
+      .catch((error) => console.error(error));
   }
 });

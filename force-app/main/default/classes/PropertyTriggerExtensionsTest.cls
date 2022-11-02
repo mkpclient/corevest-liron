@@ -2,6 +2,7 @@
 public with sharing class PropertyTriggerExtensionsTest {
   @TestSetup
   static void makeData() {
+    test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity o = Test_Helper.createBridgeDeal(a, c);

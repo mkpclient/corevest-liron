@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Address_1__c</columns>
+    <columns>Address_2__c</columns>
+    <columns>All_Cleared_To_Close_Date__c</columns>
+    <columns>All_HOA_Completed_Date__c</columns>
+    <columns>All_HOA_Ordered_Date__c</columns>
+    <columns>Allocated_Loan_Amount__c</columns>
+    <columns>All_Payoffs_Completed_Date__c</columns>
+    <columns>All_Payoffs_Ordered_Date__c</columns>
+    <columns>All_Taxes_Completed_Date__c</columns>
+    <columns>All_Taxes_Ordered_Date__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>

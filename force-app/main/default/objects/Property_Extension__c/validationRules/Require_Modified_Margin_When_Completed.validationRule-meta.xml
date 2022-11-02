@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Modified_Margin_When_Completed</fullName>
+    <active>true</active>
+    <description>only when related deal&apos;s interest rate type is floating</description>
+    <errorConditionFormula>(ISCHANGED(Status__c)  || ISNEW()) &amp;&amp; (ISPICKVAL(Status__c, &apos;Complete - Paid&apos;) || ISPICKVAL(Status__c, &apos;Complete - Bill to Loan&apos;)) &amp;&amp; TEXT(Property__r.Deal__r.Interest_Rate_Type__c) = &apos;Floating&apos; &amp;&amp; ISBLANK(Modified_Margin__c)</errorConditionFormula>
+    <errorDisplayField>Modified_Margin__c</errorDisplayField>
+    <errorMessage>Modified Margin is required when the Property Extension&apos;s status is change to Completed and the associated Deal&apos;s Interest Rate Type is Floating</errorMessage>
+</ValidationRule>

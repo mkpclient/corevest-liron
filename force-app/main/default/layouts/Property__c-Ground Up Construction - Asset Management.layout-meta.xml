@@ -36,20 +36,36 @@
                 <field>Days_Remaining__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Probability__c</field>
+                <behavior>Edit</behavior>
+                <field>RET_Upfront_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Max_Rent__c</field>
+                <field>RET_Monthly_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <field>Insurance_Escrow__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <field>Capex_Escrow__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Late_Charge__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>REO__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Foreclosure__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Insurance_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -117,6 +133,10 @@
         <editHeading>true</editHeading>
         <label>Information</label>
         <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Property_Name__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>Name</field>
@@ -234,10 +254,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Company__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Title_Company_text__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -398,6 +414,30 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Appraisal_Sync__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Funding_Probability__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Interest_Holdback_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Assignment_Fee__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Assign_Fee_to_Purchase_Ratio__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Number_of_Occupied_Units__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Occupancy_Pct__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -671,10 +711,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Special_Asset_Associate__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Remedy_Plan__c</field>
             </layoutItems>
             <layoutItems>
@@ -858,6 +894,15 @@
         </relatedContentItems>
     </relatedContent>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>Date__c</fields>
+        <fields>Interest_Reserves_Payment__c</fields>
+        <fields>Original_Interest_Reserves__c</fields>
+        <fields>New_Remaining_Interest_Reserve__c</fields>
+        <fields>Remaining_Interest_Reserve__c</fields>
+        <relatedList>Interest_Reserves__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>
         <fields>ACTIVITY.TASK</fields>
@@ -973,7 +1018,19 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Property_Snapshot__c.Property__c</relatedList>
+        <fields>Released_Collateral__c</fields>
+        <fields>UPB_at_Release__c</fields>
+        <fields>Completed_date__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Partial_Release__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Policy_Exception__c.Property__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>REO__c.Property__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

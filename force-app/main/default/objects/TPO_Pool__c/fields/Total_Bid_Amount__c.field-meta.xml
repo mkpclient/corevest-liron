@@ -4,6 +4,11 @@
     <externalId>false</externalId>
     <label>Total Bid Amount</label>
     <summarizedField>TPO_Pool_x_Deal__c.Bid_Amount__c</summarizedField>
+    <summaryFilterItems>
+        <field>TPO_Pool_x_Deal__c.Status__c</field>
+        <operation>notEqual</operation>
+        <value>No Bid</value>
+    </summaryFilterItems>
     <summaryForeignKey>TPO_Pool_x_Deal__c.TPO_Pool__c</summaryForeignKey>
     <summaryOperation>sum</summaryOperation>
     <trackHistory>false</trackHistory>

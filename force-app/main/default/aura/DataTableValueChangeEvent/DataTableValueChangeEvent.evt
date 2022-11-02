@@ -1,0 +1,6 @@
+<aura:event type="COMPONENT" description="Indicates request to change the value of a row of the data table." access="public">
+
+    <aura:attribute name="row" type="Object"/>
+    <aura:attribute name="rowIdx" type="Integer"/>
+    <aura:attribute name="fieldName" type="String" />
+</aura:event>

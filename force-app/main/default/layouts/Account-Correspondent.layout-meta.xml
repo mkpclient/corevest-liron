@@ -16,10 +16,6 @@
                 <field>Broker_Status__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Client_ID_COR__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ParentId</field>
             </layoutItems>
@@ -54,6 +50,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Promo_Code__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NPS_Score__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -155,14 +155,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Warehouse_Phone__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Approved_Line_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Do_you_sell_Loans_to_this_Company__c</field>
             </layoutItems>
         </layoutColumns>
@@ -170,14 +162,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Contact_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Relationship__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>of_Volume_Sold__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -191,10 +175,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Minimum_two_years_in_business__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Minimum_net_worth_of_50_000__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -240,10 +220,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Approved_States__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Approval_Status__c</field>
             </layoutItems>
         </layoutColumns>
@@ -255,10 +231,6 @@
         <editHeading>true</editHeading>
         <label>Correspondent Broker Annual Renewal Review</label>
         <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Review_Year__c</field>
-            </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Updated_insurance__c</field>
@@ -281,10 +253,6 @@
                 <behavior>Edit</behavior>
                 <field>Updated_licenses_approvals__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Any_changes_that_can_impact_renewal__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -306,10 +274,6 @@
                 <behavior>Edit</behavior>
                 <field>SA_Bridge_Projections__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LOC_Projections__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -323,10 +287,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>SA_Bridge_LTM_Actual__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>LOC_LTM_Actual__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

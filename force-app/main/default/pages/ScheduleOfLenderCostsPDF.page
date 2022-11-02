@@ -274,12 +274,28 @@
                         </td>
                         
                     </tr>
+                    <tr style="{! If(record.Deal__r.Rate_Lock_Picklist__c != null && record.Deal__r.Rate_Lock_Picklist__c == 'Early Rate Locked' && record.Early_Lock_Deposit__c != null && record.Early_Lock_Deposit__c > 0, '', 'display:none;')}">
+                        <th style="text-align:left">
+                            Early Rate Lock Deposit
+                        </th>
+                        <td style="text-align:right">
+                            <apex:outputText rendered="{! If(record.Early_Lock_Deposit__c != null, true, false ) }" value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Early_Lock_Deposit__c}"/>
+                            </apex:outputText>
+                            <apex:outputText rendered="{! If(record.Early_Lock_Deposit__c == null, true, false ) }" value="$0.00" />
+                            
+                        </td>
+                        <td rowspan="1">
+                        </td>
+                        <td rowspan="1">
+                        </td>
+                    </tr>
                     
                     <tr>
                         <td colspan="2">
                         </td>
                         <td>
-                            
+
                             Origination Fee
                         </td>
                         <td>
@@ -289,6 +305,21 @@
                             <apex:outputText rendered="{! If(record.Origination_Fee__c == null, true, false ) }" value="$0.00" /> 
                         </td>
                     </tr>
+
+                    <tr style="{! if(record.Discount_Fee_Number__c != null && record.Discount_Fee_Number__c != 0, '', 'display:none;')}">
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            
+                            Rate Buydown
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}">
+                                <apex:param value="{!record.Discount_Fee_Number__c}"/>
+                            </apex:outputText>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td colspan="2">
                         </td>
@@ -340,6 +371,20 @@
                         <td>
                             <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Legal_Fee__c!=null && record.Legal_Fee__c>0,true,false)}">
                                 <apex:param value="{!record.Legal_Fee__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <span style="display:{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,'','none')}">Lender Credit</span>
+                             
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,true,false)}">
+                                <apex:param value="{!record.Lender_Credit__c}"/>
                             </apex:outputText>
                             
                         </td>

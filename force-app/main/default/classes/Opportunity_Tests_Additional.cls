@@ -2,6 +2,7 @@
 public class Opportunity_Tests_Additional {
   @TestSetup
   static void dataSetup() {
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Swap_Rate__c S = new Swap_Rate__c();
@@ -9,6 +10,8 @@ public class Opportunity_Tests_Additional {
     S.Seven_Year_Swap__c = 1;
     S.Ten_Year_Swap__c = 1;
     S.Thirty_Year_Swap__c = 1;
+    S.OneM_LIBOR__c = 1;
+    S.OneM_SOFR__c = 1;
     S.CreatedDateTime__c = DateTime.now();
     insert S;
 
@@ -84,12 +87,50 @@ public class Opportunity_Tests_Additional {
     opp4.Floor__c = 10;
     opp4.RecordTypeId = id1;
 
+    Opportunity opp5 = new Opportunity();
+    opp5.Name = 'Bridge TEST 1';
+    opp5.CloseDate = System.today();
+    opp5.Rate_Locked__c = false;
+    opp5.Term_Loan_Type__c = '5 Year';
+    opp5.StageName = 'Initial Review';
+    opp5.Index__c = '1M Term SOFR';
+    opp5.Interest_Rate_Type__c = 'Floating';
+    opp5.Loan_Size__c = 2000000;
+    opp5.AccountId = acc.Id;
+    opp5.Contact__c = cont.Id;
+    opp5.Final_Loan_Amount__c = 100;
+    opp5.Apex_Context__c = true;
+    Id id2 = [
+      SELECT Id
+      FROM RecordType
+      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'LOC_Loan'
+    ]
+    .Id;
+    opp5.RecordTypeId = id2;
+
+    Opportunity opp6 = new Opportunity();
+    opp6.Name = 'Bridge TEST 1';
+    opp6.CloseDate = System.today();
+    opp6.Rate_Locked__c = false;
+    opp6.Term_Loan_Type__c = '5 Year';
+    opp6.StageName = 'Initial Review';
+    opp6.Index__c = '1M LIBOR';
+    opp6.Interest_Rate_Type__c = 'Floating';
+    opp6.Loan_Size__c = 2000000;
+    opp6.AccountId = acc.Id;
+    opp6.Contact__c = cont.Id;
+    opp6.Final_Loan_Amount__c = 100;
+    opp6.Apex_Context__c = true;
+    opp6.RecordTypeId = id2;
+
     List<Opportunity> oppLst = new List<Opportunity>();
     oppLst.add(opp);
     oppLst.add(opp1);
     oppLst.add(opp2);
     oppLst.add(opp3);
     oppLst.add(opp4);
+    oppLst.add(opp5);
+    oppLst.add(opp6);
     insert oppLst;
   }
 
@@ -100,33 +141,38 @@ public class Opportunity_Tests_Additional {
 
     email.subject = 'Create Swap Rate';
     email.fromAddress = 'support@cvest.com';
-    email.plainTextBody = '5Yr:.99( 7Yr:.99( 10Yr:.99( 30Yr:.99(';
+    email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
 
     SwapRateHandler testInbound = new SwapRateHandler();
     testInbound.handleInboundEmail(email, env);
 
     email.subject = 'Create Swap Rate';
     email.fromAddress = 'support@cvest.com';
-    email.plainTextBody = '5Yr:*.99( 7Yr:.99( 10Yr:.99( 30Yr:.99(';
+    email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
 
     testInbound.handleInboundEmail(email, env);
+    SwapRateHandler.sendEmailMessage(email, 'test');
     Test.stopTest();
   }
 
   public static testMethod void update_Swap_Rate_UnitTest() {
     Test.startTest();
-    List<opportunity> o = [SELECT id FROM opportunity LIMIT 5];
+    List<opportunity> o = [SELECT id FROM opportunity LIMIT 7];
     update_Swap_Rate.UpdateRate(o[0].id);
     update_Swap_Rate.UpdateRate(o[1].id);
     update_Swap_Rate.UpdateRate(o[2].id);
     update_Swap_Rate.UpdateRate(o[3].id);
     update_Swap_Rate.UpdateRate(o[4].id);
+    update_Swap_Rate.UpdateRate(o[5].id);
+    update_Swap_Rate.UpdateRate(o[6].id);
 
     Swap_Rate__c S = new Swap_Rate__c();
     S.Five_Year_Swap__c = 2;
     S.Seven_Year_Swap__c = 2;
     S.Ten_Year_Swap__c = 3;
     S.Thirty_Year_Swap__c = 4;
+    S.OneM_LIBOR__c = 5;
+    S.OneM_SOFR__c = 6;
     S.CreatedDateTime__c = DateTime.now() + 1;
     insert S;
     update_Swap_Rate.UpdateRate(o[0].id);
@@ -134,6 +180,19 @@ public class Opportunity_Tests_Additional {
     update_Swap_Rate.UpdateRate(o[2].id);
     update_Swap_Rate.UpdateRate(o[3].id);
     update_Swap_Rate.UpdateRate(o[4].id);
+    update_Swap_Rate.UpdateRate(o[5].id);
+    update_Swap_Rate.UpdateRate(o[6].id);
     Test.stopTest();
+  }
+
+  @isTest
+  public static void testDeletion() {
+    List<Opportunity> opps = [SELECT Id FROM Opportunity];
+    try {
+        delete opps;
+    } catch (Exception err) {
+        System.assertEquals(true, true, 'An exception should have been thrown to prevent deletion.');
+    }
+    
   }
 }

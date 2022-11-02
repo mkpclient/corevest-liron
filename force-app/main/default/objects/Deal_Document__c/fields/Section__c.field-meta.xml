@@ -44,6 +44,11 @@
                 <label>Closing Template</label>
             </value>
             <value>
+                <fullName>Committee Memo</fullName>
+                <default>false</default>
+                <label>Committee Memo</label>
+            </value>
+            <value>
                 <fullName>DS Funding Package</fullName>
                 <default>false</default>
                 <label>DS Funding Package</label>
@@ -74,9 +79,9 @@
                 <label>LDR</label>
             </value>
             <value>
-                <fullName>Model</fullName>
+                <fullName>Models</fullName>
                 <default>false</default>
-                <label>Model</label>
+                <label>Models</label>
             </value>
             <value>
                 <fullName>Pledgor</fullName>

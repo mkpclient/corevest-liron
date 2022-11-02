@@ -10,14 +10,18 @@
         console.log("this is the returnVal for ApprovalScreenHeader");
         console.log(returnVal);
         component.set("v.status", returnVal.Status);
+        component.set("v.processDisplayName", returnVal.processDisplayName);
         component.set("v.submitter", returnVal.Submitter);
         component.set("v.dateSubmitted", returnVal.DateSubmitted);
         component.set("v.oppId", returnVal.oppId);
+        component.set("v.dealName", returnVal.dealName);
         component.set("v.userRole", returnVal.Role);
 
         // let approvalType = returnVal.ApprovalName.includes('Pricing') ? 'pricingReview' : 'submitUw';
         component.set("v.approvalName", returnVal.ApprovalName);
-
+        if(returnVal.ApprovalName.split("_").some(v => v=== "IC")) {
+          component.set("v.isIcApproval", true);
+        }
         if (returnVal.Verified === "true") {
           helper.toggleHide(component, "approval-buttons");
         }
@@ -78,7 +82,9 @@
       oppId: component.get("v.oppId"),
       comments: component.get("v.comments"),
       opp: opp,
-      approvalName: component.get("v.approvalName")
+      approvalName: component.get("v.approvalName"),
+      processDisplayName: component.get("v.processDisplayName"),
+      dealName: component.get("v.dealName")
     });
 
     console.log("---params---");
@@ -88,7 +94,7 @@
       oppId: component.get("v.oppId"),
       comments: component.get("v.comments"),
       opp: opp,
-      approvalName: component.get("v.approvalName")
+      approvalName: component.get("v.approvalName"),
     });
 
     action.setCallback(this, function (response) {

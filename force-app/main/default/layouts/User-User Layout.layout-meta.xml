@@ -16,6 +16,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Originating_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>dsfs__DSProSFUsername__c</field>
             </layoutItems>
             <layoutItems>

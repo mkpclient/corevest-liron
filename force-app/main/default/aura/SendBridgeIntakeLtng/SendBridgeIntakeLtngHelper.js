@@ -87,7 +87,7 @@
       title5LoanDocuments: "",
       Name5LoanDocumentsDisplay: true,
       Loanterm: "",
-      LoantermDisplay: true,
+      LoantermDisplay: true
     });
 
     if ($A.util.isUndefinedOrNull(component.get("v.record"))) {
@@ -102,16 +102,77 @@
           $A.getCallback((response) => {
             let fullAddress = "";
             if (component.get("v.sObjectName") == "Opportunity") {
-              let record = this.compileOpportuntiyData(component, response[0]);
+              let preRecord = response[0];
+              let hasBorrowers = false;
+              // preRecord.Deal_Contacts__r = [...preRecord.Deal_Contacts__r];
+              if (
+                preRecord.Deal_Contacts__r != null &&
+                preRecord.Deal_Contacts__r.length > 0
+              ) {
+                hasBorrowers = preRecord.Deal_Contacts__r.some(
+                  (dc) => dc.Entity_Type__c == "Borrower"
+                );
+                component.set(
+                  "v.borrowerContact",
+                  preRecord.Deal_Contacts__r.filter(
+                    (dc) => dc.Entity_Type__c == "Borrower"
+                  )[0]
+                );
+                preRecord.Deal_Contacts__r = preRecord.Deal_Contacts__r.filter(
+                  (dc) => dc.Entity_Type__c == "Guarantor"
+                );
+              }
+
+              let record = this.compileOpportuntiyData(component, preRecord);
 
               console.log(record);
+              let dealEdit = component.get("v.dealEdit");
+              if(record.Deal__r.LOC_Loan_Type__c.toLowerCase().includes("single asset")) {
+                component.set("v.isSab", true);
+                const propAdv = record.Property_Advances__r.filter(pa => pa.Property__r.Status__c != "Cancelled")[0];
+                if(propAdv != null && propAdv.hasOwnProperty("Property__r")) {
+                  const propRecord = propAdv.Property__r;
+                  const addressString = `${propRecord.Name} ${propRecord.City__c}, ${propRecord.State__c} ${propRecord.ZipCode__c}`;
+                  dealEdit.propertAddress = addressString;
+                  dealEdit.initialAdvance = propRecord.Initial_Disbursement__c;
+                  dealEdit.renovationAdvance = propRecord.Approved_Renovation_Holdback__c;
+                  dealEdit.refinanceAcquisition = propRecord.Refinance_Acquisition__c;
+                  const recTypeName = propRecord.RecordType_Name__c.toLowerCase();
+                  const propTypeMap = {
+                    "bridge_no_renovation": "Non-Renovation",
+                    "bridge_renovation": "Renovation",
+                    "ground_up_construction": "Ground Up Construction"
+                  }
+                  if(propTypeMap.hasOwnProperty(recTypeName)) {
+                    dealEdit.propType = propTypeMap[recTypeName];
+                  }
+                }
+                
+                dealEdit.nonSabFieldDisplay = false;
+                dealEdit.renovationAdvanceLabel = "Maximum Aggregate Renovation Advance Amount";
+                dealEdit.outsideAdvanceDateLabel = "Outside Completion Date";
+                dealEdit.renovationPropertiesDisplay = false;
+                dealEdit.renovationFundingDisplay = false;
+                dealEdit.equityPledgeDisplay = false;
+                dealEdit.sabFieldDisplay = true;
+              } else {
+                dealEdit.nonSabFieldDisplay = true;
+                dealEdit.renovationAdvanceLabel = "Renovation Advance Amount";
+                dealEdit.outsideAdvanceDateLabel = "Outside Advance Date";
+                dealEdit.sabFieldDisplay = false;
+              }
+              dealEdit.sendEmail = record.Deal__r.Borrower_Entity__c != null;
+              component.set("v.dealEdit", dealEdit);
               component.set("v.record", record);
               if (
-                component.get("v.record.Deal__r.Borrower_Entity__c") != null
+                component.get("v.record.Deal__r.Borrower_Entity__c") != null ||
+                hasBorrowers
               ) {
                 component.set("v.hasBorrowerEntity", true);
+                dealEdit.showBorrowerEntity = true;
               } else {
                 component.set("v.hasBorrowerEntity", false);
+                dealEdit.showBorrowerEntity = false;
               }
               //Set default data
               //Autopopulate emails from Underwriter__c, Loan_Coordinator__c, Gina.Lambis@cvest.com; Paul.Basmajian@cvest.com; michael.tran@cvest.com; jessica.lievanos@cvest.com in the cc field when User clicks on the Send Email button.
@@ -299,18 +360,22 @@
                   const addressKey = `Guarantor${i + 1}Address`;
                   const nameKey = `Guarantor${i + 1}Name`;
                   const displayKey = `Guarantor${i + 1}Display`;
-                  let fullName = '';
-                  if(v.Deal_Contacts__r.Contact__r.FirstName) {
+                  let fullName = "";
+                  if(!contact) {
+                    break;
+                  }
+                  if (contact.FirstName) {
                     fullName += v.Deal_Contacts__r.Contact__r.FirstName;
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.MiddleName) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.MiddleName[0];
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.LastName) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.LastName;
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.Suffix) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.Suffix;
+                  }
+                  if (contact.MiddleName) {
+                    fullName +=
+                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  }
+                  if (contact.LastName) {
+                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  }
+                  if (contact.Suffix) {
+                    fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
                   }
                   dealEdit[addressKey] =
                     (contact.MailingAddress.street &&
@@ -477,19 +542,24 @@
                   const addressKey = `Guarantor${i + 1}Address`;
                   const nameKey = `Guarantor${i + 1}Name`;
                   const displayKey = `Guarantor${i + 1}Display`;
-                  let fullName = '';
-                  if(v.Deal_Contacts__r.Contact__r.FirstName) {
+                  let fullName = "";
+
+                  if(!contact) {
+                    break;
+                  }
+                  if (contact.FirstName) {
                     fullName += v.Deal_Contacts__r.Contact__r.FirstName;
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.MiddleName) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.MiddleName[0];
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.LastName) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.LastName;
-                  };
-                  if(v.Deal_Contacts__r.Contact__r.Suffix) {
-                    fullName += ' ' + v.Deal_Contacts__r.Contact__r.Suffix;
-                  };
+                  }
+                  if (contact.MiddleName) {
+                    fullName +=
+                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  }
+                  if (contact.LastName) {
+                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  }
+                  if (contact.Suffix) {
+                    fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
+                  }
                   dealEdit[addressKey] =
                     (contact.MailingAddress.street &&
                       contact.MailingAddress.street + ", ") +
@@ -501,7 +571,7 @@
                       contact.MailingAddress.postalCode + " ") +
                     (contact.MailingAddress.country &&
                       contact.MailingAddress.country);
-                  dealEdit[nameKey] =fullName;
+                  dealEdit[nameKey] = fullName;
                   dealEdit[displayKey] = true;
                 }
                 component.set("v.dealEdit", dealEdit);
@@ -589,7 +659,7 @@
     "Requested_Advance_Date__c",
     "Fee__c",
     "Reno_Funding_Type__c",
-    "Index_Floor__c",
+    "Floor__c",
     "Index__c",
     "Index_Margin__c",
     "Interest_Rate_Type__c",
@@ -623,13 +693,17 @@
     "Contact__r.MailingState",
     "Entity_Type__c",
     "Contact__r.MailingAddress",
-    "CreatedDate"
+    "CreatedDate",
+    "Company_Jurisdiction__c"
   ],
 
   propertyFields: [
+    "Refinance_Acquisition__c",
+    "Approved_Renovation_Holdback__c",
     "Approved_Advance_Amount__c",
     "Initial_Disbursement_Remaining__c",
     "Reno_Advance_Amount__c",
+    "Initial_Disbursement__c",
     //"Net_Funding__c",
     "Id",
     "Name",
@@ -656,7 +730,9 @@
     "State__c",
     "ZipCode__c",
     "Asset_Maturity_Date__c",
-    "Renovation_Type_formula__c"
+    "Renovation_Type_formula__c",
+    "Status__c",
+    "RecordType_Name__c"
   ],
 
   compileQuery: function (component) {
@@ -697,7 +773,8 @@
       queryString += `${field},`;
     }
     queryString = queryString.substr(0, queryString.lastIndexOf(","));
-    queryString += " FROM Deal_Contacts__r where Entity_Type__c='Guarantor' ORDER BY CreatedDate";
+    queryString +=
+      " FROM Deal_Contacts__r where Entity_Type__c IN ('Guarantor','Borrower') ORDER BY CreatedDate";
     queryString += " ) ";
 
     queryString += ` FROM Opportunity WHERE Id = '${recordId}'`;
@@ -842,7 +919,18 @@
         .then(
           $A.getCallback((response) => {
             if (component.get("v.sObjectName") == "Opportunity") {
-              let record = this.compileOpportuntiyData(component, response[0]);
+              let preRecord = response[0];
+              if (
+                preRecord.Deal_Contacts__r != null &&
+                preRecord.Deal_Contacts__r.length > 0
+              ) {
+                preRecord.Deal_Contacts__r = preRecord.Deal_Contacts__r.filter(
+                  (dc) => {
+                    dc.Entity_Type__c == "Guarantor";
+                  }
+                );
+              }
+              let record = this.compileOpportuntiyData(component, preRecord);
 
               console.log("Record Data for document---> " + record);
 
@@ -961,7 +1049,7 @@
       if (component.isValid() && state == "SUCCESS") {
         if ($A.util.isUndefinedOrNull(index)) {
           component.set("v.fileIds", []);
-          component.set("v.showAskEmailAddressModal", false);
+          component.set("v.hasBorrowerEntity", false);
         } else {
           fileIds.splice(index, 1);
           component.set("v.fileIds", fileIds);

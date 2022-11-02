@@ -48,6 +48,10 @@
                 <behavior>Required</behavior>
                 <field>TimeZoneSidKey</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Portal_Profile_Pic__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

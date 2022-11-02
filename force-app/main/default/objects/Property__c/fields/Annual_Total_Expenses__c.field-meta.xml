@@ -2,7 +2,13 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Annual_Total_Expenses__c</fullName>
     <externalId>false</externalId>
-    <formula>Annual_HOA_Fee__c + Annual_Insurance__c +  Annual_Managment_Fee__c + Annual_Taxes__c + Vacancy_Repairs__c + Maintenance_Repairs__c</formula>
+    <formula>Annual_HOA_Fee__c +  Annual_Managment_Fee__c + Vacancy_Repairs__c + Maintenance_Repairs__c +  (Monthly_Taxes__c*12) + (Monthly_Insurance__c*12) +  Annual_Landscaping_Expense__c +  Owner_Paid_Utilities__c +  Other_Expenses__c +  Credit_Loss__c
++ (
+IF (
+ Verified_Rent__c  &gt; 0 ,
+Verified_Rent__c * 12,
+Monthly_Rent__c * 12
+) *  30 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Annual Total Expenses</label>
     <precision>18</precision>

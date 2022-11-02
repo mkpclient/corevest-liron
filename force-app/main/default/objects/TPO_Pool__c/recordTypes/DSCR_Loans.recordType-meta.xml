@@ -2,6 +2,7 @@
 <RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>DSCR_Loans</fullName>
     <active>true</active>
+    <compactLayoutAssignment>DSCR_Compact_Layout</compactLayoutAssignment>
     <label>DSCR Loans</label>
     <picklistValues>
         <picklist>Stage__c</picklist>

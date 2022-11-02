@@ -11,6 +11,11 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
+                <fullName>Build for Rent Complete</fullName>
+                <default>false</default>
+                <label>Build for Rent Complete</label>
+            </value>
+            <value>
                 <fullName>Build to Rent Complete</fullName>
                 <default>false</default>
                 <label>Build to Rent Complete</label>
@@ -61,6 +66,16 @@
                 <label>Multiple</label>
             </value>
             <value>
+                <fullName>Portfolio Acquisition Credit Line</fullName>
+                <default>false</default>
+                <label>Portfolio Acquisition Credit Line</label>
+            </value>
+            <value>
+                <fullName>Renovate to Rent Credit Line</fullName>
+                <default>false</default>
+                <label>Renovate to Rent Credit Line</label>
+            </value>
+            <value>
                 <fullName>Rental Aggregation Credit Line</fullName>
                 <default>false</default>
                 <label>Rental Aggregation Credit Line</label>
@@ -69,6 +84,11 @@
                 <fullName>Rental Portfolio Loan</fullName>
                 <default>false</default>
                 <label>Rental Portfolio Loan</label>
+            </value>
+            <value>
+                <fullName>Short Term Portfolio</fullName>
+                <default>false</default>
+                <label>Short Term Portfolio</label>
             </value>
             <value>
                 <fullName>Single Asset Bridge Loan</fullName>

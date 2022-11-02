@@ -169,7 +169,7 @@
                   title="# of Stories"
                   type="numeric"
                   format="0,0.0"
-                  />
+                />
                 <c:hotColumn
                   data="Year_Built__c"
                   title="Year Built"
@@ -264,10 +264,11 @@
                 />
                 <c:hotColumn
                   data="Calc_AveValue__c"
-                  title="Red Bell Calc AveValue"
+                  title="AVM Value"
                   type="numeric"
                   format="$0,0.00"
                   allowEmpty="true"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Appraisal_Form__c"
@@ -332,12 +333,6 @@
                   format="$0,0.00"
                   allowEmpty="false"
                 />
-                <c:hotColumn
-                  data="Estimated_Rent__c"
-                  title="Monthly Estimated Rent"
-                  type="numeric"
-                  format="$0,0.00"
-                />                  
                 <c:hotColumn
                   data="Security_Deposit__c"
                   title="Security Deposit"
@@ -465,6 +460,13 @@
                   readOnly="true"
                 />
                 <c:hotColumn data="_" title="" />
+                <c:hotColumn
+                  data="Property_Management_Type__c"
+                  title="Property Management Type"
+                  type="dropdown"
+                  source="['Affiliate', 'Self Managed', 'Third Party']"
+                  allowEmpty="true"             
+                />             
                 <c:hotColumn
                   data="Property_Manager__c"
                   title="Assigned PM Company (By property)"

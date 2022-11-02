@@ -5,6 +5,7 @@
     <externalId>false</externalId>
     <label>Lender</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -17,14 +18,19 @@
                 <label>CoreVest American Finance Lender LLC, a Delaware limited liability company</label>
             </value>
             <value>
-                <fullName>Third Party Originator</fullName>
-                <default>false</default>
-                <label>Third Party Originator</label>
-            </value>
-            <value>
                 <fullName>5 Arch Funding Corp.</fullName>
                 <default>false</default>
                 <label>5 Arch Funding Corp.</label>
+            </value>
+            <value>
+                <fullName>Riverbend Lending</fullName>
+                <default>false</default>
+                <label>Riverbend Lending</label>
+            </value>
+            <value>
+                <fullName>Third Party Originator</fullName>
+                <default>false</default>
+                <label>Third Party Originator</label>
             </value>
         </valueSetDefinition>
     </valueSet>

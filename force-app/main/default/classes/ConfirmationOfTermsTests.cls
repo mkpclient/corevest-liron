@@ -2,6 +2,7 @@
 private class ConfirmationOfTermsTests {
   @isTest
   private static void testMethod1() {
+    test_Helper.createDealLoanNumber();
     Account a = new Account();
     a.Name = 'test';
     a.BillingCountry = 'United States';

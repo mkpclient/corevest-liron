@@ -12,7 +12,7 @@
           </span>
         </div>
         <div class="slds-media__body">
-            <p class="slds-text-title_caps">Pricing Review</p>
+            <p class="slds-text-title_caps">Approval Request:  {!v.record.ProcessInstance.ProcessDefinition.Name}</p>
             <!-- <p class="slds-text-body_small slds-line-height_reset">Mark Jaeckal • Unlimited Customer • 11/13/15</p>             -->
           <h1 class="slds-page-header__title slds-truncate slds-align-middle">{!v.record.ProcessInstance.TargetObject.Name}
               <aura:if isTrue="{!v.record.StepStatus == 'Pending'}">
@@ -38,11 +38,21 @@
     </div>
     <div style="margin-bottom:40px;">
         <ul class="slds-grid slds-page-header__detail-row" style="opacity: 1;border-bottom:1px solid rgb(216,221,230);margin-top:3px;margin-left:0px;width:100%;">
-            <li class="slds-page-header__detail-block" role="listitem" style="max-width: 105.203px;">
-                <p class="slds-text-heading--label-normal slds-m-bottom--xx-small slds-truncate" title="Submitter">
+            <li class="slds-page-header__detail-block" role="listitem" style="max-width: 180.203px;">
+                <p class="slds-text-heading--label-normal slds-m-bottom--xx-small" title="Deal Name">
+                    Deal Name
+                </p>
+                <p class="slds-text-body--regular" >
+                    <span class="uiOutputText" data-aura-class="uiOutputText">
+                        <ui:outputURL value="{!'/lightning/r/Opportunity/' + v.record.ProcessInstance.TargetObject.Id + '/view'}" label="{!v.record.ProcessInstance.TargetObject.Name}" />
+                    </span>
+                </p>
+            </li>
+            <li class="slds-page-header__detail-block" role="listitem" style="max-width: 150.203px;">
+                <p class="slds-text-heading--label-normal slds-m-bottom--xx-small" title="Submitter">
                     User
                 </p>
-                <p class="slds-text-body--regular  slds-truncate" >
+                <p class="slds-text-body--regular" >
                     <span class="uiOutputText" data-aura-class="uiOutputText">
                         {!v.record.Actor.Name}
                     </span>

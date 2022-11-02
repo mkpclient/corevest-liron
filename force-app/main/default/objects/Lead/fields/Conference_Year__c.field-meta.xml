@@ -54,7 +54,11 @@
             </value>
         </valueSetDefinition>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -96,7 +100,11 @@
             <valueName>2015</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -138,7 +146,11 @@
             <valueName>2016</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -180,7 +192,11 @@
             <valueName>2017</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -222,7 +238,11 @@
             <valueName>2018</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -264,7 +284,11 @@
             <valueName>2019</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -306,7 +330,11 @@
             <valueName>2020</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -348,7 +376,11 @@
             <valueName>2021</valueName>
         </valueSettings>
         <valueSettings>
+            <controllingFieldValue>IMN Short Term Rental</controllingFieldValue>
+            <controllingFieldValue>NRHC</controllingFieldValue>
+            <controllingFieldValue>SFR East</controllingFieldValue>
             <controllingFieldValue>CAMP</controllingFieldValue>
+            <controllingFieldValue>IMN Multifamily</controllingFieldValue>
             <controllingFieldValue>Think Realty Expo - Long Beach</controllingFieldValue>
             <controllingFieldValue>Mastermind Summit</controllingFieldValue>
             <controllingFieldValue>California Mortgage Expo</controllingFieldValue>
@@ -361,6 +393,7 @@
             <controllingFieldValue>CREFC</controllingFieldValue>
             <controllingFieldValue>ADC Roadshow</controllingFieldValue>
             <controllingFieldValue>CoreVest MSA</controllingFieldValue>
+            <controllingFieldValue>Real Estate Entrepreneurs Event - Attend Growth</controllingFieldValue>
             <controllingFieldValue>ACOF</controllingFieldValue>
             <controllingFieldValue>Pitbull</controllingFieldValue>
             <controllingFieldValue>REI Expo (Dallas)</controllingFieldValue>

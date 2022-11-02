@@ -6,7 +6,6 @@
     <excludeButtons>Clone</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>Edit</excludeButtons>
-    <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
@@ -36,6 +35,14 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Days_Remaining__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Advance_Details__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Exit_Strategy__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -113,6 +120,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Title_Review_Company__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Escrow_Title_Number__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -203,6 +214,10 @@
                 <behavior>Readonly</behavior>
                 <field>Servicer_Name__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Document_Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -226,8 +241,8 @@
                 <field>Broker_Fee_Paid_When__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Warehouse_Line__c</field>
+                <behavior>Edit</behavior>
+                <field>Warehouse_Line_New__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -236,14 +251,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Prop_Total_ARV_LTV__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Deal_Total_Holdback__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Prop_Total_Holdback__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -359,6 +366,10 @@
         <label>System Admin Only View</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>External_Record_ID__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Origination_Fee_Subtotal__c</field>
             </layoutItems>
@@ -406,6 +417,22 @@
                 <behavior>Readonly</behavior>
                 <field>Purchase_Funded_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Subtotal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Report_Fee_Adjustment__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Appraisal_Fee_Netted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Report_Fees_Netted__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -452,6 +479,26 @@
                 <behavior>Edit</behavior>
                 <field>Distinct_Counties__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Total_Fees__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Is_Assigned_User__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Report_Fee_Total__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Other_Fee_Total__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Application_Fee_Total__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -476,11 +523,6 @@
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
-        <platformActionListItems>
-            <actionName>Advance__c.Add_Properties</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
         <platformActionListItems>
             <actionName>Advance__c.Generate_Documents</actionName>
             <actionType>QuickAction</actionType>
@@ -521,7 +563,29 @@
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Advance__c.Add_Properties</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
     </platformActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Num_of_Items__c</fields>
+        <fields>Percent_of_Items_Completed__c</fields>
+        <relatedList>Post_Closing_Section__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Post_Closing_Section__c</fields>
+        <fields>Recording_Status__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>Post_Closing_Item__c.Advance__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Asc</sortOrder>
+    </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>Wire_Number__c</fields>
@@ -592,7 +656,7 @@
         <fields>Renovation_Reserve__c</fields>
         <fields>Approved_Advance_Amount_Calc__c</fields>
         <relatedList>Property_Advance__c.Advance__c</relatedList>
-        <sortField>Wire_Date__c</sortField>
+        <sortField>Property__c.NAME</sortField>
         <sortOrder>Asc</sortOrder>
     </relatedLists>
     <relatedLists>
@@ -605,6 +669,14 @@
         <fields>NAME</fields>
         <fields>Deal_Record_Type__c</fields>
         <relatedList>Property__c.Initial_Advance__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>CreatedDate</fields>
+        <fields>StepStatus</fields>
+        <fields>OriginalActor</fields>
+        <fields>Actor</fields>
+        <fields>Comments</fields>
+        <relatedList>RelatedProcessHistoryList</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

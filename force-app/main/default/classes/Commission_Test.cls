@@ -3,6 +3,11 @@ private class Commission_Test {
   //term
   //Term no Comm total current quarter
   //
+  @testSetup
+  static void dataSetup() {
+    Test_Helper.createDealLoanNumber();
+  }
+  
   @isTest
   static void Commissiontest1() {
     // 1st term condition
@@ -1881,13 +1886,17 @@ test.startTest();
     .Id;
     insert topp1;
       
-
-    Commission__c myCommission = new Commission__c();
-    myCommission.Commission_Amount1__c = 1230;
-    myCommission.Deal__c = topp1.id;
-    myCommission.Owner__c = origU.id;
-    myCommission.Loan_Type__c = 'Bridge Loan';
-    insert myCommission;
+    List<Commission__c> comms = new List<Commission__c>();
+    for(Integer i = 0; i <= 151; i++) {
+      Commission__c myCommission = new Commission__c();
+      myCommission.Commission_Amount1__c = 1230;
+      myCommission.Deal__c = topp1.id;
+      myCommission.Owner__c = origU.id;
+      myCommission.Loan_Type__c = 'Bridge Loan';
+      comms.add(myCommission);
+    }
+    // USING THIS TO TEST DML LIMITS //
+    insert comms;
   }
 
   @isTest

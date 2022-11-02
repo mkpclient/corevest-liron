@@ -41,10 +41,10 @@
         label="Deposit Amount"
         value={deal.Deposit_Amount__c}
         data-field="Deposit_Amount__c"
+        onchange={updateValue}
         type="number"
         formatter="currency"
         step="0.01"
-        read-only
       ></lightning-input>
     </lightning-layout-item>
 
@@ -70,17 +70,27 @@
     </lightning-layout-item> -->
 
     <lightning-layout-item padding="around-medium" size="6"
+    ><lightning-input
+      label="Final Swap Rate"
+      value={calculatedFields.Final_Swap__c}
+      onchange={updateValue}
+      data-field="Final_Swap__c"
+      type="number"
+      formatter="percent-fixed"
+      step="0.01"
+    ></lightning-input>
+  </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6" if:true={showEarlyRateLockField}
       ><lightning-input
-        label="Final Swap Rate"
-        value={deal.Final_Swap__c}
+        label="Early Rate Lock Deposit Amount"
+        value={earlyRateLockAmount}
         onchange={updateValue}
-        data-field="Final_Swap__c"
         type="number"
-        formatter="percent-fixed"
+        data-field="Early_Lock_Deposit__c"
+        formatter="currency"
         step="0.01"
       ></lightning-input>
     </lightning-layout-item>
-
     <lightning-layout-item padding="around-medium" size="6"
       ><lightning-input
         label="Final Spread"
@@ -221,10 +231,22 @@
         data-field="Legal_Fee__c"
         type="number"
         formatter="currency"
+        field-level-help="This is the Legal Fee for Deals with internal CoreVest Legal Councel"
         step="0.01"
       ></lightning-input>
     </lightning-layout-item>
-
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Lender Credit"
+        value={calculatedFields.Lender_Credit__c}
+        onchange={updateValue}
+        data-field="Lender_Credit__c"
+        type="number"
+        formatter="currency"
+        field-level-help="Lender Credit"
+        step="0.01"
+      ></lightning-input>
+    </lightning-layout-item>   
     <lightning-layout-item padding="around-medium" size="6"
       ><lightning-input
         label="Total Lender"
@@ -234,7 +256,7 @@
         step="0.01"
         read-only
       ></lightning-input>
-    </lightning-layout-item>
+    </lightning-layout-item>     
     <lightning-layout-item padding="around-medium" size="6">
       <template if:true={showDiscountFeeField}>
         <lightning-combobox
@@ -243,6 +265,7 @@
           options={discountFeeOptions}
           onchange={updateValue}
           data-field="Discount_Fee__c"
+          read-only
         ></lightning-combobox>
       </template>
     </lightning-layout-item>
@@ -258,7 +281,7 @@
         ></lightning-input>
       </template>
     </lightning-layout-item>
-    
+
     <lightning-layout-item size="12">
       <!-- <div class="slds-section slds-is-open"> -->
       <h3 class="slds-section-title--divider">
@@ -434,13 +457,10 @@
     <lightning-layout-item padding="around-medium" size="3">
       <lightning-input
         label="Monthly Debt Service Payment Multiplier"
-        value={deal.Holdback_Reserve_Month_Multiplier__c}
-        type="number"
+        value={calculatedFields.Holdback_Reserve_Month_Multiplier__c}
+        type="number" 
         onchange={updateValue}
-        data-field="Holdback_Reserve_Month_Multiplier__c"
-        step="1"
-        min="1"
-        max="12"
+        data-field="Holdback_Multiplier__c"
       ></lightning-input>
     </lightning-layout-item>
 

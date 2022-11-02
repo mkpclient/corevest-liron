@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>Responsible_Party__c</field>
-        <value xsi:type="xsd:string">Template</value>
+        <value xsi:type="xsd:string">Email Template</value>
     </values>
     <values>
         <field>Reviewer__c</field>

@@ -1,6 +1,9 @@
 @isTest
 private class YardiTests {
   static testMethod void locTest() {
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
+
     RecordType vendorRecordType = [
       SELECT Id
       FROM RecordType
@@ -46,7 +49,7 @@ private class YardiTests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Main';
@@ -146,6 +149,9 @@ private class YardiTests {
   }
 
   static testMethod void termTest() {
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
+
     RecordType vendorRecordType = [
       SELECT Id
       FROM RecordType
@@ -208,6 +214,8 @@ private class YardiTests {
   }
 
   static testMethod void emailTests() {
+    Test_Helper.createDealLoanNumber();
+
     List<RecordType> opptyRecordTypes = [
       SELECT Id
       FROM RecordType

@@ -80,20 +80,20 @@
                 <field>REO_Date__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Funding_Probability__c</field>
+                <behavior>Edit</behavior>
+                <field>Late_Charge__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Max_Rent__c</field>
+                <field>REO__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Min_Rent__c</field>
+                <field>Foreclosure__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Estimated_Rent__c</field>
+                <field>Insurance_Contact__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -164,14 +164,18 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Property_Management_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Property_Manager__c</field>
             </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Interior_Access_POC__c</field>
             </layoutItems>
-        </layoutColumns>
-        <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Interior_Access_POC_Phone__c</field>
@@ -236,6 +240,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Other_Expenses__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Gross_Yield__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Net_Yield__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -677,9 +689,6 @@
         <fields>AVM_Price_at_time_of_Purchase__c</fields>
         <fields>AVM_Last_Sale_Date__c</fields>
         <fields>AVM_Last_Sale_Price__c</fields>
-        <fields>Estimated_Rent__c</fields>
-        <fields>Estimated_Max_Rent__c</fields>
-        <fields>Estimated_Min_Rent__c</fields>
         <relatedList>Property_AVM__c.RelatedProperty__c</relatedList>
     </relatedLists>
     <relatedLists>
@@ -687,6 +696,10 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>REO__c.Property__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

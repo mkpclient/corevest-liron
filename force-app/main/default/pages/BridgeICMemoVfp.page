@@ -1,10 +1,9 @@
-<apex:page Controller="BridgeICMemoController" applyBodyTag="false" applyHtmlTag="false"
-           showHeader="false">
-    
+<apex:page Controller="BridgeICMemoController" applyBodyTag="false" applyHtmlTag="false" showHeader="false" renderAs="pdf">
+
     <head>
         <style>
             @page {
-            /*fits in landscape too */
+                /*fits in landscape too */
                 size: A4 landscape;
                 margin: .2in .2in .2in .2in;
                 font-family: Ariel, sans-serif;
@@ -13,109 +12,109 @@
             body {
                 font-family: Ariel, sans-serif;
             }
-            
+
             .left-column {
-                width:48%;
+                width: 48%;
                 float: left;
                 margin-right: 20px;
-                border-style:solid;
-                border-width:2px;
-                border-color:black;
+                border-style: solid;
+                border-width: 2px;
+                border-color: black;
             }
-            
+
             .left-table {
-                width:100%;
-                font-family:Ariel, sans-serif;
-                font-size:9pt;
+                width: 100%;
+                font-family: Ariel, sans-serif;
+                font-size: 9pt;
                 border-spacing: 0px;
             }
-            
+
             .right-column {
-                width:48%;
+                width: 48%;
                 float: left;
-                border-style:solid;
-                border-width:2px;
-                border-color:black;
+                border-style: solid;
+                border-width: 2px;
+                border-color: black;
             }
-            
+
             .right-table {
-                width:100%;
-                font-family:sans-serif;
-                font-size:9pt;
+                width: 100%;
+                font-family: sans-serif;
+                font-size: 9pt;
                 border-spacing: 0px;
             }
-            
+
             .section-header {
-                padding:2px 0 2px 4px;
-                color:#fff;
-                font-weight:bold;
-                background-color:#2d5391;
+                padding: 2px 0 2px 4px;
+                color: #fff;
+                font-weight: bold;
+                background-color: #2d5391;
             }
-            
+
             .left-row-title {
-                padding:2px 0 0 4px; 
-                background-color:#ddeeff;
-                color:black;
-                width:40%;
+                padding: 2px 0 0 4px;
+                background-color: #ddeeff;
+                color: black;
+                width: 40%;
             }
-            
+
             .right-row-title {
-                padding:2px 0 0 4px; 
-                background-color:#ddeeff;
-                color:black;
-                width:30%;
+                padding: 2px 0 0 4px;
+                background-color: #ddeeff;
+                color: black;
+                width: 40%;
             }
-            
+
             .row-data-one-column {
-                padding:2px 4px 0 4px; 
-                background-color:white;
-                color:black;
-                width:60%;
-                text-align:right;
+                padding: 2px 4px 0 4px;
+                background-color: white;
+                color: black;
+                width: 60%;
+                text-align: right;
             }
-            
+
             .row-data-two-column {
-                padding:2px 4px 0 2px; 
-                background-color:white;
-                color:black;
-                width:30%;
-                text-align:right;
+                padding: 2px 4px 0 2px;
+                background-color: white;
+                color: black;
+                width: 30%;
+                text-align: right;
             }
-            
+
             .gray-background {
-                background-color:#F3F2F2;
+                background-color: #F3F2F2;
             }
+
             * {
-            font-family: Ariel, sans-serif
+                font-family: Ariel, sans-serif
             }
 
             .left-align {
-                text-align:left;
+                text-align: left;
             }
 
             .no-line-break {
-                page-break-inside:avoid;
+                page-break-inside: avoid;
                 white-space: nowrap;
             }
 
             .standard-text {
                 font-family: Ariel, sans-serif;
-                font-size:9pt;
+                font-size: 9pt;
             }
-            
         </style>
     </head>
     <apex:image url="{!$Resource.corevestLogo}" width="210" height="38" style="margin-top: 8px; margin-left: 4px;" />
     <br />
     <div>
-        <apex:form id="formId">  
+        <apex:form id="formId">
             <div style="font-family:sans-serif; font-size:10pt; font-weight:bold; border-bottom:2px solid #000; width:98.5%;">Bridge IC Memo: {!Opportunity.Deal_Loan_Number__c}
                 <span style="float:right;font-size: 10pt;margin-right:40px;">{!MONTH(TODAY())}/{!DAY(TODAY())}/{!YEAR(TODAY())}</span>
             </div>
             <br />
             <!--Loan / Property info -->
-            <div class ="left-column">
-                
+            <div class="left-column">
+
                 <table class="left-table">
                     <thead class="section-header">
                         <tr>
@@ -135,28 +134,31 @@
                             <td class="left-row-title">Borrower Name</td>
                             <td class="row-data-one-column gray-background">
                                 <apex:outputText rendered="{! If(Opportunity.Borrower_Entity__r.Name == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Borrower_Entity__r.Name == null), true, false)}" value="{!Opportunity.Borrower_Entity__r.Name}" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Borrower_Entity__r.Name == null), true, false)}" value="{!Opportunity.Borrower_Entity__r.Name}"
+                                />
                                 <!--      <apex:outputField value="{!Opportunity.Borrower_Entity__r.Name}" /> -->
                             </td>
                         </tr>
                         <tr>
                             <td class="left-row-title">Sponsor Name(s)</td>
                             <td class="row-data-one-column">
-                                <apex:variable value="{!1}" var="index"/>
+                                <apex:variable value="{!1}" var="index" />
                                 <apex:repeat value="{!wrap.sponsors}" var="sp" id="theRepeat">
-                                    <apex:outputLabel value="{!IF(index==1, '', ' ; ')}"/><apex:outputText value="{!sp.Contact__r.Name}" />
-                                    <apex:variable var="index" value="{!index + 1}"/>
+                                    <apex:outputLabel value="{!IF(index==1, '', ' ; ')}" />
+                                    <apex:outputText value="{!sp.Contact__r.Name}" />
+                                    <apex:variable var="index" value="{!index + 1}" />
                                 </apex:repeat>
-                                
+
                             </td>
                         </tr>
                         <tr>
                             <td class="left-row-title">Guarantor Name(s)</td>
                             <td class="row-data-one-column gray-background">
-                                <apex:variable value="{!1}" var="index1"/>
+                                <apex:variable value="{!1}" var="index1" />
                                 <apex:repeat value="{!guarantors}" var="sp" id="theRepeat1">
-                                    <apex:outputLabel value="{!IF(index1==1, '', ' ; ')}"/><apex:outputText value="{!sp.Contact__r.Name}" />
-                                    <apex:variable var="index1" value="{!index1 + 1}"/>
+                                    <apex:outputLabel value="{!IF(index1==1, '', ' ; ')}" />
+                                    <apex:outputText value="{!sp.Contact__r.Name}" />
+                                    <apex:variable var="index1" value="{!index1 + 1}" />
                                 </apex:repeat>
                             </td>
                         </tr>
@@ -167,15 +169,15 @@
                         <tr>
                             <td class="left-row-title">Foreign National/Nation of Citizenship</td>
                             <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == true, true, false ) }" value="Yes" />
-                                <apex:outputText rendered="{! If(Opportunity.Foreign_National__c == false, true, false ) }" value="No" /> 
+                                <apex:outputText value="{!Opportunity.Foreign_National_picklist__c}" />
                             </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(Opportunity.Country__c == null, true, false)}" value="USA" />
                                 <apex:outputText rendered="{! If(NOT(Opportunity.Country__c == null), true, false)}" value="{!Opportunity.Country__c}" />
                             </td>
                         </tr>
-                        <tr>
+
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="left-row-title">
                                 <apex:outputText rendered="{! If(guarantors!=null && guarantors.size>1, true, false ) }" value="Combined Net Worth" />
                                 <apex:outputText rendered="{! If(guarantors!=null && guarantors.size>1, false, true  ) }" value="Net Worth" />
@@ -191,17 +193,17 @@
                 </table>
                 <table class="left-table">
                     <tbody>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="left-row-title">Annual Income {!unsavedObj.annualincomeyear}</td>
                             <td class="row-data-one-column">
-                                <apex:outputText value="{!unsavedObj.annualincome}"/>
-                            </td>                     
+                                <apex:outputText value="{!unsavedObj.annualincome}" />
+                            </td>
                             <!--    <td class="row-data-two-column">
 <apex:outputText value="${0, number,###,###,###}">
 <apex:param value="{!wrap.annualIncomeLastYear}" />
 </apex:outputText>
 </td> -->
-                        </tr> 
+                        </tr>
                     </tbody>
                 </table>
                 <table class="left-table">
@@ -228,10 +230,11 @@
                             <td class="left-row-title">Credit Score (Mid)</td>
                             <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
-                                <apex:variable value="{!1}" var="index1"/>
+                                <apex:variable value="{!1}" var="index1" />
                                 <apex:repeat value="{!wrap.sponsors}" var="sp">
-                                    <apex:outputLabel value="{!IF(index1==1, '', ' ; ')}"/><apex:outputText value="{!sp.Contact__r.Middle_Credit_Score__c}" />
-                                    <apex:variable var="index1" value="{!index + 1}"/>
+                                    <apex:outputLabel value="{!IF(index1==1, '', ' ; ')}" />
+                                    <apex:outputText value="{!sp.Contact__r.Middle_Credit_Score__c}" />
+                                    <apex:variable var="index1" value="{!index + 1}" />
                                 </apex:repeat>
                             </td>
                         </tr>
@@ -247,25 +250,28 @@
                             <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
                                 <apex:outputText rendered="{! If(sponsor.Contact__r.Experience__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(sponsor.Contact__r.Experience__c == null), true, false)}" value="{!sponsor.Contact__r.Experience__c}" />
+                                <apex:outputText rendered="{! If(NOT(sponsor.Contact__r.Experience__c == null), true, false)}" value="{!sponsor.Contact__r.Experience__c}"
+                                />
                                 <!--       <apex:outputField value="{!sponsor.Contact__r.Experience__c}" /> -->
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="left-row-title">Rental Units Owned</td>
                             <td class="row-data-two-column"></td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(sponsor.Rental_Units_Owned__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(sponsor.Rental_Units_Owned__c == null), true, false)}" value="{!sponsor.Rental_Units_Owned__c}" />
+                                <apex:outputText rendered="{! If(NOT(sponsor.Rental_Units_Owned__c == null), true, false)}" value="{!sponsor.Rental_Units_Owned__c}"
+                                />
                                 <!--     <apex:outputField value="{!sponsor.Rental_Units_Owned__c}" /> -->
                             </td>
                         </tr>
                         <tr>
                             <td class="left-row-title">Final Credit Tier</td>
-                            <td class="row-data-two-column gray-background"></td>
-                            <td class="row-data-two-column gray-background">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}"></td>
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}">
                                 <apex:outputText rendered="{! If(sponsor.Contact__r.Sponsor_Tier__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(sponsor.Contact__r.Sponsor_Tier__c == null), true, false)}" value="{!Opportunity.Final_Sponsor_Tier__c}" />
+                                <apex:outputText rendered="{! If(NOT(sponsor.Contact__r.Sponsor_Tier__c == null), true, false)}" value="{!Opportunity.Final_Sponsor_Tier__c}"
+                                />
                                 <!-- <apex:outputText value="{!Opportunity.Final_Sponsor_Tier__c}" /> -->
                             </td>
                         </tr>
@@ -275,19 +281,21 @@
                     <tbody>
                         <tr>
                             <td class="left-row-title">Repeat Borrower/Funded Amount</td>
-                            <td class="row-data-two-column">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
                                 <apex:outputText rendered="{! If(Opportunity.Account.Total_Borrowed__c != 0, true, false ) }" value="Yes" />
-                                <apex:outputText rendered="{! If(Opportunity.Account.Total_Borrowed__c == 0, true, false ) }" value="No" />    
+                                <apex:outputText rendered="{! If(Opportunity.Account.Total_Borrowed__c == 0, true, false ) }" value="No" />
                                 <!-- <apex:outputField value="{!sponsor.Contact__r.Repeat_Borrower__c}" />-->
                             </td>
-                            <td class="row-data-two-column">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
                                 <!-- <apex:outputText rendered="{! If(unsavedObj.fundedborrower != null, true, false ) }" value="{!unsavedObj.fundedborrower}" /> -->
                                 <apex:outputText rendered="{! If(Opportunity.Account.Total_Borrowed__c == 0, true, false ) }" value="N/A" />
                                 <div class="standard-text">
-                                    <apex:outputText rendered="{! If(Opportunity.Account.Borrowed_on_Term_Loans__c != 0, true, false ) }" value="${0,number,###,###,###} (Term)"><apex:param value="{!Opportunity.Account.Borrowed_on_Term_Loans__c}" /></apex:outputText>
+                                    <apex:outputText rendered="{! If(Opportunity.Account.Borrowed_on_Term_Loans__c != 0, true, false ) }" value="${0,number,###,###,###} (Term)">
+                                        <apex:param value="{!Opportunity.Account.Borrowed_on_Term_Loans__c}" /></apex:outputText>
                                 </div>
                                 <div class="standard-text">
-                                    <apex:outputText rendered="{! If(Opportunity.Account.Borrowed_on_Bridge_Loans__c != 0, true, false ) }" value="${0,number,###,###,###} (Bridge)"><apex:param value="{!Opportunity.Account.Borrowed_on_Bridge_Loans__c}" /></apex:outputText>
+                                    <apex:outputText rendered="{! If(Opportunity.Account.Borrowed_on_Bridge_Loans__c != 0, true, false ) }" value="${0,number,###,###,###} (Bridge)">
+                                        <apex:param value="{!Opportunity.Account.Borrowed_on_Bridge_Loans__c}" /></apex:outputText>
                                 </div>
                             </td>
                         </tr>
@@ -295,12 +303,13 @@
                 </table>
                 <table class="left-table">
                     <tbody>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="left-row-title">Prior Utilization</td>
                             <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
                                 <apex:outputText rendered="{! If(Opportunity.Account.Prior_Utilization__c == 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If(Opportunity.Account.Prior_Utilization__c != 0, true, false ) }" value="{!Opportunity.Account.Prior_Utilization__c}%" />    
+                                <apex:outputText rendered="{! If(Opportunity.Account.Prior_Utilization__c != 0, true, false ) }" value="{!Opportunity.Account.Prior_Utilization__c}%"
+                                />
                             </td>
                         </tr>
                         <tr>
@@ -308,121 +317,232 @@
                             <td class="row-data-two-column"></td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If( unsavedObj.deliquencyhistory == null, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If(unsavedObj.deliquencyhistory != null, true, false ) }" value="{!unsavedObj.deliquencyhistory}" /> 
+                                <apex:outputText rendered="{! If(unsavedObj.deliquencyhistory != null, true, false ) }" value="{!unsavedObj.deliquencyhistory}"
+                                />
+                            </td>
+                        </tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                            <td class="left-row-title">
+                                State(s)
+                            </td>
+                            <td class="row-data-two-column gray-background"></td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText rendered="{! If(states == null || states==';', true, false)}" value="N/A" />
+                                <apex:outputText rendered="{! If(states != null && states!=';', true, false)}" value="{!states}" />
+                            </td>
+                        </tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                            <td class="left-row-title">
+                                Borrower/Guarantor Approval Status
+                            </td>
+                            <td class="row-data-two-column">
+                                <apex:outputText value="{!if(Opportunity.Borrower_Entity__r.Borrower_Approval_Status__c != null, Opportunity.Borrower_Entity__r.Borrower_Approval_Status__c, 'N/A')}" />
+                            </td>
+                            <td class="row-data-two-column">
+                                <apex:outputText value="{!if(Opportunity.Borrower_Entity__r.Primary_Guarantor_Approval_Status__c != null, Opportunity.Borrower_Entity__r.Primary_Guarantor_Approval_Status__c, 'N/A')}" />
+                            </td>
+                        </tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                            <td class="left-row-title">
+                                Recourse
+                            </td>
+                            <td class="row-data-two-column gray-background"></td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText value="{!Opportunity.Recourse__c}" />
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <!--<table class="left-table" style="{!IF(Opportunity.LOC_Loan_Type__c=='Credit Line' || Opportunity.LOC_Loan_Type__c=='Build to Rent', '' , 'display:none;')}">-->
-                <table class="left-table">
-                    
-                    <thead class="section-header">
-                        <tr>
-                            <td style="color:white">
-                                Utilization and Coverage Analysis
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="left-row-title">Full Draw</td>
-                            <!--  <td class="row-data-two-column gray-background"></td> -->
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Full_Draw_Percentage__c == null), true, false ) }" value="{!Opportunity.Full_Draw_Percentage__c}%" />
-                                <apex:outputText rendered="{! If(Opportunity.Full_Draw_Percentage__c == null, true, false ) }" value="N/A" />              
-                            </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Full_Draw__c== null), true, false ) }" value="{!Opportunity.Full_Draw__c}x" />
-                                <apex:outputText rendered="{! If(Opportunity.Full_Draw__c == null, true, false ) }" value="N/A" />                      
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left-row-title">Liquidity Based</td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Liquidity_Based_Percentage__c == null), true, false ) }" value="{!Opportunity.Liquidity_Based_Percentage__c}%" />
-                                <apex:outputText rendered="{! If(Opportunity.Liquidity_Based_Percentage__c == null, true, false ) }" value="N/A" />                   
-                            </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Liquidity_Based__c == null), true, false ) }" value="{!Opportunity.Liquidity_Based__c}x" />
-                                <apex:outputText rendered="{! If(Opportunity.Liquidity_Based__c == null, true, false ) }" value="N/A" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <!--     <tr style="{!IF(Opportunity.LOC_Loan_Type__c=='Credit Line' || Opportunity.LOC_Loan_Type__c=='Build to Rent', '' , 'display:none;')}">-->
-                            <td class="left-row-title">Business Plan</td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Business_Plan_Percentage__c == null), true, false ) }" value="{!Opportunity.Business_Plan_Percentage__c}%" />
-                                <apex:outputText rendered="{! If(Opportunity.Business_Plan_Percentage__c == null, true, false ) }" value="N/A" />
-                            </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Business_Plan__c == null), true, false ) }" value="{!Opportunity.Business_Plan__c}x" />
-                                <apex:outputText rendered="{! If(Opportunity.Business_Plan__c == null, true, false ) }" value="N/A" />
-                            </td>                    
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="left-table" style="{!IF(Opportunity.LOC_Loan_Type__c=='Multifamily/CRE' || Opportunity.LOC_Loan_Type__c=='Single Asset (1-4 Unit)' || Opportunity.LOC_Loan_Type__c=='Single Asset (5-10 Unit)' || Opportunity.LOC_Loan_Type__c=='Build to Rent', '' , 'display:none;')}">
-                    <thead class="section-header">
-                        <tr>
-                            <td style="color:white">
-                                Asset Analysis
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="left-row-title">Value PSF / Value Per Unit</td>
-                            <td class="row-data-two-column gray-background">  
-                                <apex:outputText rendered="{! If(property.Value_Per_Square_Feet__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(property.Value_Per_Square_Feet__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Value_Per_Square_Feet__c}" /></apex:outputText>
-                            </td>
-                            <td class="row-data-two-column gray-background">                      
-                                <apex:outputText rendered="{! If(property.Value_Per_Unit__c == null, true, false)}" value="N/A" />
-                                <!-- <apex:outputText rendered="{! If(unsavedObj.valueperunit != null, true, false)}" value="{!unsavedObj.valueperunit}" /> -->
-                                <apex:outputText rendered="{! If(property.Value_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Value_Per_Unit__c}" /></apex:outputText>
-                                <!--   <apex:outputField value="{!property.Value_Per_Unit__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left-row-title">Sponsor Cost PSF / Sponsor CPU</td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(property.Cost_Per_Square_Foot__c == null, true, false)}" value="N/A" />
-                                <!-- <apex:outputText rendered="{! If(unsavedObj.sponsorcostpsf != null, true, false)}" value="{!unsavedObj.sponsorcostpsf}" /> -->
-                                <apex:outputText rendered="{! If(property.Cost_Per_Square_Foot__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Cost_Per_Square_Foot__c}" /></apex:outputText>
-                                <!--     <apex:outputField value="{!property.Cost_Per_Square_Foot__c}" /> -->
-                            </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(property.Cost_Per_Unit__c == null, true, false)}" value="N/A" />
-                                <!-- <apex:outputText rendered="{! If(unsavedObj.sponsorcpu != null, true, false)}" value="{!unsavedObj.sponsorcpu}" /> -->
-                                <apex:outputText rendered="{! If(property.Cost_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Cost_Per_Unit__c}" /></apex:outputText>
-                                <!--     <apex:outputField value="{!property.Cost_Per_Unit__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="left-row-title">Loan PSF / Loan Per Unit</td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(property.Loan_Amount_Per_Square_Foot__c == null, true, false)}" value="N/A" />
-                                <!-- <apex:outputText rendered="{! If(unsavedObj.loanpsf != null, true, false)}" value="{!unsavedObj.loanpsf}" /> -->
-                                <apex:outputText rendered="{! If(property.Loan_Amount_Per_Square_Foot__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Loan_Amount_Per_Square_Foot__c}" /></apex:outputText>
-                                <!--       <apex:outputField value="{!property.Loan_Amount_Per_Square_Foot__c}" /> -->
-                            </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(property.Loan_Amount_Per_Unit__c == null, true, false)}" value="N/A" />
-                                <!-- <apex:outputText rendered="{! If(unsavedObj.loanperunit != null, true, false)}" value="{!unsavedObj.loanperunit}" /> -->
-                                <apex:outputText rendered="{! If(property.Loan_Amount_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}"><apex:param value="{!property.Loan_Amount_Per_Unit__c}" /></apex:outputText>
-                                <!--    <apex:outputField value="{!property.Loan_Amount_Per_Unit__c}" /> -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> 
+                <div style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                    <table class="left-table">
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Deal Team
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="left-row-title">
+                                    Originator
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(Opportunity.Owner_Name__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Owner_Name__c == null), true, false)}" value="{!Opportunity.Owner_Name__c}"
+                                    />
+                                    <!--  <apex:outputField value="{!Opportunity.Owner_Name__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">
+                                    Loan Manager
+                                </td>
+                                <td class="row-data-two-column"></td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Loan_Coordinator__r.Name == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Loan_Coordinator__r.Name == null), true, false)}" value="{!Opportunity.Loan_Coordinator__r.Name}"
+                                    />
+                                   
+                                    <!--  <apex:outputField value="{!Opportunity.Owner_Name__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">
+                                    Underwriter
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(Opportunity.Underwriter__r.Name == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Underwriter__r.Name == null), true, false)}" value="{!Opportunity.Underwriter__r.Name}"
+                                    />
+                                    <!--   <apex:outputField value="{!Opportunity.Underwriter__r.Name}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">
+                                    Broker 
+                                </td>
+                                <td class="row-data-two-column">
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), true, false ) }" value="N/A" />
+                                    <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), false, true ) }" value="{!Opportunity.Referral_Source_Contact__r.Name}"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
+                    <table class="left-table">
+
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Utilization and Coverage Analysis
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="left-row-title">Full Draw</td>
+                                <!--  <td class="row-data-two-column gray-background"></td> -->
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Full_Draw_Percentage__c == null), true, false ) }" value="{!Opportunity.Full_Draw_Percentage__c}%"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Full_Draw_Percentage__c == null, true, false ) }" value="N/A" />
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Full_Draw__c== null), true, false ) }" value="{!Opportunity.Full_Draw__c}x"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Full_Draw__c == null, true, false ) }" value="N/A" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">Liquidity Based</td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Liquidity_Based_Percentage__c == null), true, false ) }" value="{!Opportunity.Liquidity_Based_Percentage__c}%"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Liquidity_Based_Percentage__c == null, true, false ) }" value="N/A" />
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Liquidity_Based__c == null), true, false ) }" value="{!Opportunity.Liquidity_Based__c}x"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Liquidity_Based__c == null, true, false ) }" value="N/A" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <!--     <tr style="{!IF(Opportunity.LOC_Loan_Type__c=='Credit Line' || Opportunity.LOC_Loan_Type__c=='Build to Rent', '' , 'display:none;')}">-->
+                                <td class="left-row-title">Business Plan</td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Business_Plan_Percentage__c == null), true, false ) }" value="{!Opportunity.Business_Plan_Percentage__c}%"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Business_Plan_Percentage__c == null, true, false ) }" value="N/A" />
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Business_Plan__c == null), true, false ) }" value="{!Opportunity.Business_Plan__c}x"
+                                    />
+                                    <apex:outputText rendered="{! If(Opportunity.Business_Plan__c == null, true, false ) }" value="N/A" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="left-table" style="{!IF(Opportunity.LOC_Loan_Type__c=='Multifamily/CRE' || Opportunity.LOC_Loan_Type__c=='Single Asset (1-4 Unit)' || Opportunity.LOC_Loan_Type__c=='Single Asset (5-10 Unit)' || Opportunity.LOC_Loan_Type__c=='Build to Rent', '' , 'display:none;')}">
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Asset Analysis
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="left-row-title">Value PSF / Value Per Unit</td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(property.Value_Per_Square_Feet__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(property.Value_Per_Square_Feet__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Value_Per_Square_Feet__c}" /></apex:outputText>
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(property.Value_Per_Unit__c == null, true, false)}" value="N/A" />
+                                    <!-- <apex:outputText rendered="{! If(unsavedObj.valueperunit != null, true, false)}" value="{!unsavedObj.valueperunit}" /> -->
+                                    <apex:outputText rendered="{! If(property.Value_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Value_Per_Unit__c}" /></apex:outputText>
+                                    <!--   <apex:outputField value="{!property.Value_Per_Unit__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">Sponsor Cost PSF / Sponsor CPU</td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(property.Cost_Per_Square_Foot__c == null, true, false)}" value="N/A" />
+                                    <!-- <apex:outputText rendered="{! If(unsavedObj.sponsorcostpsf != null, true, false)}" value="{!unsavedObj.sponsorcostpsf}" /> -->
+                                    <apex:outputText rendered="{! If(property.Cost_Per_Square_Foot__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Cost_Per_Square_Foot__c}" /></apex:outputText>
+                                    <!--     <apex:outputField value="{!property.Cost_Per_Square_Foot__c}" /> -->
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(property.Cost_Per_Unit__c == null, true, false)}" value="N/A" />
+                                    <!-- <apex:outputText rendered="{! If(unsavedObj.sponsorcpu != null, true, false)}" value="{!unsavedObj.sponsorcpu}" /> -->
+                                    <apex:outputText rendered="{! If(property.Cost_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Cost_Per_Unit__c}" /></apex:outputText>
+                                    <!--     <apex:outputField value="{!property.Cost_Per_Unit__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="left-row-title">Loan PSF / Loan Per Unit</td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(property.Loan_Amount_Per_Square_Foot__c == null, true, false)}" value="N/A" />
+                                    <!-- <apex:outputText rendered="{! If(unsavedObj.loanpsf != null, true, false)}" value="{!unsavedObj.loanpsf}" /> -->
+                                    <apex:outputText rendered="{! If(property.Loan_Amount_Per_Square_Foot__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Loan_Amount_Per_Square_Foot__c}" /></apex:outputText>
+                                    <!--       <apex:outputField value="{!property.Loan_Amount_Per_Square_Foot__c}" /> -->
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(property.Loan_Amount_Per_Unit__c == null, true, false)}" value="N/A" />
+                                    <!-- <apex:outputText rendered="{! If(unsavedObj.loanperunit != null, true, false)}" value="{!unsavedObj.loanperunit}" /> -->
+                                    <apex:outputText rendered="{! If(property.Loan_Amount_Per_Unit__c != null, true, false)}" value="${0,number,###,###,###.##}">
+                                        <apex:param value="{!property.Loan_Amount_Per_Unit__c}" /></apex:outputText>
+                                    <!--    <apex:outputField value="{!property.Loan_Amount_Per_Unit__c}" /> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <table class="left-table one-column-table">
                     <thead class="section-header">
                         <tr>
@@ -434,8 +554,11 @@
                     <tbody>
                         <tr>
                             <td>
-                                <apex:outputText rendered="{! If(Opportunity.Notes__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Notes__c == null), true, false)}" value="{!Opportunity.Notes__c}" />
+                                <apex:outputText rendered="{!Opportunity.RecordType__c == 'Single Asset Bridge'}" value="{!if( unsavedObj.comments != null, unsavedObj.comments, 'N/A')}" />
+                                <apex:outputText rendered="{!Opportunity.RecordType__c != 'Single Asset Bridge'}" value="{!if( Opportunity.Notes__c != null, Opportunity.Notes__c, 'N/A')}" />
+
+                                <!-- <apex:outputText rendered="{! If(Opportunity.Notes__c == null, true, false)}" value="N/A" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Notes__c == null), true, false)}" value="{!Opportunity.Notes__c}" /> -->
                                 <!--       <apex:outputField value="{!Opportunity.Notes__c}" /> -->
                             </td>
                         </tr>
@@ -443,138 +566,333 @@
                 </table>
             </div>
             <!-- End of Left Side Column -->
-            
-            <!-- Befinning of Right Side Column -->    
-            <div class ="right-column">
+
+            <!-- Befinning of Right Side Column -->
+            <div class="right-column">
+                <div style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
+                    <table class="right-table">
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Transaction Overview
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="right-row-title">
+                                    Loan Type
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(Opportunity.LOC_Loan_Type__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.LOC_Loan_Type__c == null), true, false)}" value="{!Opportunity.LOC_Loan_Type__c}"
+                                    />
+                                    <!--   <apex:outputField value="{!Opportunity.LOC_Loan_Type__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Purpose
+                                </td>
+                                <td class="row-data-two-column"></td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Product_Sub_Type__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Product_Sub_Type__c == null), true, false)}" value="{!Opportunity.Product_Sub_Type__c}"
+                                    />
+                                    <!--       <apex:outputField value="{!Opportunity.Product_Sub_Type__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Project Strategy
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(Opportunity.Project_Strategy__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Project_Strategy__c == null), true, false)}" value="{!Opportunity.Project_Strategy__c}"
+                                    />
+                                    <!--    <apex:outputField value="{!Opportunity.Project_Strategy__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Renovation Draws
+                                </td>
+                                <td class="row-data-two-column"></td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Renovation_Funding__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Renovation_Funding__c == null), true, false)}" value="{!Opportunity.Renovation_Funding__c}"
+                                    />
+                                    <!--<apex:outputField value="{!Opportunity.Renovation_Funding__c}" /> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="right-table">
+                        <tbody>
+                            <tr>
+                                <td class="right-row-title">
+                                    State(s)
+                                </td>
+                                <td class="row-data-one-column gray-background">
+                                    <apex:outputText rendered="{! If(states == null || states==';', true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(states != null && states!=';', true, false)}" value="{!states}" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="right-table">
+                        <tbody>
+                            <tr>
+                                <td class="right-row-title">
+                                    Deal/Account Source
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Deal_Intro_Source__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Deal_Intro_Source__c == null), true, false)}" value="{!Opportunity.Deal_Intro_Source__c}"
+                                    />
+                                    <!-- <apex:outputField value="{!Opportunity.Deal_Intro_Source__c}" /> -->
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Account_Introduction_Source__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Account_Introduction_Source__c == null), true, false)}" value="{!Opportunity.Account_Introduction_Source__c}"
+                                    />
+                                    <!--     <apex:outputField value="{!Opportunity.Account_Introduction_Source__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Originator
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If(Opportunity.Owner_Name__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Owner_Name__c == null), true, false)}" value="{!Opportunity.Owner_Name__c}"
+                                    />
+                                    <!--  <apex:outputField value="{!Opportunity.Owner_Name__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Underwriter
+                                </td>
+                                <td class="row-data-two-column"></td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText rendered="{! If(Opportunity.Underwriter__r.Name == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Underwriter__r.Name == null), true, false)}" value="{!Opportunity.Underwriter__r.Name}"
+                                    />
+                                    <!--   <apex:outputField value="{!Opportunity.Underwriter__r.Name}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Broker (Fee/Name)
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If( Opportunity.Broker_Fees__c = 0, true, false ) }" value="N/A" />
+                                    <apex:outputText rendered="{! If( Opportunity.Broker_Fees__c != 0, true, false ) }" value="{0,number,###.00}%">
+                                        <apex:param value="{!Opportunity.Broker_Fees__c}" /></apex:outputText>
+                                    <!--<apex:outputField value="{!Opportunity.Broker_Fees__c}" />-->
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), true, false ) }" value="N/A" />
+                                    <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), false, true ) }" value="{!Opportunity.Referral_Source_Contact__r.Name}"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                    <table class="right-table">
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Property Overview
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="right-row-title">
+                                    Property Address
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{!property.Name}" />
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{0}, {1} {2}">
+                                        <apex:param value="{!property.City__c}" />
+                                        <apex:param value="{!property.State__c}" />
+                                        <apex:param value="{!property.ZipCode__c}" />
+                                    </apex:outputText>
+                                    <!--   <apex:outputField value="{!Opportunity.LOC_Loan_Type__c}" /> -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Property Type/# of Units
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{!property.Property_Type__c}" />
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{! if(property.Number_of_Units__c != null, property.Number_of_Units__c, 'N/A')}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Occupancy Status
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{!property.Occupancy_Status__c}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Purchase Price
+                                </td>
+                                <td class="row-data-two-column"></td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Acquisition_Price__c != null, property.Acquisition_Price__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Assignment Fee
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Assignment_Fee__c != null, property.Assignment_Fee__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    CTD/Rehab
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Approved_Completed_Rehab_Costs__c != null, property.Approved_Completed_Rehab_Costs__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Rehab_Budget__c != null, property.Rehab_Budget__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Total Cost
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Total_Cost_Basis__c != null, property.Total_Cost_Basis__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    AMC Appraisal / 3rd Party Review
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{!appraisalReview}" />
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{!if(appraisalReview == 'N/A', appraisalReview, if(appraisalReview == 'N', 'Y', 'N'))}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Post Close Appraisal
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{! if(property.Post_Close_Appraisal__c == 'Yes', 'Y', if(property.Post_Close_Appraisal__c == 'No', 'N', 'N/A'))}"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    AIV / ARV
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(appraisal != null && appraisal.Appraised_Value_Amount__c != null, appraisal.Appraised_Value_Amount__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(appraisal != null && appraisal.Appraised_After_Repair_Value__c != null, appraisal.Appraised_After_Repair_Value__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Flood Zone
+                                </td>
+                                <td class="row-data-two-column gray-background"></td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{! if(property.Flood_Coverage_Needed__c == 'Yes', 'Y', if(property.Flood_Coverage_Needed__c == 'No', 'N', 'N/A'))}"
+                                />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Initial Loan Amount
+                                </td>
+                                <td class="row-data-two-column">
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Max_Initial_Loan_Amount__c != null, property.Max_Initial_Loan_Amount__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Rehab Holdback
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                </td>
+                                <td class="row-data-two-column gray-background">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(property.Approved_Renovation_Holdback__c != null, property.Approved_Renovation_Holdback__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="right-row-title">
+                                    Interest Reserve
+                                </td>
+                                <td class="row-data-two-column">
+                                </td>
+                                <td class="row-data-two-column">
+                                    <apex:outputText value="{0, Number, Currency}">
+                                        <apex:param value="{! if(Opportunity.Interest_Reserves__c != null, Opportunity.Interest_Reserves__c, 0)}" />
+                                    </apex:outputText>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <table class="right-table">
                     <thead class="section-header">
-                        <tr>
-                            <td style="color:white">
-                                Transaction Overview
-                            </td>
-                            <td>
-                            </td>
-                            <td>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="right-row-title">
-                                Loan Type
-                            </td>
-                            <td class="row-data-two-column gray-background"></td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(Opportunity.LOC_Loan_Type__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.LOC_Loan_Type__c == null), true, false)}" value="{!Opportunity.LOC_Loan_Type__c}" />
-                                <!--   <apex:outputField value="{!Opportunity.LOC_Loan_Type__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Purpose
-                            </td>
-                            <td class="row-data-two-column"></td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(Opportunity.Product_Sub_Type__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Product_Sub_Type__c == null), true, false)}" value="{!Opportunity.Product_Sub_Type__c}" />
-                                <!--       <apex:outputField value="{!Opportunity.Product_Sub_Type__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Project Strategy
-                            </td>
-                            <td class="row-data-two-column gray-background"></td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If(Opportunity.Project_Strategy__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Project_Strategy__c == null), true, false)}" value="{!Opportunity.Project_Strategy__c}" />
-                                <!--    <apex:outputField value="{!Opportunity.Project_Strategy__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Renovation Draws
-                            </td>
-                            <td class="row-data-two-column"></td>
-                            <td class="row-data-two-column">                      
-                                <apex:outputText rendered="{! If(Opportunity.Renovation_Funding__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Renovation_Funding__c == null), true, false)}" value="{!Opportunity.Renovation_Funding__c}" />
-                                <!--<apex:outputField value="{!Opportunity.Renovation_Funding__c}" /> -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="right-table">
-                    <tbody>
-                        <tr>
-                            <td class="right-row-title">
-                                State(s)
-                            </td>
-                            <td class="row-data-one-column gray-background">
-                                <apex:outputText rendered="{! If(states == null || states==';', true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(states != null && states!=';', true, false)}" value="{!states}" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="right-table">
-                    <tbody>
-                        <tr>
-                            <td class="right-row-title">
-                                Deal/Account Source
-                            </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(Opportunity.Deal_Intro_Source__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Deal_Intro_Source__c == null), true, false)}" value="{!Opportunity.Deal_Intro_Source__c}" />
-                                <!-- <apex:outputField value="{!Opportunity.Deal_Intro_Source__c}" /> -->
-                            </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(Opportunity.Account_Introduction_Source__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Account_Introduction_Source__c == null), true, false)}" value="{!Opportunity.Account_Introduction_Source__c}" />
-                                <!--     <apex:outputField value="{!Opportunity.Account_Introduction_Source__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Originator
-                            </td>
-                            <td class="row-data-two-column gray-background"></td>
-                            <td class="row-data-two-column gray-background">                     
-                                <apex:outputText rendered="{! If(Opportunity.Owner_Name__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Owner_Name__c == null), true, false)}" value="{!Opportunity.Owner_Name__c}" /> 
-                                <!--  <apex:outputField value="{!Opportunity.Owner_Name__c}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Underwriter
-                            </td>
-                            <td class="row-data-two-column"></td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If(Opportunity.Underwriter__r.Name == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Underwriter__r.Name == null), true, false)}" value="{!Opportunity.Underwriter__r.Name}" />
-                                <!--   <apex:outputField value="{!Opportunity.Underwriter__r.Name}" /> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="right-row-title">
-                                Broker (Fee/Name)
-                            </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Broker_Fees__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.Broker_Fees__c != 0, true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Broker_Fees__c}" /></apex:outputText>
-                                <!--<apex:outputField value="{!Opportunity.Broker_Fees__c}" />-->
-                            </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( ISBLANK(Opportunity.Referral_Source_Contact__c), false, true ) }" value="{!Opportunity.Referral_Source_Contact__r.Name}" />  
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="right-table">
-                    <thead class = "section-header">
                         <tr>
                             <td style="color:white">
                                 Loan Terms
@@ -593,39 +911,85 @@
                             <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
                                 <apex:outputText rendered="{! If( Opportunity.LOC_Commitment__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.LOC_Commitment__c != 0, true, false ) }" value="${0,number,###,###,###}"><apex:param value="{!Opportunity.LOC_Commitment__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.LOC_Commitment__c != 0, true, false ) }" value="${0,number,###,###,###}">
+                                    <apex:param value="{!Opportunity.LOC_Commitment__c}" /></apex:outputText>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Fixed', true, false ) }" value="Interest Rate/Advance Fee" />
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="Index Margin/Advance Fee" />
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Fixed', true, false ) }" value="Interest Rate/Advance Fee"
+                                />
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="Index Margin/Advance Fee"
+                                />
                             </td>
                             <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If( Opportunity.Rate__c != null, true, false ) }" value="{0, number, ####.00}%" ><apex:param value="{! Opportunity.Rate__c }" /></apex:outputText>
-                                <apex:outputText rendered="{! If( Opportunity.Index_Margin__c != null, true, false ) }" value="{0, number, ####.00}%" ><apex:param value="{! Opportunity.Index_Margin__c }" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.Rate__c != null, true, false ) }" value="{0, number, ####.00}%">
+                                    <apex:param value="{! Opportunity.Rate__c }" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.Index_Margin__c != null, true, false ) }" value="{0, number, ####.00}%">
+                                    <apex:param value="{! Opportunity.Index_Margin__c }" /></apex:outputText>
                             </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If( OR(Opportunity.Fee__c = 0, Opportunity.Fee__c == null), true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( AND(Opportunity.Fee__c != 0, Opportunity.Fee__c != null), true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Fee__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( AND(Opportunity.Fee__c != 0, Opportunity.Fee__c != null), true, false ) }" value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.Fee__c}" /></apex:outputText>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-                <table class="right-table">
-                    <tbody>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
                             <td class="right-row-title">
-                                Floating Rate/1M Libor Floor 
+                                Loan Type
                             </td>
-                            <td class="row-data-two-column gray-background">                  
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{!Opportunity.Index__c}"/>
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="No"/>
+                            <td class="row-data-two-column"></td>
+                            <td class="row-data-two-column">
+                                <apex:outputText rendered="{! If(Opportunity.LOC_Loan_Type__c == null, true, false)}" value="N/A" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.LOC_Loan_Type__c == null), true, false)}" value="{!Opportunity.LOC_Loan_Type__c}"
+                                />
+                                <!--   <apex:outputField value="{!Opportunity.LOC_Loan_Type__c}" /> -->
+                            </td>
+                        </tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                            <td class="right-row-title">
+                                Project Strategy
                             </td>
                             <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{!Opportunity.Index_Floor__c}"/>
-                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="N/A"/>
-                                <!--     <apex:outputText value="{!Opportunity.Index_Floor__c}" />    -->                                                   
+                                <apex:outputText value="{!if (property.Refinance_Acquisition__c != null, property.Refinance_Acquisition__c, 'N/A')}" />
+                            </td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText rendered="{! If(Opportunity.Project_Strategy__c == null, true, false)}" value="N/A" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Project_Strategy__c == null), true, false)}" value="{!Opportunity.Project_Strategy__c}"
+                                />
+                            </td>
+                        </tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', '', 'display: none;')}">
+                            <td class="right-row-title">
+                                Interest Rate
+                            </td>
+                            <td class="row-data-two-column">
+                            </td>
+                            <td class="row-data-two-column">
+                                <apex:outputText value="{0, number, ####.00}%">
+                                    <apex:param value="{! Opportunity.Rate__c }" />
+                                </apex:outputText>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <table class="right-table">
+                    <tbody>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
+                            <td class="right-row-title">
+                                Floating Rate/1M Libor Floor
+                            </td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{!Opportunity.Index__c}"
+                                />
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="No" />
+                            </td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c == 'Floating', true, false ) }" value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.Floor__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.Interest_Rate_Type__c != 'Floating', true, false ) }" value="N/A" />
+                                <!--     <apex:outputText value="{!Opportunity.Index_Floor__c}" />    -->
                             </td>
                         </tr>
                     </tbody>
@@ -634,67 +998,81 @@
                     <tbody>
                         <tr>
                             <td class="right-row-title">
-                                Origination Fee/Exit Fee
+                                <apex:outputText value="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'Origination Fee/Extension Fee', 'Origination Fee/Exit Fee')}" />
+                                
                             </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If( OR(Opportunity.CAF_Upfront_Fee__c = 0, Opportunity.CAF_Upfront_Fee__c == null), true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( AND(Opportunity.CAF_Upfront_Fee__c != 0, Opportunity.CAF_Upfront_Fee__c != null), true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
+                                <apex:outputText rendered="{! If( OR(Opportunity.CAF_Upfront_Fee__c = 0, Opportunity.CAF_Upfront_Fee__c == null), true, false ) }"
+                                    value="N/A" />
+                                <apex:outputText rendered="{! If( AND(Opportunity.CAF_Upfront_Fee__c != 0, Opportunity.CAF_Upfront_Fee__c != null), true, false ) }"
+                                    value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>
                                 <!--<apex:outputText value="{0,number,###.00}"><apex:param value="{!Opportunity.CAF_Upfront_Fee__c}" /></apex:outputText>%-->
                             </td>
-                            <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If( OR(Opportunity.Exit_Fee__c = 0, Opportunity.Exit_Fee__c == 0), true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( AND(Opportunity.Exit_Fee__c != 0, Opportunity.Exit_Fee__c != null), true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Exit_Fee__c}" /></apex:outputText>
-                                <!-- <apex:outputText value="{!Opportunity.Exit_Fee__c}" /> -->
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
+                                <apex:outputText rendered="{!Opportunity.RecordType__c == 'Single Asset Bridge'}" value="{! If(Opportunity.Extension_Fee__c == null, 'N/A', Opportunity.Extension_Fee__c) }" />
+                                <apex:outputText rendered="{!Opportunity.RecordType__c != 'Single Asset Bridge' && Opportunity.Exit_Fee__c == null}" value="N/A" />
+                                <apex:outputText rendered="{!Opportunity.RecordType__c != 'Single Asset Bridge' && Opportunity.Exit_Fee__c != null}" value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.Exit_Fee__c}" />
+                                </apex:outputText>
+
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Renovation Type
                             </td>
                             <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
                                 <apex:outputText rendered="{! If(Opportunity.Reno_Funding_Type__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Reno_Funding_Type__c == null), true, false)}" value="{!Opportunity.Reno_Funding_Type__c}" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Reno_Funding_Type__c == null), true, false)}" value="{!Opportunity.Reno_Funding_Type__c}"
+                                />
                                 <!--       <apex:outputField value="{!Opportunity.Reno_Funding_Type__c}" /> -->
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Pledge Required
                             </td>
                             <td class="row-data-two-column"></td>
                             <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If( Opportunity.Loan_Size__c!=null && Opportunity.Loan_Size__c > 10000000, true, false ) }" value="Yes" />
-                                <apex:outputText rendered="{! If( Opportunity.Loan_Size__c!=null && Opportunity.Loan_Size__c <= 10000000, true, false ) }" value="No" />                                
+                                <apex:outputText rendered="{! If( Opportunity.Loan_Size__c!=null && Opportunity.Loan_Size__c > 10000000, true, false ) }"
+                                    value="Yes" />
+                                <apex:outputText rendered="{! If( Opportunity.Loan_Size__c!=null && Opportunity.Loan_Size__c <= 10000000, true, false ) }"
+                                    value="No" />
                             </td>
                         </tr>
                         <tr>
                             <td class="right-row-title">
                                 Term (Months)
                             </td>
-                            <td class="row-data-two-column gray-background"></td>
-                            <td class="row-data-two-column gray-background">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}">
+                            </td>
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}">
                                 <apex:outputText rendered="{!If(NOT(Opportunity.LOC_Term__c ==null), true, false) }" value="{!Opportunity.LOC_Term__c}" />
                                 <apex:outputText rendered="{! If(Opportunity.LOC_Term__c  == null, true, false ) }" value="N/A" />
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Investment/Repayment
                             </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(Opportunity.Advance_Period__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Advance_Period__c == null) && Opportunity.Advance_Period__c != 365, true, false)}" value="{!Opportunity.Advance_Period_Days_In_Months__c}" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Advance_Period__c == null) && Opportunity.Advance_Period__c == 365, true, false)}" value="12 Months" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Advance_Period__c == null) && Opportunity.Advance_Period__c != 365, true, false)}"
+                                    value="{!Opportunity.Advance_Period_Days_In_Months__c}" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Advance_Period__c == null) && Opportunity.Advance_Period__c == 365, true, false)}"
+                                    value="12 Months" />
                                 <!--       <apex:outputField value="{!Opportunity.Advance_Period_Days_In_Months__c}" /> -->
                             </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(Opportunity.Repayment_Period__c == null, true, false)}" value="N/A" />
-                                <apex:outputText rendered="{! If(NOT(Opportunity.Repayment_Period__c == null), true, false)}" value="{!Opportunity.Repayment_Period__c}" />
+                                <apex:outputText rendered="{! If(NOT(Opportunity.Repayment_Period__c == null), true, false)}" value="{!Opportunity.Repayment_Period__c}"
+                                />
                                 <!--   <apex:outputField value="{!Opportunity.Asset_Maturity__c}" /> -->
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Revolver
                             </td>
@@ -707,14 +1085,14 @@
                 </table>
                 <table class="right-table">
                     <tbody>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Recourse
                             </td>
                             <td class="row-data-one-column">
                                 <apex:outputText value="{!Opportunity.Recourse__c}" />
                                 <!-- <apex:outputText rendered="{! If(unsavedObj.recourse != null, true, false ) }" value="{!unsavedObj.recourse}" /> -->
-                                   <!-- <apex:outputText rendered="{! If(Opportunity.Recourse__c == "Non-Recourse", true, false ) }" value="{!unsavedObj.recourse}" />  -->
+                                <!-- <apex:outputText rendered="{! If(Opportunity.Recourse__c == "Non-Recourse", true, false ) }" value="{!unsavedObj.recourse}" />  -->
                                 <!-- <apex:outputText rendered="{! If(unsavedObj.recourse == null, true, false ) }" value="N/A" /> -->
                             </td>
                         </tr>
@@ -722,7 +1100,7 @@
                 </table>
                 <table class="right-table">
                     <tbody>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Partial Release
                             </td>
@@ -735,14 +1113,16 @@
                             <td class="right-row-title">
                                 Max Initial LTC/LTV
                             </td>
-                            <td class="row-data-two-column">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
                                 <apex:outputText rendered="{! If( Opportunity.LTC__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.LTC__c != 0, true, false ) }" value="{0,number,###}%"><apex:param value="{!Opportunity.LTC__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.LTC__c != 0, true, false ) }" value="{0,number,###}%">
+                                    <apex:param value="{!Opportunity.LTC__c}" /></apex:outputText>
                                 <!--   <apex:outputField value="{!Opportunity.LTC__c}" /> -->
                             </td>
-                            <td class="row-data-two-column">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
                                 <apex:outputText rendered="{! If( Opportunity.LTV__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.LTV__c != 0, true, false ) }" value="{0,number,###}%"><apex:param value="{!Opportunity.LTV__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.LTV__c != 0, true, false ) }" value="{0,number,###}%">
+                                    <apex:param value="{!Opportunity.LTV__c}" /></apex:outputText>
                                 <!--  <apex:outputText value="{!Opportunity.LTV__c}" /> -->
                             </td>
                         </tr>
@@ -750,41 +1130,47 @@
                             <td class="right-row-title">
                                 Total Loan LTC/ARV LTV
                             </td>
-                            <td class="row-data-two-column gray-background">
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}">
                                 <apex:outputText rendered="{! If( Opportunity.Total_Loan_LTC__c = null, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.Total_Loan_LTC__c != null, true, false ) }" value="{0,number,###}%"><apex:param value="{!Opportunity.Total_Loan_LTC__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.Total_Loan_LTC__c != null, true, false ) }" value="{0,number,###}%">
+                                    <apex:param value="{!Opportunity.Total_Loan_LTC__c}" /></apex:outputText>
                             </td>
-                            <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Total_ARV_LTV__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.Total_ARV_LTV__c != 0, true, false ) }" value="{0,number,###}%"><apex:param value="{!Opportunity.Total_ARV_LTV__c}" /></apex:outputText>
+                            <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column', 'row-data-two-column gray-background')}">
+                                <apex:outputText rendered="{! If( Opportunity.Total_ARV_LTV__c = null, true, false ) }" value="N/A" />
+                                <apex:outputText rendered="{! If( Opportunity.Total_ARV_LTV__c != null, true, false ) }" value="{0,number,###}%">
+                                    <apex:param value="{!Opportunity.Total_ARV_LTV__c}" /></apex:outputText>
                                 <!--  <apex:outputText value="{!Opportunity.Total_ARV_LTV__c}" /> -->
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'display: none;', '')}">
                             <td class="right-row-title">
                                 Max Reno Cost Reimb
                             </td>
                             <td class="row-data-two-column"></td>
                             <td class="row-data-two-column">
-                                <apex:outputText rendered="{! If( Opportunity.Max_Reno_Cost_Reimbursement__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.Max_Reno_Cost_Reimbursement__c != 0, true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Max_Reno_Cost_Reimbursement__c}" /></apex:outputText>
+                                <apex:outputText rendered="{! If( Opportunity.Max_Reno_Cost_Reimbursement__c = null, true, false ) }" value="N/A" />
+                                <apex:outputText rendered="{! If( Opportunity.Max_Reno_Cost_Reimbursement__c != null, true, false ) }" value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.Max_Reno_Cost_Reimbursement__c}" /></apex:outputText>
                             </td>
                         </tr>
                         <tr>
                             <td class="right-row-title">
                                 Reno Limit (% Acq Cost)
                             </td>
-                            <td class="row-data-two-column gray-background"></td>
                             <td class="row-data-two-column gray-background">
-                                <apex:outputText rendered="{! If( Opportunity.Renovation_Limit__c = 0, true, false ) }" value="N/A" />
-                                <apex:outputText rendered="{! If( Opportunity.Renovation_Limit__c != 0, true, false ) }" value="{0,number,###.00}%"><apex:param value="{!Opportunity.Renovation_Limit__c}" /></apex:outputText>
+                            </td>
+                            <td class="row-data-two-column gray-background">
+                                <apex:outputText rendered="{! If( Opportunity.Renovation_Limit__c = null, true, false ) }" value="N/A" />
+                                <apex:outputText rendered="{! If( Opportunity.Renovation_Limit__c != null, true, false ) }" value="{0,number,###.00}%">
+                                    <apex:param value="{!Opportunity.Renovation_Limit__c}" /></apex:outputText>
                             </td>
                         </tr>
                         <tr>
                             <td class="right-row-title">
                                 Exceptions
                             </td>
-                            <td class="row-data-two-column"></td>
+                            <td class="row-data-two-column">
+                            </td>
                             <td class="row-data-two-column">
                                 <apex:outputText rendered="{! If(Opportunity.Exception__c == true, true, false ) }" value="Yes" />
                                 <apex:outputText rendered="{! If(Opportunity.Exception__c == false, true, false ) }" value="No" />
@@ -808,13 +1194,14 @@
                     </table>
                 </apex:outputText>
                 <table class="right-table">
-                    <tbody>                
+                    <tbody>
                         <tr>
                             <td class="right-row-title">
                                 GLC Date/Approved
                             </td>
                             <td class="row-data-two-column gray-background">
-                                <apex:outputText value="{0,date,MM/dd/YYYY}"><apex:param value="{!Opportunity.GLC_Approval_Date__c}" /> </apex:outputText>
+                                <apex:outputText value="{0,date,MM/dd/YYYY}">
+                                    <apex:param value="{!Opportunity.GLC_Approval_Date__c}" /> </apex:outputText>
                             </td>
                             <td class="row-data-two-column gray-background">
                                 <apex:outputText rendered="{! If(Opportunity.GLC_Approved__c == true, true, false ) }" value="Yes" />
@@ -825,19 +1212,19 @@
                 </table>
             </div>
             <script type="text/javascript">
-            window.addEventListener("message", function (event) {
-                getData(event.data); 
-            }, false);
+                window.addEventListener("message", function (event) {
+                    getData(event.data);
+                }, false);
             </script>
             <apex:outputPanel id="printPanel1">
                 <apex:outputPanel id="printPanel2" rendered="{!printReady}">
                     <script type="text/javascript">
-                    window.print();
-                    parent.postMessage("finished printing", "*");
+                        window.print();
+                        parent.postMessage("finished printing", "*");
                     </script>
                 </apex:outputPanel>
             </apex:outputPanel>
-            
+
             <apex:actionFunction action="{!getData}" name="getData" rerender="printPanel1,formId">
                 <apex:param name="filtersJSON" assignTo="{!filtersJSON}" value="" />
             </apex:actionFunction>

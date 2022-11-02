@@ -19,6 +19,11 @@
                 <label>Follow-Up</label>
             </value>
             <value>
+                <fullName>Requested</fullName>
+                <default>false</default>
+                <label>Requested</label>
+            </value>
+            <value>
                 <fullName>Pending Revision</fullName>
                 <default>false</default>
                 <label>Pending Revision</label>

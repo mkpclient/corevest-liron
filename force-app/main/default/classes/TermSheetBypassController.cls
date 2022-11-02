@@ -6,7 +6,8 @@ public without sharing class TermSheetBypassController {
     'loanSize' => 'Requested Loan Amount is equal or greater than $3M, Term Sheet approval cannot be bypassed.',
     'hasException' => 'This Deal has an Exception, Term Sheet approval cannot be bypassed.',
     'hasGLCApproval' => 'This Deal went through GLC Approval, Term Sheet approval cannot be bypassed.',
-    'salesAnalyst' => 'If the CAF Originator on the deal is a Sales Analyst, Term Sheet approval cannot be bypassed.'
+    'salesAnalyst' => 'If the CAF Originator on the deal is a Sales Analyst, Term Sheet approval cannot be bypassed.',
+    'noTermSheet'=> 'Term Sheet required before approval bypass. Please generate the Term Sheet or upload if created outside of the system.'
   };
   // Opportunity.OwnerId, CAF Originator (Lookup on User)
   // Opportunity.Closer__c, Closer (Lookup on User)
@@ -53,11 +54,17 @@ public without sharing class TermSheetBypassController {
   // public static final String RYAN = userRyan.Email;
 
   public static List<String> fields = new List<String>{
-    'Account.Repeat_Borrower__c',
+    'Account.Total_Borrowed__c',
     'Loan_Size__c',
     'Exception__c',
     'GLC_Approved__c',
-    'OwnerId'
+    'OwnerId',
+    'LOC_Program_Type__c',
+    'RecordType.DeveloperName',
+    'Current_Stage__c',
+    'Term_Sheet_Issued__c',
+    'StageName'        
+        
   };
 
   // public static Map<String,String> loansToTemplate = new Map<String,String>{
@@ -76,7 +83,7 @@ public without sharing class TermSheetBypassController {
 
     List<Opportunity> oList = Database.query(qs);
     Opportunity o = oList[0];
-
+    
     List<User> ownerUser = [SELECT id, Profile.Name, Profile.Id FROM User WHERE Id=:o.OwnerId];
 
     if(ownerUser.size() > 0) {
@@ -128,6 +135,17 @@ public without sharing class TermSheetBypassController {
           ddCvIds.add(ddc.ContentVersion_Id__c);
         }
       }
+    } else {
+      validationErrors.add(validationMessages.get('noTermSheet'));
+    }
+
+    if(o.RecordType.DeveloperName != 'Term_Loan' && o.LOC_Program_Type__c == 'Standard') {
+      if(ddList.size() == 0) {
+      m.put('ValidationError', new List<String>{validationMessages.get('noTermSheet')});
+        return JSON.serialize(m);
+      } else {
+        return '{}';
+      }
     }
 
     //
@@ -148,7 +166,7 @@ public without sharing class TermSheetBypassController {
       m.put('TermSheetError', new List<String>{ 'true' });
     }
 
-    if (o.Account.Repeat_Borrower__c != true) {
+    if (o.Account.Total_Borrowed__c == 0) {
       validationErrors.add(validationMessages.get('notRepeatBorrower'));
     } 
     if (o.Loan_Size__c >= 3000000) {
@@ -166,7 +184,7 @@ public without sharing class TermSheetBypassController {
     }
 
     // }
-
+    
     //m.put('ContentVersions', cvList);
     return JSON.serialize(m, true);
   }
@@ -192,13 +210,25 @@ public without sharing class TermSheetBypassController {
       a.ParentId = recordId;
       insert a;
 
+        
+        
       Opportunity o = new Opportunity(
         Id = recordId,
         Bypass_To_Underwriting__c = true,
         Approved_Term_Sheet__c = termSheet.ContentVersion_Id__c,
         Approved_Term_Sheet_Name__c = termSheet.File_Name__c
       );
-
+	  //RS.9/8/2022.CIP-2510.Begin
+	  List<Opportunity> op = [select Current_Stage__c, Term_Sheet_Issued__c, StageName from Opportunity where id = :recordId];
+      if (op.size() > 0)
+      {
+        o.Term_Sheet_Issued__c  = Date.today();
+      	if (op[0].Current_Stage__c == 'Initial Review' || op[0].Current_Stage__c == 'Data Tape Received')
+        {
+         o.StageName = 'Term Sheet Issued';
+        }
+      }  
+     //RS.9/8/2022.CIP-2510.End
       update o;
 
       return 'This record has successfully been bypassed';

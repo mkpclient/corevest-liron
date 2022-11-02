@@ -2,14 +2,15 @@
 <EmailServicesFunction xmlns="http://soap.sforce.com/2006/04/metadata">
     <apexClass>SwapRateHandler</apexClass>
     <attachmentOption>TextOnly</attachmentOption>
-    <authenticationFailureAction>Discard</authenticationFailureAction>
-    <authorizationFailureAction>Discard</authorizationFailureAction>
-    <functionInactiveAction>Discard</functionInactiveAction>
+    <authenticationFailureAction>Bounce</authenticationFailureAction>
+    <authorizationFailureAction>Bounce</authorizationFailureAction>
+    <errorRoutingAddress>raj.sirivolu@cvest.com</errorRoutingAddress>
+    <functionInactiveAction>Bounce</functionInactiveAction>
     <functionName>Swap Rate Handler</functionName>
     <isActive>true</isActive>
     <isAuthenticationRequired>false</isAuthenticationRequired>
-    <isErrorRoutingEnabled>false</isErrorRoutingEnabled>
+    <isErrorRoutingEnabled>true</isErrorRoutingEnabled>
     <isTextAttachmentsAsBinary>false</isTextAttachmentsAsBinary>
     <isTlsRequired>false</isTlsRequired>
-    <overLimitAction>Discard</overLimitAction>
+    <overLimitAction>Bounce</overLimitAction>
 </EmailServicesFunction>

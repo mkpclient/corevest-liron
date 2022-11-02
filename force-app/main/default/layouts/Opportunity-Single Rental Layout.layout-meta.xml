@@ -28,6 +28,10 @@
                 <field>AccountId</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Borrower_Entity__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Contact__c</field>
             </layoutItems>
@@ -103,11 +107,39 @@
                 <behavior>Edit</behavior>
                 <field>Mortgage_Investor__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Rent_Status__c</field>
+                <field>LOC_Loan_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Product_Sub_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Size__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Final_Loan_Amount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Term_Loan_Type__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -122,12 +154,12 @@
                 <field>Annual_HOA__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Property_DTI__c</field>
+                <behavior>Readonly</behavior>
+                <field>Original_Line_Maturity_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Loan_Size__c</field>
+                <field>Updated_Loan_Maturity_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -147,7 +179,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Foreign_National__c</field>
+                <field>Foreign_National_picklist__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -232,6 +264,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Servicer_Name__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Servicer_Commitment_Id__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -329,10 +365,6 @@
                 <behavior>Edit</behavior>
                 <field>Borrowing_Entity_Name_SR__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Origination_Channel_SR__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -342,14 +374,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Type</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Loan_Status_SR__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Lock_Status_SR__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -517,7 +541,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <relatedList>Loan_Metrics__c.Deal__c</relatedList>
+        <relatedList>Policy_Exception__c.Deal__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Property_for_Post_Close_Appraisa</fullName>
+    <active>true</active>
+    <description>This will require the User select a Property for a Post Close Appraisal Exception</description>
+    <errorConditionFormula>AND(
+ ISBLANK( Property__c ) ,
+ INCLUDES( Exception_Type__c , &apos;Post-Close Appraisal&apos;) 
+)</errorConditionFormula>
+    <errorDisplayField>Property__c</errorDisplayField>
+    <errorMessage>Property is required for a Post Close Appraisal Exception</errorMessage>
+</ValidationRule>

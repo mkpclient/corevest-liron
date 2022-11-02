@@ -2,6 +2,7 @@
 public with sharing class USResAPITests {
     @TestSetup
     static void setupTestData() {
+      test_Helper.createDealLoanNumber();
       RecordType rt = [
         SELECT Id, DeveloperName
         FROM RecordType

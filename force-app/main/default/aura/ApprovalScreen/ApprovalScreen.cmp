@@ -12,6 +12,7 @@
     <aura:attribute name="Square_Feet__c" type="String" default="down" />
     <aura:attribute name="Acquisition_Price__c" type="String" default="down" />
     <aura:attribute name="Total_Basis__c" type="String" default="down" />
+    <aura:attribute name="isIcApproval" type="Boolean" default="false" />
     <!-- <aura:attribute name="Property_Listing__c" type="String" default="down" /> -->
 
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
@@ -19,7 +20,149 @@
     <div class="header">
         Approval Details
     </div>
-
+    <aura:if isTrue="{!v.record.Record_Type_Name__c == 'Single_Asset_Bridge_Loan' &amp;&amp; v.isIcApproval == true}">
+      <c:icSabApprovalScreen deal="{!v.record}" recordId="{!v.recordId}" properties="{!v.properties}"/>
+      <aura:if isTrue="{!!empty(v.properties)}">
+            <div class="properties-table">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+              <thead>
+                <tr class="slds-text-title_caps">
+                      <th scope="col">
+                        <div title="Address">
+                            Property Address
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Name}" size="xx-small" title="Name-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="City">
+                            Property City
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.City__c}" size="xx-small" title="City__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="State">
+                            Property State
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.State__c}" size="xx-small" title="State__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Zip">
+                            Property Zip
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.ZipCode__c}" size="xx-small" title="ZipCode__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Property Type">
+                            Property Type
+                            <span onclick="{!c.sort}">
+                                <lightning:icon iconName="{!'utility:' + v.Property_Type__c}" size="xx-small" title="Property_Type__c-down" />
+                            </span>
+                        </div>
+                      </th>
+                      
+                      <th scope="col">
+                        <div title="Property Map">
+                            Property Map
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Occupancy">
+                          Occupancy
+                          <!-- <span onclick="{!c.sort}">
+                            <lightning:icon iconName="{!'utility:' + v.Occupancy_Status__c}" size="xx-small" title="Occupancy_Status__c-down" />
+                          </span> -->
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="# of Units">
+                            # of Units
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="# of Occupied Units">
+                            # of Occupied Units
+                        </div>
+                      </th>
+                      <th scope="col">
+                        <div title="Occupancy %">
+                            Occupancy %
+                        </div>
+                      </th>
+                </tr>
+              </thead>
+              <tbody>
+                  <aura:iteration items="{!v.properties}" var="property">
+                      <tr>
+                          <th scope="col">
+                            <div title="Address"> 
+                                <a href="{!'/lightning/r/Property__c/' + property.Id + '/view'}">{!property.Name}</a>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="City">
+                                {!property.City__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="State">
+                                {!property.State__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Zip">
+                                {!property.ZipCode__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Property Type">
+                                {!property.Property_Type__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Property Map">
+                                <aura:if isTrue="{!!empty(property.Google_Map_URL__c)}">
+                                    <a href="{!property.Google_Map_URL__c}" target="_blank">Google Street View</a>
+                                    <aura:set attribute="else">
+                                        No Link Yet
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Occupancy Status">
+                                {!property.Occupancy_Status__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="# of Units">
+                                {!v.record.Total_Units__c}
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="# of Occupied Units">
+                                placeholder
+                            </div>
+                          </th>
+                          <th scope="col">
+                            <div title="Occupancy %">
+                                placeholder
+                            </div>
+                          </th>
+                      </tr>
+                </aura:iteration>
+              </tbody>
+            </table>
+            </div>
+        </aura:if>
+      <aura:set attribute="else">
       <div class="dashboard-section">
         <button class="section" onclick="{!c.showSection}">
           <span class="marker">
@@ -284,5 +427,6 @@
             </table>
             </div>
         </aura:if>
-
+        </aura:set>
+      </aura:if>
 </aura:component>

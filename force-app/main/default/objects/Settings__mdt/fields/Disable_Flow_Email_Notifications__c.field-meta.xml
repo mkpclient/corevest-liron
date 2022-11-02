@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disable_Flow_Email_Notifications__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This will disable email notifications triggered by Flows</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>This will disable email notifications triggered by Flows</inlineHelpText>
+    <label>Disable Flow Email Notifications</label>
+    <type>Checkbox</type>
+</CustomField>

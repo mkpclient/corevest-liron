@@ -10,6 +10,7 @@ private with sharing class ValuationServicesAPITests {
     ];
     insert new Account(Name = 'Valuation Services AMC', RecordTypeId = rt.Id);
 
+    test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -34,7 +35,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -49,7 +50,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -60,7 +61,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest2() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -75,7 +76,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -86,7 +87,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest3() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -105,7 +106,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest4() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -120,7 +121,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -131,7 +132,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest5() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -146,7 +147,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -157,7 +158,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest6() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
     Test.startTest();
     // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -172,7 +173,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -183,7 +184,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   //   static testMethod void unittest7() {
-  //     Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+  //     Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
 
   //     Test.startTest();
   //     // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
@@ -198,7 +199,7 @@ private with sharing class ValuationServicesAPITests {
   //     arguments.put('', '');
   //     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-  //     Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+  //     Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
   //     AppraisalMergeController.checkStatus(app.Id);
 
@@ -209,7 +210,7 @@ private with sharing class ValuationServicesAPITests {
   //   }
 
   //   static testMethod void unittest9() {
-  //     Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+  //     Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
   //     p.Property_Type__c = '2-4 Unit';
   //     p.Number_of_Units__c = 2;
   //     update p;
@@ -226,7 +227,7 @@ private with sharing class ValuationServicesAPITests {
   //     arguments.put('', '');
   //     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-  //     Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+  //     Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
   //     AppraisalMergeController.checkStatus(app.Id);
 
@@ -237,7 +238,7 @@ private with sharing class ValuationServicesAPITests {
   //   }
 
   static testMethod void unittest10() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -254,7 +255,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -265,7 +266,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest11() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -282,7 +283,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -314,7 +315,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest12() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -331,7 +332,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -342,7 +343,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest13() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -359,7 +360,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -370,7 +371,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest14() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -387,7 +388,7 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 
@@ -398,7 +399,7 @@ private with sharing class ValuationServicesAPITests {
   }
 
   static testMethod void unittest15() {
-    Property__c p = [SELECT Id FROM Property__c LIMIT 1];
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
     p.Property_Type__c = '2-4 Unit';
     p.Number_of_Units__c = 2;
     update p;
@@ -415,7 +416,770 @@ private with sharing class ValuationServicesAPITests {
     arguments.put('', '');
     AppraisalMergeController.submitOrder(p.Id, arguments);
 
-    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1];
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest16() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest17() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest18() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest19() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest20() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest21() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest22() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest23() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Interior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest24() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest25() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest26() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest27() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest28() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest29() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest30() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest31() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Exterior Appraisal with ARV');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest32() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest33() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest34() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest35() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest36() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest37() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest38() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest39() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest40() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 4;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection & Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest41() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = '2-4 Unit';
+    p.Number_of_Units__c = 20;
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection & Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+
+  static testMethod void unittest42() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Condo';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection & Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
+
+    AppraisalMergeController.checkStatus(app.Id);
+
+    // Database.executeBatch(new ClearCapitalBatch(), 1);
+    AppraisalMergeController.retrieveOrderValuationServices(app.Id);
+
+    Test.stopTest();
+  }
+  static testMethod void unittest43() {
+    Property__c p = [SELECT Id FROM Property__c LIMIT 1 FOR UPDATE];
+    p.Property_Type__c = 'Multifamily';
+    update p;
+    Test.startTest();
+    // System.enqueueJob(new SmartyStreetsQueueable(new List<Id>{ p.Id }));
+
+    Map<String, Object> arguments = new Map<String, Object>();
+    arguments.put('appraisalFirm', 'Valuation Services AMC');
+    arguments.put('productType', 'Final Inspection & Appraisal Update');
+    arguments.put('rushOrder', false);
+    // arguments.put('turnTime', '48');
+    // arguments.put('dueDate', String.valueOf(System.today().addDays(10)));
+    arguments.put('vendorComments', 'adsfa');
+    arguments.put('', '');
+    AppraisalMergeController.submitOrder(p.Id, arguments);
+
+    Appraisal__c app = [SELECT Id FROM Appraisal__c LIMIT 1 FOR UPDATE];
 
     AppraisalMergeController.checkStatus(app.Id);
 

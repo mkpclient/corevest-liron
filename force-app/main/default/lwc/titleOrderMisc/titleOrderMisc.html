@@ -1,0 +1,46 @@
+<template>
+  <lightning-card>
+    <lightning-combobox
+      name="titleorder"
+      label="Select Title Order to View"
+      value={selectedTitleOrder}
+      placeholder="Select Progress"
+      options={titleOrderOptions}
+      onchange={handleChange}
+    ></lightning-combobox>
+  </lightning-card>
+  <template if:true={selectedTitleOrder}>
+    <lightning-card title="Signing Appointments" icon-name="standard:contact">
+      <div class="slds-p-horizontal_small">
+        <template if:false={hasNoAppointments}>
+          <lightning-datatable
+            key-field="id"
+            data={appsData}
+            columns={appsCols}
+          >
+          </lightning-datatable>
+        </template>
+        <template if:true={hasNoAppointments}>
+          There are currently no appointments associated with the selected title
+          order/s.
+        </template>
+      </div>
+    </lightning-card>
+    <lightning-card title="Notes" icon-name="standard:drafts">
+      <div class="slds-p-horizontal_small">
+        <template if:false={hasNoNotes}>
+          <lightning-datatable
+            key-field="id"
+            data={notesData}
+            columns={notesCols}
+          >
+          </lightning-datatable>
+        </template>
+        <template if:true={hasNoNotes}>
+          There are currently no notes associated with the selected title
+          order/s.
+        </template>
+      </div>
+    </lightning-card>
+  </template>
+</template>

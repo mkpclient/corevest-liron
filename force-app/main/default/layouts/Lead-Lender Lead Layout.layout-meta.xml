@@ -4,6 +4,7 @@
     <customButtons>pi__Send_Pardot_Email</customButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <excludeButtons>XClean</excludeButtons>
@@ -86,6 +87,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Referral_Source__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>How_Did_You_Hear_About_CoreVest__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -408,6 +413,16 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>ChangeOwnerOne</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>9</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FindDup</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>CallHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>0</sortOrder>
@@ -416,6 +431,11 @@
             <actionName>EmailHighlightAction</actionName>
             <actionType>ProductivityAction</actionType>
             <sortOrder>1</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>PrintableView</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Edit</actionName>
@@ -451,21 +471,6 @@
             <actionName>Convert</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>8</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>ChangeOwnerOne</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>9</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FindDup</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>10</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>PrintableView</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>11</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -557,7 +562,7 @@
     <showRunAssignmentRulesCheckbox>true</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h8B000000IcIO</masterLabel>
+        <masterLabel>00h5b00000CgHkj</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>

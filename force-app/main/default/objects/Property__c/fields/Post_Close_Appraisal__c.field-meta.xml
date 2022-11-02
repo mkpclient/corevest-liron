@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Post_Close_Appraisal__c</fullName>
+    <description>Indicates if this Asset will be funded before an Appraisal is received</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicates if this Asset will be funded before an Appraisal is received</inlineHelpText>
+    <label>Post-Close Appraisal?</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+            <value>
+                <fullName>Yes - pending internal value</fullName>
+                <default>false</default>
+                <label>Yes - pending internal value</label>
+            </value>
+            <value>
+                <fullName>Yes - internal value provided</fullName>
+                <default>false</default>
+                <label>Yes - internal value provided</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

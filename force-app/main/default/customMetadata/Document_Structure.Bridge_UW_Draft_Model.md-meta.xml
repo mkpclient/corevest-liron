@@ -56,10 +56,14 @@
     </values>
     <values>
         <field>Folder_Structure_String__c</field>
-        <value xsi:type="xsd:string">UW Model</value>
+        <value xsi:type="xsd:string">Models</value>
     </values>
     <values>
         <field>Include_for_Term_Sheet_Approval__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Legal_Review__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
@@ -100,7 +104,7 @@
     </values>
     <values>
         <field>Public__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>RecordType__c</field>
@@ -144,11 +148,11 @@
     </values>
     <values>
         <field>Vendor_Access__c</field>
-        <value xsi:type="xsd:boolean">false</value>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
     <values>
         <field>Vendor_Type_Access__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">Warehouse Lender</value>
     </values>
     <values>
         <field>sObject__c</field>

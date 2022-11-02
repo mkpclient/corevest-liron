@@ -21,6 +21,19 @@ public without sharing class DuplicateCheckJobHelper {
     }
   }
 
+  @InvocableMethod(label='Process Dupe Id' description='Processes dupe Id from single operation from flow.')
+  public Static List<String> processDupeId(List<Id> dupeIds){
+    try {
+      Set<Id> dupeSet = new Set<Id>();
+      dupeSet.addAll(dupeIds);
+      checkTermPropertyDupes(dupeSet);
+      return new List<String>{'Success'};
+    } catch (Exception e) {
+      return new List<String>{e.getMessage()};
+    }
+    
+  }
+
   public static void checkTermPropertyDupes(Set<Id> propertyDupeJobIds) {
     Set<Id> sourceIds = new Set<Id>();
     // Set<Id> matchIds
@@ -41,59 +54,111 @@ public without sharing class DuplicateCheckJobHelper {
       }
     }
 
-    Map<String, String> newList = new Map<String, String>();
-    Map<String, List<Map<String, String>>> dupeListMap = new Map<String, List<Map<String, String>>>();
-    Map<String, String> propDealMap = new Map<String, String>();
+    Map<String, String> newListTerm = new Map<String, String>();
+    Map<String, List<Map<String, String>>> dupeListMapTerm = new Map<String, List<Map<String, String>>>();
+    Map<String, String> propDealMapTerm = new Map<String, String>();
+
+    Map<String, String> newListLOC = new Map<String, String>();
+    Map<String, List<Map<String, String>>> dupeListMapLOC = new Map<String, List<Map<String, String>>>();
+    Map<String, String> propDealMapLOC = new Map<String, String>();
+
+    
     for (Property__c prop : [
       SELECT Id, Deal__c, Deal__r.RecordType.DeveloperName
       FROM Property__c
       WHERE Id IN :sourceIds
     ]) {
-      if (prop.Deal__r.RecordType.DeveloperName == 'Term_Loan') {
-        if (!dupeListMap.containsKey(prop.Deal__c)) {
-          dupeListMap.put(prop.Deal__c, new List<Map<String, String>>());
+      String recType = prop.Deal__r.RecordType.DeveloperName.containsIgnoreCase('term') ? 'Term_Loan' : (prop.Deal__r.RecordType.DeveloperName.containsIgnoreCase('loc') || prop.Deal__r.RecordType.DeveloperName.containsIgnoreCase('bridge') ? 'LOC_Loan' : prop.Deal__r.RecordType.DeveloperName);
+      if (recType == 'Term_Loan') {
+        if (!dupeListMapTerm.containsKey(prop.Deal__c)) {
+          dupeListMapTerm.put(prop.Deal__c, new List<Map<String, String>>());
         }
 
-        if (!propDealMap.containsKey(prop.Id)) {
-          propDealMap.put(prop.Id, prop.Deal__c);
+        if (!propDealMapTerm.containsKey(prop.Id)) {
+          propDealMapTerm.put(prop.Id, prop.Deal__c);
         }
 
-        newList.put(prop.Id, prop.Deal__c);
+        newListTerm.put(prop.Id, prop.Deal__c);
+      } else if (recType == 'LOC_Loan') {
+        if (!dupeListMapLOC.containsKey(prop.Deal__c)) {
+          dupeListMapLOC.put(prop.Deal__c, new List<Map<String, String>>());
+        }
+
+        if (!propDealMapLOC.containsKey(prop.Id)) {
+          propDealMapLOC.put(prop.Id, prop.Deal__c);
+        }
+
+        newListLOC.put(prop.Id, prop.Deal__c);
       }
     }
 
-    Map<String, List<dupcheck__dc3Duplicate__c>> dupeCheckMap = checkDuplicateListFoundByRecordType(
-      newList,
-      'Term_Loan'
-    );
+    if(newListTerm.size() > 0) {
+      Map<String, List<dupcheck__dc3Duplicate__c>> dupeCheckMap = checkDuplicateListFoundByRecordType(
+        newListTerm,
+        'Term_Loan'
+      );
 
-    // List<Map<String, String>> dupeList = new List<Map<String, String>>();
-    // Map<Id, List<Map<String, String>>()
-    for (String i : dupeCheckMap.keySet()) {
-      for (dupcheck__dc3Duplicate__c dupe : dupeCheckMap.get(i)) {
-        Map<String, String> dupeObj = new Map<String, String>();
-        dupeObj.put('sourceId', i);
-        dupeObj.put('matchId', dupe.dupcheck__MatchObject__c);
+      // List<Map<String, String>> dupeList = new List<Map<String, String>>();
+      // Map<Id, List<Map<String, String>>()
+      for (String i : dupeCheckMap.keySet()) {
+        for (dupcheck__dc3Duplicate__c dupe : dupeCheckMap.get(i)) {
+          Map<String, String> dupeObj = new Map<String, String>();
+          dupeObj.put('sourceId', i);
+          dupeObj.put('matchId', dupe.dupcheck__MatchObject__c);
 
-        String dealId = propDealMap.get(i);
+          String dealId = propDealMapTerm.get(i);
 
-        dupeListMap.get(dealId).add(dupeObj);
+          dupeListMapTerm.get(dealId).add(dupeObj);
+        }
+      }
+
+      //system.debug(dupeCheckMap);
+
+      // lightning_Controller.
+
+      for (String recordId : dupeListMapTerm.keySet()) {
+        if (dupeListMapTerm.get(recordId).size() > 0) {
+          sendDupeEmail(JSON.serialize(dupeListMapTerm.get(recordId)), recordId, 'Term');
+        }
       }
     }
 
-    //system.debug(dupeCheckMap);
+    if(newListLOC.size() > 0) {
+      Map<String, List<dupcheck__dc3Duplicate__c>> dupeCheckMap = checkDuplicateListFoundByRecordType(
+        newListLOC,
+        'LOC_Loan'
+      );
 
-    // lightning_Controller.
+      // List<Map<String, String>> dupeList = new List<Map<String, String>>();
+      // Map<Id, List<Map<String, String>>()
+      for (String i : dupeCheckMap.keySet()) {
+        for (dupcheck__dc3Duplicate__c dupe : dupeCheckMap.get(i)) {
+          Map<String, String> dupeObj = new Map<String, String>();
+          dupeObj.put('sourceId', i);
+          dupeObj.put('matchId', dupe.dupcheck__MatchObject__c);
 
-    for (String recordId : dupeListMap.keySet()) {
-      if (dupeListMap.get(recordId).size() > 0) {
-        sendDupeEmail(JSON.serialize(dupeListMap.get(recordId)), recordId);
+          String dealId = propDealMapLOC.get(i);
+
+          dupeListMapLOC.get(dealId).add(dupeObj);
+        }
+      }
+
+      //system.debug(dupeCheckMap);
+
+      // lightning_Controller.
+
+      for (String recordId : dupeListMapLOC.keySet()) {
+        if (dupeListMapLOC.get(recordId).size() > 0) {
+          sendDupeEmail(JSON.serialize(dupeListMapLOC.get(recordId)), recordId, 'Bridge');
+        }
       }
     }
+
+   
   }
 
   @AuraEnabled
-  public static void sendDupeEmail(String dupeListStr, String recordId) {
+  public static void sendDupeEmail(String dupeListStr, String recordId, String recordType) {
     Settings__mdt settings = [
       SELECT
         Id,
@@ -251,7 +316,7 @@ public without sharing class DuplicateCheckJobHelper {
     messaging.singleEmailMessage em = new messaging.SingleEmailMessage();
     em.setHtmlBody(htmlBody);
     em.setToAddresses(new List<String>(emails));
-    em.setSubject('Duplicate Term Properties Saved');
+    em.setSubject('Duplicate ' + recordType + ' Properties Saved');
 
     Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em });
   }
@@ -287,10 +352,15 @@ public without sharing class DuplicateCheckJobHelper {
       newList.put(property.Id, dealId);
     }
 
+    system.debug(newList);
+    system.debug(newList.size());
+
     Map<String, List<dupcheck__dc3Duplicate__c>> dupeListMap = checkDuplicateListFoundByRecordType(
       newList,
-      recTypeDevName.containsIgnoreCase('term') ? 'Term_Loan' : 'LOC_Loan'
+      recTypeDevName.containsIgnoreCase('term') ? 'Term_Loan' : (recTypeDevName.containsIgnoreCase('loc') || recTypeDevName.containsIgnoreCase('bridge') ? 'LOC_Loan' : recTypeDevName)
     );
+
+    system.debug(dupeListMap);
 
     List<Map<String, String>> dupeList = new List<Map<String, String>>();
     for (String sourceId : dupeListMap.keySet()) {

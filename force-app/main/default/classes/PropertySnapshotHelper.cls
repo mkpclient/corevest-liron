@@ -28,13 +28,17 @@ public without sharing class PropertySnapshotHelper {
     'Realized_Loss_Severity__c' => 'Realized_Loss_Severity__c',
     'Total_Broker_Commissions_Fees_Paid__c' => 'Total_Broker_Commissions_Fees_Paid__c',
     'Maturity_Default_Transfer__c' => 'Maturity_Default_Transfer__c',
-    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c'
+    'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c',
+    'Net_Proceeds__c' => 'Net_Proceeds__c'
   };
 
   private static final Map<String, String> SNAPSHOT_TO_EXT_COMPLETED = new Map<String, String>{
     'Start_Date__c' => 'CreatedDate',
     'Resolved_Date__c' => 'Extension_Date__c',
-    'Days_To_Resolve__c' => 'Days_To_Resolve__c'
+    'Days_To_Resolve__c' => 'Days_To_Resolve__c',
+    'New_Asset_Maturity_Date__c' => 'New_Asset_Maturity_Date__c',
+    'Original_Asset_Maturity_Date__c' => 'Original_Asset_Maturity_Date_Formula__c',
+    'Previous_Asset_Maturity_Date__c' => 'Previous_Asset_Maturity_Date__c'
   };
 
   private static final String PROP_EVENT_NAME_PAID = 'Asset Paid Off';
@@ -50,6 +54,8 @@ public without sharing class PropertySnapshotHelper {
 
   private static final String SPEC_ASSET_EVENT_NAME = 'Special Asset Resolved';
 
+  // changed to 'Asset Sold in the record but it now causes duplicate keys in the map so i will just programatically change it below
+
   private static final Map<String, Map<String, String>> FIELD_MAPPING_BY_EVENT = new Map<String, Map<String, String>>{
     PROP_EVENT_NAME_PAID => SNAPSHOT_TO_PROP_MAP_ASSETPAIDOFF,
     PROP_EXT_EVENT_NAME => SNAPSHOT_TO_EXT_COMPLETED,
@@ -60,7 +66,6 @@ public without sharing class PropertySnapshotHelper {
   private static final Map<String, Schema.SObjectField> PROPERTY_FIELD_MAP = Schema.SObjectType.Property__c.fields.getMap();
   private static final Map<String, Schema.SObjectField> OPPORTUNITY_FIELD_MAP = Schema.SObjectType.Opportunity.fields.getMap();
   private static final Map<String, Schema.SObjectField> SNAPSHOT_FIELDMAP = Schema.SObjectType.Property_Snapshot__c.fields.getMap();
-
 
   public static void createPropertySnapshot(
     Map<String, Map<Id, sObject>> eventTypeMap
@@ -98,16 +103,13 @@ public without sharing class PropertySnapshotHelper {
       );
     } else if (propIds.size() > 0) {
       String propQuery =
-        'SELECT Id,' +
+        'SELECT Id,UPB_Before_Payoff__c,' +
         String.join(
           new List<String>(PROPERTY_GENERAL_FIELD_MAP.keySet()),
           ','
         ) +
         ', Deal__r.' +
-        String.join(
-          new List<String>(DEAL_FIELD_MAP.keySet()),
-          ', Deal__r.'
-        ) +
+        String.join(new List<String>(DEAL_FIELD_MAP.keySet()), ', Deal__r.') +
         ' FROM Property__c WHERE Id IN :propIds';
       propMap = new Map<Id, Property__c>(
         (List<Property__c>) Database.query(propQuery)
@@ -121,27 +123,33 @@ public without sharing class PropertySnapshotHelper {
 
       Map<String, String> fieldMapping = FIELD_MAPPING_BY_EVENT.get(key);
 
-      if(fieldMapping == null || fieldMapping.size() < 1) {
+      if (fieldMapping == null || fieldMapping.size() < 1) {
         continue;
       }
 
       for (sObject obj : eventTypeMap.get(key).values()) {
-        if(PROP_EXT_EVENT_NAME == key) {
-            propSnapshot.Property_Extension__c = (Id) obj.get('Id');
-            propSnapshot.Property__c = (Id) obj.get('Property__c');
+        if (PROP_EXT_EVENT_NAME == key) {
+          propSnapshot.Property_Extension__c = (Id) obj.get('Id');
+          propSnapshot.Property__c = (Id) obj.get('Property__c');
         } else if (SPEC_ASSET_EVENT_NAME == key) {
-            propSnapshot.Special_Asset__c = (Id) obj.get('Id');
-            propSnapshot.Property__c = (Id) obj.get('Property__c');
+          propSnapshot.Special_Asset__c = (Id) obj.get('Id');
+          propSnapshot.Property__c = (Id) obj.get('Property__c');
+          if(obj.get('REO_Sell_Date__c') != null) {
+            propSnapshot.Event_Type__c = 'Asset Sold';
+          }
         } else {
-            propSnapshot.Property__c = (Id) obj.get('Id');
+          propSnapshot.Property__c = (Id) obj.get('Id');
         }
         for (String fld : fieldMapping.keySet()) {
           Schema.SObjectField field = SNAPSHOT_FIELDMAP.get(fld);
-          if(field != null) {
-            if(fieldMapping.get(fld) == 'CreatedDate') {
-                propSnapshot.put(field, date.valueOf((DateTime) obj.get('CreatedDate')));
+          if (field != null) {
+            if (fieldMapping.get(fld) == 'CreatedDate') {
+              propSnapshot.put(
+                field,
+                date.valueOf((DateTime) obj.get('CreatedDate'))
+              );
             } else {
-                propSnapshot.put(field, obj.get(fieldMapping.get(fld)));
+              propSnapshot.put(field, obj.get(fieldMapping.get(fld)));
             }
           }
         }
@@ -155,19 +163,44 @@ public without sharing class PropertySnapshotHelper {
         }
 
         for (String propFld : PROPERTY_GENERAL_FIELD_MAP.keySet()) {
-          Schema.SObjectField field = SNAPSHOT_FIELDMAP.get(PROPERTY_GENERAL_FIELD_MAP.get(propFld));   
+          Schema.SObjectField field = SNAPSHOT_FIELDMAP.get(
+            PROPERTY_GENERAL_FIELD_MAP.get(propFld)
+          );
           if (propMap.size() > 0) {
             Property__c prop = propMap.get((Id) obj.get('Property__c'));
             if (prop != null) {
-              propSnapshot.put(field, prop.get(propFld));
+              if (propFld == 'Current_UPB__c') {
+                Decimal upb = prop.Current_UPB__c != null &&
+                  prop.Current_UPB__c > 0
+                  ? prop.Current_UPB__c
+                  : prop.UPB_Before_Payoff__c != null
+                      ? prop.UPB_Before_Payoff__c
+                      : 0;
+                propSnapshot.put(field, upb);
+              } else {
+                propSnapshot.put(field, prop.get(propFld));
+              }
             }
           } else {
-            propSnapshot.put(field, obj.get(propFld));
+            if (propFld == 'Current_UPB__c') {
+              Property__c prop = (Property__c) obj;
+              Decimal upb = prop.Current_UPB__c != null &&
+                prop.Current_UPB__c > 0
+                ? prop.Current_UPB__c
+                : prop.UPB_Before_Payoff__c != null
+                    ? prop.UPB_Before_Payoff__c
+                    : 0;
+              propSnapshot.put(field, upb);
+            } else {
+              propSnapshot.put(field, obj.get(propFld));
+            }
           }
         }
 
-        for(String dealFld : DEAL_FIELD_MAP.keySet()) {
-         Schema.SObjectField field = SNAPSHOT_FIELDMAP.get(DEAL_FIELD_MAP.get(dealFld));   
+        for (String dealFld : DEAL_FIELD_MAP.keySet()) {
+          Schema.SObjectField field = SNAPSHOT_FIELDMAP.get(
+            DEAL_FIELD_MAP.get(dealFld)
+          );
           if (dealMap.size() > 0) {
             Opportunity deal = dealMap.get((Id) obj.get('Deal__c'));
             if (deal != null) {
@@ -181,10 +214,10 @@ public without sharing class PropertySnapshotHelper {
           }
         }
       }
-      propSnapshots.add(propSnapshot);  
+      propSnapshots.add(propSnapshot);
     }
 
-    if(propSnapshots.size() > 0) {
+    if (propSnapshots.size() > 0) {
       Database.insert(propSnapshots);
     }
   }

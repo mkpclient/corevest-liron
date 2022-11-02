@@ -4,7 +4,7 @@
     <externalId>false</externalId>
     <formula>Deal__r.LOC_Commitment__c</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-    <label>LOC Commitment</label>
+    <label>Loan Commitment</label>
     <precision>18</precision>
     <required>false</required>
     <scale>2</scale>

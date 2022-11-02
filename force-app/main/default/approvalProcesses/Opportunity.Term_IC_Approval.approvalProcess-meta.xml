@@ -5,6 +5,14 @@
     <allowedSubmitters>
         <type>owner</type>
     </allowedSubmitters>
+    <allowedSubmitters>
+        <submitter>Manager</submitter>
+        <type>role</type>
+    </allowedSubmitters>
+    <allowedSubmitters>
+        <submitter>Term</submitter>
+        <type>role</type>
+    </allowedSubmitters>
     <approvalPageFields>
         <field>Name</field>
         <field>Owner</field>
@@ -74,12 +82,10 @@
         <field>Borrower_Entity__c</field>
         <field>Borrower_Est_Value_Per_Property__c</field>
         <field>Borrower_Name_SR__c</field>
-        <field>Borrowing_Entity_Name_SR__c</field>
         <field>Bridge_Borrower__c</field>
         <field>LOC_Programs__c</field>
         <field>LOC_Program_Type__c</field>
         <field>Broker_Fees__c</field>
-        <field>Broker_Fee_Formula__c</field>
         <field>Broker_Fees_and_or_YSP__c</field>
         <field>Broker_Fee_Paid_Date__c</field>
         <field>Broker_Fees_In_Words__c</field>
@@ -87,7 +93,6 @@
         <field>Business_Plan__c</field>
         <field>Business_Plan_Percentage__c</field>
         <field>CAF_YSP__c</field>
-        <field>Cancellation_Reason__c</field>
         <field>Cash_Management__c</field>
         <field>CloseDate</field>
         <field>CloseDateQuarter__c</field>
@@ -118,7 +123,6 @@
         <field>Updated_Loan_Maturity_Date__c</field>
         <field>Current_Stage__c</field>
         <field>Current_UPB__c</field>
-        <field>Current_UPB_Interest_Reserves__c</field>
         <field>Custodial_File_Sent_to_Custodian__c</field>
         <field>Date_Stage_Changed_To_UW__c</field>
         <field>Date_Closing_Docs_Received__c</field>
@@ -180,7 +184,6 @@
         <field>Extension_Fee__c</field>
         <field>Deal_Code__c</field>
         <field>Final_Sponsor_Tier__c</field>
-        <field>Final_Interest_Rate__c</field>
         <field>Final_Interest_Rate_Calc__c</field>
         <field>Final_Loan_Amount__c</field>
         <field>Final_Spread__c</field>
@@ -189,7 +192,6 @@
         <field>First_Payment_Date1__c</field>
         <field>Floor__c</field>
         <field>ForecastCategoryName</field>
-        <field>Foreign_National__c</field>
         <field>Frequency_of_Operating_Statements__c</field>
         <field>Full_Draw__c</field>
         <field>Full_Draw_Percentage__c</field>
@@ -206,9 +208,7 @@
         <field>HD_Discount_Code_Assigned__c</field>
         <field>Historical_Ontime_Payments_Percentage__c</field>
         <field>HOA_Fees_Adjustment__c</field>
-        <field>Holdback__c</field>
         <field>Holdback_Multiplier__c</field>
-        <field>Hold_Reason__c</field>
         <field>IC_Approval_Date__c</field>
         <field>Implied_Cap_Rate_Calc__c</field>
         <field>Include_3_Months_Min_Interest__c</field>
@@ -218,7 +218,6 @@
         <field>Index__c</field>
         <field>Index_Floor__c</field>
         <field>Index_Margin__c</field>
-        <field>Indicative_Rate__c</field>
         <field>Indicative_Rate_Calc__c</field>
         <field>In_Foreclosure__c</field>
         <field>Initial_Monthly_Debt_Service_Payment__c</field>
@@ -226,7 +225,6 @@
         <field>Insurance__c</field>
         <field>Rate__c</field>
         <field>Interest_Rate_In_Words__c</field>
-        <field>Interest_Rate_Formula__c</field>
         <field>Interest_Rate_Type__c</field>
         <field>Interest_Reserves__c</field>
         <field>Internal_Referral__c</field>
@@ -254,41 +252,28 @@
         <field>Loan_Mod_Comments__c</field>
         <field>Loan_Mod_Type__c</field>
         <field>Loan_Purpose__c</field>
-        <field>Loan_Sizing_Completed_Date__c</field>
-        <field>Loan_Sizing_Requested_Date__c</field>
         <field>Loan_Status_Change_Date__c</field>
-        <field>Loan_Status_SR__c</field>
         <field>LOC_Commitment__c</field>
         <field>LOC_Commitment_In_Words__c</field>
         <field>LOC_Commitment_Total__c</field>
         <field>LOC_Extension__c</field>
         <field>Lockbox__c</field>
-        <field>Lock_Status_SR__c</field>
         <field>LOC_Outside_Advance_Days__c</field>
         <field>LOC_Term_Number__c</field>
         <field>Loss_Mitigation_Associate__c</field>
         <field>Mapped_Portfolio__c</field>
-        <field>Margin__c</field>
         <field>Maturity_Date_Calculation_Type__c</field>
         <field>Max_Advance_Fee_formula__c</field>
         <field>Max_Advance_Fee__c</field>
         <field>Max_Advance_Fee_Override__c</field>
         <field>LTC__c</field>
-        <field>Max_LTC_Formula__c</field>
         <field>LTV__c</field>
         <field>Max_Reno_Cost_Reimbursement__c</field>
         <field>Min_DSCR__c</field>
         <field>Modified_Expiration_Date__c</field>
         <field>MOD_Status__c</field>
-        <field>Monthly_Payment__c</field>
         <field>Mortgage_Investor__c</field>
         <field>Most_Recent_Line_Mod_Date__c</field>
-        <field>Most_Recent_Opportunity_Flag__c</field>
-        <field>MSA_HPA_Year_1__c</field>
-        <field>MSA_HPA_Year_2__c</field>
-        <field>MSA_HPA_Year_3__c</field>
-        <field>MSA_HPA_Year_4__c</field>
-        <field>MSA_HPA_Year_5__c</field>
         <field>Needs_GLC_Approval__c</field>
         <field>Negotiated_by_Counsel__c</field>
         <field>Net_Buy_Price__c</field>
@@ -296,7 +281,6 @@
         <field>Next_Payment_Date__c</field>
         <field>NextStep</field>
         <field>NOI_Per_Property__c</field>
-        <field>Number_of_Advances__c</field>
         <field>Num_of_Property_Extensions__c</field>
         <field>NY_Counsel_Required__c</field>
         <field>Onboarded_at_Servicer__c</field>
@@ -309,17 +293,13 @@
         <field>Original_Line_Maturity_Date__c</field>
         <field>Stated_Maturity_Date__c</field>
         <field>Original_UPB_Svc__c</field>
-        <field>Original_UPB__c</field>
         <field>Originating_Lead_ID__c</field>
-        <field>Origination_Channel_SR__c</field>
         <field>Calculated_Origination_Fee__c</field>
         <field>CAF_Upfront_Fee__c</field>
         <field>Origination_Fee__c</field>
-        <field>Origination_Fee_Formula__c</field>
         <field>Origination_Fee_In_Words__c</field>
         <field>Origination_Fee_Paid_Date__c</field>
         <field>Notes__c</field>
-        <field>Originations_Model_Saved_via_X_Author__c</field>
         <field>Origination_Value__c</field>
         <field>Origination_Value_Date__c</field>
         <field>Other_Expense_Adjustments_1__c</field>
@@ -351,21 +331,10 @@
         <field>IsPrivate</field>
         <field>Probability</field>
         <field>Date_Change_From_Loan_Processing_to_UW__c</field>
-        <field>Product_Category__c</field>
         <field>CAF_Analyst__c</field>
         <field>Product_Sub_Type__c</field>
         <field>LOC_Loan_Type__c</field>
         <field>Project_Strategy__c</field>
-        <field>Property_City__c</field>
-        <field>Property_DTI__c</field>
-        <field>Property_Management__c</field>
-        <field>Property_Management_Adjustment__c</field>
-        <field>Property_Management_Merge_Field__c</field>
-        <field>Property_State__c</field>
-        <field>Property_Street__c</field>
-        <field>Property_Substitution__c</field>
-        <field>Property_Type__c</field>
-        <field>Property_Zip__c</field>
         <field>TotalOpportunityQuantity</field>
         <field>Rate_Locked__c</field>
         <field>Rate_Lock_Picklist__c</field>
@@ -379,14 +348,12 @@
         <field>Rehab_Cost_Per_Property__c</field>
         <field>Rehab_Holdback_Limit__c</field>
         <field>Relationship_Manager__c</field>
-        <field>Remaining_Interest_Reserves__c</field>
         <field>Reno_Funding_Type__c</field>
         <field>Max_Initial_LTV_LTC__c</field>
         <field>Total_Loan_LTC__c</field>
         <field>Renovation_Cost__c</field>
         <field>Renovation_Funding__c</field>
         <field>Renovation_Limit__c</field>
-        <field>Rent_Status__c</field>
         <field>Requested_Draw_Fee__c</field>
         <field>Requested_Draw_Fee_Cap__c</field>
         <field>Draw_Period__c</field>
@@ -417,7 +384,6 @@
         <field>Salesforce_ID__c</field>
         <field>Sales_Price__c</field>
         <field>Seasoning_By_Property__c</field>
-        <field>Seasoning__c</field>
         <field>Section_8_Count__c</field>
         <field>Securitization__c</field>
         <field>Securitized__c</field>
@@ -428,7 +394,6 @@
         <field>Servicer_Provided_Portfolio_Name__c</field>
         <field>Signor_Capacity__c</field>
         <field>Signor_Capacity_Other__c</field>
-        <field>Sourcing_Fee_Formula__c</field>
         <field>Sponsor_Details__c</field>
         <field>Sponsor_Entity__c</field>
         <field>Sponsor_Liquidity__c</field>
@@ -459,7 +424,6 @@
         <field>Term_Sheet_Generated__c</field>
         <field>Term_Sheet_Issued__c</field>
         <field>Term_Sheet_Signed__c</field>
-        <field>Term_UW_Model_Saved_via_X_Author__c</field>
         <field>Third_Party_Estimated_Values__c</field>
         <field>Third_Party_Estimate_Per_Property__c</field>
         <field>Title__c</field>
@@ -480,7 +444,6 @@
         <field>Total_Fees__c</field>
         <field>Total_Funded_Active_Assets__c</field>
         <field>Aggregate_Funding__c</field>
-        <field>Total_Interest_Reserves_Payments__c</field>
         <field>Total_Monthly_Rent__c</field>
         <field>Total_NOI__c</field>
         <field>Aggregate_Payoffs__c</field>
@@ -514,10 +477,10 @@
         <field>YM_Prepayment_Penalty__c</field>
     </approvalPageFields>
     <approvalStep>
-        <allowDelegate>false</allowDelegate>
+        <allowDelegate>true</allowDelegate>
         <assignedApprover>
             <approver>
-                <name>beth.obrien@cvest.com</name>
+                <name>bryon.harland@cvest.com</name>
                 <type>user</type>
             </approver>
             <approver>
@@ -525,7 +488,11 @@
                 <type>user</type>
             </approver>
             <approver>
-                <name>ryan.mcbride@cvest.com</name>
+                <name>lisha.mcdaniel@cvest.com</name>
+                <type>user</type>
+            </approver>
+            <approver>
+                <name>micaela.lumpkin@cvest.com</name>
                 <type>user</type>
             </approver>
             <whenMultipleApprovers>Unanimous</whenMultipleApprovers>
@@ -533,7 +500,6 @@
         <label>Term IC Approval Flow</label>
         <name>Term_IC_Approval_Flow</name>
     </approvalStep>
-    <emailTemplate>Ic_Memo_Approval_Emails/Term_IC_Approval</emailTemplate>
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <finalApprovalActions>
         <action>
@@ -574,7 +540,7 @@
     </finalRejectionActions>
     <finalRejectionRecordLock>false</finalRejectionRecordLock>
     <label>Term IC Approval</label>
-    <processOrder>12</processOrder>
+    <processOrder>17</processOrder>
     <recordEditability>AdminOrCurrentApprover</recordEditability>
     <showApprovalHistory>false</showApprovalHistory>
 </ApprovalProcess>

@@ -2,10 +2,10 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Foreign_Country</fullName>
     <active>true</active>
-    <errorConditionFormula>AND( 
-ISPICKVAL(Status, &apos;Qualified&apos;), 
-Foreign_National__c = TRUE, 
-ISPICKVAL(Country__c, &quot;&quot;) 
+    <errorConditionFormula>AND(
+ISPICKVAL(Status, &apos;Qualified&apos;),
+ISPICKVAL(Foreign_National_picklist__c, &quot;Yes&quot;),
+ISPICKVAL(Country__c, &quot;&quot;)
 )</errorConditionFormula>
     <errorDisplayField>Country__c</errorDisplayField>
     <errorMessage>Please Select a Country.</errorMessage>

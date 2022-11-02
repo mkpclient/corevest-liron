@@ -77,6 +77,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Attachment_Type__c</picklist>
+        <values>
+            <fullName>Attached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Detached</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>SemiDetached</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Certificate_of_Occupancy__c</picklist>
         <values>
             <fullName>No</fullName>
@@ -230,6 +245,14 @@
     <picklistValues>
         <picklist>Occupancy_Status__c</picklist>
         <values>
+            <fullName>Long term in place</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Long term pending</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Occupied%2FLong Term Lease</fullName>
             <default>false</default>
         </values>
@@ -270,6 +293,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Unoccupied%2FUnleased</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Vacant</fullName>
             <default>false</default>
         </values>
@@ -289,6 +316,36 @@
         </values>
         <values>
             <fullName>Y</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Post_Close_Appraisal__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - internal value provided</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes - pending internal value</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Property_Management_Type__c</picklist>
+        <values>
+            <fullName>Affiliate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self Managed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -380,10 +437,6 @@
     <picklistValues>
         <picklist>Remedy_Plan__c</picklist>
         <values>
-            <fullName>Deed in Lieu</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Discounted Payoff</fullName>
             <default>false</default>
         </values>
@@ -404,6 +457,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Note Sale</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Payoff Pending</fullName>
             <default>false</default>
         </values>
@@ -412,15 +469,7 @@
             <default>false</default>
         </values>
         <values>
-            <fullName>Sell REO</fullName>
-            <default>false</default>
-        </values>
-        <values>
             <fullName>Special Asset Assignment</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>Title Claim</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -437,6 +486,18 @@
     </picklistValues>
     <picklistValues>
         <picklist>Servicer_Name__c</picklist>
+        <values>
+            <fullName>BSI</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Planet</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Situs Asset Management</fullName>
+            <default>false</default>
+        </values>
         <values>
             <fullName>Statebridge</fullName>
             <default>true</default>

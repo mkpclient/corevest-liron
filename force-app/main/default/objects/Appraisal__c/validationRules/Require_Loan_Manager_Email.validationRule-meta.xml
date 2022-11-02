@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Loan_Manager_Email</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+NOT ( $Profile.Name= &quot;System Administrator&quot; ),
+NOT ( $Profile.Name= &quot;Integration&quot; ),
+ISPICKVAL( Status__c , &quot;Reviewed&quot;),
+ISBLANK( Deal__r.Loan_Coordinator__c  )
+
+)</errorConditionFormula>
+    <errorMessage>Please add a Loan Manager to the Deal record in order to update Appraisal Status to Reviewed.</errorMessage>
+</ValidationRule>

@@ -258,8 +258,8 @@
                         <p style="{!IF(Opportunity.Loan_Size__c >= 10000000, 'page-break-inside:avoid;', 'display:none;')}">
 
                             A bankruptcy remote, Delaware limited liability company, acceptable to Lender following due diligence, which shall be the
-                            sole member of Borrower. [REPLACE WITH "NOT REQUIRED" IF NO EQUITY PLEDGE (FOR LOANS $10MILLION
-                            AND UNDER]
+                            sole member of Borrower. <span class="mark">[REPLACE WITH "NOT REQUIRED" IF NO EQUITY PLEDGE (FOR LOANS $10MILLION
+                            AND UNDER]</span>
                         </p>
                         <p style="{!IF(Opportunity.Loan_Size__c < 10000000, 'page-break-inside:avoid;', 'display:none;')}">
                             None.
@@ -285,10 +285,10 @@
                         Property:
                     </td>
                     <td class="row-description">
-                        An existing multifamily property located at the above address that is improved with a [TBD] net square foot project comprised
-                        of [TBD]-residential units (each, a
+                        An existing multifamily property located at the above address that is improved with a <span class="mark">[TBD]</span> net square foot project comprised
+                        of <span class="mark">[TBD]</span>-residential units (each, a
                         <strong>"Residential Unit"</strong>), the "Improvements"). The Improvements include [TBD], 1BD/1BA units,
-                        [TBD] 2BD/1BA units, [TBD] 2BD/1.5BA units and [TBD] 3BD/2BA units. No Property may at any time be
+                        <span class="mark">[TBD] 2BD/1BA</span> units, <span class="mark">[TBD] 2BD/1.5BA</span> units and <span class="mark">[TBD] 3BD/2BA</span> units. No Property may at any time be
                         occupied by Borrower, Guarantor or any interest owner, or affiliate or relative thereof. </td>
                 </tr>
 
@@ -340,7 +340,7 @@
                                 <apex:param value="{!Opportunity.Requested_LTC_Max__c}" /></apex:outputText> of an amount equal to (i) the Third Party Purchase price paid for the
                             Property as determined by Lender plus (ii) the total project costs that may have been incurred
                             and paid for by Borrower prior to Loan closing to the extent verified as such by Lender which
-                            may be either credited to Borrower's [Initial] Equity Contribution or reimbursed to Borrower
+                            may be either credited to Borrower's <span class="mark">[Initial]</span> Equity Contribution or reimbursed to Borrower
                             as part of the Initial Advance (discussed below) plus (iii) and operating expenses in the amounts
                             set forth in the operating budget and the Interest Allocation (discussed below) and as more fully
                             described in the loan documents. As used herein,
@@ -351,9 +351,9 @@
                             The initial advance to be disbursed on the Closing Date for financing the acquisition or refinancing of the Property which
                             may include reimbursement of any project costs incurred and paid for in full by Borrower prior
                             to Loan closing to the extent such paid project costs are verified as such by Lender prior to
-                            Loan closing and have not been credited to Borrower's [Initial] Equity Contribution (the
-                            <strong>"Initial Advance"</strong>) is anticipated to be the lesser of (a) [XXX]% of the Third Party
-                            Purchase Price paid for the Property and (b)[XXX]% of the "As-Is" appraised value as determined
+                            Loan closing and have not been credited to Borrower's <span class="mark">[Initial]</span> Equity Contribution (the
+                            <strong>"Initial Advance"</strong>) is anticipated to be the lesser of (a) <span class="mark">[XXX]</span>% of the Third Party
+                            Purchase Price paid for the Property and (b)<span class="mark">[XXX]</span>% of the "As-Is" appraised value as determined
                             by Lender based on the appraisal of the Property prepared by an appraiser selected by Lender
                             and in form and scope acceptable to Lender (
                             <strong>"As-Is Value"</strong>). Any remaining portion of the Maximum Loan Amount for the Property will
@@ -372,7 +372,7 @@
                         Borrower Equity Contribution:
                     </td>
                     <td class="row-description">
-                        An estimated $[TBD] of invested equity capital, inclusive of cash and land equity, to be evidenced at Loan closing (
+                        An estimated $<span class="mark">[TBD]</span> of invested equity capital, inclusive of cash and land equity, to be evidenced at Loan closing (
                         <strong>"Borrower Equity Contribution"</strong>), subject to confirmation as determined by Lender.
                     </td>
                 </tr>
@@ -382,7 +382,7 @@
                         Initial Loan Term:
                     </td>
                     <td class="row-description">
-                        24 months (
+                        <span class="mark">24</span> months ("Initial Stated Maturity Date")
                         <strong>"Initial Stated Maturity Date"</strong>)
                     </td>
                 </tr>
@@ -392,7 +392,7 @@
                         Extension Options:
                     </td>
                     <td class="row-description">
-                        One, 6-month extension option(s) subject to extension requirements below.
+                        <span class="mark">One, 6-month</span> extension option(s) subject to extension requirements below.
                     </td>
                 </tr>
 
@@ -412,7 +412,7 @@
                             As used herein, the following terms shall have the meanings set forth below:</p>
                         <p>
                             <strong>"Floor"</strong> means
-                            <apex:outputText value="{!Opportunity.Requested_Index_Floor__c}" /> per annum.</p>
+                            <apex:outputText value=" {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> per annum.</p>
                         <p>
                             <strong>"Interest Adjustment Date</strong>" means, for the initial Interest Accrual Period, the date
                             that is two U.S. Government Securities Business Days prior to the first day of the calendar month
@@ -486,7 +486,7 @@
                             <apex:outputText value="{!Opportunity.Exit_Fee__c}" /> % of the Maximum Loan Amount, which shall be due and payable in full upon the earlier of (a)
                             the maturity date of the Loan, and (b) the date the Loan is repaid in full, provided that the
                             Exit Fee will be waived if the Loan is repaid in full with a permanent term loan from Lender
-                            [IF NO EXIT FEE, REPLACE WITH None]
+                            <span class="mark">[IF NO EXIT FEE, REPLACE WITH None]</span>
                         </span>
                         <span style="{!IF(Opportunity.Exit_Fee__c = null , 'page-break-inside:avoid;', 'display:none;')}">
                             None</span>
@@ -500,7 +500,7 @@
 
                     </td>
                     <td class="row-description">
-                        0.50% of the Maximum Loan Amount
+                        <span class="mark">0.50%</span> of the Maximum Loan Amount
                     </td>
                 </tr>
 
@@ -521,18 +521,18 @@
                             d) The Loan must be in balance through extended maturity with Borrower depositing necessary Balancing Funds prior to the
                             Initial Stated Maturity date (see "Loan in Balance" below) </p>
                         <p>
-                            e) An As-Is LTV ratio of no greater than [X.XX]% [INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT]
+                            e) An As-Is LTV ratio of no greater than <span class="mark">[X.XX]% [INSERT THE STABILIZED LTV % IN ABOVE SECTION ENTITLED MAXIMUM LOAN AMOUNT]</span>
                             as tested by a current appraisal; </p>
                         <p>
-                            f) Borrower shall have provided evidence satisfactory to Lender that at least [85]% of the Residential Units are occupied
+                            f) Borrower shall have provided evidence satisfactory to Lender that at least <span class="mark">[85]</span>% of the Residential Units are occupied
                             by Eligible Tenants pursuant to Eligible Leases as of the Initial Stated Maturity Date; and</p>
                         <p>
                             g) There shall have been no material adverse change in the financial condition of Guarantor that would materially and adversely
                             affect Guarantor's ability to perform its obligations under the Loan Documents, as determined
                             by Lender, and Guarantor shall have delivered to Lender a Compliance Certificate dated as of
                             the Initial Stated Maturity Date, with all supporting documentation, evidencing Guarantor is
-                            in compliance with Guarantor's minimum liquidity and net worth covenants.[IF NO EXTENSION OPTION,
-                            DELETE (a)-(h) TEXT AND REPLACE WITH N/A] </p>
+                            in compliance with Guarantor's minimum liquidity and net worth covenants.<span class="mark">[IF NO EXTENSION OPTION,
+                            DELETE (a)-(h) TEXT AND REPLACE WITH N/A]</span> </p>
 
                     </td>
                 </tr>
@@ -579,7 +579,7 @@
                         Loan Proceeds designated at closing for the payment of interest on the Loan (the
                         <strong>"Interest Allocation"</strong>), provided, however, to the extent that there is net cash flow generated
                         by the Property, such funds shall be utilized to pay accrued but unpaid interest prior to any Advance
-                        from the Interest Allocation. The estimated amount of the Interest Allocation is $[TBD]. The Interest
+                        from the Interest Allocation. The estimated amount of the Interest Allocation is $<span class="mark">[TBD]</span>. The Interest
                         Allocation is subject to change by Lender during underwriting, in its sole and absolute discretion.
                         If Lender determines, at any time during the Loan term, that the undisbursed Loan Proceeds allocated
                         to the Interest Allocation along with projected cash flow from Property operations (if any), is insufficient
@@ -608,8 +608,8 @@
                     <td class="row-description">
                         The Residential Units shall be leased only to Eligible Tenants pursuant to Eligible Leases. As used herein,
                         <strong>"Eligible Lease"</strong> means a written Lease that (a) is executed by an Eligible Tenant and Borrower,
-                        (b) has an initial term (together with all renewal options) of not less than [one (1) year and not
-                        greater than two (2) years], (c) has a rental rate and terms consistent with rates and terms then
+                        (b) has an initial term (together with all renewal options) of not less than <span class="mark">[one (1) year and not
+                        greater than two (2) years]</span>, (c) has a rental rate and terms consistent with rates and terms then
                         prevailing in the local market where the Property is located, (d) otherwise complies with the leasing
                         requirements to be set forth in the Loan Agreement. As used herein,
                         <strong>"Eligible Tenant"</strong> means a bona fide third-party tenant of a Residential Unit who satisfies
@@ -631,10 +631,10 @@
                         <p>The following minimum leasing requirements for the Property must be achieved on or before the dates
                             set forth below:</p>
                         <p>
-                            (a) No later than [__] months following Loan closing, not less than [__]% of the Residential Units must be occupied by Eligible
+                            (a) No later than <span class="mark">[__]</span> months following Loan closing, not less than <span class="mark">[__]%</span> of the Residential Units must be occupied by Eligible
                             Tenants pursuant to Eligible Leases. </p>
                         <p>
-                            (b) No later than [__] months following Loan closing, not less than [__]% of the Residential Units must be occupied by Eligible
+                            (b) No later than <span class="mark">[__]</span> months following Loan closing, not less than <span class="mark">[__]%</span> of the Residential Units must be occupied by Eligible
                             Tenants pursuant to Eligible Leases.</p>
 
                     </td>
@@ -649,8 +649,8 @@
                         priority blanket assignment of all leases and rents with respect to the Property, (c) a first priority
                         security interest in all other property and assets related to the Property, and (d) a first priority
                         security interest in all other property and assets of the Borrower, including but not limited to,
-                        a collateral assignment of management agreement and any other contracts as determined by Lender [and
-                        (e) a pledge of the 100% of the equity interests in the Borrower]. The owner's interest under each
+                        a collateral assignment of management agreement and any other contracts as determined by Lender <span class="mark">[and
+                        (e) a pledge of the 100% of the equity interests in the Borrower]</span>. The owner's interest under each
                         of the of the aforementioned documents must be in the name of the Borrower. </td>
                 </tr>
 
@@ -886,9 +886,9 @@
                         Sponsor shall indemnify and hold harmless Lender and its affiliates against any and all loss, cost, damage, liability and
                         expenses suffered or incurred by Lender or its affiliates arising out of, or in connection with,
                         any claims by brokers, agents or finders claiming to have assisted or represented Sponsor in connection
-                        with the Loan. [USE IF THERE IS A BROKER] It is understood
+                        with the Loan. <span class="mark">[USE IF THERE IS A BROKER]</span> It is understood
                         <apex:outputText value=" {!Opportunity.Referral_Source_Contact__r.Name} " /> is acting as the mortgage broker on this Loan and shall receive a fee from the Borrower equal to
-                        [X.XX]% of the Maximum Loan Amount at Loan closing (
+                        <span class="mark">[X.XX]</span>% of the Maximum Loan Amount at Loan closing (
                         <Strong>"Broker Fee"</strong>), which Broker Fee has been capitalized in the Budget and is not included in
                         Lender's fees listed herein. Lender will require evidence that the Broker's Fee has been or will
                         be paid in full prior to or at Loan Closing.

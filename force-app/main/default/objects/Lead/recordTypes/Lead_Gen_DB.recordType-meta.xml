@@ -17,6 +17,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>CX_Portal_Round_Robin__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Channel__c</picklist>
         <values>
             <fullName>Broker Referral</fullName>
@@ -1146,6 +1157,17 @@
         <picklist>Estimated_Credit_Score__c</picklist>
         <values>
             <fullName>620-649</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Foreign_National_picklist__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2374,6 +2396,69 @@
         </values>
         <values>
             <fullName>Wyoming</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>How_Did_You_Hear_About_CoreVest__c</picklist>
+        <values>
+            <fullName>Bigger Pockets</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Bing Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Event</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Fit Small Business</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Ad</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Google Search</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Marketing Partner</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Prior Relationship</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Referral - Broker</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Scotsman Guide</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Social Media</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Website</fullName>
             <default>false</default>
         </values>
     </picklistValues>

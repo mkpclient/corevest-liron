@@ -160,7 +160,16 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Comments</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Subject__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Comment__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Lead__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Deal__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Deal_Document__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Property__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
