@@ -13,6 +13,10 @@
         <name>ApexComponent</members>
     </types>
     <types>
+        <members>Access_Advance_Approvals</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
         <members>AdvanceBatchApprovalEmailHandler</members>
         <members>BatchApprovalHelper</members>
         <members>BatchApproverHelper</members>
@@ -27,12 +31,19 @@
     </types>
     <types>
         <members>Advance__c.IC_Approval_Status__c</members>
+        <members>Advance__c.Advance_Approval_Name__c</members>
+        <members>Advance__c.Requires_IC_Approval__c</members>
         <name>CustomField</name>
     </types>
     <types>
         <members>batchApprovalInProgress</members>
         <members>advanceApprovalRecordPageTab</members>
+        <members>newAdvanceApproval</members>
         <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Advance__c.Submit_for_Approval</members>
+        <name>QuickAction</name>
     </types>
     <version>53.0</version>
 </Package>

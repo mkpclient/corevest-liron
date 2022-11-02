@@ -40,7 +40,7 @@ export default class AdvanceApprovalRecordPageTab extends LightningElement {
           variant: "error"
         })
       );
-    } else if (data) {
+    } else if (data && data.fields.Batch_Approval__c && data.fields.Batch_Approval__c.value) {
       this.approvalId = data.fields.Batch_Approval__c.value;
       this.submitterId =
         data.fields.Batch_Approval__r.value.fields.Submitted_By__c.value;

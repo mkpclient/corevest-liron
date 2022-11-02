@@ -494,6 +494,11 @@
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>Advance__c.Print_Validation</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Advance__c.Complete</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
@@ -523,12 +528,14 @@
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Advance__c.Print_Validation</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>2</sortOrder>
-        </platformActionListItems>
     </platformActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Actor__c</fields>
+        <fields>Batch_Approval__c</fields>
+        <fields>Status__c</fields>
+        <relatedList>Approval_History__c.Advance__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <fields>Num_of_Items__c</fields>
