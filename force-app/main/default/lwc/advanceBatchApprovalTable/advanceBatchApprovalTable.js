@@ -133,23 +133,23 @@ const ADV_FIELDS_MAP = {
 };
 
 const DEAL_REC_TYPES = [
-  "LOC_Loan",
-  "Single_Asset_Bridge_Loan",
-  "Table_Funded_CRE_Loan_Active",
-  "Table_Funded_CRE_Loan",
-  "Acquired_Bridge_Loan",
-  "Acquired_Bridge_Loan_Active"
+  'LOC_Loan',
+  'Single_Asset_Bridge_Loan',
+  'Table_Funded_CRE_Loan_Active',
+  'Table_Funded_CRE_Loan',
+  'Acquired_Bridge_Loan',
+  'Acquired_Bridge_Loan_Active'
 ];
 
-const PROP_STATUSES = ["Due Diligence", "Pending", "Closing"];
+const PROP_STATUSES = ['Due Diligence', 'Pending', 'Closing'];
 
 const DEAL_STAGES = [
-  "Loan Processing",
-  "Processing Hold",
-  "Underwriting",
-  "UW Hold",
-  "Approved by Committee",
-  "Closed Won"
+  'Loan Processing',
+  'Processing Hold',
+  'Underwriting',
+  'UW Hold',
+  'Approved by Committee',
+  'Closed Won'
 ];
 
 const PROP_ADV_FIELDS = ["Property__c", "Advance__c"];
@@ -242,7 +242,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   sortDirection = "asc";
   sortedBy = "approvalBatch";
   isLoading = false;
-
+  pendingWhereClause = "Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval' AND Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
   get hasData() {
     return this.tableData.length > 0;
   }
@@ -250,7 +250,7 @@ export default class AdvanceBatchApprovalTable extends LightningElement {
   get advFullWhereClause() {
     const onlyBatches =
       this.additionalWhereClause ===
-      "Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')";
+      this.pendingWhereClause;
     const orderClause =
       " ORDER BY Target_Advance_Date__c ASC NULLS LAST, Advance_Group_Name__c ASC NULLS LAST, Name ASC";
 

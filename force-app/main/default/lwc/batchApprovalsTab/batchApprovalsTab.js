@@ -284,7 +284,7 @@ export default class BatchApprovalsTab extends LightningElement {
     queryString +=
       ", Batch_Approval__r." + BATCH_FIELDS.join(", Batch_Approval__r.");
     queryString +=
-      " FROM Batch_Approver__c WHERE Batch_Approval__r.Approval_Status__c NOT IN ('Approved', 'Rejected')";
+      " FROM Batch_Approver__c WHERE Batch_Approval__r.Approval_Status__c NOT IN ('Approved', 'Rejected') AND Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval'";
 
     const res = await query({ queryString });
 

@@ -6,7 +6,7 @@
       <lightning-tabset>
         <lightning-tab
           label="All Advances"
-          value="(Batch_Approval__c != null OR "
+          value="((Batch_Approval__c != null AND Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval') OR "
           onactive={handleTabChange}
         >
           <lightning-card>
@@ -41,7 +41,7 @@
         </lightning-tab>
         <lightning-tab
           label="Advances not in Approval"
-          value="((Batch_Approval__c = NULL OR Batch_Approval__r.Approval_Status__c = 'Rejected') AND "
+          value="((Batch_Approval__c = NULL OR (Batch_Approval__r.Approval_Type__c = 'Advance Batch Approval' AND Batch_Approval__r.Approval_Status__c IN ('Rejected', 'Recalled'))) AND "
           onactive={handleTabChange}
         >
           <lightning-card>
@@ -82,7 +82,7 @@
         </lightning-tab>
         <lightning-tab
           label="Advances with Pending Approval"
-          value="Batch_Approval__r.Approval_Status__c IN ('Submitted','Pending')"
+          value={pendingWhereClause}
           onactive={handleTabChange}
         >
           <lightning-card>

@@ -4,7 +4,6 @@
     <externalId>false</externalId>
     <label>Batch Approval</label>
     <referenceTo>Batch_Approval__c</referenceTo>
-    <relationshipLabel>Batch Approvers</relationshipLabel>
     <relationshipName>Batch_Approvers</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>

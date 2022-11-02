@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Batch_Approval__c</fullName>
+    <fullName>Advance__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Advance Approval</label>
-    <referenceTo>Batch_Approval__c</referenceTo>
-    <relationshipLabel>Advances</relationshipLabel>
-    <relationshipName>Advances</relationshipName>
+    <label>Advance</label>
+    <referenceTo>Advance__c</referenceTo>
+    <relationshipLabel>Advance Approvals</relationshipLabel>
+    <relationshipName>Advance_Approvals</relationshipName>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
