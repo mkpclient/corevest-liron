@@ -444,18 +444,19 @@ public without sharing class ServiceLinkAPI {
     List<TitleDocument> Documents;
     public DocumentSubmission(
       Title_Order__c to,
+      Property_Title__c pt,
       Map<Id, String> cvToDocTypeMap,
       List<ContentVersion> cvs
     ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.OrderNumber = to.Order_Number__c;
-      this.AssetID = to.Asset_ID__c;
-      this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
-      this.ClientContractId = to.Client_Contract_ID__c;
+      this.OrderNumber = pt != null ? pt.OrderNumber__c : '';
+      this.AssetID = pt != null ? pt.Property__r.Asset_ID__c : '';
+      this.IncomingTransactionId = generateTransacId(to.Id);
+      this.ClientContractId = '';
       this.Documents = new List<TitleDocument>();
       for (ContentVersion cv : cvs) {
-        String dType = cvToDocTypeMap.get(cv.Id);
+        String dType = cvToDocTypeMap.get(cv.ContentDocumentId);
         this.Documents.add(new TitleDocument().generateDocument(cv, dType));
       }
     }
@@ -513,5 +514,9 @@ public without sharing class ServiceLinkAPI {
 
   public static String stringEval(String v) {
     return v != null && String.isNotEmpty(v) ? v : '';
+  }
+
+  public static String generateTransacId(String v) {
+    return v + '-' + String.valueOf(System.now().minute()).leftPad(2, '0') + String.valueOf(System.now().hour()).leftPad(2, '0') + String.valueOf(System.today().month()).leftPad(2, '0') + String.valueOf(System.today().day()).leftPad(2, '0') + String.valueOf(System.today().year());
   }
 }

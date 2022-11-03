@@ -7,6 +7,7 @@
         <members>Loan_Status__c</members>
         <members>Property_Title__c</members>
         <members>TitleOrderQuoteId__c</members>
+        <members>Servicelink_Schema__mdt</members>
         <name>CustomObject</name>
     </types>
     <types>

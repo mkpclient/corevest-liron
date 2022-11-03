@@ -92,7 +92,9 @@ public without sharing class TitleOrder_LightningHelper {
   public static Deal_Document__c createDealDocument(
     String type,
     ContentVersion cv,
-    Id dealId
+    Id dealId,
+    Id toId,
+    Id propId
   ) {
     Deal_Document__c dealDoc = new Deal_Document__c();
     dealDoc.Type__c = type;
@@ -101,8 +103,14 @@ public without sharing class TitleOrder_LightningHelper {
     dealDoc.Document_Type__c = DOCUMENT_TYPE;
     dealDoc.Attachment_Id__c = cv.ContentDocumentId;
     dealDoc.Deal__c = dealId;
+    if(toId != null) {
+      dealDoc.Title_Order__c = toId;
+    }
 
-    insert dealDoc;
+    if(propId != null) {
+      dealDoc.Property__c = propId;
+    }
+
     return dealDoc;
   }
   public static ContentVersion queryCv(Id cdId) {
@@ -374,7 +382,7 @@ public without sharing class TitleOrder_LightningHelper {
       return ex.getMessage();
     }
 
-    createDealDocument('Data Tape', cv, dealId);
+    
 
     List<Property_Title__c> propertyTitles = new List<Property_Title__c>();
     Title_Order__c titleOrder = new Title_Order__c(
@@ -393,6 +401,8 @@ public without sharing class TitleOrder_LightningHelper {
     );
 
     insert titleOrder;
+
+    insert createDealDocument('Data Tape', cv, dealId, titleOrder.Id, null);
 
     for (Id propId : propertyIds) {
       propertyTitles.add(
@@ -650,10 +660,10 @@ public without sharing class TitleOrder_LightningHelper {
       'SELECT ' + String.join(new List<String>(propTitleFields), ',');
     queryString +=
       ',Property__r.' +
-      String.join(new List<String>( propFields ), ',Property__r.');
+      String.join(new List<String>(propFields), ',Property__r.');
     queryString +=
       ',Title_Order__r.' +
-      String.join(new List<String>( toFields ), ', Title_Order__r.');
+      String.join(new List<String>(toFields), ', Title_Order__r.');
     queryString += ' FROM Property_Title__c WHERE Id=\'' + ptId + '\'';
 
     Property_Title__c pt = Database.query(queryString);
@@ -672,8 +682,10 @@ public without sharing class TitleOrder_LightningHelper {
     try {
       ServiceLinkAPI.performRequest('OrderChangeRequest', JSON.serialize(ocr));
 
-
-      update new Property_Title__c(Id = ptId, Status__c = 'Order Change Requested');
+      update new Property_Title__c(
+        Id = ptId,
+        Status__c = 'Order Change Requested'
+      );
 
       return JSON.serialize(
         new Map<String, String>{
@@ -788,6 +800,98 @@ public without sharing class TitleOrder_LightningHelper {
       new Map<String, String>{
         'result' => 'SUCCESS',
         'message' => 'Your Order Inquiry has been successfully submitted'
+      }
+    );
+  }
+
+  public static String documentSubmission(
+    Id toId,
+    Map<Id, String> cvToDocTypeMap,
+    List<Id> cdIds
+  ) {
+    return documentSubmission(toId, null, cvToDocTypeMap);
+  }
+
+  public static String documentSubmission(
+    Id toId,
+    Id ptId,
+    Map<Id, String> cdIdToDocTypeMap
+  ) {
+    List<ContentVersion> cvs = [
+      SELECT
+        Id,
+        ContentSize,
+        VersionData,
+        Title,
+        FileExtension,
+        ContentDocumentId
+      FROM ContentVersion
+      WHERE ContentDocumentId IN :cdIdToDocTypeMap.keySet()
+    ];
+
+    Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
+
+    Set<String> toFields = schemaMap.get('Title_Order__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+
+    String queryString =
+      'SELECT ' + String.join(new List<String>(toFields), ',');
+    queryString += ' FROM Title_Order__c WHERE Id = :toId';
+
+    Title_Order__c to = Database.query(queryString);
+
+    Property_Title__c pt = null;
+
+    if (ptId != null) {
+      List<String> propFields = new List<String>(
+        schemaMap.get('Property__c').getDescribe().fields.getMap().keySet()
+      );
+      List<String> ptFields = new List<String>(
+        schemaMap.get('Property_Title__c')
+          .getDescribe()
+          .fields.getMap()
+          .keySet()
+      );
+      
+      queryString = 'SELECT ' + String.join(ptFields, ',') + ',Property__r.' + String.join(propFields, ',Property__r.');
+      queryString += ' FROM Property_Title__c WHERE Id = :ptId';
+
+      pt = Database.query(queryString);
+    }
+
+    ServiceLinkAPI.DocumentSubmission dsReq = new ServiceLinkAPI.DocumentSubmission(to, pt, cdIdToDocTypeMap, cvs);
+
+    try {
+      ServiceLinkAPI.performRequest('DocumentSubmission', JSON.serialize(dsReq));
+    } catch (Exception err) {
+      return err.getMessage();
+    }
+
+    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
+
+    for(ContentVersion cv : cvs) {
+      String docType = cdIdToDocTypeMap.get(cv.ContentDocumentId);
+
+      dealDocs.add(createDealDocument(
+        Servicelink_Schema__mdt.getInstance(docType.replaceAll('-', '_')).Full_Name__c,
+        cv,
+        to.Deal__c,
+        to.Id,
+        pt != null ? pt.Id : null
+      ));
+    }
+
+    if(dealDocs.size() > 0) {
+      insert dealDocs;
+    }
+    
+
+    return JSON.serialize(
+      new Map<String, String>{
+        'result' => 'SUCCESS',
+        'message' => 'Your Document Submission request has been successfully submitted'
       }
     );
   }
