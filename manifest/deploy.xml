@@ -11,6 +11,12 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>Deal_Document__c.Submission_Failed__c</members>
+        <members>Deal_Document__c.Title_Order__c</members>
+        <members>Deal_Document__c.Service_Link_Id__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
         <members>ServiceLinkEndpoint</members>
         <members>ServiceLinkAPI</members>
         <members>TitleOrder_LightningHelper</members>

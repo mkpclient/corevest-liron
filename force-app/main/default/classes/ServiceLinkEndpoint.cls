@@ -768,6 +768,10 @@ global without sharing class ServiceLinkEndpoint {
         );
       } else if (reqType == 'LoanPortfolioChangeConfirm') {
         to.Status__c = 'Loan Portfolio Change Failed';
+      } else if (reqType == 'DocumentSubmissionConfirm') {
+        'Error found on document=LNDINST. This document could not be populated.';
+        
+        //Submission_Failed
       }
     }
 
