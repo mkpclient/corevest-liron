@@ -128,7 +128,7 @@ public without sharing class TitleOrder_LightningHelper {
   }
 
   @AuraEnabled
-  public static List<Title_Order__c> queryTitleOrders(Id dealId) {
+  public static Title_Order__c queryTitleOrder(Id dealId, String vendorType) {
     Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
     Set<String> propFields = schemaMap.get('Property__c')
       .getDescribe()
@@ -138,18 +138,25 @@ public without sharing class TitleOrder_LightningHelper {
       .getDescribe()
       .fields.getMap()
       .keySet();
-
+    Set<String> ptFields = schemaMap.get('Property_Title__c')
+      .getDescribe()
+      .fields.getMap()
+      .keySet();
+//vendorType
     String queryString =
       'SELECT ' +
       String.join(new List<String>(toFields), ',') +
-      ',Property__r.' +
-      String.join(new List<String>(propFields), ',Property__r.');
+      ',(SELECT ' + String.join(new List<String>(ptFields), ',');
+    
+      queryString += ', Property__r.' + String.join(new List<String>(propFields), ',Property__r.');
+      queryString += ' FROM Property_Titles__r)';
 
-    queryString += ' FROM Title_Order__c WHERE Deal__c = :dealId ORDER BY Quote_ID__c';
+    queryString += ' FROM Title_Order__c WHERE Deal__c = :dealId AND Title_Vendor__c = :vendorType ORDER BY CreatedDate DESC';
+
 
     List<Title_Order__c> titleOrders = Database.query(queryString);
 
-    return titleOrders;
+    return titleOrders.size() > 0 ? titleOrders[0] : null;
   }
 
   @AuraEnabled

@@ -6,43 +6,15 @@ import LightningAlert from "lightning/alert";
 import LightningConfirm from "lightning/confirm";
 import retrieveSchemas from "@salesforce/apex/TitleOrder_LightningHelper.retrieveSchemas";
 import cancelRequest from "@salesforce/apex/TitleOrder_LightningHelper.cancelRequest";
+import queryTitleOrder from "@salesforce/apex/TitleOrder_LightningHelper.queryTitleOrder";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 const QuoteRequest = [
-  {
-    type: "text",
-    disabled: true,
-    label: "Source Party ID",
-    value: "COREVEST-SFR",
-    dataName: "sourcePartyId",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Destination Party ID",
-    value: "COREVEST-QUOTE",
-    dataName: "destinationPartyId",
-    size: 6
-  },
-  {
-    isDealField: true,
-    disabled: true,
-    fieldName: "Deal_Loan_Number__c",
-    dataName: "dealLoanNumber",
-    size: 6
-  },
   {
     isDealField: true,
     disabled: true,
     fieldName: "Current_Loan_Amount__c",
     dataName: "currentLoanAmount",
-    size: 6
-  },
-  {
-    isDealField: true,
-    disabled: true,
-    fieldName: "Name",
-    dataName: "dealName",
     size: 6
   },
   {
@@ -204,13 +176,13 @@ const OrderChangeRequest = [
     size: 6,
     formatter: "currency",
     step: "0.01"
-  },
+  }
 ];
 
 const FORM_CONFIGS = { QuoteRequest, OrderChangeRequest, OrderInquiry };
 
 const acceptedFormatMap = {
-  "Quote Request": [".xlsx"],
+  QuoteRequest: [".xlsx"],
   "Order Inquiry": [".xlsx"]
 };
 
@@ -221,14 +193,18 @@ const nextSteps = {
     "No action is needed. Please wait for a response from service link.",
   "Quote Request Received":
     "Your quote has been received by servicelink. No action is currently required, but you can submit additional documents, cancel the request, or make an order inquiry.",
-  "Cancel Requested": "A cancel request is currently being processed. Please wait for confirmation from ServiceLink before submitting a new Quote Request.",
-  "Order Change Requested": "There is an active order change request for this loan awaiting confirmation from the vendor.",
-  "Order Change Confirmed": "A recent order change request has been accepted by the vendor."
+  "Cancel Requested":
+    "A cancel request is currently being processed. Please wait for confirmation from ServiceLink before submitting a new Quote Request.",
+  "Order Change Requested":
+    "There is an active order change request for this loan awaiting confirmation from the vendor.",
+  "Order Change Confirmed":
+    "A recent order change request has been accepted by the vendor."
 };
 export default class TitleOrderOverview extends LightningElement {
   @api recordId;
-  @api titleOrderParams = {};
-  @api titleOrders = [];
+  @api vendorType;
+
+  titleOrder;
   selectedTitleOrder = {};
   selectedToId;
   comboboxSchemas = {};
@@ -243,7 +219,8 @@ export default class TitleOrderOverview extends LightningElement {
 
   get disallowAttachments() {
     return (
-      (this.selectedRequest !== "Quote Request" && this.selectedRequest !== "Order Inquiry")||
+      (this.selectedRequest !== "QuoteRequest" &&
+        this.selectedRequest !== "Order Inquiry") ||
       (this.selectedRequest == "Order Inquiry" &&
         this.formValues.inquiryType &&
         this.formValues.inquiryType !== "REVISEDQUO")
@@ -258,10 +235,12 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get downloadLink() {
-    return this.docAttributes &&  this.docAttributes.contentDocumentId && (
+    return (
+      this.docAttributes &&
+      this.docAttributes.contentDocumentId &&
       "/sfc/servlet.shepherd/document/download/" +
-      this.docAttributes.contentDocumentId +
-      "?operationContext=S1"
+        this.docAttributes.contentDocumentId +
+        "?operationContext=S1"
     );
   }
 
@@ -278,7 +257,10 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get disableQuoteRequest() {
-    return this.titleOrderStatus !== "Unordered" || this.titleOrderStatus == "Quote Request Rejected";
+    return (
+      this.titleOrderStatus !== "Unordered" ||
+      this.titleOrderStatus == "Quote Request Rejected"
+    );
   }
 
   get selectedRequest() {
@@ -348,7 +330,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   get cannotAcceptOrder() {
-    return this.titleOrderStatus !== 'Quote Response Received';
+    return this.titleOrderStatus !== "Quote Response Received";
   }
 
   get nextStep() {
@@ -360,6 +342,17 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   async connectedCallback() {
+    this.isLoading = true;
+    const res = await queryTitleOrder({
+      dealId: this.recordId,
+      vendorType: this.vendorType
+    });
+    if (res) {
+      console.log(res);
+      this.titleOrder = res;
+    }
+    this.isLoading = false;
+
     const schemas = await retrieveSchemas();
     const tempData = {};
     for (const key in schemas) {
@@ -388,7 +381,9 @@ export default class TitleOrderOverview extends LightningElement {
 
     this.selectedToId = value;
 
-    this.selectedTitleOrder = this.flattenObj(this.titleOrders.find((to) => to.Id === value));
+    this.selectedTitleOrder = this.flattenObj(
+      this.titleOrders.find((to) => to.Id === value)
+    );
   }
 
   handleChange(evt) {
@@ -399,7 +394,7 @@ export default class TitleOrderOverview extends LightningElement {
   }
 
   handleClick(evt) {
-    const req = evt.target.value || evt.detail.value;
+    const req = evt.target.title;
 
     if (req === "Cancel Request") {
       this.handleCancel();
@@ -412,14 +407,15 @@ export default class TitleOrderOverview extends LightningElement {
 
   async handleCancel() {
     const result = await LightningConfirm.open({
-      message: "Would you like to cancel this request? This is an irreversible request.",
+      message:
+        "Would you like to cancel this request? This is an irreversible request.",
       label: "Request Cancelation",
       theme: "warning"
     });
 
-    if(result){
+    if (result) {
       this.isLoading = true;
-      const titleOrderIds = this.titleOrders.map(to => to.Id);
+      const titleOrderIds = this.titleOrders.map((to) => to.Id);
       try {
         await cancelRequest({ titleOrderIds });
         await LightningAlert.open({
@@ -429,9 +425,9 @@ export default class TitleOrderOverview extends LightningElement {
         });
         this.dispatchEvent(new CustomEvent("requestsubmission"));
         this.isLoading = false;
-      } catch(err){
+      } catch (err) {
         console.error(err);
-      }    
+      }
     }
   }
 
@@ -465,26 +461,55 @@ export default class TitleOrderOverview extends LightningElement {
 
   async handleSubmit() {
     //String requestType, Id dealId, Id cdId, String comments
+    const allValid = [
+      ...this.template.querySelectorAll(`[data-type="requestForm"]`)
+    ].reduce((validSoFar, inputCmp) => {
+      inputCmp.reportValidity();
+      return validSoFar && (inputCmp.value || !inputCmp.required);
+    }, true);
+
+    if (!allValid) {
+      return;
+    }
+
+
     const requestType = this.selectedRequest.replaceAll(" ", "");
     const dealId = this.recordId;
-    const cdId = this.docAttributes && this.docAttributes.contentDocumentId || null;
+    const cdId =
+      (this.docAttributes && this.docAttributes.contentDocumentId) || null;
+
+    if(this.acceptedFormats.length > 0 && !cdId) {
+      this.dispatchEvent(
+        new ShowToastEvent({
+          title: "Document Missing",
+          message: "Please attach or generate (if enabled) a document before proceding.",
+          variant: "error"
+        })
+      );
+      return;
+    } 
     const comments = this.formValues.hasOwnProperty("comments")
       ? this.formValues.comments
       : "";
     const inquiryType = this.formValues.hasOwnProperty("inquiryType")
       ? this.formValues.inquiryType
       : "";
-    const to = this.selectedToId 
-      ? this.titleOrders.find(t => t.Id === this.selectedToId)
+    const to = this.selectedToId
+      ? this.titleOrders.find((t) => t.Id === this.selectedToId)
       : null;
+      
     
+    let propIds = [];
+    let propTitleIds = [];
     const res = await sendRequest({
       requestType,
       dealId,
       cdId,
       comments,
       to,
-      inquiryType
+      inquiryType,
+      propIds,
+      propTitleIds
     });
 
     const resObj = JSON.parse(res);
@@ -653,21 +678,21 @@ export default class TitleOrderOverview extends LightningElement {
 
   get excelConfigs() {
     return {
-      "Quote Request": this.dataTapeConfig,
+      QuoteRequest: this.dataTapeConfig,
       "Order Inquiry": this.dataTapeConfig
     };
   }
 
   get excelFileNames() {
     return {
-      "Quote Request": "datatape.xlsx",
+      QuoteRequest: "datatape.xlsx",
       "Order Inquiry": "reviseddatatape.xlsx"
     };
   }
 
   get excelQueries() {
     return {
-      "Quote Request": this.dataTapeQueryString,
+      QuoteRequest: this.dataTapeQueryString,
       "Order Inquiry": this.dataTapeQueryString
     };
   }

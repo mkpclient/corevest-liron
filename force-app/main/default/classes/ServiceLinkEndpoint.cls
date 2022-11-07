@@ -77,19 +77,20 @@ global without sharing class ServiceLinkEndpoint {
             processAllQuotesOrdered(respMap.values()[0], titleOrders[0])
           );
         }
-        when 'TitleComplete',
+        when 'TitleCompleted',
+          'TitleComplete', // servicelink sent inconsistent requests documentation
           'AllTitlesCompleted',
           'OriginalTitleCleared',
           'OriginalAllTitlesCleared' {
           resMap.put(
             'LoanNumber',
-            processTitles(respMap.values()[0], titleOrders)
+            processTitles(respMap.values()[0], titleOrders[0])
           );
         }
         when 'Document' {
           resMap.put(
             'LoanNumber',
-            processDocumentReceived(respMap.values()[0], titleOrders)
+            processDocumentReceived(respMap.values()[0], titleOrders[0])
           );
         }
         when 'TaxesOrdered',
@@ -98,7 +99,7 @@ global without sharing class ServiceLinkEndpoint {
           'AllTaxesCompleted' {
           resMap.put(
             'LoanNumber',
-            processTaxes(respMap.values()[0], titleOrders)
+            processTaxes(respMap.values()[0], titleOrders[0])
           );
         }
         when 'HOAExists',
@@ -108,7 +109,7 @@ global without sharing class ServiceLinkEndpoint {
           'AllHOACompleted' {
           resMap.put(
             'LoanNumber',
-            processHoa(respMap.values()[0], titleOrders, reqType)
+            processHoa(respMap.values()[0], titleOrders[0], reqType)
           );
         }
         when 'PayOffExists',
@@ -118,29 +119,25 @@ global without sharing class ServiceLinkEndpoint {
           'AllPayoffsCompleted' {
           resMap.put(
             'LoanNumber',
-            processPayoff(respMap.values()[0], titleOrders, reqType)
+            processPayoff(respMap.values()[0], titleOrders[0], reqType)
           );
         }
         when 'ProblemCurativeItem' {
           resMap.put(
             'LoanNumber',
-            processProblemCurativeItem(respMap.values()[0], titleOrders)
+            processProblemCurativeItem(respMap.values()[0], titleOrders[0])
           );
         }
         when 'TitleUnCleared', 'LatestAllTitlesCleared', 'TitleReCleared' {
           resMap.put(
             'LoanNumber',
-            processTitleClearing(
-              respMap.values()[0],
-              titleOrders,
-              reqType.containsIgnoreCase('alltitles')
-            )
+            processTitleClearing(respMap.values()[0], titleOrders[0])
           );
         }
         when 'DeedsOrdered', 'UnExecutedDeedsSent', 'AllClearedToClose' {
           resMap.put(
             'LoanNumber',
-            processDeeds(respMap.values()[0], titleOrders)
+            processDeeds(respMap.values()[0], titleOrders[0])
           );
         }
         when 'LoanDocsReceived',
@@ -151,7 +148,7 @@ global without sharing class ServiceLinkEndpoint {
           'FileFundedDate' {
           resMap.put(
             'LoanNumber',
-            processDocsDates(respMap.values()[0], titleOrders)
+            processDocsDates(respMap.values()[0], titleOrders[0])
           );
         }
         when 'RecordingTracking' {
@@ -163,7 +160,7 @@ global without sharing class ServiceLinkEndpoint {
         when 'SigningAppointment' {
           resMap.put(
             'LoanNumber',
-            processSigningAppointment(respMap.values()[0], titleOrders)
+            processSigningAppointment(respMap.values()[0], titleOrders[0])
           );
         }
         when else {
@@ -238,7 +235,7 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processSigningAppointment(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
     Signing_Appointment__c sAppt = new Signing_Appointment__c();
     List<Signing_Attendee__c> sAtts = new List<Signing_Attendee__c>();
@@ -253,13 +250,7 @@ global without sharing class ServiceLinkEndpoint {
     List<Deal_Contact__c> dealContacts = [
       SELECT Id, Contact__r.Name
       FROM Deal_Contact__c
-      WHERE
-        Contact__r.Name IN :attendeeNames
-        AND Deal__c IN (
-          SELECT Deal__c
-          FROM Title_Order__c
-          WHERE Id IN :titleOrders
-        )
+      WHERE Contact__r.Name IN :attendeeNames AND Deal__c = :to.Deal__c
     ];
 
     sAppt.RecId__c = resp.RecId;
@@ -276,7 +267,7 @@ global without sharing class ServiceLinkEndpoint {
     sAppt.Signing_City__c = sl.City;
     sAppt.Signing_State__c = sl.State;
     sAppt.Signing_Zip_Code__c = sl.Zipcode;
-    sAppt.Title_Order__c = titleOrders[0].Id;
+    sAppt.Title_Order__c = to.Id;
 
     upsert sAppt RecId__c;
 
@@ -297,7 +288,7 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processDocsDates(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
     Date ldrDate = parseDateString(resp.LoanDocsReceivedDate);
     Date sdsDate = parseDateString(resp.SignedDocsScannedDate);
@@ -306,82 +297,82 @@ global without sharing class ServiceLinkEndpoint {
     Date sdrDate = parseDateString(resp.SignedDocsReceivedDate);
     Date ffDate = parseDateString(resp.FileFundedDate);
 
-    for (Title_Order__c to : titleOrders) {
-      to.Loan_Docs_Received_Date__c = ldrDate != null
-        ? ldrDate
-        : to.Loan_Docs_Received_Date__c;
-      to.Signed_Docs_Scanned_Date__c = sdsDate != null
-        ? sdsDate
-        : to.Signed_Docs_Scanned_Date__c;
-      to.Scanned_Docs_Forwarded_Date__c = sdfDate != null
-        ? sdfDate
-        : to.Scanned_Docs_Forwarded_Date__c;
-      to.Docs_Est_Arrival_Date__c = deaDate != null
-        ? deaDate
-        : to.Docs_Est_Arrival_Date__c;
-      to.Signed_Docs_Received_Date__c = sdrDate != null
-        ? sdrDate
-        : to.Signed_Docs_Received_Date__c;
-      to.File_Funded_Date__c = ffDate != null ? ffDate : to.File_Funded_Date__c;
-    }
-
-    update titleOrders;
+    to.Loan_Docs_Received_Date__c = ldrDate != null
+      ? ldrDate
+      : to.Loan_Docs_Received_Date__c;
+    to.Signed_Docs_Scanned_Date__c = sdsDate != null
+      ? sdsDate
+      : to.Signed_Docs_Scanned_Date__c;
+    to.Scanned_Docs_Forwarded_Date__c = sdfDate != null
+      ? sdfDate
+      : to.Scanned_Docs_Forwarded_Date__c;
+    to.Docs_Est_Arrival_Date__c = deaDate != null
+      ? deaDate
+      : to.Docs_Est_Arrival_Date__c;
+    to.Signed_Docs_Received_Date__c = sdrDate != null
+      ? sdrDate
+      : to.Signed_Docs_Received_Date__c;
+    to.File_Funded_Date__c = ffDate != null ? ffDate : to.File_Funded_Date__c;
+    update to;
 
     return resp.LoanNumber;
   }
 
   public static String processDeeds(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
     Date doDate = parseDateString(resp.DeedsOrderedDate);
     Date uedsDate = parseDateString(resp.UnExecDeedSentDate);
     Date actcDate = parseDateString(resp.AllClearedToCloseDate);
 
-    for (Title_Order__c to : titleOrders) {
-      to.Deeds_Ordered_Date__c = doDate != null
-        ? doDate
-        : to.Deeds_Ordered_Date__c;
-      to.Un_Exec_Deed_Sent_Date__c = uedsDate != null
-        ? uedsDate
-        : to.Un_Exec_Deed_Sent_Date__c;
-      to.All_Cleared_To_Close_Date__c = actcDate != null
-        ? actcDate
-        : to.All_Cleared_To_Close_Date__c;
-    }
+    to.Deeds_Ordered_Date__c = resp.DeedsOrderedDate != null
+      ? doDate
+      : to.Deeds_Ordered_Date__c;
+    to.Un_Exec_Deed_Sent_Date__c = resp.UnExecDeedSentDate != null
+      ? uedsDate
+      : to.Un_Exec_Deed_Sent_Date__c;
+    to.All_Cleared_To_Close_Date__c = resp.AllClearedToCloseDate != null
+      ? actcDate
+      : to.All_Cleared_To_Close_Date__c;
 
-    update titleOrders;
+    update to;
 
     return resp.LoanNumber;
   }
 
   public static String processTitleClearing(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders,
-    Boolean isAllCleared
+    Title_Order__c to
   ) {
     Date ltcDate = parseDateString(resp.LatestTitleClearedDate);
     Date latcDate = parseDateString(resp.LatestAllTitlesClearedDate);
 
-    for (Title_Order__c to : titleOrders) {
-      to.Latest_Title_Cleared_Date__c = isAllCleared
-        ? to.Latest_Title_Cleared_Date__c
-        : ltcDate;
-      to.Latest_All_Titles_Cleared_Date__c = isAllCleared
-        ? latcDate
-        : to.Latest_All_Titles_Cleared_Date__c;
-    }
+    Boolean isIndividualLevel =
+      String.isNotBlank(resp.OrderNumber) &&
+      resp.LatestTitleClearedDate != null;
 
-    update titleOrders;
+    if (isIndividualLevel) {
+      Property_Title__c pt = new Property_Title__c(
+        OrderNumber__c = resp.OrderNumber,
+        LatestTitleClearedDate__c = parseDateString(resp.LatestTitleClearedDate)
+      );
+
+      upsert pt OrderNumber__c;
+    } else {
+      to.Latest_All_Titles_Cleared_Date__c = parseDateString(
+        resp.LatestAllTitlesClearedDate
+      );
+      update to;
+    }
 
     return resp.LoanNumber;
   }
 
   public static String processProblemCurativeItem(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
-    Title_Order__c to = titleOrders[0];
     Loan_Status__c loanNote = new Loan_Status__c();
     loanNote.Deal__c = to.Deal__c;
     loanNote.Title_Order__c = to.Id;
@@ -393,6 +384,10 @@ global without sharing class ServiceLinkEndpoint {
       '\nCannot Cure Reasons: ' +
       resp.CannotCureReasons;
 
+    if (String.isNotBlank(resp.OrderNumber)) {
+      loanNote.Property_Title__r.OrderNumber__c = resp.OrderNumber;
+    }
+
     upsert loanNote Servicelink_Item_Id__c;
 
     return resp.LoanNumber;
@@ -400,214 +395,208 @@ global without sharing class ServiceLinkEndpoint {
 
   public static String processPayoff(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders,
+    Title_Order__c to,
     String reqType
   ) {
-    Date poOrderedDate = parseDateString(resp.PayoffOrderedDate);
-    Date allPoOrderedDate = parseDateString(resp.AllPayoffsOrderedDate);
-    Date poCompletedDate = parseDateString(resp.PayoffCompletedDate);
-    Date allPoCompletedDate = parseDateString(resp.AllPayoffsCompletedDate);
+    Boolean isIndividualLevel =
+      String.isNotBlank(resp.OrderNumber) &&
+      (reqType == 'PayOffExists' ||
+      resp.PayoffOrderedDate != null ||
+      resp.PayoffCompletedDate != null);
 
-    if (!reqType.containsIgnoreCase('all')) {
-      Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
+    if (isIndividualLevel) {
+      Property_Title__c pt = new Property_Title__c(
+        OrderNumber__c = resp.OrderNumber
+      );
 
-      for (Loan_Status__c ls : [
-        SELECT Id, Comment__c
-        FROM Loan_Status__c
-        WHERE Payoff_Rec_Id__c = :titleOrders[0].Id
-      ]) {
-        loanNote.Comment__c += ls.Comment__c;
-        break;
+      if (reqType == 'PayOffExists') {
+        pt.PayoffExists__c = resp.PayoffExists == 'Y';
+      } else if (resp.HOAOrderedDate != null) {
+        pt.PayoffOrderedDate__c = parseDateString(resp.PayoffOrderedDate);
+      } else if (resp.HOACompletedDate != null) {
+        pt.PayoffCompletedDate__c = parseDateString(resp.PayoffCompletedDate);
       }
 
-      loanNote.Payoff_Rec_Id__c = titleOrders[0].Id;
-      loanNote.Subject__c = 'Payoff for Property with Asset ID ' + resp.AssetID;
-      loanNote.Title_Order__c = titleOrders[0].Id;
-      loanNote.Deal__c = titleOrders[0].Deal__c;
-
-      String comment = String.isEmpty(loanNote.Comment__c)
-        ? 'Payoff Details:\n\nDeal Loan Number: ' + resp.LoanNumber
-        : loanNote.Comment__c;
-      if (poCompletedDate != null) {
-        comment += '\nPayoff Completed Date: ' + poCompletedDate;
+      upsert pt OrderNumber__c;
+    } else {
+      if (resp.AllPayoffsOrderedDate != null) {
+        to.All_Payoffs_Ordered_Date__c = parseDateString(
+          resp.AllPayoffsOrderedDate
+        );
+      } else if (resp.AllPayoffsCompletedDate != null) {
+        to.All_Payoffs_Completed_Date__c = parseDateString(
+          resp.AllPayoffsCompletedDate
+        );
       }
-      if (poOrderedDate != null) {
-        comment += '\nPayoff Ordered Date: ' + poOrderedDate;
-      }
-
-      loanNote.Comment__c = comment;
-
-      upsert loanNote Payoff_Rec_Id__c;
+      update to;
     }
-
-    for (Title_Order__c to : titleOrders) {
-      to.Payoff_Exists__c =
-        resp.PayOffExists != null &&
-        resp.PayOffExists.toLowerCase() == 'yes';
-      to.All_Payoffs_Completed_Date__c = resp.AllPayoffsCompletedDate != null
-        ? allPoCompletedDate
-        : to.All_Payoffs_Completed_Date__c;
-      to.All_Payoffs_Ordered_Date__c = resp.AllPayoffsOrderedDate != null
-        ? allPoOrderedDate
-        : to.All_Payoffs_Ordered_Date__c;
-      to.Payoff_Completed_Date__c = resp.PayoffCompletedDate != null
-        ? poCompletedDate
-        : to.Payoff_Completed_Date__c;
-      to.Payoff_Ordered_Date__c = resp.PayoffOrderedDate != null
-        ? poOrderedDate
-        : to.Payoff_Ordered_Date__c;
-    }
-
-    update titleOrders;
 
     return resp.LoanNumber;
   }
 
   public static String processHoa(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders,
+    Title_Order__c to,
     String reqType
   ) {
-    Date hoaOrderedDate = parseDateString(resp.HOAOrderedDate);
-    Date allHoaOrderedDate = parseDateString(resp.AllHOAOrderedDate);
-    Date hoaCompletedDate = parseDateString(resp.HOACompletedDate);
-    Date allHoaCompDate = parseDateString(resp.AllHOACompletedDate);
+    Boolean isIndividualLevel =
+      String.isNotBlank(resp.OrderNumber) &&
+      (reqType == 'HOAExists' ||
+      resp.HOAOrderedDate != null ||
+      resp.HOACompletedDate != null);
 
-    if (!reqType.containsIgnoreCase('all')) {
-      Loan_Status__c loanNote = new Loan_Status__c(Comment__c = '');
-      for (Loan_Status__c ls : [
-        SELECT Id, Comment__c
-        FROM Loan_Status__c
-        WHERE HOA_Rec_Id__c = :titleOrders[0].Id
-      ]) {
-        loanNote.Comment__c += ls.Comment__c;
-        break;
-      }
-      loanNote.HOA_Rec_Id__c = titleOrders[0].Id;
-      loanNote.Subject__c = 'HOA for Property with Asset ID ' + resp.AssetID;
-      loanNote.Title_Order__c = titleOrders[0].Id;
-      loanNote.Deal__c = titleOrders[0].Deal__c;
+    if (isIndividualLevel) {
+      Property_Title__c pt = new Property_Title__c(
+        OrderNumber__c = resp.OrderNumber
+      );
 
-      String comment = String.isEmpty(loanNote.Comment__c)
-        ? 'HOA Details:\n\nDeal Loan Number: ' + resp.LoanNumber
-        : loanNote.Comment__c;
-      if (hoaCompletedDate != null) {
-        comment += '\nHOA Completed Date: ' + hoaCompletedDate;
-      }
-      if (hoaOrderedDate != null) {
-        comment += '\nHOA Ordered Date: ' + hoaOrderedDate;
+      if (reqType == 'HOAExists') {
+        pt.HOAExists__c = resp.HOAExists == 'Y';
+      } else if (resp.HOAOrderedDate != null) {
+        pt.HOAOrderedDate__c = parseDateString(resp.HOAOrderedDate);
+      } else if (resp.HOACompletedDate != null) {
+        pt.HOACompletedDate__c = parseDateString(resp.HOACompletedDate);
       }
 
-      loanNote.Comment__c = comment;
-
-      upsert loanNote HOA_Rec_Id__c;
+      upsert pt OrderNumber__c;
+    } else {
+      if (resp.AllHOAOrderedDate != null) {
+        to.All_HOA_Ordered_Date__c = parseDateString(resp.AllHOAOrderedDate);
+      } else if (resp.AllHOACompletedDate != null) {
+        to.All_HOA_Completed_Date__c = parseDateString(
+          resp.AllHOACompletedDate
+        );
+      }
+      update to;
     }
-
-    for (Title_Order__c to : titleOrders) {
-      to.HOA_Exists__c =
-        resp.HOAExists != null &&
-        resp.HOAExists.toLowerCase() == 'yes';
-      to.HOA_Ordered_Date__c = resp.HOAOrderedDate != null
-        ? hoaOrderedDate
-        : to.HOA_Ordered_Date__c;
-      to.All_HOA_Ordered_Date__c = resp.AllHOAOrderedDate != null
-        ? allHoaOrderedDate
-        : to.All_HOA_Ordered_Date__c;
-      to.HOA_Completed_Date__c = resp.HOACompletedDate != null
-        ? hoaCompletedDate
-        : to.HOA_Completed_Date__c;
-      to.All_HOA_Completed_Date__c = resp.AllHOACompletedDate != null
-        ? allHoaCompDate
-        : to.All_HOA_Completed_Date__c;
-    }
-
-    update titleOrders;
 
     return resp.LoanNumber;
   }
 
   public static String processTaxes(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
-    Date atcDate = parseDateString(resp.AllTaxesCompletedDate);
-    Date atoDate = parseDateString(resp.AllTaxesOrderedDate);
-    Date taxOrdDate = parseDateString(resp.TaxesOrderedDate);
-    Date tcDate = parseDateString(resp.TaxesCompletedDate);
+    Boolean isIndividualLevel =
+      String.isNotBlank(resp.OrderNumber) &&
+      (resp.TaxesOrderedDate != null ||
+      resp.TaxesCompletedDate != null);
 
-    for (Title_Order__c to : titleOrders) {
-      to.Taxes_Ordered_Date__c = taxOrdDate != null
-        ? taxOrdDate
-        : to.Taxes_Ordered_Date__c;
-      to.All_Taxes_Ordered_Date__c = atoDate != null
-        ? atoDate
-        : to.All_Taxes_Ordered_Date__c;
-      to.Taxes_Completed_Date__c = tcDate != null
-        ? tcDate
-        : to.Taxes_Completed_Date__c;
-      to.All_Taxes_Completed_Date__c = atcDate != null
-        ? atcDate
-        : to.All_Taxes_Completed_Date__c;
+    if (isIndividualLevel) {
+      Property_Title__c pt = new Property_Title__c(
+        OrderNumber__c = resp.OrderNumber
+      );
+
+      if (resp.TaxesOrderedDate != null) {
+        pt.TaxesOrderedDate__c = parseDateString(resp.TaxesOrderedDate);
+      } else if (resp.TaxesCompletedDate != null) {
+        pt.TaxesCompletedDate__c = parseDateString(resp.TaxesCompletedDate);
+      }
+
+      upsert pt OrderNumber__c;
+    } else {
+      if (resp.AllTaxesCompletedDate != null) {
+        to.All_Taxes_Completed_Date__c = parseDateString(
+          resp.AllTaxesCompletedDate
+        );
+      } else if (resp.AllTaxesOrderedDate != null) {
+        to.All_Taxes_Ordered_Date__c = parseDateString(
+          resp.AllTaxesOrderedDate
+        );
+      }
+
+      update to;
     }
-    update titleOrders;
+
     return resp.LoanNumber;
   }
 
   public static String processDocumentReceived(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
-    Boolean hasAssetId = String.isNotEmpty(resp.AssetID);
+    Boolean isIndividualLevel = String.isNotBlank(resp.OrderNumber);
     ServiceLinkAPI.TitleDocument doc = new ServiceLinkAPI.TitleDocument();
     doc.Base64FileData = resp.Base64FileData;
     doc.DocumentName = resp.DocumentName;
-    doc.DocumentType = resp.DocumentType;
+    doc.DocumentType = Servicelink_Schema__mdt.getInstance(
+          resp.DocumentType.replaceAll('-', '_')
+        )
+        ?.Full_Name__c != null
+      ? Servicelink_Schema__mdt.getInstance(
+            resp.DocumentType.replaceAll('-', '_')
+          )
+          .Full_Name__c
+      : resp.DocumentType;
     doc.Format = resp.Format;
     doc.Size = resp.Size;
 
-    ContentVersion cv = createContentVersion(
-      new List<ServiceLinkAPI.TitleDocument>{ doc },
-      (hasAssetId ? titleOrders[0].Id : titleOrders[0].Deal__c)
-    )[0];
-    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
-    for (Title_Order__c to : titleOrders) {
-      Deal_Document__c dealDoc = createDealDocument(doc, cv, to, null);
-      dealDoc.Service_Link_Id__c = resp.DocumentID + '-' + to.Id;
-      dealDocs.add(dealDoc);
-      to.Document_Received__c = true;
+    Property_Title__c pt = new Property_Title__c();
+
+    if (isIndividualLevel) {
+      pt = [
+        SELECT Id, Property__c
+        FROM Property_Title__c
+        WHERE OrderNumber__c = :resp.OrderNumber
+      ];
     }
 
-    upsert dealDocs Service_Link_Id__c;
+    ContentVersion cv = createContentVersion(
+      new List<ServiceLinkAPI.TitleDocument>{ doc },
+      (isIndividualLevel && pt?.Property__c != null
+        ? pt.Property__c
+        : to.Deal__c)
+    )[0];
+    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
+    Deal_Document__c dealDoc = createDealDocument(
+      doc,
+      cv,
+      to,
+      isIndividualLevel && pt?.Property__c != null ? pt.Property__c : null
+    );
+    dealDoc.Service_Link_Id__c = resp.DocumentID + '-' + to.Id;
+    dealDocs.add(dealDoc);
 
-    update titleOrders;
+    upsert dealDoc Service_Link_Id__c;
 
     return resp.LoanNumber;
   }
 
   public static String processTitles(
     ServiceLinkResponse resp,
-    List<Title_Order__c> titleOrders
+    Title_Order__c to
   ) {
-    Date atcDate = parseDateString(resp.AllTitlesCompletedDate);
-    Date tcDate = parseDateString(resp.TitleCompleteDate);
-    Date otcDate = parseDateString(resp.OriginalTitleClearedDate);
-    Date oatcDate = parseDateString(resp.OriginalAllTitlesClearedDate);
-    for (Title_Order__c to : titleOrders) {
-      to.All_Titles_Complete_Date__c = atcDate != null
-        ? atcDate
-        : to.All_Titles_Complete_Date__c;
-      to.Title_Complete_Date__c = tcDate != null
-        ? tcDate
-        : to.Title_Complete_Date__c;
-      to.Original_Title_Cleared_Date__c = otcDate != null
-        ? otcDate
-        : to.Original_Title_Cleared_Date__c;
-      to.Original_All_Titles_Cleared_Date__c = oatcDate != null
-        ? oatcDate
-        : to.Original_All_Titles_Cleared_Date__c;
+    Boolean isIndividualLevel =
+      String.isNotBlank(resp.OrderNumber) &&
+      (resp.TitleCompleteDate != null ||
+      resp.OriginalTitleClearedDate != null);
+
+    if (isIndividualLevel) {
+      Property_Title__c pt = new Property_Title__c(
+        OrderNumber__c = resp.OrderNumber
+      );
+      if (resp.TitleCompleteDate != null) {
+        pt.TitleCompleteDate__c = parseDateString(resp.TitleCompleteDate);
+      } else if (resp.OriginalTitleClearedDate != null) {
+        pt.OriginalTitleClearedDate__c = parseDateString(
+          resp.OriginalTitleClearedDate
+        );
+      }
+
+      upsert pt OrderNumber__c;
+    } else {
+      if (resp.AllTitlesCompletedDate != null) {
+        to.All_Titles_Complete_Date__c = parseDateString(
+          resp.AllTitlesCompletedDate
+        );
+      } else if (resp.OriginalAllTitlesClearedDate != null) {
+        to.Original_All_Titles_Cleared_Date__c = parseDateString(
+          resp.OriginalAllTitlesClearedDate
+        );
+      }
+      update to;
     }
 
-    update titleOrders;
     return resp.LoanNumber;
   }
 
@@ -769,9 +758,30 @@ global without sharing class ServiceLinkEndpoint {
       } else if (reqType == 'LoanPortfolioChangeConfirm') {
         to.Status__c = 'Loan Portfolio Change Failed';
       } else if (reqType == 'DocumentSubmissionConfirm') {
-        'Error found on document=LNDINST. This document could not be populated.';
-        
-        //Submission_Failed
+        String docType = sl.ErrorMessage.substringBetween('=', '.');
+        if (String.isNotBlank(docType)) {
+          Servicelink_Schema__mdt schemaMd = Servicelink_Schema__mdt.getInstance(
+            docType.replaceAll('-', '_')
+          );
+          if (schemaMd != null) {
+            Deal_Document__c dealDoc = [
+              SELECT Id, Submission_Failed__c
+              FROM Deal_Document__c
+              WHERE
+                Type__c = :schemaMd.Full_Name__c
+                AND Title_Order__c = :to.Id
+                AND Deal__c = :to.Deal__c
+                AND Submission_Failed__c = FALSE
+              ORDER BY CreatedDate DESC
+              LIMIT 1
+            ];
+
+            if (dealDoc != null) {
+              dealDoc.Submission_Failed__c = true;
+              update dealDoc;
+            }
+          }
+        }
       }
     }
 
