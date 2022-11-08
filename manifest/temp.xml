@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>Term_Sheet_Approval_Emails/BRIDGE_Term_Sheet_Outside_Guidelines_VF</members>
-        <name>EmailTemplate</name>
+        <members>serviceLinkDataMapping</members>
+        <members>serviceLinkConfigs</members>
+        <name>StaticResource</name>
     </types>
     <version>53.0</version>
 </Package>

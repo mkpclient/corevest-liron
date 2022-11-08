@@ -9,6 +9,6 @@ export default class TitleOrder extends LightningElement {
   ];
   
   handleActive(evt) {
-    this.activeVendorType = evt.target.value;
+    this.activeVendorType = evt.target.label;
   }
 }

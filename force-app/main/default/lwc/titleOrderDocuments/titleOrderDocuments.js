@@ -35,6 +35,7 @@ const columns = [
 ];
 export default class TitleOrderDocuments extends LightningElement {
   @api recordId;
+  @api vendorType;
   data = [];
   cols = columns;
 
@@ -46,6 +47,7 @@ export default class TitleOrderDocuments extends LightningElement {
     const queryString = `SELECT Id, Type__c, File_Name__c, Attachment_Id__c, CreatedDate
     FROM Deal_Document__c
     WHERE Deal__c = '${this.recordId}'
+    AND Title_Order__r.Title_Vendor__c = '${this.vendorType}'
     AND Document_Type__c = 'Title Order'
     AND Is_Deleted__c = false`;
 

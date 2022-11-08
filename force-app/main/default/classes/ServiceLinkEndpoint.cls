@@ -820,7 +820,8 @@ global without sharing class ServiceLinkEndpoint {
         OrderNumber__c,
         OrderOpenedDate__c,
         Property__c,
-        Property__r.Asset_ID__c
+        Property__r.Asset_ID__c,
+        Vendor_Property_Status__c
       FROM Property_Title__c
       WHERE
         Property__r.Asset_ID__c = :ordConf.AssetId
@@ -834,6 +835,7 @@ global without sharing class ServiceLinkEndpoint {
     } else {
       pt.ErrorMessage__c = ordConf.ErrorMessage;
       pt.Status__c = 'Loan Portfolio Change Required';
+      pt.Vendor_Property_Status__c = 'Action Needed';
       ContentNote cn = new ContentNote();
       cn.Title = 'Order Confirmation Error Details';
       cn.Content = Blob.valueOf(ordConf.ErrorMessage);
@@ -864,26 +866,25 @@ global without sharing class ServiceLinkEndpoint {
       'Base64FileData'
     };
 
-    if (qteRes.Document == null) {
-      throwMissingFieldError(new List<String>{ 'Document' });
-    } else {
+    if (qteRes.Document != null) {
       Map<String, Object> resDocument = (Map<String, Object>) JSON.deserializeUntyped(
         JSON.serialize(qteRes.Document)
       );
       verifyMissingFields(requiredFields, resDocument);
+      ContentVersion cv = createContentVersion(
+        new List<ServiceLinkAPI.TitleDocument>{ qteRes.Document },
+        titleOrder.Deal__c
+      )[0];
+  
+      List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
+      ServiceLinkAPI.TitleDocument doc = qteRes.Document;
+      Deal_Document__c dd = createDealDocument(doc, cv, titleOrder, null);
+  
+      insert dd;
+  
     }
 
-    ContentVersion cv = createContentVersion(
-      new List<ServiceLinkAPI.TitleDocument>{ qteRes.Document },
-      titleOrder.Deal__c
-    )[0];
-
-    List<Deal_Document__c> dealDocs = new List<Deal_Document__c>();
-    ServiceLinkAPI.TitleDocument doc = qteRes.Document;
-    Deal_Document__c dd = createDealDocument(doc, cv, titleOrder, null);
-
-    insert dd;
-
+   
     update new Title_Order__c(
       Id = titleOrder.Id,
       Status__c = 'Quote Response Received'

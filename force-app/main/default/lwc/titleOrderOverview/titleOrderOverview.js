@@ -8,183 +8,9 @@ import retrieveSchemas from "@salesforce/apex/TitleOrder_LightningHelper.retriev
 import cancelRequest from "@salesforce/apex/TitleOrder_LightningHelper.cancelRequest";
 import queryTitleOrder from "@salesforce/apex/TitleOrder_LightningHelper.queryTitleOrder";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
-
-const QuoteRequest = [
-  {
-    isDealField: true,
-    disabled: true,
-    fieldName: "Current_Loan_Amount__c",
-    dataName: "currentLoanAmount",
-    size: 6
-  },
-  {
-    isComments: true,
-    label: "Comments",
-    disabled: false,
-    dataName: "comments",
-    size: 12,
-    value: null,
-    required: true
-  }
-];
-
-const OrderInquiry = [
-  {
-    isPropertySelection: true,
-    size: 12,
-    dataName: "propertySel",
-    value: "",
-    disabled: false
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Bulk Project Order Num",
-    value: "",
-    dataName: "Bulk_Project_Order_Num__c",
-    size: 6
-  },
-  {
-    isDealField: true,
-    disabled: true,
-    fieldName: "Deal_Loan_Number__c",
-    dataName: "dealLoanNumber",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Asset ID",
-    value: "",
-    dataName: "Asset_ID__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Order Number",
-    value: "",
-    dataName: "Order_Number__c",
-    size: 6
-  },
-  {
-    isCombobox: true,
-    disabled: false,
-    label: "Inquiry Type",
-    value: "",
-    dataName: "inquiryType",
-    size: 6,
-    required: true,
-    options: []
-  },
-  {
-    isComments: true,
-    label: "Comments",
-    disabled: false,
-    dataName: "comments",
-    size: 12,
-    value: null,
-    required: true
-  }
-];
-
-const OrderChangeRequest = [
-  {
-    isPropertySelection: true,
-    size: 12,
-    dataName: "propertySel",
-    value: "",
-    disabled: false
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Bulk Project Order Num",
-    value: "",
-    dataName: "Bulk_Project_Order_Num__c",
-    size: 6
-  },
-  {
-    isDealField: true,
-    disabled: true,
-    fieldName: "Deal_Loan_Number__c",
-    dataName: "dealLoanNumber",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Asset ID",
-    value: "",
-    dataName: "Asset_ID__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Address",
-    value: "",
-    dataName: "Property__r.Name",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "City",
-    value: "",
-    dataName: "Property__r.City__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "State",
-    value: "",
-    dataName: "Property__r.State__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "County",
-    value: "",
-    dataName: "Property__r.County__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Zip Code",
-    value: "",
-    dataName: "Property__r.ZipCode__c",
-    size: 6
-  },
-  {
-    type: "text",
-    disabled: true,
-    label: "Property APN",
-    value: "",
-    dataName: "Property__r.APN__c",
-    size: 6
-  },
-  {
-    type: "number",
-    disabled: true,
-    label: "Allocated Loan Amount",
-    value: "",
-    dataName: "Property__r.ALA__c",
-    size: 6,
-    formatter: "currency",
-    step: "0.01"
-  }
-];
-
-const FORM_CONFIGS = { QuoteRequest, OrderChangeRequest, OrderInquiry };
-
-const acceptedFormatMap = {
-  QuoteRequest: [".xlsx"],
-  "Order Inquiry": [".xlsx"]
-};
+import SLDATAMAP from "@salesforce/resourceUrl/serviceLinkDataMapping";
+import SLCONFIGS from "@salesforce/resourceUrl/serviceLinkConfigs";
+import upsertRecord from "@salesforce/apex/lightning_Controller.upsertRecord";
 
 const nextSteps = {
   Unordered: "Open a Quote Request to get started",
@@ -205,33 +31,48 @@ export default class TitleOrderOverview extends LightningElement {
   @api vendorType;
 
   titleOrder;
-  selectedTitleOrder = {};
-  selectedToId;
+  selectedPropertyTitle = {};
+  selectedPtId;
   comboboxSchemas = {};
-
+  formConfigs = {};
   selectedRequestLocal = "";
   currStepLocal = 1;
   formValues = {};
   docAttributes;
-  isLoading = false;
+  isLoading = true;
   contentDocumentIdsForDeletion = [];
-  titleOrderStatusLocal = "Unordered";
+  fileConfigs = {};
+  dataTapeConfig = {};
+  inquiryType;
+  propTitleSelections = [];
+
+  get showQuoteAccepted() {
+    return (
+      this.titleOrder && this.titleOrder.Status__c == "Quote Response Received"
+    );
+  }
+
+  get showOrderInquiry() {
+    return (
+      this.titleOrder &&
+      ![
+        "Quote Requested",
+        "Quote Received Success",
+        "Quote Received Failed",
+        "Cancelled",
+        "Cancel Requested",
+        "Cancel Request Failed"
+      ].includes(this.titleOrder.Status__c)
+    );
+  }
 
   get disallowAttachments() {
     return (
       (this.selectedRequest !== "QuoteRequest" &&
-        this.selectedRequest !== "Order Inquiry") ||
-      (this.selectedRequest == "Order Inquiry" &&
-        this.formValues.inquiryType &&
-        this.formValues.inquiryType !== "REVISEDQUO")
+        this.selectedRequest !== "OrderInquiry" && this.selectedRequest !== "QuoteAccepted") ||
+      (this.selectedRequest == "OrderInquiry" &&
+        this.inquiryType !== "REVISEDQUO")
     );
-  }
-
-  get titleOrderSelections() {
-    return this.titleOrders.map((to) => ({
-      label: to.Property__r.Name + ", " + to.Property__r.State__c,
-      value: to.Id
-    }));
   }
 
   get downloadLink() {
@@ -244,55 +85,11 @@ export default class TitleOrderOverview extends LightningElement {
     );
   }
 
-  get currStep() {
-    return this.currStepLocal.toString();
-  }
-
-  get isFormStep() {
-    return this.currStepLocal !== 2;
-  }
-
-  get formConfigs() {
-    return FORM_CONFIGS;
-  }
-
-  get disableQuoteRequest() {
-    return (
-      this.titleOrderStatus !== "Unordered" ||
-      this.titleOrderStatus == "Quote Request Rejected"
-    );
-  }
-
   get selectedRequest() {
     return this.selectedRequestLocal;
   }
-
-  get showNext() {
-    return this.currStepLocal < 3;
-  }
-
-  get showPrev() {
-    return this.currStepLocal > 1;
-  }
-
-  get showSave() {
-    return this.currStepLocal === 3;
-  }
-
   set selectedRequest(val) {
     this.selectedRequestLocal = val;
-  }
-
-  get isPreviewStep() {
-    return this.currStepLocal === 3;
-  }
-
-  get isDocStep() {
-    return this.currStepLocal === 2;
-  }
-
-  get disableNext() {
-    return this.isDocStep && !this.docAttributes && !this.disallowAttachments;
   }
 
   get currForm() {
@@ -304,8 +101,9 @@ export default class TitleOrderOverview extends LightningElement {
         if (this.formValues.hasOwnProperty(dataName)) {
           value = this.formValues[dataName];
         }
-        if (this.selectedTitleOrder.hasOwnProperty(dataName)) {
-          value = this.selectedTitleOrder[dataName];
+
+        if (this.titleOrder.hasOwnProperty(dataName)) {
+          value = this.titleOrder[dataName];
         }
         if (this.comboboxSchemas.hasOwnProperty(dataName)) {
           options = this.comboboxSchemas[dataName];
@@ -316,52 +114,44 @@ export default class TitleOrderOverview extends LightningElement {
     );
   }
 
-  get titleOrderStatus() {
-    return this.titleOrderParams.status;
-  }
-
-  get hasNoRequest() {
-    return (
-      this.titleOrderStatus == "Unordered" ||
-      this.titleOrderStatus == "Cancelled" ||
-      this.titleOrderStatus == "Cancel Requested" ||
-      !this.titleOrderParams.hasBulkProjectId
-    );
-  }
-
-  get cannotAcceptOrder() {
-    return this.titleOrderStatus !== "Quote Response Received";
-  }
-
-  get nextStep() {
-    return nextSteps[this.titleOrderStatus];
-  }
-
-  get requestName() {
-    return this.selectedRequest ? this.selectedRequest : "";
-  }
-
   async connectedCallback() {
-    this.isLoading = true;
+    const response = await fetch(SLDATAMAP);
+    const tempData = await response.json();
+
+    const configsRes = await fetch(SLCONFIGS);
+    const configData = await configsRes.json();
+
+    this.formConfigs = configData.formConfigs;
+    this.fileConfigs = configData.fileConfigs;
+    this.dataTapeConfig = configData.dataTapeRows;
+
     const res = await queryTitleOrder({
       dealId: this.recordId,
       vendorType: this.vendorType
     });
+    console.log("Query title order result: ");
+    console.log(res);
     if (res) {
       console.log(res);
       this.titleOrder = res;
+      if(res.Property_Titles__r) {
+        this.propTitleSelections = res.Property_Titles__r.map(pt => ({
+          label: pt.Property__r.Name,
+          value: pt.Property__c
+        }))
+      }
     }
     this.isLoading = false;
 
-    const schemas = await retrieveSchemas();
-    const tempData = {};
-    for (const key in schemas) {
-      const vals = schemas[key];
-      tempData[key] = vals.map((v) => ({
-        label: v,
-        value: v
-      }));
-    }
+    // const schemas = await retrieveSchemas();
+    // const tempData = {};
+    // for (const key in schemas) {
+    //   const vals = schemas[key];
+    //   tempData[key] = vals.map((v) => ({
+    //     label: v,
+    //     value: v
+    //   }));
+    // }
 
     this.comboboxSchemas = tempData;
   }
@@ -379,10 +169,10 @@ export default class TitleOrderOverview extends LightningElement {
   handlePropertySelection(evt) {
     const { value } = evt.detail;
 
-    this.selectedToId = value;
+    this.selectedPtId = value;
 
-    this.selectedTitleOrder = this.flattenObj(
-      this.titleOrders.find((to) => to.Id === value)
+    this.selectedPropertyTitle = this.flattenObj(
+      this.titleOrder.Property_Titles__r.find((to) => to.Id === value)
     );
   }
 
@@ -391,12 +181,15 @@ export default class TitleOrderOverview extends LightningElement {
     const { name } = evt.target.dataset;
     console.log(name, value);
     this.formValues[name] = value;
+    if(name === "inquiryType") {
+      this.inquiryType = value;
+    }
   }
 
   handleClick(evt) {
     const req = evt.target.title;
 
-    if (req === "Cancel Request") {
+    if (req === "CancelRequest") {
       this.handleCancel();
     } else {
       this.selectedRequest = req;
@@ -415,9 +208,8 @@ export default class TitleOrderOverview extends LightningElement {
 
     if (result) {
       this.isLoading = true;
-      const titleOrderIds = this.titleOrders.map((to) => to.Id);
       try {
-        await cancelRequest({ titleOrderIds });
+        await cancelRequest({ titleOrderId: this.titleOrder.Id });
         await LightningAlert.open({
           message: "Your cancel request has been successfully submitted.",
           theme: "success",
@@ -472,35 +264,41 @@ export default class TitleOrderOverview extends LightningElement {
       return;
     }
 
-
     const requestType = this.selectedRequest.replaceAll(" ", "");
     const dealId = this.recordId;
     const cdId =
       (this.docAttributes && this.docAttributes.contentDocumentId) || null;
 
-    if(this.acceptedFormats.length > 0 && !cdId) {
+    if (this.acceptedFormats.length > 0 && !cdId) {
       this.dispatchEvent(
         new ShowToastEvent({
           title: "Document Missing",
-          message: "Please attach or generate (if enabled) a document before proceding.",
+          message:
+            "Please attach or generate (if enabled) a document before proceding.",
           variant: "error"
         })
       );
       return;
-    } 
+    }
     const comments = this.formValues.hasOwnProperty("comments")
       ? this.formValues.comments
       : "";
     const inquiryType = this.formValues.hasOwnProperty("inquiryType")
       ? this.formValues.inquiryType
       : "";
-    const to = this.selectedToId
-      ? this.titleOrders.find((t) => t.Id === this.selectedToId)
-      : null;
-      
-    
+    const to = this.titleOrder;
+
+    if(requestType == "QuoteAccepted" && this.formValues.hasOwnProperty("Anticipated_Close_Date__c")) {
+      await upsertRecord({ record: {
+        sobjectType: "Title_Order__c",
+        Id: to.Id,
+        Anticipated_Close_Date__c: this.formValues.Anticipated_Close_Date__c
+      }});
+    }
+
     let propIds = [];
     let propTitleIds = [];
+
     const res = await sendRequest({
       requestType,
       dealId,
@@ -511,7 +309,7 @@ export default class TitleOrderOverview extends LightningElement {
       propIds,
       propTitleIds
     });
-
+    console.log(res);
     const resObj = JSON.parse(res);
     const isSuccess = resObj.result !== "FAIL";
 
@@ -523,6 +321,7 @@ export default class TitleOrderOverview extends LightningElement {
 
     if (isSuccess) {
       this.dispatchEvent(new CustomEvent("requestsubmission"));
+      this.connectedCallback();
       this.closeModal(true);
     } else {
       this.isLoading = false;
@@ -589,8 +388,9 @@ export default class TitleOrderOverview extends LightningElement {
   get excelFileName() {
     return (
       this.selectedRequest &&
-      this.excelFileNames.hasOwnProperty(this.selectedRequest) &&
-      this.excelFileNames[this.selectedRequest]
+      this.fileConfigs.hasOwnProperty(this.selectedRequest) &&
+      this.fileConfigs[this.selectedRequest].hasOwnProperty("fileName") &&
+      this.fileConfigs[this.selectedRequest].fileName
     );
   }
 
@@ -602,106 +402,28 @@ export default class TitleOrderOverview extends LightningElement {
     );
   }
 
-  get dataTapeConfig() {
-    return {
-      Asset_ID__c: "Asset ID",
-      Property_Name__c: "Property Name (Parent Property)",
-      APN__c: "APN",
-      Property_Type__c: "Property Type",
-      Name: "Address",
-      City__c: "City",
-      State__c: "State",
-      ZipCode__c: "ZIP",
-      County__c: "County",
-      Number_of_Units__c: "# of Units",
-      Number_of_Beds__c: "BD",
-      Number_of_Bath__c: "BA",
-      Square_Feet__c: "SF",
-      No_of_Stories__c: "# of Stories",
-      Year_Built__c: "Year Built",
-      Air_Conditioning__c: "A/C",
-      Pool__c: "Pool",
-      Section_8__c: "Section 8",
-      Condition__c: "Condition",
-      Zoning_Compliance__c: "Legally Conforming",
-      Acquisition_Date__c: "Acquisition Date",
-      Acquisition_Price__c: "Acquisition Price",
-      Acquisition_Type__c: "Acquisition Type",
-      Transaction_Costs__c: "Transaction Costs",
-      Rehab_Costs__c: "Rehab Costs",
-      Rehab_Completion_Date__c: "Rehab Completion Date",
-      Total_Basis__c: "Total Basis",
-      Borrower_Opinion_of_Current_Value__c:
-        "Borrower Opinion of Current Market Value",
-      Calc_AveValue__c: "Red Bell Calc AveValue",
-      Appraisal_Form__c: "Appraisal Form",
-      BPO_Appraisal_Date__c: "Effective Date",
-      Appraised_Value_Amount__c: "Appraisal Value",
-      Currently_Leased__c: "Currently Leased? (Y/N)",
-      Lease_Ready__c: "Lease Ready",
-      Lease_Start_Date__c: "Lease Start Date",
-      Lease_End_Date__c: "Lease End Date",
-      Lease_Term__c: "Lease Term",
-      Monthly_Rent__c: "Monthly Rent",
-      Estimated_Rent__c: "Monthly Estimated Rent",
-      Security_Deposit__c: "Security Deposit",
-      Other_Income__c: "Other Income",
-      Annual_HOA_Fee__c: "HOA",
-      Special_Assesments_CFD_Mello_Roos_etc__c: "Special Assessments",
-      Annual_Taxes__c: "Taxes",
-      Annual_Insurance__c: "Insurance",
-      Annual_Managment_Fee__c: "Property Management",
-      Maintenance_Repairs__c: "Maintenance/ Repairs",
-      Owner_Paid_Utilities__c: "Owner Paid Utilities",
-      Annual_Landscaping_Expense__c: "Landscaping Expense",
-      Other_Expenses__c: "Other Expenses",
-      Lease_Up_Marketing__c: "Lease Up/Marketing",
-      Vacancy_Repairs__c: "Vacancy Repairs/Maintenance",
-      Credit_Loss__c: "Credit Loss",
-      Annual_Total_Expenses__c: "Total Expenses",
-      Cap_Ex_Reserves__c: "CapEx Reserves",
-      Other_Reserves__c: "Other Reserves",
-      Annual_NOI__c: "NOI",
-      Property_Manager__c: "Assigned PM Company (By property)",
-      Interior_Access_POC__c: "Interior Access POC",
-      Interior_Access_POC_Phone__c: "Interior Access POC Phone",
-      Interior_Access_POC_Email__c: "Interior Access POC Email",
-      Existing_Debt__c: "Existing Debt",
-      Asset_Maturity_Date_Override__c: "Date of Maturity",
-      Current_Interest_Rate__c: "Interest Rate",
-      Are_Payments_Current__c: "Are payments current",
-      Refinance_Acquisition__c: "Refinance / Acquisition",
-      ALA__c: "ALA",
-      Appraisal_Replacement_Cost_Value__c: "Appraisal Replacement Cost Value"
-    };
-  }
-
   get excelConfigs() {
     return {
       QuoteRequest: this.dataTapeConfig,
-      "Order Inquiry": this.dataTapeConfig
-    };
-  }
-
-  get excelFileNames() {
-    return {
-      QuoteRequest: "datatape.xlsx",
-      "Order Inquiry": "reviseddatatape.xlsx"
+      OrderInquiry: this.dataTapeConfig,
+      QuoteAccepted: this.dataTapeConfig
     };
   }
 
   get excelQueries() {
     return {
       QuoteRequest: this.dataTapeQueryString,
-      "Order Inquiry": this.dataTapeQueryString
+      OrderInquiry: this.dataTapeQueryString,
+      QuoteAccepted: this.dataTapeQueryString
     };
   }
 
   get acceptedFormats() {
     return !this.disallowAttachments &&
       this.selectedRequest &&
-      acceptedFormatMap.hasOwnProperty(this.selectedRequest)
-      ? acceptedFormatMap[this.selectedRequest]
+      this.fileConfigs.hasOwnProperty(this.selectedRequest) &&
+      this.fileConfigs[this.selectedRequest].hasOwnProperty("acceptedFormats")
+      ? this.fileConfigs[this.selectedRequest].acceptedFormats
       : [];
   }
 
