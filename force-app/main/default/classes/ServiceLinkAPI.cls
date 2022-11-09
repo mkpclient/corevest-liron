@@ -43,6 +43,7 @@ public without sharing class ServiceLinkAPI {
     if (Integer.valueOf(res.getStatusCode()) >= 400) {
       System.debug(res.getBody());
       System.debug(res.getStatusCode());
+      System.debug(sr);
       throw new ServiceLinkEndpoint.ServiceLinkException(res.getBody());
     }
   }

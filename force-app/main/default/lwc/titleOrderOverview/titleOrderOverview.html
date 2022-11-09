@@ -10,14 +10,7 @@
     <lightning-card if:false={isLoading}>
       <template if:false={titleOrder}>
         <lightning-layout multiple-rows="true">
-          <lightning-layout-item size="12" style="text-align: center">
-            This Deal has no active Quote or Order with the selected title
-            vendor.
-          </lightning-layout-item>
-          <lightning-layout-item size="4">
-            <span></span>
-          </lightning-layout-item>
-          <lightning-layout-item size="4">
+          <lightning-layout-item size="2">
             <lightning-button
               variant="brand-outline"
               label="Request a Quote"
@@ -26,9 +19,11 @@
             >
             </lightning-button>
           </lightning-layout-item>
-          <lightning-layout-item size="4">
-            <span></span>
+          <lightning-layout-item size="10" style="text-align: center">
+            This Deal has no active Quote or Order with the selected title
+            vendor.
           </lightning-layout-item>
+          
         </lightning-layout>
       </template>
       <template if:true={titleOrder}>
