@@ -41,6 +41,11 @@
                 <default>false</default>
                 <label>Cancelled</label>
             </value>
+            <value>
+                <fullName>Order Pending</fullName>
+                <default>false</default>
+                <label>Order Pending</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

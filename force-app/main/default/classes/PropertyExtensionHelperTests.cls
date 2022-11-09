@@ -3,6 +3,8 @@ public with sharing class PropertyExtensionHelperTests {
     @testSetup
     static void makeData(){
         Test_Helper.createDealLoanNumber();
+        Test_Helper.createRate();
+        Test_Helper.setupProduct2();
         Account a = Test_Helper.createAccount();
         Contact c = Test_Helper.createContact(a);
         Opportunity o = Test_Helper.createOpportunity(a, c);
@@ -21,7 +23,7 @@ public with sharing class PropertyExtensionHelperTests {
         for(String f : PropertyExtensionHelper.FIELDS_FOR_DEAL) {
             pe.put(f, Math.random() * 20);
         }
-
+        Test.startTest();
         insert pe;
 
         String oppQuery = 'SELECT Id,' + String.join(PropertyExtensionHelper.FIELDS_FOR_DEAL, ',') + ' FROM Opportunity WHERE Id=\'' + prop.Deal__c + '\'';
@@ -60,5 +62,6 @@ public with sharing class PropertyExtensionHelperTests {
         };
 
         update propExts;
+        Test.stopTest();
     }
 }

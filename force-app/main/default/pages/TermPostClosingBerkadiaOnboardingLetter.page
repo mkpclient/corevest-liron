@@ -8,9 +8,9 @@
     </apex:outputText>
     <p style="font-weight:bold;">RE: {!Opportunity.Name}
       <br />CAF Loan Number: {!Opportunity.Deal_Loan_Number__c}
-      <apex:outputPanel rendered="{!and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term')}">
+      <!-- <apex:outputPanel rendered="{!and(contains(Opportunity.Project_Strategy__c, 'CLO'), Opportunity.RecordType__c != 'Term')}">
         <br />Yardi #: {!Opportunity.Yardi_ID__c}
-      </apex:outputPanel>
+      </apex:outputPanel> -->
     </p>
     <p>Ami Gilbert
       <br /> Client Relations Manager
@@ -214,8 +214,9 @@
         <table style="margin: auto; table-layout:fixed;border:2px solid black;border-collapse:collapse;width:400px;">
           <colgroup>
             <col class="one" style="width:4%;border:1px solid black;padding:6px;" />
-            <col class="two" style="width:48%;border:1px solid black;padding:6px;text-align:left !important;" />
-            <col class="three" style="width:48%;border:1px solid black;padding:6px;text-align:right;" />
+            <col class="two" style="width:42%;border:1px solid black;padding:6px;text-align:left !important;" />
+            <col class="three" style="width:27%;border:1px solid black;padding:6px;text-align:right;" />
+            <col class="four" style="width:27%;border:1px solid black;padding:6px;text-align:right;" />
           </colgroup>
           <tbody>
             <apex:variable var="rowNum" value="{!1}" />
@@ -231,6 +232,9 @@
                   <apex:outputtext value="{0, Number, Currency}">
                     <apex:param value="{!prop.ALA__c}" />
                   </apex:outputText>
+                </td>
+                <td style="border:1px solid black;text-align:right;">
+                  Yardi #: {!prop.Asset_ID__c}
                 </td>
               </tr>
               <apex:variable var="rowNum" value="{!rowNum+1}" />

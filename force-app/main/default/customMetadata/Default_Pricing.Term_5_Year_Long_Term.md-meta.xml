@@ -35,6 +35,10 @@
         <value xsi:type="xsd:string">0 months</value>
     </values>
     <values>
+        <field>Initial_LTC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Loan_Term__c</field>
         <value xsi:type="xsd:string">5 Year</value>
     </values>

@@ -1498,30 +1498,42 @@ If the Loan closes more than sixty (60) days after execution of this Summary of 
               <td class="definition-title">
                 Properties:
               </td>
-              <td class="definition">
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Long Term Rental', 'definition', 'hidden')}">
                 Properties leased to and occupied by a bona fide third-party
                 tenant paying rent pursuant to an approved form of residential
                 lease, on market terms, for an initial term of not less than
-                twelve (12) months or more than three (3) years, unless
-                permitted by Lender. Borrower must not participate in home
-                sharing activities (including, but not limited to platforms such
-                as Airbnb, VRBO and bookings.com), purchase options, rights of
-                first refusal, rights of first offer or similar title
-                encumberments.
+                twelve (12) months or more than three (3) years, unless permitted
+                by Lender. Borrower must not participate in home sharing
+                activities (including, but not limited to platforms such as
+                Airbnb, VRBO and bookings.com), purchase options, rights of first
+                refusal, rights of first offer or similar title encumberments.
+              </td>
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
+                Properties leased to and occupied by a bona fide third-party
+                tenant paying rent pursuant to an approved form of residential
+                lease, on market terms. Borrower must not participate in purchase options, rights of first
+                refusal, rights of first offer or similar title encumberments.
               </td>
             </tr>
             <tr style="page-break-inside: avoid">
               <td class="definition-title">
                 Collateral:
               </td>
-              <td class="definition">
-                Loan shall be secured by, among other things, (a) a first
-                priority mortgage/deed of trust on each Property comprising the
-                Portfolio; (b) a first priority blanket assignment of all leases
-                and rents with respect to the Portfolio; (c) a first priority
-                security interest in all other property and assets related to
-                the Portfolio; and (d) a pledge of the equity of Borrower by
-                Pledgor.
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Long Term Rental', 'definition', 'hidden')}">
+                Loan shall be secured by, among other things, (a) a first priority
+                mortgage/deed of trust on each Property comprising the Portfolio;
+                (b) a first priority blanket assignment of all leases and rents
+                with respect to the Portfolio; (c) a first priority security
+                interest in all other property and assets related to the
+                Portfolio; and (d) a pledge of the equity of Borrower by Pledgor.
+              </td>
+              <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
+                Loan shall be secured by, among other things, (a) a first priority
+                mortgage/deed of trust on each Property comprising the Portfolio;
+                (b) a first priority blanket assignment of all leases and rents
+                with respect to the Portfolio; (c) a first priority security
+                interest in all other property and assets related to the
+                Portfolio; and (d) a pledge of the equity of Borrower by Pledgor.
               </td>
             </tr>
             <tr style="page-break-inside: avoid">

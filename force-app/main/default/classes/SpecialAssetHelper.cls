@@ -1,5 +1,6 @@
 public without sharing class SpecialAssetHelper {
   public static final String SNAPSHOT_ENTITY = 'Special Asset Resolved';
+  public static final String SA_ASSIGNED = 'Special Asset Assigned';
   public static Boolean nameIsUpdated = false;
 
   public static void afterInsert(Map<Id, Special_Asset__c> newMap) {
@@ -17,7 +18,16 @@ public without sharing class SpecialAssetHelper {
             new Map<Id, Special_Asset__c>{ sa.Id => sa }
           );
         }
+      } else {
+        if(forSnapshotMap.containsKey(SA_ASSIGNED)) {
+          Map<Id, Special_Asset__c> saMap = forSnapshotMap.get(SA_ASSIGNED);
+          saMap.put(sa.Id, sa);
+          forSnapshotMap.put(SA_ASSIGNED, saMap);
+        } else {
+          forSnapshotMap.put(SA_ASSIGNED, new Map<Id,Special_Asset__c>{ sa.Id => sa});
+        }
       }
+      
     }
 
     if (forSnapshotMap.size() > 0) {

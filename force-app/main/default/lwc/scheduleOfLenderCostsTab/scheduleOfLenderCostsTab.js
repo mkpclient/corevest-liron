@@ -188,7 +188,6 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       let sessionData = sessionStorage.getItem(`scheduleData-${this.recordId}`);
       if (sessionData) {
         const calculatedData = JSON.parse(sessionData);
-        console.log('RS999 scheduleofendercoststab : ' ,calculatedData);
         this.earlyRateLockAmount = calculatedData.Early_Lock_Deposit__c;
         this.lenderCredit = calculatedData.Lender_Credit__c;
         deal.Total_Annual_Tax__c = calculatedData.Total_Annual_Tax__c;
@@ -218,15 +217,11 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
           calculatedData.Deposit_Lender_Out_of_Pocket__c;
         deal.Legal_Fee__c =
           calculatedData.Legal_Fee__c;        
-        deal.Holdback_Reserve_Month_Multiplier__c =
-          calculatedData.Holdback_Reserve_Month_Multiplier__c;
         deal.Installment_Comment__c = calculatedData.Installment_Comment__c;
+        deal.Holdback_Multiplier__c = calculatedData.Holdback_Reserve_Month_Multiplier__c;
         if(calculatedData.hasOwnProperty('Deposit_Amount__c')) {
           deal.Deposit_Amount__c = calculatedData.Deposit_Amount__c;
-        }
-        if(calculatedData.hasOwnProperty('Final_Swap__c')) {
-          deal.Final_Swap__c = calculatedData.Final_Swap__c;
-        }        
+        }     
       }
 
       if (!deal.Installment_Comment__c) {

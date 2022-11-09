@@ -1099,6 +1099,8 @@ ____________________
         </table>
       </p>
     </div>
+    <div style="display:{!IF(!CONTAINS(Opportunity.LOC_Loan_Type__c, 'Single Asset (1-4 Unit)'), 'inline','none')}">
+
     <div class="pagebreak" style="page-break-before: always;"></div>
     <h5 style="text-align: center; font-family: Times; margin-top: -15px;">WIRE INSTRUCTIONS FOR EXPENSE DEPOSIT</h5>
     <table style="font-family: Times; font-size: 10pt;">
@@ -1163,6 +1165,7 @@ ____________________
       <apex:inputField value="{!Opportunity.Broker_Fee_Paid_When__c}" rendered="false" />
     </apex:form>
         
+  </div>
   </div>
          <!-- <div class="pagebreak" style="page-break-before: always;"></div>
     <h3 style="text-align: center; font-family: Times; margin-top: -15px;">Exhibit A</h3>

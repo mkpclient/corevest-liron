@@ -485,7 +485,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     var legalFee = 0;
     var lenderCredit = 0;
 
-    lenderCredit = this.calculatedFields.Lender_Credit__c;    
+    lenderCredit = this.lc;    
     const discountFee = this.showDiscountFeeField ? this.discountFeeVal : 0;
     let CalculatedOriginationFee = this.finalorignalfeeCalc();
     if (CalculatedOriginationFee) {
@@ -874,6 +874,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     }    
     deal[fieldName] = value;
     this.deal = deal;
+    console.log('RS999 this.deal.Holdback_Multiplier__c ' +this.deal.Holdback_Multiplier__c);
     this.updateCalculatedFields();
   }
 

@@ -216,6 +216,18 @@
                 <option value="Loan Approval Request Form">
                   Loan Approval Request Form
                 </option>
+                   <aura:if
+                    isTrue="{!v.filterFields.ProductSubType == 'Renovation'}"
+                  >
+                    <option value="Schedule A">Schedule A - Renovation</option>
+                  </aura:if>
+                  <aura:if
+                    isTrue="{!v.filterFields.ProductSubType == 'No Renovation'}"
+                  >
+                    <option value="Schedule A">
+                      Schedule A - No Renovation
+                    </option>
+                  </aura:if>
                 <aura:if
                   isTrue="{!and(v.filterFields.ProductType == 'Credit Line',  v.sObjectName == 'Advance__c')}"
                 >

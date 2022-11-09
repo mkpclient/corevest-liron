@@ -992,6 +992,8 @@ Sponsor Initials ________
             </tr>
         </table>
     </div>
+        <div style="display:{!IF(!CONTAINS(Opportunity.LOC_Loan_Type__c, 'Single Asset (1-4 Unit)'), 'inline','none')}">
+
 
     <br clear="all" style="page-break-before:always" />
     <h5 style="text-align: center; font-family: Times; margin-top: -15px;">WIRE INSTRUCTIONS FOR EXPENSE DEPOSIT</h5>
@@ -1051,6 +1053,7 @@ Sponsor Initials ________
         <apex:inputField value="{!Opportunity.Broker_Fee_Paid_By_Whom__c}" rendered="false" />
         <apex:inputField value="{!Opportunity.Broker_Fee_Paid_When__c}" rendered="false" />
     </apex:form>
+    </div>
     <!--
           <div class="pagebreak" style="page-break-before: always;"></div>
     <h3 style="text-align: center; font-family: Times; margin-top: -15px;">Exhibit A</h3>

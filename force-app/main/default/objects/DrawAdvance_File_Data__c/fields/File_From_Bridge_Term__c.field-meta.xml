@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>File_From_Bridge_Term__c</fullName>
+    <description>File From Bridge or Term</description>
+    <externalId>false</externalId>
+    <inlineHelpText>File From Bridge or Term</inlineHelpText>
+    <label>File From Bridge  or Term</label>
+    <length>8</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

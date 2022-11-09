@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Initial_LTC__c</fullName>
+    <description>Matches to the Requested Initial LTC on the deal</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Requested Initial LTC on the deal</inlineHelpText>
     <label>Initial LTC</label>
     <precision>3</precision>
     <required>false</required>

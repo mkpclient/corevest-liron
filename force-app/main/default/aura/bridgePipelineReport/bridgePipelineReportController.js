@@ -98,7 +98,7 @@
                   .row(3 + i)
                   .cell(j + 2)
                   .value(parseFloat(rows[i][r]))
-                  .style("numberFormat", "$0,000.00");
+                  .style("numberFormat", "$#,##0.00");
                 if (colBeforeFirstNum === 0) {
                   colBeforeFirstNum = j + 1;
                 }
@@ -114,7 +114,7 @@
                   .row(3 + i)
                   .cell(j + 2)
                   .value(parseFloat(rows[i][r]) / 100)
-                  .style("numberFormat", "00.00%");
+                  .style("numberFormat", "#0.00%");
               } else if (
                 columns[j].type == "number" &&
                 !$A.util.isEmpty(rows[i][r]) &&
@@ -152,7 +152,7 @@
             .row(afterFinalRow + 1)
             .cell(numColumns[i])
             .formula(`SUM(${col}3:${col}${afterFinalRow - 1})`)
-            .style("numberFormat", "$0,000.00");
+            .style("numberFormat", "$#,##0.00");
         }
 
         return workbook.outputAsync("base64");

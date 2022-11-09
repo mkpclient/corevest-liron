@@ -32,6 +32,11 @@
                 <default>false</default>
                 <label>Asset Sold</label>
             </value>
+            <value>
+                <fullName>Special Asset Assigned</fullName>
+                <default>false</default>
+                <label>Special Asset Assigned</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

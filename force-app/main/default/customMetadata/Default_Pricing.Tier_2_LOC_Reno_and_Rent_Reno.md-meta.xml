@@ -35,6 +35,10 @@
         <value xsi:nil="true"/>
     </values>
     <values>
+        <field>Initial_LTC__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Loan_Term__c</field>
         <value xsi:nil="true"/>
     </values>

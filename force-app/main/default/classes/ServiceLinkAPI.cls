@@ -41,6 +41,9 @@ public without sharing class ServiceLinkAPI {
 
     HttpResponse res = new Http().send(req);
     if (Integer.valueOf(res.getStatusCode()) >= 400) {
+      System.debug(res.getBody());
+      System.debug(res.getStatusCode());
+      System.debug(sr);
       throw new ServiceLinkEndpoint.ServiceLinkException(res.getBody());
     }
   }
@@ -80,12 +83,12 @@ public without sharing class ServiceLinkAPI {
     public String MobilePhone;
     public ServiceLinkContact(sObject p, String cType) {
       Boolean isUser =
-        p.getSObjectType() == Schema.OpportunityTeamMember.getSObjectType();
+        p.getSObjectType() == Schema.User.getSObjectType();
       this.ContactType = cType;
       this.Address2 = '';
       sObject contactUser;
       if (isUser) {
-        User u = (User) ((OpportunityTeamMember) p).User;
+        User u = (User) p;
         System.debug(u);
         this.CompanyName = u.CompanyName;
         this.Address1 = u.Street;
@@ -199,6 +202,7 @@ public without sharing class ServiceLinkAPI {
   public class Property extends BaseAddress {
     public String AssetID;
     public String DestinationPartyID;
+    public String PropertyAddRemoveReAct;
     public Decimal NumberOfUnits;
     public String PropertyType;
     public String APN;
@@ -274,15 +278,15 @@ public without sharing class ServiceLinkAPI {
       this.State = p.State__c;
       this.County = p.County__c;
       this.Zipcode = p.ZipCode__c;
-      this.APN = p.APN__c;
+      this.APN = String.isNotBlank(p.APN__c) ? p.APN__c : '';
       this.PropertyType = PROP_TYPE_MAP.containsKey(propTypeKey) ? PROP_TYPE_MAP.get(propTypeKey) : 'OTH';
       this.AllocatedLoanAmount = p.ALA__c;
       this.ParentProperty = p.Is_Parent__c ? 'Y' : 'N';
       this.Remarks = p.Is_Parent__c ? String.join(childAddresses, '; ') : '';
       this.HOAExists = p.Is_HOA__c == 'Yes' ? 'Y' : 'N';
-      this.HOAAmount = p.Is_HOA__c == 'Yes' ? p.Monthly_HOA_Fee__c : 0;
-      this.SpecialAssessmentsAmt = p.Special_Assesments_CFD_Mello_Roos_etc__c;
-      this.ExistingDebtAmt = p.Existing_Debt__c;
+      this.HOAAmount = p.Is_HOA__c == 'Yes' && p?.Monthly_HOA_Fee__c != null ? p.Monthly_HOA_Fee__c : 0;
+      this.SpecialAssessmentsAmt = p?.Special_Assesments_CFD_Mello_Roos_etc__c != null ? p.Special_Assesments_CFD_Mello_Roos_etc__c : 0;
+      this.ExistingDebtAmt = p?.Existing_Debt__c != null ? p.Existing_Debt__c : 0;
     }
   }
 
@@ -327,7 +331,7 @@ public without sharing class ServiceLinkAPI {
     public CancelRequest(Title_Order__c to) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
+      this.IncomingTransactionId = generateTransacId(to.Id);
       this.CancellationDate = System.now().formatGmt('yyyy-MM-dd\'T\'HH:mm:ss');
       this.CancelledByFirstName = UserInfo.getFirstName();
       this.CancelledByLastName = UserInfo.getLastName();
@@ -444,18 +448,19 @@ public without sharing class ServiceLinkAPI {
     List<TitleDocument> Documents;
     public DocumentSubmission(
       Title_Order__c to,
+      Property_Title__c pt,
       Map<Id, String> cvToDocTypeMap,
       List<ContentVersion> cvs
     ) {
       this.BulkProjectOrderNum = to.Bulk_Project_Order_Num__c;
       this.LoanNumber = to.Loan_Number__c;
-      this.OrderNumber = to.Order_Number__c;
-      this.AssetID = to.Asset_ID__c;
-      this.IncomingTransactionId = to.Incoming_Transaction_Id__c;
-      this.ClientContractId = to.Client_Contract_ID__c;
+      this.OrderNumber = pt != null ? pt.OrderNumber__c : '';
+      this.AssetID = pt != null ? pt.Property__r.Asset_ID__c : '';
+      this.IncomingTransactionId = generateTransacId(to.Id);
+      this.ClientContractId = '';
       this.Documents = new List<TitleDocument>();
       for (ContentVersion cv : cvs) {
-        String dType = cvToDocTypeMap.get(cv.Id);
+        String dType = cvToDocTypeMap.get(cv.ContentDocumentId);
         this.Documents.add(new TitleDocument().generateDocument(cv, dType));
       }
     }
@@ -513,5 +518,9 @@ public without sharing class ServiceLinkAPI {
 
   public static String stringEval(String v) {
     return v != null && String.isNotEmpty(v) ? v : '';
+  }
+
+  public static String generateTransacId(String v) {
+    return v + '-' + String.valueOf(System.now().minute()).leftPad(2, '0') + String.valueOf(System.now().hour()).leftPad(2, '0') + String.valueOf(System.today().month()).leftPad(2, '0') + String.valueOf(System.today().day()).leftPad(2, '0') + String.valueOf(System.today().year());
   }
 }

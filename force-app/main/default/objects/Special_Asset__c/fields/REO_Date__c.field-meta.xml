@@ -5,7 +5,7 @@
     <description>Date that this Property became Real Estate Owned</description>
     <externalId>false</externalId>
     <inlineHelpText>Date that this Property became Real Estate Owned</inlineHelpText>
-    <label>REO Date</label>
+    <label>Converted to REO Date</label>
     <required>false</required>
     <securityClassification>Internal</securityClassification>
     <trackHistory>true</trackHistory>

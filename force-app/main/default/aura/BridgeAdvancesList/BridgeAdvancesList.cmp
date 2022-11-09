@@ -224,7 +224,7 @@
           <a
             disabled="true"
             href="javascript:void(0);"
-            class="{!v.currentPage != 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            class="{!v.currentPage != 1 ? 'slds-text-link--reset page-button' : 'slds-hide'}"
             onclick="{!c.firstPage}"
             >First</a
           >
@@ -237,7 +237,7 @@
           >
           <a
             href="javascript:void(0);"
-            class="{!v.currentPage > 1 ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            class="{!v.currentPage > 1 ? 'slds-text-link--reset page-button' : 'slds-hide'}"
             onclick="{!c.prevPage}"
             >Previous</a
           >
@@ -250,7 +250,7 @@
           >
           <a
             href="javascript:void(0);"
-            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            class="{!v.currentPage lt v.maxPage ? 'slds-text-link--reset page-button' : 'slds-hide'}"
             onclick="{!c.nextPage}"
             >Next</a
           >
@@ -263,7 +263,7 @@
           >
           <a
             href="javascript:void(0);"
-            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset slds-text-color--default' : 'slds-hide'}"
+            class="{!v.currentPage != v.maxPage ? 'slds-text-link--reset page-button' : 'slds-hide'}"
             onclick="{!c.lastPage}"
             >Last</a
           >

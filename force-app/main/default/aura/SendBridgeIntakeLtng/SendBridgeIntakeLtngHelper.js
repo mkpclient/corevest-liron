@@ -364,15 +364,18 @@
                   if(!contact) {
                     break;
                   }
-                  if (contact.FirstName) {
-                    fullName += v.Deal_Contacts__r.Contact__r.FirstName;
-                  }
-                  if (contact.MiddleName) {
-                    fullName +=
-                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
-                  }
-                  if (contact.LastName) {
-                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // if (contact.FirstName) {
+                  //   fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+                  // }
+                  // if (contact.MiddleName) {
+                  //   fullName +=
+                  //     " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // }
+                  // if (contact.LastName) {
+                  //   fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // }
+                  if (contact.Legal_Name__c) {
+                    fullName += v.Deal_Contacts__r.Contact__r.Legal_Name__c;
                   }
                   if (contact.Suffix) {
                     fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
@@ -547,15 +550,18 @@
                   if(!contact) {
                     break;
                   }
-                  if (contact.FirstName) {
-                    fullName += v.Deal_Contacts__r.Contact__r.FirstName;
-                  }
-                  if (contact.MiddleName) {
-                    fullName +=
-                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
-                  }
-                  if (contact.LastName) {
-                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // if (contact.FirstName) {
+                  //   fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+                  // }
+                  // if (contact.MiddleName) {
+                  //   fullName +=
+                  //     " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // }
+                  // if (contact.LastName) {
+                  //   fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // }
+                  if (contact.Legal_Name__c) {
+                    fullName += v.Deal_Contacts__r.Contact__r.Legal_Name__c;
                   }
                   if (contact.Suffix) {
                     fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
@@ -689,6 +695,7 @@
     "Contact__r.FirstName",
     "Contact__r.MiddleName",
     "Contact__r.LastName",
+    "Contact__r.Legal_Name__c",
     "Contact__r.Suffix",
     "Contact__r.MailingState",
     "Entity_Type__c",
