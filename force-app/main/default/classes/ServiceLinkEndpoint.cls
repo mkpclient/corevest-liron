@@ -145,7 +145,7 @@ global without sharing class ServiceLinkEndpoint {
           'ScannedDocsForwarded',
           'DocsEstArrivalToLender',
           'SignedDocsReceivedAtEscrow',
-          'FileFundedDate' {
+          'FileFunded' {
           resMap.put(
             'LoanNumber',
             processDocsDates(respMap.values()[0], titleOrders[0])
