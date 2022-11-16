@@ -22,19 +22,19 @@ trigger OpportunityTrigger on Opportunity(before insert, before update) {
                 Decimal DecimalData = Decimal.ValueOf(part2.substring(0,2));
                 System.debug(decimalData);
                 if(decimalData == 0) {
-                    opp.Interest_Rate_In_Words__c += '';
+                    opp.Interest_Rate_In_Words__c += ' percent';
                 }
                 if(decimalData == 25) {
-                    opp.Interest_Rate_In_Words__c +='and Twenty-Five';
+                    opp.Interest_Rate_In_Words__c +=' and Twenty-Five percent';
                 
                 }if(decimalData == 50) {
-                    opp.Interest_Rate_In_Words__c +='and Fifty percent';
+                    opp.Interest_Rate_In_Words__c +=' and Fifty percent percent';
                 }
                 if(decimalData == 75) {
-                    opp.Interest_Rate_In_Words__c +='and Seventy-Five';
+                    opp.Interest_Rate_In_Words__c +=' and Seventy-Five percent';
                 }
                 if(decimalData == 99) {
-                    opp.Interest_Rate_In_Words__c +='and Ninety-Nine';
+                    opp.Interest_Rate_In_Words__c +=' and Ninety-Nine percent';
                 }
             }
         } 
@@ -53,19 +53,19 @@ trigger OpportunityTrigger on Opportunity(before insert, before update) {
                 string part2=amountString.split('\\.')[1];
                 Decimal DecimalData = Decimal.ValueOf(part2.substring(0,2));
                 if(decimalData == 0) {
-                    opp.Interest_Rate_In_Words__c += ' ';
+                    opp.Broker_Fees_In_Words__c += ' percent';
                 }
                 if(decimalData == 25) {
-                    opp.Interest_Rate_In_Words__c +=' and Twenty-Five';
+                    opp.Broker_Fees_In_Words__c +=' and Twenty-Five percent';
                 
                 }if(decimalData == 50) {
-                    opp.Interest_Rate_In_Words__c +=' and Fifty percent';
+                    opp.Broker_Fees_In_Words__c +=' and Fifty percent';
                 }
                 if(decimalData == 75) {
-                    opp.Interest_Rate_In_Words__c +=' and Seventy-Five';
+                    opp.Broker_Fees_In_Words__c +=' and Seventy-Five percent';
                 }
                 if(decimalData == 99) {
-                    opp.Interest_Rate_In_Words__c +=' and Ninety-Nine';
+                    opp.Broker_Fees_In_Words__c +=' and Ninety-Nine percent';
                 }
             }
         } else {
@@ -83,19 +83,19 @@ trigger OpportunityTrigger on Opportunity(before insert, before update) {
                 string part2 = amountString.split('\\.')[1];
                 Decimal DecimalData = Decimal.ValueOf(part2.substring(0,2));
                 if(decimalData == 0) {
-                    opp.Interest_Rate_In_Words__c += ' ';
+                    opp.Origination_Fee_In_Words__c += ' percent';
                 }
                 if(decimalData == 25) {
-                    opp.Interest_Rate_In_Words__c +=' and Twenty-Five';
+                    opp.Origination_Fee_In_Words__c +=' and Twenty-Five percent';
                 
                 }if(decimalData == 50) {
-                    opp.Interest_Rate_In_Words__c +=' and Fifty percent';
+                    opp.Origination_Fee_In_Words__c +=' and Fifty percent';
                 }
                 if(decimalData == 75) {
-                    opp.Interest_Rate_In_Words__c +=' and Seventy-Five';
+                    opp.Origination_Fee_In_Words__c +=' and Seventy-Five percent';
                 }
                 if(decimalData == 99) {
-                    opp.Interest_Rate_In_Words__c +=' and Ninety-Nine';
+                    opp.Origination_Fee_In_Words__c +=' and Ninety-Nine percent';
                 }
             }
         } else {

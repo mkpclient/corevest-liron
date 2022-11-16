@@ -19,6 +19,32 @@ public with sharing class Test_Helper {
     return eList;
   }
 
+  public static String generateRandomString(Integer len) {
+    final String chars = 'xaxPmno2IDdEwLzbtEvhv6oG1RDT6xQJX3MvF4amaDQ9TUvHgJfdbodlllPTnnuw';
+    String randStr = '';
+    while (randStr.length() < len) {
+      Integer idx = Math.mod(
+        Math.abs(Crypto.getRandomInteger()),
+        chars.length()
+      );
+      randStr += chars.substring(idx, idx + 1);
+    }
+    return randStr;
+  }
+
+  public static String generateRandomNumberString(Integer len) {
+    final String chars = '0123456789';
+    String randStr = '';
+    while (randStr.length() < len) {
+      Integer idx = Math.mod(
+        Math.abs(Crypto.getRandomInteger()),
+        chars.length()
+      );
+      randStr += chars.substring(idx, idx + 1);
+    }
+    return randStr;
+  }
+
   // public static Folder createFolder(){
   //  Folder f = new Folder(
   //      AccessType = 'Public'
@@ -28,6 +54,35 @@ public with sharing class Test_Helper {
   //  insert f;
   //  return f;
   // }
+
+  public static List<Deal_Loan_Number__c> createDealLoanNumber() {
+    List<Deal_Loan_Number__c> settings = new List<Deal_Loan_Number__c>{
+      new Deal_Loan_Number__c(Next_Loan_Number__c = '11111')
+    };
+
+    insert settings;
+    return settings;
+  }
+
+  public static void createRate() {
+    Swap_Rate__c rate = new Swap_Rate__c(
+      Name = 'Swap Rate',
+      CreatedDateTime__c = System.now(),
+      Term_Rates_Based_On__c = 'Treasury',
+      Three_Year_Swap__c = 3,
+      X3_Year_Treasury_Floor__c = 2.5,
+      Five_Year_Swap__c = 5,
+      X5_Year_Treasury_Floor__c = 4.5,
+      Seven_Year_Swap__c = 7,
+      X7_Year_Treasury_Floor__c = 6.5,
+      Ten_Year_Swap__c = 10,
+      X10_Year_Treasury_Floor__c = 9.5,
+      Thirty_Year_Swap__c = 9,
+      OneM_LIBOR__c = 5,
+      OneM_SOFR__c = 6
+    );
+    insert rate;
+  }
 
   public static void setupProduct2() {
     Product2 prod = new Product2(
@@ -132,13 +187,13 @@ public with sharing class Test_Helper {
 
   public static Contact createContact(Account a) {
     Contact c = new Contact();
-    c.FirstName = 'test';
-    c.LastName = 'test';
+    c.FirstName = generateRandomString(10);
+    c.LastName = generateRandomString(10);
     c.MailingCountry = 'United States';
     c.MailingState = 'California';
     c.AccountId = a.Id;
-    c.MobilePhone = '5555555555';
-    c.Phone = '7777777777';
+    c.MobilePhone = generateRandomNumberString(10);
+    c.Phone = generateRandomNumberString(10);
     c.Experian__c = 700;
     c.TransUnion__c = 710;
     c.Equifax__c = 700;
@@ -146,6 +201,8 @@ public with sharing class Test_Helper {
     c.Rental_Units_Owned__c = '5';
     c.Sponsor_Tier__c = 'Tier 1';
     c.Experience__c = 5;
+    c.Legal_Name__c = 'Legal Name Test';
+    c.Email = 'test' + Math.ceil(Math.random() * 999999) + '@cvest.com';
     insert c;
     return c;
   }
@@ -164,9 +221,6 @@ public with sharing class Test_Helper {
     ]
     .Id;
     insert borCon;
-    borCon.MobilePhone = '2222222222';
-    borCon.Phone = '7777777777';
-    update borCon;
     return borCon;
   }
 
@@ -184,9 +238,6 @@ public with sharing class Test_Helper {
     ]
     .Id;
     insert brokerCon;
-    brokerCon.MobilePhone = '2222222222';
-    brokerCon.Phone = '7777777777';
-    update brokerCon;
     return brokerCon;
   }
 
@@ -208,7 +259,6 @@ public with sharing class Test_Helper {
     ]
     .Id;
     insert o;
-    o.Apex_Context__c = true;
     return o;
   }
 
@@ -223,6 +273,8 @@ public with sharing class Test_Helper {
     termdeal.Deal_Intro_Source__c = 'Hotline';
     termdeal.Deal_Intro_Sub_Source__c = 'Main';
     termdeal.Apex_Context__c = true;
+    termdeal.LOC_Loan_Type__c = 'Term Loan';
+    termdeal.Product_Sub_Type__c = 'Long Term Rental';
     termdeal.RecordTypeId = [
       SELECT Id
       FROM RecordType
@@ -256,7 +308,6 @@ public with sharing class Test_Helper {
     termdeal2.Recourse__c = 'Non-Recourse';
     termdeal2.Term_Loan_Type__c = '10 Year';
     insert termdeal2;
-    termdeal2.Apex_Context__c = true;
     return termdeal2;
   }
 
@@ -281,7 +332,6 @@ public with sharing class Test_Helper {
     termdeal3.Term_Loan_Type__c = '7 Year';
     termdeal3.IO_Term__c = '0 months';
     insert termdeal3;
-    termdeal3.Apex_Context__c = true;
     return termdeal3;
   }
 
@@ -397,10 +447,6 @@ public with sharing class Test_Helper {
     sabdeal.LOC_Loan_Type__c = 'Single Asset (1-4 Unit)';
     // sabdeal.RecordTypeId = '0120a0000019k5RAAQ';
     insert sabdeal;
-    sabdeal.LOC_Loan_Type__c = 'Credit Line';
-    update sabdeal;
-    sabdeal.LOC_Loan_Type__c = 'Single Asset (5-10 Unit)';
-    update sabdeal;
     return sabdeal;
   }
 
@@ -411,6 +457,7 @@ public with sharing class Test_Helper {
         new Property__c(
           Deal__c = o.Id,
           Name = i + ' Test',
+          State__c = 'CA',
           Property_Name__c = i + ' Test',
           Property_Type__c = 'SFR',
           Number_of_Units__c = 1,
@@ -431,9 +478,23 @@ public with sharing class Test_Helper {
     return app;
   }
 
+  public static Appraisal__c createUserCreatedAppraisal(Opportunity o, Property__c p) {
+    Appraisal__c app = new Appraisal__c(
+      Deal__c = o.Id,
+      Property__c = p.Id,
+      Delivery_Method__c = 'User Created',
+      Appraisal_Fee__c = 500,
+      Order_Received_Date__c = System.now(),
+      Estimated_Completion_Date__c = System.now() + 5
+      );
+    insert app;
+    return app;
+  }
+
   public static Securitization__c createSecuritization() {
     Securitization__c sec = new Securitization__c();
     sec.Name = 'Test';
+    sec.Close_Date__c = System.today();
     insert sec;
     return sec;
   }
@@ -443,7 +504,7 @@ public with sharing class Test_Helper {
     Securitization__c sec
   ) {
     Funding_Vehicle__c fv = new Funding_Vehicle__c();
-    fv.Name = 'Test';
+    fv.Name = isSecuritization ? 'Test' : 'Churchill';
     fv.Funding_Vehicle_Type__c = isSecuritization
       ? 'Securitization'
       : 'Warehouse Line';
@@ -459,152 +520,152 @@ public with sharing class Test_Helper {
     return fv;
   }
 
-  public static List<Integration_Mapping__c> createIntegrationMappings() {
-    List<Integration_Mapping__c> ims = new List<Integration_Mapping__c>{
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Account',
-        Salesforce_Field__c = 'Id',
-        Integration_Object__c = 'Account',
-        Integration_Field__c = 'Id',
-        Active__c = true,
-        Required__c = true,
-        Key__c = 'Account'
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Contact',
-        Salesforce_Field__c = 'Id',
-        Integration_Object__c = 'Contact',
-        Integration_Field__c = 'Id',
-        Active__c = true,
-        Required__c = true,
-        Key__c = 'Contact'
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Opportunity',
-        Salesforce_Field__c = 'Id',
-        Integration_Object__c = 'Opportunity',
-        Integration_Field__c = 'Id',
-        Active__c = true,
-        Required__c = true,
-        Key__c = 'Opportunity'
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Opportunity',
-        Salesforce_Field__c = 'AccountId',
-        Integration_Object__c = 'Opportunity',
-        Integration_Field__c = 'AccountId',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Opportunity',
-        Salesforce_Field__c = 'Loan_Size__c',
-        Integration_Object__c = 'Opportunity',
-        Integration_Field__c = 'LoanSize',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Opportunity',
-        Salesforce_Field__c = 'CloseDate',
-        Integration_Object__c = 'Opportunity',
-        Integration_Field__c = 'CloseDate',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'Opportunity',
-        Salesforce_Field__c = 'IsPrivate',
-        Integration_Object__c = 'Opportunity',
-        Integration_Field__c = 'IsPrivate',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'Id',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'Id',
-        Active__c = true,
-        Required__c = true,
-        Key__c = 'TermLoan'
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'AccountId',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'AccountId',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'Loan_Size__c',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'LoanSize',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'CloseDate',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'CloseDate',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'IsPrivate',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'IsPrivate',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      ),
-      new Integration_Mapping__c(
-        Salesforce_Object__c = 'TermLoan',
-        Salesforce_Field__c = 'Pres_Deal_Id__c',
-        Integration_Object__c = 'TermLoan',
-        Integration_Field__c = 'PresId',
-        Active__c = true,
-        Required__c = true,
-        Key__c = ''
-      )
-    };
+  // public static List<Integration_Mapping__c> createIntegrationMappings() {
+  //   List<Integration_Mapping__c> ims = new List<Integration_Mapping__c>{
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Account',
+  //       Salesforce_Field__c = 'Id',
+  //       Integration_Object__c = 'Account',
+  //       Integration_Field__c = 'Id',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = 'Account'
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Contact',
+  //       Salesforce_Field__c = 'Id',
+  //       Integration_Object__c = 'Contact',
+  //       Integration_Field__c = 'Id',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = 'Contact'
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Opportunity',
+  //       Salesforce_Field__c = 'Id',
+  //       Integration_Object__c = 'Opportunity',
+  //       Integration_Field__c = 'Id',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = 'Opportunity'
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Opportunity',
+  //       Salesforce_Field__c = 'AccountId',
+  //       Integration_Object__c = 'Opportunity',
+  //       Integration_Field__c = 'AccountId',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Opportunity',
+  //       Salesforce_Field__c = 'Loan_Size__c',
+  //       Integration_Object__c = 'Opportunity',
+  //       Integration_Field__c = 'LoanSize',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Opportunity',
+  //       Salesforce_Field__c = 'CloseDate',
+  //       Integration_Object__c = 'Opportunity',
+  //       Integration_Field__c = 'CloseDate',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'Opportunity',
+  //       Salesforce_Field__c = 'IsPrivate',
+  //       Integration_Object__c = 'Opportunity',
+  //       Integration_Field__c = 'IsPrivate',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'Id',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'Id',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = 'TermLoan'
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'AccountId',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'AccountId',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'Loan_Size__c',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'LoanSize',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'CloseDate',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'CloseDate',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'IsPrivate',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'IsPrivate',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     ),
+  //     new Integration_Mapping__c(
+  //       Salesforce_Object__c = 'TermLoan',
+  //       Salesforce_Field__c = 'Pres_Deal_Id__c',
+  //       Integration_Object__c = 'TermLoan',
+  //       Integration_Field__c = 'PresId',
+  //       Active__c = true,
+  //       Required__c = true,
+  //       Key__c = ''
+  //     )
+  //   };
 
-    insert ims;
-    return ims;
-  }
+  //   insert ims;
+  //   return ims;
+  // }
 
-  public static List<PRES_Settings__c> createCustomSettings() {
-    List<PRES_Settings__c> settings = new List<PRES_Settings__c>{
-      new PRES_Settings__c(
-        Name = 'LOC',
-        Username__c = 'test',
-        Password__c = 'test',
-        URL__c = 'test',
-        Logs_Enabled__c = true
-      ),
-      new PRES_Settings__c(
-        Name = 'TERM',
-        Username__c = 'test',
-        Password__c = 'test',
-        URL__c = 'test',
-        Logs_Enabled__c = true
-      )
-    };
+  // public static List<PRES_Settings__c> createCustomSettings() {
+  //   List<PRES_Settings__c> settings = new List<PRES_Settings__c>{
+  //     new PRES_Settings__c(
+  //       Name = 'LOC',
+  //       Username__c = 'test',
+  //       Password__c = 'test',
+  //       URL__c = 'test',
+  //       Logs_Enabled__c = true
+  //     ),
+  //     new PRES_Settings__c(
+  //       Name = 'TERM',
+  //       Username__c = 'test',
+  //       Password__c = 'test',
+  //       URL__c = 'test',
+  //       Logs_Enabled__c = true
+  //     )
+  //   };
 
-    insert settings;
-    return settings;
-  }
+  //   insert settings;
+  //   return settings;
+  // }
 
   public static User createBridgeOperationsUser() {
     User u = new User(
