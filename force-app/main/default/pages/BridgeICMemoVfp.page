@@ -167,7 +167,7 @@
                 <table class="left-table">
                     <tbody>
                         <tr>
-                            <td class="left-row-title">Foreign National/Nation of Citizenship</td>
+                            <td class="left-row-title">Foreign National/Citizenship</td>
                             <td class="row-data-two-column">
                                 <apex:outputText value="{!Opportunity.Foreign_National_picklist__c}" />
                             </td>
@@ -564,6 +564,28 @@
                         </tr>
                     </tbody>
                 </table>
+                <div style="{! if(Opportunity.RecordType__c != 'Single Asset Bridge', 'display: none;', '')}">
+                    <table class="left-table one-column-table">
+                        <thead class="section-header">
+                            <tr>
+                                <td style="color:white">
+                                    Exceptions Comment
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <apex:outputText value="{!if( Opportunity.Exceptions_Comments_Explanations__c != null, Opportunity.Exceptions_Comments_Explanations__c, 'N/A')}" />
+                                    <!-- <apex:outputText rendered="{! If(Opportunity.Notes__c == null, true, false)}" value="N/A" />
+                                    <apex:outputText rendered="{! If(NOT(Opportunity.Notes__c == null), true, false)}" value="{!Opportunity.Notes__c}" /> -->
+                                    <!--       <apex:outputField value="{!Opportunity.Notes__c}" /> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
             </div>
             <!-- End of Left Side Column -->
 
@@ -833,12 +855,16 @@
                                 </td>
                                 <td class="row-data-two-column">
                                     <apex:outputText value="{0, Number, Currency}">
-                                        <apex:param value="{! if(appraisal != null && appraisal.Appraised_Value_Amount__c != null, appraisal.Appraised_Value_Amount__c, 0)}" />
+                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c != 'Yes' && property.Appraised_Value_Amount__c != null, 
+                                            property.Appraised_Value_Amount__c, 
+                                            if(property != null && property.Post_Close_Appraisal__c == 'Yes' && property.Internal_As_Is_Value__c != null, property.Internal_As_Is_Value__c, 0))}" />
                                     </apex:outputText>
                                 </td>
                                 <td class="row-data-two-column">
                                     <apex:outputText value="{0, Number, Currency}">
-                                        <apex:param value="{! if(appraisal != null && appraisal.Appraised_After_Repair_Value__c != null, appraisal.Appraised_After_Repair_Value__c, 0)}" />
+                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c != 'Yes' && property.After_Repair_Value__c != null, 
+                                            property.After_Repair_Value__c, 
+                                            if(property != null && property.Post_Close_Appraisal__c == 'Yes' && property.Internal_As_Rehab_Value__c != null, property.Internal_As_Rehab_Value__c,0))}" />
                                     </apex:outputText>
                                 </td>
                             </tr>
