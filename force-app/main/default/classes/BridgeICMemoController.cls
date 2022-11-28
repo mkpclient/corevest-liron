@@ -31,7 +31,6 @@ public without sharing class BridgeICMemoController {
             WrapperData.class
           );
           String dealId = unsavedObj.dealId;
-
           guarantors = new List<Deal_Contact__c>();
           Opportunity = [
             SELECT
@@ -39,7 +38,7 @@ public without sharing class BridgeICMemoController {
               Index__c,
               Interest_Reserves__c,
               RecordType__c,
-
+              Exceptions_Comments_Explanations__c,
               Loan_Coordinator__r.Name,
               Loan_Coordinator__c,
               Floor__c,
@@ -48,6 +47,7 @@ public without sharing class BridgeICMemoController {
               Borrower_Entity__r.Name,
               Borrower_Entity__r.Borrower_Approval_Status__c,
               Borrower_Entity__r.Primary_Guarantor_Approval_Status__c,
+              Borrower_Entity__r.Foreign_Jurisdiction__c,
               Foreign_National_Picklist__c,
               Country__c,
               Account.Repeat_Borrower__c,

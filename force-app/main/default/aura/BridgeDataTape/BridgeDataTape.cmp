@@ -322,7 +322,7 @@
                   readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Company_Contact__r.Full_Name__c"
+                  data="Title_Company_Contact__r.Name"
                   title="Title Contact Name"
                   readOnly="true"
                 />
@@ -348,7 +348,7 @@
                   source="['Requested', 'Revisions', 'Approved']"
                 />
                 <c:hotColumn
-                  data="Insurance_Contact__r.Full_Name__c"
+                  data="Insurance_Contact__r.Name"
                   title="Insurance Contact Name"
                   readOnly="true"
                 />

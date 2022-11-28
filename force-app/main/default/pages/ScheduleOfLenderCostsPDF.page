@@ -379,7 +379,11 @@
                         <td colspan="2">
                         </td>
                         <td>
-                            <span style="display:{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,'','none')}">Lender Credit </span>
+                            <span style="display:{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,'','none')}">
+                                <apex:outputText value="Lender Credit - {0}">
+                                    <apex:param value="{!if(record.Lender_Credit_Description__c != null, record.Lender_Credit_Description__c, '')}" />
+                                </apex:outputText>
+                            </span>
                              
                         </td>
                         <td>

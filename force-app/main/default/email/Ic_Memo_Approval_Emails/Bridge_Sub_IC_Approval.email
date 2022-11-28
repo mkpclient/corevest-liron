@@ -1,512 +1,1159 @@
-<messaging:emailTemplate subject="{!relatedTo.Name} - IC Memo Approval"
-    recipientType="User"
-    relatedToType="Opportunity">
-<messaging:htmlEmailBody >
-    <p style="margin-top:20px;">
-    Dear IC Committee Member,</p>
-
+<messaging:emailTemplate subject="{!relatedTo.Name} - IC Memo Approval" recipientType="User" relatedToType="Opportunity">
+    <messaging:htmlEmailBody >
+    <apex:outputPanel rendered="{!relatedTo.Record_Type_Name__c == 'Single_Asset_Bridge_Loan'}">
+    <p>Dear IC Committee Member,</p>
     <br />
+
+    <p>Please review the deal below that has a loan amount <apex:outputText value="{!IF(relatedTo.Record_Type_Name__c == 'Single_Asset_Bridge_Loan', ' between $1,500,000 and $3,000,000.', ' that is less than $3,000,000.')}" /></p>
+    <br />
+
     <p>
-        Please review the deal below that has a loan amount that's less than $3,000,000.
+            Pricing Request Approval Information:
+      <br />
+ Capital Market: {!relatedTo.Approved_by_Capital_Markets__r.Name}
+      <apex:outputText value=",{!relatedTo.Approved_by_Capital_Markets_Date__c}" rendered="{!NOT( ISBLANK(relatedTo.Approved_by_Capital_Markets_Date__c) )}" />
+ Underwriting: {!relatedTo.Approved_by_Underwriter__r.Name},
+      <apex:outputText value=",{!relatedTo.Approved_by_Underwriter_Date__c}" rendered="{!NOT( ISBLANK(relatedTo.Approved_by_Underwriter_Date__c) )}" />
     </p>
     <br />
-
+    <p>Thanks,</p>
+    <p>{!relatedTo.Owner.Name}</p>
+    <br />
     <p>
-    Capital Market: {!relatedTo.Approved_by_Capital_Markets__r.Name}, &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!relatedTo.Approved_by_Capital_Markets_Date__c}" /> </apex:outputText><br />
-    Underwriting: {!relatedTo.Approved_by_Underwriter__r.Name}, &nbsp;<apex:outputText value="{0,date,MM/dd/yyyy}"> <apex:param value="{!relatedTo.Approved_by_Underwriter_Date__c}" /> </apex:outputText><br />
+      <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+        <colgroup>
+          <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+          <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        </colgroup>
+        <tr>
+          <td style="border:1px solid black">
+                      Loan
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Name}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Loan Stage
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.StageName}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Loan number
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Deal_Loan_Number__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Close Date
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{0,date,MMM d, yyyy}">
+              <apex:param value="{!relatedTo.CloseDate}" />
+            </apex:outputText>
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Total Loan Amount
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{0, number, currency}">
+              <apex:param value="{!relatedTo.LOC_Commitment__c}" />
+            </apex:outputText>
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Contact Owner (Originator)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Owner.Name}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Account Owner (Processor)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Loan_Coordinator__r.Name}" />
+          </td>
+        </tr>
+
+        <tr>
+          <td style="border:1px solid black">
+                      Underwriter
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Underwriter__r.Name}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                      Policy Exceptions
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Underwriting_Exception__c}" />
+          </td>
+        </tr>
+      </table>
     </p>
     <br />
-
     <p>
-    Attached is a completed IC Memo.</p>
-    <br />
+      <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+        <colgroup>
+          <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+          <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        </colgroup>
+        <tr>
+          <th colspan="2" style="border:1px solid black;text-align:center;">
+            <strong>
+                            Credit Summary
+            </strong>
+          </th>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Borrower
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Name}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Guarantor(s)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:repeat var="dealContact" value="{!relatedTo.Deal_Contacts__r}">
+              <apex:outputText value="{!if(dealContact.Entity_Type__c == 'Guarantor', dealContact.Contact__r.Name + '; ', '')}" />
+            </apex:repeat>
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Street Address
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Address_1__c + ' ' + relatedTo.Borrower_Entity__r.Address_2__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        City
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.City__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        State
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.State__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Zip
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Zip__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Property Type
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Distinct_Property_Types__c}" />
+          </td>
+        </tr>
 
-    <p>
-    Thanks,</p>
-    <p>
-    {!relatedTo.Owner.Name}</p>
-    <br />
+        <tr>
+          <td style="border:1px solid black">
+                        Purpose
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Loan_Purpose__c}" />
+          </td>
+        </tr>
 
-    <p>
-    <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
-    <colgroup>
-    <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
-    <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
-    </colgroup>
-    <tr>
-    <th colspan="2" style="border:1px solid black;text-align:center;">
-    <strong>
-    Portfolio Summary
-    </strong>
-    </th>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Deal Name:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Name}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Deal Loan Number:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Deal_Loan_Number__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Property Location(s):
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Distinct_States__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Total Properties:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, integer}" >
-            <apex:param value="{!relatedTo.Total_Properties__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Total Units:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, integer}" >
-            <apex:param value="{!relatedTo.Total_Units__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Property Type(s):
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Distinct_Property_Types__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Total Rehab Cost:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}" >
-            <apex:param value="{!relatedTo.Total_Rehab_Cost__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Rehab Cost Per Property:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}" >
-            <apex:param value="{!relatedTo.Rehab_Cost_Per_Property__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Entity Type
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Entity_Type__c}" />
+          </td>
+        </tr>
 
-    <tr>
-    <td style="border:1px solid black;">
-    Total Cost Basis
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Total_Cost_Basis__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Cost Basis Per Property:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Cost_Basis_Per_Property__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Existing Borrower (Yes / No)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!if(relatedTo.Account.Repeat_Borrower__c == TRUE, 'Yes', 'No')}" />
+          </td>
+        </tr>
 
-    <tr>
-    <td style="border:1px solid black;">
-    Total Borrower Estimated Value
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Total_Borrower_Estimated_Value__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Estimated Value Per Property:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Estimated_Value_Per_Property__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Borrower Approval Status
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Borrower_Approval_Status__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Primary Guarantor Approval Status
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Borrower_Entity__r.Primary_Guarantor_Approval_Status__c}" />
+          </td>
+        </tr>
 
-    <tr>
-    <td style="border:1px solid black;">
-    Third Party Estimated Values:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Third_Party_Estimated_Values__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Total Annual HOA:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Annual_HOA_Sum__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Section 8 (if applicable):
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{0, number, integer}">
-        <apex:param value="{!relatedTo.Section_8_Count__c}" />
-    </apex:outputText>
-    </td>
-    </tr>
-
-    <tr>
-    <td style="border:1px solid black;">
-    Average Property Acquisition Date:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, date, MM/dd/yyyy}">
-            <apex:param value="{!relatedTo.Average_Acquisition_Date_By_Property__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-
-    <tr>
-    <td style="border:1px solid black;">
-    Seasoning By Property:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Seasoning_By_Property__c}" />
-    </td>
-    </tr>
-
-    <!--<tr>
-    <td style="border:1px solid black;">
-    Average Unit Acquisition Date:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, date, MM/dd/yyyy}">
-            <apex:param value="{!relatedTo.Average_Acquisition_Date__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-
-    <tr>
-    <td style="border:1px solid black;">
-    Seasoning By Unit:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Seasoning__c}" />
-    </td>
-    </tr>-->
-
-    <tr>
-    <td style="border:1px solid black;">
-    Implied Cap Rate:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.Implied_Cap_Rate_Calc__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Total NOI:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Total_NOI__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Borrower Account Introduction Source:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Account_Introduction_Source__c}" />
-    </td>
-    </tr>
-
-    <tr>
-    <td style="border:1px solid black;">
-    Deal Intro Source:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Deal_Intro_Source__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Deal Intro Sub Source:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="None" rendered="{! ISBLANK(relatedTo.Deal_Intro_Sub_Source__c) }" />
-    <apex:outputText value="{!relatedTo.Deal_Intro_Sub_Source__c}" rendered="{! !ISBLANK(relatedTo.Deal_Intro_Sub_Source__c) }" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Lead Source:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.LeadSource}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Referral Source:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Referral_Source__r.Name}" rendered="{! !ISBLANK(relatedTo.Referral_Source__c) }" />
-    </td>
-    </tr>
-
-    </table>
+        <tr>
+          <td style="border:1px solid black">
+                        Loan Term (months)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.LOC_Term__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Extension Term (months)
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Extension_Period_Days__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Loan Maturity Date
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Original_Line_Maturity_Date__c}" />
+          </td>
+        </tr>
+        <tr>
+          <td style="border:1px solid black">
+                        Interest Rate
+          </td>
+          <td style="border:1px solid black;text-align:right;">
+            <apex:outputText value="{!relatedTo.Rate__c}" />
+          </td>
+        </tr>
+      </table>
     </p>
     <br />
+    
+    <apex:repeat var="prop" value="{!relatedTo.Properties__r}">
+      <p>
+        <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+          <colgroup>
+            <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+            <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+          </colgroup>
+          <tr>
+            <th colspan="2" style="border:1px solid black;text-align:center;">
+              <strong>
+                <apex:outputText value="Loan Details for {0}">
+                  <apex:param value="{!prop.Name}" />
+                </apex:outputText>
+              </strong>
+            </th>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Total Purchase Price
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!prop.Acquisition_Price__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+              <td style="border:1px solid black">
+                  Product Type
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                  <apex:outputText value="{!relatedTo.LOC_Loan_Type__c}" />
+              </td>
+          </tr>
 
-    <p>
-    <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
-    <colgroup>
+          <tr>
+              <td style="border:1px solid black">
+                  Product Sub-Type
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                  <apex:outputText value="{!relatedTo.Product_Sub_Type__c}" />
+              </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                Project Strategy
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!relatedTo.Project_Strategy__c}" />
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Rehab Amount
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!prop.Rehab_Budget__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                        Total Cost
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!prop.Total_Cost_Basis__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Initial Loan Amount
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!prop.Initial_Disbursement__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Holdback to Rehab Ratio
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, #.####}%">
+                <apex:param value="{!if(prop.Perc_of_Rehab_Budget__c == null, 0, prop.Perc_of_Rehab_Budget__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Total Loan Amount
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!prop.Max_Total_Loan_Amount__c}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          LTC
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, #.####}%">
+                <apex:param value="{!if(relatedTo.LTC__c == null, 0 , relatedTo.LTC__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+              Calculated Initial LTV %
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0}">
+                <apex:param value="{!if(prop.Calculated_Initial_LTV__c == null, '0%' , prop.Calculated_Initial_LTV__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+              Calculated ARV LTV % 
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0}">
+                 <apex:param value="{!if(prop.Calculated_ARV_LTV__c == null, '0%' , prop.Calculated_ARV_LTV__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Current Appraised As-Is Value
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!if(prop.Appraised_Value_Amount__c == null, 0, prop.Appraised_Value_Amount__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+           <tr>
+            <td style="border:1px solid black">
+                          Current Appraised After Repair Value
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!if(prop.After_Repair_Value__c == null, 0, prop.After_Repair_Value__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Origination Fee $
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!if(relatedTo.Calculated_Origination_Fee__c == null, 0, relatedTo.Calculated_Origination_Fee__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Broker Fee $
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!(if(relatedTo.Broker_Fees__c == null, 0, relatedTo.Broker_Fees__c / 100)) * (if(relatedTo.LOC_Commitment__c == null, 0, relatedTo.LOC_Commitment__c))}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Assignment Fee
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, currency}">
+                <apex:param value="{!if(prop.Assignment_Fee__c == null, 0, prop.Assignment_Fee__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+          <tr>
+            <td style="border:1px solid black">
+                          Assign Fee to Purchase Price Ratio
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputText value="{0, number, #.####}%">
+                <apex:param value="{!if(prop.Assign_Fee_to_Purchase_Ratio__c == null, 0, prop.Assign_Fee_to_Purchase_Ratio__c)}" />
+              </apex:outputText>
+            </td>
+          </tr>
+        </table>
+      </p>
+      <br />
+    </apex:repeat>
+
+    <apex:repeat var="dc" value="{!relatedTo.Deal_Contacts__r}">
+      <apex:outputPanel rendered="{!dc.Entity_Type__c == 'Borrower'}">
+        <p>
+          <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+            <colgroup>
+              <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+              <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+            </colgroup>
+            <tr>
+              <th colspan="2" style="border:1px solid black;text-align:center;">
+                <strong>
+                  Borrower Profile
+                </strong>
+              </th>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Guarantor Names
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:repeat var="guarantor" value="{!relatedTo.Deal_Contacts__r}">
+                  <apex:outputText value="{!if(guarantor.Entity_Type__c == 'Guarantor', guarantor.Contact__r.Name + '; ', '')}" />
+                </apex:repeat>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Length of Time in Real Estate
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!relatedTo.Borrower_Entity__r.Length_of_Time_in_Real_Estate__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          36mo Experience Verified
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number}">
+                  <apex:param value="{!if(relatedTo.Borrower_Entity__r.X36mo_Experience_Verified__c == null, 0, relatedTo.Borrower_Entity__r.X36mo_Experience_Verified__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Track Record
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!relatedTo.Contact__r.Track_RecordExperience_SBE__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Cash Reserve
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, currency}">
+                  <apex:param value="{!if(dc.Cash_Reserve__c == null, 0, dc.Cash_Reserve__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Cash Reserve %
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, #.####}%">
+                  <apex:param value="{!if(dc.Cash_Reserve_Pct__c == null, 0, dc.Cash_Reserve_Pct__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Monthly Interest Payment
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, currency}">
+                  <apex:param value="{!if(dc.Monthly_Interest_Payment__c == null, 0, dc.Monthly_Interest_Payment__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          # of Months Liquidity
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number}">
+                  <apex:param value="{!if(dc.No_of_Months_Liquidity__c == null, 0 ,dc.No_of_Months_Liquidity__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Cash Reserve Requirement
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                  <apex:outputText value="{!dc.Cash_Reserve_Requirement__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Borrower FICO
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, 000}">
+                    <apex:param value="{!relatedTo.Contact__r.Fico__c}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            
+          </table>
+        </p>
+
+        <br />
+        <p>
+          <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+            <colgroup>
+              <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+              <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+            </colgroup>
+            <tr>
+              <th colspan="2" style="border:1px solid black;text-align:center;">
+                <strong>
+                  Borrower Structure
+                </strong>
+              </th>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Borrower Name
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!relatedTo.Borrower_Entity__r.Name}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Required Signer
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!dc.Required_Signer__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Guarantor(s)
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:repeat var="guarantor" value="{!relatedTo.Deal_Contacts__r}">
+                  <apex:outputText value="{!if(guarantor.Entity_Type__c == 'Guarantor', guarantor.Contact__r.Name + '; ', '')}" />
+                </apex:repeat>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Ownership
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, #.####}%">
+                  <apex:param value="{!if(dc.Percentage_Owned__c == null, 0, dc.Percentage_Owned__c)}" />
+                </apex:outputText>
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Regulatory Recognition
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                  <apex:outputText value="{!dc.Regulatory_Recognition__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Formation Documents
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!dc.Formation_Documents__c}" />
+              </td>
+            </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Functional Documents
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{!dc.Functional_Documents__c}" />
+              </td>
+            </tr>
+          </table>
+        </p>
+
+        <br />
+      </apex:outputPanel>
+    </apex:repeat>
+    <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;">
+      <colgroup>
         <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
         <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
-    </colgroup>
-    <tr>
-        <th colspan="2" style="border:1px solid black;text-align:center;">
-    <strong>
-    Proposed Pricing
-    </strong>
-    </th>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Requested Loan Amount:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, currency}">
-            <apex:param value="{!relatedTo.Loan_Size__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Constrained by:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Constrained_By__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Floor:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.Floor__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Spread:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{!relatedTo.Spread_BPS__c}" />%
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Broker Fees:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{!relatedTo.Broker_Fees_and_or_YSP__c}%" rendered="{!NOT ( ISBLANK(relatedTo.Broker_Fees_and_or_YSP__c) )}" />
-    </td>
-    </tr>
+        <col class="three" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="four" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="five" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="six" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="seven" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="eight" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="nine" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+        <col class="ten" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+      </colgroup>
+      <tr>
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property Address
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property City
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property State
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property Zip
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property Map
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Property Type
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Occupancy
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            # of Units
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            # of Occupied Units
+          </strong>
+        </th>
+      
+        <th colspan="1" style="border:1px solid black;text-align:center;">
+          <strong>
+            Occupancy %
+          </strong>
+        </th>
+      </tr>
+      <apex:repeat var="prop" value="{!relatedTo.Properties__r}">
         <tr>
-    <td style="border:1px solid black;">
-    YSP:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{!relatedTo.YSP_perc__c}%" rendered="{!NOT ( ISBLANK(relatedTo.YSP_perc__c) )}" />
-    </td>
-    </tr>
-    
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.Name}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.City__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.State__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.ZipCode__c}" />
+          </td>
+          <td style="border:1px solid black">
+          <apex:outputLink value="{!prop.Google_Map_URL__c}" id="theLink">Link</apex:outputLink>
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.Property_Type__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.Occupancy_Status__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!relatedTo.Total_Units__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.Number_of_Occupied_Units__c}" />
+          </td>
+          <td style="border:1px solid black">
+            <apex:outputText value="{!prop.Occupancy_Pct__c}" />
+          </td>
+        </tr>
+      </apex:repeat>
+    </table>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!relatedTo.Record_Type_Name__c != 'Single_Asset_Bridge_Loan'}">
+        <p>Dear IC Committee Member,</p>
+        <br />
+
+        <p>Please review the deal below that has a loan amount <apex:outputText value="{!IF(relatedTo.Record_Type_Name__c == 'Single_Asset_Bridge_Loan', ' between $1,500,000 and $3,000,000.', ' that is less than $3,000,000.')}" /></p>
+        <br />
+
+        <p>
+            Pricing Request Approval Information:
+            <br /> Capital Market: {!relatedTo.Approved_by_Capital_Markets__r.Name}
+            <apex:outputText value=",{!relatedTo.Approved_by_Capital_Markets_Date__c}"
+                rendered="{!NOT( ISBLANK(relatedTo.Approved_by_Capital_Markets_Date__c) )}" /> Underwriting: {!relatedTo.Approved_by_Underwriter__r.Name},
+            <apex:outputText value=",{!relatedTo.Approved_by_Underwriter_Date__c}"
+                rendered="{!NOT( ISBLANK(relatedTo.Approved_by_Underwriter_Date__c) )}" />
+        </p>
+        <br />
+
+        <p>Attached is a completed IC Memo.</p>
+        <br />
+
+        <p>Thanks,</p>
+        <p>{!relatedTo.Owner.Name}</p>
+        <br />
+
+        <p>
+            <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+                <colgroup>
+                    <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+                    <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+                </colgroup>
+                <tr>
+                    <th colspan="2" style="border:1px solid black;text-align:center;">
+                        <strong>
+                            Deal Summary
+                        </strong>
+                    </th>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Sponsor Details
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Sponsor_Details__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Sponsor Strategy
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Sponsor_Strategy__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Deal Name:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Name}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Deal Loan Number:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Deal_Loan_Number__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Loan Commitment:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, currency}">
+                            <apex:param value="{!relatedTo.LOC_Commitment__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Borrower Account Introduction Source:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Account_Introduction_Source__c}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Deal Intro Source:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Deal_Intro_Source__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Deal Intro Sub-Source:
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Deal_Intro_Sub_Source__c}" />
+                    </td>
+                </tr>
+            </table>
+        </p>
+        <br />
+
+        <p>
+            <table style="table-layout:fixed;border:1px solid black;border-collapse:collapse;width:350px;">
+                <colgroup>
+                    <col class="one" style="width:50%;border:1px solid black;padding:6px;" />
+                    <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
+                </colgroup>
+
+                <tr>
+
+                    <tr>
+                        <td style="border:1px solid black">
+                            Estimated Sponsor Tier
+                        </td>
+                        <td style="border:1px solid black;text-align:right;">
+                            <apex:outputText value="{!relatedTo.Estimated_Sponsor_Tier__c}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid black">
+                            Product Type
+                        </td>
+                        <td style="border:1px solid black;text-align:right;">
+                            <apex:outputText value="{!relatedTo.LOC_Loan_Type__c}" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="border:1px solid black">
+                            Product Sub-Type
+                        </td>
+                        <td style="border:1px solid black;text-align:right;">
+                            <apex:outputText value="{!relatedTo.Product_Sub_Type__c}" />
+                        </td>
+                    </tr>
+                    <td style="border:1px solid black">
+                        Project Strategy
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Project_Strategy__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Term
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.LOC_Term__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Advance Period
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Advance_Period__c}" />
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td style="border:1px solid black">
+                        Max LTC %
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.LTC__c) )}">
+                            <apex:param value="{!relatedTo.LTC__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.LTC__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Max LTV %
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.LTV__c) )}">
+                            <apex:param value="{!relatedTo.LTV__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.LTV__c)}" />
+                    </td>
+                </tr>
+                <!--
     <tr>
     <td style="border:1px solid black">
-        Broker Fee Paid To
+        Requested Max Initial LTV/LTC
     </td>
     <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{!relatedTo.Referral_Source_Contact__r.Name}" /> @ <apex:outputText value="{!relatedTo.Referral_Source__r.Name}" />
-    </td>
-    </tr>    
-    
-    <tr>
-    <td style="border:1px solid black;">
-    UW LTC:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.UW_LTC__c}" />
+        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Requested_Max_Initial_LTV_LTC__c) )}">
+            <apex:param value="{!relatedTo.Requested_Max_Initial_LTV_LTC__c}" />
         </apex:outputText>
+        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Requested_Max_Initial_LTV_LTC__c)}" />
     </td>
     </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    UW LTV:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.UW_LTV__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Max LTC:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.LTC__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Max LTV:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-        <apex:outputText value="{0, number, 0.##}%">
-            <apex:param value="{!relatedTo.LTV__c}" />
-        </apex:outputText>
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Min DSCR:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Min_DSCR__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Term:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Term_Loan_Type_Months__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Amortization:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Amortization_Term__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Yield Maintenance / Prepayment Penalty:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.YM_Prepayment_Penalty__c}" />
-    </td>
-    </tr>
-        <tr style="{!IF(ISBLANK(relatedTo.YM_Prepayment_Penalty_Description__c), 'display:none;', '')}" >
-        <td style="border:1px solid black;">
-            YM / Prepayment Penalty Description:
-        </td>
-        <td style="border:1px solid black;text-align:right;">
-            <apex:outputText value="{!relatedTo.YM_Prepayment_Penalty_Description__c}" />
-        </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Recourse:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Recourse__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Cash Management:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Cash_Management__c}" />
-    </td>
-    </tr>
-    <tr>
-    <td style="border:1px solid black;">
-    Loan Purpose:
-    </td>
-    <td style="border:1px solid black;text-align:right;">
-    <apex:outputText value="{!relatedTo.Loan_Purpose__c}" />
-    </td>
-    </tr>
-    </table>
-    </p>
-    <br />
-    <apex:repeat var="prop" value="{!relatedTo.Properties__r}">
-        <!-- <div style="{! ISBLANK(prop.Picture__c) ? 'display:hide;' : 'display:block;' }"> -->
-                    <strong>
-                <apex:outputText value="{!prop.Name}" rendered="{!
+-->
+                <tr>
+                    <td style="border:1px solid black">
+                        Reno Total Loan LTC
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Total_Loan_LTC__c) )}">
+                            <apex:param value="{!relatedTo.Total_Loan_LTC__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Total_Loan_LTC__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Total ARV LTV
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Total_ARV_LTV__c) )}">
+                            <apex:param value="{!relatedTo.Total_ARV_LTV__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Total_ARV_LTV__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Max Reno Cost Reimbursement
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Max_Reno_Cost_Reimbursement__c) )}">
+                            <apex:param value="{!relatedTo.Max_Reno_Cost_Reimbursement__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Max_Reno_Cost_Reimbursement__c)}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border:1px solid black">
+                        Renovation Limit %Acq Cost
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Renovation_Limit__c) )}">
+                            <apex:param value="{!relatedTo.Renovation_Limit__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Renovation_Limit__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Interest Rate Type
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Interest_Rate_Type__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Interest Rate
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Rate__c) )}">
+                            <apex:param value="{!relatedTo.Rate__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Rate__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Index
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Index__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Index Margin
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Index_Margin__c) )}">
+                            <apex:param value="{!relatedTo.Index_Margin__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Index_Margin__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Index Floor
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Floor__c}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Origination Fee %
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number,#.##}%" rendered="{!NOT( ISBLANK(relatedTo.CAF_Upfront_Fee__c) )}">
+                            <apex:param value="{!relatedTo.CAF_Upfront_Fee__c}" />
+                        </apex:outputText>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Exit Fee
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Exit_Fee__c) )}">
+                            <apex:param value="{!relatedTo.Exit_Fee__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Exit_Fee__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Advance Fee %
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{0, number, #.##}%" rendered="{!NOT( ISBLANK(relatedTo.Fee__c) )}">
+                            <apex:param value="{!relatedTo.Fee__c}" />
+                        </apex:outputText>
+                        <apex:outputText value="00.00%" rendered="{!ISBLANK(relatedTo.Fee__c)}" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="border:1px solid black">
+                        Recourse
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Recourse__c}" />
+                    </td>
+                </tr>
+                <tr style="{!IF(ISBLANK(relatedTo.Broker_Fees__c), 'display:none;', '')}">
+                    <td style="border:1px solid black">
+                        Broker Fee %
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Broker_Fees__c}" />
+                    </td>
+                </tr>
+
+                <tr style="{!IF(ISBLANK(relatedTo.Broker_Fees__c), 'display:none;', '')}">
+                    <td style="border:1px solid black">
+                        Broker Fee Paid To
+                    </td>
+                    <td style="border:1px solid black;text-align:right;">
+                        <apex:outputText value="{!relatedTo.Referral_Source_Contact__r.Name}" /> @
+                        <apex:outputText value="{!relatedTo.Referral_Source__r.Name}" />
+                    </td>
+                </tr>
+
+            </table>
+        </p>
+        <apex:repeat var="prop" value="{!relatedTo.Properties__r}">
+            <!-- <div style="{! ISBLANK(prop.Picture__c) ? 'display:hide;' : 'display:block;' }"> -->
+            <p>
+                <strong>
+                    <apex:outputField value="{!prop.Name}" rendered="{!
                     AND(
                         NOT (
                             ISBLANK (prop.Picture__c)
                         ),
                         prop.Include_Picture__c == true
                     )
-                    }"/>
-                    </strong>
-                    <br />
-            <apex:image width="200" value="{!prop.Picture__c}" rendered="{!
+                    }" />
+                </strong>
+                <br />
+                <apex:image value="{!prop.Picture__c}" rendered="{!
                 AND(
                     NOT (
                         ISBLANK (prop.Picture__c)
                     ),
                     prop.Include_Picture__c == true
                 )
-                }"/>
-
-            <apex:image width="200" value="{!prop.Google_Street_View_URL__c}" rendered="{!
+                }" />
+                <apex:image value="{!prop.Google_Street_View_URL__c}" rendered="{!
                 AND(
                     NOT (
                         ISBLANK (prop.Google_Street_View_URL__c)
                     ),
                     prop.Include_Street_View__c == true
                 )
-                }"/>
+                }" />
 
-            <apex:outputLink value="{!prop.Zillow_Listing__c}" rendered="{!
+                <apex:outputLink value="{!prop.Zillow_Listing__c}" rendered="{!
                 AND(
                     NOT (
                         ISBLANK (prop.Zillow_Listing__c)
@@ -515,7 +1162,9 @@
                 )
                 }" />
 
-        <!-- </div> -->
-    </apex:repeat>
-</messaging:htmlEmailBody>
+            </p>
+            <!-- </div> -->
+        </apex:repeat>
+        </apex:outputPanel>
+    </messaging:htmlEmailBody>
 </messaging:emailTemplate>

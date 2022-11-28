@@ -3,6 +3,7 @@ import { LightningElement, wire } from "lwc";
 import initScreen from "@salesforce/apex/LoanVersionValidatorController.initScreen";
 import query from "@salesforce/apex/lightning_Util.query";
 import saveFile from "@salesforce/apex/documentUploader_Controller.saveFile";
+import emailLegalCounsel from "@salesforce/apex/LoanVersionValidatorController.emailLegalCounsel";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { parseExpression } from "c/utils";
 
@@ -278,18 +279,20 @@ export default class DocumentVersionValidator extends LightningElement {
     const fieldName = field.fieldName;
     // const recor
 
-    if (!this.recordInputs[field.sobjectType]) {
-      return false;
-    }
 
     if (!field.isDisplayed) {
       return true;
     }
+    if (!this.recordInputs[field.sobjectType]) {
+      return false;
+    }
+
 
     let targetVal = this.recordInputs[field.sobjectType][fieldName];
     let inputVal = this.validationInputs[field.sobjectType][fieldName];
 
     if (field.checkOnly) {
+      console.log({ inputVal, targetVal });
       validated = inputVal;
     } else {
       if (field.fieldType === "number") {
@@ -348,7 +351,7 @@ export default class DocumentVersionValidator extends LightningElement {
     const isValidated = this.calculateValidated();
     const isLoading = this.isLoading;
 
-    //console.log("isValidated=", isValidated);
+    // console.log("isValidated=", isValidated);
 
     return !isValidated && !isLoading;
   }
@@ -648,33 +651,37 @@ export default class DocumentVersionValidator extends LightningElement {
     this.template.querySelector("c-modal").toggleModal();
   }
 
-  save() {
+  async save() {
     this.isLoading = true;
     this.template.querySelector("c-modal").showSpinner();
 
-    saveFile({
-      fileJSON: JSON.stringify(this.file),
-      recordId: this.recordId,
-      sobjectType: this.sobjectType
-    })
-      .then((results) => {
-        const event = new ShowToastEvent({
-          title: "Success",
-          message: `${this.file.documentType} successfully uploaded`,
-          variant: "success"
-        });
-
-        this.dispatchEvent(event);
-        this.isLoading = false;
-        this.template.querySelector("c-modal").hideSpinner();
-        this.closeModal();
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-        this.isLoading = false;
-        this.template.querySelector("c-modal").showSpinner();
+    try {
+      const results = await saveFile({
+        fileJSON: JSON.stringify(this.file),
+        recordId: this.recordId,
+        sobjectType: this.sobjectType
       });
+
+      const event = new ShowToastEvent({
+        title: "Success",
+        message: `${this.file.documentType} successfully uploaded`,
+        variant: "success"
+      });
+
+      if (this.file.documentType.toLowerCase() === "red line loan agreement") {
+        await emailLegalCounsel({ dealId: this.recordId });
+      }
+
+      this.dispatchEvent(event);
+      this.isLoading = false;
+      this.template.querySelector("c-modal").hideSpinner();
+      this.closeModal();
+    } catch (error) {
+      console.log("error");
+      console.log(error);
+      this.isLoading = false;
+      this.template.querySelector("c-modal").showSpinner();
+    }
   }
 
   get modalTitle() {

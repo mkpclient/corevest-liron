@@ -391,6 +391,60 @@
         <template>Process_Builder_Emails/Kickoff_Date_Assigned</template>
     </alerts>
     <alerts>
+        <fullName>Deal_Stage_No_Change_30_Days_Alert</fullName>
+        <description>Deal Stage No Change - 30 Days Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lisha.mcdaniel@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Stage_No_Change_30_Days</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Stage_No_Change_60_Days_Alert</fullName>
+        <description>Deal Stage No Change - 60 Days Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lisha.mcdaniel@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Stage_No_Change_60_Days</template>
+    </alerts>
+    <alerts>
+        <fullName>Deal_Stage_No_Change_90_Days_Alert</fullName>
+        <description>Deal Stage No Change - 90 Days Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>lisha.mcdaniel@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Deal_Stage_No_Change_90_Days</template>
+    </alerts>
+    <alerts>
         <fullName>Deal_Withdrawn</fullName>
         <description>Deal Withdrawn</description>
         <protected>false</protected>

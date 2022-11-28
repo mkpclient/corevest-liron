@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>raj.sirivolu@cvest.com</contactEmail>
+    <description>Manage EBI data</description>
+    <label>EBI</label>
+    <oauthConfig>
+        <callbackUrl>https://cvest--qa.sandbox.lightning.force.com/</callbackUrl>
+        <consumerKey>3MVG9MwiKwcReohz1fm8U0Mfsvw3lQ7WBB..Ultv00KGK1q2j71Lehiwf8xGzEtWSuJqZ2aVOnzhooihXqIK_</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Full</scopes>
+        <scopes>Chatter</scopes>
+        <scopes>RefreshToken</scopes>
+        <scopes>OpenID</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

@@ -7,8 +7,9 @@
     <logoUrl>https://cvest.my.salesforce.com/environmenthub/images/connected_app_logo.png</logoUrl>
     <oauthConfig>
         <callbackUrl>https://cvest.my.salesforce.com/environmenthub/soma-callback.apexp</callbackUrl>
-        <consumerKey>3MVG9qEXqmIutu_QNttBhrw05Q0z2yKQb2Gqctose0P95JEiCcJThODjC6jX9ZMgdk8NENf.oelZwMgPS.ezc</consumerKey>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdF1fCqomxfip1n_jnMOmsxC6RAlrikhwh4Dmbypf4zVuVNl2iA==</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

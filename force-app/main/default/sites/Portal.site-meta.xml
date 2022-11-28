@@ -22,6 +22,7 @@
     <redirectToCustomDomain>false</redirectToCustomDomain>
     <referrerPolicyOriginWhenCrossOrigin>false</referrerPolicyOriginWhenCrossOrigin>
     <selfRegPage>CommunitiesSelfReg</selfRegPage>
+    <serverIsDown>SNA_Portal_C_sf_default_cdn_8Tp0c</serverIsDown>
     <siteAdmin>mkpartners@colonyamericanfinance.com</siteAdmin>
     <siteGuestRecordDefaultOwner>cafadmin@cvest.com</siteGuestRecordDefaultOwner>
     <siteRedirectMappings>

@@ -37,12 +37,15 @@ public without sharing class AdvanceFundingMemoController {
         Decimal validTotalDays = 0;
         Decimal totalAppraisalDays = 0;
         Decimal validAppraisalDays = 0;
-
-        for (Property__c p : [
-            SELECT Id, Refinance_Acquisition__c,Acquisition_Date__c, Property_Type__c,Number_of_Units__c,Occupancy_Pct__c,Year_Built__c,BPO_Appraisal_Date__c
-            FROM Property__c
-            WHERE Id IN (SELECT Property__c FROM Property_Advance__c WHERE Advance__c = :this.record.Id)
+        Decimal rehabBudgetTotal = 0;
+        Decimal validRehabBudget = 0;
+        for (Property_Advance__c pa : [
+            SELECT Id, Perc_of_Rehab_Budget__c, Property__r.Refinance_Acquisition__c, Property__r.Acquisition_Date__c, Property__r.Property_Type__c, Property__r.Number_of_Units__c, Property__r.Occupancy_Pct__c, Property__r.Year_Built__c, Property__r.BPO_Appraisal_Date__c
+            FROM Property_Advance__c
+            WHERE Advance__c = :this.record.Id
+            AND Property__c != null
         ]) {
+          Property__c p = pa.Property__r;
           pd.propertyCount++;
           if (String.isNotBlank(p.Refinance_Acquisition__c)) {
             transacTypes.add(p.Refinance_Acquisition__c);
@@ -74,6 +77,11 @@ public without sharing class AdvanceFundingMemoController {
             totalAppraisalDays = p.BPO_Appraisal_Date__c.daysBetween(System.today());
             validAppraisalDays++;
           }
+
+          if(pa.Perc_of_Rehab_Budget__c != null) {
+            rehabBudgetTotal += pa.Perc_of_Rehab_Budget__c;
+            validRehabBudget++;
+          } 
         }
 
         pd.transactionType = String.join(new List<String>(transacTypes), ', ');
@@ -93,6 +101,10 @@ public without sharing class AdvanceFundingMemoController {
         if(validAppraisalDays > 0) {
           pd.appraisalDate = System.today().addDays(0 - (Integer.valueOf(totalAppraisalDays / validAppraisalDays)));
         }
+
+        if(validRehabBudget > 0) {
+          pd.rehabBudgetPct = rehabBudgetTotal / validRehabBudget;
+        }
       }
 
       return pd;
@@ -109,6 +121,7 @@ public without sharing class AdvanceFundingMemoController {
     public Decimal avgYearBuilt {get; set;}
     public Date acquisitionDate { get; set; }
     public Date appraisalDate { get; set; }
+    public Decimal rehabBudgetPct { get; set; }
   }
 
   @AuraEnabled

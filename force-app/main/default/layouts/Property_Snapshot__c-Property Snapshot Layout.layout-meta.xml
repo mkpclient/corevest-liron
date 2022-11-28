@@ -71,6 +71,14 @@
                 <behavior>Edit</behavior>
                 <field>Net_Proceeds__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Loss_Mitigation_Associate_Assigned__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Special_Asset_Associate_Assigned__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

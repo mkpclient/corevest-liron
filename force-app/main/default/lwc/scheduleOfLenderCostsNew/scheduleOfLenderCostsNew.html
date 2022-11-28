@@ -1,5 +1,5 @@
 <template>
-  <lightning-layout multiple-rows="true">
+  <lightning-layout multiple-rows="true" if:true={calculatedFields}>
     <lightning-layout-item size="12">
       <!-- <div class="slds-section slds-is-open"> -->
       <h3 class="slds-section-title--divider slds-m-top_small">
@@ -249,14 +249,13 @@
     </lightning-layout-item>   
     <lightning-layout-item padding="around-medium" size="6"
       ><lightning-input
-        label="Total Lender"
-        value={calculatedFields.Total_Lender__c}
-        type="number"
-        formatter="currency"
-        step="0.01"
-        read-only
+        label="Lender Credit Description"
+        value={calculatedFields.Lender_Credit_Description__c}
+        data-field="Lender_Credit_Description__c"
+        max-length="40"
+        onchange={updateValue}
       ></lightning-input>
-    </lightning-layout-item>     
+    </lightning-layout-item>
     <lightning-layout-item padding="around-medium" size="6">
       <template if:true={showDiscountFeeField}>
         <lightning-combobox
@@ -280,6 +279,16 @@
           read-only
         ></lightning-input>
       </template>
+    </lightning-layout-item>
+    <lightning-layout-item padding="around-medium" size="6"
+      ><lightning-input
+        label="Total Lender"
+        value={calculatedFields.Total_Lender__c}
+        type="number"
+        formatter="currency"
+        step="0.01"
+        read-only
+      ></lightning-input>
     </lightning-layout-item>
 
     <lightning-layout-item size="12">

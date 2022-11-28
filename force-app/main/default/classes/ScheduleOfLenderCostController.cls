@@ -156,9 +156,9 @@ public without sharing class ScheduleOfLenderCostController {
         Cash_Management__c,
         Are_Assets_Coming_Off_Bridge_Line__c,
         Total_Annual_Cap_Ex__c,
-        Reserve_Cap_Ex__c,
-        Reserve_Insurance__c,
-        Reserve_Tax__c,
+        // Reserve_Cap_Ex__c,
+        // Reserve_Insurance__c,
+        // Reserve_Tax__c,
         (
           SELECT Id, Vendor__c, Vendor_Type__c, Reference__c, Fee_Amount__c
           FROM Loan_Fees__r

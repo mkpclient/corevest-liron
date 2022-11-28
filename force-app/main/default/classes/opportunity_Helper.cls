@@ -261,8 +261,21 @@ public without sharing class opportunity_Helper {
 
     List<Opportunity> nonSecWarehouseLines = new List<Opportunity>();
     List<Opportunity> dealsWithSec = new List<Opportunity>();
+    List<Loan_Metrics__c> newLoanMetrics = new List<Loan_Metrics__c>();
+    Map<Id, Opportunity> updatedOppsWithLoanMetrics = new Map<Id, Opportunity>();
 
     for (Opportunity o : newMap.values()) {
+
+       Loan_Metrics__c newLm = new Loan_Metrics__c(
+        Deal__c = o.Id,
+        Loss_Mitigation_Associate_Assigned__c = o.Loss_Mitigation_Associate__c != null ? System.today() : null
+      );
+      newLoanMetrics.add(newLm);
+
+      updatedOppsWithLoanMetrics.put(o.Id, new Opportunity(
+        Id = o.Id
+      ));
+
       if (String.isNotEmpty(o.Warehouse_Line__c)) {
         nonSecWarehouseLines.add(o);
       }
@@ -520,6 +533,19 @@ public without sharing class opportunity_Helper {
       if (o.StageName == 'Closed Won') {
         closedWonIds.put(o.Id, o);
       }
+    }
+
+    if(newLoanMetrics.size() > 0) {
+      insert newLoanMetrics;
+
+      for(Loan_Metrics__c lm : newLoanMetrics) {
+        updatedOppsWithLoanMetrics.put(lm.Deal__c, new Opportunity(
+          Id = lm.Deal__c,
+          Loan_Metrics__c = lm.Id
+        ));
+      }
+
+      update updatedOppsWithLoanMetrics.values();
     }
 
     if (dealMembers.size() > 0) {
@@ -797,24 +823,6 @@ public without sharing class opportunity_Helper {
         if (o.GLC_Approved__c == true) {
           o.GLC_Approval_Date__c = System.today();
         }
-      }
-
-      if (
-        o.Background_Check_Completed__c !=
-        oldMap.get(o.Id).Background_Check_Completed__c
-      ) {
-        o.Background_Check_Completed_Date__c = System.today();
-      }
-
-      if (
-        o.Credit_Check_Completed__c !=
-        oldMap.get(o.Id).Credit_Check_Completed__c
-      ) {
-        o.Credit_Check_Completed_Date__c = System.today();
-      }
-
-      if (o.Appraisal_Ordered__c != oldMap.get(o.Id).Appraisal_Ordered__c) {
-        o.Appraisal_Ordered_Date__c = System.today();
       }
 
       if (
@@ -1512,6 +1520,9 @@ public without sharing class opportunity_Helper {
     Map<Id, String> updatedWarehouseLines = new Map<Id, String>();
     Set<Id> cemaDeals = new Set<Id>();
 
+    List<Loan_Metrics__c> loanMetricsToUpsert = new List<Loan_Metrics__c>();
+    Map<Id, Opportunity> dealWithNewLoanMetrics = new Map<Id,Opportunity>();
+
     /*CIP 2215 4/22/2022 begin */
     List<String> stagesForSfv = new List<String>{
       'Sold',
@@ -1606,6 +1617,21 @@ public without sharing class opportunity_Helper {
     for (Opportunity o : newMap.values()) {
       system.debug('o.StageName::::' + o);
       system.debug('oldMap::::' + oldMap);
+
+      if(o.Loss_Mitigation_Associate__c != null && oldMap.get(o.Id).Loss_Mitigation_Associate__c == null) {
+        if(o.Loan_Metrics__c != null) {
+          loanMetricsToUpsert.add(new Loan_Metrics__c(
+            Id = o.Loan_Metrics__c,
+            Loss_Mitigation_Associate_Assigned__c = System.today()
+          ));  
+        } else {
+          loanMetricsToUpsert.add(new Loan_Metrics__c(
+            Deal__c = o.Id,
+            Loss_Mitigation_Associate_Assigned__c = System.today()
+          ));  
+          dealWithNewLoanMetrics.put(o.Id, new Opportunity());
+        }
+      }
 
       if (o.RecordType__c == 'Term' && o.CEMA__c == 'Yes' && oldMap.get(o.Id).CEMA__c != o.CEMA__c) {
         cemaDeals.add(o.Id);
@@ -2245,6 +2271,23 @@ public without sharing class opportunity_Helper {
 
       // if (oppsToCheckLossMitigation.size() > 0) {
       //   OpportunityMethods.reassignLossMitUser(oppsToCheckLossMitigation);
+    }
+
+    if(loanMetricsToUpsert.size() > 0) {
+      upsert loanMetricsToUpsert;
+    }
+
+    if(dealWithNewLoanMetrics.size() > 0) {
+      for(Loan_Metrics__c lm : loanMetricsToUpsert) {
+        if(dealWithNewLoanMetrics.containsKey(lm.Deal__c)) {
+          dealWithNewLoanMetrics.put(lm.Deal__c, new Opportunity(
+            Id = lm.Deal__c,
+            Loan_Metrics__c = lm.Id
+          ));
+        }
+      }
+
+      update dealWithNewLoanMetrics.values();
     }
 
     if (cemaDeals.size() > 0) {

@@ -8,15 +8,11 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Name</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Loss_Mitigation_Associate_Assigned__c</field>
+                <field>Deal__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Deal__c</field>
+                <field>Name</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns/>
@@ -50,6 +46,9 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>Deal__c</fields>
+    </miniLayout>
     <relatedLists>
         <fields>OPPORTUNITY.NAME</fields>
         <fields>ACCOUNT.NAME</fields>

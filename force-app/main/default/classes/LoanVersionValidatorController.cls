@@ -83,6 +83,72 @@ public without sharing class LoanVersionValidatorController {
     return JSON.serialize(sectionMap.values());
   }
 
+  @AuraEnabled
+  public static void emailLegalCounsel(Id dealId) {
+    try {
+      List<Deal_Contact__c> contacts = [
+        SELECT
+          Id,
+          Deal__c,
+          Contact__c,
+          Deal__r.OwnerId,
+          Deal__r.Underwriter__c,
+          Deal__r.Closer__c
+        FROM Deal_Contact__c
+        WHERE
+          Deal__c = :dealId
+          AND Vendor_Type__c = 'Lender Legal Counsel'
+          AND Contact__c != NULL
+          AND Contact__r.Email != null
+      ];
+
+      EmailTemplate template = [
+        SELECT Id, DeveloperName
+        FROM EmailTemplate
+        WHERE DeveloperName = 'Red_Line_Loan_Validation'
+      ];
+
+      if (template != null && contacts.size() > 0) {
+        List<Messaging.SingleEmailMessage> messages = new List<Messaging.SingleEmailMessage>();
+        for (Deal_Contact__c dc : contacts) {
+          Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+          email.setTemplateId(template.Id);
+          email.setTargetObjectId(dc.Contact__c);
+          email.setWhatId(dc.Deal__c);
+
+          List<Id> ccIds = new List<Id>{ dc.Deal__r.OwnerId };
+          if (dc.Deal__r.Underwriter__c != null) {
+            ccIds.add(dc.Deal__r.Underwriter__c);
+          }
+          if (dc.Deal__r.Closer__c != null) {
+            ccIds.add(dc.Deal__r.Closer__c);
+          }
+
+          email.setToAddresses(new List<Id>{ dc.Contact__c });
+          email.setCcAddresses(ccIds);
+          email.setSaveAsActivity(true);
+          messages.add(email);
+        }
+
+        if (messages.size() > 0 && !Test.isRunningTest()) {
+          List<Messaging.SendEmailResult> results = Messaging.sendEmail(
+            messages
+          );
+
+          if (results[0].success) {
+            System.debug('The email was sent successfully.');
+          } else {
+            System.debug(
+              'The email failed to send: ' + results[0].errors[0].message
+            );
+          }
+        }
+      }
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
   class LoanVersionSection {
     String headerLabel;
     List<LoanVersionField> fields;

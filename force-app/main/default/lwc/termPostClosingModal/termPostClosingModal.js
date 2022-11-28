@@ -20,6 +20,15 @@ import USER_EMAIL from "@salesforce/schema/User.Email";
 import LV_OBJECT from "@salesforce/schema/Loan_Version__c";
 import { NavigationMixin } from "lightning/navigation";
 import saveDocument from "@salesforce/apex/TermPostClosingEmailController.saveDocument";
+import query from "@salesforce/apex/lightning_Util.query";
+import upsertRecord from "@salesforce/apex/lightning_Controller.upsertRecord";
+
+const fieldMapping = {
+  Interest_Rate_Cap_Reserve__c: "Monthly_Interest_Rate_Cap_Constants__c",
+  Reserve_Cap_Ex__c: "Monthly_Cap_Ex__c",
+  Reserve_Insurance__c: "Monthly_Insurance__c",
+  Reserve_Tax__c: "Monthly_Tax__c"
+};
 
 const fields = [
   NAME,
@@ -32,8 +41,9 @@ const forTotalFields = [
   "Holdback_Reserve__c",
   "Monthly_Tax__c",
   "Monthly_Cap_Ex__c",
-  "Monthly_Insurance__c"
-]
+  "Monthly_Insurance__c",
+  "Monthly_Interest_Rate_Cap_Constants__c"
+];
 export default class TermPostClosingModal extends NavigationMixin(
   LightningElement
 ) {
@@ -82,7 +92,9 @@ export default class TermPostClosingModal extends NavigationMixin(
     "blockquote",
     "direction"
   ];
-  
+
+  isCLO = false;
+  cloAssetDetails;
 
   @wire(getRecord, {
     recordId: USER_ID,
@@ -117,21 +129,28 @@ export default class TermPostClosingModal extends NavigationMixin(
       this.loanVersion = data;
       let local = {};
       let numLocal = {};
+      let total = 0;
       Object.entries(data).forEach(([key, value]) => {
-        if(Number(value)) {
+        if (Number(value)) {
           local[key] = value ? Number(Number(value).toFixed(2)) : 0;
-          if(forTotalFields.includes(key)) {
+          if (forTotalFields.includes(key)) {
             numLocal[key] = value ? Number(Number(value).toFixed(2)) : 0;
+            total +=  value ? Number(Number(value).toFixed(2)) : 0;
+            console.log({ key, value })
           }
         } else {
           local[key] = value;
         }
-      })
+      });
       this.loanVersionLocal = local;
       this.loanVersionNumeric = numLocal;
-      if (data.hasOwnProperty("Monthly_Payment__c")) {
+      if (data.hasOwnProperty("Monthly_Payment__c") && data.Monthly_Payment__c == total) {
         this.monthlyTotal = data.Monthly_Payment__c;
+      } else {
+        this.monthlyTotal = total;
       }
+      console.log({ total });
+      this.retrieveCloAssetDetails();
     }
   }
 
@@ -159,6 +178,53 @@ export default class TermPostClosingModal extends NavigationMixin(
   })
   taxesPaidPicklistVals;
 
+  async retrieveCloAssetDetails() {
+    
+
+    const whereClauseArr = [];
+
+    for (const k in fieldMapping) {
+      whereClauseArr.push(k + "!= NULL");
+    }
+
+    const queryString = `SELECT Id,Deal_ID__c,${Object.keys(fieldMapping).join(
+      ","
+    )} 
+      FROM CLO_Asset_Details__c 
+      WHERE Deal_ID__c='${this.recordId}' AND (${whereClauseArr.join(" OR ")})
+      `;
+    
+
+    const CADs = await query({ queryString });
+
+    this.isCLO = CADs.length > 0;
+
+    if (CADs.length > 0) {
+    
+      if(this.loanVersionNumeric.hasOwnProperty("Holdback_Reserve__c")) {
+        this.loanVersionNumeric.Holdback_Reserve__c = 0;
+      }
+      const CAD = CADs[0];
+      this.cloAssetDetails = CAD;
+      const tempLvLoc = { ...this.loanVersionLocal };
+      let newTotal = 0;
+      for (const k in fieldMapping) {
+        const lvField = fieldMapping[k];
+        tempLvLoc[lvField] = CAD[k];
+        if(forTotalFields.includes(lvField)) {
+          this.loanVersionNumeric[lvField] = parseFloat(CAD[k]);
+          newTotal += parseFloat(CAD[k]);
+        }
+        this.monthlyTotal = newTotal;
+      }
+
+      this.loanVersionLocal = tempLvLoc;
+    } else if (CADs.length === 0 && this.loanVersionNumeric.hasOwnProperty("Monthly_Interest_Rate_Cap_Constants__c")) {
+      this.monthlyTotal = this.monthlyTotal - this.loanVersionNumeric.Monthly_Interest_Rate_Cap_Constants__c;
+      this.loanVersionNumeric.Monthly_Interest_Rate_Cap_Constants__c = 0;
+    }
+  }
+
   get headerText() {
     return (
       "Post Closing Onboarding for " + getFieldValue(this.dealRecord.data, NAME)
@@ -182,7 +248,7 @@ export default class TermPostClosingModal extends NavigationMixin(
   }
 
   setNotification() {
-    if(this.disablePDF) {
+    if (this.disablePDF) {
       this.disablePDF = false;
     }
     const event = new ShowToastEvent({
@@ -195,7 +261,6 @@ export default class TermPostClosingModal extends NavigationMixin(
     this.disablePDF = true;
     const res = await saveDocument({ recordId: this.recordId });
     if (res.Success) {
-
       this[NavigationMixin.GenerateUrl]({
         type: "standard__recordPage",
         attributes: {
@@ -214,7 +279,7 @@ export default class TermPostClosingModal extends NavigationMixin(
               label: "Go to record."
             }
           ]
-        }
+        };
 
         this.setNotification();
       });
@@ -286,7 +351,7 @@ export default class TermPostClosingModal extends NavigationMixin(
       inputField.reportValidity();
       return validSoFar && inputField.checkValidity();
     }, true);
-    if (isInputsCorrect) {
+    if (isInputsCorrect && this.loanVersionLocal.hasOwnProperty("Monthly_Payment__c")) {
       if (this.loanVersionLocal.Monthly_Payment__c !== this.monthlyTotal) {
         this.loanVersionLocal["Monthly_Payment__c"] = this.monthlyTotal;
       }
@@ -298,6 +363,19 @@ export default class TermPostClosingModal extends NavigationMixin(
           newRecord: this.loanVersionLocal
         });
         this.loanVersionLocal = newRecord;
+
+        if(this.isCLO) {
+          let shouldUpdate = false;
+          for(const key in fieldMapping) {
+            if(this.cloAssetDetails[key] != newRecord[fieldMapping[key]]) {
+              shouldUpdate = true;
+              break;
+            }
+          }
+          const updCad ={ sobjectType: "CLO_Asset_Details__c", ...this.cloAssetDetails };
+          await upsertRecord({ record: updCad });
+          
+        }
         if (name == "email") {
           await this.loadEmailInfo();
           this.isEmailStage = true;

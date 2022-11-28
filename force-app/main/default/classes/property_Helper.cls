@@ -123,6 +123,10 @@ public without sharing class property_Helper {
       if (p.Property_Name__c != null) {
         p.Property_Name__c = standardizePropertyName(p.Property_Name__c);
       }
+      
+      if(p.Special_Asset_Associate__c != null) {
+        p.Special_Asset_Associate_Assigned_Date__c = System.today();
+      }
 
       if (p.State__c != null) {
         p.State__c = standardizePropertyState(p.State__c);
@@ -1184,6 +1188,10 @@ public without sharing class property_Helper {
       //}
 
       // CIP 2206 27 Apr 2022 Start
+
+      if(newList[i].Special_Asset_Associate__c != null && oldList[i].Special_Asset_Associate__c == null) {
+        newList[i].Special_Asset_Associate_Assigned_Date__c = System.today();
+      }
 
       if (newList[i].Current_UPB__c == 0 && oldList[i].Current_UPB__c != 0) {
         newList[i].UPB_Before_Payoff__c = oldList[i].Current_UPB__c;

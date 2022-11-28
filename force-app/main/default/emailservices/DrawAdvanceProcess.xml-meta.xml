@@ -4,7 +4,7 @@
     <attachmentOption>All</attachmentOption>
     <authenticationFailureAction>Bounce</authenticationFailureAction>
     <authorizationFailureAction>Bounce</authorizationFailureAction>
-    <errorRoutingAddress>raj.sirivolu@cvest.com</errorRoutingAddress>
+    <errorRoutingAddress>ldecastro@mkpartners.com</errorRoutingAddress>
     <functionInactiveAction>Bounce</functionInactiveAction>
     <functionName>DrawAdvanceProcess</functionName>
     <isActive>true</isActive>

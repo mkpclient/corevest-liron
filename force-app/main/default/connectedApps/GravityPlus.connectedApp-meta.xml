@@ -4,8 +4,9 @@
     <label>GravityPlus</label>
     <oauthConfig>
         <callbackUrl>https://www.corevestfinance.com/?callback=gravityformssalesforce</callbackUrl>
-        <consumerKey>3MVG9qEXqmIutu_QNttBhrw05Q0z2yKQb2GqcS7H5AWf.hqaE9WFAgYmrkzi_fw7lNEkkea0IjhjCVzS9HJkU</consumerKey>
+        <consumerKey>3MVG9MwiKwcReohzlfKsMS0PHdOD2gKB6W7tEr..XBuSqaCWrs6HLC6kSB2dS7WYlmdUg4Rpj2XsqVuJ32PtA</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

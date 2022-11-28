@@ -418,7 +418,8 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.BillingStreet + '"';
-      String name = '"acc.Name"';
+      String name = '"' + acc.Name + '"';
+
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';

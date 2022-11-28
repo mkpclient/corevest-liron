@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>UCC1 Filing Request - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>UCC1 Filing Request</name>
+    <style>freeForm</style>
+    <subject>Bridge Deal Closed - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hello Team,
+
+A Bridge Deal has closed.
+
+1- Final Principle Loan Documents are ready for pick up.
+
+2- Please submit UCC1 filing for this deal.
+
+
+
+Thank you.
+
+Bridge Team</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

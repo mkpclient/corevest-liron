@@ -38,13 +38,23 @@
           <col class="two" style="width:50%;border:1px solid black;padding:6px;text-align:right;" />
         </colgroup>
         <tbody>
-          <tr>
+          <tr style="{!if(isClo == true, 'display: none;', '')}">
             <td style="border:1px solid black;">
               Monthly Payment
             </td>
             <td style="border:1px solid black;text-align:right;">
               <apex:outputtext value="{0, Number, Currency}">
                 <apex:param value="{!loanVersion.Holdback_Reserve__c}" />
+              </apex:outputtext>
+            </td>
+          </tr>
+          <tr style="{!if(isClo == true, '', 'display: none;')}">
+            <td style="border:1px solid black;">
+              Monthly Interest Rate Cap Constants
+            </td>
+            <td style="border:1px solid black;text-align:right;">
+              <apex:outputtext value="{0, Number, Currency}">
+                <apex:param value="{!loanVersion.Monthly_Interest_Rate_Cap_Constants__c}" />
               </apex:outputtext>
             </td>
           </tr>
@@ -103,9 +113,11 @@
               Hold Back Reserve collected at Closing
             </td>
             <td style="border:1px solid black;text-align:right;">
-              <apex:outputtext value="{0, Number, Currency}">
+              <apex:outputtext rendered="{!isClo == false}" value="{0, Number, Currency}">
                 <apex:param value="{!loanVersion.Required_Holdback_Reserve__c}" />
               </apex:outputtext>
+              <apex:outputtext rendered="{!isClo == true}" value="(See loan documents)" />
+
             </td>
           </tr>
         </tbody>

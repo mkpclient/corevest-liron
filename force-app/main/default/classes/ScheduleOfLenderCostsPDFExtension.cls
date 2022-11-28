@@ -11,6 +11,7 @@ public without sharing class ScheduleOfLenderCostsPDFExtension {
       this.record = [
         SELECT
           Final_Loan_Amount__c,
+          Lender_Credit_Description__c,
           Deposit_Amount__c,
           Deal_Loan_Number__c,
           Borrower__c,

@@ -27,11 +27,6 @@
                 <label>Converted to REO</label>
             </value>
             <value>
-                <fullName>Deed in Lieu</fullName>
-                <default>false</default>
-                <label>Deed In Lieu</label>
-            </value>
-            <value>
                 <fullName>Discounted Payoff</fullName>
                 <default>false</default>
                 <label>Discounted Payoff</label>
@@ -85,6 +80,11 @@
                 <fullName>Paid off at Receivership</fullName>
                 <default>false</default>
                 <label>Paid off at Receivership</label>
+            </value>
+            <value>
+                <fullName>Deed In Lieu</fullName>
+                <default>false</default>
+                <label>Deed In Lieu</label>
             </value>
             <value>
                 <fullName>Bring Current</fullName>

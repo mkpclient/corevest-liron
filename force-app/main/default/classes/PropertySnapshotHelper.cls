@@ -29,7 +29,8 @@ public without sharing class PropertySnapshotHelper {
     'Total_Broker_Commissions_Fees_Paid__c' => 'Total_Broker_Commissions_Fees_Paid__c',
     'Maturity_Default_Transfer__c' => 'Maturity_Default_Transfer__c',
     'Days_to_Resolve_REO_to_REO_Sold__c' => 'Days_to_Resolve_REO_to_REO_Sold__c',
-    'Net_Proceeds__c' => 'Net_Proceeds__c'
+    'Net_Proceeds__c' => 'Net_Proceeds__c',
+    'Resolution_Type__c' => 'Resolution_Type__c'
   };
 
   private static final Map<String, String> SNAPSHOT_TO_EXT_COMPLETED = new Map<String, String>{
@@ -98,9 +99,12 @@ public without sharing class PropertySnapshotHelper {
       }
     }
 
-    Set<String> dealFields = Schema.SObjectType.Opportunity.fields.getMap().keySet();
-    Set<String> propFields = Schema.SObjectType.Property__c.fields.getMap().keySet();
-
+    Set<String> dealFields = Schema.SObjectType.Opportunity.fields.getMap()
+      .keySet();
+    Set<String> loanMetricsFields = Schema.SObjectType.Loan_Metrics__c.fields.getMap()
+      .keySet();
+    Set<String> propFields = Schema.SObjectType.Property__c.fields.getMap()
+      .keySet();
 
     if (dealIds.size() > 0) {
       String dealQuery =
@@ -113,12 +117,14 @@ public without sharing class PropertySnapshotHelper {
     } else if (propIds.size() > 0) {
       String propQuery =
         'SELECT ' +
-        String.join(
-          new List<String>(propFields),
-          ','
-        ) +
+        String.join(new List<String>(propFields), ',') +
         ', Deal__r.' +
         String.join(new List<String>(dealFields), ', Deal__r.') +
+        ', Deal__r.Loan_Metrics__r.' +
+        String.join(
+          new List<String>(loanMetricsFields),
+          ', Deal__r.Loan_Metrics__r.'
+        ) +
         ' FROM Property__c WHERE Id IN :propIds';
       propMap = new Map<Id, Property__c>(
         (List<Property__c>) Database.query(propQuery)
@@ -237,19 +243,35 @@ public without sharing class PropertySnapshotHelper {
         */
         for (sObject obj : eventTypeMap.get(key).values()) {
           Property__c prop = propMap.get((Id) obj.get('Property__c'));
+          Opportunity deal = propMap.get((Id) obj.get('Property__c')).Deal__r;
+
           propSnapshot.Property__c = prop.Id;
           propSnapshot.Special_Asset__c = (Id) obj.get('Id');
-          if(prop.Asset_Maturity_Date__c != null) {
-            Integer daysToResolve = prop.Asset_Maturity_Date__c.daysBetween(Date.valueOf((DateTime) obj.get('CreatedDate'))) - 60;
-  
-            if(prop.Current_Asset_Maturity_Date__c != null) {
-              daysToResolve = prop.Current_Asset_Maturity_Date__c.daysBetween(Date.valueOf((DateTime) obj.get('CreatedDate'))) - 60;
-            }
-            propSnapshot.Days_To_Resolve__c = Decimal.valueOf(daysToResolve);
-          } 
-        }
+          // if(prop.Asset_Maturity_Date__c != null) {
+          //   Integer daysToResolve = prop.Asset_Maturity_Date__c.daysBetween(Date.valueOf((DateTime) obj.get('CreatedDate'))) - 60;
 
-        
+          //   if(prop.Current_Asset_Maturity_Date__c != null) {
+          //     daysToResolve = prop.Current_Asset_Maturity_Date__c.daysBetween(Date.valueOf((DateTime) obj.get('CreatedDate'))) - 60;
+          //   }
+          //   propSnapshot.Days_To_Resolve__c = Decimal.valueOf(daysToResolve);
+          // }
+          if (
+            prop.Special_Asset_Associate__c != null &&
+            prop.Special_Asset_Associate_Assigned_Date__c != null &&
+            deal?.Loss_Mitigation_Associate__c != null &&
+            deal?.Loan_Metrics__r?.Loss_Mitigation_Associate_Assigned__c != null
+          ) {
+            //Loss Mit Associate Assigned - Special Asset Associate Assigned.
+
+            propSnapshot.Days_To_Resolve__c = Decimal.valueOf(
+              prop.Special_Asset_Associate_Assigned_Date__c.daysBetween(
+                deal.Loan_Metrics__r.Loss_Mitigation_Associate_Assigned__c
+              )
+            );
+          } else {
+            continue;
+          }
+        }
       }
 
       propSnapshots.add(propSnapshot);

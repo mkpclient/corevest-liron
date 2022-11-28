@@ -17,9 +17,9 @@ public with sharing class ForeclousreHelperTest {
           Property__c = p.Id,
           Special_Asset_Manager__c = Userinfo.getUserId(),
           Special_Asset_Reason__c = 'Title',
-          Severity_Level__c = 'Decision Required',
+          Severity_Level__c = 'Sold REO',
           Resolved_Date__c = System.today(),
-          Resolution_Type__c = 'Sell REO',
+          Resolution_Type__c = 'Sold REO',
           REO_Date__c = System.today()
         )
       );

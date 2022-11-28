@@ -3,6 +3,7 @@
     <defaultLandingTab>standard-home</defaultLandingTab>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <tabs>standard-Chatter</tabs>
     <tabs>standard-Workspace</tabs>
     <tabs>standard-ContentSearch</tabs>
@@ -15,7 +16,12 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
-    <tabs>API_Log__c</tabs>
     <tabs>Swap_Rate__c</tabs>
-    <tabs>Lender_Deal__c</tabs>
+    <tabs>TPO_Pool__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>Policy_Exception__c</tabs>
+    <tabs>Appraiser__c</tabs>
+    <tabs>Servicer_Loan__c</tabs>
+    <tabs>EBI_Updates__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
 </CustomApplication>

@@ -3,6 +3,16 @@
     helper.setPermission(component);
     helper.setDealStatus(component);
     helper.getUserProfile(component);
+
+    const cols = component.find("hot-table").get("v.columns");
+
+    const lookupFields = [];
+
+    cols.forEach(c => {
+      if(c.get("v.data").includes(".") && !lookupFields.includes(c.get("v.data"))) {
+        lookupFields.push(c.get("v.data"));
+      }
+    });
     helper.callAction(
       component,
       "c.getRelatedList",
@@ -11,7 +21,8 @@
         parentFieldName: component.get("v.parentFieldName"),
         sobjectType: component.get("v.sobjectType"),
         whereClause: "Property_Type__c != 'Parent'",
-        orderClause: "Asset_ID__c asc"
+        orderClause: "Asset_ID__c asc",
+        additionalFields: lookupFields
       },
       function (data) {
         if ($A.util.isEmpty(data)) {

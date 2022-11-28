@@ -6,20 +6,22 @@
         <div class="slds-box slds-box_small slds-theme_shade">
           <p><strong>Monthly Payments</strong></p>
         </div>
-        <lightning-input
-          type="number"
-          name="Holdback_Reserve__c"
-          data-name="Holdback_Reserve__c"
-          data-record="Loan_Version__c"
-          data-section="MonthlyPayments"
-          label="Monthly Payment"
-          variant="label-inline"
-          value={loanVersionLocal.Holdback_Reserve__c}
-          formatter="currency"
-          step="0.01"
-          onchange={handleChange}
-          required
-        ></lightning-input>
+        <template if:false={isCLO}>
+          <lightning-input
+            type="number"
+            name="Holdback_Reserve__c"
+            data-name="Holdback_Reserve__c"
+            data-record="Loan_Version__c"
+            data-section="MonthlyPayments"
+            label="Monthly Payment"
+            variant="label-inline"
+            value={loanVersionLocal.Holdback_Reserve__c}
+            formatter="currency"
+            step="0.01"
+            onchange={handleChange}
+            required
+          ></lightning-input>
+        </template>
         <lightning-input
           type="number"
           name="Monthly_Tax__c"
@@ -62,6 +64,22 @@
           onchange={handleChange}
           required
         ></lightning-input>
+        <template if:true={isCLO}>
+          <lightning-input
+            type="number"
+            name="Monthly_Interest_Rate_Cap_Constants__c"
+            data-name="Monthly_Interest_Rate_Cap_Constants__c"
+            data-record="Loan_Version__c"
+            data-section="MonthlyPayments"
+            label="Monthly Interest Rate Cap Constants"
+            variant="label-inline"
+            value={loanVersionLocal.Monthly_Interest_Rate_Cap_Constants__c}
+            formatter="currency"
+            step="0.01"
+            onchange={handleChange}
+            required
+          ></lightning-input>
+        </template>
         <lightning-input
           type="number"
           name="total"
@@ -76,21 +94,22 @@
           readonly
         ></lightning-input>
         <br />
-        <lightning-input
-          type="number"
-          name="Required_Holdback_Reserve__c"
-          data-name="Required_Holdback_Reserve__c"
-          data-record="Loan_Version__c"
-          data-section="Unrelated"
-          label="Holdback Reserve Collected at Closing"
-          variant="label-inline"
-          value={loanVersionLocal.Required_Holdback_Reserve__c}
-          formatter="currency"
-          step="0.01"
-          onchange={handleChange}
-          required
-        ></lightning-input>
-
+        <template if:false={isCLO}>
+          <lightning-input
+            type="number"
+            name="Required_Holdback_Reserve__c"
+            data-name="Required_Holdback_Reserve__c"
+            data-record="Loan_Version__c"
+            data-section="Unrelated"
+            label="Holdback Reserve Collected at Closing"
+            variant="label-inline"
+            value={loanVersionLocal.Required_Holdback_Reserve__c}
+            formatter="currency"
+            step="0.01"
+            onchange={handleChange}
+            required
+          ></lightning-input>
+        </template>
         <div class="slds-box slds-box_small slds-theme_shade">
           <p><strong>Servicing Contact Information</strong></p>
         </div>

@@ -162,6 +162,7 @@
     <defaultLandingTab>standard-home</defaultLandingTab>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <isServiceCloudConsole>true</isServiceCloudConsole>
     <preferences>
         <enableCustomizeMyTabs>false</enableCustomizeMyTabs>
@@ -189,12 +190,17 @@
     <tabs>Comment__c</tabs>
     <tabs>Deal_x_Funding_Vehicle__c</tabs>
     <tabs>Loan_Version__c</tabs>
-    <tabs>API_Log__c</tabs>
     <tabs>Swap_Rate__c</tabs>
-    <tabs>Lender_Deal__c</tabs>
+    <tabs>TPO_Pool__c</tabs>
+    <tabs>TPO_Pool_x_Deal__c</tabs>
+    <tabs>Policy_Exception__c</tabs>
+    <tabs>Appraiser__c</tabs>
+    <tabs>Servicer_Loan__c</tabs>
+    <tabs>EBI_Updates__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <workspaceConfig>
         <mappings>
-            <tab>API_Log__c</tab>
+            <tab>Appraiser__c</tab>
         </mappings>
         <mappings>
             <tab>CTM</tab>
@@ -218,16 +224,31 @@
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
-            <tab>Lender_Deal__c</tab>
+            <tab>EBI_Updates__c</tab>
         </mappings>
         <mappings>
             <tab>Loan_Version__c</tab>
         </mappings>
         <mappings>
+            <tab>Policy_Exception__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Portal_Survey__c</tab>
+        </mappings>
+        <mappings>
             <tab>Post_Closing_Section__c</tab>
         </mappings>
         <mappings>
+            <tab>Servicer_Loan__c</tab>
+        </mappings>
+        <mappings>
             <tab>Swap_Rate__c</tab>
+        </mappings>
+        <mappings>
+            <tab>TPO_Pool__c</tab>
+        </mappings>
+        <mappings>
+            <tab>TPO_Pool_x_Deal__c</tab>
         </mappings>
         <mappings>
             <tab>standard-Account</tab>

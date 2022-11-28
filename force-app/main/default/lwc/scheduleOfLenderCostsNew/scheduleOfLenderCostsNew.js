@@ -18,13 +18,14 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   @api recordTypeId;
   @api recordId;
   @api val1234 = 456;
+  @api lenderCreditDescription = "";
   subscription = null;
   discountFeeValLocal;
   earlyRateLockAmountLocal = null;
   finalSwapRate;
   finalrate;
  // lenderCredits = null; 
-  calculatedFields = {};
+  calculatedFields;
   loanFees = [];
   discountFeeOptions = [];
   //@api loanVersion = {};
@@ -160,6 +161,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Installment_Comment__c: this.deal.Installment_Comment__c,
       Deposit_Amount__c: this.deal.Deposit_Amount__c,
       Lender_Credit__c : this.lc,
+      Lender_Credit_Description__c: this.lenderCreditDescription
     };
 
     this.discountFeeVal = this.discountFeeCalculation();
@@ -303,12 +305,14 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
   finalInterestRateCalc() {
     var InterestRateTermSheet = 0;
-    if (this.deal.Final_Swap__c && this.deal.Final_Spread__c) {
-      var yearSwapRate = parseFloat(this.deal.Final_Swap__c);
+    if ((this.deal.Final_Swap__c || this.deal.Swap_Rate__c) && this.deal.Final_Spread__c) {
+      var yearSwapRate = this.deal.Final_Swap__c ? parseFloat(this.deal.Final_Swap__c) : parseFloat(this.deal.Swap_Rate__c);
       var creditSpread = parseFloat(this.deal.Final_Spread__c);
-      InterestRateTermSheet = parseFloat(yearSwapRate + creditSpread).toFixed(
+      InterestRateTermSheet = parseFloat((yearSwapRate + creditSpread).toFixed(
         2
-      );
+      ));
+      console.log("INTEREST RATE CALC");
+      console.log(InterestRateTermSheet);
     }
 
     //console.log("--finalInterestRateCalc=", InterestRateTermSheet);
@@ -871,7 +875,12 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       this.lc = value;
       this.updateCalculatedFields();
       return;
-    }    
+    }
+    if(fieldName == "Lender_Credit_Description__c") {
+      this.lenderCreditDescription = value;
+      this.updateCalculatedFields();
+      return;
+    }
     deal[fieldName] = value;
     this.deal = deal;
     console.log('RS999 this.deal.Holdback_Multiplier__c ' +this.deal.Holdback_Multiplier__c);
@@ -953,6 +962,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Discount_Fee__c: discountFee,
       Discount_Fee_Number__c: this.discountFeeVal,
       Lender_Credit__c : calculatedFields.Lender_Credit__c,
+      Lender_Credit_Description__c: calculatedFields.Lender_Credit_Description__c
     };
 
     // console.log(loanVersion);

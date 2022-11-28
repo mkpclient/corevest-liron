@@ -42,6 +42,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
     body: ""
   };
   earlyRateLockAmount = null;
+  lenderCreditDescription = "";
 
 
   // dealQueried = "";
@@ -190,6 +191,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
         const calculatedData = JSON.parse(sessionData);
         this.earlyRateLockAmount = calculatedData.Early_Lock_Deposit__c;
         this.lenderCredit = calculatedData.Lender_Credit__c;
+        this.lenderCreditDescription = calculatedData.Lender_Credit_Description__c;
         deal.Total_Annual_Tax__c = calculatedData.Total_Annual_Tax__c;
         deal.Total_Annual_Insurance__c =
           calculatedData.Total_Annual_Insurance__c;
