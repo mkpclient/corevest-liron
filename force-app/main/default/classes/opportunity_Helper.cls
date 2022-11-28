@@ -69,7 +69,7 @@ public without sharing class opportunity_Helper {
     Deal_Loan_Number__c dln = Deal_Loan_Number__c.getOrgDefaults();
     Integer nextNumber = Integer.valueOf(dln.Next_Loan_Number__c);
     List<String> loanNumbersToVerify = new List<String>{String.valueOf(nextNumber)};
-    for(Integer i=1; i < 20; i++) {
+    for(Integer i=-10; i < 20; i++) {
       loanNumbersToVerify.add(String.valueOf(nextNumber + i));
     }
     List<Opportunity> existingOppsWithLoanNumbers = [
