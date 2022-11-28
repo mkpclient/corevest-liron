@@ -12,6 +12,7 @@
             <objects>
                 <object>Opportunity</object>
                 <object>Application__c</object>
+                <object>Property__c</object>
                 </objects>
         </targetConfig>
     </targetConfigs>

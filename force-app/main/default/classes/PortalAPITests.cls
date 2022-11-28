@@ -3,7 +3,8 @@ private class PortalAPITests {
   public static string BASE_URL = system.url.getOrgDomainUrl().toExternalForm();
   @testSetup
   static void setup() {
-    test_Helper.createDealLoanNumber();
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
 
@@ -17,18 +18,9 @@ private class PortalAPITests {
     cont.Alchemy_Portal_Id__c = 'af-sdba';
     cont.Email = 'portalapitest@example.com';
     update cont;
-    Opportunity opp = test_Helper.createOpportunity(acc, cont);
-    opp.Apex_Context__c = true;
-    opp.RecordTypeId = [
-      SELECT Id
-      FROM RecordType
-      WHERE sobjecttype = 'Opportunity' AND DeveloperName = 'LOC_Loan'
-    ]
-    .Id;
-    opp.StageName = 'Hold';
+    Opportunity opp = test_Helper.createLOCDeal(acc, cont);
     opp.Draw_Period__c = '12 Months';
     opp.Repayment_Period__c = '9 Months';
-    opp.LOC_Loan_Type__c = 'Credit Line';
     opp.Loan_Size__c = 3000000;
     opp.Line_Expiration__c = '18 Months';
     opp.Requested_LTC_Max__c = 70;
@@ -43,10 +35,8 @@ private class PortalAPITests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
-    opp.Deal_Intro_Source__c = 'Hotline';
-    opp.Deal_Intro_Sub_source__c = 'Main';
     opp.Application__c = app.Id;
     opp.Contact__c = cont.Id;
     update opp;
@@ -59,7 +49,7 @@ private class PortalAPITests {
     request.addHeader('Content-Type', 'application/json');
 
     Map<String, Object> body = new Map<String, Object>();
-    body.put('loanType', 'term');
+    body.put('loanType', 'Single Asset Bridge Loan');
     body.put('user_id', 'af-sdba');
     body.put('status', 'Pending');
     request.requestBody = Blob.valueOf(JSON.serialize(body));
@@ -78,9 +68,9 @@ private class PortalAPITests {
     request.addHeader('Content-Type', 'application/json');
 
     body = new Map<String, Object>();
-    body.put('loanType', 'term');
+    body.put('loanType', 'Single Asset Bridge Loan');
     body.put('user_id', 'af-sdba');
-    body.put('status', 'Pending');
+    body.put('status', 'Completed');
     request.requestBody = Blob.valueOf(JSON.serialize(body));
     request.httpMethod = 'PATCH';
     RestContext.request = request;
@@ -95,6 +85,8 @@ private class PortalAPITests {
     RestContext.response = new RestResponse();
     PortalAPIApplication.doGet();
     request.requestURI = 'apexrest/portal/application/af-sdba';
+    PortalAPIApplication.doGet();
+    request.requestURI = 'apexrest/portal/application/af-sdba/prefill/sab';
     PortalAPIApplication.doGet();
 
     String testRequest =
@@ -190,9 +182,6 @@ private class PortalAPITests {
       );
     }
 
-    property[0].Status__c = 'Due Diligence';
-    property[1].Status__c = 'Active';
-    property[2].Payoff_Received_Date__c = system.today();
     insert property;
     Test.startTest();
     RestRequest request = new RestRequest();
@@ -271,9 +260,6 @@ private class PortalAPITests {
       );
     }
 
-    property[0].Status__c = 'Due Diligence';
-    property[1].Status__c = 'Active';
-    property[2].Payoff_Received_Date__c = system.today();
     insert property;
     Test.startTest();
     RestRequest request = new RestRequest();
@@ -864,7 +850,7 @@ private class PortalAPITests {
     Test.startTest();
     AlchemyAPI.createUser(cont.Id, 'Contact');
     AlchemyAPI.createUser(l.Id, 'Lead');
-
+    AlchemyAPI.updateUser(l.Id);
     Test.stopTest();
   }
 

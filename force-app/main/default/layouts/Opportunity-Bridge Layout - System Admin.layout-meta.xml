@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customButtons>Conga_Composer_Composer_SP_NDA</customButtons>
     <customButtons>PRES</customButtons>
     <customButtons>Loan_MOD</customButtons>
     <customButtons>dsfs__Send_with_DocuSign</customButtons>
+    <customButtons>Conga_Composer_Guaranty_TEMPLATE</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -93,6 +95,26 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Approved_Third_Party_Originators__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CEMA__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SSN__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -393,6 +415,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Int_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Index_Rate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -700,6 +730,10 @@
                 <showScrollbars>false</showScrollbars>
                 <width>100%</width>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Signature_Blocks__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -861,6 +895,34 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Distinct_Counties__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Distinct_MSAs__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Distinct_Property_Types__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>State_Percentages__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Loan_Purpose__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Average_Acquisition_Date_By_Property__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Average_Acquisition_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Amount</field>
             </layoutItems>
             <layoutItems>
@@ -1006,99 +1068,139 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Opportunity.Clone_Bridge_Loan</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>16</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>17</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Send_Bridge_Intake</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>18</sortOrder>
+            <sortOrder>22</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Submit_to_IC_Approval</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>19</sortOrder>
+            <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Bridge_Onboarding_Data_Confirmation</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>20</sortOrder>
+            <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>PrintableView</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>21</sortOrder>
+            <sortOrder>25</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Delete</actionName>
             <actionType>StandardButton</actionType>
-            <sortOrder>22</sortOrder>
+            <sortOrder>26</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Task</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>23</sortOrder>
+            <sortOrder>27</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Loan_Sizing</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>24</sortOrder>
+            <sortOrder>28</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Log_a_Call</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>25</sortOrder>
+            <sortOrder>29</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Bridge_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>26</sortOrder>
+            <sortOrder>30</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>27</sortOrder>
+            <sortOrder>31</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Event</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>28</sortOrder>
+            <sortOrder>32</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.New_Bridge_Loan_Assigned_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>29</sortOrder>
+            <sortOrder>33</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Line_of_Credit_Funding_Documents</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>30</sortOrder>
+            <sortOrder>34</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Line_of_Credit_Executed_Documents</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>31</sortOrder>
+            <sortOrder>35</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Open_LOC_UW_Model</actionName>
-            <actionType>CustomButton</actionType>
-            <sortOrder>15</sortOrder>
+            <actionName>Opportunity.Generate_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>9</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Termsheet_Bypass</actionName>
+            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>10</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Export_Documents</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Term_Sheet_Approval</actionName>
+            <actionName>Opportunity.Bridge_Data_Tape</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Pricing_Review_Request</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>13</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Generate_Term_Sheet</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>14</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Termsheet_Bypass</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>15</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Term_Sheet_Approval</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>16</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Submit_to_UW</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>17</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.New_Loan_Mod_LOC</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>18</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Open_LOC_UW_Model</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>19</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Clone_Bridge_Loan</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>20</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.ContentNote</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>21</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Edit</actionName>
@@ -1106,64 +1208,44 @@
             <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Add_Guarantor</actionName>
-            <actionType>QuickAction</actionType>
+            <actionName>SDOC__S_Docs</actionName>
+            <actionType>CustomButton</actionType>
             <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.New_Entity</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>2</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.New_Individual</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>3</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Grant_Portal_Access</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Generate_Documents</actionName>
+            <actionName>Opportunity.Add_Guarantor</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Bridge_Upload_Documents</actionName>
+            <actionName>Opportunity.New_Entity</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Export_Documents</actionName>
+            <actionName>Opportunity.New_Individual</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>7</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Bridge_Data_Tape</actionName>
+            <actionName>Opportunity.Grant_Portal_Access</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>8</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Pricing_Review_Request</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>9</sortOrder>
+            <actionName>SDOC__Email_Docs</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>2</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Generate_Term_Sheet</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>10</sortOrder>
+            <actionName>doco__Generate_Document</actionName>
+            <actionType>CustomButton</actionType>
+            <sortOrder>3</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Submit_to_UW</actionName>
+            <actionName>doco__Lightning_Generate_Document</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>13</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.New_Loan_Mod_LOC</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>14</sortOrder>
+            <sortOrder>4</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

@@ -1,8 +1,9 @@
 @RestResource(urlMapping='/portal/user/*')
 global without sharing class PortalAPIUser {
   public static String portalId;
-  //public static Id contactId;
-  //public static Id leadId;
+  public static Integer paginationStart;
+  public static Integer paginationEnd;
+  public static Boolean usePagination;
 
   @HttpGet
   global static void doGet() {
@@ -10,6 +11,25 @@ global without sharing class PortalAPIUser {
     RestResponse res = Restcontext.response;
 
     List<String> params = Restcontext.request.requestURI.split('/');
+
+    String pageSizeParam = RestContext.request.params.get('pageSize');
+    Integer pageSize = null;
+    if (String.isNotBlank(pageSizeParam)) {
+      pageSize = Integer.valueOf(pageSizeParam);
+    }
+
+    Integer page = null;
+    String pageParam = RestContext.request.params.get('page');
+    if (String.isNotBlank(pageParam)) {
+      page = Integer.valueOf(pageParam);
+    }
+
+    usePagination = false;
+    if (pageSize != null && page != null) {
+      paginationStart = (page - 1) * pageSize; //2
+      paginationEnd = page * pageSize; //3
+      usePagination = true;
+    }
 
     if (params[3] == 'entryId') {
       String entryId = params[4];
@@ -81,6 +101,110 @@ global without sharing class PortalAPIUser {
         res.statusCode = 404;
         res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
       }
+    } else if (params[3] == 'operations') {
+      portalId = params[4];
+
+      List<User> user = [SELECT Id FROM User WHERE Portal_Id__c = :portalId];
+
+      if (user.size() > 0) {
+        Id userId = user[0].Id;
+
+        Set<String> borrowerIds = new Set<String>();
+        for (Contact c : [
+          SELECT Id, Alchemy_Portal_Id__c
+          FROM Contact
+          WHERE
+            OwnerId = :userId
+            AND RecordType.DeveloperName = 'Borrower'
+            AND Alchemy_Portal_Id__c != NULL
+        ]) {
+          borrowerIds.add(c.alchemy_portal_id__c);
+        }
+
+        for (Lead l : [
+          SELECT Id, Alchemy_Portal_Id__c
+          FROM Lead
+          WHERE
+            OwnerId = :userId
+            AND IsConverted = FALSE
+            AND Alchemy_Portal_Id__c != NULL
+        ]) {
+          borrowerIds.add(l.Alchemy_Portal_Id__c);
+        }
+
+        for (OpportunityTeamMember otm : [
+          SELECT Id, Opportunity.Contact__r.Alchemy_Portal_Id__c
+          FROM OpportunityTeamMember
+          WHERE
+            UserId = :userId
+            AND Opportunity.Contact__r.RecordType.DeveloperName = 'Borrower'
+            AND Opportunity.Contact__r.Alchemy_Portal_Id__c != NULL
+        ]) {
+          borrowerIds.add(otm.Opportunity.Contact__r.Alchemy_Portal_Id__c);
+        }
+
+        List<Borrower> borrowers = new List<Borrower>();
+        for (Lead l : [
+          SELECT
+            Id,
+            Alchemy_Portal_Id__c,
+            CreatedDate,
+            Portal_Last_Login__c,
+            LastName,
+            FirstName,
+            Email
+          FROM Lead
+          WHERE Alchemy_Portal_Id__c IN :borrowerIds AND IsConverted = FALSE
+        ]) {
+          borrowers.add(new Borrower(l));
+        }
+
+        for (Contact c : [
+          SELECT
+            Id,
+            Alchemy_Portal_Id__c,
+            CreatedDate,
+            Portal_Last_Login__c,
+            FirstName,
+            LastName,
+            Email
+          FROM Contact
+          WHERE Alchemy_Portal_Id__c IN :borrowerIds
+        ]) {
+          borrowers.add(new Borrower(c));
+        }
+
+        borrowers.sort();
+
+        if (params.size() > 6 && params[6] == 'count') {
+          Map<String, Object> responseBody = new Map<String, Object>();
+          responseBody.put('count', borrowers.size());
+          res.addHeader('Content-Type', 'application/json');
+          res.responseBody = Blob.valueOf(JSON.serialize(responseBody));
+        } else {
+          List<Borrower> borrowersToSend = new List<Borrower>();
+          if (usePagination) {
+            for (Integer i = paginationStart; i < paginationEnd; i++) {
+              if (i < borrowers.size()) {
+                borrowersToSend.add(borrowers[i]);
+              }
+            }
+          } else {
+            borrowersToSend = borrowers;
+          }
+
+          res.addHeader('Content-Type', 'application/json');
+          res.responseBody = Blob.valueOf(JSON.serialize(borrowersToSend));
+        }
+      } else {
+        Map<String, String> responseBody = new Map<String, String>();
+        responseBody.put('status', 'error');
+        responseBody.put('message', 'User Id not found');
+
+        res.addHeader('Content-Type', 'application/json');
+        res.statusCode = 404;
+        res.responseBody = Blob.valueOf(JSON.serialize(responseBody, true));
+      }
     } else {
       portalId = params[3];
       PortalUser user = new PortalUser(portalId);
@@ -118,24 +242,29 @@ global without sharing class PortalAPIUser {
       String sobjectType = 'Lead';
       if (user.contactId != null) {
         sobjectType = 'Contact';
+      } else if (user.leadId != null) {
+        sobjectType = 'Lead';
+      } else {
+        sobjectType = 'User';
       }
-
-      sObject record = userCopy.getRecord(sobjectType);
-      // system.debug(record);
-      Map<String, Object> fieldsToValue = record.getPopulatedFieldsAsMap();
-      record = user.getRecord(); //record.Id.getSObjectType().newSObject(record.Id);
-      // system.debug(fieldsToValue);
-      for (String fieldName : fieldsToValue.keySet()) {
-        if (fieldsToValue.get(fieldName) != null) {
-          record.put(fieldName, fieldsToValue.get(fieldName));
+      if (sobjectType != 'User') {
+        sObject record = userCopy.getRecord(sobjectType);
+        // system.debug(record);
+        Map<String, Object> fieldsToValue = record.getPopulatedFieldsAsMap();
+        record = user.getRecord(); //record.Id.getSObjectType().newSObject(record.Id);
+        // system.debug(fieldsToValue);
+        for (String fieldName : fieldsToValue.keySet()) {
+          if (fieldsToValue.get(fieldName) != null) {
+            record.put(fieldName, fieldsToValue.get(fieldName));
+          }
         }
-      }
 
-      update record;
-      //user.updateUser();
-      user = new PortalUser(portalId);
-      res.addHeader('Content-Type', 'application/json');
-      res.responseBody = Blob.valueOf(JSON.serialize(user, true));
+        update record;
+        //user.updateUser();
+        user = new PortalUser(portalId);
+        res.addHeader('Content-Type', 'application/json');
+        res.responseBody = Blob.valueOf(JSON.serialize(user, true));
+      }
     } else {
       Map<String, String> responseBody = new Map<String, String>();
       responseBody.put('status', 'error');
@@ -183,9 +312,7 @@ global without sharing class PortalAPIUser {
     public PortalUser(String portalId) {
       Id contactId = AlchemyAPI.getContactIdByAlchemyId(portalId);
       Id leadId = AlchemyAPI.getLeadIdByAlchemyId(portalId);
-
-      system.debug(contactId);
-      system.debug(leadId);
+      Id userId = AlchemyAPI.getUserIdByPortalId(portalId);
 
       if (contactId != null) {
         Contact c = [
@@ -309,6 +436,17 @@ global without sharing class PortalAPIUser {
         this.homeZip = l.Home_Zip__c;
         this.companyName = l.Company;
         this.lastLogin = l.Portal_Last_Login__c;
+      } else if (portalId != null) {
+        User u = [
+          SELECT Id, FirstName, LastName, Portal_Id__c, Email
+          FROM User
+          WHERE Id = :userId
+          LIMIT 1
+        ];
+        this.id = u.Portal_Id__c;
+        this.firstName = u.FirstName;
+        this.lastName = u.LastName;
+        this.email = u.Email;
       }
     }
 
@@ -475,6 +613,44 @@ global without sharing class PortalAPIUser {
       }
 
       return record;
+    }
+  }
+
+  class Borrower implements Comparable {
+    String userId;
+    String email;
+    DateTime createdDate;
+    DateTime lastLoginDate;
+    String firstName;
+    String lastName;
+
+    public Integer compareTo(Object compareTo) {
+      Borrower compareToBor = (Borrower) compareTo;
+      if (this.createdDate == compareToBor.createdDate)
+        return 0;
+      if (this.createdDate > compareToBor.createdDate)
+        return -1;
+      return 1;
+    }
+
+    Borrower(Contact c) {
+      this.firstName = c.FirstName;
+      this.lastName = c.LastName;
+
+      this.email = c.Email;
+      this.createdDate = c.CreatedDate;
+      this.lastLoginDate = c.Portal_Last_Login__c;
+      this.userId = c.Alchemy_Portal_Id__c;
+    }
+
+    Borrower(Lead l) {
+      this.firstName = l.FirstName;
+      this.lastName = l.lastName;
+
+      this.email = l.Email;
+      this.userId = l.Alchemy_Portal_Id__c;
+      this.createdDate = l.CreatedDate;
+      this.lastLoginDate = l.Portal_Last_Login__c;
     }
   }
 }

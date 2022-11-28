@@ -52,6 +52,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Bridge Operations</label>
     <navType>Standard</navType>
     <profileActionOverrides>
@@ -12412,6 +12413,9 @@
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
     <tabs>CLO_Asset_Details__c</tabs>
+    <tabs>Advance_Fundings_IC</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Bridge_UtilityBar</utilityBar>
 </CustomApplication>

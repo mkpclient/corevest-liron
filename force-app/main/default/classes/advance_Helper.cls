@@ -67,34 +67,31 @@ public class advance_Helper {
       }
     }
 
-    for (
-      Opportunity o : [
-        SELECT
-          Id,
-          Aggregate_Funding__c,
-          Aggregate_Payoffs__c,
-          Aggregate_Value_PreAdvance__c,
-          Aggregate_Advance_Fee_PreAdvance__c,
-          Outstanding_Facility_Amount__c,
-          Outstanding_Loan_Amount_PreAdvance__c,
-          (
-            SELECT Id, Name, Advance_Num__c
-            FROM Advances__r
-            WHERE Advance_Num__c != NULL
-            ORDER BY Advance_Num__c DESC
-            LIMIT 1
-          )
-        FROM Opportunity
-        WHERE Id IN :advanceMap.keySet()
-      ]
-    ) {
+    for (Opportunity o : [
+      SELECT
+        Id,
+        Aggregate_Funding__c,
+        Aggregate_Payoffs__c,
+        Aggregate_Value_PreAdvance__c,
+        Aggregate_Advance_Fee_PreAdvance__c,
+        Outstanding_Facility_Amount__c,
+        Outstanding_Loan_Amount_PreAdvance__c,
+        (
+          SELECT Id, Name, Advance_Num__c
+          FROM Advances__r
+          WHERE Advance_Num__c != NULL
+          ORDER BY Advance_Num__c DESC
+          LIMIT 1
+        )
+      FROM Opportunity
+      WHERE Id IN :advanceMap.keySet()
+    ]) {
       for (Advance__c adv : advanceMap.get(o.Id)) {
         adv.Aggregate_Funding__c = o.Aggregate_Funding__c;
         adv.Aggregate_Payoffs__c = o.Aggregate_Payoffs__c;
         adv.Aggregate_Advance_Fee_PreAdvance__c = o.Aggregate_Advance_Fee_PreAdvance__c;
         adv.Aggregate_Value_PreAdvance__c = o.Aggregate_Value_PreAdvance__c;
         adv.Outstanding_Facility_Amount__c = o.Outstanding_Facility_Amount__c;
-
         adv.Outstanding_Loan_Amount_PreAdvance__c = o.Outstanding_Loan_Amount_PreAdvance__c;
 
         if (String.isBlank(adv.Name)) {
@@ -163,7 +160,10 @@ public class advance_Helper {
     List<OpportunityLineItem> olisToInsert = new List<OpportunityLineItem>();
     for (Integer i = 0; i < newList.size(); i++) {
       OpportunityLineItem oli = new OpportunityLineItem();
-      if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
+      if (
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve') &&
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Draw')
+      ) {
         if (newList[i].Deal_RecordType__c == 'LOC_Loan') {
           oli.OpportunityId = newList[i].Deal__c;
           oli.Advance__c = newList[i].Id;
@@ -235,7 +235,8 @@ public class advance_Helper {
       if (
         newList[i].Status__c != oldList[i].Status__c &&
         newList[i].Status__c == 'Completed' &&
-        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Advance')
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Advance') &&
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Draw')
       ) {
         advancesForCompletion.add(newList[i].Id);
         // validateCompletion(newList[i]);
@@ -369,7 +370,7 @@ public class advance_Helper {
 
     List<Advance__c> advsToValidate = new List<Advance__c>();
 
-    if(advancesForCompletion.size() > 0 || Test.isRunningTest()) {
+    if (advancesForCompletion.size() > 0 || Test.isRunningTest()) {
       advsToValidate = isCreditLine(advancesForCompletion);
     }
 
@@ -454,7 +455,10 @@ public class advance_Helper {
     Set<id> advanceProjUpdatesIds = new Set<id>();
     //CIP-2149 - Raj Sirivolu. 1/20/2022.End.
     for (Integer i = 0; i < newList.size(); i++) {
-      if (newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve')) {
+      if (
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Interest Reserve') &&
+        newList[i].RecordTypeId != RECORDTYPE_MAP.get('Construction Draw')
+      ) {
         if (
           newList[i].Status__c != oldList[i].Status__c &&
           newList[i].Status__c == 'Completed'
@@ -774,6 +778,7 @@ public class advance_Helper {
           Deal__r.Internal_Referral__c,
           Deal__r.Commission_Type__c,
           Deal__r.Type,
+          Deal__r.LOC_Loan_Type__c,
           Deal__r.Account.Borrowed_on_Term_Loans__c,
           Deal__r.OwnerId,
           Deal__r.id,
@@ -807,7 +812,8 @@ public class advance_Helper {
 
         if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 5000000
+          adv.Approved_Advance_Amount_Total__c < 10000000 &&
+          adv.Deal__r.LOC_Loan_Type__c == 'Credit Line'
         ) {
           rateBasedOnBorrowed = 0.20;
           system.debug('under 5 mil and direct');
@@ -822,9 +828,10 @@ public class advance_Helper {
             //  ? .20
             //  : .50;
 
-            decimal internalFee;
+            //decimal internalFee;
+            decimal internalFee = Decimal.valueOf(adv.Deal__r.Internal_Referral_Fee__c.replace('%', '')) / 100;
 
-            if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
+           /* if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
               internalFee = .10;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '20%') {
               internalFee = .20;
@@ -832,7 +839,7 @@ public class advance_Helper {
               internalFee = .30;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '50%') {
               internalFee = .50;
-            }
+            }*/
             system.debug('referral?');
             system.debug('referral direct?');
             system.debug('referral fee' + adv.Deal__r.Internal_Referral_Fee__c);
@@ -905,9 +912,10 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 5000000 &&
+          adv.Approved_Advance_Amount_Total__c > 10000000 &&
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c <= 75000000
+          adv.Approved_Advance_Amount_Total__c <= 100000000 &&
+          adv.Deal__r.LOC_Loan_Type__c == 'Credit Line'
         ) {
           system.debug('over 5 mil and direct');
           rateBasedOnBorrowed = 0.10;
@@ -924,9 +932,10 @@ public class advance_Helper {
             //? .20
             // : .50;
 
-            decimal internalFee;
+            //decimal internalFee;
+            decimal internalFee = Decimal.valueOf(adv.Deal__r.Internal_Referral_Fee__c.replace('%', '')) / 100;
 
-            if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
+          /*  if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
               internalFee = .10;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '20%') {
               internalFee = .20;
@@ -934,7 +943,7 @@ public class advance_Helper {
               internalFee = .30;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '50%') {
               internalFee = .50;
-            }
+            }*/
             Decimal commReferralUser =
               (adv.Advance_and_Origination_Fee_Subtotal__c *
               rateBasedOnBorrowed) * internalFee;
@@ -1000,7 +1009,8 @@ public class advance_Helper {
           }
         } else if (
           adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
-          adv.Approved_Advance_Amount_Total__c > 75000000
+          adv.Approved_Advance_Amount_Total__c > 100000000 &&
+          adv.Deal__r.LOC_Loan_Type__c == 'Credit Line'
         ) {
           system.debug('over 20 mil and direct');
           rateBasedOnBorrowed = 0.04;
@@ -1017,9 +1027,10 @@ public class advance_Helper {
             //   ? .20
             //   : .50;
 
-            decimal internalFee;
+            //decimal internalFee;
+            decimal internalFee = Decimal.valueOf(adv.Deal__r.Internal_Referral_Fee__c.replace('%', '')) / 100;
 
-            if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
+        /*    if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
               internalFee = .10;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '20%') {
               internalFee = .20;
@@ -1027,7 +1038,199 @@ public class advance_Helper {
               internalFee = .30;
             } else if (adv.Deal__r.Internal_Referral_Fee__c == '50%') {
               internalFee = .50;
-            }
+            }*/
+
+            Decimal commReferralUser =
+              (adv.Advance_and_Origination_Fee_Subtotal__c *
+              rateBasedOnBorrowed) * internalFee;
+            Decimal commNonReferralUser =
+              (adv.Advance_and_Origination_Fee_Subtotal__c *
+              rateBasedOnBorrowed) - commReferralUser;
+
+            Commission__c myCommission = new Commission__c();
+            myCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            myCommission.Deal__c = adv.Deal__r.id;
+            myCommission.Loan_Type__c = adv.Deal__r.type;
+            myCommission.Advance__c = adv.Id;
+            myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            myCommission.Owner__c = adv.Deal__r.Internal_Referral__r.id;
+            myCommission.OwnerId = adv.Deal__r.Internal_Referral__r.id;
+
+            myCommission.Commission_Amount1__c = commReferralUser;
+            myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Origination_Fee__c = orgFee * 100;
+            myCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            myCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(myCommission);
+
+            Commission__c refCommission = new Commission__c();
+            refCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            refCommission.Deal__c = adv.Deal__r.id;
+            refCommission.Loan_Type__c = adv.Deal__r.type;
+            refCommission.Advance__c = adv.Id;
+            refCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            refCommission.Owner__c = adv.Deal__r.OwnerId;
+            refCommission.OwnerId = adv.Deal__r.OwnerId;
+
+            refCommission.Commission_Amount1__c = commNonReferralUser;
+            refCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            refCommission.Origination_Fee__c = orgFee * 100;
+            refCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            refCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            refCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(refCommission);
+          } else {
+            Commission__c myCommission = new Commission__c();
+            myCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            myCommission.Deal__c = adv.Deal__r.id;
+            myCommission.Advance__c = adv.Id;
+            myCommission.Loan_Type__c = adv.Deal__r.type;
+            myCommission.Owner__c = adv.Deal__r.OwnerId;
+            myCommission.OwnerId = adv.Deal__r.OwnerId;
+
+            myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            myCommission.Commission_Amount1__c =
+              (adv.Advance_and_Origination_Fee_Subtotal__c) *
+              rateBasedOnBorrowed;
+            //myCommission.Origination_Fee__c = orgFee*100;
+            myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            myCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(myCommission);
+          }
+        } else if (
+          adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
+          adv.Approved_Advance_Amount_Total__c < 250000000 &&
+          adv.Deal__r.LOC_Loan_Type__c != 'Credit Line'
+        ) {
+          system.debug('over 20 mil and direct');
+          rateBasedOnBorrowed = 0.15;
+
+          if (
+            adv.Deal__r.Internal_Referral__c != null &&
+            adv.Deal__r.Internal_Referral__r.isActive == true &&
+            adv.Deal__r.Internal_Referral_Fee__c != null &&
+            adv.Deal__r.Internal_Referral_Fee__c != 'N/A'
+          ) {
+            system.debug('N/A?' + adv.Deal__r.Internal_Referral_Fee__c);
+
+            // decimal internalFee = adv.Deal__r.Internal_Referral_Fee__c == '20%'
+            //   ? .20
+            //   : .50;
+
+           // decimal internalFee;
+            decimal internalFee = Decimal.valueOf(adv.Deal__r.Internal_Referral_Fee__c.replace('%', '')) / 100;
+
+           /* if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
+              internalFee = .10;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '20%') {
+              internalFee = .20;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '30%') {
+              internalFee = .30;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '50%') {
+              internalFee = .50;
+            }*/
+
+            Decimal commReferralUser =
+              (adv.Advance_and_Origination_Fee_Subtotal__c *
+              rateBasedOnBorrowed) * internalFee;
+            Decimal commNonReferralUser =
+              (adv.Advance_and_Origination_Fee_Subtotal__c *
+              rateBasedOnBorrowed) - commReferralUser;
+
+            Commission__c myCommission = new Commission__c();
+            myCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            myCommission.Deal__c = adv.Deal__r.id;
+            myCommission.Loan_Type__c = adv.Deal__r.type;
+            myCommission.Advance__c = adv.Id;
+            myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            myCommission.Owner__c = adv.Deal__r.Internal_Referral__r.id;
+            myCommission.OwnerId = adv.Deal__r.Internal_Referral__r.id;
+
+            myCommission.Commission_Amount1__c = commReferralUser;
+            myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Origination_Fee__c = orgFee * 100;
+            myCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            myCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(myCommission);
+
+            Commission__c refCommission = new Commission__c();
+            refCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            refCommission.Deal__c = adv.Deal__r.id;
+            refCommission.Loan_Type__c = adv.Deal__r.type;
+            refCommission.Advance__c = adv.Id;
+            refCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            refCommission.Owner__c = adv.Deal__r.OwnerId;
+            refCommission.OwnerId = adv.Deal__r.OwnerId;
+
+            refCommission.Commission_Amount1__c = commNonReferralUser;
+            refCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            refCommission.Origination_Fee__c = orgFee * 100;
+            refCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            refCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            refCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(refCommission);
+          } else {
+            Commission__c myCommission = new Commission__c();
+            myCommission.CAF_YSP__c = adv.Deal__r.CAF_YSP__c;
+            myCommission.Deal__c = adv.Deal__r.id;
+            myCommission.Advance__c = adv.Id;
+            myCommission.Loan_Type__c = adv.Deal__r.type;
+            myCommission.Owner__c = adv.Deal__r.OwnerId;
+            myCommission.OwnerId = adv.Deal__r.OwnerId;
+
+            myCommission.Final_Loan_Amount_Trigger__c = adv.Approved_Advance_Amount_Max_Total__c;
+            myCommission.Commission_Amount1__c =
+              (adv.Advance_and_Origination_Fee_Subtotal__c) *
+              rateBasedOnBorrowed;
+            //myCommission.Origination_Fee__c = orgFee*100;
+            myCommission.Commissionable_Amount__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Origination_Fee_Amt__c = adv.Advance_and_Origination_Fee_Subtotal__c;
+            myCommission.Total_Borrowed_on_Term__c = adv.Deal__r.Account.Borrowed_on_Term_Loans__c;
+            myCommission.Total_Borrowed_on_Bridge__c = adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c;
+
+            myCommsToAdd.add(myCommission);
+          }
+        } else if (
+          adv.Deal__r.Account.Borrowed_on_Bridge_Loans__c -
+          adv.Approved_Advance_Amount_Total__c > 250000000 &&
+          adv.Deal__r.LOC_Loan_Type__c != 'Credit Line'
+        ) {
+          system.debug('over 20 mil and direct');
+          rateBasedOnBorrowed = 0.10;
+
+          if (
+            adv.Deal__r.Internal_Referral__c != null &&
+            adv.Deal__r.Internal_Referral__r.isActive == true &&
+            adv.Deal__r.Internal_Referral_Fee__c != null &&
+            adv.Deal__r.Internal_Referral_Fee__c != 'N/A'
+          ) {
+            system.debug('N/A?' + adv.Deal__r.Internal_Referral_Fee__c);
+
+            // decimal internalFee = adv.Deal__r.Internal_Referral_Fee__c == '20%'
+            //   ? .20
+            //   : .50;
+
+           // decimal internalFee;
+            decimal internalFee = Decimal.valueOf(adv.Deal__r.Internal_Referral_Fee__c.replace('%', '')) / 100;
+
+          /*  if (adv.Deal__r.Internal_Referral_Fee__c == '10%') {
+              internalFee = .10;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '20%') {
+              internalFee = .20;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '30%') {
+              internalFee = .30;
+            } else if (adv.Deal__r.Internal_Referral_Fee__c == '50%') {
+              internalFee = .50;
+            }*/
 
             Decimal commReferralUser =
               (adv.Advance_and_Origination_Fee_Subtotal__c *
@@ -1096,6 +1299,7 @@ public class advance_Helper {
       }
 
       if (myCommsToAdd.size() > 0) {
+        system.debug('my commissions being added?' + myCommsToAdd.size());
         insertCommsFuture(JSON.serialize(myCommsToAdd));
       }
     }
@@ -1375,8 +1579,11 @@ public class advance_Helper {
   }
 
   @future
-  public static void insertCommsFuture (String jsonobj) {
-    List<Commission__c> comms = (List<Commission__c>) JSON.deserialize(jsonobj, List<Commission__c>.class);
+  public static void insertCommsFuture(String jsonobj) {
+    List<Commission__c> comms = (List<Commission__c>) JSON.deserialize(
+      jsonobj,
+      List<Commission__c>.class
+    );
 
     insert comms;
   }

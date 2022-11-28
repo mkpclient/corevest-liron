@@ -99,11 +99,6 @@
                 <default>false</default>
                 <label>Desktop Summary Appraisal</label>
             </value>
-            <value>
-                <fullName>Appraisal Review</fullName>
-                <default>false</default>
-                <label>Appraisal Review</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Transaction_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Transaction Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Loan_Purpose__c</controllingField>
+        <restricted>true</restricted>
+        <valueSetName>Transaction_Type</valueSetName>
+        <valueSettings>
+            <controllingFieldValue>Purchase</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Construction</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Purchase</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Heavy Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Purchase</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Light Rehab</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Purchase</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Purchase Bridge (No Rehab)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Refinance</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Cash Out Refinance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Refinance</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Rate/Term Refinance (No Cash Out)</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Refinance</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Refi Debt</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Refinance</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Refi Debt/Refi Equity</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Refinance</controllingFieldValue>
+            <controllingFieldValue>Refinance/Purchase</controllingFieldValue>
+            <valueName>Refi Equity</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

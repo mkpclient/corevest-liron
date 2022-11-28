@@ -26,6 +26,11 @@
                 <default>false</default>
                 <label>N/A</label>
             </value>
+            <value>
+                <fullName>Borrower</fullName>
+                <default>false</default>
+                <label>Borrower</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

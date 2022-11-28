@@ -29,28 +29,8 @@
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>
-		<members>Lead.Leads</members>
-		<members>Opportunity.Acquired Bridge Business Process</members>
-		<members>Opportunity.Bridge Process</members>
-		<members>Opportunity.Default Sales Process</members>
-		<members>Opportunity.SAB Process</members>
-		<members>Opportunity.SAR Process</members>
-		<members>Opportunity.Table Funded Bridge Process</members>
-		<members>Opportunity.Table Funded CRE Process</members>
-		<members>Opportunity.Term Process</members>
-		<name>BusinessProcess</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>Certificate</name>
-	</types>
-	<types>
 		<members>*</members>
 		<name>ConnectedApp</name>
-	</types>
-	<types>
-		<members>*</members>
-		<name>ContentAsset</name>
 	</types>
 	<types>
 		<members>*</members>
@@ -64,16 +44,15 @@
 		<members>*</members>
 		<name>CustomApplication</name>
 	</types>
-	<types>
+    <types>
 		<members>*</members>
-		<name>CustomApplicationComponent</name>
+		<name>CustomField</name>
 	</types>
 	<types>
 		<members>*</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
-        <members>*</members>
 		<members>Account</members>
 		<members>Campaign</members>
 		<members>Case</members>
@@ -83,6 +62,7 @@
 		<members>Opportunity</members>
 		<members>Task</members>
 		<members>User</members>
+        <members>*</members>
 		<name>CustomObject</name>
 	</types>
 	<types>
@@ -91,19 +71,59 @@
 	</types>
 	<types>
 		<members>*</members>
+		<name>CustomSite</name>
+	</types>
+	<types>
+		<members>*</members>
 		<name>CustomTab</name>
 	</types>
 	<types>
-		<members>IC_Memo_Approval_Emails/Bridge_Sub_IC_Approval</members>
-		<members>IC_Memo_Approval_Emails/IC_Approval_Email</members>
-		<members>IC_Memo_Approval_Emails/IC_Memo_Approval_From_Bridge_Deals</members>
-		<members>IC_Memo_Approval_Emails/IC_Metrics_For_Bridge</members>
-		<members>IC_Memo_Approval_Emails/IC_Metrics_For_Term</members>
-		<members>IC_Memo_Approval_Emails/IC_Rejected_Email</members>
-		<members>IC_Memo_Approval_Emails/IC_Reversed_Email</members>
-		<members>IC_Memo_Approval_Emails/Term_IC_Approval</members>
-		<members>IC_Memo_Approval_Emails/Term_Sub_IC_Approval</members>
+		<members>BatchApprovalHandler</members>
+		<members>Deal Email Handler</members>
+		<members>DrawAdvanceProcess</members>
+		<members>EmailToSalesforce</members>
+		<members>Swap Rate Handler</members>
+		<members>dealApprovalHandler</members>
+		<members>icApprovalHandler</members>
+		<name>EmailServicesFunction</name>
+	</types>
+	<types>
+		<members>CAF_Templates/Red_Line_Loan_Validation</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Approved</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Rejected</members>
+		<members>IC_Advance_Approval_Templates/Advance_Batch_Submitted</members>
+		<members>IC_Advance_Approval_Templates/Advance_IC_Approved</members>
+		<members>IC_Advance_Approval_Templates/Advance_IC_Recalled</members>
+		<members>IC_Advance_Approval_Templates/Advance_IC_Rejected</members>
+		<members>IC_Advance_Approval_Templates/Advance_IC_Submitted</members>
+		<members>Ic_Memo_Approval_Emails/Bridge_IC_Approval</members>
+		<members>Ic_Memo_Approval_Emails/Bridge_Mini_Sub_IC_Approval</members>
+		<members>Ic_Memo_Approval_Emails/Bridge_Sub_IC_Approval</members>
+		<members>Ic_Memo_Approval_Emails/IC_Approval_Email</members>
+		<members>Ic_Memo_Approval_Emails/IC_Metrics_For_Bridge</members>
+		<members>Ic_Memo_Approval_Emails/IC_Metrics_For_Term</members>
+		<members>Ic_Memo_Approval_Emails/IC_Rejected_Email</members>
+		<members>Ic_Memo_Approval_Emails/IC_Reversed_Email</members>
+		<members>Ic_Memo_Approval_Emails/Term_IC_Approval</members>
+		<members>Ic_Memo_Approval_Emails/Term_Sub_IC_Approval</members>
+		<members>LOC_Templates/Expense_Deposit_Line_of_Credit</members>
+		<members>LOC_Templates/UCC1_Filing_Request</members>
+		<members>Pricing_Approval_Email_Templates/Pricing_Approval_Email</members>
+		<members>Pricing_Approval_Email_Templates/Pricing_Rejected_Email</members>
+		<members>Pricing_Approval_Email_Templates/Pricing_Review_Request</members>
+		<members>Pricing_Approval_Email_Templates/Pricing_Review_Request_Courtesy</members>
 		<members>Pricing_Approval_Email_Templates/Pricing_Review_Request_Custom</members>
+		<members>Submit_to_UW_Approval_Email_Templates/A_Deal_has_been_submitted_for_UW_Approval</members>
+		<members>Submit_to_UW_Approval_Email_Templates/Bridge_Deal_Submitted_for_UW_Approval</members>
+		<members>Submit_to_UW_Approval_Email_Templates/Deal_Approved_Into_UW</members>
+		<members>Submit_to_UW_Approval_Email_Templates/Term_Deal_Submitted_for_UW_Approval</members>
+		<members>Submit_to_UW_Approval_Email_Templates/UW_Approval_Email</members>
+		<members>Submit_to_UW_Approval_Email_Templates/UW_Rejection_Email</members>
+		<members>Term_Post_Closing_Templates/Send_to_Accounting</members>
+		<members>Term_Post_Closing_Templates/Term_Post_Closing_Template</members>
+		<members>Term_Sheet_Approval_Emails/BRIDGE_Term_Sheet_Outside_Guidelines_VF</members>
+		<members>Term_Sheet_Approval_Emails/BRIDGE_Term_Sheet_Within_Guidelines_VF</members>
+		<members>Term_Sheet_Approval_Emails/TERM_Term_Sheet_Request_VF</members>
 		<name>EmailTemplate</name>
 	</types>
 	<types>
@@ -114,17 +134,25 @@
 		<members>*</members>
 		<name>LightningComponentBundle</name>
 	</types>
+    <types>
+		<members>*</members>
+		<name>ListView</name>
+	</types>
 	<types>
 		<members>*</members>
 		<name>QuickAction</name>
 	</types>
-	<types>
+    <types>
 		<members>*</members>
-		<name>StaticResource</name>
+		<name>RecordType</name>
 	</types>
+    <types>
+        <members>*</members>
+        <name>ValidationRule</name>
+    </types>
 	<types>
 		<members>*</members>
 		<name>Workflow</name>
 	</types>
-	<version>53.0</version>
+	<version>55.0</version>
 </Package>

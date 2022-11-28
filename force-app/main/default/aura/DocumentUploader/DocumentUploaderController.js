@@ -237,23 +237,23 @@
       let newReturn = {};
       Object.keys(d).forEach((k) => {
         let newKey = k.trim();
-        newReturn[newKey] = d[k];
+        newReturn[newKey] = d[k].toString();
       });
       return newReturn;
     });
-    
+    console.log(fileData);
     let queryStringProp =
-      "SELECT Id, Name FROM Property__c WHERE Deal__r.Deal_Loan_Number__c = '" +
+      "SELECT Id, Name, Asset_ID__c FROM Property__c WHERE Deal__r.Deal_Loan_Number__c = '" +
       fileData[0]["Deal Number"] +
-      "' AND Name IN ('" +
-      fileData.map((d) => d["Street Address"].trim()).join("','") +
+      "' AND Asset_ID__c IN ('" +
+      fileData.map((d) => d["ID"].trim().replaceAll("'", "\\'")).join("','") +
       "')";
 
     let insuranceCompanies = [];
 
     fileData.forEach((d) => {
-      if (!insuranceCompanies.includes(d["Insurance Company"])) {
-        insuranceCompanies.push(d["Insurance Company"]);
+      if (!insuranceCompanies.includes(d["Insurance Company"].trim().replaceAll("'", "\\'"))) {
+        insuranceCompanies.push(d["Insurance Company"].trim().replaceAll("'", "\\'"));
       }
     });
     let queryStringAcct = "SELECT Id, Name FROM Account WHERE Name ";
@@ -270,7 +270,7 @@
       .then(([accs, props]) => {
         let records = [];
         props.forEach((d) => {
-          let newVals = fileData.find((fd) => fd["Street Address"] == d.Name);
+          let newVals = fileData.find((fd) => fd["ID"] == d.Asset_ID__c);
           let propRecord = {
             Id: d.Id,
             sobjectType: "Property__c",

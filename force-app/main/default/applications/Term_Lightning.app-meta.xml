@@ -52,6 +52,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Term Operations</label>
     <navType>Standard</navType>
     <profileActionOverrides>
@@ -12429,6 +12430,8 @@
     <tabs>Policy_Exception__c</tabs>
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Term_UtilityBar</utilityBar>
 </CustomApplication>

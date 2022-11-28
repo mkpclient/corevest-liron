@@ -1,0 +1,141 @@
+<template>
+  <lightning-card
+    variant="Narrow"
+    title="Approval Details"
+    icon-name="standard:approval"
+  >
+    <!-- <lightning-button-icon  icon-name="utility:down" variant="border-filled" alternative-text="Show More" slot="actions"></lightning-button-icon> -->
+    <div class="slds-p-horizontal_small">
+      <lightning-record-view-form
+        record-id={recordId}
+        object-api-name="Advance__c"
+      >
+        <lightning-layout multiple-rows>
+          <lightning-layout-item size="6" class="slds-border_bottom">
+            <lightning-output-field
+              field-name="Batch_Approval__c"
+            ></lightning-output-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" class="slds-border_bottom">
+
+            <lightning-output-field
+              field-name="IC_Approval_Status__c"
+            ></lightning-output-field>
+          </lightning-layout-item>
+        </lightning-layout>
+      </lightning-record-view-form>
+      <template if:true={approvalId}>
+        <lightning-record-view-form
+          record-id={approvalId}
+          object-api-name="Batch_Approval__c"
+        >
+          <lightning-layout multiple-rows class="slds-border_bottom">
+            <lightning-layout-item size="6">
+              <lightning-output-field
+                field-name="Submitted_By__c"
+              ></lightning-output-field>
+              </lightning-layout-item>
+            <lightning-layout-item size="6">
+              <lightning-output-field
+                field-name="Approved_Rejected_Date__c"
+              ></lightning-output-field>
+            </lightning-layout-item>
+          </lightning-layout>
+          <lightning-layout multiple-rows class="slds-border_bottom">
+            <lightning-layout-item size="6">
+              <lightning-output-field
+                field-name="CreatedDate"
+              ></lightning-output-field>
+            </lightning-layout-item>
+          </lightning-layout>
+        </lightning-record-view-form>
+      </template>
+      <template if:false={approvalId}>
+        <p>
+          <lightning-formatted-text
+            value="This advance is currently not in any active approval."
+          ></lightning-formatted-text>
+        </p>
+      </template>
+    </div>
+  </lightning-card>
+  <lightning-card
+    variant="Narrow"
+    title="Current Approval Items"
+    icon-name="standard:form"
+  >
+  <template if:true={isSaving}>
+    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+  </template>
+  <template if:false={isSaving}>
+    <lightning-button-group slot="actions">
+      <template if:true={isUserSubmitter}>
+        <lightning-button
+          label="Recall"
+          if:false={isRecalledRejected}
+          variant="brand"
+          onclick={handleClick}
+        ></lightning-button>
+      </template>
+      <lightning-button
+        label="Approve"
+        variant="success"
+        if:true={currApproverRec}
+        onclick={handleClick}
+      ></lightning-button>
+      <lightning-button
+        label="Reject"
+        variant="destructive"
+        if:true={currApproverRec}
+        onclick={handleClick}
+      ></lightning-button>
+    </lightning-button-group>
+    <div class="slds-p-horizontal_small">
+      <template for:each={approvers} for:item="rec">
+        <lightning-record-view-form
+        object-api-name="Batch_Approver__c"
+        record-id={rec.Id}
+        key={rec.Id}
+        >
+        <lightning-output-field field-name="Approver__c"></lightning-output-field>
+        <lightning-output-field field-name="Status__c"></lightning-output-field>
+        <lightning-output-field field-name="Approval_Date__c"></lightning-output-field>
+        <lightning-output-field field-name="Comments__c"></lightning-output-field>
+        </lightning-record-view-form>
+        <hr key={rec.Id}></hr>
+      </template>
+    </div>
+  </template>
+  </lightning-card>
+  <c-modal title={approvalAction}>
+    <template if:true={currApproverRec}>
+    <div slot="body">
+      <lightning-record-edit-form
+        object-api-name="Batch_Approver__c"
+        record-id={currApproverRec.Id}
+        onsuccess={handleSuccess}
+      >
+        <lightning-messages> </lightning-messages>
+        <lightning-input-field
+          field-name="Comments__c"
+          required
+        ></lightning-input-field>
+        <lightning-input-field
+          field-name="Status__c"
+          value={newStatus}
+          style="display:none;"
+        ></lightning-input-field>
+      </lightning-record-edit-form>
+    </div>
+    <div slot="footer">
+      <lightning-button label="Close" onclick={closeModal}></lightning-button>
+      <lightning-button
+        label="Submit"
+        onclick={handleSave}
+        variant="brand"
+        disabled={disableSave}
+      ></lightning-button>
+    </div>
+  </template>
+  </c-modal>
+</template>

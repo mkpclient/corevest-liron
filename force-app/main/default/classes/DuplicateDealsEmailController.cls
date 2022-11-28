@@ -1,5 +1,6 @@
 public class DuplicateDealsEmailController {
   public String recId { get; set; }
+  public Set<String> dupeIds { get; set; }
 
 
   public static final List<String> PROP_FIELDS = new List<String>{
@@ -28,10 +29,22 @@ public class DuplicateDealsEmailController {
           idSet.add(String.valueOf(d.get('matchId')));
         }
 
+        dupeIds = idSet;
+        Set<String> idsForQuery = new Set<String>();
+        if(idSet.size() > 1000) {
+          for(Integer i = 0; i < 1000; i++) {
+            idsForQuery.add(new List<String>(idSet)[i]);
+          }
+        } else {
+          idsForQuery.addAll(idSet);
+        }
+
+
+
         String queryString =
           'SELECT ' +
           String.join(PROP_FIELDS, ',') +
-          ' FROM Property__c WHERE Id IN :idSet';
+          ' FROM Property__c WHERE Id IN :idsForQuery';
         List<Property__c> dupePropertes = Database.query(queryString);
 
         return dupePropertes;
@@ -57,6 +70,13 @@ public class DuplicateDealsEmailController {
   }
 
   public Integer numDuplicates {
+    get {
+      return dupeIds != null ? dupeIds.size() : 0;
+    }
+    private set;
+  }
+
+  public Integer dupesDisplayed {
     get {
       return properties.size();
     }

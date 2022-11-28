@@ -3,7 +3,7 @@ public with sharing class AppraisalMergeController {
   public static Map<String, String> MERGE_MAP = new Map<String, String>{
     'Property_Address__c' => 'Name',
     'City__c' => 'City__c',
-    'State__c' => 'State__c',
+    'Property_State__c' => 'State__c',
     'Zip__c' => 'ZipCode__c',
     'County__c' => 'County__c',
     'Appraisal_Effective_Date__c' => 'BPO_Appraisal_Date__c',
@@ -34,12 +34,13 @@ public with sharing class AppraisalMergeController {
     'Zoning_Compliance__c' => 'Zoning_Compliance__c',
     'Zoning_Description__c' => 'Zoning_Description__c',
     'HOA_Frequency__c' => 'HOA_Frequency__c',
-    'CreatedDate' => '',
-    'Flood_Zone__c' => '',
-    'Status__c' => '',
-    'Appraisal_Product_Ordered__c' => '',
+    'Flood_Zone__c' => 'Flood_Zone__c',
     'Appraisal_Replacement_Cost_Value__c' => 'Appraisal_Replacement_Cost_Value__c',
-    'No_of_Stories__c' => 'No_of_Stories__c'
+    'No_of_Stories__c' => 'No_of_Stories__c',
+    'MSA__c' => 'MSA__c',
+    'CreatedDate' => '',
+    'Status__c' => '',
+    'Appraisal_Product_Ordered__c' => ''
   };
 
   public static Map<String, Schema.SObjectField> APPRAISAL_FIELD_MAP = Schema.SObjectType.Appraisal__c.fields.getMap();
@@ -166,9 +167,33 @@ public with sharing class AppraisalMergeController {
     }
   }
 
+//RS.Begin
+@AuraEnabled
+  public static void submitOrderEBI(List<ID> propertyIds, Map<String, Object> arguments)   
+  {
+    system.debug('RS999 Into submitOrderEBI :');
+    system.debug('RS999 arguments :' +arguments);
+    system.debug('RS999 propertyIds :' +propertyIds);
+    String appraisalFirm 	= (String) arguments.get('appraisalFirm');
+    String productType 		= (String) arguments.get('productType'); 
+    ID propertyId =		 propertyIds[0];
+      
+    if (appraisalFirm == 'EBI') 
+    {  
+      String vendorComments = (String) arguments.get('vendorComments');
+      String dueDate 		= (String) arguments.get('dueDate');
+      Boolean rushOrder 	= (Boolean) arguments.get('rushOrder');
+        
+      submitOrderEBI(
+        propertyIds,
+        rushOrder,
+        vendorComments
+      );
+  }
+  }
+//RS.End    
   @AuraEnabled
   public static void submitOrder(Id propertyId, Map<String, Object> arguments) {
-    //system.debug(arguments);
     String appraisalFirm = (String) arguments.get('appraisalFirm');
     String productType = (String) arguments.get('productType');
     if (appraisalFirm == 'Clear Capital') {
@@ -182,14 +207,14 @@ public with sharing class AppraisalMergeController {
         cvContentData = [SELECT VersionData FROM ContentVersion WHERE Id = :cvId].VersionData;
       }
       try {
-        submitOrderClearCapital(
-          propertyId,
-          productType,
-          turnTime,
-          // addOns,
-          cvContentData != null ? EncodingUtil.base64encode(cvContentData) : null,
-          vendorComments
-        );
+      submitOrderClearCapital(
+        propertyId,
+        productType,
+        turnTime,
+        // addOns,
+        cvContentData != null ? EncodingUtil.base64encode(cvContentData) : null,
+        vendorComments
+      );
       } catch (Exception err) {
         System.debug(err.getMessage() + ' on line ' + err.getLineNumber() + '. ' + err.getCause());
         throw new AuraHandledException(err.getMessage() + ' on line ' + err.getLineNumber() + '. ' + err.getCause());
@@ -251,8 +276,8 @@ public with sharing class AppraisalMergeController {
         username,
         password
       );
-    }
-
+    } 
+      
     try {
       Property__c p = [
         SELECT Id, Deal__c
@@ -324,17 +349,17 @@ public with sharing class AppraisalMergeController {
     Appraisal__c appraisal = new Appraisal__c();
     try {
       appraisal = ClearCapitalAPI.createOrder(
-        p,
-        productType,
-        turnTime,
-        cvContentData,
-        // addOns,
-        vendorComments
-      );
+      p,
+      productType,
+      turnTime,
+      cvContentData,
+      // addOns,
+      vendorComments
+    );
     } catch (Exception err) {
       throw err;
     }
-       // if(addOns.size() > 0) {
+    // if(addOns.size() > 0) {
     //   String addonAsString = '';
 
     //   for(Object a : addOns) {
@@ -353,7 +378,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Property_Asset_Id__c = p.Asset_Id__c;
     appraisal.Property_Address__c = p.Name;
     appraisal.City__c = p.City__c;
-    appraisal.State__c = p.State__c;
+    appraisal.Property_State__c = p.State__c;
     appraisal.Zip__c = p.ZipCode__c;
     appraisal.Valuation_Provider__c = 'Clear Capital';
     appraisal.Turn_Time__c = turnTime;
@@ -432,7 +457,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Property_Asset_Id__c = p.Asset_Id__c;
     appraisal.Property_Address__c = p.Name;
     appraisal.City__c = p.City__c;
-    appraisal.State__c = p.State__c;
+    appraisal.Property_State__c = p.State__c;
     appraisal.Zip__c = p.ZipCode__c;
     appraisal.Valuation_Provider__c = 'Appraisal Nation';
     appraisal.Comments_to_Vendor__c = vendorComments;
@@ -449,6 +474,118 @@ public with sharing class AppraisalMergeController {
     p.Valuation_Type__c = productType;
     update p;
   }
+    
+/////////////////////////// RS. Begin
+ public static void submitOrderEBI(
+    List<Id> propertyIds,
+    Boolean rushOrder,
+    String vendorComments
+  ) {
+      
+    System.debug('RS999 propertyIds 2 : ' +propertyIds);      
+    List<Property__c> lProp = [
+      SELECT
+        id,
+        Name,
+        City__c,
+        State__c,
+        State_Full__c,
+        ZipCode__c,
+        County__c,
+        Property_Type__c,
+        Deal__r.RecordType.DeveloperName,
+        Number_of_Units__c,
+        Deal__r.Deal_Loan_Number__c,
+        Acquisition_Price__c,
+        Currently_Leased__c,
+        Borrower_Name__c,
+        Square_Feet_value__c,
+        Year_Built__c,
+        Deal__r.Contact__r.FirstName,
+        Refinance_Acquisition__c,
+        RecordType.DeveloperName,
+        Deal__r.Contact__r.LastName,
+        Deal__r.Contact__r.Phone,
+        Deal__r.Contact__r.HomePhone,
+        Deal__r.Contact__r.MobilePhone,
+        Deal__r.Contact__r.Email,
+        Deal__r.Contact__r.MailingStreet,
+        Deal__r.Name,
+        Deal__r.Contact__r.MailingCity,
+        Deal__r.Contact__r.MailingState,
+        Deal__r.Contact__r.MailingPostalCode,
+        Interior_Access_POC__c,
+        Interior_Access_POC_Phone__c,
+        Interior_Access_POC_Email__c,
+        Asset_Id__c,
+        Deal__r.Anticipated_Closing_Date__c
+      FROM property__c
+      WHERE id in :propertyIds
+    ];
+      
+    System.debug('RS999 lProp 2 : ' +lProp);
+
+    List<Appraisal__c> listAppraisal = new List<Appraisal__c>();
+    
+    for (property__c p : lProp)
+    {
+	Appraisal__c appraisal = new Appraisal__c();
+    appraisal.Comments_to_Vendor__c = vendorComments;
+    appraisal.Rush_Order__c = rushOrder;
+    appraisal.Due_Date__c = System.today().addDays(15);
+    appraisal.Order_Received_Date__c = system.now();      
+   	appraisal.Deal__c = p.Deal__c;
+    appraisal.Property__c = p.Id;
+    appraisal.Vendor_Ordered_From__c = 'EBI';
+    appraisal.Appraisal_Product_Ordered__c = 'Appraisal Update';
+    appraisal.Status__c = 'Ordered';
+    appraisal.Delivery_Method__c = 'API';
+    appraisal.Property_Asset_Id__c = p.Asset_Id__c;
+    appraisal.Property_Address__c = p.Name;
+    appraisal.City__c = p.City__c;
+    appraisal.Property_State__c = p.State__c;
+    appraisal.Zip__c = p.ZipCode__c;
+    appraisal.Valuation_Provider__c = 'EBI';
+    appraisal.Comments_to_Vendor__c = vendorComments;
+    listAppraisal.add(appraisal);
+    }
+    insert listAppraisal;
+    List<EBI_Updates__c> listDataEBI = New List<EBI_Updates__c>();  
+	for (Appraisal__c Appraisal : listAppraisal)      
+    {
+    EBI_Updates__c dataEBI = New EBI_Updates__c();
+    dataEBI.Property_Appraisal_ID__c = Appraisal.id;
+    dataEBI.Property__c = Appraisal.Property__c;
+    listDataEBI.add(dataEBI);
+    }
+      
+    insert listDataEBI;  
+    Map<String,String> mapEBIData = new Map<String,String>();
+    for(EBI_Updates__c dataEBI : listDataEBI )
+    {
+        mapEBIData.put(dataEBI.Property__c,dataEBI.id);
+    }
+
+    System.debug('RS999 vendorComments :' +vendorComments);
+    System.debug('RS999 rushOrder :' +rushOrder);
+    System.debug('RS999 listAppraisal :' +listAppraisal);
+      
+      
+   string return_string = EBIAPI.submitOrder(
+      lProp,
+      vendorComments,
+      rushOrder,
+      listAppraisal,
+      mapEBIData
+    );
+      
+
+  //  p.BPO_Appraisal_Firm__c = 'EBI';
+  //  p.BPO_Appraisal_Order_Date__c = System.today();
+  //  p.Valuation_Type__c = productType;
+  //  update p;      
+  }
+//////////////////////////    RS. End
 
   public static void submitOrderValuationServices(
     Id propertyId,
@@ -515,7 +652,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Property_Asset_Id__c = p.Asset_Id__c;
     appraisal.Property_Address__c = p.Name;
     appraisal.City__c = p.City__c;
-    appraisal.State__c = p.State__c;
+    appraisal.Property_State__c = p.State__c;
     appraisal.Zip__c = p.ZipCode__c;
     appraisal.Valuation_Provider__c = 'Valuation Services AMC';
     appraisal.Comments_to_Vendor__c = vendorComments;
@@ -598,7 +735,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Property_Asset_Id__c = p.Asset_Id__c;
     appraisal.Property_Address__c = p.Name;
     appraisal.City__c = p.City__c;
-    appraisal.State__c = p.State__c;
+    appraisal.Property_State__c = p.State__c;
     appraisal.Zip__c = p.ZipCode__c;
     appraisal.Valuation_Provider__c = 'US RES';
     appraisal.Comments_to_Vendor__c = vendorComments;
@@ -678,7 +815,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Property_Asset_Id__c = p.Asset_Id__c;
     appraisal.Property_Address__c = p.Name;
     appraisal.City__c = p.City__c;
-    appraisal.State__c = p.State__c;
+    appraisal.Property_State__c = p.State__c;
     appraisal.Zip__c = p.ZipCode__c;
     appraisal.Valuation_Provider__c = 'Clarocity Valuation Services';
     appraisal.Comments_to_Vendor__c = vendorComments;
@@ -819,7 +956,7 @@ public with sharing class AppraisalMergeController {
     appraisal.Appraisal_Fee__c = Integer.valueOf(resp.get('appraisalFee'));
     appraisal.Property_Address__c = String.valueOf(resp.get('street'));
     appraisal.City__c = String.valueOf(resp.get('city'));
-    appraisal.State__c = String.valueOf(resp.get('state'));
+    appraisal.Property_State__c = String.valueOf(resp.get('state'));
     appraisal.Zip__c = String.valueOf(resp.get('zip'));
 
     if (

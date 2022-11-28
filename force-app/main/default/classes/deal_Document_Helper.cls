@@ -509,9 +509,12 @@ public class deal_Document_Helper {
 
       if (
         newList[i].Document_Type__c == 'Term Sheet' &&
-        newList[i].Executive_Approval_Date__c != null &&
+        ((newList[i].Executive_Approval_Date__c != null &&
         newList[i].Executive_Approval_Date__c !=
-        oldList[i].Executive_Approval_Date__c
+        oldList[i].Executive_Approval_Date__c) ||
+        (newList[i].Send_Term_Sheet_to_Borrower__c !=
+        oldList[i].Send_Term_Sheet_to_Borrower__c &&
+        newList[i].Send_Term_Sheet_to_Borrower__c))
       ) {
         AlchemyAPI.sendTermSheet(newList[i].Deal__c, newList[i].Id);
       }

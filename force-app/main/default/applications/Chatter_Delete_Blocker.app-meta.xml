@@ -4,6 +4,7 @@
     <description>This application allows blocking of Chatter Feed Post and Comment deletions. Once installed, the default is the System Administrator will be able to delete Feed Post and Comments. Delete settings may be configured by user, profile, or organization wide.</description>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Chatter Delete Blocker</label>
     <tabs>ChatterDeleteManager_About</tabs>
     <tabs>Post_Closing_Section__c</tabs>
@@ -20,4 +21,6 @@
     <tabs>Policy_Exception__c</tabs>
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
 </CustomApplication>

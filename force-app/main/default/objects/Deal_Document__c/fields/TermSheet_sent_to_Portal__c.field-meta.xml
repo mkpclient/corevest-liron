@@ -3,7 +3,7 @@
     <fullName>TermSheet_sent_to_Portal__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Term Sheet sent to Portal</label>
+    <label>Term Sheet Sent to Portal</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>

@@ -455,6 +455,16 @@ global without sharing class PortalAPIApplication {
     public Decimal numberOfPropertiesSelfManaged;
     public String spbInvestmentPropertiesSold;
     public String spbRentalPropertiesOwned;
+
+    public String spbAverageRehabTime;
+    public String spbHowLongBuyingRS;
+    public Decimal spbRehabProjectsInvolved;
+    public Decimal spbFlipRehabProjects;
+    public Decimal spbRentalsRehabProjects;
+    public Decimal spbGroundUpConstructionRehabProjects;
+    public String spbCountiesOperateIn;
+    public String spbExpectedOccupancyAtClose;
+
     PrefilledApplication(String portalUserId, String loanType) {
       PortalAPIUser.PortalUser user = new PortalAPIUser.PortalUser(
         portalUserId
@@ -827,6 +837,15 @@ global without sharing class PortalAPIApplication {
         // this.propertiesAvgPurchasePrice = mostRecentCompletedLoanType.propertiesAvgPurchasePrice;
         this.propertiesOwnedAndOperatedAsPrincipal = mostRecentCompletedLoanType.propertiesOwnedAndOperatedAsPrincipal;
         this.propertiesAvgPurchasePrice = mostRecentCompletedLoanType.propertiesAvgPurchasePrice;
+
+        this.spbAverageRehabTime = mostRecentCompletedLoanType.spbAverageRehabTime;
+        this.spbHowLongBuyingRS = mostRecentCompletedLoanType.spbHowLongBuyingRS;
+        this.spbRehabProjectsInvolved = mostRecentCompletedLoanType.spbRehabProjectsInvolved;
+        this.spbFlipRehabProjects = mostRecentCompletedLoanType.spbFlipRehabProjects;
+        this.spbRentalsRehabProjects = mostRecentCompletedLoanType.spbRentalsRehabProjects;
+        this.spbGroundUpConstructionRehabProjects = mostRecentCompletedLoanType.spbGroundUpConstructionRehabProjects;
+        this.spbCountiesOperateIn = mostRecentCompletedLoanType.spbCountiesOperateIn;
+        this.spbExpectedOccupancyAtClose = mostRecentCompletedLoanType.spbExpectedOccupancyAtClose;
       }
 
       //
@@ -1056,6 +1075,17 @@ global without sharing class PortalAPIApplication {
     public String isPermanentResidentAlienFileUploadedId;
     public String isForeignNationalFileUploadedId;
     public String isUsCitizenFileUploadedId;
+
+    public String spbAverageRehabTime;
+    public String spbHowLongBuyingRS;
+    public Decimal spbRehabProjectsInvolved;
+    public Decimal spbFlipRehabProjects;
+    public Decimal spbRentalsRehabProjects;
+    public Decimal spbGroundUpConstructionRehabProjects;
+    public String spbCountiesOperateIn;
+    public Boolean spbEverLostMoney;
+    public String spbReasonForLoss;
+    public String spbExpectedOccupancyAtClose;
 
     Application() {
     }
@@ -1352,6 +1382,17 @@ global without sharing class PortalAPIApplication {
       // this.creYearsOfExperience = application.Years_Experience__c;
       // this.creNumberOfPropertiesSelfManaged = application.Number_of_Properties_Self_Managed__c;
       this.otherTypeOfProperties = application.Other_Type_of_Properties__c;
+
+      this.spbAverageRehabTime = application.Average_Rehab_Time__c;
+      this.spbHowLongBuyingRS = application.Years_Experience_Investing_Rental_Props__c;
+      this.spbRehabProjectsInvolved = application.of_Rehab_Projects_Last_36_Months__c;
+      this.spbFlipRehabProjects = application.of_Rehab_Projects_are_Flips__c;
+      this.spbRentalsRehabProjects = application.of_Rehab_Projects_are_Rentals__c;
+      this.spbGroundUpConstructionRehabProjects = application.of_Rehab_Projects_are_Ground_Up_Constr__c;
+      this.spbCountiesOperateIn = application.Counties_Operate_In__c;
+      this.spbEverLostMoney = application.Lost_Money_on_an_Investment_project__c;
+      this.spbReasonForLoss = application.Investment_Lost_Money_Explanation__c;
+      this.spbExpectedOccupancyAtClose = application.Expected_Occupancy_at_Close__c;
     }
 
     public Application__c getRecord() {
@@ -1367,6 +1408,9 @@ global without sharing class PortalAPIApplication {
       //   null
       //   ? this.acknowledgementFinalLoanProceeds
       //   : false;
+      this.spbEverLostMoney = this.spbEverLostMoney != null
+        ? this.spbEverLostMoney
+        : false;
 
       this.formCompleted = this.formCompleted != null
         ? this.formCompleted
@@ -1761,6 +1805,17 @@ global without sharing class PortalAPIApplication {
       // application.Years_Experience__c = this.creYearsOfExperience;
       // application.Number_of_Properties_Self_Managed__c = this.creNumberOfPropertiesSelfManaged;
       application.Other_Type_of_Properties__c = this.otherTypeOfProperties;
+
+      application.Average_Rehab_Time__c = this.spbAverageRehabTime;
+      application.Years_Experience_Investing_Rental_Props__c = this.spbHowLongBuyingRS;
+      application.of_Rehab_Projects_Last_36_Months__c = this.spbRehabProjectsInvolved;
+      application.of_Rehab_Projects_are_Flips__c = this.spbFlipRehabProjects;
+      application.of_Rehab_Projects_are_Rentals__c = this.spbRentalsRehabProjects;
+      application.of_Rehab_Projects_are_Ground_Up_Constr__c = this.spbGroundUpConstructionRehabProjects;
+      application.Counties_Operate_In__c = this.spbCountiesOperateIn;
+      application.Lost_Money_on_an_Investment_project__c = this.spbEverLostMoney;
+      application.Investment_Lost_Money_Explanation__c = this.spbReasonForLoss;
+      application.Expected_Occupancy_at_Close__c = this.spbExpectedOccupancyAtClose;
 
       if (this.status == null) {
         this.status = 'Pending';

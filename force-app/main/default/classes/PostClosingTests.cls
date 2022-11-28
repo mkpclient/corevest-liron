@@ -3,8 +3,9 @@ private class PostClosingTests {
   // public static Opportunity setupDeal(){
   //     return null
   // }
- 
+
   public static testMethod void UTOppInsert() {
+    Test_Helper.createRate();
     test_Helper.setUpProduct2();
     test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
@@ -35,7 +36,7 @@ private class PostClosingTests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Main';
@@ -70,13 +71,12 @@ private class PostClosingTests {
     property[2].Payoff_Received_Date__c = system.today();
     insert property;
     Test.startTest();
-    Map<Id,Opportunity> oppMap = new Map<Id,Opportunity>([
-        SELECT Id, Record_Type_Name__c,Deal_Loan_Number__c
-        FROM Opportunity
-    ]);
+    Map<Id, Opportunity> oppMap = new Map<Id, Opportunity>(
+      [SELECT Id, Record_Type_Name__c, Deal_Loan_Number__c FROM Opportunity]
+    );
     PostClosingHelper.createPostClose(oppMap);
     PostClosingHelper.createPostClosingItems(
-        oppMap,
+      oppMap,
       new Map<Id, sObject>(),
       'Opportunity',
       'afterInsert'
@@ -90,7 +90,12 @@ private class PostClosingTests {
     insert advances;
     List<Property_Advance__c> pAdvs = new List<Property_Advance__c>();
     for (Integer j = 0; j < property.size(); j++) {
-      pAdvs.add(new Property_Advance__c(Property__c = property[j].Id, Advance__c = advances[j].Id));
+      pAdvs.add(
+        new Property_Advance__c(
+          Property__c = property[j].Id,
+          Advance__c = advances[j].Id
+        )
+      );
     }
 
     insert pAdvs;
@@ -120,11 +125,10 @@ private class PostClosingTests {
     cdl.ShareType = 'V';
     cdl.Visibility = 'AllUsers';
     insert cdl;
-    
 
     PostClosingHelper.createDealDocs(
       advances[0].Id,
-      new List<String>{documents[0].Id},
+      new List<String>{ documents[0].Id },
       pci.mdt_id__c,
       pci.id,
       'Advance__c'

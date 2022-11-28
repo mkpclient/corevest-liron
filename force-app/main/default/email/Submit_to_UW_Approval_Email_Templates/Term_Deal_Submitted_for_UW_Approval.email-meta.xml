@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>Term Deal Submitted for UW Approval</name>
+    <style>freeForm</style>
+    <subject>A Term Deal has been Submitted for Approval into Underwriting - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hello,
+
+A Deal has been submitted for Approval into Underwriting.
+Deal: {!Opportunity.Name}
+RM: {!Opportunity.OwnerFullName}
+Requested Loan Size: {!Opportunity.Loan_Size__c}
+
+Comments: {!ApprovalRequest.Comments}
+
+If approved, please assign Underwriter, Loan Coordinator and Closer</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

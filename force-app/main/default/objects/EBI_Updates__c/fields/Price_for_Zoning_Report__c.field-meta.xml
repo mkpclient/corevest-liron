@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Price_for_Zoning_Report__c</fullName>
+    <description>EBI Price for Zoning Report</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI Price for Zoning Report</inlineHelpText>
+    <label>EBI Price for Zoning Report</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

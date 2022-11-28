@@ -2,16 +2,24 @@
 public class Opportunity_Tests_Additional {
   @TestSetup
   static void dataSetup() {
+    Test_Helper.setupProduct2();
+    Test_Helper.createRate();
     test_Helper.createDealLoanNumber();
+    Test_Helper.createBridgeOperationsUser();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Swap_Rate__c S = new Swap_Rate__c();
+    S.Three_Year_Swap__c = 1;
     S.Five_Year_Swap__c = 1;
     S.Seven_Year_Swap__c = 1;
     S.Ten_Year_Swap__c = 1;
     S.Thirty_Year_Swap__c = 1;
     S.OneM_LIBOR__c = 1;
     S.OneM_SOFR__c = 1;
+    S.X10_Year_Treasury_Floor__c = 1;
+    S.X1M_Term_SOFR_Floor__c = 1;
+    S.X5_Year_Treasury_Floor__c = 1;
+    S.X7_Year_Treasury_Floor__c = 1;
     S.CreatedDateTime__c = DateTime.now();
     insert S;
 
@@ -46,6 +54,10 @@ public class Opportunity_Tests_Additional {
     opp1.Final_Loan_Amount__c = 100;
     opp1.Apex_Context__c = true;
     opp1.RecordTypeId = id1;
+    opp1.Underwriter__c = UserInfo.getUserId();
+    opp1.Closer__c = UserInfo.getUserId();
+    opp1.X2nd_Underwriter__c = UserInfo.getUserId();
+
 
     Opportunity opp2 = new Opportunity();
     opp2.Name = 'TERM TEST 3';
@@ -77,7 +89,7 @@ public class Opportunity_Tests_Additional {
     opp4.Name = 'TERM TEST 5';
     opp4.CloseDate = System.today();
     opp4.Rate_Locked__c = false;
-    opp4.Term_Loan_Type__c = '5 Year';
+    opp4.Term_Loan_Type__c = '3 Year';
     opp4.StageName = 'Initial Review';
     opp4.Loan_Size__c = 2000000;
     opp4.AccountId = acc.Id;
@@ -112,7 +124,7 @@ public class Opportunity_Tests_Additional {
     opp6.Name = 'Bridge TEST 1';
     opp6.CloseDate = System.today();
     opp6.Rate_Locked__c = false;
-    opp6.Term_Loan_Type__c = '5 Year';
+    opp6.Term_Loan_Type__c = '7 Year';
     opp6.StageName = 'Initial Review';
     opp6.Index__c = '1M LIBOR';
     opp6.Interest_Rate_Type__c = 'Floating';
@@ -141,14 +153,16 @@ public class Opportunity_Tests_Additional {
 
     email.subject = 'Create Swap Rate';
     email.fromAddress = 'support@cvest.com';
-    email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
+   // email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
+    email.plainTextBody = '3yr: .94 (+4 DoD) 5yr: .75 ( +6 DoD, +64 MoM) 7yr: .69 ( +7 DoD, +63 MoM) 10yr: .58 ( +8 DoD, +61 MoM) 30yr: .58 ( +7 DoD, +40 MoM) 1M TERM SOFR SWAP: .09 ( +3 DoD, +77 MoM) 1M LIBOR: 3.01 ( 0 DoD, +64 MoM) Current SOFR and Treasury Floors 1M Term SOFR Floor: .76% 3 Year Treasury Floor: .52% 5 Year Treasury Floor: .52% 7 Year Treasury Floor: .51% 10 Year Treasury Floor: .26% ';
 
     SwapRateHandler testInbound = new SwapRateHandler();
     testInbound.handleInboundEmail(email, env);
 
     email.subject = 'Create Swap Rate';
     email.fromAddress = 'support@cvest.com';
-    email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
+ // //email.plainTextBody = '5Yr: 0.99 7Yr: 0.99 10Yr: 0.99 30Yr: 0.99 1M TERM SOFR SWAP: 1.99  1M LIBOR: 1.99 ';
+    email.plainTextBody = '3yr:.9t (+4 DoD) 5yr:.7t ( +6 DoD, +64 MoM) 7yr:.6t ( +7 DoD, +63 MoM) 10yr:.5t ( +8 DoD, +61 MoM) 30yr:.5t ( +7 DoD, +40 MoM) 1M TERM SOFR SWAP:.t9 ( +3 DoD, +77 MoM) 1M LIBOR: 3.01 ( 0 DoD, +64 MoM) Current SOFR and Treasury Floors 1M Term SOFR Floor: .76% 3 Year Treasury Floor: .52% 5 Year Treasury Floor: .52% 7 Year Treasury Floor: .51% 10 Year Treasury Floor: .26% ';
 
     testInbound.handleInboundEmail(email, env);
     SwapRateHandler.sendEmailMessage(email, 'test');

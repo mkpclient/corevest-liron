@@ -1,59 +1,222 @@
 <aura:component controller="lightning_Controller">
-	<aura:attribute name="record" type="Object" access="global" default="{'Name': ''}" />
-    <aura:attribute name="name" type="String" access="global" />
-    <aura:attribute name="required" type="Boolean" access="global" default="false" />
+  <aura:attribute
+    name="record"
+    type="Object"
+    access="global"
+    default="{'Name': ''}"
+  />
+  <aura:attribute name="name" type="String" access="global" />
+  <aura:attribute
+    name="required"
+    type="Boolean"
+    access="global"
+    default="false"
+  />
 
-    <aura:attribute name="results" type="Object[]" access="global" />
-    <aura:attribute name="sObjectName" type="String"  />
-    <aura:attribute name="sobjectLabel" type="String" />
-    <aura:attribute name="whereClause" type="String" />
-    <aura:attribute name="limit" type="Integer" default="10" />
-    <aura:attribute name="searchTerm" type="String" />
-    <aura:attribute name="value" type="String" access="global" />
-    <aura:attribute name="label" type="String" />
-    <aura:attribute name="labelPlural" type="String" />
+  <aura:attribute name="results" type="Object[]" access="global" />
+  <aura:attribute name="sObjectName" type="String" />
+  <aura:attribute name="sobjectLabel" type="String" />
+  <aura:attribute name="whereClause" type="String" />
+  <aura:attribute name="limit" type="Integer" default="10" />
+  <aura:attribute name="searchTerm" type="String" />
+  <aura:attribute name="isStrictSearch" type="Boolean" default="false" />
+  <aura:attribute name="recordTypeName" type="String" />
+  <aura:attribute name="recordTypeId" type="String" />
+  <aura:attribute name="value" type="String" access="global" />
+  <aura:attribute name="label" type="String" />
+  <aura:attribute name="labelPlural" type="String" />
+  <aura:attribute name="dependentMessage" type="String" />
+  <aura:attribute name="hasError" type="Boolean" default="false" />
+  <aura:attribute name="fieldName" type="String" />
+  <aura:attribute name="dependentField" type="String" />
+  <aura:attribute name="rowIdx" type="Integer" />
+  <aura:attribute name="row" type="Object" />
+  <aura:attribute name="objectLabel" type="String" />
+  <aura:attribute name="relatedRecordId" type="String" />
+  <aura:attribute name="showModal" type="Boolean" default="false" />
+  <aura:attribute name="formFields" type="String[]" />
+  <aura:attribute name="disableModalButtons" type="Boolean" default="false" />
+  <aura:attribute name="isFocused" type="Boolean" default="false" />
+  <aura:attribute name="isLoading" type="Boolean" default="false" />
 
-    <aura:attribute name="hasError" type="Boolean" default="false" />
+  <!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
 
-    <!-- <aura:handler name="init" value="{!this}" action="{!c.init}" /> -->
+  <aura:handler name="change" value="{!v.value}" action="{!c.init}" />
+  <aura:registerEvent
+    name="valueChangeEvent"
+    type="c:DataTableValueChangeEvent"
+  />
+  <aura:if isTrue="{!v.isLoading || v.sObjectName == null}">
+    <div class="exampleHolder">
+      <lightning:spinner alternativeText="Loading" size="small" />
+    </div>
+    <aura:set attribute="else">
+      <aura:if isTrue="{!empty(v.value)}">
+        <!-- <div
+          class="{!empty(v.results) &amp;&amp; v.dependentMessage == null &amp;&amp; !v.isFocused ? 'slds-form-element slds-lookup' : 'slds-form-element slds-lookup slds-is-open'}"
+          data-select="single"
+        > -->
+        <div
+          class="{!v.isFocused != true ? 'slds-form-element slds-lookup' : 'slds-form-element slds-lookup slds-is-open'}"
+          data-select="single"
+        >
+          <!-- <lightning:input name="autocomplete" type="text" label="{!v.label}" placeholder="{!'Search ' + v.labelPlural}" value="{!v.searchTerm}" onchange="{!c.searchRecordsMethod}" /> -->
+          <lightning:input
+            label="{!v.label}"
+            placeholder="{!'Search ' + v.labelPlural}"
+            value="{!v.searchTerm}"
+            onkeyup="{!c.searchRecordsMethod}"
+            onclick="{!c.handleInputClick}"
+            onfocus="{!c.handleFocus}"
+            onblur="{!c.handleBlur}"
+          />
+          <!-- <ui:inputText
+              class="slds-input"
+              label="{!v.label}"
+              placeholder="{!'Search ' + v.labelPlural}"
+              value="{!v.searchTerm}"
+              updateOn="keyup"
+              keyup="{!c.searchRecordsMethod}"
+            /> -->
+          <div class="slds-lookup__menu">
+            <div class="slds-lookup__item--label slds-text-body--small">
+              {!if(v.dependentMessage != null, v.dependentMessage, v.labelPlural)}
+            </div>
+            <ul class="slds-lookup__list" role="listbox">
+              <aura:iteration items="{!v.results}" var="result">
+                <li
+                  role="presentation"
+                  data-recordid="{!result.Id}"
+                  data-record="{!result.Name}"
+                  onclick="{!c.select}"
+                >
+                  <span
+                    class="slds-lookup__item-action slds-media"
+                    data-record="{!result.Name}"
+                    role="option"
+                    data-recordid="{!result.Id}"
+                  >
+                    <div
+                      class="slds-media__body"
+                      data-recordid="{!result.Id}"
+                      data-record="{!result.Name}"
+                    >
+                      <div
+                        class="slds-lookup__result-text"
+                        data-record="{!result.Name}"
+                        data-recordid="{!result.Id}"
+                      >
+                        {!result.Name}
+                      </div>
+                    </div>
+                  </span>
+                </li>
+              </aura:iteration>
+            </ul>
+            <aura:if isTrue="{!v.dependentMessage == null}">
+              <div role="presentation" onclick="{!c.handleCreateNew}">
+                <span class="slds-lookup__item-action slds-media" role="option">
+                  <div class="slds-media__body">
+                    <div class="slds-lookup__result-text">
+                      <strong>+&nbsp;New&nbsp;{!v.objectLabel}</strong>
+                    </div>
+                  </div>
+                </span>
+              </div>
+            </aura:if>
+          </div>
+        </div>
+        <aura:set attribute="else">
+          <!-- <label class="slds-form-element__label">{!v.label}</label> -->
+          <div class="slds-pill_container">
+            <span class="slds-pill">
+              <span class="slds-pill__label" title="{!v.searchTerm}"
+                >{!v.searchTerm}</span
+              >
+              <button
+                class="slds-button slds-button--icon slds-pill__remove"
+                onclick="{!c.clearRecord}"
+              >
+                <lightning:icon
+                  iconName="utility:close"
+                  size="x-small"
+                  alternativeText="Remove"
+                />
+                <span class="slds-assistive-text">Remove</span>
+              </button>
+            </span>
+          </div>
+        </aura:set>
+      </aura:if>
+    </aura:set>
+  </aura:if>
+  <aura:if isTrue="{!v.showModal}">
+    <div style="height: 640px">
+      <section
+        role="dialog"
+        tabindex="-1"
+        aria-labelledby="modal-heading-01"
+        aria-modal="true"
+        aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open"
+      >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2
+              id="modal-heading-01"
+              class="slds-text-heading_medium slds-hyphenate"
+            >
+              &nbsp;New&nbsp;{!v.objectLabel}
+            </h2>
+          </header>
 
-    <aura:handler name="change" value="{!v.value}" action="{!c.init}" />
+          <lightning:recordEditForm
+            aura:id="recordEditForm"
+            objectApiName="{!v.sObjectName}"
+            onsuccess="{!c.handleSuccess}"
+            onsubmit="{!c.handleSubmit}"
+            onerror="{!c.handleFormError}"
+          >
+            <div
+              class="slds-modal__content slds-p-around_medium slds-is-relative"
+              id="modal-content-id-1"
+            >
+              <lightning:messages />
+              <aura:iteration items="{!v.formFields}" var="field">
+                <lightning:inputField fieldName="{!field}" />
+              </aura:iteration>
+              <aura:if
+                isTrue="{!v.sObjectName == 'Contact' &amp;&amp; v.relatedRecordId != null}"
+              >
+                <lightning:inputField
+                  fieldName="AccountId"
+                  value="{!v.relatedRecordId}"
+                />
+              </aura:if>
+            </div>
 
-    <span class="{!empty(v.value) ? '' : 'slds-hide'}">
-    	<div class="{!empty(v.results) ? 'slds-form-element slds-lookup' : 'slds-form-element slds-lookup slds-is-open'}" data-select="single">
-	  	
-			<!-- <lightning:input name="autocomplete" type="text" label="{!v.label}" placeholder="{!'Search ' + v.labelPlural}" value="{!v.searchTerm}" onchange="{!c.searchRecordsMethod}" /> -->
-			<ui:inputText class="slds-input" label="{!v.label}" placeholder="{!'Search ' + v.labelPlural}" value="{!v.searchTerm}" updateOn="keyup" keyup="{!c.searchRecordsMethod}" />
-			<div class="slds-lookup__menu">
-				<div class="slds-lookup__item--label slds-text-body--small">{!v.labelPlural}</div>
-				<ul class="slds-lookup__list" role="listbox">
-					<aura:iteration items="{!v.results}" var="result">
-						<li role="presentation" data-recordid="{!result.Id}" data-record="{!result.Name}" onclick="{!c.select}">
-					        <span class="slds-lookup__item-action slds-media" data-record="{!result.Name}" role="option" data-recordid="{!result.Id}">
-					          <div class="slds-media__body" data-recordid="{!result.Id}" data-record="{!result.Name}" >
-					            <div class="slds-lookup__result-text" data-record="{!result.Name}" data-recordid="{!result.Id}">{!result.Name}</div>
-					          </div>
-					        </span>
-					  </li>
-					</aura:iteration>
-				</ul>
-			</div>
-	 	
-		</div>
-	</span>
+            <footer class="slds-modal__footer">
+              <lightning:button
+                class="slds-m-top_small"
+                variant="brand"
+                type="submit"
+                name="save"
+                label="Save"
+                disabled="{!v.disableModalButtons}"
+              />
 
-	<span class="{!empty(v.value) ? 'slds-hide' : ''}">
-		<!-- <label class="slds-form-element__label">{!v.label}</label> -->
-        <div class="slds-pill_container">
-			<span class="slds-pill">
-				<span class="slds-pill__label" title="{!v.searchTerm}">{!v.searchTerm}</span>
-				<button class="slds-button slds-button--icon slds-pill__remove" onclick="{!c.clearRecord}">
-					<lightning:icon iconName="utility:close" size="x-small" alternativeText="Remove"/>
-					<span class="slds-assistive-text">Remove</span>
-				</button>
-			</span>
-		</div>
-	</span>
-
-
+              <lightning:button
+                name=""
+                title=""
+                label="Cancel"
+                onclick="{!c.handleCancel}"
+                disabled="{!v.disableModalButtons}"
+              />
+            </footer>
+          </lightning:recordEditForm>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
 </aura:component>

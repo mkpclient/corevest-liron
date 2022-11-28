@@ -48,11 +48,6 @@
     <enableMobileDeviceAccess>false</enableMobileDeviceAccess>
     <entryCriteria>
         <criteriaItems>
-            <field>Opportunity.Seasoning__c</field>
-            <operation>equals</operation>
-            <value>Closed Won</value>
-        </criteriaItems>
-        <criteriaItems>
             <field>Opportunity.Type</field>
             <operation>equals</operation>
             <value>Bridge Loan,Term Loan,SAB Loan</value>

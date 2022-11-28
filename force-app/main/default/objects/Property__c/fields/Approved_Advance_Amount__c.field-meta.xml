@@ -13,7 +13,7 @@ IF(Override_Advance_Amount__c = 0,
  TEXT(Status__c) = &apos;Sold&apos;,
  TEXT(Status__c) = &apos;Paid Off&apos;),
   Approved_Advance_Amount_Used__c,
-Initial_Disbursement_Remaining__c + Reno_Advance_Amount__c
+Initial_Disbursement_Remaining__c + Approved_Renovation_Holdback__c 
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>If the Status is &quot;Pending&quot; or &quot;In Process&quot;, then this will be the Approved Advance Amount for the next Advance.  If the Status is &quot;Active&quot;, then this will be the amount funded.</inlineHelpText>

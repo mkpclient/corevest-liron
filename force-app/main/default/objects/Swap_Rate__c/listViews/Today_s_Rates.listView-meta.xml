@@ -2,10 +2,17 @@
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Today_s_Rates</fullName>
     <columns>CREATED_DATE</columns>
+    <columns>Three_Year_Swap__c</columns>
     <columns>Five_Year_Swap__c</columns>
     <columns>Seven_Year_Swap__c</columns>
     <columns>Ten_Year_Swap__c</columns>
     <columns>Thirty_Year_Swap__c</columns>
+    <columns>OneM_SOFR__c</columns>
+    <columns>X1M_Term_SOFR_Floor__c</columns>
+    <columns>X3_Year_Treasury_Floor__c</columns>
+    <columns>X5_Year_Treasury_Floor__c</columns>
+    <columns>X7_Year_Treasury_Floor__c</columns>
+    <columns>X10_Year_Treasury_Floor__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>CREATED_DATE</field>

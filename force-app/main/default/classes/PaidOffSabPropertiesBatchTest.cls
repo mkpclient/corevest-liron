@@ -2,7 +2,7 @@
 public with sharing class PaidOffSabPropertiesBatchTest {
   @isTest
   public static void testBatch() {
-      test_Helper.createDealLoanNumber();
+    test_Helper.createDealLoanNumber();
     Account a = Test_Helper.createAccount();
     Contact c = Test_Helper.createContact(a);
     Opportunity sabdeal = new Opportunity();
@@ -56,7 +56,15 @@ public with sharing class PaidOffSabPropertiesBatchTest {
       WHERE Id = :testProp.Id
     ];
 
-    System.assertEquals('Paid Off', updatedProp.Status__c, 'Status should be Paid Off');
-    System.assertEquals(System.today(), updatedProp.Inactive_Date__c, 'Inactive Date should be today');
+    System.assertEquals(
+      'Paid Off',
+      updatedProp.Status__c,
+      'Status should be Paid Off'
+    );
+    System.assertEquals(
+      System.today(),
+      updatedProp.Inactive_Date__c,
+      'Inactive Date should be today'
+    );
   }
 }

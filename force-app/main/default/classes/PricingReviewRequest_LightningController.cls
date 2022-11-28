@@ -367,7 +367,7 @@ public without sharing class PricingReviewRequest_LightningController {
       if (o.LOC_Loan_Type__c == 'Term Loan' || o.LOC_Loan_Type__c == 'Multifamily/CRE' || o.LOC_Loan_Type__c  == 'Build to Rent' || o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
           || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' )
       {
-           DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,ri,Null);
+           DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,ri,Null,'PR');
       }
  //CIP-2288-RS.8/18/22.End.
        
@@ -377,7 +377,7 @@ public without sharing class PricingReviewRequest_LightningController {
 
 //CIP-2288-RS.8/18/22.Begin.
   @AuraEnabled
-  public static Void DealPropertyVlidation(Id recId, String Product_Type, returnItem ri, List<String> listMessages) {
+  public static Void DealPropertyVlidation(Id recId, String Product_Type, returnItem ri, List<String> listMessages, String calledFor) {
       
     List<property__c> properties = [
       SELECT id,
@@ -440,7 +440,7 @@ public without sharing class PricingReviewRequest_LightningController {
             {
                if(!mapReturnMessage.containsKey(3)) mapReturnMessage.Put(3,GetMessage(3)) ;
             }
-            if (propertie.Override_Initial_Disbursement__c == Null)
+            if (propertie.Override_Initial_Disbursement__c == Null && calledFor == 'UW')
             {
                if(!mapReturnMessage.containsKey(6)) mapReturnMessage.Put(6,GetMessage(6)) ;
             }              

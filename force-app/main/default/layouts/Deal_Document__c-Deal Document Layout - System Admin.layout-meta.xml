@@ -234,6 +234,10 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Send_Term_Sheet_to_Borrower__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Borrower_Term_Sheet_Signature_Date__c</field>
             </layoutItems>
             <layoutItems>

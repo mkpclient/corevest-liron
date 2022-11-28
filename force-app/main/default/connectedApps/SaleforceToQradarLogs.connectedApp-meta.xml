@@ -7,6 +7,7 @@
         <callbackUrl>https://cvest.my.salesforce.com/</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqu3pxCKNDSNt.6KuQTkd5x8U0Tx5v9fHKupijrCX.7Xj8MzmxvtMPvNVOZiH</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

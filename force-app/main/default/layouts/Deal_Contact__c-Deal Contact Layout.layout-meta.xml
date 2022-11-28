@@ -118,6 +118,10 @@
                 <behavior>Edit</behavior>
                 <field>Clear_Result__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Borrower_Provided_FICO__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -217,7 +221,7 @@
     </layoutSections>
     <layoutSections>
         <customLabel>false</customLabel>
-        <detailHeading>false</detailHeading>
+        <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>System Information</label>
         <layoutColumns>
@@ -228,6 +232,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Trigger_Field__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Disable_Apex__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

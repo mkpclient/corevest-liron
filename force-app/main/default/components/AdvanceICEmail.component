@@ -1,0 +1,48 @@
+<apex:component access="global" controller="AdvanceICEmailController">
+  <apex:attribute name="advanceId" type="String" description="Attribute for Advance ID" required="required" assignTo="{!recordId}"
+  />
+  <head>
+    <style>
+      .labelCol {
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif;
+        width: 30%;
+        text-align: left;
+      }
+
+      .valueCol {
+        font-family: Arial, Helvetica, sans-serif;
+        min-width: 40%;
+        text-align: right;
+      }
+
+      .shadedRow {
+        background-color: lightblue;
+      }
+
+      .unshadedRow {
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <apex:panelGrid columns="2" id="panelGrid" columnClasses="labelCol,valueCol" rowClasses="shadedRow,unshadedRow" >
+      <apex:outputText value="Deal Name" />
+      <apex:outputText value="{!advance.Deal__r.Name}" />
+      <apex:outputText value="Deal Number" />
+      <apex:outputText value="{!advance.Deal__r.Deal_Loan_Number__c}" />
+      <apex:outputText value="Advance Name" />
+      <apex:outputText value="{!advance.Name}" />
+      <apex:outputText value="Initial Disbursement" />
+      <apex:outputText value="{0, Number, Currency}">
+        <apex:param value="{!if(advance.Initial_Disbursement_Total__c != null, advance.Initial_Disbursement_Total__c, 0)}" />
+      </apex:outputText>
+      <apex:outputText value="Refinance/Acquisition" />
+      <apex:outputText value="{!refiAcquisition}" />
+      <apex:outputText value="Deal LTV/LTC" />
+      <apex:outputText value="{!advance.Deal_Max_Initial_LTV_LTC__c}" />
+      <apex:outputText value="Advance LTV/LTC" />
+      <apex:outputText value="{!advance.Prop_Max_Initial_LTV_LTC__c}" />
+    </apex:panelGrid>
+  </body>
+</apex:component>

@@ -256,7 +256,8 @@ private class lightning_Tests {
         'Awaiting_Kickoff_Call__c',
         'In_Process_of_Withdrawn_or_Rejected__c',
         'Pipeline_Comments__c',
-        'id'
+        'id',
+        'Rate_Lock_Picklist__c'
       },
       'Id',
       'Desc',
@@ -602,7 +603,7 @@ private class lightning_Tests {
     opp.Requested_Draw_Fee_Cap__c = 'N/A';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Floor__c= 3;
+    opp.Floor__c = 3;
     opp.Index_Margin__c = 1.50;
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Apex_Context__c = true;
@@ -762,6 +763,7 @@ private class lightning_Tests {
     opp.Final_Spread__c = 2;
     opp.Final_Swap__c = 2;
     opp.IC_Approval_Date__c = system.today();
+    opp.Rate_Lock_Picklist__c = 'Early Rate Locked';
     update opp;
 
     List<Property__c> property = new List<Property__c>();

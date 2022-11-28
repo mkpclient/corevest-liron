@@ -3,7 +3,6 @@
     <fullName>Bridge_Deals_Closed_Won</fullName>
     <columns>OPPORTUNITY.NAME</columns>
     <columns>ACCOUNT.NAME</columns>
-    <columns>Contact__c</columns>
     <columns>Loan_Size__c</columns>
     <columns>LOC_Loan_Type__c</columns>
     <columns>OPPORTUNITY.STAGE_NAME</columns>
@@ -15,7 +14,8 @@
     <columns>Anticipated_IC_Approval__c</columns>
     <columns>Owner_Name__c</columns>
     <columns>OPPORTUNITY.CLOSE_DATE</columns>
-    <columns>Account_Introduction_Source__c</columns>
+    <columns>Interest_Rate_Type__c</columns>
+    <columns>OPPORTUNITY.TYPE</columns>
     <filterScope>Everything</filterScope>
     <filters>
         <field>OPPORTUNITY.RECORDTYPE</field>

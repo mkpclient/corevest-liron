@@ -10,6 +10,21 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   //   'Ryan McBride'
   // );
   
+  static final List<String> USERS_LIST  = new List<String>{
+    'Beth O\'Brien',
+    'Sean Robbins',
+    'Jeffrey Swiney',
+    'Emilian Halloran',
+    // 'Ryan McBride'
+    'Christopher Hoeffel',
+    // 'Bryon Harland'
+    'Micaela Lumpkin',
+    'Matthew Orrino',
+    'Dan Federico',
+    'Marc Heenan'
+
+  };
+
   static final Email_Addresses__c SEAN_SETTINGS = queryEmailAddress(
     'Sean Robbins'
   );
@@ -28,14 +43,19 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   // static final Email_Addresses__c BRYON_SETTINGS = queryEmailAddress(
   //   'Bryon Harland'
   // );
-  static final Email_Addresses__c BRAD_SETTINGS = queryEmailAddress(
-    'Brad Chmura'
-  );
   static final Email_Addresses__c MATT_SETTINGS = queryEmailAddress(
     'Matthew Orrino'
   );
   static final Email_Addresses__c MICAELA_SETTINGS = queryEmailAddress(
     'Micaela Lumpkin'
+  );
+  
+  static final Email_Addresses__c DAN_F_SETTINGS = queryEmailAddress(
+    'Dan Federico'
+  );
+
+  static final Email_Addresses__c MARC_H_SETTINGS = queryEmailAddress(
+    'Marc Heenan'
   );
 
   // static final String RYAN = RYAN_SETTINGS.Email_Address__c;
@@ -45,17 +65,22 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
   static final String BETH = BETH_SETTINGS.Email_Address__c;
   static final String CHRIS = CHRIS_SETTINGS.Email_Address__c;
   // static final String BRYON = BRYON_SETTINGS.Email_Address__c;
-  static final String BRAD = BRAD_SETTINGS.Email_Address__c;
   static final String MICAELA = MICAELA_SETTINGS.Email_Address__c;
   static final String MATT = MATT_SETTINGS.Email_Address__c;
+
+  static final String DAN_F = DAN_F_SETTINGS.Email_Address__c;
+  static final String MARC_H = MARC_H_SETTINGS.Email_Address__c;
+
   // static final String RYAN_CODE = RYAN_SETTINGS.Approver_Code__c.toLowerCase();
   static final String SEAN_CODE = SEAN_SETTINGS.Approver_Code__c.toLOwerCase();
   static final String JEFFREY_CODE = JEFFREY_SETTINGS.Approver_Code__c.toLOwerCase();
   static final String EMILIAN_CODE = EMILIAN_SETTINGS.Approver_Code__c.toLOwerCase();
   static final String BETH_CODE = BETH_SETTINGS.Approver_Code__c.toLowerCase();
   static final String CHRIS_CODE = CHRIS_SETTINGS.Approver_Code__c.toLowerCase();
+
+  static final String DAN_F_CODE = DAN_F_SETTINGS.Approver_Code__c.toLowerCase();
+  static final String MARC_H_CODE = MARC_H_SETTINGS.Approver_Code__c.toLowerCase();
   // static final String BRYON_CODE = BRYON_SETTINGS.Approver_Code__c.toLowerCase();
-  static final String BRAD_CODE = BRAD_SETTINGS.Approver_Code__c.toLowerCase();
   static final String MICAELA_CODE = MICAELA_SETTINGS.Approver_Code__c.toLowerCase();
   static final String MATT_CODE = MATT_SETTINGS.Approver_Code__c.toLowerCase();
   static final String BRIDGE_LIST = queryEmailAddress(
@@ -244,8 +269,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     User emilianUser = userMap.get('Emilian Halloran');
     // User bryonUser = userMap.get('Bryon Harland');
     User mattUser = userMap.get('Matthew Orrino');
-    User bradUser = userMap.get('Brad Chmura');
     User micaelaUser = userMap.get('Micaela Lumpkin');
+    User danFrUser = userMap.get('Dan Federico');
+    User marcHUser = userMap.get('Marc Heenan');
 
     Integer characterLim = 6 + email.Subject.length() <= 80
       ? email.Subject.length()
@@ -339,9 +365,11 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           // RYAN,
           CHRIS,
           // BRYON,
-          BRAD,
+          
           MICAELA,
-          MATT
+          MATT,
+          DAN_F,
+          MARC_H
         };
         for (String email1 : bossEmails) {
           if (!alreadySentTo.contains(email1) && !alreadyCcs.contains(email1)) {
@@ -455,9 +483,10 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             JEFFREY,
             EMILIAN,
             // BRYON,
-            BRAD,
             MICAELA,
-            MATT
+            MATT,
+            DAN_F,
+            MARC_H
           };
           for (String email2 : bossEmails) {
             if (
@@ -537,15 +566,17 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           fromAddress == SEAN ||
           fromAddress == JEFFREY ||
           fromAddress == EMILIAN ||
-          fromAddress == BRAD ||
+          fromAddress == MARC_H ||
+          fromAddress == DAN_F ||
           fromAddress == MICAELA ||
           fromAddress == MATT ||
           // alternateFromAddress == RYAN ||
           alternateFromAddress == CHRIS ||
           // alternateFromAddress == BRYON ||
-          alternateFromAddress == BRAD ||
           alternateFromAddress == MICAELA ||
           alternateFromAddress == MATT ||
+          alternateFromAddress == MARC_H ||
+          alternateFromAddress == DAN_F ||
           (Test.isRunningTest() && performTestCoverageForRYAN == true)
         ) {
           // Logic added for test class execution : Trivikram
@@ -561,8 +592,6 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
           // } else 
           if(fromAddress == CHRIS || alternateFromAddress == CHRIS) {
             toId = chrisUser.Id;
-          } else if (fromAddress == BRAD || alternateFromAddress == BRAD) {
-            toId = bradUser.Id;
           } else if (fromAddress == MICAELA || alternateFromAddress == MICAELA) {
             toId = micaelaUser.Id;
           } else  if (fromAddress == MATT || alternateFromAddress == MATT) {
@@ -573,6 +602,10 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             toId = jeffreyUser.Id;
           } else if (fromAddress == EMILIAN || alternateAddress == EMILIAN) {
             toId = emilianUser.Id;
+          } else if (fromAddress == MARC_H || alternateFromAddress == MARC_H) {
+            toId = marcHUser.Id;
+          } else if (fromAddress == DAN_F || alternateFromAddress == DAN_F) {
+            toId = danFrUser.Id;
           }
 
           if (
@@ -583,17 +616,18 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             (null != EMILIAN_CODE && htmlBody.toLowerCase().contains(EMILIAN_CODE)) ||
             // (null != BRYON_CODE &&
             // htmlBody.toLowerCase().contains(BRYON_CODE)) ||
-            (null != BRAD_CODE && htmlBody.toLowerCase().contains(BRAD_CODE)) ||
+            (null != MARC_H_CODE && htmlBody.toLowerCase().contains(MARC_H_CODE)) ||
+            (null != DAN_F_CODE && htmlBody.toLowerCase().contains(DAN_F_CODE)) ||
             (null != MICAELA_CODE &&
             htmlBody.toLowerCase().contains(MICAELA_CODE)) ||
             (null != MATT_CODE && htmlBody.toLowerCase().contains(MATT_CODE))
           ) {
             b = true;
             Boolean isGLC = false;
-            if(htmlBody.toLowerCase().contains(BRAD_CODE + ' glc')) {
-              updateDealForGlc(deal.Id);
-              isGLC = true;
-            }
+            // if(htmlBody.toLowerCase().contains(DAN_F_CODE + ' glc') || htmlBody.toLowerCase().contains(MARC_H_CODE + ' glc')) {
+            //   updateDealForGlc(deal.Id);
+            //   isGLC = true;
+            // }
             createAttachment(email, deal);
             postToChatter(deal, deal.Id, isGLC);
           }
@@ -683,6 +717,15 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       //Reply with error
       System.debug('error sending email');
     }
+	  //RS.Begin
+        deal.Term_Sheet_Issued__c  = Date.today();
+      	if (deal.Current_Stage__c == 'Initial Review' || deal.Current_Stage__c == 'Data Tape Received')
+        {
+         deal.StageName = 'Term Sheet Issued';
+        }
+      update deal;
+     //RS.End      
+      
     return result;
   } // End of handleInboundEmail method
 
@@ -718,16 +761,7 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
         SELECT Id, Department, Email, Name
         FROM User
         WHERE
-          Name = 'Beth O\'Brien'
-          OR Name = 'Sean Robbins'
-          OR Name = 'Jeffrey Swiney'
-          OR Name = 'Emilian Halloran'
-          // OR Name = 'Ryan McBride'
-          OR Name = 'Christopher Hoeffel'
-          // OR Name = 'Bryon Harland'
-          OR Name = 'Brad Chmura'
-          OR Name = 'Micaela Lumpkin'
-          OR Name = 'Matthew Orrino'
+          Name IN :USERS_LIST
       ]
     ) {
       userMap.put(u.Name, u);
@@ -809,9 +843,9 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
     }
 
     try {
-      // Messaging.SendEmailResult[] results = Messaging.sendEmail(
-      //   new List<Messaging.SingleEmailMessage>{ sem }
-      // );
+      Messaging.SendEmailResult[] results = Messaging.sendEmail(
+        new List<Messaging.SingleEmailMessage>{ sem }
+      );
     } catch (Exception e) {
       String errorMessage = '';
       errorMessage += JSON.serialize(recipients);
@@ -823,7 +857,8 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       em1.setSubject('mail error');
       em1.setToAddresses(new List<String>{ 'mcastillo@mkpartners.com' });
       em1.setHtmlBody('<html><body>' + errorMessage + '</html></body>');
-      Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
+      /* this is redundant and sending extra unnecessary emails out  */
+      // Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
     }
   }
 
@@ -1025,7 +1060,7 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
             o.Term_Sheet_Approval_Date__c = System.now();
             dealDoc.Executive_Approval_Date__c = system.now();
             update dealDoc;
-            update o;
+           //RS update o;
             //AlchemyAPI.sendTermSheet(o.Id, dealDoc.Id);
           }
         }
@@ -1156,15 +1191,7 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       Database.rollback(sp);
       sendExceptionEmails(ex);
     }
-	  //RS.9/8/2022.CIP-2510.Begin.
-      o.Term_Sheet_Issued__c  = Date.today();
-      if (o.Current_Stage__c == 'Initial Review' || o.Current_Stage__c == 'Data Tape Received')
-      {
-          o.StageName = 'Term Sheet Issued';
-      }
-      update o;
-     //RS.9/8/2022.CIP-2510.End. 
-     //
+
     List<EmailMessageRelation> emrInserts = new List<EmailMessageRelation>();
     Id recipientId;
     if (recipientIds.size() > 0) {
@@ -1213,6 +1240,15 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       Database.rollback(sp);
       sendExceptionEmails(ex);
     }
+	  //RS.9/8/2022.CIP-2510.Begin.
+      o.Term_Sheet_Issued__c  = Date.today();
+      if (o.Current_Stage__c == 'Initial Review' || o.Current_Stage__c == 'Data Tape Received')
+      {
+          o.StageName = 'Term Sheet Issued';
+      }
+      update o;
+     //RS.9/8/2022.CIP-2510.End.        
+      
   }
 
   public static EmailMessageRelation constructEmailMessageRelation(

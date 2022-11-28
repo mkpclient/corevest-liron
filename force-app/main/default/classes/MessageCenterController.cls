@@ -30,7 +30,8 @@ public without sharing class MessageCenterController {
           Owner_Image__c,
           Checklist_Item__c,
           Unread__c,
-          Checklist_Item__r.Name
+          Checklist_Item__r.Name,
+          Property__r.Deal__r.Name
         FROM Comment__c
         WHERE
           Comment__c = NULL
@@ -55,6 +56,22 @@ public without sharing class MessageCenterController {
   public static List<PortalAPIComments.Comment> getCommentsById(Id commentId) {
     try {
       return PortalAPIComments.getComment(commentId);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static void saveComment(String request) {
+    try {
+      Comment__c comment = (Comment__c) JSON.deserialize(
+        request,
+        Comment__c.class
+      );
+      system.debug(comment);
+      comment.body__c = comment.Body__c.replaceAll('<', '&lt;');
+      system.debug(comment);
+      insert comment;
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }

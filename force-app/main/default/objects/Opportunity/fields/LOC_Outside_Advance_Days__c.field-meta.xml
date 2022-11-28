@@ -8,7 +8,10 @@ Bridge Use</description>
 &apos;12 months&apos;, 365, 
 &apos;18 months&apos;, 540,
 &apos;21 months&apos;, 630, 
-&apos;24 months&apos;, 720, 
+&apos;24 months&apos;, 720,
+&apos;540 Days&apos;, 540, 
+&apos;630 Days&apos;, 630, 
+&apos;720 Days&apos;, 720,  
 0) 
 - 
 CASE (Advance_Period__c,

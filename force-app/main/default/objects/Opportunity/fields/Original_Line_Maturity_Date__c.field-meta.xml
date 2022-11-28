@@ -5,11 +5,8 @@
     <description>Bridge Use
 Previously - ADDMONTHS(Loan_Effective_Date__c, LOC_Term_Number__c)</description>
     <externalId>false</externalId>
-    <formula>IF(  ISBLANK( Stated_Maturity_Date__c ),
-
- ADDMONTHS(Loan_Effective_Date__c, 
-  VALUE( SUBSTITUTE(TEXT(LOC_Term__c), &quot; Months&quot;, &quot;&quot;))),
-Stated_Maturity_Date__c)</formula>
+    <formula>ADDMONTHS(Loan_Effective_Date__c, 
+  VALUE( SUBSTITUTE(TEXT(LOC_Term__c), &quot; Months&quot;, &quot;&quot;)))</formula>
     <inlineHelpText>Loan Effective Date + Term</inlineHelpText>
     <label>Original Loan Maturity date</label>
     <required>false</required>

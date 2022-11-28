@@ -1,0 +1,6 @@
+<table border="0" cellpadding="5" width="550" cellspacing="5" height="400" >
+<tr valign="top" height="400" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[<font face="arial">Hi Accounting,</font><div style="font-size: 12pt;"><br></div><div style="font-size: 12pt;"><p class="MsoNormal">This has been rate locked today.&nbsp;<span style="font-size: 12pt;">Please see the attached document's for your review in anticipation of tomorrow's closing.</span></p></div><div><p class="MsoNormal" style="font-size: 12pt;"><o:p></o:p></p><p class="MsoNormal" style="font-size: 12pt;"><o:p>&nbsp;</o:p></p><p class="MsoNormal" style="font-size: 12pt;">Please confirm when Yardi has been prepared for closing.&nbsp;&nbsp;</p><p class="MsoNormal" style="font-size: 12pt;"><br></p><p class="MsoNormal" style="font-size: 12pt;">Thank you.<o:p></o:p></p><p class="MsoNormal" style="font-size: 12pt;"><br></p><p class="MsoNormal"><font face="arial">{!Opportunity.Closer__c}</font></p></div>]]></td>
+</tr>
+</table>

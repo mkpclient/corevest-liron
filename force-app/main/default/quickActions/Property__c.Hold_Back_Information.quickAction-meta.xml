@@ -7,7 +7,7 @@
         <quickActionLayoutColumns>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Total_Holdback_Drawn__c</field>
+                <field>Total_Holdback_Drawnx__c</field>
                 <uiBehavior>Readonly</uiBehavior>
             </quickActionLayoutItems>
         </quickActionLayoutColumns>

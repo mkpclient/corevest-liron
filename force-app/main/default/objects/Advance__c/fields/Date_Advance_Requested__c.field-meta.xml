@@ -6,6 +6,7 @@
     <inlineHelpText>Date that the Borrower requested construction funding</inlineHelpText>
     <label>Date Advance Requested</label>
     <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Date</type>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PCA_Delivered_Date__c</fullName>
+    <description>PCA Delivered Date</description>
+    <externalId>false</externalId>
+    <inlineHelpText>PCA Delivered Date</inlineHelpText>
+    <label>EBI PCA Delivered Date</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Date</type>
+</CustomField>

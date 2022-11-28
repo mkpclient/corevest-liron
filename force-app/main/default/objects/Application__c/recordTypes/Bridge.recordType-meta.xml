@@ -4,6 +4,17 @@
     <active>true</active>
     <label>Bridge</label>
     <picklistValues>
+        <picklist>Expected_Occupancy_at_Close__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>How_Long_to_Hold_Portfolio__c</picklist>
         <values>
             <fullName>0-2 Years</fullName>

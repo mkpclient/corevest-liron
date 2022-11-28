@@ -376,6 +376,24 @@
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="2">
+                        </td>
+                        <td>
+                            <span style="display:{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,'','none')}">
+                                <apex:outputText value="Lender Credit - {0}">
+                                    <apex:param value="{!if(record.Lender_Credit_Description__c != null, record.Lender_Credit_Description__c, '')}" />
+                                </apex:outputText>
+                            </span>
+                             
+                        </td>
+                        <td>
+                            <apex:outputText value="${0, number,###,###,###,##0.00}" rendered="{!IF(record.Lender_Credit__c!=null && record.Lender_Credit__c>0,true,false)}">
+                                <apex:param value="{!record.Lender_Credit__c}"/>
+                            </apex:outputText>
+                            
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="2" style="padding-bottom:20px;">
                         </td>
                         <td style="border-top: 1pt solid black;padding-bottom:20px;">

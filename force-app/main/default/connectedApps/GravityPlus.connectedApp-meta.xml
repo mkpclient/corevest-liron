@@ -6,6 +6,7 @@
         <callbackUrl>https://www.corevestfinance.com/?callback=gravityformssalesforce</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqtKF2ak2Ksdq_CkV0ZdghtCSt3Ce0vh0n4HFMZaRs7AAxQxcbIzNvFFDIiu5</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

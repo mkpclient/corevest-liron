@@ -74,6 +74,21 @@ public class contact_Helper {
       }
     }
   }
+  public static void afterUpdate(List<Contact> newList, List<Contact> oldList) {
+    List<Id> portalToUpdateIds = new List<Id>();
+    for (Integer i = 0; i < newList.size(); i++) {
+      if (
+        newList[i].Alchemy_Portal_Id__c != null &&
+        (newList[i].Email != oldList[i].Email ||
+        newList[i].RecordTypeId != oldList[i].RecordTypeId) // )
+      ) {
+        portalToUpdateIds.add(newList[i].Id);
+      }
+    }
+    if (portalToUpdateIds.size() > 0) {
+      system.enqueueJob(new UpdatePortalUserQueueable(portalToUpdateIds));
+    }
+  }
 
   public static void afterUpdate(
     Map<Id, Contact> oldMap,
@@ -113,21 +128,33 @@ public class contact_Helper {
     List<ContentDocumentLink> notes = new List<ContentDocumentLink>();
 
     if (terminatedContacts.size() > 0) {
-      Map<Id, Contact> contactsMap = new Map<Id,Contact>([
-        SELECT
-          Id,
-          Name,
-          (
-            SELECT Id, Title, CreatedDate, CreatedById,ContentDocumentId,ContentSize,FileExtension,FileType,LinkedEntityId,TextPreview
-            FROM AttachedContentNotes
-            WHERE
-              CreatedDate > :DateTime.Now().addMinutes(-30)
-              AND CreatedById = :UserInfo.getUserId()
-            ORDER BY CreatedDate
-          )
-        FROM Contact
-        WHERE Id IN :terminatedContacts
-      ]);
+      Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+        [
+          SELECT
+            Id,
+            Name,
+            (
+              SELECT
+                Id,
+                Title,
+                CreatedDate,
+                CreatedById,
+                ContentDocumentId,
+                ContentSize,
+                FileExtension,
+                FileType,
+                LinkedEntityId,
+                TextPreview
+              FROM AttachedContentNotes
+              WHERE
+                CreatedDate > :DateTime.Now().addMinutes(-30)
+                AND CreatedById = :UserInfo.getUserId()
+              ORDER BY CreatedDate
+            )
+          FROM Contact
+          WHERE Id IN :terminatedContacts
+        ]
+      );
 
       for (Contact c : terminatedContacts) {
         Contact fromMap = contactsMap.get(c.Id);
@@ -143,10 +170,12 @@ public class contact_Helper {
           cdl.ShareType = 'I';
           notes.add(cdl);
         } else {
-          c.addError('Please add a Note on the Notes & Files tab of this contact to explain why we have ended our business relationship with them.');
+          c.addError(
+            'Please add a Note on the Notes & Files tab of this contact to explain why we have ended our business relationship with them.'
+          );
         }
       }
-      if(notes.size() > 0) {
+      if (notes.size() > 0) {
         Database.upsert(notes, false);
       }
     }

@@ -9,6 +9,7 @@
         <callbackUrl>https://login.salesforce.com/services/oauth2/success</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqtKF2ak2KsdqR6R1a3oOZUCE7d8pqa5GBv1N65nW5hE6ZuIZmfiiRC38Zd6c</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

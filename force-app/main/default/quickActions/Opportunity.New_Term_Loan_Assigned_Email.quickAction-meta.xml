@@ -3,7 +3,7 @@
     <fieldOverrides>
         <field>CcAddress</field>
         <formula>Opportunity.Owner.Email + &apos;;&apos; + $User.Email + &apos;;&apos; + 
-Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + &apos;brad@cvest.com&apos; + &apos;;&apos; + &apos;micaela@cvest.com&apos; + &apos;;&apos; + &apos;gregg.moore@cvest.com&apos; + &apos;;&apos; + &apos;carl.llado@cvest.com&apos; + &apos;;&apos; +&apos;behnam.hoss@cvest.com&apos; + &apos;;&apos; + &apos;kyla.scoville@cvest.com&apos; + &apos;;&apos; + &apos;elizabeth.barber@cvest.com&apos; + &apos;;&apos; + &apos;evelyn.ginossi@cvest.com&apos; + &apos;;&apos; + &apos;michael.mahurin@cvest.com&apos; + &apos;;&apos; + &apos;blake.gaines@cvest.com&apos;</formula>
+Opportunity.CAF_Analyst__r.Email + &apos;;&apos; + &apos;micaela@cvest.com&apos; + &apos;;&apos; + &apos;gregg.moore@cvest.com&apos; + &apos;;&apos; + &apos;carl.llado@cvest.com&apos; + &apos;;&apos; +&apos;behnam.hoss@cvest.com&apos; + &apos;;&apos; + &apos;kyla.scoville@cvest.com&apos; + &apos;;&apos; + &apos;elizabeth.barber@cvest.com&apos; + &apos;;&apos; + &apos;evelyn.ginossi@cvest.com&apos; + &apos;;&apos; + &apos;michael.mahurin@cvest.com&apos; + &apos;;&apos; + &apos;blake.gaines@cvest.com&apos;</formula>
     </fieldOverrides>
     <fieldOverrides>
         <field>HtmlBody</field>

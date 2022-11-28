@@ -14,14 +14,18 @@ import { getPicklistValues } from "lightning/uiObjectInfoApi";
 
 export default class ScheduleOfLenderCostsNew extends LightningElement {
   @api deal;
+  @api lc;
   @api recordTypeId;
   @api recordId;
   @api val1234 = 456;
+  @api lenderCreditDescription = "";
   subscription = null;
   discountFeeValLocal;
   earlyRateLockAmountLocal = null;
-
-  calculatedFields = {};
+  finalSwapRate;
+  finalrate;
+ // lenderCredits = null; 
+  calculatedFields;
   loanFees = [];
   discountFeeOptions = [];
   //@api loanVersion = {};
@@ -59,7 +63,6 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
   connectedCallback() {
     console.log("init of new");
-    
     this.updateCalculatedFields();
 
     this.subscribeMessageChannel();
@@ -80,6 +83,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       this.messageContext,
       calcMessage,
       (message) => {
+        
         this.handleMessage(message);
       },
       { scope: APPLICATION_SCOPE }
@@ -97,13 +101,20 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
   handleMessage(message) {
     console.log("--receiving message--");
-    console.log(message);
+    console.log('RS999 message ' ,message);
     //this.calculatedFields();
     if(message.hasOwnProperty("Early_Rate_Lock_Amount__c")){
       this.earlyRateLockAmount = message.Early_Rate_Lock_Amount__c;
     }
+   /* if(message.hasOwnProperty("Lender_Credit__c"))
+    {
+      console.log('RS999 message.Lender_Credit__c ' ,message.Lender_Credit__c);
+      this.lenderCredits  = message.Lender_Credit__c;
+    }*/
+    if(message.hasOwnProperty("Final_Swap__c")){
+      deal['Final_Swap__c'] = message.Final_Swap__c;
+    }    
     if (message.type === "init") {
-      
       this.updateCalculatedFields();
     }
   }
@@ -111,8 +122,9 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   updateCalculatedFields() {
     var v1 = 100;
     console.log("inside a func");
-    //const calculatedFields = this.calculatedFields;
+       //const calculatedFields = this.calculatedFields;
     let calculatedFields = {
+      Final_Swap__c : this.finalSwapRates(), 
       Early_Lock_Deposit__c: this.earlyRateLockAmount,
       Final_Interest_Rate__c: this.finalInterestRateCalc(),
       Calculated_Origination_Fee__c: this.finalorignalfeeCalc(),
@@ -145,26 +157,34 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Deposit_Lender_Out_of_Pocket__c: this.deal
         .Deposit_Lender_Out_of_Pocket__c,
       Legal_Fee__c: this.deal.Legal_Fee__c,
-      Holdback_Reserve_Month_Multiplier__c: this.deal
-        .Holdback_Reserve_Month_Multiplier__c,
+      Holdback_Reserve_Month_Multiplier__c: this.deal.Holdback_Multiplier__c ,
       Installment_Comment__c: this.deal.Installment_Comment__c,
-      Deposit_Amount__c: this.deal.Deposit_Amount__c
+      Deposit_Amount__c: this.deal.Deposit_Amount__c,
+      Lender_Credit__c : this.lc,
+      Lender_Credit_Description__c: this.lenderCreditDescription
     };
 
     this.discountFeeVal = this.discountFeeCalculation();
     //console.log("--updating--");
     //console.log(`scheduleData-${this.recordId}`);
-
+    console.log("RS999 storing sessionStorage :");
     sessionStorage.setItem(
       `scheduleData-${this.recordId}`,
       JSON.stringify(calculatedFields)
     );
+
+    let sessionData = sessionStorage.getItem(`scheduleData-${this.recordId}`);
+    if (sessionData) {
+      const test = JSON.parse(sessionData);
+      console.log('RS999 test : ' ,test);
+    }
 
     publish(this.messageContext, calcMessage, {
       calculatedFields: calculatedFields,
       type: "update"
     });
 
+    console.log("RS999 calculatedFields :",calculatedFields);
     this.calculatedFields = calculatedFields;
   }
 
@@ -213,7 +233,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     let val = this.holdbackReserveCalc();
 
     let override = this.deal.Holdback_Reserve_Override__c;
-    let multiplier = this.deal.Holdback_Reserve_Month_Multiplier__c;
+    let multiplier = this.deal.Holdback_Multiplier__c ;
 
     if (override) {
      val = override;
@@ -285,18 +305,88 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
 
   finalInterestRateCalc() {
     var InterestRateTermSheet = 0;
-    if (this.deal.Final_Swap__c && this.deal.Final_Spread__c) {
-      var yearSwapRate = parseFloat(this.deal.Final_Swap__c);
+    if ((this.deal.Final_Swap__c || this.deal.Swap_Rate__c) && this.deal.Final_Spread__c) {
+      var yearSwapRate = this.deal.Final_Swap__c ? parseFloat(this.deal.Final_Swap__c) : parseFloat(this.deal.Swap_Rate__c);
       var creditSpread = parseFloat(this.deal.Final_Spread__c);
-      InterestRateTermSheet = parseFloat(yearSwapRate + creditSpread).toFixed(
+      InterestRateTermSheet = parseFloat((yearSwapRate + creditSpread).toFixed(
         2
-      );
+      ));
+      console.log("INTEREST RATE CALC");
+      console.log(InterestRateTermSheet);
     }
 
     //console.log("--finalInterestRateCalc=", InterestRateTermSheet);
 
     return InterestRateTermSheet;
   }
+
+  finalSwapRates() {
+
+    console.log('RS999 Into getFinalRate');
+    console.log('RS999 this.deal.Final_Swap__c ' , this.deal.Final_Swap__c);    
+      if (this.deal.Final_Swap__c ) {
+        this.finalrate = parseFloat(this.deal.Final_Swap__c);
+      }
+      else
+      {
+        if (this.deal.Swap_Rate__c)
+        {
+          this.finalrate = this.deal.Swap_Rate__c;
+        }
+      }    
+      console.log("RS999 --finalrate=", this.finalrate);
+      return this.finalrate;
+  }
+ 
+  /*
+  @api
+  get finalSwapRate() {
+    console.log('RS999 Into get FinalRate');
+    console.log('RS999 this.deal.Final_Swap__c :' ,this.deal.Final_Swap__c);
+      if (this.deal.Final_Swap__c ) {
+        this.finalrate = parseFloat(this.deal.Final_Swap__c);
+      }
+      else
+      {
+        if (this.deal.Swap_Rate__c)
+        {
+          this.finalrate = this.deal.Swap_Rate__c;
+        }
+      }    
+      console.log("RS999 --finalrate=", this.finalrate);
+      return this.finalrate;
+  }
+
+  set finalSwapRate(value)
+  {
+    console.log('RS999 Into set finalSwapRate :');
+    console.log('RS999 value :',value);    
+    
+    if(value === null)
+    {
+      console.log('RS999 test this.deal ',this.deal);
+ 
+      if (this.deal.Final_Swap__c ) {
+        console.log('RS999 this.deal.Final_Swap__c :' ,this.deal.Final_Swap__c);
+        this.finalrate = parseFloat(this.deal.Final_Swap__c);
+      }
+      else
+      {
+        if (this.deal.Swap_Rate__c)
+        {
+          this.finalrate = this.deal.Swap_Rate__c;
+        }
+      }    
+      this.finalSwapRate = this.finalrate;
+    }
+    else
+    {
+      console.log('RS999 Into set finalSwapRate Other condition :');
+      //this.finalSwapRate = isNaN(parseFloat(value)) ? value : parseFloat(parseFloat(value).toFixed(2));
+    }
+    console.log('Rs999 this.finalSwapRate :' +this.finalSwapRate);
+  }
+*/
 
   // get totalSources() {
   //   return this.totalSourcesCalc();
@@ -397,6 +487,9 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     var Lender_Diligence_Out_of_Pocket = 0;
     var cfcorevestpurchaser = 0;
     var legalFee = 0;
+    var lenderCredit = 0;
+
+    lenderCredit = this.lc;    
     const discountFee = this.showDiscountFeeField ? this.discountFeeVal : 0;
     let CalculatedOriginationFee = this.finalorignalfeeCalc();
     if (CalculatedOriginationFee) {
@@ -427,7 +520,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
           parseFloat(stubInterest) +
           parseFloat(Lender_Diligence_Out_of_Pocket) +
           parseFloat(cfcorevestpurchaser) +
-          parseFloat(legalFee) + discountFee
+          parseFloat(legalFee) + discountFee - lenderCredit
       )
     ).toFixed(2);
 
@@ -769,17 +862,28 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
     const deal = JSON.parse(JSON.stringify(this.deal));
     const fieldName = event.target.getAttribute("data-field");
     const value = event.target.value;
+
     if(fieldName == "Current_Loan_Amount__c" && this.showEarlyRateLockField) {
       this.earlyRateLockAmount = value * 0.01;
     }
     if(fieldName == "Early_Lock_Deposit__c") {
       this.earlyRateLockAmount = value;
       this.updateCalculatedFields();
-
+      return;
+    }
+    if(fieldName == "Lender_Credit__c") {
+      this.lc = value;
+      this.updateCalculatedFields();
+      return;
+    }
+    if(fieldName == "Lender_Credit_Description__c") {
+      this.lenderCreditDescription = value;
+      this.updateCalculatedFields();
       return;
     }
     deal[fieldName] = value;
     this.deal = deal;
+    console.log('RS999 this.deal.Holdback_Multiplier__c ' +this.deal.Holdback_Multiplier__c);
     this.updateCalculatedFields();
   }
 
@@ -813,7 +917,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       CloseDate__c: deal.CloseDate,
       Deposit_Collected__c: deal.Deposit_Collected__c,
       Swap_Rate__c: deal.Swap_Rate__c,
-      Final_Swap_Rate__c: deal.Final_Swap__c,
+      Final_Swap_Rate__c: calculatedFields.Final_Swap__c,
       Credit_Spread__c: deal.Spread_BPS__c,
       Final_Credit_Spread__c: deal.Final_Spread__c,
       Interest_Rate_Type__c: deal.Interest_Rate_Type__c,
@@ -853,11 +957,12 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
       Cash_Management__c: deal.Cash_Management__c,
       Indicative_Rate_Calc__c: deal.Indicative_Rate_Calc__c,
       Holdback_Reserve_Override__c: deal.Holdback_Reserve_Override__c,
-      Holdback_Reserve_Month_Multiplier__c:
-        deal.Holdback_Reserve_Month_Multiplier__c,
+      Holdback_Reserve_Month_Multiplier__c: deal.Holdback_Multiplier__c ,
       Term__c: deal.Term_Loan_Type__c,
       Discount_Fee__c: discountFee,
       Discount_Fee_Number__c: this.discountFeeVal,
+      Lender_Credit__c : calculatedFields.Lender_Credit__c,
+      Lender_Credit_Description__c: calculatedFields.Lender_Credit_Description__c
     };
 
     // console.log(loanVersion);
@@ -878,7 +983,7 @@ export default class ScheduleOfLenderCostsNew extends LightningElement {
   get showEarlyRateLockField() {
     return this.deal.Rate_Lock_Picklist__c == "Early Rate Locked";
   }
-  
+
   @api
   get earlyRateLockAmount() {
     if(this.earlyRateLockAmountLocal === null && this.showEarlyRateLockField && this.deal.Current_Loan_Amount__c) {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Advance_Record_Type_Name__c</fullName>
+    <externalId>false</externalId>
+    <label>Advance Record Type Name</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Construction Advance</fullName>
+                <default>false</default>
+                <label>Construction Advance</label>
+            </value>
+            <value>
+                <fullName>Construction Draw</fullName>
+                <default>false</default>
+                <label>Construction Draw</label>
+            </value>
+            <value>
+                <fullName>Non Renovation Initial</fullName>
+                <default>false</default>
+                <label>Non Renovation Initial</label>
+            </value>
+            <value>
+                <fullName>Renovation Initial</fullName>
+                <default>false</default>
+                <label>Renovation Initial</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -888,12 +888,32 @@ public without sharing class lightning_Controller {
     String whereClause,
     String orderClause
   ) {
+    
+
+    return getRelatedList(parentId, parentFieldName, sobjectType, whereClause, orderClause, new List<String>());
+  }
+
+  @AuraEnabled
+  public static List<sObject> getRelatedList(
+    String parentId,
+    String parentFieldName,
+    String sobjectType,
+    String whereClause,
+    String orderClause,
+    List<String> additionalFields
+  ) {
     String queryString = 'SELECT ';
 
     for (String field : util.getAllFieldNamesForObject(sobjectType)) {
       queryString += field + ', ';
     }
+
+    if(additionalFields.size() > 0) {
+      queryString += String.join(additionalFields, ',');
+    } else {
     queryString = queryString.substringBeforeLast(',');
+    }
+    
     queryString += ' FROM ' + sobjectType;
 
     queryString += ' WHERE ' + parentFieldName + ' = \'' + parentId + '\'';

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>This email is sent out when a Deal is approved into Underwriting</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>Deal Approved Into UW</name>
+    <style>freeForm</style>
+    <subject>A Deal has been approved into Underwriting - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hello,
+
+A Deal has been approved into Underwriting.
+
+Deal: {!Opportunity.Name}
+Approver: {!ApprovalRequest.Process_Approver}
+Comments: {!ApprovalRequest.Comments}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

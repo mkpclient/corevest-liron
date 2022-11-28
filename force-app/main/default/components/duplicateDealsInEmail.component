@@ -7,6 +7,9 @@
       <a href="{!baseUrl + deal.Id}">{!deal.Name}</a>
     </p>
     <p>Number of Potential Duplicate Properties: {!numDuplicates}</p>
+    <apex:outputPanel rendered="{!dupesDisplayed < numDuplicates}">
+      <p><em>** List is incomplete, please refer to the duplicate notification on the deal page.</em></p>
+    </apex:outputPanel>
     <ul>
       <apex:repeat value="{!properties}" var="p">
         <li>

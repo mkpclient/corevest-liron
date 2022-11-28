@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Disaster_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Disaster Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Drought</fullName>
+                <default>false</default>
+                <label>Drought</label>
+            </value>
+            <value>
+                <fullName>Earthquake</fullName>
+                <default>false</default>
+                <label>Earthquake</label>
+            </value>
+            <value>
+                <fullName>Freeze</fullName>
+                <default>false</default>
+                <label>Freeze</label>
+            </value>
+            <value>
+                <fullName>Hurricane</fullName>
+                <default>false</default>
+                <label>Hurricane</label>
+            </value>
+            <value>
+                <fullName>Tropical Storm</fullName>
+                <default>false</default>
+                <label>Tropical Storm</label>
+            </value>
+            <value>
+                <fullName>Wildfire</fullName>
+                <default>false</default>
+                <label>Wildfire</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

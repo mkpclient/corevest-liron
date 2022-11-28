@@ -84,11 +84,11 @@ public without sharing class APILoggerQueueable implements Queueable {
         ? settings[0].Enable_BOX_API_Response_Logging__c
         : true;
       log.Type__c = 'Box';
-      } else if (endpoint.contains('clearcapital')) {
-        enableLogging = settings.size() > 0
-          ? settings[0].Enable_Clear_Capital_API_Logging__c
-          : true;
-        log.Type__c = 'Clear Capital';
+    } else if (endpoint.contains('clearcapital')) {
+      enableLogging = settings.size() > 0
+        ? settings[0].Enable_Clear_Capital_API_Logging__c
+        : true;
+      log.Type__c = 'Clear Capital';
       // } else if (endpoint.contains(clarocityBaseEndpoint)) {
       //   enableLogging = settings.size() > 0
       //     ? settings[0].Enable_Valuation_API_Response_Logging__c
@@ -114,6 +114,8 @@ public without sharing class APILoggerQueueable implements Queueable {
       //     ? settings[0].Enable_CoreLogic_API_Response_Logging__c
       //     : true;
       //   log.Type__c = 'CoreLogic';
+    } else if (endpoint.contains('portalapi.cvest')) {
+      log.Type__c = 'Portal';
     }
 
     if (enableLogging || test.isRunningTest()) {

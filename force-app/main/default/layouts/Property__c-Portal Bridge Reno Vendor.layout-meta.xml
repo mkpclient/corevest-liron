@@ -9,7 +9,12 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>Loan Level Details</label>
-        <layoutColumns/>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Disbursement_Expiration_Date__c</field>
+            </layoutItems>
+        </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>

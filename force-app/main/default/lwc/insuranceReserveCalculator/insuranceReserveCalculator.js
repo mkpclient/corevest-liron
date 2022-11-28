@@ -26,7 +26,7 @@ export default class InsuranceReserveCalculator extends LightningElement {
     return this.deal.data ? this.deal.data.Name : ' '
   }
   get paymentDueDate(){
-    return this.deal && this.deal.data ? this.deal.data.First_Payment_Due_Date__c : null;
+    return this.deal && this.deal.data ? this.deal.data.First_Payment_Date__c : null;
   }
 
   get renewalDate(){
@@ -64,7 +64,7 @@ export default class InsuranceReserveCalculator extends LightningElement {
       //this.deal.
       deal.data.First_Payment_Due_Date__c = event.target.value;
       this.deal = deal;
-      if (this.deal.data != null && this.deal.data.First_Payment_Due_Date__c != null && Array.isArray(this.properties.data)) {
+      if (this.deal.data != null && this.deal.data.First_Payment_Date__c != null && Array.isArray(this.properties.data)) {
         console.log('--calculate property values--');
         this.calculatePropertyValues();
       }
@@ -83,8 +83,8 @@ export default class InsuranceReserveCalculator extends LightningElement {
     //console.log("calculate property values");
     properties.data.forEach(property => {
       console.log(property.Renewal_Date__c);
-      if (property.Renewal_Date__c != null && this.deal.data != null && this.deal.data.First_Payment_Due_Date__c != null) {
-        let paymentDueDate = new Date(this.deal.data.First_Payment_Due_Date__c);
+      if (property.Renewal_Date__c != null && this.deal.data != null && this.deal.data.First_Payment_Date__c != null) {
+        let paymentDueDate = new Date(this.deal.data.First_Payment_Date__c);
         let renewalDate = new Date(property.Renewal_Date__c);
 
         let diff = Math.floor(

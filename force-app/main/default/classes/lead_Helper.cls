@@ -27,6 +27,10 @@ public class lead_Helper {
         l.MobilePhone = util.formatPhone(l.MobilePhone);
       }
 
+      if (String.isNotBlank(l.Property_Type__c)) {
+        l.Property_Type__c = l.Property_Type__c.replace(', ', ';');
+      }
+
       if (
         l.Company == 'None' ||
         l.Company == 'na' ||
@@ -152,6 +156,7 @@ public class lead_Helper {
 
   public static void afterUpdate(List<Lead> newList, List<Lead> oldList) {
     Set<Id> convertedLeadIds = new Set<Id>();
+    List<Id> portalUpdateIds = new List<Id>();
 
     for (Integer i = 0; i < newList.size(); i++) {
       if (
@@ -159,6 +164,17 @@ public class lead_Helper {
         newList[i].IsConverted
       ) {
         convertedLeadIds.add(newList[i].Id);
+      }
+      if (
+        newList[i].Alchemy_Portal_Id__c != null &&
+        (newList[i].Email != oldList[i].Email ||
+        newList[i].Applicant_Type__c != oldList[i].Applicant_Type__c &&
+        newList[i].Applicant_Type__c != null)
+      ) {
+        portalUpdateIds.add(newList[i].Id);
+      }
+      if (portalUpdateIds.size() > 0) {
+        system.enqueueJob(new UpdatePortalUserQueueable(portalUpdateIds));
       }
     }
 

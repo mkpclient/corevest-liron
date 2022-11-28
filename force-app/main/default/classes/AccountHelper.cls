@@ -36,23 +36,27 @@ public class AccountHelper {
         newList[i].RecordTypeId = RECORDTYPE_MAP.get('Lender').Id;
       }
     }
-    Map<String, Decimal> highestNumberMap = queryAccountsForYardiVendor(
-      accountNameStarts
-    );
-    for (Integer i = 0; i < newList.size(); i++) {
-      if (yardiVendorNeedsUpdate(newList[i])) {
-        newList[i].Yardi_Vendor_Code_Number__c =
-          highestNumberMap.get(newList[i].Yardi_Vendor_Code_Initials__c) + 1;
-        newList[i].Yardi_Vendor_Code__c =
-          'SF' +
-          newList[i].Yardi_Vendor_Code_Initials__c +
-          ('0' + newList[i].Yardi_Vendor_Code_Number__c).right(2);
-        highestNumberMap.put(
-          newList[i].Yardi_Vendor_Code_Initials__c,
-          newList[i].Yardi_Vendor_Code_Number__c
-        );
+
+    if(accountNameStarts.size() > 0) {
+      Map<String, Decimal> highestNumberMap = queryAccountsForYardiVendor(
+        accountNameStarts
+      );
+      for (Integer i = 0; i < newList.size(); i++) {
+        if (yardiVendorNeedsUpdate(newList[i])) {
+          newList[i].Yardi_Vendor_Code_Number__c =
+            highestNumberMap.get(newList[i].Yardi_Vendor_Code_Initials__c) + 1;
+          newList[i].Yardi_Vendor_Code__c =
+            'SF' +
+            newList[i].Yardi_Vendor_Code_Initials__c +
+            ('0' + newList[i].Yardi_Vendor_Code_Number__c).right(2);
+          highestNumberMap.put(
+            newList[i].Yardi_Vendor_Code_Initials__c,
+            newList[i].Yardi_Vendor_Code_Number__c
+          );
+        }
       }
     }
+   
   }
 
   public static void afterInsert(List<Account> newList) {
@@ -102,7 +106,9 @@ public class AccountHelper {
         }
       }
     }
-    Map<String, Decimal> highestNumberMap = queryAccountsForYardiVendor(
+
+    if(accountNameStarts.size() > 0) {
+      Map<String, Decimal> highestNumberMap = queryAccountsForYardiVendor(
       accountNameStarts
     );
     for (Integer i = 0; i < newList.size(); i++) {
@@ -120,6 +126,9 @@ public class AccountHelper {
         );
       }
     }
+
+    }
+    
   }
 
   public static void afterUpdate(List<Account> newList) {

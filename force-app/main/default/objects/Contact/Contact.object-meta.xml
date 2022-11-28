@@ -337,6 +337,7 @@
         <customTabListAdditionalFields>FULL_NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>ACCOUNT.NAME</customTabListAdditionalFields>
         <customTabListAdditionalFields>CONTACT.PHONE1</customTabListAdditionalFields>
+        <listViewButtons>Create_Quick_Contact</listViewButtons>
         <lookupDialogsAdditionalFields>FULL_NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.NAME</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ACCOUNT.SITE</lookupDialogsAdditionalFields>
@@ -363,7 +364,7 @@
         <lookupPhoneDialogsAdditionalFields>Work_Phone_SBAC__c</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>ACCOUNT.PHONE1</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Account.Alternate_Phone__c</lookupPhoneDialogsAdditionalFields>
-        <massQuickActions>Log_a_Call</massQuickActions>
+        <massQuickActions>Log_a_Call_Contact</massQuickActions>
         <massQuickActions>New_Task</massQuickActions>
         <massQuickActions>Event</massQuickActions>
         <searchResultsAdditionalFields>FULL_NAME</searchResultsAdditionalFields>
@@ -373,6 +374,7 @@
         <searchResultsAdditionalFields>CORE.USERS.ALIAS</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.CREATED_DATE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>CONTACT.RECORDTYPE</searchResultsAdditionalFields>
+        <searchResultsCustomButtons>Create_Quick_Contact</searchResultsCustomButtons>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

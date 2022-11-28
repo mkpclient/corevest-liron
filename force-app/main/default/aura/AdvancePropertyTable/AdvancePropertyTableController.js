@@ -128,11 +128,11 @@
     let record = component.get("v.record");
     console.log("appraisal fee netted", record.Appraisal_Fee_Netted__c);
     let appraisalFee = record.BPO_Appraisal_Fee_Subtotal__c;
-    let reportFees = record.Report_Fee_Subtotal__c; 
+    let reportFees = record.Report_Fee_Subtotal__c;
     if (!record.Appraisal_Fee_Netted__c) {
       appraisalFee = 0;
     }
-    if(!record.Report_Fees_Netted__c) {
+    if (!record.Report_Fees_Netted__c) {
       reportFees = 0;
     }
     record.Inspection_Fee_Subtotal__c = inspectionFeeSubtotal;
@@ -187,7 +187,6 @@
           pAdv.Net_Funding__c = pAdv.Net_Funding__c + pAdv.Report_Fee_Total__c;
         });
       }
-
     }
     component.set("v.record", record);
     component.set("v.propertyAdvances", propAdvances);
@@ -202,7 +201,7 @@
     let val = evSource.get("v.value");
     val = isNaN(val) || !val ? 0 : val;
     const keyName = evSource.get("v.name");
-    if(keyName == "Holdback_To_Rehab_Ratio__c") {
+    if (keyName == "Holdback_To_Rehab_Ratio__c") {
       component.set("v.isHoldbackToRehabChanged", true);
     }
     if (
@@ -297,10 +296,12 @@
       records.concat(component.get("v.updatedPropAdvances"));
     }
 
-    if(component.get("v.isHoldbackToRehabChanged")) {
+    if (component.get("v.isHoldbackToRehabChanged")) {
       const dealRec = {
         Id: record["Deal__c"],
-        Holdback_To_Rehab_Ratio__c: component.get("v.propertyAdvances")[0]["Holdback_To_Rehab_Ratio__c"],
+        Holdback_To_Rehab_Ratio__c: component.get("v.propertyAdvances")[0][
+          "Holdback_To_Rehab_Ratio__c"
+        ],
         sobjectType: "Opportunity"
       };
       records.push(dealRec);
@@ -310,8 +311,6 @@
     action.setParams({
       records: records
     });
-
-    
 
     action.setCallback(this, function (response) {
       var state = response.getState();

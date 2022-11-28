@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Zoning_Report_URL_1__c</fullName>
+    <description>EBI Zoning Report URL 1</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI Zoning Report URL 1</inlineHelpText>
+    <label>EBI Zoning Report URL 1</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Url</type>
+</CustomField>

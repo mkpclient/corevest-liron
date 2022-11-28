@@ -24,7 +24,8 @@
     "Deal__r.Account.Phone",
     "Deal__r.Borrower_Entity__r.Name",
     "Deal__r.Borrower_Entity__r.Company_Jurisdiction__c",
-    "Deal__r.Borrower_Entity__r.Entity_Type__c"
+    "Deal__r.Borrower_Entity__r.Entity_Type__c",
+    "Deal__r.LTV__c"
   ],
 
   opportunityFields: [
@@ -92,7 +93,8 @@
     // "Advance__r.Property_Record_Type__c",
     "Initial_Monthly_Debt_Service_Payment__c",
     "Servicer_Name__c",
-    "Amount"
+    "Amount",
+    "LTV__c"
     //"Daily_Interest_Rate_Total__c",
     //"(SELECT Id, Contact__c  FROM Deal_Contacts__r )"
   ],
@@ -481,6 +483,7 @@
   compileAdvanceQuery: function (component) {
     let queryString = "SELECT " + this.fields.join(",");
 
+
     let recordId = component.get("v.recordId");
     queryString += ` FROM Advance__c WHERE Id = '${recordId}'`;
 
@@ -574,10 +577,12 @@
   },
 
   createBridgeICMemoCmp: function (component, event) {
+    const componentHeader = component.get("v.filterFields.RecordType") == "Bridge" ? "Bridge IC Memo" : "SAB IC Memo";
     $A.createComponent(
       "c:BridgeICMemo",
       {
-        recordId: component.get("v.recordId")
+        recordId: component.get("v.recordId"),
+        componentHeader
       },
       function (newCmp, status, errorMessage) {
         if (status === "SUCCESS") {
@@ -592,8 +597,13 @@
     );
   },
   createSABICMemoCmp: function (component, event) {
+    let componentName = "c:SABICMemo";
+
+    if(component.get("v.filterFields").RecordType == "Bridge") {
+      componentName = "c:AdvanceFundingBridge";
+    }
     $A.createComponent(
-      "c:SABICMemo",
+      componentName,
       {
         recordId: component.get("v.recordId")
       },

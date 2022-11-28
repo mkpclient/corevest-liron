@@ -6,6 +6,7 @@
         <callbackUrl>https://corevestdev1.wpengine.com/?callback=gravityformssalesforce</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojj8ngOrOwgc7bKF.b8FQGMwku5qZS62VdjR1_KSgvmyEwvH_g8ku3TKPK5aRcY1QecQHb2C</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>true</isSecretRequiredForRefreshToken>

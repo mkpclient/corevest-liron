@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <alerts>
+        <fullName>Appraisal_Due_Date_Time_Changed</fullName>
+        <description>Appraisal - Due Date/Time Changed</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CAF_Originator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <field>Loan_Manager_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Appraisal_Appraisal_Due_Date_Time_Changed</template>
+    </alerts>
+    <alerts>
+        <fullName>Appraisal_Invoicing_Payment_Required_at_Closing</fullName>
+        <description>Appraisal Invoicing - Payment Required at Closing</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Loan_Manager_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Appraisal_Payment_Required_at_Closing</template>
+    </alerts>
+    <alerts>
+        <fullName>Appraisal_Status_Updated_to_Ordered_Appraiser_Accepted</fullName>
+        <description>Appraisal - Status Updated to Ordered Appraiser Accepted</description>
+        <protected>false</protected>
+        <recipients>
+            <field>CAF_Originator_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <field>Loan_Manager_Email__c</field>
+            <type>email</type>
+        </recipients>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Appraisal_Ordered_Appraiser_Accepted</template>
+    </alerts>
+    <alerts>
         <fullName>Appraisal_status_updated_to_Reviewed</fullName>
         <ccEmails>underwriting.riverbendlending@cvest.com</ccEmails>
         <description>Appraisal status updated to Reviewed</description>

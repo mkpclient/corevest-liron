@@ -5,9 +5,10 @@ private class Commission_Test {
   //
   @testSetup
   static void dataSetup() {
+    Test_Helper.createRate();
     Test_Helper.createDealLoanNumber();
   }
-  
+
   @isTest
   static void Commissiontest1() {
     // 1st term condition
@@ -69,7 +70,7 @@ private class Commission_Test {
     topp1.OwnerId = origU.id;
     topp1.CAF_YSP__c = null;
     topp1.Type = 'Term Loan';
-   // topp1.CAF_Upfront_Fee__c = 2;
+    // topp1.CAF_Upfront_Fee__c = 2;
     topp1.Final_Loan_Amount__c = 1000000;
     topp1.Deal_Intro_Source__c = 'Hotline';
     topp1.Deal_Intro_Sub_Source__c = 'Main';
@@ -82,9 +83,9 @@ private class Commission_Test {
     .Id;
     insert topp1;
 
-          topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
-      
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
+
     Commission_Detail__c commDetail = new Commission_Detail__c();
     commDetail.Deal__c = topp1.Id;
     commDetail.Commission_Type__c = 'Direct';
@@ -92,20 +93,20 @@ update topp1;
     commDetail.Approval_Status__c = 'Pending';
 
     insert commDetail;
-      
-system.debug('caf fee'+topp1.CAF_Upfront_Fee__c);
-      system.debug('caf fee'+topp1.Name);
+
+    system.debug('caf fee' + topp1.CAF_Upfront_Fee__c);
+    system.debug('caf fee' + topp1.Name);
 
     Commission_Detail__c commDetailUpdate = [
       SELECT Approval_Status__c
       FROM Commission_Detail__c
       WHERE id = :commDetail.Id
     ];
-      Test.startTest();
+    Test.startTest();
     commDetailUpdate.Approval_Status__c = 'Approved';
 
     update commDetailUpdate;
-      Test.stopTest();
+    Test.stopTest();
   }
   @isTest
   static void Commissiontest2() {
@@ -161,9 +162,9 @@ system.debug('caf fee'+topp1.CAF_Upfront_Fee__c);
     .Id;
     insert topp2;
 
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
-      
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
+
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = System.today();
@@ -186,9 +187,9 @@ update topp2;
     ]
     .Id;
     insert topp1;
-          
-      topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
     list<account> myaccountTotalTermAmount = [
       SELECT Borrowed_on_Term_Loans__c
       FROM account
@@ -283,8 +284,8 @@ update topp1;
     ]
     .Id;
     insert topp1;
-          topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
     myCommissionTotal.Quarter_Start_Date__c = quarterStartDate;
@@ -374,9 +375,9 @@ update topp1;
     ]
     .Id;
     insert topp2;
-          topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
-      
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
+
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = System.today();
@@ -399,8 +400,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
@@ -430,9 +431,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
   // Term w Comm Total last quarter
   @isTest
@@ -516,8 +517,8 @@ test.startTest();
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
@@ -629,8 +630,8 @@ update topp1;
     ]
     .Id;
     insert topp2;
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -654,8 +655,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-          topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
     Commission_Total__c myCommissionTotal = new Commission_Total__c();
     myCommissionTotal.OwnerId = origU.id;
     myCommissionTotal.Quarter_Start_Date__c = quarterStartDate;
@@ -690,9 +691,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
   // Term w last quarter commission only
   @isTest
@@ -791,8 +792,8 @@ test.startTest();
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -907,8 +908,8 @@ update topp1;
     ]
     .Id;
     insert topp2;
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -932,8 +933,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -956,9 +957,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
 
   @isTest
@@ -1057,8 +1058,8 @@ test.startTest();
     ]
     .Id;
     insert topp2;
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1082,8 +1083,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1108,9 +1109,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
 
   @isTest
@@ -1209,9 +1210,9 @@ test.startTest();
     ]
     .Id;
     insert topp2;
-      
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
+
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1235,8 +1236,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1267,9 +1268,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
   @isTest
   static void Commissiontest11() {
@@ -1367,9 +1368,9 @@ test.startTest();
     ]
     .Id;
     insert topp1;
-      
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1494,9 +1495,9 @@ update topp1;
     ]
     .Id;
     insert topp2;
-      
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
+
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
 
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
@@ -1520,8 +1521,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1546,9 +1547,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
 
   @isTest
@@ -1647,8 +1648,8 @@ test.startTest();
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1774,9 +1775,9 @@ update topp1;
     .Id;
     insert topp2;
 
-                topp2.CAF_Upfront_Fee__c = 2;
-update topp2;
-      
+    topp2.CAF_Upfront_Fee__c = 2;
+    update topp2;
+
     Opportunity topp1 = new Opportunity();
     topp1.Name = 'test';
     topp1.CloseDate = quarterStartDateLastQ.addDays(5);
@@ -1799,8 +1800,8 @@ update topp2;
     ]
     .Id;
     insert topp1;
-                topp1.CAF_Upfront_Fee__c = 2;
-update topp1;
+    topp1.CAF_Upfront_Fee__c = 2;
+    update topp1;
 
     Commission_Total__c myCommissionTotal2 = new Commission_Total__c();
     myCommissionTotal2.OwnerId = origU.id;
@@ -1825,9 +1826,9 @@ update topp1;
     ];
 
     commDetailUpdate.Approval_Status__c = 'Approved';
-test.startTest();
+    test.startTest();
     update commDetailUpdate;
-      test.stopTest();
+    test.stopTest();
   }
 
   // Bridge
@@ -1885,9 +1886,9 @@ test.startTest();
     ]
     .Id;
     insert topp1;
-      
+
     List<Commission__c> comms = new List<Commission__c>();
-    for(Integer i = 0; i <= 151; i++) {
+    for (Integer i = 0; i <= 151; i++) {
       Commission__c myCommission = new Commission__c();
       myCommission.Commission_Amount1__c = 1230;
       myCommission.Deal__c = topp1.id;
@@ -2528,7 +2529,7 @@ test.startTest();
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -2581,7 +2582,6 @@ test.startTest();
 
     insert padv;
 
-
     update opp;
     adv.Wire_Date__c = quarterStartDate.addDays(4);
 
@@ -2590,7 +2590,7 @@ test.startTest();
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
-      test.stopTest();
+    test.stopTest();
   }
   static testMethod void Commissiontest26() {
     //internal
@@ -2717,7 +2717,7 @@ test.startTest();
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -2770,7 +2770,6 @@ test.startTest();
 
     insert padv;
 
-
     update opp;
     adv.Wire_Date__c = quarterStartDateLastQ.addDays(2);
 
@@ -2779,7 +2778,7 @@ test.startTest();
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
-      test.stopTest();
+    test.stopTest();
   }
 
   static testMethod void Commissiontest27() {
@@ -2907,7 +2906,7 @@ test.startTest();
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -2965,7 +2964,6 @@ test.startTest();
 
     insert padv;
 
-
     update opp;
     adv.Wire_Date__c = quarterStartDateLastQ.addDays(2);
 
@@ -2974,7 +2972,7 @@ test.startTest();
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
-      test.stopTest();
+    test.stopTest();
   }
   static testMethod void Commissiontest28() {
     //internal
@@ -3101,7 +3099,7 @@ test.startTest();
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -3154,7 +3152,6 @@ test.startTest();
 
     insert padv;
 
-
     update opp;
     adv.Wire_Date__c = system.today();
 
@@ -3163,7 +3160,7 @@ test.startTest();
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
-      test.stopTest();
+    test.stopTest();
   }
   static testMethod void Commissiontest29() {
     //internal
@@ -3290,7 +3287,7 @@ test.startTest();
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
     opp.Commission_Type__c = 'Direct';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Direct Mail';
@@ -3332,7 +3329,7 @@ test.startTest();
     );
     insert adv;
 
-          Test.startTest();
+    Test.startTest();
 
     Property_Advance__c padv = new Property_Advance__c();
     padv.Property__c = property.Id;
@@ -3344,7 +3341,6 @@ test.startTest();
 
     insert padv;
 
-
     update opp;
     adv.Wire_Date__c = system.today();
 
@@ -3353,7 +3349,7 @@ test.startTest();
     update adv;
 
     system.debug('Deal Amount' + opp.Amount);
-      test.stopTest();
+    test.stopTest();
   }
   @isTest
   static void Commissiontest30() {

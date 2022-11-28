@@ -9,6 +9,7 @@
         <callbackUrl>https://cvest.my.salesforce.com/environmenthub/soma-callback.apexp</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqu3pxCKNDSNtEVZ.ygzPTsiMDWTc1K4QvvNPPbhiWo.L.thWSpwIDBh7DM44</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

@@ -4,6 +4,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Sales Console</label>
     <navType>Console</navType>
     <profileActionOverrides>
@@ -3911,6 +3912,8 @@
     <tabs>Policy_Exception__c</tabs>
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>LightningSalesConsole_UtilityBar</utilityBar>
     <workspaceConfig>
@@ -3936,6 +3939,9 @@
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
+            <tab>Disaster__c</tab>
+        </mappings>
+        <mappings>
             <tab>Email__c</tab>
         </mappings>
         <mappings>
@@ -3943,6 +3949,9 @@
         </mappings>
         <mappings>
             <tab>Policy_Exception__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Portal_Survey__c</tab>
         </mappings>
         <mappings>
             <tab>Post_Closing_Section__c</tab>

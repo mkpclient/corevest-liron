@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>This is the email alert when an advance IC approval is rejected.</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>Advance IC Rejected</name>
+    <style>freeForm</style>
+    <subject>The following advance has been rejected for funding - Approval #{!Advance__c.Advance_Approval_Name__c}</subject>
+    <textOnly>Dear {!Receiving_User.Name},
+
+This advance has been rejected for funding.
+
+Please click here for the advance record: {!Advance__c.Link}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

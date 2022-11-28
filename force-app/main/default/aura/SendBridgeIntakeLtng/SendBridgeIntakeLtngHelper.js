@@ -361,17 +361,23 @@
                   const nameKey = `Guarantor${i + 1}Name`;
                   const displayKey = `Guarantor${i + 1}Display`;
                   let fullName = "";
-                  if (v.Deal_Contacts__r.Contact__r.FirstName) {
-                    fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+                  if(!contact) {
+                    break;
                   }
-                  if (v.Deal_Contacts__r.Contact__r.MiddleName) {
-                    fullName +=
-                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // if (contact.FirstName) {
+                  //   fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+                  // }
+                  // if (contact.MiddleName) {
+                  //   fullName +=
+                  //     " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // }
+                  // if (contact.LastName) {
+                  //   fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // }
+                  if (contact.Legal_Name__c) {
+                    fullName += v.Deal_Contacts__r.Contact__r.Legal_Name__c;
                   }
-                  if (v.Deal_Contacts__r.Contact__r.LastName) {
-                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
-                  }
-                  if (v.Deal_Contacts__r.Contact__r.Suffix) {
+                  if (contact.Suffix) {
                     fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
                   }
                   dealEdit[addressKey] =
@@ -540,17 +546,24 @@
                   const nameKey = `Guarantor${i + 1}Name`;
                   const displayKey = `Guarantor${i + 1}Display`;
                   let fullName = "";
-                  if (v.Deal_Contacts__r.Contact__r.FirstName) {
-                    fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+
+                  if(!contact) {
+                    break;
                   }
-                  if (v.Deal_Contacts__r.Contact__r.MiddleName) {
-                    fullName +=
-                      " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // if (contact.FirstName) {
+                  //   fullName += v.Deal_Contacts__r.Contact__r.FirstName;
+                  // }
+                  // if (contact.MiddleName) {
+                  //   fullName +=
+                  //     " " + v.Deal_Contacts__r.Contact__r.MiddleName[0];
+                  // }
+                  // if (contact.LastName) {
+                  //   fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
+                  // }
+                  if (contact.Legal_Name__c) {
+                    fullName += v.Deal_Contacts__r.Contact__r.Legal_Name__c;
                   }
-                  if (v.Deal_Contacts__r.Contact__r.LastName) {
-                    fullName += " " + v.Deal_Contacts__r.Contact__r.LastName;
-                  }
-                  if (v.Deal_Contacts__r.Contact__r.Suffix) {
+                  if (contact.Suffix) {
                     fullName += " " + v.Deal_Contacts__r.Contact__r.Suffix;
                   }
                   dealEdit[addressKey] =
@@ -652,7 +665,7 @@
     "Requested_Advance_Date__c",
     "Fee__c",
     "Reno_Funding_Type__c",
-    "Index_Floor__c",
+    "Floor__c",
     "Index__c",
     "Index_Margin__c",
     "Interest_Rate_Type__c",
@@ -682,6 +695,7 @@
     "Contact__r.FirstName",
     "Contact__r.MiddleName",
     "Contact__r.LastName",
+    "Contact__r.Legal_Name__c",
     "Contact__r.Suffix",
     "Contact__r.MailingState",
     "Entity_Type__c",

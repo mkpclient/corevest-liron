@@ -5,12 +5,11 @@
     <description>For term use: Schedule Lender of Costs</description>
     <externalId>false</externalId>
     <label>Reserve Tax</label>
-    <precision>4</precision>
+    <precision>18</precision>
     <required>false</required>
     <scale>2</scale>
     <securityClassification>Internal</securityClassification>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
-    <type>Number</type>
-    <unique>false</unique>
+    <type>Currency</type>
 </CustomField>

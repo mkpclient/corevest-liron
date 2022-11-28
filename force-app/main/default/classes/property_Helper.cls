@@ -92,7 +92,11 @@ public without sharing class property_Helper {
     'Report_Fee_PC__c',
     'Report_Fee_SEI__c',
     'Report_Fee_SUY__c',
-    'Report_Fee_ZN__c'
+    'Report_Fee_ZN__c',
+    'Assignment_Fee__c',
+    'Max_Initial_Loan_Amount_Input__c',
+    'Max_Reno_Cost_Reimbursement__c',
+    'Max_Total_Loan_Amount_Input__c'
   };
 
   @AuraEnabled(cacheable=true)
@@ -719,7 +723,7 @@ public without sharing class property_Helper {
       }
 
       if (
-        RECORDTYPE_MAP.get(newList[i].RecordTypeId) == 'Term_Loan' &&
+        // RECORDTYPE_MAP.get(newList[i].RecordTypeId) == 'Term_Loan' &&
         newList[i].Is_Parent__C == false
       ) {
         termIds.add(newList[i].Deal__c);
@@ -767,9 +771,8 @@ public without sharing class property_Helper {
     //for the new list of Properties which are in the dealMapclo assign all the fields
     List<CLO_Asset_Details__c> cloList = new List<CLO_Asset_Details__c>();
     for (Property__c iProp : newList) {
-		if(dealMapCLO.containsKey(iProp.Deal__c))
-        {
-            CLO_Asset_Details__c clo=new CLO_Asset_Details__c();
+      if (dealMapCLO.containsKey(iProp.Deal__c)) {
+        CLO_Asset_Details__c clo = new CLO_Asset_Details__c();
         //Properties fields assignment
         clo.Property_Name__c = iProp.Property_Name__c;
         clo.Property_Address__c = iProp.Name;
@@ -781,9 +784,9 @@ public without sharing class property_Helper {
         clo.Property_Type__c = iProp.Property_Type__c;
         clo.Number_of_Units__c = iProp.Number_of_Units__c;
         clo.Initial_Funded_Amount__c = iProp.Initial_Disbursement__c;
-            clo.First_Payment_Date__c= iProp.First_Payment_Date__c;
+        clo.First_Payment_Date__c = iProp.First_Payment_Date__c;
         clo.Initial_Maturity_Date__c = iProp.Asset_Maturity_Date__c;
-            clo.Related_Property__c =iProp.Id;
+        clo.Related_Property__c = iProp.Id;
         //Opportunity fields assignment
         Opportunity op = new Opportunity();
         clo.Deal_ID__c = iProp.Deal__c;
@@ -791,21 +794,22 @@ public without sharing class property_Helper {
         clo.Deal_Loan_Number__c = op.Deal_Loan_Number__c;
         clo.Loan_Purpose__c = op.Loan_Purpose__c;
         clo.Borrower_Name__c = op.Borrower_Entity__c;
-            clo.Loan_Commitment_Original_Balance__c=op.LOC_Commitment__c;
-            clo.Note_Date__c=op.CloseDate;
+        clo.Loan_Commitment_Original_Balance__c = op.LOC_Commitment__c;
+        clo.Note_Date__c = op.CloseDate;
         //clo.First_Extension_Fee__c=op.Extension_Fee__c;
-            clo.Exit_Fee__c=op.Exit_Fee__c;
-            clo.Interest_Rate_Type__c=op.Interest_Rate_Type__c;
-            clo.Index_for_Floating_Rate__c=op.Index__c;
-            clo.SOFR_Floor__c=op.Floor__c;
-            clo.Appraisal_Stabilized_Occupancy__c=op.Total_ARV_LTV__c;
-            clo.Maturity_Date__c=op.Current_Line_Maturity_Date__c;
-            clo.Amortization_Term__c=op.Amortization_Term__c;
+        clo.Exit_Fee__c = op.Exit_Fee__c;
+        clo.Interest_Rate_Type__c = op.Interest_Rate_Type__c;
+        clo.Index_for_Floating_Rate__c = op.Index__c;
+        clo.SOFR_Floor__c = op.Floor__c;
+        clo.Appraisal_Stabilized_Occupancy__c = op.Total_ARV_LTV__c;
+        clo.Maturity_Date__c = op.Current_Line_Maturity_Date__c;
+        clo.Amortization_Term__c = op.Amortization_Term__c;
         clo.Deal_Name__c = op.Name;
         cloList.add(clo);
       }
     }
-    if(cloList.size()>0) insert cloList;
+    if (cloList.size() > 0)
+      insert cloList;
     //CIP-2286-RS.7/15/22.End      */
   }
 
@@ -814,7 +818,7 @@ public without sharing class property_Helper {
       SELECT Acquisition_Date__c, Deal__c
       FROM Property__c
       WHERE
-        Status__c = 'Active'
+        Status__c NOT IN ('Inactive', 'Cancelled')
         AND Parent_Property__c = NULL
         AND Acquisition_Date__c != NULL
         AND Refinance_Acquisition__c = 'Refinance'
@@ -1001,23 +1005,20 @@ public without sharing class property_Helper {
       else
         oppMap.get(dealId).Total_Units__c = 0;
 
-      if (null != childMap.get(dealId).get('Refinance'))
-        oppMap.get(dealId).Refinance_Count__c = childMap.get(dealId)
-          .get('Refinance');
-      else
-        oppMap.get(dealId).Refinance_Count__c = 0;
+      // if (null != childMap.get(dealId).get('Refinance'))
+      //   oppMap.get(dealId).Refinance_Count__c = childMap.get(dealId)
+      //     .get('Refinance');
+      // else
+      //   oppMap.get(dealId).Refinance_Count__c = 0;
 
-      if (null != childMap.get(dealId).get('Acquisition'))
-        oppMap.get(dealId).Acquisition_Count__c = childMap.get(dealId)
-          .get('Acquisition');
-      else
-        oppMap.get(dealId).Acquisition_Count__c = 0;
+      // if (null != childMap.get(dealId).get('Acquisition'))
+      //   oppMap.get(dealId).Acquisition_Count__c = childMap.get(dealId)
+      //     .get('Acquisition');
+      // else
+      //   oppMap.get(dealId).Acquisition_Count__c = 0;
     }
 
     for (AggregateResult ar : arList) {
-      oppMap.get((Id) ar.get('deal')).Sum_of_Rehab_Cost__c = (Decimal) ar.get(
-        'rehab'
-      );
       oppMap.get((Id) ar.get('deal'))
         .Sum_of_Borrower_Estimated_Value__c = (Decimal) ar.get('borrower');
       oppMap.get((Id) ar.get('deal')).Annual_HOA__c = (Decimal) ar.get(
@@ -1485,7 +1486,7 @@ public without sharing class property_Helper {
       }
 
       if (
-        RECORDTYPE_MAP.get(newList[i].RecordTypeId) == 'Term_Loan' &&
+        // RECORDTYPE_MAP.get(newList[i].RecordTypeId) == 'Term_Loan' &&
         newList[i].Is_Parent__C == false
       ) {
         termIds.add(newList[i].Deal__c);
@@ -1546,7 +1547,6 @@ public without sharing class property_Helper {
             Distinct_Property_Types__c,
             Distinct_MSAs__c,
             Distinct_Counties__c,
-            Sum_of_Rehab_Cost__c,
             Sum_of_Borrower_Estimated_Value__c,
             Annual_HOA__c,
             Average_Acquisition_Date_By_Property__c,
@@ -1565,7 +1565,6 @@ public without sharing class property_Helper {
             Exit_Fee__c,
             Interest_Rate_Type__c,
             Index__c,
-            Index_Floor__c,
             Total_ARV_LTV__c,
             Recourse__c,
             Current_Line_Maturity_Date__c,
@@ -1661,7 +1660,7 @@ public without sharing class property_Helper {
             t.Priority = 'Normal';
             t.Status = 'Open';
             t.Type = 'Reminder';
-            // t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
+            t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
             t.WhatID = Trigger.new[i].Id;
             if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
               t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
@@ -1683,7 +1682,7 @@ public without sharing class property_Helper {
               t.Priority = 'Normal';
               t.Status = 'Open';
               t.Type = 'Reminder';
-              // t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
+              t.Description = 'Yardi ID: ' + newList[i].Yardi_Id__c;
               t.WhatID = Trigger.new[i].Id;
               if (!String.isBlank(oppMap.get(newList[i].deal__c).Contact__c)) {
                 t.WhoId = oppMap.get(newList[i].deal__c).Contact__c;
@@ -1752,7 +1751,7 @@ public without sharing class property_Helper {
       rollupParents(parentIds);
     }
 
-    if (termIds.size() > 0) {
+    if (termIds.size() > 0 && System.IsBatch() == false && System.isFuture() == false) {
       system.debug('calculate state percentages');
       calculateStatePercentagesFuture(termIds);
     }
@@ -1867,7 +1866,9 @@ public without sharing class property_Helper {
           (
             SELECT Id
             FROM Properties__r
-            WHERE Status__c IN ('Active', 'Paid Off') AND Is_Sub_Unit__c = FALSE
+            WHERE
+              Status__c NOT IN ('Inactive', 'Cancelled')
+              AND Is_Sub_Unit__c = FALSE
           )
         FROM Opportunity
         WHERE Id IN :opIds
@@ -1878,16 +1879,21 @@ public without sharing class property_Helper {
       oppMap.get(opId).State_Percentages__c = '';
     }
 
-    for (AggregateResult ar : [
-      SELECT count(id) cnt, State__c state, Deal__c parent
-      FROM property__c
-      WHERE
-        Status__c = 'Active'
-        AND deal__r.recordtype.developername = 'Term_Loan'
-        AND Deal__c IN :opIds
-        AND Is_Sub_Unit__c = FALSE
-      GROUP BY state__c, deal__c
-    ]) {
+    for (
+      AggregateResult ar : [
+        SELECT count(id) cnt, State__c state, Deal__c parent
+        FROM property__c
+        WHERE
+          Status__c NOT IN (
+            'Inactive',
+            'Cancelled'
+            // AND deal__r.recordtype.developername = 'Term_Loan'
+          )
+          AND Deal__c IN :opIds
+          AND Is_Sub_Unit__c = FALSE
+        GROUP BY state__c, deal__c
+      ]
+    ) {
       Integer stateCount = (Integer) ar.get('cnt');
       String state = (String) ar.get('state');
       Id dealId = (Id) ar.get('parent');
@@ -1938,8 +1944,7 @@ public without sharing class property_Helper {
       WHERE
         Deal__c IN :opIds
         AND (Status__c = 'Paid Off'
-        OR Status__c = 'Active'
-        OR Status__c = 'In Process')
+        OR Status__c = 'Active')
       GROUP BY Deal__c
     ]) {
       Id dealId = (Id) ar.get('parent');
@@ -1972,10 +1977,7 @@ public without sharing class property_Helper {
     for (AggregateResult ar : [
       SELECT Deal__c parent, SUM(Current_Outstanding_Loan_Amount__c) ar
       FROM Property__c
-      WHERE
-        Deal__c IN :opIds
-        AND (Status__c = 'Active'
-        OR Status__c = 'In Process')
+      WHERE Deal__c IN :opIds AND Status__c = 'Active'
       GROUP BY Deal__c
     ]) {
       Id dealId = (Id) ar.get('parent');
@@ -2365,7 +2367,6 @@ public without sharing class property_Helper {
           Distinct_Property_Types__c,
           Distinct_MSAs__c,
           Distinct_Counties__c,
-          Sum_of_Rehab_Cost__c,
           Sum_of_Borrower_Estimated_Value__c,
           Annual_HOA__c,
           Average_Acquisition_Date_By_Property__c,
@@ -2381,7 +2382,6 @@ public without sharing class property_Helper {
           Exit_Fee__c,
           Interest_Rate_Type__c,
           Index__c,
-          Index_Floor__c,
           Total_ARV_LTV__c,
           Recourse__c,
           Current_Line_Maturity_Date__c,

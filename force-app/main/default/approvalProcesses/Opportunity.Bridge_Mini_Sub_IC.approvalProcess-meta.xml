@@ -50,8 +50,8 @@
         <field>Anticipated_IC_Approval__c</field>
         <field>Apex_Context__c</field>
         <field>Application__c</field>
-        <field>Appraisal_Ordered__c</field>
-        <field>Appraisal_Ordered_Date__c</field>
+        <field>00N0a00000DdN5O</field>
+        <field>00N0a00000DdORf</field>
         <field>Approval_Email_Status__c</field>
         <field>Approved_by_Capital_Markets__c</field>
         <field>Approved_by_Capital_Markets_Date__c</field>
@@ -115,7 +115,7 @@
         <field>Credit_Check_Completed__c</field>
         <field>Credit_Check_Completed_Date__c</field>
         <field>Credit_Loss_Adjustment__c</field>
-        <field>Credit_Score__c</field>
+        <field>00Nj000000AdTRz</field>
         <field>Current_Approval_Process__c</field>
         <field>Current_Svc_Interest_Rate__c</field>
         <field>Current_Loan_Amount__c</field>
@@ -409,7 +409,7 @@
         <field>Submission_into_UW_Comments__c</field>
         <field>Sub_Unit__c</field>
         <field>Sum_of_Borrower_Estimated_Value__c</field>
-        <field>Sum_of_Rehab_Cost__c</field>
+        <field>00N0a00000CR7T0</field>
         <field>Swap_Rate__c</field>
         <field>SyncedQuote</field>
         <field>T_I__c</field>

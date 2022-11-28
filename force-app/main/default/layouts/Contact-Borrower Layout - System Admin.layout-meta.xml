@@ -85,6 +85,10 @@
                 <behavior>Readonly</behavior>
                 <field>Pre_Qual_Expiration_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>How_Did_You_Hear_About_CoreVest__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -110,6 +114,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Non_Borrower_Account_Type__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RecordTypeId</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -1308,11 +1316,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>CallHighlightAction</actionName>
-            <actionType>ProductivityAction</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Log_a_Call_Global</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -1396,6 +1399,11 @@
             <actionName>Contact.Event</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>17</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>CallHighlightAction</actionName>
+            <actionType>ProductivityAction</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>
@@ -1528,6 +1536,10 @@
         <relatedList>Application__c.Contact__c</relatedList>
         <sortField>Signature_Date__c</sortField>
         <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Portal_Survey__c.Survey_Completed_By__c</relatedList>
     </relatedLists>
     <relatedObjects>AccountId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

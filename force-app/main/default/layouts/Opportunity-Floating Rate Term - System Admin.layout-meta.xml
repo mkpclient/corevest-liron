@@ -85,6 +85,30 @@
                 <behavior>Edit</behavior>
                 <field>GLC_Required__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Floor__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Interest_Rate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Modified_Margin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Signature_Blocks__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CEMA__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SSN__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -460,10 +484,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>State_Percentages__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Seasoning__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -1013,6 +1033,11 @@
             <sortOrder>0</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>Opportunity.Upload_Documents</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>Opportunity.New_Entity</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -1031,11 +1056,6 @@
             <actionName>Opportunity.Data_Tape</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Upload_Documents</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Export_Documents</actionName>
@@ -1133,11 +1153,6 @@
             <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Term_Kick_Off_Email</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>28</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Term_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>25</sortOrder>
@@ -1153,9 +1168,9 @@
             <sortOrder>27</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Event</actionName>
+            <actionName>Opportunity.Term_Kick_Off_Email</actionName>
             <actionType>QuickAction</actionType>
-            <sortOrder>31</sortOrder>
+            <sortOrder>28</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Rate_Lock_Email</actionName>
@@ -1166,6 +1181,11 @@
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>30</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Event</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>31</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

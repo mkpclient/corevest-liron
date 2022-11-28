@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RDNSMP_Report_Manager_Email__c</fullName>
+    <description>EBI RDNSMP Report Manager Email</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI RDNSMP Report Manager Email</inlineHelpText>
+    <label>EBI RDNSMP Report Manager Email</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>

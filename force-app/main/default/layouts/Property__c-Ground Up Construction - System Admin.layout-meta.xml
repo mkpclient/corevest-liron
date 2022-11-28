@@ -34,6 +34,10 @@
                 <behavior>Readonly</behavior>
                 <field>Days_Remaining__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Disbursement_Expiration_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -890,10 +894,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Updated_Valuation_Date__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

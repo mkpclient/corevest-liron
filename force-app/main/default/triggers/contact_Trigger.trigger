@@ -17,6 +17,9 @@ trigger contact_Trigger on Contact(
   if (Trigger.isBefore && Trigger.isDelete) {
     //  Contact_Helper.beforeDelete(Trigger.New);
   }
+  if (Trigger.isAfter && Trigger.isUpdate) {
+    Contact_Helper.afterUpdate(Trigger.new, Trigger.Old);
+  }
   /* if ( Trigger.isAfter && Trigger.isInsert ) {
         // Contact_Helper.afterInsert(Trigger.New);
     }

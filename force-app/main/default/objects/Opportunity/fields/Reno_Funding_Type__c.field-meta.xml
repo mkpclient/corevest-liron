@@ -14,7 +14,6 @@
     <type>Picklist</type>
     <valueSet>
         <controllingField>Renovation_Funding__c</controllingField>
-        <restricted>true</restricted>
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
@@ -26,12 +25,6 @@
                 <fullName>Reserves</fullName>
                 <default>false</default>
                 <label>Reserves</label>
-            </value>
-            <value>
-                <fullName>Advances/Reserves</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Advances/Reserves</label>
             </value>
         </valueSetDefinition>
         <valueSettings>

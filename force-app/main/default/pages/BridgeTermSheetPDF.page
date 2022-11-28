@@ -449,11 +449,10 @@ Renovation Reserve Account:
                     <apex:outputText rendered="{! If( Opportunity.Requested_Interest_Type__c == 'Fixed', true, false ) }" value="Fixed at {0, number, 0.00}%">
                         <apex:param value="{! Opportunity.Requested_Rate_1_9_Months__c }" /></apex:outputText>
                     <apex:outputText rendered="{! If( Opportunity.Requested_Interest_Type__c == 'Floating', true, false ) }">
-                        <apex:outputText value="{! Opportunity.Requested_Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Requested_Index__c } floor of ">
+                        <apex:outputText value="{! Opportunity.Requested_Index__c } + {0, number, 0.00}% (subject to {! Opportunity.Requested_Index__c }  floor that will be set 48 hours prior to closing of the LOC at the greater of 25bps below the then current Term SOFR rate or 25bps)">
                             <apex:param value="{! Opportunity.Requested_Index_Margin__c }" />
                         </apex:outputText>
-                        <!-- <apex:outputText value="{!Opportunity.Requested_Index_Floor__c})" /> -->
-                        <apex:outputText value="+ {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText>
+                            <!-- <apex:outputText value="+ {0, number, 0.00}%"><apex:param value="{! Opportunity.Floor__c }" /></apex:outputText> -->
                     </apex:outputText>
                     <p>Pricing of rate or margin is indicative and subject to re-pricing at lender's discretion based on factors that may include, but are not limited to, prevailing market conditions and underwriting / diligence review.</p>
                 </td>

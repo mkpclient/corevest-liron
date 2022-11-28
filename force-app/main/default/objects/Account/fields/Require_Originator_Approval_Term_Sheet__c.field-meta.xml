@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Originator_Approval_Term_Sheet__c</fullName>
+    <defaultValue>true</defaultValue>
+    <externalId>false</externalId>
+    <inlineHelpText>A checked box (True) requires a user to check a box at the term sheet deal document in order for the term sheet to be sent to a borrower</inlineHelpText>
+    <label>Require Originator Approval Term Sheet</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

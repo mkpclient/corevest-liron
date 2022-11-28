@@ -55,6 +55,7 @@ public class property_advance_Helper {
           Max_LTV_Dollar__c,
           Escrow_Agent__c,
           Title_Company__c,
+          Title_Company_Contact__c,
           // Max_LTC_Dollar_nooverride__c,
           Reno_Advance_Amount__c,
           Initial_Disbursement_remaining__c,
@@ -74,6 +75,7 @@ public class property_advance_Helper {
           Approved_Advance_Amount_Max__c,
           Rehab_Budget__c,
           Appraisal_Due_Date__c,
+          Assignment_Fee__c,
           Report_Fee_BR__c,
           Report_Fee_GEO__c,
           Report_Fee_PCR__c,
@@ -97,6 +99,7 @@ public class property_advance_Helper {
     for (Property_Advance__c adv : newList) {
       Property__c property = propertyMap.get(adv.Property__c);
       adv.Purchase_Price__c = property.Acquisition_Price__c;
+      adv.Approved_Assignment_Fee__c = property.Assignment_Fee__c;
       adv.BPO_APpraisal_Value__c = property.Appraised_Value_Amount__c; //property.Status__c == 'In Process' ? 0 : property.BPO_Appraisal_Value__c;
       adv.Max_LTC__c = property.Deal__r.LTC__c;
       adv.Max_LTC_Dollar__c = property.Max_LTC_Dollar__c;
@@ -107,6 +110,7 @@ public class property_advance_Helper {
       // adv.Approved_Advance_Amount__c = property.Approved_Advance_Amount__c;
       adv.Escrow_Agent__c = property.Escrow_Agent__c;
       adv.Title_Company__c = property.Title_Company__c;
+      adv.Title_Company_Contact__c = property.Title_Company_Contact__c;
       //adv.Initial_Disbursement__c = property.Initial_Disbursement__c;
       // adv.Initial_Disbursement__c = property.Initial_Disbursement_remaining__c;
       adv.Total_Cost_Basis__c = property.Total_Cost_Basis__c;
@@ -158,7 +162,7 @@ public class property_advance_Helper {
         adv.Survey_Report_Fee__c = property.Report_Fee_SUY__c;
         adv.Zoning_Report_Fee__c = property.Report_Fee_ZN__c;
         if (
-          adv.Purchase_Price__c == null || 
+          adv.Purchase_Price__c == null ||
           adv.Purchase_Price__c == 0 ||
           adv.Initial_Disbursement__c == null ||
           adv.Initial_Disbursement__c == 0
@@ -190,8 +194,6 @@ public class property_advance_Helper {
       //   : property.BPO_Appraisal_Fee__c;
       adv.Doc_Prep_Fee__c = property.Doc_Prep_Fee__c;
       adv.BlackSquare_Fee__c = property.BlackSquare_Fee__c;
-
-
 
       if (adv.Total_Cost_Basis__c == null || adv.Total_Cost_Basis__c == 0) {
         adv.Total_LTC_percent__c = 0;
@@ -386,7 +388,7 @@ public class property_advance_Helper {
             FROM Property_Advance__c
             WHERE Id IN :newList
           )
-          AND RecordType_Name__c = 'Construction Advance'
+          AND RecordType_Name__c LIKE 'Construction%'
       ]
     );
 
@@ -450,6 +452,8 @@ public class property_advance_Helper {
             Rehab_Budget__c,
             Appraisal_Due_Date__c,
             Title_Company__c,
+            Title_Company_Contact__c,
+            Assignment_Fee__c,
             Report_Fee_BR__c,
             Report_Fee_GEO__c,
             Report_Fee_PCR__c,
@@ -472,6 +476,7 @@ public class property_advance_Helper {
       ) {
         Property__c property = propertyMap.get(adv.Property__c);
         adv.Purchase_Price__c = property.Acquisition_Price__c;
+        adv.Approved_Assignment_Fee__c = property.Assignment_Fee__c;
         adv.BPO_APpraisal_Value__c = property.Appraised_Value_Amount__c;
         adv.Max_LTC__c = property.Deal__r.LTC__c;
         adv.Max_LTC_Dollar__c = property.Max_LTC_Dollar__c;
@@ -493,6 +498,7 @@ public class property_advance_Helper {
         adv.Renovation_Budget__c = property.Rehab_Budget__c;
         adv.Appraisal_Due_Date__c = property.Appraisal_Due_Date__c;
         adv.Title_Company__c = property.Title_Company__c;
+        adv.Title_Company_Contact__c = property.Title_Company_Contact__c;
 
         if (property.Number_of_Advances__c == 0) {
           adv.Initial_Disbursement__c = property.Initial_Disbursement__c;
@@ -519,11 +525,11 @@ public class property_advance_Helper {
         //adv.Daily_Interest_Rate__c = property.Daily_Interest_Rate__c;
 
         if (
-          adv.Purchase_Price__c == null || 
+          adv.Purchase_Price__c == null ||
           adv.Purchase_Price__c == 0 ||
           adv.Initial_Disbursement__c == null ||
           adv.Initial_Disbursement__c == 0
-          ) {
+        ) {
           //|| adv.BPO_Appraisal_Value__c == null || adv.BPO_Appraisal_Value__c == 0){
           adv.Initial_LTC_percent__c = 0;
         } else {
@@ -776,6 +782,7 @@ public class property_advance_Helper {
         SELECT
           Id,
           RecordType.DeveloperName,
+          Deal__r.Reno_Funding_Type__c,
           Target_Advance_Date__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
           Underwriter__c, //CIP-2149 - Raj Sirivolu. 1/20/2022.
           Closer__c,
@@ -855,10 +862,19 @@ public class property_advance_Helper {
       }
 
       if (
-        isConstruction && adv.RecordType.DeveloperName != 'Construction_Advance'
+        isConstruction &&
+        adv.RecordType.DeveloperName != 'Construction_Advance' &&
+        adv.Deal__r.Reno_Funding_Type__c == 'Advances'
       ) {
         hasChanged = true;
         adv.RecordTypeId = recTypes.get('Construction_Advance');
+      } else if (
+        isConstruction &&
+        adv.RecordType.DeveloperName != 'Construction_Draw' &&
+        adv.Deal__r.Reno_Funding_Type__c == 'Reserves'
+      ) {
+        hasChanged = true;
+        adv.RecordTypeId = recTypes.get('Construction_Draw');
       } else if (
         hasReno && adv.RecordType.DeveloperName != 'Renovation_Initial'
       ) {

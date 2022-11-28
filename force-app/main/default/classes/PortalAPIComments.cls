@@ -20,7 +20,7 @@ global without sharing class PortalAPIComments {
     //system.debug(req.requestBody.toString());
 
     List<String> params = Restcontext.request.requestURI.split('/');
-    system.debug(params);
+
     if (params.size() > 3) {
       String action = params[3];
 
@@ -72,7 +72,15 @@ global without sharing class PortalAPIComments {
         }
         comment.Subject__c = (String) body.get('subject');
 
+        if (String.isNotBlank(comment.Body__c)) {
+          comment.Body__c = comment.Body__c.replaceAll('<', '&lt;');
+        }
+
         insert comment;
+
+        if (comment.Checklist_Item__c != null || comment.Deal__c != null) {
+          sendEmailNotification(comment);
+        }
 
         Map<String, String> responseBody = new Map<String, String>();
         responseBody.put('status', 'success');
@@ -241,6 +249,111 @@ global without sharing class PortalAPIComments {
     }
   }
 
+  public static void sendEmailNotification(Comment__c comment) {
+    Id dealId;
+
+    if (comment.Deal__c != null) {
+      dealId = comment.Deal__c;
+    } else {
+      Checklist_Item__c item = [
+        SELECT Id, Checklist_Section__r.Checklist__r.Deal__c
+        FROM Checklist_Item__c
+        WHERE Id = :comment.Checklist_Item__c
+        LIMIT 1
+      ];
+
+      dealId = item.Checklist_Section__r.Checklist__r.Deal__c;
+    }
+
+    if (dealId != null) {
+      Opportunity opp = [
+        SELECT
+          Id,
+          OwnerId,
+          Owner.Email,
+          Owner.Portal_Comment_Email_Opt_out__c,
+          Underwriter__r.Email,
+          Underwriter__r.Portal_Comment_Email_Opt_out__c,
+          Underwriter__c,
+          Loan_Coordinator__c,
+          Loan_Coordinator__r.Email,
+          Loan_Coordinator__r.Portal_Comment_Email_Opt_out__c,
+          Closer__c,
+          Closer__r.Email,
+          Closer__r.Portal_Comment_Email_Opt_out__c,
+          CAF_Analyst__c,
+          CAF_Analyst__r.Email,
+          CAF_Analyst__r.Portal_Comment_Email_Opt_out__c,
+          Second_Production_Analyst__r.Email,
+          Second_Production_Analyst__r.Portal_Comment_Email_Opt_out__c,
+          Second_Production_Analyst__c
+        FROM Opportunity
+        WHERE Id = :dealId
+        LIMIT 1
+      ];
+
+      Set<String> recipients = new Set<String>();
+      if (opp.OwnerId != null && !opp.Owner.Portal_Comment_Email_Opt_out__c) {
+        recipients.add(opp.owner.Email);
+      }
+      if (
+        opp.Underwriter__c != null &&
+        !opp.Underwriter__r.Portal_Comment_Email_Opt_out__c
+      ) {
+        recipients.add(opp.Underwriter__r.Email);
+      }
+
+      if (
+        opp.Loan_Coordinator__c != null &&
+        !opp.Loan_Coordinator__r.Portal_Comment_Email_Opt_out__c
+      ) {
+        recipients.add(opp.Loan_Coordinator__r.Email);
+      }
+
+      if (
+        opp.Closer__c != null && !opp.Closer__r.Portal_Comment_Email_Opt_out__c
+      ) {
+        recipients.add(opp.Closer__r.Email);
+      }
+      if (
+        opp.CAF_Analyst__c != null &&
+        !opp.CAF_Analyst__r.Portal_Comment_Email_Opt_out__c
+      ) {
+        recipients.add(opp.CAF_Analyst__r.Email);
+      }
+      if (
+        opp.Second_Production_Analyst__c != null &&
+        !opp.Second_Production_Analyst__r.Portal_Comment_Email_Opt_out__c
+      ) {
+        recipients.add(opp.Second_Production_Analyst__r.Email);
+      }
+
+      EmailTemplate template = [
+        SELECT id
+        FROM emailtemplate
+        WHERE developername = 'Portal_Comment_submitted_from_user'
+        LIMIT 1
+      ];
+      OrgWideEmailAddress address = [
+        SELECT id, address
+        FROM OrgWideEmailAddress
+        WHERE Address = 'integrations@cvest.com'
+      ];
+      Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+      email.setOrgWideEmailAddressId(address.Id);
+      email.templateid = template.Id;
+      email.WhatId = comment.Id;
+      email.setTargetObjectId(comment.Contact__c);
+      email.setToAddresses(new List<String>(recipients));
+      email.setTreatTargetObjectAsRecipient(false);
+      system.debug(recipients);
+
+      if (recipients.size() > 0) {
+        Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email });
+      }
+    }
+  }
+
   public static List<Comment> getComment(Id commentId) {
     List<Comment> comments = new List<Comment>();
     Comment__c singleComment = [
@@ -270,7 +383,7 @@ global without sharing class PortalAPIComments {
         Deal_Document__r.Name,
         Checklist_Item__c,
         Unread__c,
-        Checklist_Item__r.Name
+        Property__r.Deal__r.Name
       FROM Comment__c
       WHERE Id = :commentId
       LIMIT 1
@@ -324,7 +437,7 @@ global without sharing class PortalAPIComments {
         Deal_Document__r.Name,
         Checklist_Item__c,
         Unread__c,
-        Checklist_Item__r.Name
+        Property__r.Deal__r.Name
       FROM Comment__c
       WHERE
         Alchemy_Portal_Id__c = :portalId
@@ -383,7 +496,7 @@ global without sharing class PortalAPIComments {
     List<Map<String, String>> picklists = new List<Map<String, String>>();
 
     List<Property__c> props = [
-      SELECT Id, Asset_ID__c, Name
+      SELECT Id, Asset_ID__c, Name, Deal__r.Name
       FROM Property__c
       WHERE Deal__c IN :dealIds AND Active__c = TRUE
     ];
@@ -395,8 +508,8 @@ global without sharing class PortalAPIComments {
     for (Integer i = paginationStart; i < paginationEnd; i++) {
       Map<String, String> picklist = new Map<String, String>();
       picklist.put('id', props[i].Id);
-      picklist.put('name', props[i].Asset_ID__c + ' - ' + props[i].Name);
-
+      // picklist.put('name', props[i].Asset_ID__c + ' - ' + props[i].Name);
+      picklist.put('name', props[i].Deal__r.Name + ' - ' + props[i].Name);
       picklists.add(picklist);
     }
 
@@ -456,8 +569,8 @@ global without sharing class PortalAPIComments {
         Deal__r.Name,
         Deal_Document__r.Name,
         Unread__c,
-        Checklist_Item__c,
-        Checklist_Item__r.Name
+        Property__r.Deal__r.Name,
+        Checklist_Item__c
       FROM Comment__c
       WHERE Deal__c = :dealId
       ORDER BY CreatedDate DESC
@@ -491,7 +604,8 @@ global without sharing class PortalAPIComments {
         Deal_Document__r.Name,
         Unread__c,
         Checklist_Item__c,
-        Checklist_Item__r.Name
+        Checklist_Item__r.Name,
+        Property__r.Deal__r.Name
       FROM Comment__c
       WHERE Checklist_Item__c = :itemId
       ORDER BY CreatedDate DESC
@@ -523,8 +637,8 @@ global without sharing class PortalAPIComments {
         Property__r.Name,
         Deal__r.Name,
         Deal_Document__r.Name,
-        Unread__c,
-        Checklist_Item__c
+        Property__r.Deal__r.Name,
+        Unread__c
       FROM Comment__c
       WHERE Property__c = :propertyId
       ORDER BY CreatedDate DESC
@@ -556,6 +670,7 @@ global without sharing class PortalAPIComments {
         Property__r.Name,
         Deal__r.Name,
         Deal_Document__r.Name,
+        Property__r.Deal__r.Name,
         Unread__c
       FROM Comment__c
       WHERE Application__c = :applicationId
@@ -589,8 +704,8 @@ global without sharing class PortalAPIComments {
         Property__r.Name,
         Deal__r.Name,
         Deal_Document__r.Name,
-        Unread__c,
-        Checklist_Item__c
+        Property__r.Deal__r.Name,
+        Unread__c
       FROM Comment__c
       WHERE Deal_Document__c = :documentId
       ORDER BY CreatedDate DESC
@@ -623,10 +738,10 @@ global without sharing class PortalAPIComments {
         Owner_Image__c,
         Application__r.Name,
         Property__r.Name,
+        Property__r.Deal__r.Name,
         Deal__r.Name,
         Deal_Document__r.Name,
-        Unread__c,
-        Checklist_Item__c
+        Unread__c
       FROM Comment__c
       WHERE
         (Lead__c = :leadId
@@ -720,11 +835,22 @@ global without sharing class PortalAPIComments {
 
       if (String.isNotBlank(this.body)) {
         this.body = this.body.replaceAll('&amp;', '&');
+        this.body = this.body.replaceAll('&#39;', '\'');
+        this.body = this.body.replaceAll('&gt;', '>');
+        this.body = this.body.replaceAll('&lt;', '<');
+        this.body = this.body.replaceAll('&quot;', '"');
       }
 
       this.applicationName = comment.Application__r.Name;
       this.loanName = comment.Deal__r.Name;
-      this.propertyName = comment.Property__r.Name;
+      //
+      if (comment.Property__r.Name != null) {
+        // this.propertyName = comment.Property__r.Name;
+        this.propertyName =
+          comment.Property__r.Deal__r.Name +
+          ' - ' +
+          comment.Property__r.Name;
+      }
       this.documentName = comment.Deal_Document__r.Name;
       this.itemId = comment.Checklist_Item__c;
     }

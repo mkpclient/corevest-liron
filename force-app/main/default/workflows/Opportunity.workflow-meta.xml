@@ -43,15 +43,15 @@
             <type>owner</type>
         </recipients>
         <recipients>
-            <recipient>brad.chmura@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
             <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>marc.heenan@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -167,15 +167,15 @@
             <type>owner</type>
         </recipients>
         <recipients>
-            <recipient>brad.chmura@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
             <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>marc.heenan@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -420,15 +420,15 @@
             <type>owner</type>
         </recipients>
         <recipients>
-            <recipient>brad.chmura@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
             <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>marc.heenan@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -1333,15 +1333,15 @@
             <type>owner</type>
         </recipients>
         <recipients>
-            <recipient>brad.chmura@cvest.com</recipient>
-            <type>user</type>
-        </recipients>
-        <recipients>
             <recipient>bryon.harland@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>
             <recipient>dan.federico@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>marc.heenan@cvest.com</recipient>
             <type>user</type>
         </recipients>
         <recipients>

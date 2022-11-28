@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Modified_Interest_Rate_if_Fixed</fullName>
+    <active>true</active>
+    <errorConditionFormula>(ISCHANGED(Status__c) || ISNEW()) &amp;&amp; (ISPICKVAL(Status__c, &apos;Complete - Paid&apos;) || ISPICKVAL(Status__c, &apos;Complete - Bill to Loan&apos;)) &amp;&amp; TEXT(Property__r.Deal__r.Interest_Rate_Type__c) = &apos;Fixed&apos; &amp;&amp; ISBLANK(Modified_Interest_Rate__c)</errorConditionFormula>
+    <errorDisplayField>Modified_Interest_Rate__c</errorDisplayField>
+    <errorMessage>Modified Interest Rate is required when the associated deal&apos;s Interest Rate Type is &apos;Fixed&apos; and the Status is changed to Complete - Paid or Complete - Bill to Loan.</errorMessage>
+</ValidationRule>

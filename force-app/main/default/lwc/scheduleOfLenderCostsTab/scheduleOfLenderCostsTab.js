@@ -26,7 +26,7 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
   deal = {};
   versionId = "";
   loanVersions = [{ label: "", value: "" }];
-
+  lenderCredit= null;
   selectedLoanVersionId = "";
   showSpinner = false;
   versionFinalized = false;
@@ -42,6 +42,8 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
     body: ""
   };
   earlyRateLockAmount = null;
+  lenderCreditDescription = "";
+
 
   // dealQueried = "";
   // added a wire to make the tab aut-refresh when these fields are changed
@@ -123,7 +125,8 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       "Amortization_Term__c",
       "Discount_Fee__c",
       "RecordTypeId",
-      "Rate_Lock_Picklist__c"
+      "Rate_Lock_Picklist__c",
+      "Holdback_Multiplier__c"
       //   "(SELECT Id', Name, Loan_Agreement_Name__c,  Finalized__c FROM Loan_Versions__r Order By CreatedDate ASC)",
     ];
 
@@ -186,8 +189,9 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
       let sessionData = sessionStorage.getItem(`scheduleData-${this.recordId}`);
       if (sessionData) {
         const calculatedData = JSON.parse(sessionData);
-        console.log(calculatedData);
         this.earlyRateLockAmount = calculatedData.Early_Lock_Deposit__c;
+        this.lenderCredit = calculatedData.Lender_Credit__c;
+        this.lenderCreditDescription = calculatedData.Lender_Credit_Description__c;
         deal.Total_Annual_Tax__c = calculatedData.Total_Annual_Tax__c;
         deal.Total_Annual_Insurance__c =
           calculatedData.Total_Annual_Insurance__c;
@@ -215,12 +219,11 @@ export default class ScheduleOfLenderCostsTab extends LightningElement {
           calculatedData.Deposit_Lender_Out_of_Pocket__c;
         deal.Legal_Fee__c =
           calculatedData.Legal_Fee__c;        
-        deal.Holdback_Reserve_Month_Multiplier__c =
-          calculatedData.Holdback_Reserve_Month_Multiplier__c;
         deal.Installment_Comment__c = calculatedData.Installment_Comment__c;
+        deal.Holdback_Multiplier__c = calculatedData.Holdback_Reserve_Month_Multiplier__c;
         if(calculatedData.hasOwnProperty('Deposit_Amount__c')) {
           deal.Deposit_Amount__c = calculatedData.Deposit_Amount__c;
-        }
+        }     
       }
 
       if (!deal.Installment_Comment__c) {

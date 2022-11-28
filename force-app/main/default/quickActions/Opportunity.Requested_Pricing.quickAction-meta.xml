@@ -109,11 +109,6 @@
             </quickActionLayoutItems>
             <quickActionLayoutItems>
                 <emptySpace>false</emptySpace>
-                <field>Requested_Index_Floor__c</field>
-                <uiBehavior>Edit</uiBehavior>
-            </quickActionLayoutItems>
-            <quickActionLayoutItems>
-                <emptySpace>false</emptySpace>
                 <field>Requested_Origination_Fee__c</field>
                 <uiBehavior>Edit</uiBehavior>
             </quickActionLayoutItems>

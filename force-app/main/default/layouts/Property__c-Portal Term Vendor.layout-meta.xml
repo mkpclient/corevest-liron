@@ -14,6 +14,10 @@
                 <behavior>Required</behavior>
                 <field>Deal__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Disbursement_Expiration_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>

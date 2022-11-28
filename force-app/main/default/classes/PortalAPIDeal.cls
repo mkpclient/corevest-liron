@@ -522,9 +522,10 @@ global with sharing class PortalAPIDeal {
         indexMargin = o.Requested_Index_Margin__c;
       }
 
-      indexFloor = o.Index_Floor__c;
-      if (String.isBlank(indexFloor)) {
-        indexFloor = o.Requested_Index_Floor__c;
+      if (o.Floor__c != null) {
+        Decimal floor = o.Floor__c;
+        floor = floor.setScale(2);
+        indexFloor = String.valueOf(floor) + '%';
       }
 
       //interestRate = o.Rate__c;

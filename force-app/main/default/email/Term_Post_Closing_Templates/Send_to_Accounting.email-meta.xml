@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>Send to Accounting</name>
+    <style>freeForm</style>
+    <subject>{!Opportunity.Name} - Loan #{!Opportunity.Deal_Loan_Number__c} Closing Tomorrow - Yardi Upload</subject>
+    <textOnly>Hi Accounting,
+
+This has been rate locked today. Please see the attached document&apos;s for your review in anticipation of tomorrow&apos;s closing.
+
+
+
+Please confirm when Yardi has been prepared for closing.
+
+
+
+Thank you.
+
+
+
+{!Opportunity.Closer__c}</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

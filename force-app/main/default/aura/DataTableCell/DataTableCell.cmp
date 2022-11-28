@@ -129,6 +129,7 @@
 
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
   <aura:handler name="change" value="{!v.value}" action="{!c.handleChange}" />
+  <aura:handler name="change" value="{!v.row}" action="{!c.handleRowChange}" />
   <aura:registerEvent name="reviewEvent" type="c:CommunityReviewDocEvent" />
 
   <!-- markup -->
@@ -246,9 +247,18 @@
             value="{!v.value}"
             searchTerm="{!v.lookupName}"
             sObjectName="{!v.lookup.sobjectType}"
+            isStrictSearch="{!v.lookup.isStrictSearch}"
+            recordTypeName="{!v.lookup.recordTypeName}"
+            formFields="{!v.lookup.formFields}"
             label=" "
             whereClause="{!v.lookup.whereClause}"
             labelPlural="{!v.lookup.sobjectLabel}"
+            fieldName="{!if(v.lookup.fieldName != null, v.lookup.fieldName, '')}"
+            dependentField="{!if(v.lookup.dependentField != null, v.lookup.dependentField, '')}"
+            record="{!v.row}"
+            rowIdx="{!v.rowIdx}"
+            row="{!v.row}"
+            aura:id="autocomplete"
           />
         </aura:if>
       </span>

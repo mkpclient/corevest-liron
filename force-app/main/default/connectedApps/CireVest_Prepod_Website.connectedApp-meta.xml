@@ -6,6 +6,7 @@
         <callbackUrl>https://corevestprepod.wpengine.com/?callback=gravityformssalesforce</callbackUrl>
         <consumerKey>3MVG9qhihEtB2ojhzhpT1BqiCqtKF2ak2KsdqEF9D0MP.28xAGbsudVchApKaFLXke5GjZZhIB2dzpKVF9eFl</consumerKey>
         <isAdminApproved>false</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
         <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>

@@ -1,0 +1,68 @@
+{
+  "DestinationPartyId": [
+    {
+      "label": "Corevest Quote",
+      "value": "COREVEST-QUOTE",
+      "description": "Send on the QuoteRequest only"
+    },
+    {
+      "label": "Corevest Purchase",
+      "value": "COREVEST-PURCHASE",
+      "description": "Send on the QuoteAccepted if the \"Refinance/Acquisition\" is \"Acquisition\"."
+    },
+    {
+      "label": "Corevest Refinance",
+      "value": "COREVEST-REFI",
+      "description": "Send on the QuoteAccepted if the \"Refinance/Acquisition\" is \"Refinance\"."
+    }
+  ],
+  "inquiryType": [
+    {
+      "label": "Revised Quote",
+      "value": "REVISEDQUO",
+      "description": "CV to use when submiting the OrderInquiry for a revised quote"
+    },
+    {
+      "label": "Signing Request",
+      "value": "SIGNINGREQ",
+      "description": "Signing Request"
+    },
+    {
+      "label": "Title Curative Inquiry",
+      "value": "CURINQUIRY",
+      "description": "Title Curative Inquiry"
+    },
+    {
+      "label": "Closing Inquiry",
+      "value": "CLOSINGINQ",
+      "description": "Closing Inquiry"
+    },
+    {
+      "label": "Uncancel Bulk",
+      "value": "UNCNCLBULK",
+      "description": "If the Bulk Loan Portfolio has been cancelled and CoreVest wants to re-use the same loan number, then please submit a OrderInquiry with this inquiry type and also send the LoanPortfolioChangeRequest with all properties (PropertyAddRemoveReAct=RE-ACTIVATED)."
+    }
+  ],
+  "PropertyAddRemoveReAct": [
+    {
+      "label": "Property Added",
+      "value": "ADDED",
+      "description": "A property has been added to the Bulk Loan Portfolio"
+    },
+    {
+      "label": "Property Removed",
+      "value": "REMOVED",
+      "description": "A property has been removed from the Bulk Loan Portfolio"
+    },
+    {
+      "label": "Property Re-Activated",
+      "value": "RE-ACTIVATED",
+      "description": "A property has been re-activated on the Bulk Loan Portfolio"
+    },
+    {
+      "label": "Property Re-Submitted",
+      "value": "RE-SUBMITTED",
+      "description": "A property has been re-submitted on the Bulk Loan Portfolio. This property was originally submitted on the QuoteAccepted schema but had errors, ServiceLink sent a \"FAIL\" status on the QuoteReceivedConfirm. CoreVest corrected the data and re-submitted on the LoanPortfolioChangeRequest."
+    }
+  ]
+}

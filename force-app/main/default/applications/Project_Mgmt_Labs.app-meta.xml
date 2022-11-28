@@ -4,6 +4,7 @@
     <description>Milestones PM - Project Planning and Task Management Application - Force.com Labs</description>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Milestones PM</label>
     <tabs>Milestone1_Getting_Started</tabs>
     <tabs>Milestone1_Summary</tabs>
@@ -17,4 +18,6 @@
     <tabs>Milestone1_Import_Project_Template</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
 </CustomApplication>

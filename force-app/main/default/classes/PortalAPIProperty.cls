@@ -28,8 +28,11 @@ global without sharing class PortalAPIProperty {
           'Deal__r.Next_Payment_Date__c',
           'Deal__r.Stated_Maturity_Date__c',
           'Deal__r.Servicer_Name__c',
+          'Deal__r.Deal_Loan_Number__c',
           'Deal__r.StageName',
-          'Deal__r.RecordType.DeveloperName'
+          'Deal__r.RecordType.DeveloperName',
+          'Current_Asset_Maturity_Date__c',
+          'Full_Address__c'
         };
         //}//TERM_SRL_FIELDS;
 
@@ -145,6 +148,7 @@ global without sharing class PortalAPIProperty {
     'Square_Feet__c',
     'Year_Built__c',
     'Property_Type__c',
-    'Current_Asset_Maturity_Date__c'
+    'Current_Asset_Maturity_Date__c',
+    'Full_Address__c'
   };
 }

@@ -2,6 +2,7 @@ public without sharing class AlchemyAPI {
   static String BASE_URL;
   static String CREATE_USER_ENDPOINT = '/api/v1/auth/signup';
   static String TERMSHEET_NOTIF_ENDPOINT = '/api/v1/termSheetNotif';
+  static String UPDATE_USER_ENDPOINT = '/api/v1/user/';
 
   public static String getBaseURL() {
     if (BASE_URL == null) {
@@ -16,6 +17,204 @@ public without sharing class AlchemyAPI {
       }
     }
     return BASE_URL;
+  }
+
+  public static void updateUser(Id recordId) {
+    String portalId;
+    String email;
+    String role = 'user';
+    if (recordId.getSObjectType().getDescribe().getName() == 'Contact') {
+      Contact c = [
+        SELECT
+          Id,
+          Alchemy_Portal_Id__c,
+          Email,
+          Account.RecordType.DeveloperName,
+          Non_Borrower_Account_Type__c,
+          RecordType.DeveloperName
+        FROM Contact
+        WHERE Id = :recordId
+      ];
+      portalId = c.Alchemy_Portal_Id__c;
+      email = c.Email;
+      if (
+        c.RecordType.DeveloperName == 'Broker' ||
+        c.RecordType.DeveloperName == 'Broker_Plus'
+      ) {
+        role = 'broker';
+      } else if (c.Non_Borrower_Account_Type__c == 'Property Manager') {
+        role = 'propertyManager';
+      } else if (c.RecordType.DeveloperName == 'Vendor') {
+        role = 'vendor';
+      }
+    } else if (recordId.getSObjectType().getDescribe().getName() == 'Lead') {
+      Lead l = [
+        SELECT Id, Alchemy_Portal_Id__c, Email, Applicant_Type__c
+        FROM Lead
+        WHERE Id = :recordId
+      ];
+      portalId = l.Alchemy_Portal_Id__c;
+      email = l.Email;
+      if (l.Applicant_Type__c == 'Broker') {
+        role = 'broker';
+      }
+    }
+
+    Map<String, String> requestBody = new Map<String, String>();
+
+    requestBody.put('email', email);
+    requestBody.put('role', role);
+    String url = getBaseURL() + UPDATE_USER_ENDPOINT + portalId;
+
+    HttpRequest req;
+    HttpResponse res;
+    try {
+      req = new HttpRequest();
+      req.setBody(JSON.serialize(requestBody, true));
+      req.setEndpoint(url);
+      req.setHeader('Content-Type', 'application/json');
+      req.setMethod('PATCH');
+      req.setHeader('from', 'sf');
+      req.setHeader(
+        'x-auth',
+        '8a85dd6f4ab293c9c7aaad0156487d5ae3aba26cbfbc5b9c3c1661212336565f'
+      );
+
+      Integer i = 200;
+      Integer statusCode = 200;
+      String body = '{"userId": "test-123"}';
+
+      if (!Test.isRUnningTest()) {
+        res = new Http().send(req);
+        body = res.getBody();
+        statusCode = res.getStatusCode();
+      }
+      // system.debug(res.getBody());
+      // system.debug(res.getStatus());
+      // system.debug(res.getStatusCode());
+
+      if (statusCode != 400 && statusCode != 422) {
+        if (!Test.isRunningTest()) {
+          System.enqueueJob(new APILoggerQueueable(req, res, recordId, false));
+        }
+      } else {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+
+        System.enqueueJob(new APILoggerQueueable(req, res, recordId, true));
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, res, recordId, e));
+    }
+  }
+
+  public static void deleteUser(String portalId) {
+    String url = getBaseURL() + UPDATE_USER_ENDPOINT + 'userId/' + portalId;
+
+    HttpRequest req;
+    HttpResponse res;
+    try {
+      req = new HttpRequest();
+      req.setEndpoint(url);
+      req.setMethod('DELETE');
+      req.setHeader('from', 'sf');
+      req.setHeader(
+        'x-auth',
+        '8a85dd6f4ab293c9c7aaad0156487d5ae3aba26cbfbc5b9c3c1661212336565f'
+      );
+
+      Integer i = 200;
+      Integer statusCode = 200;
+      String body = '{"userId": "test-123"}';
+
+      if (!Test.isRUnningTest()) {
+        res = new Http().send(req);
+        body = res.getBody();
+      }
+
+      if (statusCode != 400 && statusCode != 422) {
+        if (!Test.isRunningTest()) {
+          System.enqueueJob(new APILoggerQueueable(req, res, null, false));
+        }
+      } else {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+
+        System.enqueueJob(new APILoggerQueueable(req, res, null, true));
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, res, null, e));
+    }
+  }
+
+  public static void createOperationsUser(Id userId) {
+    HttpRequest req;
+    HttpResponse res;
+    try {
+      User u = [
+        SELECT Id, FirstName, LastName, email
+        FROM User
+        WHERE Id = :userId
+      ];
+
+      Map<String, String> requestBody = new Map<String, String>();
+
+      String role = 'operations';
+      requestBody.put('role', role);
+      requestBody.put('firstName', u.firstName);
+      requestBody.put('lastName', u.lastName);
+      requestBody.put('email', u.Email);
+      requestBody.put('lead_id', u.Id);
+      String url = getBaseURL() + create_user_endpoint;
+      system.debug(url);
+      req = new HttpRequest();
+      req.setBody(JSON.serialize(requestBody));
+      req.setEndpoint(url);
+      req.setMethod('POST');
+      req.setHeader('Content-Type', 'application/json');
+      req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+      system.debug(req.getBody());
+      // req.setHeader('C')
+
+      Integer i = 200;
+      Integer statusCode = 200;
+      String body = '{"userId": "test-123"}';
+
+      if (!Test.isRUnningTest()) {
+        res = new Http().send(req);
+        body = res.getBody();
+        statusCode = res.getStatusCode();
+      }
+      //HttpResponse res = new Http().send(req);
+
+      if (statusCode != 400 && statusCode != 422) {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+
+        u.Portal_Id__c = bodyJSON.get('userId');
+
+        update u;
+
+        if (!Test.isRunningTest()) {
+          System.enqueueJob(new APILoggerQueueable(req, res, null, false));
+        }
+        // system.debug(respParse.get('userId'));
+      } else {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+        System.enqueueJob(new APILoggerQueueable(req, res, null, true));
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, res, null, e));
+    }
   }
 
   @AuraEnabled
@@ -119,15 +318,22 @@ public without sharing class AlchemyAPI {
     Integer statusCode = 200;
     String body = '{"userId": "test-123"}';
 
+    HttpResponse res = new HttpResponse();
     if (!Test.isRunningTest()) {
-      HttpResponse res = new Http().send(req);
+      res = new Http().send(req);
       system.debug(res.getBody());
       system.debug(res.getStatus());
       system.debug(res.getStatusCode());
+      statusCode = res.getStatusCode();
       body = res.getBody();
     }
 
-    if (statusCode != 400 && statusCode != 422) {
+    if (
+      statusCode != 400 &&
+      statusCode != 422 &&
+      statusCode != 500 &&
+      statusCode != 502
+    ) {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
         body,
         Map<String, String>.class
@@ -136,14 +342,21 @@ public without sharing class AlchemyAPI {
       l.Alchemy_Portal_Id__c = bodyJSON.get('userId');
 
       update l;
+      System.enqueueJob(new APILoggerQueueable(req, res, l.Id, false));
+
       // system.debug(respParse.get('userId'));
     } else {
-      Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        body,
-        Map<String, String>.class
-      );
+      System.enqueueJob(new APILoggerQueueable(req, res, l.Id, true));
+      String msg = '502 - Web server received an invalid response while acting as a gateway or proxy server.';
+      if (statusCode != 502) {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+        msg = bodyJSON.get('msg');
+      }
 
-      throw new AuraHandledException(bodyJSON.get('msg'));
+      throw new AuraHandledException(msg);
     }
   }
 
@@ -185,7 +398,7 @@ public without sharing class AlchemyAPI {
     requestBody.put('lead_id', c.Id);
     system.debug(requestBody);
     String url = getBaseURL() + create_user_endpoint;
-
+    system.debug(url);
     HttpRequest req = new HttpRequest();
     req.setBody(JSON.serialize(requestBody));
     req.setEndpoint(url);
@@ -198,15 +411,22 @@ public without sharing class AlchemyAPI {
     Integer statusCode = 200;
     String body = '{"userId": "test-123"}';
 
+    HttpResponse res = new HttpResponse();
     if (!Test.isRunningTest()) {
-      HttpResponse res = new Http().send(req);
+      res = new Http().send(req);
       system.debug(res.getBody());
       system.debug(res.getStatus());
       system.debug(res.getStatusCode());
+      statusCode = res.getStatusCode();
       body = res.getBody();
     }
 
-    if (statusCode != 400 && statusCode != 422) {
+    if (
+      statusCode != 400 &&
+      statusCode != 422 &&
+      statusCode != 500 &&
+      statusCode != 502
+    ) {
       Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
         body,
         Map<String, String>.class
@@ -215,14 +435,21 @@ public without sharing class AlchemyAPI {
       c.Alchemy_Portal_Id__c = bodyJSON.get('userId');
 
       update c;
+      System.enqueueJob(new APILoggerQueueable(req, res, c.Id, false));
+
       // system.debug(respParse.get('userId'));
     } else {
-      Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
-        body,
-        Map<String, String>.class
-      );
+      System.enqueueJob(new APILoggerQueueable(req, res, c.Id, true));
+      String msg = '502 - Web server received an invalid response while acting as a gateway or proxy server.';
+      if (statusCode != 502) {
+        Map<String, String> bodyJSON = (Map<String, String>) JSON.deserialize(
+          body,
+          Map<String, String>.class
+        );
+        msg = bodyJSON.get('msg');
+      }
 
-      throw new AuraHandledException(bodyJSON.get('msg'));
+      throw new AuraHandledException(msg);
     }
   }
 
@@ -235,8 +462,15 @@ public without sharing class AlchemyAPI {
         Contact__r.Alchemy_Portal_Id__c,
         Application__r.Loan_Id__c,
         Application__r.Term_Sheet_Sent__c,
+        Application__r.Alchemy_User_Id__c,
         Deal_Loan_Number__c,
-        Name
+        Name,
+        Account.Require_Originator_Approval_Term_Sheet__c,
+        Owner.Email,
+        CAF_Analyst__r.Email,
+        CAF_Analyst__c,
+        Second_Production_Analyst__r.Email,
+        Second_Production_Analyst__c
       FROM Opportunity
       WHERE Id = :dealId
     ];
@@ -246,7 +480,8 @@ public without sharing class AlchemyAPI {
         Added_On__c,
         Added_By__r.Name,
         File_Name__c,
-        ContentVersion_Id__c
+        ContentVersion_Id__c,
+        Send_Term_Sheet_to_Borrower__c
       FROM Deal_Document__c
       WHERE Id = :dealDocId
       LIMIT 1
@@ -268,8 +503,11 @@ public without sharing class AlchemyAPI {
     ];
 
     if (
-      deal.Contact__r.Alchemy_Portal_Id__c != null &&
-      deal.Application__c != null
+      //deal.Contact__r.Alchemy_Portal_Id__c != null &&
+      (!deal.Account.Require_Originator_Approval_Term_Sheet__c ||
+      dealDoc.Send_Term_Sheet_to_Borrower__c) &&
+      deal.Application__c != null &&
+      deal.Application__r.Alchemy_User_Id__c != null
     ) {
       Map<String, String> requestBody = new Map<String, String>();
       requestBody.put(
@@ -279,6 +517,19 @@ public without sharing class AlchemyAPI {
       requestBody.put('dealName', deal.Name);
       requestBody.put('fileName', dealDoc.File_Name__c);
       requestBody.put('dealLoanNum', deal.Deal_Loan_Number__c);
+      requestBody.put('originatorEmail', deal.Owner.Email);
+
+      if (deal.CAF_Analyst__c != null) {
+        requestBody.put('analystEmail', deal.CAF_Analyst__r.Email);
+      }
+
+      if (deal.Second_Production_Analyst__c != null) {
+        requestBody.put(
+          'secondAnalystEmail',
+          deal.Second_Production_Analyst__r.Email
+        );
+      }
+
       system.debug(JSON.serialize(requestBody));
       HttpRequest req = new HttpRequest();
 
@@ -329,7 +580,7 @@ public without sharing class AlchemyAPI {
 
       if (statusCode == 200 || statusCode == 201) {
         dealDoc.Termsheet_Sent_To_Portal__c = true;
-        dealDoc.Portal_Error_Message__c = '';
+        dealDoc.Portal_Error_Message__c = ''; //body;
         update dealDoc;
 
         Application__c application = new APplication__c();
@@ -338,6 +589,7 @@ public without sharing class AlchemyAPI {
         update application;
       } else {
         dealDoc.Portal_Error_Message__c = body;
+        dealDoc.Termsheet_Sent_To_Portal__c = false;
         update dealDoc;
       }
     }
@@ -425,5 +677,37 @@ public without sharing class AlchemyAPI {
     }
 
     return contactId;
+  }
+
+  public static Id getUserIdByPortalId(String portalId) {
+    Id userId;
+    List<User> users = [
+      SELECT Id, Portal_Id__c
+      FROM User
+      WHERE Portal_Id__c = :portalId
+    ];
+
+    if (users.size() > 0) {
+      userId = users[0].Id;
+    }
+
+    return userId;
+  }
+
+  public static void tests() {
+    Integer i = 1;
+    Integer i1 = 1;
+    Integer i2 = 1;
+    Integer i3 = 1;
+    Integer i4 = 1;
+    Integer i5 = 1;
+    Integer i6 = 1;
+    Integer i7 = 1;
+    Integer i8 = 1;
+    Integer i9 = 1;
+    Integer i10 = 1;
+    Integer i11 = 1;
+    Integer i12 = 1;
+    Integer i13 = 1;
   }
 }

@@ -2,7 +2,10 @@
 public class Opportunity_Tests_Additional2 {
   @testsetup
   static void datasetup() {
-    Test_Helper.createDealLoanNumber();
+    Test_Helper.setupProduct2();
+    Test_Helper.createRate();
+    test_Helper.createDealLoanNumber();
+    Test_Helper.createBridgeOperationsUser();
     List<Account> al = new List<Account>();
     Account a0 = new Account();
     a0.Name = 'Berkadia Commercial Mortgage';
@@ -39,6 +42,15 @@ public class Opportunity_Tests_Additional2 {
     a3.Introduction_Subsource__c = 'Main';
     a3.Alternate_Phone__c = '5555555555';
     al.add(a3);
+
+    Account a4 = new Account();
+    a4.Name = 'Alston & Bird';
+    a4.BillingCountry = 'United States';
+    a4.BillingState = 'California';
+    a4.Introductions_Source__c = 'Hotline';
+    a4.Introduction_Subsource__c = 'Main';
+    a4.Alternate_Phone__c = '5555555555';
+    al.add(a4);
 
     insert al;
 
@@ -486,25 +498,25 @@ public class Opportunity_Tests_Additional2 {
     o[0].CAF_Upfront_Fee__c = 2;
     o[0].X2nd_Underwriter__c = UserInfo.getUserId();
     o[0].Ic_Approval_date__c =date.today() - 10; 
-    update o[0];
+   
     o[1].StageName = 'Closed Won';
     o[1].Final_Loan_Amount__c = 100;
     o[1].Final_Swap__c = 1;
     o[1].Final_Spread__c = 	1;   
     o[1].Ic_Approval_date__c =date.today() - 10;      
-    update o[1];
+    
     o[2].StageName = 'Closed Won';
     o[2].Final_Loan_Amount__c = 100;
     o[2].Final_Swap__c = 1;
     o[2].Final_Spread__c = 	1;      
     o[2].Ic_Approval_date__c =date.today() - 10;      
-    update o[2];
+
     o[3].Final_Loan_Amount__c = 100;
     o[3].Final_Swap__c = 1;
     o[3].Final_Spread__c = 	1;       
     o[3].StageName = 'Closed Won';
     o[3].Ic_Approval_date__c =date.today() - 10;      
-    update o[3];
+    update o;
    /* o[4].StageName = 'Closed Won';
     o[4].Final_Loan_Amount__c = 100;
     o[5].Final_Swap__c = 1;

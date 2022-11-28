@@ -73,7 +73,7 @@
 
               <!-- Begin Documents for Record Type Single_Asset_Bridge_Loan  -->
               <aura:if
-                isTrue="{!v.filterFields.RecordType == 'Single_Asset_Bridge_Loan'}"
+                isTrue="{!v.filterFields.RecordType == 'Single Asset Bridge'}"
               >
                 <option
                   value="docx-Architects_Consent_and_Agreement_SAB_Construction.docx"
@@ -86,7 +86,7 @@
                 <option value="docx-Borrower_Resolutions_-_SAB_LLC_v1.docx">
                   Borrowing Resolutions LLC
                 </option>
-                <option value="Bridge IC Memo">Bridge IC Memo</option>
+                <option value="Bridge IC Memo">SAB IC Memo</option>
                 <option
                   value="docx-Form_Closing_Instructions_Borrower_Owned_Property-_SAB_Loan.docx"
                 >
@@ -162,7 +162,7 @@
                     <option value="docx-Loan_Agreement_-_SAB_Renovation_Advances_v4.docx">
                       Loan Agreement-Renovation (Advanced)
                     </option>
-                    <option value="docx-Loan_Agreement_-_SAB_INDIVIDUAL_Renovation_Advances_v2.docx">
+                    <option value="docx-Loan_Agreement_-_SAB_INDIVIDUAL_Renovation_Advances_v3.docx">
                       Loan Agreement for Individual-Renovation (Advanced)
                     </option>
                     <!-- <option value="docx-Loan_Agreement_SAB_Construction.docx">
@@ -201,7 +201,7 @@
               <!-- End Documents for Record Type Single_Asset_Bridge_Loan  -->
 
               <!-- Begin Documents for Record Type LOC_Loan  -->
-              <aura:if isTrue="{!v.filterFields.RecordType == 'LOC_Loan'}">
+              <aura:if isTrue="{!v.filterFields.RecordType == 'Bridge'}">
                 <option value="Bridge IC Memo">Bridge IC Memo</option>
                 <option
                 value="docx-Form_Closing_Instructions_Borrower_Owned_Property.docx"
@@ -216,7 +216,7 @@
                 <option value="Loan Approval Request Form">
                   Loan Approval Request Form
                 </option>
-                <aura:if
+                   <aura:if
                     isTrue="{!v.filterFields.ProductSubType == 'Renovation'}"
                   >
                     <option value="Schedule A">Schedule A - Renovation</option>
@@ -268,9 +268,16 @@
                   State Level Security Instruments
                 </option>
               </aura:if>
+              <aura:if
+                isTrue="{!v.filterFields.RecordType == 'Acquired Bridge Loan'}"
+              >
+                <option value="Loan Approval Request Form">
+                  Loan Approval Request Form
+                </option>
+              </aura:if>
               <!-- End Documents for Record Type LOC_Loan  -->
-              <option value="docx-TestDoc.docx">Test Document1</option>
-              <option value="TestDoc.docx">Test Document 2</option>
+              <!-- <option value="docx-TestDoc.docx">Test Document1</option>
+              <option value="TestDoc.docx">Test Document 2</option> -->
             </lightning:select>
 
             <!-- Begin Documents for State Level Security Instruments  -->

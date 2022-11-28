@@ -1,0 +1,12 @@
+<messaging:emailTemplate subject="The following advance has been submitted for review- Approval #{!relatedTo.Advance_Approval_Name__c}" recipientType="User" relatedToType="Advance__c">
+<messaging:htmlEmailBody >
+		<html>
+			<body>
+
+			<p>Dear {!recipient.name},</p>
+			<p>The following advance has been submitted for approval and is awaiting review.</p>
+			<br />
+			<c:AdvanceICEmail advanceId="{!relatedTo.Id}" />
+			</body>
+		</html>
+	</messaging:htmlEmailBody></messaging:emailTemplate>

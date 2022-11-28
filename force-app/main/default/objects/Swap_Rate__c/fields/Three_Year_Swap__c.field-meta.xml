@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Three_Year_Swap__c</fullName>
+    <description>Three Year Swap</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Three Year Swap</inlineHelpText>
+    <label>3 Year Rate</label>
+    <precision>4</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

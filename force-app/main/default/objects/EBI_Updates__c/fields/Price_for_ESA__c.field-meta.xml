@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Price_for_ESA__c</fullName>
+    <description>EBI Price for ESA</description>
+    <externalId>false</externalId>
+    <inlineHelpText>EBI Price for ESA</inlineHelpText>
+    <label>EBI Price for ESA</label>
+    <precision>12</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackTrending>false</trackTrending>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

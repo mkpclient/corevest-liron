@@ -317,24 +317,29 @@
                   correctFormat="true"
                 />
                 <c:hotColumn
-                  data="Title_Company_text__c"
+                  data="Title_Company__r.Name"
                   title="Title Company"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Name__c"
+                  data="Title_Company_Contact__r.Name"
                   title="Title Contact Name"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Phone__c"
+                  data="Title_Company_Contact__r.Phone"
                   title="Title Contact Phone"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Title_Contact_Email_Address__c"
+                  data="Title_Company_Contact__r.Email"
                   title="Title Contact Email"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Insurance_Company_text__c"
+                  data="Insurance_Company__r.Name"
                   title="Insurance Company"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Insurance_Status__c"
@@ -343,12 +348,14 @@
                   source="['Requested', 'Revisions', 'Approved']"
                 />
                 <c:hotColumn
-                  data="Insurance_Contact_Name__c"
+                  data="Insurance_Contact__r.Name"
                   title="Insurance Contact Name"
+                  readOnly="true"
                 />
                 <c:hotColumn
-                  data="Insurance_Contact_Number__c"
+                  data="Insurance_Contact__r.Phone"
                   title="Insurance Contact Number"
+                  readOnly="true"
                 />
                 <c:hotColumn
                   data="Insurance_Effective_Date__c"
@@ -608,7 +615,7 @@
                   title="Underwriter"
                   type="dropdown"
                   width="50"
-                  source="['Brandon Jacobs', 'Henry Newell', 'Juan Arias']"
+                  source="['Brandon Jacobs', 'Henry Newell', 'Joseph Felice', 'Juan Arias']"
                 />
                 <c:hotColumn
                   data="Closer"

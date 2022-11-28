@@ -6,6 +6,7 @@
     <externalId>false</externalId>
     <inlineHelpText>Indicates if the Reports Fees are included/excluded in the Net Wire Amount</inlineHelpText>
     <label>Report Fees Netted</label>
+    <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>

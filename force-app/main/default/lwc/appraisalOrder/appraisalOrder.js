@@ -2,6 +2,7 @@ import { LightningElement, track, api, wire } from "lwc";
 import { getRecord } from "lightning/uiRecordApi";
 import query from "@salesforce/apex/lightning_Util.query";
 import submitOrder from "@salesforce/apex/AppraisalMergeController.submitOrder";
+import submitOrderEBI from "@salesforce/apex/AppraisalMergeController.submitOrderEBI";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import checkStatus from "@salesforce/apex/AppraisalMergeController.checkStatus";
 // import retrieveOrder from "@salesforce/apex/AppraisalMergeController.retrieveOrder";
@@ -11,8 +12,6 @@ import getType from "@salesforce/apex/lightning_Util.getType";
 import retrievePicklists from "@salesforce/apex/lightning_Util.getPicklistValues";
 import getUser from "@salesforce/apex/lightning_Util.getUser";
 import { getPicklistValues } from "lightning/uiObjectInfoApi";
-import LightningConfirm from 'lightning/confirm';
-
 // import refreshAppraisalStatus from "@salesforce/apex/AppraisalMergeController.refreshAppraisalStatus";
 // import PROPERTY_TYPES from "@salesforce/schema/Property__c.Property_Type__c";
 
@@ -58,7 +57,6 @@ export default class AppraisalOrder extends LightningElement {
   missingProperties = [];
   files = [];
   selectedFiles = [];
-  resubmitCda = false;
   // @wire(checkPermission, { permissionSetName: "Order_Appraisals_Through_API" })
   // canOrder;
 
@@ -411,39 +409,6 @@ export default class AppraisalOrder extends LightningElement {
       });
     console.log("deal id", this.recordId);
   }
-
-  async handleConfirm(index, errorMsgs) {
-    const result = await LightningConfirm.open({ 
-      message: "The attached Appraisal is too large to send through the API.  Would you like to submit this order anyway and provide the Appraisal separately?",
-      variant: "headerless",
-      label: "Confirm Resubmission"
-    });
-
-    if(result) {
-      this.resubmitCda = true;
-      this.submitOrder();
-    } else {
-      if (index === this.selectedPropertyIds.length - 1) {
-        //  this.hideSpinner(component);
-        this.template
-          .querySelector('[data-id="orderModal"]')
-          .hideSpinner();
-        // this.template
-        //   .querySelector('[data-name="submitButton"]')
-        //   .removeAttribute("disabled");
-        this.toggleFooterButtons();
-        let errorMsg = "An error occured on one or more properties.";
-        for (let msg of errorMsgs) {
-          errorMsg += "\n" + msg;
-        }
-
-        console.log(errorMsg);
-        this.queryProperties();
-        this.showNotification("Error", errorMsg, "error");
-      }
-    }
-  }
-
   queryProperties() {
     let pstatus = this.selectedPropertyStatuses;
     let pStatusArray = String(pstatus).split(",");
@@ -490,6 +455,8 @@ export default class AppraisalOrder extends LightningElement {
       validated = this.checkValidationsVS();
     } else if (appraisalFirm === "US RES") {
       validated = this.checkValidationsUSRES();
+    } else if (appraisalFirm === "EBI") {
+      validated = true;
     }
 
     return validated;
@@ -506,7 +473,7 @@ export default class AppraisalOrder extends LightningElement {
     ).value;
     let allValid = true;
 
-    if(this.isCda && !this.resubmitCda) {
+    if(this.isCda) {
       allValid = [...this.template.querySelectorAll('[data-name="file-combobox"]')]
         .reduce((validSoFar, cmp) => {
           cmp.reportValidity();
@@ -744,16 +711,17 @@ export default class AppraisalOrder extends LightningElement {
       // this.toggleFooterButtons();
 
       // if(params.productType.in)
-
+      if (params.appraisalFirm != "EBI") //RS.
+      { 
       this.selectedPropertyIds.reduce((promise, propertyId, index) => {
         return promise.then(() => {
           return submitOrder({
             propertyId: propertyId,
-            arguments: (this.isCda && !this.resubmitCda) ? { ...params, cvId: this.selectedFiles.find(f => f.propId == propertyId).cvId} : params
+            arguments: this.isCda ? { ...params, cvId: this.selectedFiles.find(f => f.propId == propertyId).cvId} : params
           }).then(
             (res) => {
               // do stuff
-              //console.log("property???");
+              console.log("property???");
 
               if (index === this.selectedPropertyIds.length - 1) {
                 if (isError) {
@@ -795,11 +763,6 @@ export default class AppraisalOrder extends LightningElement {
               console.log("error");
 
               errorMsgs.push(error.body.message);
-
-              if(this.isCda && !this.resubmitCda) {
-                this.handleConfirm(index, errorMsgs);
-                return;
-              }
               if (index === this.selectedPropertyIds.length - 1) {
                 //  this.hideSpinner(component);
                 this.template
@@ -822,6 +785,42 @@ export default class AppraisalOrder extends LightningElement {
           );
         });
       }, Promise.resolve());
+    }
+    //RS.Begin.    
+    else
+    {
+      console.log('RS999 into EBI processing');
+      submitOrderEBI({
+        propertyIds: this.selectedPropertyIds,
+        arguments: this.isCda ? { ...params, cvId: this.selectedFiles.find(f => f.propId == propertyId).cvId} : params
+      }).then(
+        (res) => {
+                  this.toggleFooterButtons();
+                  this.closeOrderModal();
+                  this.template
+                    .querySelector('[data-id="orderModal"]')
+                    .hideSpinner();
+                  this.showNotification("Success", "Orders created", "success");
+                  this.queryProperties();
+                 },
+        (error) => {
+          console.log("error");
+          errorMsgs.push(error.body.message);
+            this.template
+              .querySelector('[data-id="orderModal"]')
+              .hideSpinner();
+            this.toggleFooterButtons();
+            let errorMsg = "An error occured on one or more properties.";
+            for (let msg of errorMsgs) {
+              errorMsg += "\n" + msg;
+            }
+            console.log(errorMsg);
+            this.queryProperties();
+            this.showNotification("Error", errorMsg, "error");
+        }
+      ); 
+    }
+    //RS.Begin.
     } else {
       this.toggleFooterButtons();
       this.template
@@ -1124,7 +1123,7 @@ export default class AppraisalOrder extends LightningElement {
       }
     });
 
-    if (propertyTypes.has("Multifamily") && propertyTypes.size > 1) {
+    if (propertyTypes.has("Multifamily") && propertyTypes.size > 1 ) {
       this.showNotification(
         "Unable to Order",
         "Multifamily Property Types must be ordered separately from other Property Types.",
@@ -1133,7 +1132,7 @@ export default class AppraisalOrder extends LightningElement {
       return;
     }
 
-    if (propertyTypes.has("Mixed Use") && propertyTypes.size > 1) {
+    if (propertyTypes.has("Mixed Use") && propertyTypes.size > 1 ) {
       this.showNotification(
         "Unable to Order",
         "Mixed Use Property Types must be ordered separately from other Property Types.",
@@ -1174,7 +1173,7 @@ export default class AppraisalOrder extends LightningElement {
       //   value: "Clarocity Valuation Services"
       // },
       { label: "Clear Capital", value: "Clear Capital" },
-      //{ label: "EBI", value: "EBI" },
+      { label: "EBI", value: "EBI" },
       { label: "US RES", value: "US RES" },
       { label: "Valuation Services AMC", value: "Valuation Services AMC" }
     ];
@@ -1230,7 +1229,7 @@ export default class AppraisalOrder extends LightningElement {
           value: "Post Disaster Inspection"
         }
       ];
-      if (this.dealType != "Term Loan") {
+      if (this.dealType === "Bridge Loan") {
         const dcaOptions = [
           {
             label: "CDA with MLS Sheets",
@@ -1306,7 +1305,6 @@ export default class AppraisalOrder extends LightningElement {
           value: "Exterior Appraisal with ARV"
         },
         { label: "Final Inspection", value: "Final Inspection" },
-        { label: "Appraisal Update", value: "Appraisal Update" },
         {
           label: "Final Inspection & Appraisal Update",
           value: "Final Inspection & Appraisal Update"
@@ -1632,15 +1630,7 @@ export default class AppraisalOrder extends LightningElement {
           ]
         }
       });
-      const propToFileMap = {};
-      Object.values(cvToFileMap).forEach(v => {
-        if(propToFileMap.hasOwnProperty(v.propId)) {
-          propToFileMap[v.propId].fileData = [...propToFileMap[v.propId].fileData, ...v.fileData];
-        } else {
-          propToFileMap[v.propId] = {...v};
-        }
-      });
-      this.files = Object.values(propToFileMap);
+      this.files = Object.values(cvToFileMap);
     }
   }
 }

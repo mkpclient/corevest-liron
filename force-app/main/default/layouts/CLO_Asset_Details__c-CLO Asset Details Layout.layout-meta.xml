@@ -269,6 +269,10 @@
                 <behavior>Edit</behavior>
                 <field>Upfront_Real_Estate_Tax_Reserves__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Interest_Rate_Cap_Reserve__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>

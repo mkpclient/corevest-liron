@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CEMA__c</fullName>
+    <description>Some NY properties may have pre-existing CEMA loans when they are included in a portfolio for a potential CoreVest loan. Properties with CEMA loans require special legal processes.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Indicate whether this deal&apos;s portfolio includes CEMA loan(s). Only properties in New York may have CEMA loans.</inlineHelpText>
+    <label>CEMA</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Yes</fullName>
+                <default>false</default>
+                <label>Yes</label>
+            </value>
+            <value>
+                <fullName>No</fullName>
+                <default>false</default>
+                <label>No</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

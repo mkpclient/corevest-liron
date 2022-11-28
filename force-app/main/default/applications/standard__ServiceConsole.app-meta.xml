@@ -162,6 +162,7 @@
     <defaultLandingTab>standard-home</defaultLandingTab>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <isServiceCloudConsole>true</isServiceCloudConsole>
     <preferences>
         <enableCustomizeMyTabs>false</enableCustomizeMyTabs>
@@ -195,6 +196,8 @@
     <tabs>Policy_Exception__c</tabs>
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <workspaceConfig>
         <mappings>
             <tab>Appraiser__c</tab>
@@ -221,10 +224,16 @@
             <tab>Deal_x_Funding_Vehicle__c</tab>
         </mappings>
         <mappings>
+            <tab>Disaster__c</tab>
+        </mappings>
+        <mappings>
             <tab>Loan_Version__c</tab>
         </mappings>
         <mappings>
             <tab>Policy_Exception__c</tab>
+        </mappings>
+        <mappings>
+            <tab>Portal_Survey__c</tab>
         </mappings>
         <mappings>
             <tab>Post_Closing_Section__c</tab>

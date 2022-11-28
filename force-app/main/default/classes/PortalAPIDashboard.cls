@@ -664,7 +664,13 @@ global without sharing class PortalAPIDashboard {
       FROM Opportunity
       WHERE
         Id IN :dealIds
-        AND StageName IN ('Paid Off', 'Withdrawn', 'Rejected')
+        AND StageName IN (
+          'Paid Off',
+          'Withdrawn',
+          'Rejected',
+          'Expired',
+          'Matured'
+        )
       ORDER BY CloseDate DESC, Name ASC
     ];
   }
@@ -1036,7 +1042,8 @@ global without sharing class PortalAPIDashboard {
       this.phoneNumber = teamMember.User.Phone;
       this.email = teamMember.User.email;
       if (String.isBlank(teamMember.User.Portal_Profile_Pic__c)) {
-        this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+        // this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+        this.photoURL = 'https://cvest.my.salesforce.com/sfc/p/#j0000000L4sC/a/5b0000012zE2/Su8ThtRqqWriyv2eHrIGVM6iZSxMIMq0cEe5pfA95cA';
       } else {
         this.photoURL = teamMember.User.Portal_Profile_Pic__c;
       }
@@ -1049,7 +1056,7 @@ global without sharing class PortalAPIDashboard {
       this.phoneNumber = c.Owner.Phone;
       this.email = c.Owner.Email;
       if (String.isBlank(c.Owner.Portal_Profile_Pic__c)) {
-        this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+        this.photoURL = 'https://cvest.my.salesforce.com/sfc/p/#j0000000L4sC/a/5b0000012zE2/Su8ThtRqqWriyv2eHrIGVM6iZSxMIMq0cEe5pfA95cA';
       } else {
         this.photoURL = c.Owner.Portal_Profile_Pic__c;
       }
@@ -1074,7 +1081,7 @@ global without sharing class PortalAPIDashboard {
         this.phoneNumber = u.Phone;
         this.email = u.Email;
         if (String.isBlank(u.Portal_Profile_Pic__c)) {
-          this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+          this.photoURL = 'https://cvest.my.salesforce.com/sfc/p/#j0000000L4sC/a/5b0000012zE2/Su8ThtRqqWriyv2eHrIGVM6iZSxMIMq0cEe5pfA95cA';
         } else {
           this.photoURL = u.Portal_Profile_Pic__c;
         }
@@ -1096,7 +1103,7 @@ global without sharing class PortalAPIDashboard {
         this.phoneNumber = c.Owner.Phone;
         this.email = c.Owner.Email;
         if (String.isBlank(c.Owner.Portal_Profile_Pic__c)) {
-          this.photoURL = 'https://cvest--alchemy.my.salesforce.com/file-asset-public/default?oid=00DZ0000009T6aH';
+          this.photoURL = 'https://cvest.my.salesforce.com/sfc/p/#j0000000L4sC/a/5b0000012zE2/Su8ThtRqqWriyv2eHrIGVM6iZSxMIMq0cEe5pfA95cA';
         } else {
           this.photoURL = c.Owner.Portal_Profile_Pic__c;
         }

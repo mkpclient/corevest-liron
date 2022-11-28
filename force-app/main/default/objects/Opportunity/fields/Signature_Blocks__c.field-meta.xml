@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Signature_Blocks__c</fullName>
+    <description>For Document Generation</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Use as a merge field for Document Generation.</inlineHelpText>
+    <label>Signature Blocks</label>
+    <length>32768</length>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>Html</type>
+    <visibleLines>25</visibleLines>
+</CustomField>

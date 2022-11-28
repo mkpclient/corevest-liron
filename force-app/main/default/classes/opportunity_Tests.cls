@@ -13,8 +13,23 @@
 public with sharing class opportunity_Tests {
   @TestSetup
   static void dataSetup() {
-    Test_Helper.createDealLoanNumber();
+    Test_Helper.setupProduct2();
+    Test_Helper.createRate();
+    test_Helper.createDealLoanNumber();
+    Test_Helper.createBridgeOperationsUser();
     Account acc = test_Helper.createAccount();
+    id recType = Schema.SObjectType.Account.getRecordTypeInfosByName()
+    .get('Broker')
+    .getRecordTypeId();
+    Account a = new Account();
+    a.Name = 'Alston & Bird';
+    a.BillingCountry = 'United States';
+    a.BillingState = 'California';
+    a.Introductions_Source__c = 'Hotline';
+    a.Introduction_Subsource__c = 'Main';
+    a.Alternate_Phone__c = '55555555355';
+    a.RecordTypeId = recType;
+    insert a;
 
     acc.Alternate_Phone__c = '7777777777';
     update acc;
@@ -4206,22 +4221,22 @@ public with sharing class opportunity_Tests {
       'RS999 - 8 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Commission_Type__c = 'Internal';
-    update opp;
+    // opp.Commission_Type__c = 'Internal';
+    // update opp;
     System.debug(
       'RS999 - 9 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Term_Loan_Type__c = '5 Year';
-    opp.YM_Prepayment_Penalty__c = '48 Months';
-    update opp;
+    // opp.Term_Loan_Type__c = '5 Year';
+    // opp.YM_Prepayment_Penalty__c = '48 Months';
+    // update opp;
     System.debug(
       'RS999 - 10 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
     );
-    opp.Term_Loan_Type__c = '10 Year';
-    opp.YM_Prepayment_Penalty__c = '114 Months';
-    update opp;
+    // opp.Term_Loan_Type__c = '10 Year';
+    // opp.YM_Prepayment_Penalty__c = '114 Months';
+    // update opp;
     System.debug(
       'RS999 - 11 Total Number of SOQL Queries allowed in this apex code context: ' +
       Limits.getLimitQueries()
@@ -4242,20 +4257,18 @@ public with sharing class opportunity_Tests {
         opportunity_Helper.beforeUpdate(newoppmap,oldoppmap); */
   }
   static testMethod void opportunity_UnitTest6() {
-    id recType = Schema.SObjectType.Account.getRecordTypeInfosByName()
-      .get('Broker')
-      .getRecordTypeId();
+   
 
-    Account a = new Account();
-    a.Name = 'Alston & Bird';
-    a.BillingCountry = 'United States';
-    a.BillingState = 'California';
-    a.Introductions_Source__c = 'Hotline';
-    a.Introduction_Subsource__c = 'Main';
-    a.Alternate_Phone__c = '55555555355';
-    a.RecordTypeId = recType;
-    insert a;
-    system.debug('a id ' + a.recordTypeId);
+    // Account a = new Account();
+    // a.Name = 'Alston & Bird';
+    // a.BillingCountry = 'United States';
+    // a.BillingState = 'California';
+    // a.Introductions_Source__c = 'Hotline';
+    // a.Introduction_Subsource__c = 'Main';
+    // a.Alternate_Phone__c = '55555555355';
+    // a.RecordTypeId = recType;
+    // insert a;
+    // system.debug('a id ' + a.recordTypeId);
     Account acc = [SELECT Id FROM Account ORDER BY CreatedDate DESC LIMIT 1];
     Contact cont = [SELECT Id FROM Contact ORDER BY CreatedDate DESC LIMIT 1];
     cont.AccountId = acc.Id;
@@ -4266,7 +4279,7 @@ public with sharing class opportunity_Tests {
     opp.CloseDate = System.today();
     opp.StageName = 'Initial Review';
     opp.Loan_Size__c = 2000000;
-    opp.AccountId = a.Id;
+    opp.AccountId = acc.Id;
     opp.Contact__c = cont.Id;
     opp.Final_Loan_Amount__c = 100;
     opp.Deal_Intro_Source__c = 'Hotline';
@@ -4356,7 +4369,8 @@ public with sharing class opportunity_Tests {
     update newTestDeal;
 
     Securitization__c testSc2 = Test_Helper.createSecuritization();
-
+    
+    Test.startTest();
     Funding_Vehicle__c testFv2 = [
       SELECT Id, Securitization__c
       FROM Funding_Vehicle__c
@@ -4369,10 +4383,9 @@ public with sharing class opportunity_Tests {
     newerTestDeal.Securitized__c = true;
     newerTestDeal.Securitization__c = testSc2.Id;
     newTestMap.put(newerTestDeal.Id, newerTestDeal);
-
     opportunity_Helper.beforeUpdate(newTestMap, oldTestMap);
     opportunity_Helper.afterUpdate(newTestMap, oldTestMap);
-
+    Test.stopTest();
     update newerTestDeal;
   }
 
@@ -4465,7 +4478,6 @@ public with sharing class opportunity_Tests {
     opp4.AccountId = acc.Id;
     opp4.Contact__c = cont.Id;
     opp4.Apex_Context__c = true;
-    opp4.Floor__c = 10;
     opp4.RecordTypeId = id1;
 
     List<Opportunity> oppLst = new List<Opportunity>();
@@ -4498,19 +4510,33 @@ public with sharing class opportunity_Tests {
     update opp;
 
     opp4.Term_Loan_Type__c = '30 Year';
-    opp3.YM_Prepayment_Penalty__c = '120 Months';
+    opp4.YM_Prepayment_Penalty__c = '120 Months';
     update opp4;
     opp3.Term_Loan_Type__c = '10 Year';
     opp3.YM_Prepayment_Penalty__c = '114 Months';
     update opp3;
     opp2.Term_Loan_Type__c = '7 Year';
-    opp3.YM_Prepayment_Penalty__c = '81 Months';
+    opp2.YM_Prepayment_Penalty__c = '81 Months';
     update opp2;
     opp1.Term_Loan_Type__c = '5 Year';
-    opp3.YM_Prepayment_Penalty__c = '54 Months';
+    opp1.YM_Prepayment_Penalty__c = '54 Months';
     update opp1;
     opp.Term_Loan_Type__c = '3 Year';
-    opp3.YM_Prepayment_Penalty__c = '30 Months';
+    opp.YM_Prepayment_Penalty__c = '30 Months';
     update opp;
+  }
+
+  static testMethod void testCEMA() {
+    Account a = [SELECT Id, Name FROM Account LIMIT 1];
+    Contact c = [SELECT FirstName, LastName FROM Contact WHERE AccountId = :a.Id];
+
+    a.Name = 'Harrison & Held, LLP';
+    c.FirstName = 'Anthony';
+    c.LastName = 'Frink';
+
+    update a;
+    update c;
+
+    opportunity_Helper.createCemaDealContacts(new Map<Id, Opportunity>([SELECT Id FROM Opportunity]).keySet());
   }
 }

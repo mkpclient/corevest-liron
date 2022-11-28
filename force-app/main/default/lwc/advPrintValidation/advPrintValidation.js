@@ -78,7 +78,7 @@ export default class AdvPrintValidation extends LightningElement {
     try {
       const [advObj, propAdvObj] = await doQueries({
         queryStrings: [
-          `SELECT Deal__r.RecordType.DeveloperName, Approved_Advance_Amount_Max_Total__c, Holdback_Amount_Total__c, Initial_Disbursement_Total__c, Name, Deal__r.LOC_Loan_Type__c FROM Advance__c WHERE Id='${this.recordId}'`,
+          `SELECT Deal__r.RecordType.DeveloperName, Approved_Advance_Amount_Max_Total__c, Approved_Renovation_Amount_Total__c, Initial_Disbursement_Total__c, Name, Deal__r.LOC_Loan_Type__c FROM Advance__c WHERE Id='${this.recordId}'`,
           `SELECT Property__r.RecordType.DeveloperName FROM Property_Advance__c WHERE Advance__c='${this.recordId}'`
         ]
       });
@@ -126,7 +126,7 @@ export default class AdvPrintValidation extends LightningElement {
       if (!error) {
         this.approvedAdvanceAmount =
           advObj.Approved_Advance_Amount_Max_Total__c;
-        this.approvedRenovationHoldback = advObj.Holdback_Amount_Total__c;
+        this.approvedRenovationHoldback = advObj.Approved_Renovation_Amount_Total__c;
         this.advance = advObj;
         this.propAdvance = propAdvObj;
         this.validateObjects();

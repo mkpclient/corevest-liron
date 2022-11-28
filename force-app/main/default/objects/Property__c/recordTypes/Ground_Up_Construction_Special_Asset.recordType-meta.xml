@@ -339,6 +339,21 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Property_Management_Type__c</picklist>
+        <values>
+            <fullName>Affiliate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Self Managed</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Third Party</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Property_Type__c</picklist>
         <values>
             <fullName>2-4 Unit</fullName>

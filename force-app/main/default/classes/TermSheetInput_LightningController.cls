@@ -201,7 +201,10 @@ public without sharing class TermSheetInput_LightningController {
     'YSP_perc__c' => 'Broker YSP %',
     'Broker_Fee_Paid_By_Whom__c' => 'Broker Fee Paid By Whom',
     'Broker_Fee_Paid_When__c' => 'Broker Fee Paid When',
-    'Holdback_Multiplier__c' => 'Holdback Multiplier'
+    'Holdback_Multiplier__c' => 'Holdback Multiplier',
+    'Requested_Rate_1_9_Months__c' => 'Requested Rate',
+    'Requested_Index__c' => 'Requested Index',
+    'Requested_Index_Margin__c' => 'Requested Index Margin'
   };
 
   @AuraEnabled
@@ -304,6 +307,13 @@ public without sharing class TermSheetInput_LightningController {
           bridgeFields.add('Requested_Max_Reno_Cost_Reimbursement__c');
           bridgeFields.add('Requested_Reno_Limit__c');
         }
+        if (o.Requested_Interest_Type__c == 'Floating') {
+          bridgeFields.add('Requested_Index__c');
+          bridgeFields.add('Requested_Index_Margin__c');
+        }
+        if (o.Requested_Interest_Type__c == 'Fixed') {
+          bridgeFields.add('Requested_Rate_1_9_Months__c');
+        }
       } else if (o.Recordtype.DeveloperName == 'Term_Loan') {
         selectedList = termFields;
       } else if (o.Recordtype.DeveloperName == 'Single_Asset_Bridge_Loan') {
@@ -352,6 +362,11 @@ public without sharing class TermSheetInput_LightningController {
       nullFields.remove(nullFields.indexOf('Distinct States'));
     }
 
+    /**
+     * * discovered this pre-existing validation to skip checking missing field values when program type is standard. It looks like it's been there since last year too, not sure if this was requested or not but it's causing issues.
+     * * Was this probably code from testing that was not commented out? 
+     * * - Liron
+     */
     // if (
     //   (o.RecordType.DeveloperName == 'LOC_Loan' ||
     //   o.RecordType.DeveloperName.contains('Bridge')) &&
@@ -369,9 +384,7 @@ public without sharing class TermSheetInput_LightningController {
 
     m.put('Checkboxes', new List<String>{ 'true' });
 
-    if (
-      retrieveTemplateName(o) != 'Other'
-    ) {
+    if (retrieveTemplateName(o) != 'Other') {
       m.put('Checkboxes', new List<String>{ 'false' });
     }
 
@@ -471,7 +484,11 @@ public without sharing class TermSheetInput_LightningController {
     return [SELECT Id, PathOnClient FROM ContentVersion WHERE Id IN :recordIds];
   }
 
-  public static Opportunity updateIfLocLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static Opportunity updateIfLocLoan(
+    Opportunity o,
+    List<Boolean> m,
+    Date d
+  ) {
     System.debug('inside update method');
     o.put('Negotiated_by_Counsel__c', m[0]);
     o.put('Include_3_Months_Min_Interest__c', m[1]);
@@ -488,7 +505,11 @@ public without sharing class TermSheetInput_LightningController {
     return o;
   }
 
-  public static Opportunity updateIfTermLoan(Opportunity o, List<Boolean> m, Date d) {
+  public static Opportunity updateIfTermLoan(
+    Opportunity o,
+    List<Boolean> m,
+    Date d
+  ) {
     o.put('NY_Counsel_Required__c', m[0]);
     o.put('Include_Assumption__c', m[1]);
     o.put('Include_Prop_Sub_Text__c', m[2]);
@@ -664,6 +685,7 @@ public without sharing class TermSheetInput_LightningController {
   public static String generateSheet(String s, String recordType) {
     System.debug('this is the string received: ' + s);
 
+   try {
     Map<String, String> m = (Map<String, String>) JSON.deserialize(
       s,
       Map<String, String>.class
@@ -722,7 +744,7 @@ public without sharing class TermSheetInput_LightningController {
         return docReference;
       }
     } else {
-      if(retrieveTemplateName(o) != 'Other') {
+      if (retrieveTemplateName(o) != 'Other') {
         String assetString = '/apex/' + retrieveTemplateName(o) + '?id=';
         String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
         p = new PageReference(docReference);
@@ -777,5 +799,9 @@ public without sharing class TermSheetInput_LightningController {
 
       return 'ok';
     }
+   } catch (Exception err) {
+    System.debug(err.getMessage() + ' ' + err.getLineNumber());
+    throw new AuraHandledException(err.getMessage() + ' ' + err.getLineNumber());
+   }
   }
 }

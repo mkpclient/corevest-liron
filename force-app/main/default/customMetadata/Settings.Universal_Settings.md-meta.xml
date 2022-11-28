@@ -91,6 +91,10 @@
         <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
+        <field>Disable_Flow_Email_Notifications__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
         <field>Disable_Lead_Trigger__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -185,6 +189,14 @@
     <values>
         <field>IC_Stage_Validation_Term__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Minimum_Advance_Batch_Approvers__c</field>
+        <value xsi:type="xsd:double">3.0</value>
+    </values>
+    <values>
+        <field>Minimum_Advance_IC_Approvers__c</field>
+        <value xsi:type="xsd:double">3.0</value>
     </values>
     <values>
         <field>Num_of_Days_to_Transfer_Lead__c</field>

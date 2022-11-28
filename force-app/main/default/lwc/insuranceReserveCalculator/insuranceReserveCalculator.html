@@ -15,7 +15,6 @@
             <template if:true={deal.data}>
                 <div class="slds-grid">
                     <div class="slds-col slds-size_1-of-2 slds-p-right_small">
-                        <!-- <lightning-input-field field-name="First_Payment_Due_Date__c"></lightning-input-field> -->
                         <lightning-input name="paymentDueDate" onchange={dateChanged} value={paymentDueDate} label="First Payment Due Date" type="date" ></lightning-input>
                     </div>
                     <div class="slds-col slds-size_1-of-2 slds-p-left_small">

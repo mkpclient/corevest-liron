@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>As_Is_Value_Variance__c</fullName>
+    <externalId>false</externalId>
+    <formula>(Appraised_Value_Amount__c- Appraisal_Reviewed__r.Appraised_Value_Amount__c) / Appraisal_Reviewed__r.Appraised_Value_Amount__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>As-Is Value Variance</label>
+    <precision>18</precision>
+    <required>false</required>
+    <scale>2</scale>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Percent</type>
+</CustomField>

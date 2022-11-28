@@ -11,6 +11,7 @@ public without sharing class ScheduleOfLenderCostsPDFExtension {
       this.record = [
         SELECT
           Final_Loan_Amount__c,
+          Lender_Credit_Description__c,
           Deposit_Amount__c,
           Deal_Loan_Number__c,
           Borrower__c,
@@ -58,7 +59,8 @@ public without sharing class ScheduleOfLenderCostsPDFExtension {
           Deal__r.Rate_Lock_Picklist__c,
           Legal_Fee__c,
           Discount_Fee_Number__c,
-          Early_Lock_Deposit__c
+          Early_Lock_Deposit__c,
+          Lender_Credit__c
         FROM loan_version__c
         WHERE Id = :this.record.Id
         LIMIT 1

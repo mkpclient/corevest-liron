@@ -123,7 +123,7 @@
     whereClause += " AND (Status__c = 'Due Diligence' OR Status__c = 'Pending' OR Status__c = 'Closing' OR (Status__c = 'Active' AND Approved_Advance_Amount_Remaining__c > 0))";
 
     whereClause +=
-      " AND (Asset_Maturity_Date__c = null OR Asset_Maturity_Date__c >= TODAY )";
+      " AND (Updated_Asset_Maturity_Date__c = null OR Updated_Asset_Maturity_Date__c >= TODAY )";
 
     if (component.get("v.propertyIds") !== "()") {
       whereClause += " AND Id NOT IN " + component.get("v.propertyIds");

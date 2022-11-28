@@ -126,27 +126,6 @@
             </dd>
         </div>
     </div>
-    <!-- new row -->
-    <aura:if isTrue="{!v.record.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' || v.record.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)' || v.record.LOC_Loan_Type__c == 'Multifamily/CRE'}">
-        <div class="slds-grid">
-            <div class="slds-col slds-p-around--small slds-size_1-of-2">
-                <dt class="slds-item_label slds-text-color_weak slds-truncate">
-                    Property Address
-                </dt>
-                <dd class="slds-item_detail slds-truncate">
-                    <ui:outputURL value="{!'http://maps.google.com/maps?q=' + v.record.Property_Street__c + '%20' + v.record.Property_City__c + '%20' + v.record.Property_State__c + '%20' + v.record.Property_Zip__c}" label="{!v.record.Property_Street__c + ' ' + v.record.Property_City__c + ' ' + v.record.Property_State__c + ', ' + v.record.Property_Zip__c}" target="_blank" />
-                </dd>
-            </div>
-            <div class="slds-col slds-p-around--small slds-size_1-of-2">
-                <dt class="slds-item_label slds-text-color_weak slds-truncate">
-                    Property Type
-                </dt>
-                <dd class="slds-item_detail slds-truncate">
-                    {!v.record.Property_Type__c}
-                </dd>
-            </div>
-        </div>
-    </aura:if>
     
     <!-- start here -->
     <!-- <div class="slds-grid">

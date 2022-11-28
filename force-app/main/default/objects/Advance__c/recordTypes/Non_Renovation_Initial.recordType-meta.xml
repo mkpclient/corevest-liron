@@ -6,6 +6,10 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_By_Whom__c</picklist>
         <values>
+            <fullName>Borrower</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>CoreVest</fullName>
             <default>false</default>
         </values>
@@ -93,6 +97,25 @@
         </values>
         <values>
             <fullName>Revisions</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>IC_Approval_Status__c</picklist>
+        <values>
+            <fullName>Approved</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recalled</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rejected</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Submitted</fullName>
             <default>false</default>
         </values>
     </picklistValues>

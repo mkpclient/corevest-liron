@@ -1,7 +1,8 @@
 @isTest
 private class DealFieldValidationTests {
   static testMethod void test1() {
-      test_Helper.createDealLoanNumber();
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     Contact cont = test_Helper.createContact(acc);
     Opportunity opp = test_Helper.createOpportunity(acc, cont);
@@ -30,7 +31,7 @@ private class DealFieldValidationTests {
     opp.Product_Sub_Type__c = 'Renovation';
     opp.Interest_Rate_Type__c = 'Floating';
     opp.Index__c = '1M LIBOR';
-    opp.Index_Floor__c = '1.00%';
+    opp.Floor__c = 1.00;
     opp.Index_Margin__c = 1.50;
     opp.Deal_Intro_Source__c = 'Hotline';
     opp.Deal_Intro_Sub_source__c = 'Main';
@@ -91,7 +92,8 @@ private class DealFieldValidationTests {
   }
 
   static testMethod void test2() {
-      test_Helper.createDealLoanNumber();
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
     Account acc = test_Helper.createAccount();
     acc.Alternate_Phone__c = '7777777777';
     update acc;

@@ -268,12 +268,6 @@
                 <label>7 Unit</label>
             </value>
             <value>
-                <fullName>7-Unit</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>7-Unit</label>
-            </value>
-            <value>
                 <fullName>8 Unit</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -496,12 +490,6 @@
                 <label>RAN</label>
             </value>
             <value>
-                <fullName>Retial Condo</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>Retial Condo</label>
-            </value>
-            <value>
                 <fullName>SF</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -592,18 +580,6 @@
                 <label>TH</label>
             </value>
             <value>
-                <fullName>TRIPLEX</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>TRIPLEX</label>
-            </value>
-            <value>
-                <fullName>TWN HOUSE</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>TWN HOUSE</label>
-            </value>
-            <value>
                 <fullName>Town House</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -614,12 +590,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>Tri-plex</label>
-            </value>
-            <value>
-                <fullName>asdf</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>asdf</label>
             </value>
         </valueSetDefinition>
     </valueSet>

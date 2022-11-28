@@ -7,7 +7,7 @@
     <inlineHelpText>This is the Appraisal being reviewed</inlineHelpText>
     <label>Appraisal Reviewed</label>
     <referenceTo>Appraisal__c</referenceTo>
-    <relationshipLabel>Appraisals</relationshipLabel>
+    <relationshipLabel>Appraisal Reviews</relationshipLabel>
     <relationshipName>Appraisals</relationshipName>
     <required>false</required>
     <trackHistory>false</trackHistory>

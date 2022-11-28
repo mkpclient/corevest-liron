@@ -20,7 +20,13 @@ global with sharing class FileMoveBatch implements Database.Batchable<sObject> {
           .getName() == 'Account' ||
         contentDoc.LatestPublishedVersion.FirstPublishLocationId.getSObjectType()
           .getDescribe()
-          .getName() == 'Contact'
+          .getName() == 'Contact' ||
+        contentDoc.LatestPublishedVersion.FirstPublishLocationId.getSObjectType()
+          .getDescribe()
+          .getName() == 'Opportunity' ||
+        contentDoc.LatestPublishedVersion.FirstPublishLocationId.getSObjectType()
+          .getDescribe()
+          .getName() == 'Advance__c'
       ) {
         contentVersions.add(
           new ContentVersion(
@@ -42,7 +48,22 @@ global with sharing class FileMoveBatch implements Database.Batchable<sObject> {
             .getName() == 'Contact'
         ) {
           dealDocument.Contact__c = contentDoc.LatestPublishedVersion.FirstPublishLocationId;
+        } else if (
+          contentDoc.LatestPublishedVersion.FirstPublishLocationId.getSObjectType()
+            .getDescribe()
+            .getName() == 'Opportunity'
+        ) {
+          dealDocument.Deal__c = contentDoc.LatestPublishedVersion.FirstPublishLocationId;
+          dealDocument.Document_Structure_Id__c = 'm000a000000c2bg';
+        } else if (
+          contentDoc.LatestPublishedVersion.FirstPublishLocationId.getSObjectType()
+            .getDescribe()
+            .getName() == 'Advance__c'
+        ) {
+          dealDocument.Advance__c = contentDoc.LatestPublishedVersion.FirstPublishLocationId;
+          dealDocument.Document_Structure_Id__c = 'm005b000000g4Z7';
         }
+
         dealDocument.File_Name__c =
           contentDoc.LatestPublishedVersion.Title +
           '.' +

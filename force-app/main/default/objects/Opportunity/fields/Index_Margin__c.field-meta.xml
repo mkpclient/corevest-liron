@@ -3,7 +3,7 @@
     <fullName>Index_Margin__c</fullName>
     <description>Floating Index Margin field set back to percentage, user who enters basis points will need to use percent instead.</description>
     <externalId>false</externalId>
-    <label>Index Margin</label>
+    <label>Margin</label>
     <precision>5</precision>
     <required>false</required>
     <scale>2</scale>

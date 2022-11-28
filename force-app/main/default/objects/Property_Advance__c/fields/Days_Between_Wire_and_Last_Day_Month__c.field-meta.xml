@@ -4,10 +4,10 @@
     <description>Advance__r.Last_Day_of_the_Wire_Month__c - Wire_Date__c</description>
     <externalId>false</externalId>
     <formula>IF(
-  MONTH(  Wire_Date__c ) = 12,
-  DATE( YEAR( Wire_Date__c ), 12, 31 ),
-  DATE( YEAR( Wire_Date__c ), MONTH ( Wire_Date__c ) + 1, 1 ) - 1 
-) - Wire_Date__c + 1</formula>
+  MONTH(  Advance__r.Target_Advance_Date__c ) = 12,
+  DATE( YEAR( Advance__r.Target_Advance_Date__c ), 12, 31 ),
+  DATE( YEAR( Advance__r.Target_Advance_Date__c ), MONTH ( Advance__r.Target_Advance_Date__c ) + 1, 1 ) - 1 
+) - Advance__r.Target_Advance_Date__c + 1</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <inlineHelpText>Number of days between the Wire Date and the last day of the Month</inlineHelpText>
     <label>Days Between Wire and Last Day of Month</label>

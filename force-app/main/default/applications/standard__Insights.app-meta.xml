@@ -4,6 +4,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <tabs>standard-AppLauncher</tabs>
     <tabs>standard-WaveHome</tabs>
     <tabs>standard-ProfilePlatformOverview</tabs>
@@ -26,4 +27,6 @@
     <tabs>Policy_Exception__c</tabs>
     <tabs>Appraiser__c</tabs>
     <tabs>Servicer_Loan__c</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
 </CustomApplication>

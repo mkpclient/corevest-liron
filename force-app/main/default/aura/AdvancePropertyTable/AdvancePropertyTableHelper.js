@@ -77,6 +77,8 @@
       "Property__r.Reno_Advance_Amount_Remaining__c",
       "Property__r.Approved_Renovation_Holdback__c",
       "Property__r.Renovation_Advance_Amount_Used__c",
+      "Property__r.Total_Remaining_Holdback__c",
+      "Property__r.Total_Holdback_Drawn__c",
       "Appraisal_Due_Date__c",
       "Renovation_Budget__c",
       "BPO_Appraisal_Value__c",
@@ -124,6 +126,8 @@
       "Servicing_Fee__c",
       "Report_Fee_Total__c",
       "Wire_Fee__c",
+      "Renovation_Holdback_Amount_Released__c",
+      "Advance_Record_Type_Name__c",
       "Id"
     ];
 
@@ -147,7 +151,10 @@
           component.set("v.propertyAdvances", response.getReturnValue());
           helper.calculatePropAdvTotals(component);
           component.find("refresh").set("v.disabled", false);
-        } else if(response.getReturnValue().length == 0 && component.get("v.record") != null) {
+        } else if (
+          response.getReturnValue().length == 0 &&
+          component.get("v.record") != null
+        ) {
           var navEvt = $A.get("e.force:navigateToSObject");
           navEvt.setParams({
             recordId: component.get("v.record").Deal__c
@@ -254,7 +261,10 @@
   },
   updatePropertyStatuses: function (component, helper, records) {
     $A.util.toggleClass(component.find("spinner"), "slds-hide");
-    const propStatuses = Object.assign({}, component.get("v.updatedPropertyStatuses"));
+    const propStatuses = Object.assign(
+      {},
+      component.get("v.updatedPropertyStatuses")
+    );
     console.log("prop statuses", propStatuses);
     if (Object.values(propStatuses).length > 0) {
       const upsertAction = component.get("c.upsertRecords");
@@ -306,9 +316,7 @@
       $A.util.toggleClass(component.find("spinner"), "slds-hide");
     }
   },
-  updateDeal: function (component, helper, records) {
-    
-  },
+  updateDeal: function (component, helper, records) {},
   retrievePropertyStatusPicklistValues: function (component, helper, records) {
     let action = component.get("c.getPicklistFieldValue");
     action.setParams({
@@ -372,39 +380,49 @@
   },
   calculatePropAdvTotals: function (component) {
     let propAdvs = component.get("v.updatedPropAdvances") || [];
-    if(propAdvs.length == 0) {
+    if (propAdvs.length == 0) {
       propAdvs = component.get("v.propertyAdvances");
     }
-    let propAdvTotals = component.get("v.propAdvTotals") != null ? component.get("v.propAdvTotals") : {};
+    let propAdvTotals =
+      component.get("v.propAdvTotals") != null
+        ? component.get("v.propAdvTotals")
+        : {};
     const totalKeys = [
       "Original_Requested_Renovation_Amount__c",
       "Approved_Amount__c",
       "Holdback_To_Rehab_Ratio__c",
       "Servicing_Fee__c"
     ];
-    
-    
-    for(let i = 0; i < propAdvs.length; i++) {
+
+    for (let i = 0; i < propAdvs.length; i++) {
       const pAdv = propAdvs[i];
-      for(const [key, value] of Object.entries(pAdv)) {
-        
-        if(totalKeys.includes(key)) {
-          if(i === 0) {
+      for (const [key, value] of Object.entries(pAdv)) {
+        if (totalKeys.includes(key)) {
+          if (i === 0) {
             propAdvTotals[key] = 0;
           }
-        propAdvTotals[key] += isNaN(value) ? 0 : parseFloat(value);
+          propAdvTotals[key] += isNaN(value) ? 0 : parseFloat(value);
         }
       }
     }
-    component.set("v.updatedPropAdvances",propAdvs);
+    component.set("v.updatedPropAdvances", propAdvs);
     propAdvs = component.get("v.propertyAdvances");
     let total = 0;
-    for(const pAdv of propAdvs) {
+    for (const pAdv of propAdvs) {
       let property = pAdv.Property__r;
-      if(property.hasOwnProperty("Reno_Advance_Amount_Remaining__c") && !isNaN(property["Reno_Advance_Amount_Remaining__c"])) {
-        let renoRemaining = parseFloat(property["Reno_Advance_Amount_Remaining__c"]);
-        if(component.get("v.record.Status__c") != "Completed") {
-          let renoReserve = pAdv.hasOwnProperty("Renovation_Reserve__c") && pAdv.Renovation_Reserve__c != null ? parseFloat(pAdv.Renovation_Reserve__c) : 0;
+      if (
+        property.hasOwnProperty("Reno_Advance_Amount_Remaining__c") &&
+        !isNaN(property["Reno_Advance_Amount_Remaining__c"])
+      ) {
+        let renoRemaining = parseFloat(
+          property["Reno_Advance_Amount_Remaining__c"]
+        );
+        if (component.get("v.record.Status__c") != "Completed") {
+          let renoReserve =
+            pAdv.hasOwnProperty("Renovation_Reserve__c") &&
+            pAdv.Renovation_Reserve__c != null
+              ? parseFloat(pAdv.Renovation_Reserve__c)
+              : 0;
           total += renoRemaining - renoReserve;
         } else {
           total += renoRemaining;
@@ -414,5 +432,5 @@
     propAdvTotals["totalRenoAdvanceRemaining"] = total;
     console.log("prop adv totals", propAdvTotals);
     component.set("v.propAdvTotals", propAdvTotals);
-  },
+  }
 });

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Rental_Agreement_File__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(ISBLANK(Rental_Agreement_File_Id__c), &apos;&apos;, HYPERLINK(&quot;/sfc/servlet.shepherd/version/download/&quot;+Rental_Agreement_File_Id__c, &quot;Download&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Rental Agreement File</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

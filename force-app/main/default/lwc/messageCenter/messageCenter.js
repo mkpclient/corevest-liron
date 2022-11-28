@@ -2,6 +2,7 @@ import { LightningElement, api, track } from "lwc";
 import getCommentsById from "@salesforce/apex/MessageCenterController.getCommentsById";
 import getAllComments from "@salesforce/apex/MessageCenterController.getAllComments";
 import upsert from "@salesforce/apex/lightning_Util.upsertRecords";
+import saveComment from "@salesforce/apex/MessageCenterController.saveComment";
 
 export default class MessageCenter extends LightningElement {
   @api recordId = "006Z000000IJCuJIAX";
@@ -143,8 +144,8 @@ export default class MessageCenter extends LightningElement {
         Deal_Document__c: lastComment.documentId,
         Body__c: body
       };
-
-      upsert({ records: [comment] }).then((result) => {
+      console.log(comment);
+      saveComment({ request: JSON.stringify(comment) }).then((result) => {
         this.template.querySelector("lightning-textarea").value = "";
         this.fetchCommentAndChildren(comments[0].id);
       });

@@ -1,90 +1,141 @@
 @isTest
 private class AppraisalTests {
-    static testmethod void mergeTest(){
-        test_Helper.createDealLoanNumber();
-        Account acc = Test_Helper.createAccount();
-        Contact cont = Test_Helper.createContact( acc );
-        Opportunity opp = Test_Helper.createOpportunity( acc, cont );
-        opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
-        List<Property__c> properties = Test_Helper.createProperties(opp);
-        Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
-        appraisal.Status__c = 'Complete-Delivered';
-        update appraisal;
-        Test.startTest();
-            AppraisalMergeController.initMergeScreen(opp.Id);
-        Test.stopTest();
-        
-    }
+  static testMethod void mergeTest() {
+    test_Helper.createDealLoanNumber();
+    Account acc = Test_Helper.createAccount();
+    Contact cont = Test_Helper.createContact(acc);
+    Opportunity opp = Test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName = 'Term_Loan' AND sobjecttype = 'Opportunity'
+    ]
+    .Id;
+    List<Property__c> properties = Test_Helper.createProperties(opp);
+    Appraisal__c appraisal = Test_Helper.createAppraisal(opp, properties[0]);
+    appraisal.Status__c = 'Complete-Delivered';
+    update appraisal;
+    Test.startTest();
+    AppraisalMergeController.initMergeScreen(opp.Id);
+    Test.stopTest();
+  }
 
-    static testmethod void parserTest(){
-        StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalXMLTest' LIMIT 1];
-        ContentVersion cv = new ContentVersion(
-            Title = 'Test',
-            PathOnClient = 'Test.xml',
-            VersionData = xml.Body,
-            IsMajorVersion = true
-        );
+  static testMethod void userCreatedAppraisalTest() {
+    test_Helper.createDealLoanNumber();
+    Account acc = Test_Helper.createAccount();
+    Contact cont = Test_Helper.createContact(acc);
+    Opportunity opp = Test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName = 'Term_Loan' AND sobjecttype = 'Opportunity'
+    ]
+    .Id;
+    List<Property__c> properties = Test_Helper.createProperties(opp);
+    Test.startTest();
+    Appraisal__c appraisal = Test_Helper.createUserCreatedAppraisal(opp, properties[0]);
+    appraisal.Estimated_Completion_Date__c = System.now() + 7;
+    appraisal.Order_Received_Date__c = System.now() + 2;
+    appraisal.Appraisal_Fee__c = 900;
+    update appraisal;
+    Test.stopTest();
+  }
 
-        insert cv;
-        Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id LIMIT 1].ContentDocumentId;
-        test_Helper.createDealLoanNumber();
-        Account acc = Test_Helper.createAccount();
-        Contact cont = Test_Helper.createContact( acc );
-        Opportunity opp = Test_Helper.createOpportunity( acc, cont );
-        opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
-        List<Property__c> properties = Test_Helper.createProperties(opp);
+  static testMethod void parserTest() {
+    StaticResource xml = [
+      SELECT Id, Body
+      FROM StaticResource
+      WHERE Name = 'AppraisalXMLTest'
+      LIMIT 1
+    ];
+    ContentVersion cv = new ContentVersion(
+      Title = 'Test',
+      PathOnClient = 'Test.xml',
+      VersionData = xml.Body,
+      IsMajorVersion = true
+    );
 
-        Deal_Document__c doc = new Deal_Document__c(
-            Deal__c = opp.Id,
-            Property__c = properties[0].Id,
-            Document_Type__c = 'Valuations'
-        );
+    insert cv;
+    Id docId = [
+      SELECT Id, ContentDocumentId
+      FROM ContentVersion
+      WHERE Id = :cv.Id
+      LIMIT 1
+    ]
+    .ContentDocumentId;
+    test_Helper.createDealLoanNumber();
+    Account acc = Test_Helper.createAccount();
+    Contact cont = Test_Helper.createContact(acc);
+    Opportunity opp = Test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName = 'Term_Loan' AND sobjecttype = 'Opportunity'
+    ]
+    .Id;
+    List<Property__c> properties = Test_Helper.createProperties(opp);
 
-        insert doc;
+    Deal_Document__c doc = new Deal_Document__c(
+      Deal__c = opp.Id,
+      Property__c = properties[0].Id,
+      Document_Type__c = 'Valuations'
+    );
 
-        Test.startTest();
-            doc.Attachment_Id__c = docId;
-            update doc;
-            // system.assert(xml != null);
-        Test.stopTest();    
+    insert doc;
 
-        
-    }
+    Test.startTest();
+    doc.Attachment_Id__c = docId;
+    update doc;
+    // system.assert(xml != null);
+    Test.stopTest();
+  }
 
-    static testmethod void parserTestBBG(){
-        StaticResource xml = [SELECT Id, Body FROM StaticResource WHERE Name = 'AppraisalBBGXMLTest' LIMIT 1];
-        ContentVersion cv = new ContentVersion(
-            Title = 'Test',
-            PathOnClient = 'Test.xml',
-            VersionData = xml.Body,
-            IsMajorVersion = true
-        );
+  static testMethod void parserTestBBG() {
+    StaticResource xml = [
+      SELECT Id, Body
+      FROM StaticResource
+      WHERE Name = 'AppraisalBBGXMLTest'
+      LIMIT 1
+    ];
+    ContentVersion cv = new ContentVersion(
+      Title = 'Test',
+      PathOnClient = 'Test.xml',
+      VersionData = xml.Body,
+      IsMajorVersion = true
+    );
 
-        insert cv;
-        Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id LIMIT 1].ContentDocumentId;
-        test_Helper.createDealLoanNumber();
-        Account acc = Test_Helper.createAccount();
-        Contact cont = Test_Helper.createContact( acc );
-        Opportunity opp = Test_Helper.createOpportunity( acc, cont );
-        opp.RecordTypeId = [SELECT Id FROM RecordType WHERE DeveloperName = 'Term_Loan' and sobjecttype = 'Opportunity'].Id;
-        List<Property__c> properties = Test_Helper.createProperties(opp);
+    insert cv;
+    Id docId = [
+      SELECT Id, ContentDocumentId
+      FROM ContentVersion
+      WHERE Id = :cv.Id
+      LIMIT 1
+    ]
+    .ContentDocumentId;
+    test_Helper.createDealLoanNumber();
+    Account acc = Test_Helper.createAccount();
+    Contact cont = Test_Helper.createContact(acc);
+    Opportunity opp = Test_Helper.createOpportunity(acc, cont);
+    opp.RecordTypeId = [
+      SELECT Id
+      FROM RecordType
+      WHERE DeveloperName = 'Term_Loan' AND sobjecttype = 'Opportunity'
+    ]
+    .Id;
+    List<Property__c> properties = Test_Helper.createProperties(opp);
 
-        Deal_Document__c doc = new Deal_Document__c(
-            Deal__c = opp.Id,
-            Property__c = properties[0].Id,
-            Document_Type__c = 'Valuations'
-        );
+    Deal_Document__c doc = new Deal_Document__c(
+      Deal__c = opp.Id,
+      Property__c = properties[0].Id,
+      Document_Type__c = 'Valuations'
+    );
 
-        insert doc;
+    insert doc;
 
-        Test.startTest();
-            doc.Attachment_Id__c = docId;
-            update doc;
-            // system.assert(xml != null);
-        Test.stopTest();    
-
-        
-    }
-
-
+    Test.startTest();
+    doc.Attachment_Id__c = docId;
+    update doc;
+    // system.assert(xml != null);
+    Test.stopTest();
+  }
 }

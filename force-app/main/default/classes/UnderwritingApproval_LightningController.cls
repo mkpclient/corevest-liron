@@ -59,7 +59,8 @@ public class UnderwritingApproval_LightningController {
     'Contact__r.MailingPostalCode' => 'Primary Contact Mailing Zipcode',
     'Contact__r.Phone' => 'Primary Contact Business Phone Number',
     'Contact__r.Email' => 'Primary Contact Email Address',
-    'Foreign_National_picklist__c' => 'Foreign National'
+    'Foreign_National_picklist__c' => 'Foreign National',
+    'CEMA__c' => 'CEMA'
   };
 
   public static Set<String> bridgeRequiredDocuments = new Set<String>{
@@ -343,7 +344,7 @@ public class UnderwritingApproval_LightningController {
           || o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)')
       {
           List<String> listErrorMsgs = new List<String>();
-          PricingReviewRequest_LightningController.DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,Null,listErrorMsgs);
+          PricingReviewRequest_LightningController.DealPropertyVlidation(recordId, o.LOC_Loan_Type__c,Null,listErrorMsgs,'UW');
         if (listErrorMsgs.size() > 0)
         {
                   errorMsgs.addall(listErrorMsgs);

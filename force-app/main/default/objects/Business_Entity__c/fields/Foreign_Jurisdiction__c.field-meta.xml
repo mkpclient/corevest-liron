@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Foreign_Jurisdiction__c</fullName>
+    <description>Where does this Entity have foreign filing registrations</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Where does this Entity have foreign filing registrations</inlineHelpText>
+    <label>Foreign Jurisdiction</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>State_Code</valueSetName>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -25,7 +25,7 @@ private class TaskTriggerTest {
         l.LastName = 'testlast';
         l.Company = 'testcompany';
         l.Introduction_Source__c = 'Email Blast';
-        
+     
         insert l;
         
         task t2 = new task();
@@ -36,10 +36,18 @@ private class TaskTriggerTest {
         
         task t3 = new task();
     	t3.Subject = 'test';
-
+        t3.Description='Test Descr';
+    	Id id1 = [
+          SELECT Id
+          FROM RecordType
+          WHERE sobjecttype = 'Task' AND DeveloperName = 'Draw_Request'
+        ]
+        .Id;
+        t3.RecordTypeId = id1;  
         insert t3;
         
         t3.WhoId = l.Id;
+        t3.Status = 'Completed';
         
         update t3;
 

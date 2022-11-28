@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Expense Deposit - Line of Credit - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>General_Letterhead</letterhead>
+    <name>Expense Deposit- Line of Credit</name>
+    <style>freeForm</style>
+    <subject>Expense Deposit- Line of Credit - {!Opportunity.Name} - {!Opportunity.Deal_Loan_Number__c}</subject>
+    <textOnly>Hello Team,
+
+
+
+Line of Credit closed today.   Breakdown on how funds fund should be applied:
+
+
+Fee Breakdown
+
+Deposit Received: {!Opportunity.Deposit_Amount__c}
+
+(-) Search Fees: ${!Opportunity.Entity_Search_Fee__c} (pass through fee)
+
+(-) Origination Fee: ${!Opportunity.Calculated_Origination_Fee__c}
+
+(-) UCC Filing: ${!Opportunity.UCC_1_Filing_Fee__c} (pass through fee)
+
+(-) Legal: ${!Opportunity.Legal_Fee__c}
+
+Remaining Deposit: {!Opportunity.Deposit_Remaining__c}
+
+If there is credit remaining, it will be applied to the first advance.</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

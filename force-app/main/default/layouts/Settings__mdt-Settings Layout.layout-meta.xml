@@ -8,14 +8,6 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Required</behavior>
-                <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
                 <field>MasterLabel</field>
             </layoutItems>
             <layoutItems>
@@ -57,6 +49,14 @@
             <layoutItems>
                 <behavior>Required</behavior>
                 <field>HouseCanary_No_of_DataSync_Days__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Bridge_Cptl_Market_Post_Closing_Custodin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>Term_Captl_Markets_Post_Closing_Custodin__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -138,6 +138,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>IC_Stage_Validation_Term__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Minimum_Advance_Batch_Approvers__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Minimum_Advance_IC_Approvers__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -417,10 +425,6 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
-    <miniLayout>
-        <fields>Bridge_Cptl_Market_Post_Closing_Custodin__c</fields>
-        <fields>Term_Captl_Markets_Post_Closing_Custodin__c</fields>
-    </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
     <showInteractionLogPanel>false</showInteractionLogPanel>

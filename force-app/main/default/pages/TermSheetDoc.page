@@ -1532,7 +1532,7 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
             <td class="definition-title">
               Properties:
             </td>
-            <td class="definition">
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Long Term Rental', 'definition', 'hidden')}">
               Properties leased to and occupied by a bona fide third-party
               tenant paying rent pursuant to an approved form of residential
               lease, on market terms, for an initial term of not less than
@@ -1542,12 +1542,26 @@ $ <apex:outputText value="{0,number,###,###,###.00}">
               Airbnb, VRBO and bookings.com), purchase options, rights of first
               refusal, rights of first offer or similar title encumberments.
             </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
+              Properties leased to and occupied by a bona fide third-party
+              tenant paying rent pursuant to an approved form of residential
+              lease, on market terms. Borrower must not participate in purchase options, rights of first
+              refusal, rights of first offer or similar title encumberments.
+            </td>
           </tr>
           <tr style="page-break-inside: avoid">
             <td class="definition-title">
               Collateral:
             </td>
-            <td class="definition">
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Long Term Rental', 'definition', 'hidden')}">
+              Loan shall be secured by, among other things, (a) a first priority
+              mortgage/deed of trust on each Property comprising the Portfolio;
+              (b) a first priority blanket assignment of all leases and rents
+              with respect to the Portfolio; (c) a first priority security
+              interest in all other property and assets related to the
+              Portfolio; and (d) a pledge of the equity of Borrower by Pledgor.
+            </td>
+            <td class="{!IF(Opportunity.Product_Sub_Type__c == 'Short Term Rental', 'definition', 'hidden')}">
               Loan shall be secured by, among other things, (a) a first priority
               mortgage/deed of trust on each Property comprising the Portfolio;
               (b) a first priority blanket assignment of all leases and rents

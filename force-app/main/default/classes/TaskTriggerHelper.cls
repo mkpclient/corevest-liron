@@ -57,6 +57,21 @@ public static void beforeUpdate(List<Task> tskList){
 
      if (recordTypeId != Null && tsk.RecordTypeId == recordTypeId && tsk.Status == 'Completed')
      {
+         
+//RS.CIP-2751.10/13/22.BEGIN
+            ContentNote cn = new ContentNote();
+            cn.Title = tsk.Subject;
+            cn.Content = Blob.valueOf(tsk.Description);
+            insert(cn);
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            cdl.ContentDocumentId = cn.id; 
+            cdl.LinkedEntityId = tsk.WhatId;
+            cdl.ShareType = 'I';
+            cdl.Visibility = 'AllUsers';
+            if (!test.isRunningTest()) insert(cdl);         
+//RS.CIP-2751.10/13/22.END         
+         
+         
          List<Advance__c> adv = [select id from Advance__c where id = :tsk.WhatId];
          if (adv.Size() > 0)
          {

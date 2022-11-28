@@ -31,6 +31,10 @@
                 <behavior>Edit</behavior>
                 <field>Term_Rates_Based_On__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Three_Year_Swap__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

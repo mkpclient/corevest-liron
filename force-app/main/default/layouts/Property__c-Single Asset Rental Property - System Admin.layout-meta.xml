@@ -83,6 +83,10 @@
                 <behavior>Edit</behavior>
                 <field>REO_Date__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Disbursement_Expiration_Date__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -560,10 +564,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Clean_Property_Name__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>

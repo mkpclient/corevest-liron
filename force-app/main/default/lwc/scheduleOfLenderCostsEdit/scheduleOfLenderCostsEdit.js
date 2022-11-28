@@ -61,7 +61,8 @@ export default class ScheduleOfLenderCostsEdit extends LightningElement {
       "Discount_Fee__c",
       "Discount_Fee_Number__c",
       "Deal__r.Rate_Lock_Picklist__c",
-      "Deposit_Amount__c"
+      "Deposit_Amount__c",
+      "Lender_Credit__c"
     ];
     let queryString = `SELECT Id, ${fields.join(",")}`;
     queryString += ` FROM Loan_Version__c WHERE Id = '${versionId}'`;

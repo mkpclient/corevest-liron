@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MSA_Compact_Layout</fullName>
+    <fields>MSA_Name__c</fields>
+    <fields>Zip_Code__c</fields>
+    <fields>City__c</fields>
+    <fields>County__c</fields>
+    <fields>Name</fields>
+    <label>MSA Compact Layout</label>
+</CompactLayout>

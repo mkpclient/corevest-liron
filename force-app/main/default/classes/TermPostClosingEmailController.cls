@@ -4,6 +4,25 @@ public class TermPostClosingEmailController {
   public static final string TEMPLATE = 'Term_Post_Closing_Template';
   public String recId { get; set; }
 
+  public Boolean isClo { 
+    get {
+      if(isClo == null && recId != null) {
+        List<CLO_Asset_Details__c> cads = [
+          SELECT Id
+          FROM CLO_Asset_Details__c
+          WHERE Deal_ID__c = :recId
+          AND (Interest_Rate_Cap_Reserve__c != null
+          OR Reserve_Cap_Ex__c != null
+          OR Reserve_Insurance__c != null
+          OR Reserve_Tax__c != null)
+        ];
+        return cads.size() > 0;
+      } else {
+        return null;
+      }
+    } private set;
+  }
+
   public Loan_Version__c loanVersion {
     get {
       return recid != null
@@ -15,6 +34,7 @@ public class TermPostClosingEmailController {
               Monthly_Tax__c,
               Required_Holdback_Reserve__c,
               Recourse__c,
+              Monthly_Interest_Rate_Cap_Constants__c,
               RecordType.DeveloperName,
               Monthly_Insurance__c,
               Monthly_Payment__c,
@@ -40,6 +60,7 @@ public class TermPostClosingEmailController {
         SELECT
           Holdback_Reserve__c,
           Initial_Monthly_Tax_Reserve_Deposit__c,
+          Monthly_Interest_Rate_Cap_Constants__c,
           Monthly_Cap_Ex__c,
           Monthly_Tax__c,
           Required_Holdback_Reserve__c,

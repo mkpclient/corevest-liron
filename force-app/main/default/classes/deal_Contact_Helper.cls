@@ -22,6 +22,9 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> entityMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Integer i = 0; i < newList.size(); i++) {
+      if(newList[i].Disable_Apex__c) {
+        continue;
+      }
       opportunityMap.put(newList[i].Deal__c, null);
 
       if (newList[i].Is_Guarantor__c == true) {
@@ -77,6 +80,9 @@ public class deal_Contact_Helper {
     List<Business_Entity__c> businessEntityInserts = new List<Business_Entity__c>();
     List<Deal_Contact__c> newEntityList = new List<Deal_Contact__c>();
     for (Integer i = 0; i < newList.size(); i++) {
+      if(newList[i].Disable_Apex__c) {
+        continue;
+      }
       if (String.isNotBlank(newList[i].Company_Name__c)) {
         if (
           businessEntityMap.containsKey(
@@ -140,6 +146,9 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> contactPrepopulateMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Deal_Contact__c entity : newList) {
+      if(entity.Disable_Apex__c) {
+        continue;
+      }
       if (entity.Contact__c != null) {
         if (
           entity.Contact__c != null &&
@@ -328,6 +337,9 @@ public class deal_Contact_Helper {
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
     for (Deal_Contact__c entity : newList) {
       system.debug(entity);
+      if(entity.Disable_Apex__c) {
+        continue;
+      }
       if (
         entity.Vendor_Type__c != null &&
         entity.Account__c != null &&
@@ -367,95 +379,102 @@ public class deal_Contact_Helper {
     Map<Id, Set<Id>> dealToContactIdMap = new Map<Id, Set<Id>>();
     Map<Id, Contact> contactMap = new Map<Id, Contact>();
     for (Integer i = 0; i < newList.size(); i++) {
-      if (!contactMap.containsKey(newList[i].Contact__c)) {
-        contactMap.put(newList[i].Contact__c, new Contact());
-      }
-      if (!dealToContactIdMap.containsKey(newList[i].Deal__c)) {
-        dealToContactIdMap.put(newList[i].Deal__c, new Set<Id>());
-      }
-      if (newList[i].Net_Worth__c != oldList[i].Net_Worth__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Net_Worth__c = newList[i]
-          .Net_Worth__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (
-        newList[i].Rental_Units_Owned__c != oldList[i].Rental_Units_Owned__c
-      ) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Rental_Units_Owned__c = newList[i]
-          .Rental_Units_Owned__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Cash_Position__c != oldList[i].Cash_Position__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Cash_Position__c = newList[i]
-          .Cash_Position__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Cash_Equivalent__c != oldList[i].Cash_Equivalent__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Cash_Equivalent__c = newList[i]
-          .Cash_Equivalent__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Sponsor_Tier__c != oldList[i].Sponsor_Tier__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Sponsor_Tier__c = newList[i]
-          .Sponsor_Tier__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Experience__c != oldList[i].Experience__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Experience__c = newList[i]
-          .Experience__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Liquidity__c != oldList[i].Liquidity__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Liquidity__c = newList[i]
-          .Liquidity__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Experian__c != oldList[i].Experian__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Experian__c = newList[i]
-          .Experian__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].TransUnion__c != oldList[i].TransUnion__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).TransUnion__c = newList[i]
-          .TransUnion__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Equifax__c != oldList[i].Equifax__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Equifax__c = newList[i]
-          .Equifax__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (
-        newList[i].Years_of_Experience1__c != oldList[i].Years_of_Experience1__c
-      ) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Years_of_Experience__c = newList[
-            i
-          ]
-          .Years_of_Experience1__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Legal_Name__c != oldList[i].Legal_Name__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Legal_Name__c = newList[i]
-          .Legal_Name__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
-      }
-      if (newList[i].Credit_Score_Date__c != oldList[i].Credit_Score_Date__c) {
-        contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
-        contactMap.get(newList[i].Contact__c).Credit_Score_Date__c = newList[i]
-          .Credit_Score_Date__c;
-        dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+      if (!newList[i].Disable_Apex__c) {
+        if (!contactMap.containsKey(newList[i].Contact__c)) {
+          contactMap.put(newList[i].Contact__c, new Contact());
+        }
+        if (!dealToContactIdMap.containsKey(newList[i].Deal__c)) {
+          dealToContactIdMap.put(newList[i].Deal__c, new Set<Id>());
+        }
+        if (newList[i].Net_Worth__c != oldList[i].Net_Worth__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Net_Worth__c = newList[i]
+            .Net_Worth__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (
+          newList[i].Rental_Units_Owned__c != oldList[i].Rental_Units_Owned__c
+        ) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Rental_Units_Owned__c = newList[
+              i
+            ]
+            .Rental_Units_Owned__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Cash_Position__c != oldList[i].Cash_Position__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Cash_Position__c = newList[i]
+            .Cash_Position__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Cash_Equivalent__c != oldList[i].Cash_Equivalent__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Cash_Equivalent__c = newList[i]
+            .Cash_Equivalent__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Sponsor_Tier__c != oldList[i].Sponsor_Tier__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Sponsor_Tier__c = newList[i]
+            .Sponsor_Tier__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Experience__c != oldList[i].Experience__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Experience__c = newList[i]
+            .Experience__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Liquidity__c != oldList[i].Liquidity__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Liquidity__c = newList[i]
+            .Liquidity__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Experian__c != oldList[i].Experian__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Experian__c = newList[i]
+            .Experian__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].TransUnion__c != oldList[i].TransUnion__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).TransUnion__c = newList[i]
+            .TransUnion__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Equifax__c != oldList[i].Equifax__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Equifax__c = newList[i]
+            .Equifax__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (
+          newList[i].Years_of_Experience1__c !=
+          oldList[i].Years_of_Experience1__c
+        ) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c)
+            .Years_of_Experience__c = newList[i].Years_of_Experience1__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (newList[i].Legal_Name__c != oldList[i].Legal_Name__c) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Legal_Name__c = newList[i]
+            .Legal_Name__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
+        if (
+          newList[i].Credit_Score_Date__c != oldList[i].Credit_Score_Date__c
+        ) {
+          contactMap.get(newList[i].Contact__c).Id = newList[i].Contact__c;
+          contactMap.get(newList[i].Contact__c).Credit_Score_Date__c = newList[
+              i
+            ]
+            .Credit_Score_Date__c;
+          dealToContactIdMap.get(newList[i].Deal__c).add(newList[i].Contact__c);
+        }
       }
     }
 

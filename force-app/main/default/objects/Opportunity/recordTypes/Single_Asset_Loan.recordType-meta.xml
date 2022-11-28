@@ -310,6 +310,10 @@
     <picklistValues>
         <picklist>Broker_Fee_Paid_By_Whom__c</picklist>
         <values>
+            <fullName>Borrower</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>N%2FA</fullName>
             <default>true</default>
         </values>
@@ -353,6 +357,17 @@
         </values>
         <values>
             <fullName>0 BPS in Spread</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>CEMA__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
             <default>false</default>
         </values>
     </picklistValues>
@@ -2092,6 +2107,17 @@
         </values>
     </picklistValues>
     <picklistValues>
+        <picklist>Deferred_Equity__c</picklist>
+        <values>
+            <fullName>No</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Yes</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
         <picklist>Discount_Fee__c</picklist>
         <values>
             <fullName>N%2FA</fullName>
@@ -2916,6 +2942,45 @@
         <values>
             <fullName>30 Year</fullName>
             <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Transaction_Type__c</picklist>
+        <values>
+            <fullName>Cash Out Refinance</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Construction</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Heavy Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Light Rehab</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Purchase Bridge %28No Rehab%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Rate%2FTerm Refinance %28No Cash Out%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refi Debt</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refi Debt%2FRefi Equity</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Refi Equity</fullName>
+            <default>false</default>
         </values>
     </picklistValues>
     <picklistValues>

@@ -4,6 +4,7 @@
     <formFactors>Large</formFactors>
     <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
     <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
     <label>Milestones PM Lightning</label>
     <navType>Standard</navType>
     <tabs>standard-home</tabs>
@@ -19,5 +20,7 @@
     <tabs>Milestone1_Import_Project_Template</tabs>
     <tabs>standard-report</tabs>
     <tabs>standard-Dashboard</tabs>
+    <tabs>Disaster__c</tabs>
+    <tabs>Portal_Survey__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

@@ -16,5 +16,10 @@
     <columns>Exception_Date__c</columns>
     <columns>Internal_Status_Notes__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>CollateralId__c</field>
+        <operation>equals</operation>
+        <value>11521-2</value>
+    </filters>
     <label>All</label>
 </ListView>

@@ -224,11 +224,12 @@ public without sharing class YardiAPI {
       acc.Payment_Instructions__c = '';
 
       String billingStreet = '"' + acc.BillingStreet + '"';
-
+      String name = '"' + acc.Name + '"';
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += name + ',';
+      //csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
@@ -416,12 +417,14 @@ public without sharing class YardiAPI {
 
       acc.Payment_Instructions__c = '';
 
-      String billingStreet = '"' + acc.Name + '"';
+      String billingStreet = '"' + acc.BillingStreet + '"';
+      String name = '"' + acc.Name + '"';
 
       csv += 'SFSTAGEVENDOR,';
       csv += system.today().format() + ',';
       csv += vendorYardiCode + ',';
-      csv += acc.Name + ',';
+      csv += name + ',';
+      // csv += acc.Name + ',';
       csv += 'FUNDING,,';
       csv += '"' + acc.Payment_Instructions__c + '"' + ',';
       csv += acc.ABA__c + ',';
