@@ -68,6 +68,21 @@ public without sharing class opportunity_Helper {
   public static void beforeInsert(List<Opportunity> newList) {
     Deal_Loan_Number__c dln = Deal_Loan_Number__c.getOrgDefaults();
     Integer nextNumber = Integer.valueOf(dln.Next_Loan_Number__c);
+    List<String> loanNumbersToVerify = new List<String>{String.valueOf(nextNumber)};
+    for(Integer i=1; i < 10; i++) {
+      loanNumbersToVerify.add(String.valueOf(nextNumber + i));
+    }
+    List<Opportunity> existingOppsWithLoanNumbers = [
+      SELECT Deal_Loan_Number__c
+      FROM Opportunity
+      WHERE Deal_Loan_Number__c IN :loanNumbersToVerify
+      ORDER BY Deal_Loan_Number__c DESC
+    ];
+
+    if(existingOppsWithLoanNumbers.size() > 0) {
+      nextNumber = Integer.valueOf(existingOppsWithLoanNumbers[0].Deal_Loan_Number__c) + 1;
+    }
+
     for (Opportunity o : newList) {
       o.Pricebook2Id = '01sj0000001DCOIAA4';
       if (String.isEmpty(o.Deal_Loan_Number__c)) {
