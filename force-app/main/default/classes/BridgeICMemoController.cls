@@ -39,7 +39,7 @@ public without sharing class BridgeICMemoController {
               Interest_Reserves__c,
               RecordType__c,
               Exceptions_Comments_Explanations__c,
-              Loan_Coordinator__r.Name, 
+              Loan_Coordinator__r.Name,
               Loan_Coordinator__c,
               Floor__c,
               Final_Sponsor_Tier__c,
