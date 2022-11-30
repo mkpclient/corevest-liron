@@ -1,4 +1,28 @@
 ({
+    updateExceptionsComments: function(cmp, helper) {
+        const action = cmp.get("c.updateExceptionsComments");
+        action.setParams({
+            dealId: cmp.get("v.recordId"),
+            newValue: cmp.get("v.unsavedObj.exceptionComments")
+        });
+
+        action.setCallback(this, function(response) {
+            const state= response.getState();
+            if(state == "SUCCESS") {
+                // do nothing
+            } else if (state == "ERROR") {
+                var errors = response.getError();
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log(errors[0].message);
+                    }
+                }else {
+                    console.log("Unknown error");                                                         
+                }
+            }
+        });
+        $A.enqueueAction(action);
+    },
     saveAndPrint : function(cmp, event, helper) {
         // var vfWindow = cmp.find("vfFrame").getElement().contentWindow;
         // console.log('unsavedObj----> '+JSON.stringify(cmp.get("v.unsavedObj")));
@@ -19,6 +43,7 @@
             if(component.isValid() && response.getState() === "SUCCESS") {
                 var responseObj = response.getReturnValue(); 
                 component.set("v.Deal", responseObj);
+                component.set("v.unsavedObj.exceptionComments", responseObj.hasOwnProperty("Exceptions_Comments_Explanations__c") ? responseObj.Exceptions_Comments_Explanations__c : null);
             }else if(response.getState() === "ERROR") {
                 var errors = response.getError();
                 if (errors) {

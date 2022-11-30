@@ -170,6 +170,11 @@ public without sharing class BridgeICMemoController {
   }
 
   @AuraEnabled
+  public static void updateExceptionsComments(Id dealId, String newValue) {
+    update new Opportunity(Id = dealId, Exceptions_Comments_Explanations__c = newValue);
+  }
+
+  @AuraEnabled
   public static Opportunity getData(String recordId) {
     List<Opportunity> deals = [
       SELECT
@@ -182,6 +187,7 @@ public without sharing class BridgeICMemoController {
         Borrower_Entity__r.Name,
         Foreign_National_Picklist__c,
         Country__c,
+        Exceptions_Comments_Explanations__c,
         Account.Repeat_Borrower__c,
         Account.Total_Borrowed__c,
         Account.Borrowed_on_Bridge_Loans__c,
@@ -314,5 +320,6 @@ public without sharing class BridgeICMemoController {
     public string loanpsf { get; set; }
     public string loanperunit { get; set; }
     public string comments { get; set; }
+    public string exceptionComments {get; set;}
   }
 }

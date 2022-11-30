@@ -576,7 +576,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <apex:outputText value="{!if( Opportunity.Exceptions_Comments_Explanations__c != null, Opportunity.Exceptions_Comments_Explanations__c, 'N/A')}" />
+                                    <apex:outputText value="{!if( unsavedObj.exceptionComments != null, unsavedObj.exceptionComments, 'N/A')}" />
                                     <!-- <apex:outputText rendered="{! If(Opportunity.Notes__c == null, true, false)}" value="N/A" />
                                     <apex:outputText rendered="{! If(NOT(Opportunity.Notes__c == null), true, false)}" value="{!Opportunity.Notes__c}" /> -->
                                     <!--       <apex:outputField value="{!Opportunity.Notes__c}" /> -->
@@ -1137,7 +1137,7 @@
                         </tr>
                         <tr>
                             <td class="right-row-title">
-                                Max Initial LTC/LTV
+                                <apex:outputText value="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'Max LTC% / Max LTV%', 'Max Initial LTC/LTV')}" />
                             </td>
                             <td class="{! if(Opportunity.RecordType__c == 'Single Asset Bridge', 'row-data-two-column gray-background', 'row-data-two-column')}">
                                 <apex:outputText rendered="{! If( Opportunity.LTC__c = 0, true, false ) }" value="N/A" />

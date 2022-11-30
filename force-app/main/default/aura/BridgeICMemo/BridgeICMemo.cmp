@@ -91,6 +91,17 @@
             />
           </div>
         </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" size="12">
+          <div>
+            <lightning:textarea
+              aura:id="exceptionComments"
+              value="{!v.unsavedObj.exceptionComments}"
+              placeholder="Type your exceptions comments"
+              label="Exceptions Comments"
+              maxlength="32768"
+            />
+          </div>
+        </lightning:layoutItem>
       </aura:if>
 
       <!-- <lightning:layoutItem padding="around-small" size="6">
