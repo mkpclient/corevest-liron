@@ -845,7 +845,7 @@
                                 </td>
                                 <td class="row-data-two-column gray-background"></td>
                                 <td class="row-data-two-column gray-background">
-                                    <apex:outputText value="{! if(property.Post_Close_Appraisal__c == 'Yes', 'Y', if(property.Post_Close_Appraisal__c == 'No', 'N', 'N/A'))}"
+                                    <apex:outputText value="{! if(property.Post_Close_Appraisal__c != 'No' && property.Post_Close_Appraisal__c != null, 'Y', if(property.Post_Close_Appraisal__c == 'No', 'N', 'N/A'))}"
                                     />
                                 </td>
                             </tr>
@@ -855,16 +855,16 @@
                                 </td>
                                 <td class="row-data-two-column">
                                     <apex:outputText value="{0, Number, Currency}">
-                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c != 'Yes' && property.Appraised_Value_Amount__c != null, 
+                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c == 'No' && property.Appraised_Value_Amount__c != null, 
                                             property.Appraised_Value_Amount__c, 
-                                            if(property != null && property.Post_Close_Appraisal__c == 'Yes' && property.Internal_As_Is_Value__c != null, property.Internal_As_Is_Value__c, 0))}" />
+                                            if(property != null && property.Post_Close_Appraisal__c != 'No' && property.Post_Close_Appraisal__c != null && property.Internal_As_Is_Value__c != null, property.Internal_As_Is_Value__c, 0))}" />
                                     </apex:outputText>
                                 </td>
                                 <td class="row-data-two-column">
                                     <apex:outputText value="{0, Number, Currency}">
-                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c != 'Yes' && property.After_Repair_Value__c != null, 
+                                        <apex:param value="{! if(property != null && property.Post_Close_Appraisal__c == 'No' && property.After_Repair_Value__c != null, 
                                             property.After_Repair_Value__c, 
-                                            if(property != null && property.Post_Close_Appraisal__c == 'Yes' && property.Internal_As_Rehab_Value__c != null, property.Internal_As_Rehab_Value__c,0))}" />
+                                            if(property != null && property.Post_Close_Appraisal__c != 'No' && property.Post_Close_Appraisal__c != null && property.Internal_As_Rehab_Value__c != null, property.Internal_As_Rehab_Value__c,0))}" />
                                     </apex:outputText>
                                 </td>
                             </tr>
