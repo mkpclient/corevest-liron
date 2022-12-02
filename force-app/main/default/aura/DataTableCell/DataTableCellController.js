@@ -186,14 +186,20 @@
         const fields = fieldPath.split(".");
         let newVal = "";
         let oldVal = component.get("v.value");
-        if(fields.length > 1) {
-            newVal = currentValue[fields[0]][fields[1]];
-        } else {
-            newVal = currentValue[fields[0]];
-        }
+        let shouldUpdate = !!currentValue && !!fields && fields.length > 0 && (fields.length > 1 
+            ? currentValue.hasOwnProperty(fields[0]) && currentValue[fields[0]].hasOwnProperty(fields[1])
+            : currentValue.hasOwnProperty(fields[0]));
 
-        if(newVal !== oldVal) {
-            component.set("v.value", newVal)
+        if(shouldUpdate) {
+            if(fields.length > 1) {
+                newVal = currentValue[fields[0]][fields[1]];
+            } else {
+                newVal = currentValue[fields[0]];
+            }
+    
+            if(newVal !== oldVal) {
+                component.set("v.value", newVal)
+            }    
         }
     },
 
