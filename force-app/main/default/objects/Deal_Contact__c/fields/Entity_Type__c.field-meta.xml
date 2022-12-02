@@ -108,6 +108,11 @@
                 <default>false</default>
                 <label>Primary Contact</label>
             </value>
+            <value>
+                <fullName>Property Manager</fullName>
+                <default>false</default>
+                <label>Property Manager</label>
+            </value>
         </valueSetDefinition>
         <valueSettings>
             <controllingFieldValue>Vendor</controllingFieldValue>
@@ -172,6 +177,10 @@
         <valueSettings>
             <controllingFieldValue>Individual</controllingFieldValue>
             <valueName>Primary Contact</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Individual</controllingFieldValue>
+            <valueName>Property Manager</valueName>
         </valueSettings>
     </valueSet>
     <visibleLines>3</visibleLines>

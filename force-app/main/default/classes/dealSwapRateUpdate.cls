@@ -2,7 +2,7 @@ public class dealswapRateUpdate implements Database.Batchable<sObject> {
   public Database.QueryLocator start(Database.BatchableContext BC) {
     String query = 'SELECT Int_Rate__c, Swap_Rate__c, RecordType__c, Rate_Locked__c, Floor__c, Index_Rate__c, Term_Loan_Type__c, StageName, Interest_Rate_Type__c, Index__c, Index_Margin__c, Other_Index__c, Rate__c, Other_Rate__c, Term_Sheet_Signed__c, Rate_Lock_Date__c ';
     query = query + ' FROM Opportunity';
-   // query = query + ' where id = \'0065b00000v0CwUAAU\'';
+    // query = query + ' where id = \'0065b00000v0CwUAAU\'';
     query =
       query +
       ' WHERE (RecordType__c = \'Term\' AND Rate_Locked__c = false AND StageName NOT IN (\'Withdrawn\', \'Rejected\', \'Paid Off\') AND Term_Loan_Type__c != NULL) OR ';
@@ -52,61 +52,70 @@ public class dealswapRateUpdate implements Database.Batchable<sObject> {
       ORDER BY CreatedDateTime__c ASC
       LIMIT 1
     ];
-	List<Swap_Rate__c> swapRatePrevious = new List<Swap_Rate__c>();
+    List<Swap_Rate__c> swapRatePrevious = new List<Swap_Rate__c>();
     Decimal twoDaysold_OneMLIBOR;
     Decimal twoDaysold_OneMTermSOFRFloor;
-    Decimal twoDaysold_OneMSOFR;    
-      
+    Decimal twoDaysold_OneMSOFR;
+
     if (swapRateMinForMonth.size() > 0) {
       Date firstDateOfMonth = swapRateMinForMonth[0].CreatedDateTime__c.Date();
       Date currentProcessingRecordDate = swapRate.CreatedDateTime__c.Date();
 
       Datetime firsdateofMonthless2days = firstDateOfMonth - 2;
-      System.debug('RS999 date firsdateofMonthless2days :' +firsdateofMonthless2days);
-        
+      System.debug(
+        'RS999 date firsdateofMonthless2days :' + firsdateofMonthless2days
+      );
+
       if (firstDateOfMonth == currentProcessingRecordDate) {
         validFirstDayData = true;
-		swapRatePrevious = [
-      	SELECT
-        Five_Year_Swap__c,
-        Seven_Year_Swap__c,
-        Ten_Year_Swap__c,
-        Thirty_Year_Swap__c,
-        OneM_LIBOR__c,
-        OneM_SOFR__c,
-        X1M_Term_SOFR_Floor__c,
-        X3_Year_Treasury_Floor__c,
-        X5_Year_Treasury_Floor__c,
-        X7_Year_Treasury_Floor__c,
-        X10_Year_Treasury_Floor__c,
-        CreatedDateTime__c
-      FROM Swap_Rate__c
-      WHERE CreatedDateTime__c != NULL
-           AND CreatedDateTime__c < :firstDateOfMonth
-      ORDER BY CreatedDateTime__c DESC
-    ];          
+        swapRatePrevious = [
+          SELECT
+            Five_Year_Swap__c,
+            Seven_Year_Swap__c,
+            Ten_Year_Swap__c,
+            Thirty_Year_Swap__c,
+            OneM_LIBOR__c,
+            OneM_SOFR__c,
+            X1M_Term_SOFR_Floor__c,
+            X3_Year_Treasury_Floor__c,
+            X5_Year_Treasury_Floor__c,
+            X7_Year_Treasury_Floor__c,
+            X10_Year_Treasury_Floor__c,
+            CreatedDateTime__c
+          FROM Swap_Rate__c
+          WHERE
+            CreatedDateTime__c != NULL
+            AND CreatedDateTime__c < :firstDateOfMonth
+          ORDER BY CreatedDateTime__c DESC
+        ];
       }
-     
-     System.Debug('RS999 swapRatePrevious :' +swapRatePrevious);
-     integer counter =0;
-     Date previousProcessingDate = Null;
-     for(Swap_Rate__c sr : swapRatePrevious)
-     {
-        System.Debug('RS999 previousProcessingDate :' +previousProcessingDate );
-        System.Debug('RS999 sr.CreatedDateTime__c.Date() :' +sr.CreatedDateTime__c.Date());
+
+      System.Debug('RS999 swapRatePrevious :' + swapRatePrevious);
+      integer counter = 0;
+      Date previousProcessingDate = null;
+      for (Swap_Rate__c sr : swapRatePrevious) {
+        System.Debug('RS999 previousProcessingDate :' + previousProcessingDate);
+        System.Debug(
+          'RS999 sr.CreatedDateTime__c.Date() :' + sr.CreatedDateTime__c.Date()
+        );
         counter = counter + 1;
-        if (counter > 1 && previousProcessingDate != Null && sr.CreatedDateTime__c.Date() < previousProcessingDate )
-        {
-        twoDaysold_OneMLIBOR = sr.OneM_LIBOR__c;
-    	twoDaysold_OneMTermSOFRFloor = sr.X1M_Term_SOFR_Floor__c;
-    	twoDaysold_OneMSOFR = sr.OneM_SOFR__c;
-        Break;
+        if (
+          counter > 1 &&
+          previousProcessingDate != null &&
+          sr.CreatedDateTime__c.Date() < previousProcessingDate
+        ) {
+          twoDaysold_OneMLIBOR = sr.OneM_LIBOR__c;
+          twoDaysold_OneMTermSOFRFloor = sr.X1M_Term_SOFR_Floor__c;
+          twoDaysold_OneMSOFR = sr.OneM_SOFR__c;
+          break;
         }
-        previousProcessingDate = sr.CreatedDateTime__c.Date();         
-     }
-	System.Debug('RS999 twoDaysold_OneMLIBOR :' +twoDaysold_OneMLIBOR);
-	System.Debug('RS999 twoDaysold_OneMTermSOFRFloor :' +twoDaysold_OneMTermSOFRFloor);
-	System.Debug('RS999 twoDaysold_OneMSOFR :' +twoDaysold_OneMSOFR);        
+        previousProcessingDate = sr.CreatedDateTime__c.Date();
+      }
+      System.Debug('RS999 twoDaysold_OneMLIBOR :' + twoDaysold_OneMLIBOR);
+      System.Debug(
+        'RS999 twoDaysold_OneMTermSOFRFloor :' + twoDaysold_OneMTermSOFRFloor
+      );
+      System.Debug('RS999 twoDaysold_OneMSOFR :' + twoDaysold_OneMSOFR);
     }
 
     for (opportunity Oppor : processingDeals) {
@@ -158,7 +167,7 @@ public class dealswapRateUpdate implements Database.Batchable<sObject> {
                 updateOpportunity = true;
               }
             }
-          } 
+          }
           when '7 Year' {
             //CIP-2526.RS.9/21/22.Begin
             if (
@@ -217,7 +226,7 @@ public class dealswapRateUpdate implements Database.Batchable<sObject> {
 
       if (Oppor.RecordType__c == 'Bridge') {
         if (
-          Oppor.Rate_Lock_Date__c != null &&
+          Oppor.Rate_Lock_Date__c == null &&
           Oppor.Index__c == '1M Term SOFR'
         ) {
           if (swapRate.X1M_Term_SOFR_Floor__c != null) {

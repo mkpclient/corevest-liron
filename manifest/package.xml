@@ -62,7 +62,7 @@
 		<members>Opportunity</members>
 		<members>Task</members>
 		<members>User</members>
-        <members>*</members>
+    <members>*</members>
 		<name>CustomObject</name>
 	</types>
 	<types>

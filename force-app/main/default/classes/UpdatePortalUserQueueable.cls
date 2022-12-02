@@ -17,6 +17,8 @@ public without sharing class UpdatePortalUserQueueable implements Queueable, Dat
       AlchemyAPI.deleteUser(recordId);
     } else if (updateType == 'createOperationsUser') {
       AlchemyAPI.createOperationsUser(recordId);
+    } else if (updateType == 'invitePropertyManager') {
+      AlchemyAPI.invitePropertyManager(recordId);
     } else {
       AlchemyAPI.updateUser(recordId);
     }

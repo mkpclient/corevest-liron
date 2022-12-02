@@ -23,6 +23,7 @@ public with sharing class TermSheetPDF_Controller {
 
   public Property__c sabProperty { get; set; }
   public List<Property__c> allProperties { get; set; }
+  
 
   public Integer numTermLoanMonths {
     get {
@@ -38,6 +39,25 @@ public with sharing class TermSheetPDF_Controller {
       return monthsVal;
     }
     private set;
+  }
+
+  public Boolean isLegalEntityOnly {
+    get {
+      if(isLegalEntityOnly == null && record != null) {
+        List<String> statesToCheck = new List<String>{'CT', 'FL', 'GA', 'ID', 'KS', 'MD', 'NE', 'RI', 'VA'};
+
+        Boolean returnVal = false;
+        for(String state : statesToCheck) {
+          if(record.Distinct_States__c.containsIgnoreCase(state)) {
+            returnVal = true;
+            break;
+          }
+        }
+        return returnVal;
+      } else {
+        return isLegalEntityOnly;
+      }
+    } private set;
   }
 
   public TermSheetPDF_Controller(

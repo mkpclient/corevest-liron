@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Date_of_Questionnaire__c</columns>
+    <columns>Years_Company_Managing_Commercial_Props__c</columns>
+    <columns>Years_in_CPM_Management__c</columns>
+    <columns>Number_of_Units_in_Management__c</columns>
+    <columns>Number_of_Units_Manage_for_BorrowerSelf__c</columns>
+    <columns>Years_Managed_for_BorrowerSelf__c</columns>
+    <columns>Years_in_CRM_Business__c</columns>
+    <columns>Total_Number_of_MSAs__c</columns>
+    <columns>MSAs__c</columns>
+    <columns>MSA_License_Number__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All Records</label>
+</ListView>

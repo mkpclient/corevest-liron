@@ -3,6 +3,7 @@ public without sharing class AlchemyAPI {
   static String CREATE_USER_ENDPOINT = '/api/v1/auth/signup';
   static String TERMSHEET_NOTIF_ENDPOINT = '/api/v1/termSheetNotif';
   static String UPDATE_USER_ENDPOINT = '/api/v1/user/';
+  static String INVITE_PM_ENDPOINT = '/api/v1/propertymanager/invite/';
 
   public static String getBaseURL() {
     if (BASE_URL == null) {
@@ -217,6 +218,64 @@ public without sharing class AlchemyAPI {
     }
   }
 
+  public static void invitePropertyManager(Id recordId) {
+    Deal_Contact__c propertyManager = [
+      SELECT
+        Id,
+        Contact__r.Alchemy_Portal_Id__c,
+        Deal__c,
+        Deal__r.Contact__r.Alchemy_Portal_Id__c,
+        Deal__r.Account.Name,
+        Deal__r.Contact__r.Name
+      FROM Deal_Contact__c
+      WHERE Id = :recordId
+    ];
+
+    Map<String, String> requestBody = new Map<String, String>();
+
+    HttpRequest req;
+    HttpResponse res;
+    try {
+      requestBody.put('dealId', propertyManager.Deal__c);
+      requestBody.put(
+        'userId',
+        propertyManager.Deal__r.Contact__r.Alchemy_Portal_Id__c
+      );
+      requestBody.put('clientName', propertyManager.Deal__r.Contact__r.Name);
+      requestBody.put('accName', propertyManager.Deal__r.Account.Name);
+
+      String url =
+        getBaseURL() +
+        INVITE_PM_ENDPOINT +
+        propertyManager.Contact__r.Alchemy_Portal_Id__c; //+
+      //'/' +
+      //propertyManager.Deal__c;
+      req = new HttpRequest();
+      req.setBody(JSON.serialize(requestBody));
+      req.setEndpoint(url);
+      req.setMethod('POST');
+      req.setHeader('from', 'sf');
+      req.setHeader(
+        'x-auth',
+        '8a85dd6f4ab293c9c7aaad0156487d5ae3aba26cbfbc5b9c3c1661212336565f'
+      );
+      req.setHeader('Content-Type', 'application/json');
+      req.setHeader('Content-Length', String.valueOf(req.getBody().length()));
+      res = new Http().send(req);
+      system.debug(res.getBody());
+      system.debug(res.getStatus());
+      system.debug(res.getStatusCode());
+
+      if (res.getStatusCode() != 400 && res.getStatusCode() != 422) {
+        System.enqueueJob(new APILoggerQueueable(req, res, null, false));
+      } else {
+        System.enqueueJob(new APILoggerQueueable(req, res, null, true));
+      }
+    } catch (Exception e) {
+      System.enqueueJob(new APILoggerQueueable(req, res, recordId, e));
+    }
+  }
+
   @AuraEnabled
   public static void createUser(Id recordId, String sObjectName) {
     Boolean validated = true;
@@ -379,12 +438,13 @@ public without sharing class AlchemyAPI {
 
     String role = 'user';
     String nonBorrowerAccType = '';
-    if (c.Account.RecordType.DeveloperName == 'Vendor') {
-      role = 'vendor';
-      nonBorrowerAccType = c.Non_Borrower_Account_Type__c;
-    }
     if (c.RecordType.DeveloperName == 'Broker') {
       role = 'broker';
+    } else if (c.Non_Borrower_Account_Type__c == 'Property Manager') {
+      role = 'propertyManager';
+    } else if (c.Account.RecordType.DeveloperName == 'Vendor') {
+      role = 'vendor';
+      nonBorrowerAccType = c.Non_Borrower_Account_Type__c;
     }
 
     if (String.isNotBlank(nonBorrowerAccType)) {
@@ -624,7 +684,8 @@ public without sharing class AlchemyAPI {
         WHERE
           (Contact__c = :user.contactId
           AND (Entity_Type__c = 'Portal Access'
-          OR Entity_Type__c = 'Broker'))
+          OR Entity_Type__c = 'Broker'
+          OR Entity_Type__c = 'Property Manager'))
           OR (Vendor_Type__c != NULL
           AND Account__c = :user.accountId)
           OR Deal__r.Contact__c = :user.contactId

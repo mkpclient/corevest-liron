@@ -98,9 +98,8 @@ public without sharing class SpecialAssetHelper {
       if (String.isNotEmpty(n.Resolution_Type__c) && n.Resolved_Date__c != null && (
         n.Resolved_Date__c != o.Resolved_Date__c || n.Resolution_Type__c != o.Resolution_Type__c
       )) {
-        if (String.isNotEmpty(n.Resolution_Type__c)) {
-          propertiesToUpdate.add(n.Property__c);
-        }
+        propertiesToUpdate.add(n.Property__c);
+
 
         if (forSnapshotMap.containsKey(SNAPSHOT_ENTITY)) {
           Map<Id, Special_Asset__c> saMap = forSnapshotMap.get(SNAPSHOT_ENTITY);

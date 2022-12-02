@@ -748,6 +748,14 @@
                 <behavior>Edit</behavior>
                 <field>T_I__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Onboarded_at_Servicer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Onboarding_File_Sent_to_Servicer__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -1009,6 +1017,11 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>SDOC__S_Docs</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>1</sortOrder>
@@ -1017,6 +1030,21 @@
             <actionName>SDOC__Email_Docs</actionName>
             <actionType>CustomButton</actionType>
             <sortOrder>2</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Send_Bridge_Intake</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>21</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>22</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Clone_SAB_Loan</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>23</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>doco__Generate_Document</actionName>
@@ -1037,6 +1065,11 @@
             <actionName>Opportunity.New_Quote</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>6</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.ContentNote</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>24</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Opportunity.Add_Guarantor</actionName>
@@ -1109,26 +1142,6 @@
             <sortOrder>20</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
-            <actionName>Opportunity.Send_Bridge_Intake</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>21</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Submit_to_IC_Approval</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>22</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Opportunity.Clone_SAB_Loan</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>23</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.ContentNote</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>24</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.Enter_Sold_Loan_Details</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>25</sortOrder>
@@ -1172,11 +1185,6 @@
             <actionName>Opportunity.New_Bridge_Loan_Assigned_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>33</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Edit</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>0</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

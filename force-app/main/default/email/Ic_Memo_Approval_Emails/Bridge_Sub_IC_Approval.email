@@ -552,6 +552,16 @@
                   <apex:outputText value="{!dc.Cash_Reserve_Requirement__c}" />
               </td>
             </tr>
+            <tr>
+              <td style="border:1px solid black">
+                          Borrower FICO
+              </td>
+              <td style="border:1px solid black;text-align:right;">
+                <apex:outputText value="{0, number, 000}">
+                    <apex:param value="{!relatedTo.Contact__r.Fico__c}" />
+                </apex:outputText>
+              </td>
+            </tr>
             
           </table>
         </p>

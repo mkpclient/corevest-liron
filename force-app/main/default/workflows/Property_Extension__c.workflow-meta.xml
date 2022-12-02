@@ -1,5 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Property_Extension_Questionnaire_Submitted_Loss_Mitigation_Associate_Assigned</fullName>
+        <description>Property Extension Questionnaire Submitted - Loss Mitigation Associate Assigned</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ronald.guerrero@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>saritha.bhumani@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <field>Asset_Manager__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Property_Extension_Questionnaire_Created</template>
+    </alerts>
+    <alerts>
+        <fullName>Property_Extension_Questionnaire_Submitted_No_Loss_Mitigation_Associate</fullName>
+        <description>Property Extension Questionnaire Submitted - No Loss Mitigation Associate</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>amelia.cunningham@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>jennifer.leuenberger@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>ronald.guerrero@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <recipients>
+            <recipient>saritha.bhumani@cvest.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Property_Extension_Questionnaire_Created</template>
+    </alerts>
     <fieldUpdates>
         <fullName>UpdateExtensionCompletedDate</fullName>
         <description>Updates extension completed date</description>

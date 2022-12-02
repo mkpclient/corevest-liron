@@ -302,6 +302,7 @@
           <strong> Borrower Entity: </strong>
         </td>
         <td class="row-description">
+          <apex:outputText value="{!if(isLegalEntityOnly, 'Loan will be made to a US legal entity', 'Loan will be made to an individual or a US legal entity')}" />
           Loan will be made to an individual or a US legal entity
           <br />("
           <strong>Borrower</strong>")

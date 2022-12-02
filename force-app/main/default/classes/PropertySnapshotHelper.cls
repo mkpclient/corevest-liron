@@ -81,6 +81,7 @@ public without sharing class PropertySnapshotHelper {
     for (String key : eventTypeMap.keySet()) {
       if (key == PROP_EXT_EVENT_NAME || key == SPEC_ASSET_EVENT_NAME) {
         for (sObject obj : eventTypeMap.get(key).values()) {
+          System.debug(obj.get('Property__c'));
           if (obj.get('Property__c') != null) {
             propIds.add((Id) obj.get('Property__c'));
           }
@@ -107,7 +108,7 @@ public without sharing class PropertySnapshotHelper {
         (List<Opportunity>) Database.query(dealQuery)
       );
     } 
-    
+    System.debug(propIds.size());
     if (propIds.size() > 0) {
       String propQuery =
         'SELECT ' +
@@ -118,6 +119,7 @@ public without sharing class PropertySnapshotHelper {
         ', Deal__r.' +
         String.join(new List<String>(dealFields), ', Deal__r.') +
         ' FROM Property__c WHERE Id IN :propIds';
+      System.debug(propQuery);
       propMap = new Map<Id, Property__c>(
         (List<Property__c>) Database.query(propQuery)
       );
@@ -188,7 +190,7 @@ public without sharing class PropertySnapshotHelper {
                   propSnapshot.put(field, prop.get(propFld));
                 }
               }
-            } else {
+            } else if(PROPERTY_EVENT_TYPES.contains(key)) {
               if (propFld == 'Current_UPB__c') {
                 Property__c prop = (Property__c) obj;
                 Decimal upb = prop.Current_UPB__c != null &&

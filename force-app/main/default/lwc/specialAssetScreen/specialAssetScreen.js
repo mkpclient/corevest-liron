@@ -67,6 +67,8 @@ export default class SpecialAssetScreen extends LightningElement {
   set autoDate(val) {
     this.autoDateLocal = val;
   }
+
+  
   
   // querySpecialAsset() {
   //   let queryString = `SELECT Id, Name, Accrual_Stop_Date__c, Estimated_Recovery_Date__c, Follow_Up_Date__c, Property__c, Referred_for_FC_Date__c, `;

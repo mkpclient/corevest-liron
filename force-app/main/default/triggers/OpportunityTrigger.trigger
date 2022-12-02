@@ -28,7 +28,7 @@ trigger OpportunityTrigger on Opportunity(before insert, before update) {
                     opp.Interest_Rate_In_Words__c +=' and Twenty-Five percent';
                 
                 }if(decimalData == 50) {
-                    opp.Interest_Rate_In_Words__c +=' and Fifty percent percent';
+                    opp.Interest_Rate_In_Words__c +=' and Fifty percent';
                 }
                 if(decimalData == 75) {
                     opp.Interest_Rate_In_Words__c +=' and Seventy-Five percent';

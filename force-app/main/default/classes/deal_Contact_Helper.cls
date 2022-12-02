@@ -22,7 +22,7 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> entityMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Integer i = 0; i < newList.size(); i++) {
-      if(newList[i].Disable_Apex__c) {
+      if (newList[i].Disable_Apex__c) {
         continue;
       }
       opportunityMap.put(newList[i].Deal__c, null);
@@ -80,7 +80,7 @@ public class deal_Contact_Helper {
     List<Business_Entity__c> businessEntityInserts = new List<Business_Entity__c>();
     List<Deal_Contact__c> newEntityList = new List<Deal_Contact__c>();
     for (Integer i = 0; i < newList.size(); i++) {
-      if(newList[i].Disable_Apex__c) {
+      if (newList[i].Disable_Apex__c) {
         continue;
       }
       if (String.isNotBlank(newList[i].Company_Name__c)) {
@@ -146,7 +146,7 @@ public class deal_Contact_Helper {
     Map<Id, List<Deal_Contact__c>> contactPrepopulateMap = new Map<Id, List<Deal_Contact__c>>();
 
     for (Deal_Contact__c entity : newList) {
-      if(entity.Disable_Apex__c) {
+      if (entity.Disable_Apex__c) {
         continue;
       }
       if (entity.Contact__c != null) {
@@ -244,8 +244,12 @@ public class deal_Contact_Helper {
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
 
     Set<Id> sponsorIds = new Set<Id>();
+    List<Id> propertyManagerIds = new List<Id>();
 
     for (Deal_Contact__c dc : dealContacts) {
+      if (dc.Entity_Type__c == 'Property Manager') {
+        propertyManagerIds.add(dc.Id);
+      }
       if (
         ((dc.Entity_Type__c == 'Applicant' ||
         dc.Entity_Type__c == 'Sponsor' ||
@@ -326,6 +330,14 @@ public class deal_Contact_Helper {
     if (sponsorIds.size() > 0) {
       ChecklistHelper.createChecklistDealContact(sponsorIds);
     }
+    if (propertyManagerIds.size() > 0) {
+      system.enqueueJob(
+        new UpdatePortalUserQueueable(
+          propertyManagerIds,
+          'invitePropertyManager'
+        )
+      );
+    }
   }
 
   public static void afterUpdate(
@@ -337,7 +349,7 @@ public class deal_Contact_Helper {
     Map<Id, Opportunity> ops = new Map<Id, Opportunity>();
     for (Deal_Contact__c entity : newList) {
       system.debug(entity);
-      if(entity.Disable_Apex__c) {
+      if (entity.Disable_Apex__c) {
         continue;
       }
       if (

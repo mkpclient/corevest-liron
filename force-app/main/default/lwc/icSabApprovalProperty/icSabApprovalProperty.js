@@ -40,7 +40,8 @@ const BORROWER_PROFILE_FIELDS = [
   "Liquidity__c",
   "Deal__r.Contact__r.Track_RecordExperience_SBE__c",
   "Deal__r.Borrower_Entity__r.Length_of_Time_in_Real_Estate__c",
-  "Deal__r.Borrower_Entity__r.X36mo_Experience_Verified__c"
+  "Deal__r.Borrower_Entity__r.X36mo_Experience_Verified__c",
+  "Deal__r.Contact__r.Fico__c"
 ];
 
 const BORROWER_STRUCTURE_FIELDS = [
@@ -437,7 +438,12 @@ export default class IcSabApprovalProperty extends LightningElement {
           isNumber: false
         },
         {
-          isEmpty: true
+          label: "Borrower FICO",
+          type: "number",
+          value: res[0].Deal__r.hasOwnProperty("Contact__r") ? res[0].Deal__r.Contact__r.Fico__c : null ,
+          isParentField: true,
+          isPillContainer: false,
+          isNumber: true
         },
         {
           fieldName: "Cash_Reserve_Requirement__c",

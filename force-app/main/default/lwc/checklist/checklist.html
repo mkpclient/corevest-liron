@@ -26,6 +26,13 @@
           onclick={updateStage}
         ></lightning-button>
       </lightning-layout-item>
+      <lightning-layout-item size="12" padding="around-small">
+        <lightning-button
+          label="PDF"
+          class="slds-float_right"
+          onclick={openPDF}
+        ></lightning-button>
+      </lightning-layout-item>
     </lightning-layout>
 
     <lightning-tabset variant="scoped" class="slds-m-top_medium">
@@ -455,5 +462,7 @@
 
     <c-checklist-documents></c-checklist-documents>
     <c-checklist-item-edit onsave={init}></c-checklist-item-edit>
+
+    <c-checklist-document-generator></c-checklist-document-generator>
   </template>
 </template>

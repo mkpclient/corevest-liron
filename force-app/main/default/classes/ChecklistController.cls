@@ -692,4 +692,186 @@ public without sharing class ChecklistController {
   public static List<String> lenderMilestones = new List<String>{
     'Onboarding'
   };
+
+  @AuraEnabled
+  public static string getChecklistContacts(Id dealId) {
+    try {
+      List<Map<String, String>> options = new List<Map<String, String>>();
+      for (Checklist_Section__c section : [
+        SELECT Id, Deal_Contact__r.Contact__r.Name
+        FROM Checklist_Section__c
+        WHERE Checklist__r.Deal__c = :dealId AND Deal_Contact__c != NULL
+      ]) {
+        Map<String, String> option = new Map<String, String>();
+        option.put('label', section.Deal_Contact__r.Contact__r.Name);
+        option.put('value', section.Id);
+
+        options.add(option);
+      }
+
+      return JSON.serialize(options);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static String getContactDocuments(List<Id> sectionIds, Id dealId) {
+    try {
+      Opportunity deal = [
+        SELECT Id, Name, RecordType.DeveloperName
+        FROM Opportunity
+        WHERE Id = :dealId
+      ];
+
+      Map<Id, Document_Structure__mdt> docDealStructures = new Map<Id, Document_Structure__mdt>(
+        [
+          SELECT Id, Public__c, Borrower_Access__c
+          FROM Document_Structure__mdt
+          WHERE
+            sobject__c = 'Opportunity'
+            AND RecordType__c = :deal.RecordType.DeveloperName
+        ]
+      );
+
+      Map<Id, Document_Structure__mdt> docPropertyStructures = new Map<Id, Document_Structure__mdt>(
+        [
+          SELECT Id, Public__c, Borrower_Access__c
+          FROM Document_Structure__mdt
+          WHERE
+            sobject__c = 'Property__c'
+            AND RecordType__c = :deal.RecordType.DeveloperName
+        ]
+      );
+
+      Map<String, List<Checklist_Item__c>> itemMap = new Map<String, List<Checklist_Item__c>>();
+
+      for (Checklist_Item__c item : [
+        SELECT
+          Id,
+          Property__c,
+          Deal__c,
+          Doc_Structure_Id__c,
+          Document_Type__c,
+          Folder_String__c,
+          Status__c,
+          Name,
+          Checklist_Section__c,
+          Checklist_Section__r.Deal__r.Name,
+          Checklist_Section__r.Deal_Contact__r.Contact__r.Name,
+          (
+            SELECT
+              Id,
+              Added_On__c,
+              Added_By__r.Name,
+              Document_Type__c,
+              Reviewed_By__r.Name,
+              Reviewed_On__c,
+              File_Name__c,
+              ContentVersion_Id__c,
+              Status__c,
+              Comments__c,
+              Reviewed__c
+            FROM Deal_Documents__r
+          ),
+          (
+            SELECT
+              Id,
+              Deal__c,
+              Lead__r.Name,
+              Contact__r.Name,
+              Lead__c,
+              Contact__c,
+              Application__c,
+              Body__c,
+              Alchemy_Portal_Id__c,
+              Submitted_From_Portal__c,
+              Deal_Document__c,
+              Property__c,
+              CreatedDate,
+              Owner.Name,
+              Owner.Id,
+              Subject__c,
+              Comment__c,
+              Owner_Image__c,
+              Application__r.Name,
+              Property__r.Name,
+              Deal__r.Name,
+              Deal_Document__r.Name,
+              Unread__c,
+              Checklist_Item__c
+            FROM Comments__r
+            ORDER BY CreatedDate ASC
+          )
+        FROM Checklist_Item__c
+        WHERE
+          Is_Bulk__c = FALSE
+          AND Checklist_Section__r.Checklist__r.Deal__c = :dealId
+          AND RecordType.DeveloperName = 'Document_Upload'
+          AND (Checklist_Section__r.Type__c = 'Opportunity'
+          OR ((Checklist_Section__r.Type__c = 'Sponsor'
+          OR Checklist_Section__r.Type__c = 'Guarantor')
+          AND Checklist_Section__c IN :sectionIds))
+      ]) {
+        // if (isVault) {
+        system.debug(item.Document_Type__c);
+        Document_Structure__mdt docStructure = docDealStructures.get(
+          item.Doc_Structure_Id__c
+        );
+
+        //system.debug(docStructure);
+
+        if (docStructure != null && docStructure.Borrower_Access__c) {
+          // items.add(item);
+          // String itemType = 'Deal';
+          // if (item.Checklist_Section__c == sectionId) {
+          //   itemType = 'Contact';
+          // }
+
+          if (!itemMap.containsKey(item.Status__c)) {
+            itemMap.put(item.Status__c, new List<Checklist_Item__c>());
+          }
+          itemMap.get(item.Status__c).add(item);
+        }
+      }
+      // }
+
+      return JSON.serialize(itemMap);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static string saveIds(Id sectionId, String ids) {
+    try {
+      system.debug(sectionId);
+      system.debug(ids);
+
+      update new Checklist_Section__c(
+        Id = sectionId,
+        PDF_Generation_Ids__c = ids
+      );
+
+      // String pageString = '/apex/ChecklistPDF?id=' + sectionId;
+      // PageReference page = new PageReference(pageString);
+
+      // return EncodingUtil.base64Encode(page.getContent());
+      return null;
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
+
+  @AuraEnabled
+  public static string generatePDF(Id sectionId) {
+    try {
+      String pageString = '/apex/ChecklistPDF?id=' + sectionId;
+      PageReference page = new PageReference(pageString);
+
+      return EncodingUtil.base64Encode(page.getContent());
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
+  }
 }

@@ -255,8 +255,8 @@ public without sharing class TermSheetInput_LightningController {
     // first thing is to check Record Type and then, if Bridge, check LOC_Program_Type__C
     m.put('incorrectLoanType', new List<String>());
     if (
-      (o.LOC_Loan_Type__c == 'Multifamily/CRE' ||
-      o.LOC_Loan_Type__c == 'Build to Rent') &&
+      (o.LOC_Loan_Type__c == 'This Doesnt Exist' ||
+      o.LOC_Loan_Type__c == 'Nothing') &&
       !acceptableRoles.contains(roleList.get(roleId).Name)
     ) {
       m.get('incorrectLoanType').add('true');
@@ -364,7 +364,7 @@ public without sharing class TermSheetInput_LightningController {
 
     /**
      * * discovered this pre-existing validation to skip checking missing field values when program type is standard. It looks like it's been there since last year too, not sure if this was requested or not but it's causing issues.
-     * * Was this probably code from testing that was not commented out? 
+     * * Was this probably code from testing that was not commented out?
      * * - Liron
      */
     // if (
@@ -374,7 +374,7 @@ public without sharing class TermSheetInput_LightningController {
     //   o.LOC_Program_Type__c == 'Standard'
     // ) {
     //   m.put('MissingFields', null);
-    // } else 
+    // } else
     if (nullFields.size() > 0) {
       m.put('MissingFields', nullFields);
     } else {
@@ -685,123 +685,136 @@ public without sharing class TermSheetInput_LightningController {
   public static String generateSheet(String s, String recordType) {
     System.debug('this is the string received: ' + s);
 
-   try {
-    Map<String, String> m = (Map<String, String>) JSON.deserialize(
-      s,
-      Map<String, String>.class
-    );
-    Approval.UnlockResult lr = Approval.unlock(m.get('Id'));
+    try {
+      Map<String, String> m = (Map<String, String>) JSON.deserialize(
+        s,
+        Map<String, String>.class
+      );
+      Approval.UnlockResult lr = Approval.unlock(m.get('Id'));
 
-    List<String> splitDate = m.get('Term_Sheet_Expiration_Date__c').split('-');
-    Date d = Date.newInstance(
-      Integer.valueOf(splitDate[0]),
-      Integer.valueOf(splitDate[1]),
-      Integer.valueOf(splitDate[2])
-    );
-    Opportunity o = queryOpportunity(m.get('Id'));
-    o.Apex_Context__c = true;
-    Integer i = queryDealDocument(o.Id);
+      List<String> splitDate = m.get('Term_Sheet_Expiration_Date__c')
+        .split('-');
+      Date d = Date.newInstance(
+        Integer.valueOf(splitDate[0]),
+        Integer.valueOf(splitDate[1]),
+        Integer.valueOf(splitDate[2])
+      );
+      Opportunity o = queryOpportunity(m.get('Id'));
+      o.Apex_Context__c = true;
+      Integer i = queryDealDocument(o.Id);
 
-    if ((recordType == 'LOC_Loan' || recordType.containsIgnoreCase('bridge'))) {
-      List<Boolean> mList = new List<Boolean>{
-        Boolean.valueOf(m.get('Negotiated_by_Counsel__c')),
-        Boolean.valueOf(m.get('Include_3_Months_Min_Interest__c'))
-      };
-      o = updateIfLocLoan(o, mList, d);
-    } else if (recordType == 'Term_Loan') {
-      List<Boolean> mList = new List<Boolean>{
-        Boolean.valueOf(m.get('NY_Counsel_Required__c')),
-        Boolean.valueOf(m.get('Include_Assumption__c')),
-        Boolean.valueOf(m.get('Include_Prop_Sub_Text__c'))
-      };
-      o = updateIfTermLoan(o, mList, d);
-    }
-    PageReference p;
-
-    if ((String) m.get('Generate_Word_Doc') == 'true') {
-      if (o.LOC_Loan_Type__c == 'Term Loan') {
-        String termLoanString = '/apex/TermSheetDoc?id=';
-        String docReference = stringTerm(termLoanString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else if (
-        o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
-        o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+      if (
+        (recordType == 'LOC_Loan' || recordType.containsIgnoreCase('bridge'))
       ) {
-        String assetString = '/apex/SingleAssetBridgeTermSheetDoc?id=';
-        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else {
-        String bridgeString = '/apex/BridgeTermSheetDoc?id=';
-        String docReference = stringTerm(bridgeString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        System.debug('this is the pageReference');
-        System.debug(docReference);
-        return docReference;
+        List<Boolean> mList = new List<Boolean>{
+          Boolean.valueOf(m.get('Negotiated_by_Counsel__c')),
+          Boolean.valueOf(m.get('Include_3_Months_Min_Interest__c'))
+        };
+        o = updateIfLocLoan(o, mList, d);
+      } else if (recordType == 'Term_Loan') {
+        List<Boolean> mList = new List<Boolean>{
+          Boolean.valueOf(m.get('NY_Counsel_Required__c')),
+          Boolean.valueOf(m.get('Include_Assumption__c')),
+          Boolean.valueOf(m.get('Include_Prop_Sub_Text__c'))
+        };
+        o = updateIfTermLoan(o, mList, d);
       }
-    } else {
-      if (retrieveTemplateName(o) != 'Other') {
-        String assetString = '/apex/' + retrieveTemplateName(o) + '?id=';
-        String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
-        p = new PageReference(docReference);
-        createContent(i, o, recordType, p, true);
-        return docReference;
-      } else if (o.LOC_Loan_Type__c == 'Term Loan') {
-        p = new PageReference(
-          stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
-        );
-      } else if (o.LOC_Loan_Type__c == 'Credit Line') {
-        p = new PageReference(
-          stringTerm('/apex/BridgeTermSheetPDF?id=', o.Id, splitDate, i, s)
-        );
-      } else if (o.LOC_Loan_Type__c.contains('Single Asset')) {
-        p = new PageReference(
-          stringTerm(
-            '/apex/SingleAssetBridgeTermSheet?id=',
+      PageReference p;
+
+      if ((String) m.get('Generate_Word_Doc') == 'true') {
+        if (o.LOC_Loan_Type__c == 'Term Loan') {
+          String termLoanString = '/apex/TermSheetDoc?id=';
+          String docReference = stringTerm(
+            termLoanString,
             o.Id,
             splitDate,
             i,
             s
-          )
-        );
+          );
+          p = new PageReference(docReference);
+          createContent(i, o, recordType, p, true);
+          return docReference;
+        } else if (
+          o.LOC_Loan_Type__c == 'Single Asset (1-4 Unit)' ||
+          o.LOC_Loan_Type__c == 'Single Asset (5-10 Unit)'
+        ) {
+          String assetString = '/apex/SingleAssetBridgeTermSheetDoc?id=';
+          String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+          p = new PageReference(docReference);
+          createContent(i, o, recordType, p, true);
+          return docReference;
+        } else {
+          String bridgeString = '/apex/BridgeTermSheetDoc?id=';
+          String docReference = stringTerm(bridgeString, o.Id, splitDate, i, s);
+          p = new PageReference(docReference);
+          createContent(i, o, recordType, p, true);
+          System.debug('this is the pageReference');
+          System.debug(docReference);
+          return docReference;
+        }
       } else {
-        p = new PageReference(
-          stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
-        );
+        if (retrieveTemplateName(o) != 'Other') {
+          String assetString = '/apex/' + retrieveTemplateName(o) + '?id=';
+          String docReference = stringTerm(assetString, o.Id, splitDate, i, s);
+          p = new PageReference(docReference);
+          createContent(i, o, recordType, p, true);
+          return docReference;
+        } else if (o.LOC_Loan_Type__c == 'Term Loan') {
+          p = new PageReference(
+            stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
+          );
+        } else if (o.LOC_Loan_Type__c == 'Credit Line') {
+          p = new PageReference(
+            stringTerm('/apex/BridgeTermSheetPDF?id=', o.Id, splitDate, i, s)
+          );
+        } else if (o.LOC_Loan_Type__c.contains('Single Asset')) {
+          p = new PageReference(
+            stringTerm(
+              '/apex/SingleAssetBridgeTermSheet?id=',
+              o.Id,
+              splitDate,
+              i,
+              s
+            )
+          );
+        } else {
+          p = new PageReference(
+            stringTerm('/apex/TermSheetPDF?id=', o.Id, splitDate, i, s)
+          );
+        }
+        System.debug('this is the pageReference');
+        System.debug(p);
+
+        // Integer i;
+        // if (null != termSheets && termSheets.size() > 0){
+        //     i = termSheets.size() + 1;
+        // } else {
+        //     i = 1;
+        // }
+
+        createContent(i, o, recordType, p, false);
+
+        // Attachment a = new Attachment();
+        // a.Name = cv.PathOnClient;
+        // a.Body = cv.VersionData;
+        // a.ParentId = o.Id;
+        //
+        // insert a;
+        // delete cdl;
+
+        // System.debug('this is the deal document');
+        // Approval.LockResult lr2 = Approval.lock(m.get('Id'));
+        // System.debug('this is the lock result' + lr2);
+
+        return 'ok';
       }
-      System.debug('this is the pageReference');
-      System.debug(p);
-
-      // Integer i;
-      // if (null != termSheets && termSheets.size() > 0){
-      //     i = termSheets.size() + 1;
-      // } else {
-      //     i = 1;
-      // }
-
-      createContent(i, o, recordType, p, false);
-
-      // Attachment a = new Attachment();
-      // a.Name = cv.PathOnClient;
-      // a.Body = cv.VersionData;
-      // a.ParentId = o.Id;
-      //
-      // insert a;
-      // delete cdl;
-
-      // System.debug('this is the deal document');
-      // Approval.LockResult lr2 = Approval.lock(m.get('Id'));
-      // System.debug('this is the lock result' + lr2);
-
-      return 'ok';
+    } catch (Exception err) {
+      System.debug(err.getMessage() + ' ' + err.getLineNumber());
+      throw new AuraHandledException(
+        err.getMessage() +
+        ' ' +
+        err.getLineNumber()
+      );
     }
-   } catch (Exception err) {
-    System.debug(err.getMessage() + ' ' + err.getLineNumber());
-    throw new AuraHandledException(err.getMessage() + ' ' + err.getLineNumber());
-   }
   }
 }

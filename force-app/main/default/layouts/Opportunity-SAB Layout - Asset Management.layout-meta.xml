@@ -381,6 +381,14 @@
                 <behavior>Edit</behavior>
                 <field>P_I__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Onboarded_at_Servicer__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Onboarding_File_Sent_to_Servicer__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -520,11 +528,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>Opportunity.Edit_Underwriting</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Opportunity.New_Loan_Mod_LOC</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -583,6 +586,11 @@
             <actionName>Opportunity.Send_Email</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Opportunity.Edit_Underwriting</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedContent>

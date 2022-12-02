@@ -787,4 +787,10 @@ export default class Checklist extends LightningElement {
         console.log(error);
       });
   }
+
+  openPDF() {
+    this.template
+      .querySelector("c-checklist-document-generator")
+      .openModal(this.recordId);
+  }
 }

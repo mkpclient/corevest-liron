@@ -17,14 +17,17 @@ public without sharing class SecuritizationHelper {
     createRelatedFundingVehicles(newList);
   }
 
-  public static void beforeUpdate(List<Securitization__c> newList, Map<Id,Securitization__c> oldMap) {
-   //Redemption_Date__c
-  //  for(Securitization__c nS : newList) {
-  //   Securitization__c oS = oldMap.get(nS.Id);
-  //    if(nS.Status__c == 'Redeemed' && oS.Status__c != 'Redeemed') {
-  //     nS.Redemption_Date__c = System.today();
-  //    }
-  //  }
+  public static void beforeUpdate(
+    List<Securitization__c> newList,
+    Map<Id, Securitization__c> oldMap
+  ) {
+    //Redemption_Date__c
+    //  for(Securitization__c nS : newList) {
+    //   Securitization__c oS = oldMap.get(nS.Id);
+    //    if(nS.Status__c == 'Redeemed' && oS.Status__c != 'Redeemed') {
+    //     nS.Redemption_Date__c = System.today();
+    //    }
+    //  }
   }
 
   public static void afterUpdate(
@@ -36,10 +39,13 @@ public without sharing class SecuritizationHelper {
     for (Securitization__c sec : newList) {
       Securitization__c oldSec = oldMap.get(sec.Id);
       if (
-        (oldSec.Status__c != sec.Status__c && (sec.Status__c == 'Redeemed' || sec.Status__c == 'Closed')) ||
+        (oldSec.Status__c != sec.Status__c &&
+        (sec.Status__c == 'Redeemed' ||
+        sec.Status__c == 'Closed')) ||
         (oldSec.Close_Date__c != sec.Close_Date__c &&
         sec.Close_Date__c != null) ||
-        (oldSec.Redemption_Date__c != sec.Redemption_Date__c && sec.Redemption_Date__c != null)
+        (oldSec.Redemption_Date__c != sec.Redemption_Date__c &&
+        sec.Redemption_Date__c != null)
       ) {
         secMap.put(sec.Id, sec);
       }
@@ -55,7 +61,13 @@ public without sharing class SecuritizationHelper {
   ) {
     Map<Id, Securitization__c> dealsToUpdate = new Map<Id, Securitization__c>();
     List<Deal_x_Funding_Vehicle__c> dfvs = [
-      SELECT Id, End_Date__c, Deal__c, Deal__r.Securitization__c, Deal__r.Warehouse_Line__c, Funding_Vehicle__r.Securitization__c
+      SELECT
+        Id,
+        End_Date__c,
+        Deal__c,
+        Deal__r.Securitization__c,
+        Deal__r.Warehouse_Line__c,
+        Funding_Vehicle__r.Securitization__c
       FROM Deal_x_Funding_Vehicle__c
       WHERE Funding_Vehicle__r.Securitization__c IN :secMap.keySet()
     ];
@@ -67,44 +79,52 @@ public without sharing class SecuritizationHelper {
         d.Funding_Vehicle__r.Securitization__c
       );
 
-      if (sec.Close_Date__c != null && String.isNotEmpty(d.Deal__r.Warehouse_Line__c)) {
+      if (
+        sec.Close_Date__c != null &&
+        String.isNotEmpty(d.Deal__r.Warehouse_Line__c)
+      ) {
         d.Start_Date__c = sec.Close_Date__c;
         warehouseMap.put(d.Deal__c, d.Deal__r.Warehouse_Line__c);
       }
 
-      if(sec.Redemption_Date__c != null) {
+      if (sec.Redemption_Date__c != null) {
         d.End_Date__c = sec.Redemption_Date__c;
       }
       if (sec.Status__c == 'Redeemed' && d.Deal__r.Securitization__c != null) {
         dealsToUpdate.put(d.Deal__c, sec);
-      } else if (sec.Status__c == 'Closed' && d.Deal__r.Securitization__c != null) {
+      } else if (
+        sec.Status__c == 'Closed' &&
+        d.Deal__r.Securitization__c != null
+      ) {
         d.Include_Yes_No__c = true;
         dealsToUpdate.put(d.Deal__c, sec);
       }
     }
 
-
-    if(warehouseMap.size() > 0) {
+    if (warehouseMap.size() > 0) {
       List<Deal_x_Funding_Vehicle__c> warehouseDfcxs = [
-      SELECT Id, Deal__c, End_Date__c, Deal__r.Securitization__c, Deal__r.Warehouse_Line__c, Funding_Vehicle__r.Name
-      FROM Deal_x_Funding_Vehicle__c
-      WHERE Deal__c IN :warehouseMap.keySet()
-      AND Funding_Vehicle__r.Name IN :warehouseMap.values()
-    ];
+        SELECT
+          Id,
+          Deal__c,
+          End_Date__c,
+          Deal__r.Securitization__c,
+          Deal__r.Warehouse_Line__c,
+          Funding_Vehicle__r.Name
+        FROM Deal_x_Funding_Vehicle__c
+        WHERE
+          Deal__c IN :warehouseMap.keySet()
+          AND Funding_Vehicle__r.Name IN :warehouseMap.values()
+      ];
 
-    System.debug(JSON.serializePretty(warehouseDfcxs));
-      
-        for (Deal_x_Funding_Vehicle__c d : warehouseDfcxs) {
-          Securitization__c sec = secMap.get(
-            d.Deal__r.Securitization__c
-          );
-          if(sec != null) {
-            d.End_Date__c = sec.Close_Date__c;
-            dfvs.add(d);
-  
-          }
+      System.debug(JSON.serializePretty(warehouseDfcxs));
+
+      for (Deal_x_Funding_Vehicle__c d : warehouseDfcxs) {
+        Securitization__c sec = secMap.get(d.Deal__r.Securitization__c);
+        if (sec != null) {
+          d.End_Date__c = sec.Close_Date__c;
+          dfvs.add(d);
         }
-
+      }
     }
 
     try {
@@ -123,12 +143,7 @@ public without sharing class SecuritizationHelper {
     for (Id id : dealSecMap.keySet()) {
       Securitization__c sec = dealSecMap.get(id);
       Boolean securitised = sec.Status__c == 'Closed';
-      updDeals.add(
-        new Opportunity(
-          Id = id,
-          Securitized__c = securitised
-        )
-      );
+      updDeals.add(new Opportunity(Id = id, Securitized__c = securitised));
     }
 
     Database.executeBatch(new UpsertBatch(updDeals), 5);

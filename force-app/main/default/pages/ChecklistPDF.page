@@ -1,0 +1,416 @@
+<apex:page standardController="Checklist_Section__c" applyBodyTag="false" renderAs="pdf" extensions="ChecklistPDFController">
+  <head>
+    <style type="text/css">
+      @page {
+        @top-center {
+          content: element(header);
+        }
+        @bottom-center {
+          content: element(footer);
+        }
+        margin: 0.9in;
+        margin-top: 1.25in;
+      }
+
+      .header {
+        text-align: left;
+        background: url("{! $Resource.corevestLogo }") no-repeat;
+        width: 320px;
+        height: 68px;
+        /* margin top: 2in; */
+        padding: 10px;
+        position: running(header);
+      }
+
+      div.footer {
+        display: block;
+        padding: 5px;
+        position: running(footer);
+        text-align: center;
+        font-family: Times;
+      }
+
+      .pagenumber:before {
+        content: counter(page);
+      }
+
+      .pagecount:before {
+        content: counter(pages);
+      }
+
+      .pagebreak {
+        page-break-before: always;
+      }
+
+      .signing-section {
+        text-decoration: underline;
+        color: white;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-color: black;
+      }
+
+      .definition-title {
+        vertical-align: top;
+        font-family: Times;
+        font-size: 10pt;
+        font-weight: bold;
+        line-height: 1.3;
+        padding: 5px 6px;
+        width: 25%;
+      }
+
+      .definition {
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        text-align: justify;
+        vertical-align: top;
+        padding: 5px 6px;
+      }
+
+      .sub-definition-title {
+        vertical-align: top;
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        padding: 5px 6px;
+        width:25%;
+        text-decoration:underline;
+      }
+
+      .sub-definition {
+        font-family: Times;
+        font-size: 10pt;
+        line-height: 1.3;
+        text-align: justify;
+        vertical-align: top;
+        padding: 5px 6px;
+      }
+
+      .row-title {
+        font-family: Times;
+        font-size: 10pt;
+        padding: 2px 6px;
+        vertical-align: top;
+        width: 25%;
+        font-weight: bold;
+        border-right: solid 1px #bebebe;
+        border-bottom: solid 1px #bebebe;
+        border-top: solid 1px #bebebe;
+        border-left: solid 1px #bebebe;
+      }
+
+      .row-description {
+        font-family: Times;
+        font-size: 10pt;
+        padding: 2px 6px;
+        vertical-align: top;
+        width: 75%;
+        border-right: solid 1px #bebebe;
+        border-bottom: solid 1px #bebebe;
+        border-top: solid 1px #bebebe;
+        border-left: solid 1px #bebebe;
+      }
+
+      .hidden {
+        display:none;
+      }
+
+    </style>
+  </head>
+
+  <div class="footer">
+    <!--<div>Page
+<span class="pagenumber" /> of
+<span class="pagecount" />
+</div>-->
+    <table style="width: 100%">
+      <tr>
+        <td
+          style="
+            width: 30%;
+            vertical-align: top;
+            padding-top: 1px;
+            font-family: Times;
+            font-size: 7pt;
+            text-align: left;
+          "
+        >
+          <!-- Term Loan
+          <br /> Loan Number:
+          <apex:outputText value=" {!Opportunity.Deal_Loan_Number__c}" />
+          <br /> Date Generated:
+          <apex:outputText value=" {0,date, MMMM d',' yyyy}">
+            <apex:param value="{! DATE(todayYear, todayMonth, todayDay)}"
+          /></apex:outputText>
+          <br /> Version 1.0 -->
+        </td>
+        <td
+          style="
+            width: 40%;
+            vertical-align: top;
+            padding-top: 1px;
+            font-family: Times;
+            font-size: 10pt;
+            text-align: center;
+          "
+        >
+          <div>
+            Page <span class="pagenumber" /> of
+            <span class="pagecount" />
+          </div>
+        </td>
+        <td
+          style="
+            width: 30%;
+            vertical-align: top;
+            padding-top: 1px;
+            font-family: Times;
+            font-size: 10pt;
+            text-align: right;
+          "
+        >
+          <!--Sponsor Initials ________-->
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="header" style="margin-top: 0.3in; margin-left: 0.05in">
+    <!--<div>
+<apex:image url="{!$Resource.corevestLogo}" width="200" />
+</div>-->
+  </div>
+
+  <div class="content">
+    <apex:outputPanel rendered="{!NOT(dealItems.size==0)}">
+    <div>
+      <h4 style="font-weight: bold; text-align: left">
+        Loan Documents
+      </h4>
+      <table
+        style="
+          width: 100%;
+          border: 1px solid black;
+          -fs-table-paginate: paginate;
+          border-spacing: 0;
+          page-break-inside: auto;
+        "
+      >
+        <thead>
+          <tr>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Document Name
+            </th>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Status
+            </th>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Comment
+            </th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <apex:variable var="rowNum" value="{!1}" /> -->
+          <apex:repeat var="document" value="{!dealItems}">
+            <tr style="page-break-inside: avoid; page-break-after: auto">
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+                {!document.Name}
+              </td>
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+                {!document.Status__c}
+                
+              </td> 
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+              </td> 
+            </tr>
+            <!-- <apex:variable var="rowNum" value="{!rowNum+1}" /> -->
+          </apex:repeat>
+        </tbody>
+      </table> 
+    </div>
+  </apex:outputPanel>
+
+  <apex:outputPanel rendered="{!NOT(contactItems.size==0)}">
+    <div>
+      <h4 style="font-weight: bold; text-align: left">
+        Contact Documents
+      </h4>
+      <table
+        style="
+          width: 100%;
+          border: 1px solid black;
+          -fs-table-paginate: paginate;
+          border-spacing: 0;
+          page-break-inside: auto;
+        "
+      >
+        <thead>
+          <tr>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Document Name
+            </th>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Status
+            </th>
+            <th
+              style="
+                width: fit-content;
+                vertical-align: middle;
+                padding: 1px;
+                font-family: Times;
+                font-size: 12pt;
+                text-align: center;
+                background-color: #d3d3d3;
+                font-weight: bold;
+                border: 1px solid black;
+              "
+            >
+              Comment
+            </th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <apex:variable var="rowNum" value="{!1}" /> -->
+          <apex:repeat var="document" value="{!contactItems}">
+            <tr style="page-break-inside: avoid; page-break-after: auto">
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+                {!document.Name}
+              </td>
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+                {!document.Status__c}
+              </td> 
+              <td
+                style="
+                  width: fit-content;
+                  vertical-align: middle;
+                  padding: 2px;
+                  font-family: Times;
+                  font-size: 10pt;
+                  text-align: left;
+                  border: 1px solid black;
+                "
+              >
+              </td> 
+            </tr>
+            <!-- <apex:variable var="rowNum" value="{!rowNum+1}" /> -->
+          </apex:repeat>
+        </tbody>
+      </table> 
+    </div>
+  </apex:outputPanel>
+  </div>
+</apex:page>

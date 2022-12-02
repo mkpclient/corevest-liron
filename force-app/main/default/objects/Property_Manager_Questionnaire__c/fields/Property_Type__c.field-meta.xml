@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Property_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Property Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>5+ unit multi-family (if applicable)</fullName>
+                <default>false</default>
+                <label>5+ unit multi-family (if applicable)</label>
+            </value>
+            <value>
+                <fullName>SFR/Condos/Townhomes (with HOA) (if applicable)</fullName>
+                <default>false</default>
+                <label>SFR/Condos/Townhomes (with HOA) (if applicable)</label>
+            </value>
+            <value>
+                <fullName>SFR, Townhomes and/or 2-4 units (without HOA)</fullName>
+                <default>false</default>
+                <label>SFR, Townhomes and/or 2-4 units (without HOA)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>3</visibleLines>
+</CustomField>

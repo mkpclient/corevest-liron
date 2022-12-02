@@ -2,17 +2,16 @@
 public with sharing class securitizationHelperTest {
   @isTest
   public static void testMethod1() {
-      test_Helper.createDealLoanNumber();
+    Test_Helper.createRate();
+    Test_Helper.createDealLoanNumber();
     Account testAcc = Test_Helper.createBrokerAccount();
     Contact testCtc = Test_Helper.createContact(testAcc);
     Opportunity testDeal = Test_Helper.createTermDeal(testAcc, testCtc);
-    
-
 
     Securitization__c testSc = Test_Helper.createSecuritization();
 
     Funding_Vehicle__c testFv = [
-      SELECT Id,Securitization__c
+      SELECT Id, Securitization__c
       FROM Funding_Vehicle__c
       WHERE Securitization__c = :testSc.Id
     ];
@@ -26,12 +25,14 @@ public with sharing class securitizationHelperTest {
     newDxfv.Deal__c = testDeal.Id;
     newDxfv.Funding_Vehicle__c = testFv.Id;
     newDxfv.Start_Date__c = testSc.Close_Date__c;
-    
+
     insert newDxfv;
 
-    System.assertEquals(testFv.Securitization__c, testSc.Id, 'Funding_Vehicle__c.Securitization__c should be equal to Securitization__c');
-
-    
+    System.assertEquals(
+      testFv.Securitization__c,
+      testSc.Id,
+      'Funding_Vehicle__c.Securitization__c should be equal to Securitization__c'
+    );
 
     testDeal.Securitization__c = testSc.Id;
 
@@ -44,7 +45,11 @@ public with sharing class securitizationHelperTest {
       LIMIT 1
     ];
 
-    System.assertEquals(returnedDeal.Securitization__c, testSc.Id, 'Deal should have securitization');
+    System.assertEquals(
+      returnedDeal.Securitization__c,
+      testSc.Id,
+      'Deal should have securitization'
+    );
 
     List<Deal_x_Funding_Vehicle__c> dfvs = [
       SELECT
@@ -56,12 +61,10 @@ public with sharing class securitizationHelperTest {
       FROM Deal_x_Funding_Vehicle__c
       WHERE Funding_Vehicle__r.Securitization__c = :testSc.Id
     ];
-    
+
     testSc.Status__c = 'Redeemed';
     testSc.Redemption_Date__c = System.today();
     update testSc;
     // System.assertEquals(true, dfvs.size() > 0, 'A connection record should have been created');
-
-    
   }
 }

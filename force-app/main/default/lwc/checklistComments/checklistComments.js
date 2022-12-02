@@ -7,6 +7,9 @@ export default class ChecklistComments extends LightningElement {
   itemId;
   comments = [];
   subject;
+
+  @api pdfGeneration = false;
+
   @api openModal(itemId, subject) {
     this.itemId = itemId;
     this.subject = subject;
@@ -28,6 +31,10 @@ export default class ChecklistComments extends LightningElement {
 
   closeModal() {
     this.comments = [];
+    if (this.pdfGeneration) {
+      const selectEvent = new CustomEvent("close", {});
+      this.dispatchEvent(selectEvent);
+    }
     this.template.querySelector("c-modal").closeModal();
   }
 

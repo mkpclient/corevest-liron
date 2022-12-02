@@ -782,7 +782,8 @@ global without sharing class PortalAPIDashboard {
     'Matured' => 'Matured',
     'Paid Off' => 'Paid Off',
     'Rejected' => 'Rejected',
-    'Withdrawn' => 'Withdrawn'
+    'Withdrawn' => 'Withdrawn',
+    'Sold' => 'Sold'
   };
 
   public static Map<String, String> loanTypeMap = new Map<String, String>{

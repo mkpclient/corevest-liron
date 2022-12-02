@@ -5,10 +5,17 @@
         <article class="slds-tile slds-media" key={comment.id}>
           <div class="slds-media__figure">
             <lightning-avatar
+              if:false={pdfGeneration}
               src={comment.profileImg}
               fallback-icon-name="standard:avatar"
               variant="circle"
             ></lightning-avatar>
+            <lightning-input
+              if:true={pdfGeneration}
+              type="checkbox"
+              label="checkbox"
+              variant="label-hidden"
+            ></lightning-input>
           </div>
           <div class="slds-media__body">
             <h3 class="slds-tile__title" title={comment.submitterName}>

@@ -842,24 +842,24 @@ global class dealApprovalHandler implements Messaging.InboundEmailHandler {
       sem.setFileAttachments(attachmentsList);
     }
 
-    try {
-      Messaging.SendEmailResult[] results = Messaging.sendEmail(
-        new List<Messaging.SingleEmailMessage>{ sem }
-      );
-    } catch (Exception e) {
-      String errorMessage = '';
-      errorMessage += JSON.serialize(recipients);
-      errorMessage += '<br/>' + ccUsers == null
-        ? 'null'
-        : JSON.serialize(ccUsers);
-      errorMessage += '<br/>' + JSON.serialize(fromAddress);
-      Messaging.SingleEmailMessage em1 = new Messaging.SingleEmailMessage();
-      em1.setSubject('mail error');
-      em1.setToAddresses(new List<String>{ 'mcastillo@mkpartners.com' });
-      em1.setHtmlBody('<html><body>' + errorMessage + '</html></body>');
-      /* this is redundant and sending extra unnecessary emails out  */
-      // Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
-    }
+    // try {
+    //   Messaging.SendEmailResult[] results = Messaging.sendEmail(
+    //     new List<Messaging.SingleEmailMessage>{ sem }
+    //   );
+    // } catch (Exception e) {
+    //   String errorMessage = '';
+    //   errorMessage += JSON.serialize(recipients);
+    //   errorMessage += '<br/>' + ccUsers == null
+    //     ? 'null'
+    //     : JSON.serialize(ccUsers);
+    //   errorMessage += '<br/>' + JSON.serialize(fromAddress);
+    //   Messaging.SingleEmailMessage em1 = new Messaging.SingleEmailMessage();
+    //   em1.setSubject('mail error');
+    //   em1.setToAddresses(new List<String>{ 'mcastillo@mkpartners.com' });
+    //   em1.setHtmlBody('<html><body>' + errorMessage + '</html></body>');
+    //   /* this is redundant and sending extra unnecessary emails out  */
+    //   // Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ em1 });
+    // }
   }
 
   public static void createAttachment(

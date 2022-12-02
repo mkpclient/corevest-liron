@@ -15,7 +15,7 @@
   </lightning-card> -->
 
   <!-- Lightning Form in Edit Mode -->
-  <lightning-card title="Special Asset" icon-name="custom:custom11">
+  <lightning-card title="Special Asset" icon-name="custom:custom11" if:true={specialAssetId}>
     <div class="slds-m-around_medium">
       <lightning-record-edit-form
         record-id={specialAssetId}

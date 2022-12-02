@@ -1,0 +1,75 @@
+<template>
+  <c-modal title="Generate PDF">
+    <div slot="body">
+      <lightning-layout multiple-rows>
+        <lightning-layout-item size="6">
+          <!-- <lightning-combobox
+            label="Contacts"
+            name="contacts"
+            options={options}
+            onchange={handleContactSelect}
+            onrowselection={handleRowSelection}
+          >
+          </lightning-combobox> -->
+          <c-multi-select-combobox
+            if:true={isLoaded}
+            label="Contacts"
+            multi-select="true"
+            options={options}
+            onselectoption={handleContactSelect}
+          ></c-multi-select-combobox>
+        </lightning-layout-item>
+      </lightning-layout>
+
+      <lightning-tabset if:true={showTabs} variant="scoped">
+        <!-- <lightning-tab label="Deal" if:true={showDealTab}>
+          <c-custom-data-table
+            key-field="Id"
+            data={dealItems}
+            columns={columns}
+            onrowaction={handleRowAction}
+          >
+          </c-custom-data-table>
+        </lightning-tab>
+        <lightning-tab label="Contact" if:true={showContactTab}>
+          <c-custom-data-table
+            key-field="Id"
+            data={contactItems}
+            columns={columns}
+            onrowaction={handleRowAction}
+          >
+          </c-custom-data-table>
+        </lightning-tab> -->
+        <template for:each={items} for:item="tab">
+          <lightning-tab key={tab.name} label={tab.name}>
+            <c-custom-data-table
+              key-field="Id"
+              data={tab.items}
+              columns={columns}
+              onrowaction={handleRowAction}
+            >
+            </c-custom-data-table>
+          </lightning-tab>
+        </template>
+      </lightning-tabset>
+    </div>
+    <div slot="footer">
+      <lightning-button
+        label="Close"
+        onclick={closeModal}
+        class="slds-m-right_small"
+      ></lightning-button>
+      <lightning-button
+        label="Generate"
+        variant="brand"
+        onclick={generatePDF}
+      ></lightning-button>
+    </div>
+  </c-modal>
+
+  <c-checklist-comments
+    oncomment={init}
+    onclose={reopen}
+    pdf-generation="true"
+  ></c-checklist-comments>
+</template>
