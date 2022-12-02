@@ -8,7 +8,19 @@ public without sharing class BridgeICMemoController {
   public sponsorsWrapper wrap { get; set; }
   public guarantorsWrapper wrap1 { get; set; }
   public List<Deal_Contact__c> guarantors { get; set; }
+  public Appraisal__c appraisal { get; set; }
+  public String appraisalReview { get; set; }
   public String states { get; set; }
+
+  public BridgeICMemoController() {
+    if(ApexPages.currentPage().getParameters().get('filtersJSON') != null) {
+      String rawUri = ApexPages.currentPage().getParameters().get('filtersJSON');
+      rawUri = rawUri.replaceAll('%(?![0-9a-fA-F]{2})', '%25');
+      rawUri = rawUri.replaceAll('\\+', '%2B');
+      filtersJSON = EncodingUtil.urlDecode(rawUri, 'UTF-8');
+      getData();
+    }
+  }
 
   public void getData() {
     printReady = false;
@@ -28,10 +40,17 @@ public without sharing class BridgeICMemoController {
             SELECT
               Id,
               Index__c,
+              Interest_Reserves__c,
+              RecordType__c,
+
+              Loan_Coordinator__r.Name,
+              Loan_Coordinator__c,
               Floor__c,
               Final_Sponsor_Tier__c,
               Deal_Loan_Number__c,
               Borrower_Entity__r.Name,
+              Borrower_Entity__r.Borrower_Approval_Status__c,
+              Borrower_Entity__r.Primary_Guarantor_Approval_Status__c,
               Foreign_National_Picklist__c,
               Country__c,
               Account.Repeat_Borrower__c,
@@ -50,6 +69,7 @@ public without sharing class BridgeICMemoController {
               Product_Sub_Type__c,
               Project_Strategy__c,
               Renovation_Funding__c,
+              Extension_Fee__c,
               Active_States__c,
               Deal_Intro_Source__c,
               Account_Introduction_Source__c,
@@ -108,6 +128,19 @@ public without sharing class BridgeICMemoController {
 
             if (properties.size() > 0) {
               property = properties[0];
+              if(Opportunity.RecordType__c == 'Single Asset Bridge') {
+                if(String.isEmpty(property.BPO_Appraisal_Firm__c)) {
+                  appraisalReview = 'N/A';
+                } else if (new List<String>{'us res', 'servicelink', 'clear capital', 'valuation services'}.contains(property.BPO_Appraisal_Firm__c.toLowerCase())) {
+                  appraisalReview = 'Y';
+                } else {
+                  appraisalReview = 'N';
+                }
+                List<Appraisal__c> apps = [SELECT Id, Appraised_Value_Amount__c,Appraised_After_Repair_Value__c FROM Appraisal__c WHERE Property__c = :property.Id ORDER BY CreatedDate DESC];
+                if(apps.size() > 0) {
+                  appraisal = apps[0];
+                }
+              }
             }
 
             String recordId = dealId;
@@ -132,10 +165,10 @@ public without sharing class BridgeICMemoController {
           }
         } catch (Exception ex) {
           unsavedObj = new WrapperData();
-          System.debug('Invalid JSON string passed. Unable to deserialize.');
+          System.debug(ex.getMessage() + ' line ' + ex.getLineNumber());
         }
       }
-      printReady = true;
+      // printReady = true;
     }
   }
 
@@ -146,6 +179,7 @@ public without sharing class BridgeICMemoController {
         Id,
         Index__c,
         Floor__c,
+        RecordType__c,
         Final_Sponsor_Tier__c,
         Deal_Loan_Number__c,
         Borrower_Entity__r.Name,
@@ -282,5 +316,6 @@ public without sharing class BridgeICMemoController {
     public string sponsorcpu { get; set; }
     public string loanpsf { get; set; }
     public string loanperunit { get; set; }
+    public string comments { get; set; }
   }
 }

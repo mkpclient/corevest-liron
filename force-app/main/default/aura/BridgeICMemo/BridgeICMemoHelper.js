@@ -1,9 +1,14 @@
 ({
     saveAndPrint : function(cmp, event, helper) {
-        var vfWindow = cmp.find("vfFrame").getElement().contentWindow;
-        console.log('unsavedObj----> '+JSON.stringify(cmp.get("v.unsavedObj")));
-        vfWindow.postMessage(JSON.stringify(cmp.get("v.unsavedObj")),'*');
-        
+        // var vfWindow = cmp.find("vfFrame").getElement().contentWindow;
+        // console.log('unsavedObj----> '+JSON.stringify(cmp.get("v.unsavedObj")));
+        // vfWindow.postMessage(JSON.stringify(cmp.get("v.unsavedObj")),'*');
+
+        const encodedUri = encodeURIComponent(JSON.stringify(cmp.get("v.unsavedObj")));
+        const link = cmp.get("v.iframeBaseURL")+'?id='+cmp.get("v.recordId") + "&filtersJSON=" + encodedUri;
+        window.open(link, "_blank");
+        $A.get("e.force:closeQuickAction").fire();
+
     },
     getDealData: function(component, event) {
         var action = component.get("c.getData");
