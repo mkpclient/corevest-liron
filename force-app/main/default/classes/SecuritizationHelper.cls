@@ -131,7 +131,8 @@ public without sharing class SecuritizationHelper {
       );
     }
 
-    update updDeals;
+    Database.executeBatch(new UpsertBatch(updDeals), 5);
+    // update updDeals;
   }
 
   public static Map<String, Id> queryRecordTypeMap() {
